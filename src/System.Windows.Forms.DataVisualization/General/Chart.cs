@@ -296,8 +296,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				dataSource is DataSet ||
 				dataSource is DataView ||
 				dataSource is DataTable ||
-				dataSource is System.Data.SqlClient.SqlCommand ||
-				dataSource is System.Data.SqlClient.SqlDataAdapter ||
 				// ADDED: for VS2005 compatibility, DT Nov 25, 2005
 				dataSource.GetType().GetInterface("IDataSource") != null
 				// END ADDED
@@ -338,12 +336,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // SQL derived datasource
                                 Type selectArgsType = dataSource.GetType().Assembly.GetType("System.Web.UI.DataSourceSelectArguments", true);
                                 ConstructorInfo ci = selectArgsType.GetConstructor(new Type[] { });
-                                dataSource = m.Invoke(dataSource, new object[] { ci.Invoke(new object[] { }) });
+                                dataSource = m.Invoke(dataSource, new object[] { ci.Invoke(Array.Empty<object>()) });
                             }
                             else
                             {
                                 // object data source
-                                dataSource = m.Invoke(dataSource, new object[] { });
+                                dataSource = m.Invoke(dataSource, Array.Empty<object>());
                             }
                         }
                     }
@@ -370,47 +368,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 else if (dataSource is DataSet && ((DataSet)dataSource).Tables.Count > 0)
                 {
                     dataTable = ((DataSet)dataSource).Tables[0];
-                }
-                else if (dataSource is System.Data.SqlClient.SqlDataAdapter)
-                {
-                    dataTable = new DataTable();
-                    dataTable.Locale = CultureInfo.CurrentCulture;
-                    dataTable = ((System.Data.SqlClient.SqlDataAdapter)dataSource).FillSchema(dataTable, SchemaType.Mapped);
-                }
-
-                else if (dataSource is System.Data.SqlClient.SqlDataReader)
-                {
-                    // Add table columns names
-                    for (int fieldIndex = 0; fieldIndex < ((System.Data.SqlClient.SqlDataReader)dataSource).FieldCount; fieldIndex++)
-                    {
-                        if (!usedForYValue || ((System.Data.SqlClient.SqlDataReader)dataSource).GetFieldType(fieldIndex) != typeof(string))
-                        {
-                            names.Add(((System.Data.SqlClient.SqlDataReader)dataSource).GetName(fieldIndex));
-                        }
-                    }
-                }
-
-                else if (dataSource is System.Data.SqlClient.SqlCommand)
-                {
-                    System.Data.SqlClient.SqlCommand command = (System.Data.SqlClient.SqlCommand)dataSource;
-                    if (command.Connection != null)
-                    {
-                        command.Connection.Open();
-                        System.Data.SqlClient.SqlDataReader dataReader = command.ExecuteReader();
-                        if (dataReader.Read())
-                        {
-                            for (int fieldIndex = 0; fieldIndex < dataReader.FieldCount; fieldIndex++)
-                            {
-                                if (!usedForYValue || dataReader.GetFieldType(fieldIndex) != typeof(string))
-                                {
-                                    names.Add(dataReader.GetName(fieldIndex));
-                                }
-                            }
-                        }
-
-                        dataReader.Close();
-                        command.Connection.Close();
-                    }
                 }
 
                 // Check if DataTable was set
@@ -479,13 +436,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             object dataSource = this.DataSource;
             if (dataSource != null)
             {
-
-                // Convert data adapters to command object
-                if (dataSource is System.Data.SqlClient.SqlDataAdapter)
-                {
-                    dataSource = ((System.Data.SqlClient.SqlDataAdapter)dataSource).SelectCommand;
-                }
-
                 // Convert data source to recognizable source for the series
                 if (dataSource is DataSet && ((DataSet)dataSource).Tables.Count > 0)
                 {
@@ -495,18 +445,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 else if (dataSource is DataTable)
                 {
                     dataSource = new DataView((DataTable)dataSource);
-                }
-                else if (dataSource is System.Data.SqlClient.SqlCommand)
-                {
-                    System.Data.SqlClient.SqlCommand command = (System.Data.SqlClient.SqlCommand)dataSource;
-                    command.Connection.Open();
-                    System.Data.SqlClient.SqlDataReader dataReader = command.ExecuteReader();
-
-                    this.DataBind(dataReader, null);
-
-                    dataReader.Close();
-                    command.Connection.Close();
-                    return;
                 }
                 else if (dataSource is IList)
                 {
