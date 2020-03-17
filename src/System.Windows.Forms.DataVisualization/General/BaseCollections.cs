@@ -136,7 +136,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             SuspendUpdates();
             while (this.Count > 0)
             {
-                this.RemoveItem(0);
+                this.RemoveItem(this.Count - 1); // Due to List<T>.RemoveAt implementation. Thanks to https://github.com/dotnet/winforms-datavisualization/pull/23
             }
             ResumeUpdates();
         }
