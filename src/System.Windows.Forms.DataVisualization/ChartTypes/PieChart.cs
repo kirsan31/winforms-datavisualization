@@ -1816,7 +1816,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
 
                 // Make a polygon from curves
-                path.Flatten(new Matrix(), 1f);
+                using var matrix = new Matrix();
+                path.Flatten(matrix, 1f);
 
                 // Create an area of points and convert them to 
                 // relative coordinates.

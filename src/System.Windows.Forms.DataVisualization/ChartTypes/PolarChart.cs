@@ -215,7 +215,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 				// Rotate position
 				float	sectorAngle = area.CircularPositionToAngle(point.XValue);
-				Matrix matrix = new Matrix();
+				using Matrix matrix = new Matrix();
 				matrix.RotateAt(sectorAngle, graph.GetAbsolutePoint(area.circularCenter));
 				PointF[]	rotatedPoint = new PointF[] { pointPos[index] };
 				matrix.TransformPoints(rotatedPoint);

@@ -2583,7 +2583,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     // Get label rotated position
                     PointF[] labelPosition = new PointF[] { new PointF(areaCenterAbs.X, plotAreaRectAbs.Y) };
-                    Matrix newMatrix = new Matrix();
+                    using Matrix newMatrix = new Matrix();
                     newMatrix.RotateAt(textAngle, areaCenterAbs);
                     newMatrix.TransformPoints(labelPosition);
 

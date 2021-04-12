@@ -680,8 +680,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
 			// Create image from stream
 			imageStream.Seek(0, SeekOrigin.Begin);
-            System.Drawing.Image tempImage = System.Drawing.Image.FromStream(imageStream);
-			System.Drawing.Bitmap image = new Bitmap(tempImage);	// !!! .Net bug when image source stream is closed - can create brush using the image
+            using Image tempImage = Image.FromStream(imageStream);
+			Bitmap image = new Bitmap(tempImage);	// !!! .Net bug when image source stream is closed - can create brush using the image
             image.SetResolution(tempImage.HorizontalResolution, tempImage.VerticalResolution); //The bitmap created using the constructor does not copy the resolution of the image
 
 			// Close image stream

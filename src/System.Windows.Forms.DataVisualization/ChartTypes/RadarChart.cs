@@ -448,7 +448,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 fillPath.AddLine(dataPointPos[secondPointIndex], graph.GetAbsolutePoint(area.circularCenter));
 
                                 // Shift shadow position
-                                Matrix shadowMatrix = new Matrix();
+                                using Matrix shadowMatrix = new Matrix();
                                 shadowMatrix.Translate(ser.ShadowOffset, ser.ShadowOffset);
                                 fillPath.Transform(shadowMatrix);
 
@@ -962,7 +962,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 				// Rotate position
 				float	sectorAngle = 360f / area.CircularSectorsNumber * index;
-				Matrix matrix = new Matrix();
+				using Matrix matrix = new Matrix();
 				matrix.RotateAt(sectorAngle, graph.GetAbsolutePoint(area.circularCenter));
 				PointF[]	rotatedPoint = new PointF[] { pointPos[index] };
 				matrix.TransformPoints(rotatedPoint);

@@ -941,7 +941,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         // Set graphics rotation matrix
-                        Matrix newMatrix = new Matrix();
+                        using Matrix newMatrix = new Matrix();
                         newMatrix.RotateAt(labelAngle, graph.GetAbsolutePoint(this._axis.ChartArea.circularCenter));
                         newMatrix.TransformPoints(labelPosition);
 

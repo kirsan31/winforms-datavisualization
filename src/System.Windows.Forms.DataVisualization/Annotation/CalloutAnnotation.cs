@@ -1618,12 +1618,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			Matrix matrix = new Matrix();
 			matrix.Translate(-_cloudBounds.X, -_cloudBounds.Y);
 			resultPath.Transform(matrix);
-			matrix = new Matrix();
+            matrix.Dispose();
+            matrix = new Matrix();
 			matrix.Translate(position.X, position.Y);
 			matrix.Scale(position.Width / _cloudBounds.Width, position.Height / _cloudBounds.Height);
 			resultPath.Transform(matrix);
+            matrix.Dispose();
 
-			return resultPath;
+
+            return resultPath;
 		}
 	
 		/// <summary>
@@ -1729,12 +1732,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			Matrix matrix = new Matrix();
 			matrix.Translate(-_cloudBounds.X, -_cloudBounds.Y);
 			resultPath.Transform(matrix);
-			matrix = new Matrix();
+            matrix.Dispose();
+            matrix = new Matrix();
 			matrix.Translate(position.X, position.Y);
 			matrix.Scale(position.Width / _cloudBounds.Width, position.Height / _cloudBounds.Height);
 			resultPath.Transform(matrix);
+            matrix.Dispose();
 
-			return resultPath;
+
+            return resultPath;
 		}
 
 		/// <summary>

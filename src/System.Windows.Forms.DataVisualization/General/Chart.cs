@@ -1487,7 +1487,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						{
 							this.Common.HotRegionsList.List.RemoveAt(index);
 							--index;
-						}
+                            region.Dispose();
+                        }
                     }
 				}
 				else

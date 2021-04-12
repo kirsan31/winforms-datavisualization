@@ -4665,7 +4665,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     outsidePoint.Y -= spacing;
 
                     PointF[] rotatedPoint = new PointF[] { outsidePoint };
-                    Matrix newMatrix = new Matrix();
+                    using Matrix newMatrix = new Matrix();
                     newMatrix.RotateAt(axis.AxisPosition, areaCenterAbs);
                     newMatrix.TransformPoints(rotatedPoint);
 
@@ -4695,7 +4695,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     PointF[] labelPosition = new PointF[] { new PointF(areaCenterAbs.X, plotAreaRectAbs.Y) };
                     labelPosition[0].Y += labelsSizeEstimate;
                     labelPosition[0].Y -= spacing;
-                    Matrix newMatrix = new Matrix();
+                    using Matrix newMatrix = new Matrix();
                     newMatrix.RotateAt(textAngle, areaCenterAbs);
                     newMatrix.TransformPoints(labelPosition);
 

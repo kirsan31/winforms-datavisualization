@@ -1797,12 +1797,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         // If there is more then one graphical path split them and create 
                         // image maps for every graphical path separately.
-                        GraphicsPathIterator iterator = new GraphicsPathIterator(region.Path);
+                        using GraphicsPathIterator iterator = new GraphicsPathIterator(region.Path);
 
                         // There is more then one path.
                         if (iterator.SubpathCount > 1)
                         {
-                            GraphicsPath subPath = new GraphicsPath();
+                            using GraphicsPath subPath = new GraphicsPath();
                             while (iterator.NextMarker(subPath) > 0 && pointVisible == false)
                             {
                                 if (subPath.IsVisible(newX, newY))
@@ -2464,12 +2464,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (IsChartAreaCircular(grid.Axis.ChartArea))
                         {
-                            GraphicsPathIterator iterator = new GraphicsPathIterator(rgn.Path);
+                            using GraphicsPathIterator iterator = new GraphicsPathIterator(rgn.Path);
 
                             // There is more then one path.
                             if (iterator.SubpathCount > 1)
                             {
-                                GraphicsPath subPath = new GraphicsPath();
+                                using GraphicsPath subPath = new GraphicsPath();
                                 while (iterator.NextMarker(subPath) > 0)
                                 {
                                     rect = subPath.GetBounds();

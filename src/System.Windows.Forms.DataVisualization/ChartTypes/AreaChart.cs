@@ -299,7 +299,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             // Calculate data point area segment path
-            GraphicsPath path = new GraphicsPath();
+            using GraphicsPath path = new GraphicsPath();
 
             path.AddLine(point1.X, axisPos.Y, point1.X, point1.Y);
             if (this.lineTension == 0)
@@ -317,7 +317,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 if (pointColor != Color.Empty && pointColor != Color.Transparent)
                 {
-                    Region shadowRegion = new Region(path);
+                    using Region shadowRegion = new Region(path);
                     using (Brush shadowBrush = new SolidBrush((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb(pointColor.A / 2, series.ShadowColor)))
                     {
                         // Set offset transformation
@@ -429,7 +429,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Draw area border line
             if (pointBorderWidth > 0 && pointBorderColor != Color.Empty)
             {
-                Pen pen = new Pen((pointBorderColor != Color.Empty) ? pointBorderColor : pointColor, pointBorderWidth);
+                using Pen pen = new Pen((pointBorderColor != Color.Empty) ? pointBorderColor : pointColor, pointBorderWidth);
                 pen.DashStyle = graph.GetPenStyle(pointBorderDashStyle);
 
                 // Set Rounded Cap
@@ -516,7 +516,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         }
 
                         // Widen the lines to the size of pen plus 2
-                        mapAreaPath.Widen(new Pen(pointColor, pointBorderWidth + 2));
+                        using var pen = new Pen(pointColor, pointBorderWidth + 2);
+                        mapAreaPath.Widen(pen);
                     }
                     catch (OutOfMemoryException)
                     {

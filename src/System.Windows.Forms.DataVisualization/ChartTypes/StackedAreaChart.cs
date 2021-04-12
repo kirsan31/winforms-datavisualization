@@ -624,7 +624,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                                 // Draw top and bottom lines with antialiasing turned On.
                                 // Process only if line is drawn by an angle
-                                Pen areaLinePen = new Pen(areaBrush, 1);
+                                using Pen areaLinePen = new Pen(areaBrush, 1);
                                 if (!(firstPoint.X == secondPoint.X || firstPoint.Y == secondPoint.Y))
                                 {
                                     graph.DrawLine(areaLinePen, firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
@@ -688,7 +688,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                         linePath.AddLine(firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
 
                                         // Widen the lines to the size of pen plus 2
-                                        linePath.Widen(new Pen(point.Color, point.BorderWidth + 2));
+                                        using var pen = new Pen(point.Color, point.BorderWidth + 2);
+                                        linePath.Widen(pen);
                                     }
                                     catch (OutOfMemoryException)
                                     {
