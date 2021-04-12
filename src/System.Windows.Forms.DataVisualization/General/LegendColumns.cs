@@ -1452,11 +1452,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 // Create new font
+#pragma warning disable CA2000 // Dispose objects before losing scope
                 cellFont = new Font(
                     cellFont.FontFamily,
                     newFontSize,
                     cellFont.Style,
                     cellFont.Unit);
+#pragma warning restore CA2000 // Dispose objects before losing scope
             }
 
             return cellFont;
@@ -1905,10 +1907,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 // Set image transparent color
-                System.Drawing.Imaging.ImageAttributes imageAttributes = new System.Drawing.Imaging.ImageAttributes();
+                using Drawing.Imaging.ImageAttributes imageAttributes = new Drawing.Imaging.ImageAttributes();
                 if (this.ImageTransparentColor != Color.Empty)
                 {
-                    imageAttributes.SetColorKey(this.ImageTransparentColor, this.ImageTransparentColor, System.Drawing.Imaging.ColorAdjustType.Default);
+                    imageAttributes.SetColorKey(this.ImageTransparentColor, this.ImageTransparentColor, Drawing.Imaging.ColorAdjustType.Default);
                 }
 
                 // Increase quality of image scaling

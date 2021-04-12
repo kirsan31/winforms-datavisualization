@@ -647,8 +647,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			bool clippedSegment)
 		{
 			// Create graphics path for selection
-			GraphicsPath	resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
-				? new GraphicsPath() : null;
+			GraphicsPath resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath) ? new GraphicsPath() : null;
 
 			//****************************************************************
 			//** Find line first and second points.
@@ -744,7 +743,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			if(tension != 0f)
 			{
 				// Get spline flatten path
-				GraphicsPath splineSurfacePath = graph.GetSplineFlattenPath(
+				using GraphicsPath splineSurfacePath = graph.GetSplineFlattenPath(
 					area, positionZ, 
 					firstPoint, secondPoint, points, tension, true, false, 0);
 
@@ -829,6 +828,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				return resultPath;
 			}
 
+			resultPath?.Dispose();
 			// Area point is drawn as one segment
 			return Draw3DSurface( firstPoint, secondPoint, reversed,
 				area, graph, matrix, lightStyle, prevDataPointEx,
@@ -894,8 +894,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			bool clipOnBottom)
 		{
 			// Create graphics path for selection
-			GraphicsPath	resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
-				? new GraphicsPath() : null;
+			GraphicsPath resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath) ? new GraphicsPath() : null;
 
 			//**********************************************************************
 			//** Check surface coordinates
@@ -1228,214 +1227,225 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 					// Draw surfaces
 					GraphicsPath surfacePath = null;
-					switch(currentSurface)
-					{
-						case(SurfaceNames.Top):
-						{
-							// Darken colors
-							Color topColor = (topDarkening == 0f) ? surfaceColor : ChartGraphics.GetGradientColor(surfaceColor, Color.Black, topDarkening); 
-							Color topBorderColor = (topDarkening == 0f) ? surfaceBorderColor : ChartGraphics.GetGradientColor(surfaceBorderColor, Color.Black, topDarkening); 
+                    switch (currentSurface)
+                    {
+                        case (SurfaceNames.Top):
+                            {
+                                // Darken colors
+                                Color topColor = (topDarkening == 0f) ? surfaceColor : ChartGraphics.GetGradientColor(surfaceColor, Color.Black, topDarkening);
+                                Color topBorderColor = (topDarkening == 0f) ? surfaceBorderColor : ChartGraphics.GetGradientColor(surfaceBorderColor, Color.Black, topDarkening);
 
-							surfacePath = graph.Draw3DSurface( area, matrix, lightStyle, currentSurface, positionZ,  depth, 
-								topColor, topBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
-								firstPoint, secondPoint,  points, pointIndex,
-								0f, operationType, surfaceSegmentType,
-                                forceThinLines, false, area.ReverseSeriesOrder, this.multiSeries, 0, true);
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                                surfacePath = graph.Draw3DSurface(area, matrix, lightStyle, currentSurface, positionZ, depth,
+                                    topColor, topBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
+                                    firstPoint, secondPoint, points, pointIndex,
+                                    0f, operationType, surfaceSegmentType,
+                                    forceThinLines, false, area.ReverseSeriesOrder, this.multiSeries, 0, true);
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
-							break;
-						}
-						case(SurfaceNames.Bottom):
-						{
-							// Calculate coordinates
-							DataPoint3D	dp1 = new DataPoint3D();
-							dp1.index = firstPoint.index;
-							dp1.dataPoint = firstPoint.dataPoint;
-							dp1.xPosition = firstPoint.xPosition;
-							dp1.yPosition = thirdPoint.Y;
-							DataPoint3D	dp2 = new DataPoint3D();
-							dp2.index = secondPoint.index;
-							dp2.dataPoint = secondPoint.dataPoint;
-							dp2.xPosition = secondPoint.xPosition;
-							dp2.yPosition = fourthPoint.Y;
+                                break;
+                            }
+                        case (SurfaceNames.Bottom):
+                            {
+                                // Calculate coordinates
+                                DataPoint3D dp1 = new DataPoint3D();
+                                dp1.index = firstPoint.index;
+                                dp1.dataPoint = firstPoint.dataPoint;
+                                dp1.xPosition = firstPoint.xPosition;
+                                dp1.yPosition = thirdPoint.Y;
+                                DataPoint3D dp2 = new DataPoint3D();
+                                dp2.index = secondPoint.index;
+                                dp2.dataPoint = secondPoint.dataPoint;
+                                dp2.xPosition = secondPoint.xPosition;
+                                dp2.yPosition = fourthPoint.Y;
 
-							// Darken colors
-							Color bottomColor = (bottomDarkening == 0f) ? surfaceColor : ChartGraphics.GetGradientColor(surfaceColor, Color.Black, topDarkening); 
-							Color bottomBorderColor = (bottomDarkening == 0f) ? surfaceBorderColor : ChartGraphics.GetGradientColor(surfaceBorderColor, Color.Black, topDarkening); 
-
-							// Draw surface
-							surfacePath = graph.Draw3DSurface( area, matrix, lightStyle, currentSurface, positionZ, depth, 
-								bottomColor, bottomBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
-								dp1, dp2, points, pointIndex,
-								0f, operationType, surfaceSegmentType,
-                                forceThinLines, false, area.ReverseSeriesOrder, this.multiSeries, 0, true);
-
-							break;
-						}
-
-						case(SurfaceNames.Left):
-						{
-							if(surfaceSegmentType == LineSegmentType.Single ||
-                                (!area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.First) ||
-                                (area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.Last))
-							{
-								
-								// Calculate coordinates
-								DataPoint3D	leftMostPoint = (firstPoint.xPosition <= secondPoint.xPosition) ? firstPoint : secondPoint;
-								DataPoint3D	dp1 = new DataPoint3D();
-								dp1.index = leftMostPoint.index;
-								dp1.dataPoint = leftMostPoint.dataPoint;
-								dp1.xPosition = leftMostPoint.xPosition;
-								dp1.yPosition = (firstPoint.xPosition <= secondPoint.xPosition) ? thirdPoint.Y : fourthPoint.Y;
-								DataPoint3D	dp2 = new DataPoint3D();
-								dp2.index = leftMostPoint.index;
-								dp2.dataPoint = leftMostPoint.dataPoint;
-								dp2.xPosition = leftMostPoint.xPosition;;
-								dp2.yPosition = leftMostPoint.yPosition;
+                                // Darken colors
+                                Color bottomColor = (bottomDarkening == 0f) ? surfaceColor : ChartGraphics.GetGradientColor(surfaceColor, Color.Black, topDarkening);
+                                Color bottomBorderColor = (bottomDarkening == 0f) ? surfaceBorderColor : ChartGraphics.GetGradientColor(surfaceBorderColor, Color.Black, topDarkening);
 
 								// Draw surface
-								surfacePath = graph.Draw3DSurface( area, matrix, lightStyle, currentSurface, positionZ, depth, 
-									surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
-									dp1, dp2, points, pointIndex,
-                                    0f, operationType, LineSegmentType.Single, true, true, area.ReverseSeriesOrder, this.multiSeries, 0, true);
-									
-							}
-							break;
-						}
-						case(SurfaceNames.Right):
-						{
-							if(surfaceSegmentType == LineSegmentType.Single ||
-                                (!area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.Last) ||
-                                (area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.First))
+#pragma warning disable CA2000 // Dispose objects before losing scope
+								surfacePath = graph.Draw3DSurface(area, matrix, lightStyle, currentSurface, positionZ, depth,
+                                    bottomColor, bottomBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
+                                    dp1, dp2, points, pointIndex,
+                                    0f, operationType, surfaceSegmentType,
+                                    forceThinLines, false, area.ReverseSeriesOrder, this.multiSeries, 0, true);
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
-							{
-								// Calculate coordinates
-								DataPoint3D	rightMostPoint = (secondPoint.xPosition >= firstPoint.xPosition) ? secondPoint : firstPoint;
-								DataPoint3D	dp1 = new DataPoint3D();
-								dp1.index = rightMostPoint.index;
-								dp1.dataPoint = rightMostPoint.dataPoint;
-								dp1.xPosition = rightMostPoint.xPosition;
-								dp1.yPosition = (secondPoint.xPosition >= firstPoint.xPosition) ? fourthPoint.Y : thirdPoint.Y;
-								DataPoint3D	dp2 = new DataPoint3D();
-								dp2.index = rightMostPoint.index;
-								dp2.dataPoint = rightMostPoint.dataPoint;
-								dp2.xPosition = rightMostPoint.xPosition;
-								dp2.yPosition = rightMostPoint.yPosition;
+								break;
+                            }
+
+                        case (SurfaceNames.Left):
+                            {
+                                if (surfaceSegmentType == LineSegmentType.Single ||
+                                    (!area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.First) ||
+                                    (area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.Last))
+                                {
+
+                                    // Calculate coordinates
+                                    DataPoint3D leftMostPoint = (firstPoint.xPosition <= secondPoint.xPosition) ? firstPoint : secondPoint;
+                                    DataPoint3D dp1 = new DataPoint3D();
+                                    dp1.index = leftMostPoint.index;
+                                    dp1.dataPoint = leftMostPoint.dataPoint;
+                                    dp1.xPosition = leftMostPoint.xPosition;
+                                    dp1.yPosition = (firstPoint.xPosition <= secondPoint.xPosition) ? thirdPoint.Y : fourthPoint.Y;
+                                    DataPoint3D dp2 = new DataPoint3D();
+                                    dp2.index = leftMostPoint.index;
+                                    dp2.dataPoint = leftMostPoint.dataPoint;
+                                    dp2.xPosition = leftMostPoint.xPosition; ;
+                                    dp2.yPosition = leftMostPoint.yPosition;
+
+									// Draw surface
+#pragma warning disable CA2000 // Dispose objects before losing scope
+									surfacePath = graph.Draw3DSurface(area, matrix, lightStyle, currentSurface, positionZ, depth,
+                                        surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
+                                        dp1, dp2, points, pointIndex,
+                                        0f, operationType, LineSegmentType.Single, true, true, area.ReverseSeriesOrder, this.multiSeries, 0, true);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+
+								}
+								break;
+                            }
+                        case (SurfaceNames.Right):
+                            {
+                                if (surfaceSegmentType == LineSegmentType.Single ||
+                                    (!area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.Last) ||
+                                    (area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.First))
+
+                                {
+                                    // Calculate coordinates
+                                    DataPoint3D rightMostPoint = (secondPoint.xPosition >= firstPoint.xPosition) ? secondPoint : firstPoint;
+                                    DataPoint3D dp1 = new DataPoint3D();
+                                    dp1.index = rightMostPoint.index;
+                                    dp1.dataPoint = rightMostPoint.dataPoint;
+                                    dp1.xPosition = rightMostPoint.xPosition;
+                                    dp1.yPosition = (secondPoint.xPosition >= firstPoint.xPosition) ? fourthPoint.Y : thirdPoint.Y;
+                                    DataPoint3D dp2 = new DataPoint3D();
+                                    dp2.index = rightMostPoint.index;
+                                    dp2.dataPoint = rightMostPoint.dataPoint;
+                                    dp2.xPosition = rightMostPoint.xPosition;
+                                    dp2.yPosition = rightMostPoint.yPosition;
+
+									// Draw surface
+#pragma warning disable CA2000 // Dispose objects before losing scope
+									surfacePath = graph.Draw3DSurface(area, matrix, lightStyle, currentSurface, positionZ, depth,
+                                        surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
+                                        dp1, dp2, points, pointIndex,
+                                        0f, operationType, LineSegmentType.Single, true, true, area.ReverseSeriesOrder, this.multiSeries, 0, true);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+
+								}
+
+								break;
+                            }
+                        case (SurfaceNames.Back):
+                            {
+                                // Calculate coordinates
+                                DataPoint3D dp1 = new DataPoint3D();
+                                dp1.index = firstPoint.index;
+                                dp1.dataPoint = firstPoint.dataPoint;
+                                dp1.xPosition = firstPoint.xPosition;
+                                dp1.yPosition = thirdPoint.Y;
+                                DataPoint3D dp2 = new DataPoint3D();
+                                dp2.index = secondPoint.index;
+                                dp2.dataPoint = secondPoint.dataPoint;
+                                dp2.xPosition = secondPoint.xPosition;
+                                dp2.yPosition = fourthPoint.Y;
+
+                                // Border line is required on the data point boundary
+                                SurfaceNames thinBorderSides = 0;
+                                if (forceThinLines)
+                                {
+                                    if (surfaceSegmentType == LineSegmentType.Single)
+                                        thinBorderSides = SurfaceNames.Left | SurfaceNames.Right;
+                                    else if (surfaceSegmentType == LineSegmentType.First)
+                                        thinBorderSides = SurfaceNames.Left;
+                                    else if (surfaceSegmentType == LineSegmentType.Last)
+                                        thinBorderSides = SurfaceNames.Right;
+                                }
+
 
 								// Draw surface
-								surfacePath = graph.Draw3DSurface( area, matrix, lightStyle, currentSurface, positionZ, depth, 
-									surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
-									dp1, dp2, points, pointIndex,
-                                    0f, operationType, LineSegmentType.Single, true, true, area.ReverseSeriesOrder, this.multiSeries, 0, true);
-									
-							}
+#pragma warning disable CA2000 // Dispose objects before losing scope
+								surfacePath = graph.Draw3DPolygon(area, matrix, currentSurface, positionZ,
+                                    surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth,
+                                    firstPoint, secondPoint, dp2, dp1, operationType, lineSegmentType,
+                                    thinBorderSides);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+								break;
+                            }
+                        case (SurfaceNames.Front):
+                            {
+                                // Calculate coordinates
+                                DataPoint3D dp1 = new DataPoint3D();
+                                dp1.index = firstPoint.index;
+                                dp1.dataPoint = firstPoint.dataPoint;
+                                dp1.xPosition = firstPoint.xPosition;
+                                dp1.yPosition = thirdPoint.Y;
 
-							break;
-						}
-						case(SurfaceNames.Back):
-						{
-							// Calculate coordinates
-							DataPoint3D	dp1 = new DataPoint3D();
-							dp1.index = firstPoint.index;
-							dp1.dataPoint = firstPoint.dataPoint;
-							dp1.xPosition = firstPoint.xPosition;
-							dp1.yPosition = thirdPoint.Y;
-							DataPoint3D	dp2 = new DataPoint3D();
-							dp2.index = secondPoint.index;
-							dp2.dataPoint = secondPoint.dataPoint;
-							dp2.xPosition = secondPoint.xPosition;
-							dp2.yPosition = fourthPoint.Y;
+                                DataPoint3D dp2 = new DataPoint3D();
+                                dp2.index = secondPoint.index;
+                                dp2.dataPoint = secondPoint.dataPoint;
+                                dp2.xPosition = secondPoint.xPosition;
+                                dp2.yPosition = fourthPoint.Y;
 
-							// Border line is required on the data point boundary
-							SurfaceNames	thinBorderSides = 0;
-							if(forceThinLines)
-							{
-								if(surfaceSegmentType == LineSegmentType.Single)
-									thinBorderSides = SurfaceNames.Left | SurfaceNames.Right;
-								else if(surfaceSegmentType == LineSegmentType.First)
-									thinBorderSides = SurfaceNames.Left;
-								else if(surfaceSegmentType == LineSegmentType.Last)
-									thinBorderSides = SurfaceNames.Right;
-							}
+                                // Change segment type for the reversed series order
+                                if (area.ReverseSeriesOrder)
+                                {
+                                    if (lineSegmentType == LineSegmentType.First)
+                                    {
+                                        lineSegmentType = LineSegmentType.Last;
+                                    }
+                                    else if (lineSegmentType == LineSegmentType.Last)
+                                    {
+                                        lineSegmentType = LineSegmentType.First;
+                                    }
+                                }
 
+                                if (surfaceSegmentType != LineSegmentType.Single)
+                                {
+                                    if (surfaceSegmentType == LineSegmentType.Middle ||
+                                        (surfaceSegmentType == LineSegmentType.First && lineSegmentType != LineSegmentType.First) ||
+                                        (surfaceSegmentType == LineSegmentType.Last && lineSegmentType != LineSegmentType.Last))
+                                    {
+                                        lineSegmentType = LineSegmentType.Middle;
+                                    }
+                                }
 
-							// Draw surface
-							surfacePath = graph.Draw3DPolygon( area, matrix, currentSurface, positionZ, 
-								surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, 
-								firstPoint, secondPoint, dp2, dp1, operationType, lineSegmentType, 
-								thinBorderSides);
-							break;
-						}
-						case(SurfaceNames.Front):
-						{
-							// Calculate coordinates
-							DataPoint3D	dp1 = new DataPoint3D();
-							dp1.index = firstPoint.index;
-							dp1.dataPoint = firstPoint.dataPoint;
-							dp1.xPosition = firstPoint.xPosition;
-							dp1.yPosition = thirdPoint.Y;
+                                // Border line is required on the data point boundary
+                                SurfaceNames thinBorderSides = 0;
+                                if (forceThinLines)
+                                {
+                                    if (surfaceSegmentType == LineSegmentType.Single)
+                                        thinBorderSides = SurfaceNames.Left | SurfaceNames.Right;
+                                    else if (surfaceSegmentType == LineSegmentType.First)
+                                        thinBorderSides = SurfaceNames.Left;
+                                    else if (surfaceSegmentType == LineSegmentType.Last)
+                                        thinBorderSides = SurfaceNames.Right;
+                                }
 
-							DataPoint3D	dp2 = new DataPoint3D();
-							dp2.index = secondPoint.index;
-							dp2.dataPoint = secondPoint.dataPoint;
-							dp2.xPosition = secondPoint.xPosition;
-							dp2.yPosition = fourthPoint.Y;
+								// Draw surface
+#pragma warning disable CA2000 // Dispose objects before losing scope
+								surfacePath = graph.Draw3DPolygon(area, matrix, currentSurface, positionZ + depth,
+                                    surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth,
+                                    firstPoint, secondPoint, dp2, dp1, operationType, lineSegmentType,
+                                    thinBorderSides);
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
-							// Change segment type for the reversed series order
-                            if (area.ReverseSeriesOrder)
-							{
-								if(lineSegmentType == LineSegmentType.First)
-								{
-									lineSegmentType = LineSegmentType.Last;
-								}
-								else if(lineSegmentType == LineSegmentType.Last)
-								{
-									lineSegmentType = LineSegmentType.First;
-								}
-							}
+								break;
+                            }
+                    }
 
-							if(surfaceSegmentType != LineSegmentType.Single)
-							{
-								if( surfaceSegmentType == LineSegmentType.Middle ||
-									( surfaceSegmentType == LineSegmentType.First && lineSegmentType != LineSegmentType.First) ||
-									( surfaceSegmentType == LineSegmentType.Last && lineSegmentType != LineSegmentType.Last) )
-								{
-									lineSegmentType = LineSegmentType.Middle;
-								}
-							}
-
-							// Border line is required on the data point boundary
-							SurfaceNames	thinBorderSides = 0;
-							if(forceThinLines)
-							{
-								if(surfaceSegmentType == LineSegmentType.Single)
-									thinBorderSides = SurfaceNames.Left | SurfaceNames.Right;
-								else if(surfaceSegmentType == LineSegmentType.First)
-									thinBorderSides = SurfaceNames.Left;
-								else if(surfaceSegmentType == LineSegmentType.Last)
-									thinBorderSides = SurfaceNames.Right;
-							}
-
-							// Draw surface
-							surfacePath = graph.Draw3DPolygon( area, matrix, currentSurface, positionZ + depth, 
-								surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, 
-								firstPoint, secondPoint, dp2, dp1, operationType, lineSegmentType, 
-								thinBorderSides);
-
-							break;
-						}
-					}
-
-					// Add path of the fully visible surfaces to the result surface
-					if(elemLayer == 2 && resultPath != null && surfacePath != null && surfacePath.PointCount > 0)
+                    // Add path of the fully visible surfaces to the result surface
+                    if (elemLayer == 2 && resultPath != null && surfacePath != null && surfacePath.PointCount > 0)
 					{
 						resultPath.CloseFigure();
 						resultPath.SetMarkers();
 						resultPath.AddPath(surfacePath, true);
 					}
-
-				}
+					surfacePath?.Dispose();
+				}				
 			}
-
 			return resultPath;
 		}
 

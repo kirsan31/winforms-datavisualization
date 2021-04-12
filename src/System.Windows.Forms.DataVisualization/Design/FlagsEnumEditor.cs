@@ -60,7 +60,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 					if(this._enumType != null)
 					{
 						// Create control for editing
-						FlagsEnumCheckedListBox control = new FlagsEnumCheckedListBox(value, this._enumType);
+						using FlagsEnumCheckedListBox control = new FlagsEnumCheckedListBox(value, this._enumType);
 
 						// Show drop down control
 						_edSvc.DropDownControl(control);

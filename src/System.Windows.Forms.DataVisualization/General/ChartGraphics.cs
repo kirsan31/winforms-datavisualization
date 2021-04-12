@@ -1100,7 +1100,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 this.FillPolygon(brush, points);
                                 pen = new Pen(markerBorderColor, markerBorderSize);
                                 this.DrawPolygon(pen, points);
-                                break;
+								pen.Dispose();
+								break;
                             }
                         default:
                             {
@@ -1997,7 +1998,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Adjust label rectangle so it will be inside boundary
                     if (boundaryRect != RectangleF.Empty)
                     {
-                        Region region = new Region(labelRect);
+                        using Region region = new Region(labelRect);
                         region.Transform(_myMatrix);
 
                         // Extend boundary rectangle to the chart picture border
@@ -2273,7 +2274,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Create image attribute
-                    ImageAttributes attrib = new ImageAttributes();
+                    using ImageAttributes attrib = new ImageAttributes();
                     if (imageTransparentColor != Color.Empty)
                     {
                         attrib.SetColorKey(imageTransparentColor, imageTransparentColor, ColorAdjustType.Default);
@@ -3744,7 +3745,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 
 				// Create rounded rectangle path
-				GraphicsPath path = new GraphicsPath();
+				using GraphicsPath path = new GraphicsPath();
 				if(circular && offset.Width != offset.Height)
 				{
 					float	radiusX = offset.Width/2f;
@@ -3770,7 +3771,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					path.AddArc(offset.X, offset.Y, 2f*radius, 2f*radius, 180, 90);
 				}
 
-				PathGradientBrush shadowBrush = new PathGradientBrush(path);
+				using PathGradientBrush shadowBrush = new PathGradientBrush(path);
 				shadowBrush.CenterColor = shadowColor;
 
 				// Set the color along the entire boundary of the path
@@ -4080,8 +4081,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			ChartDashStyle borderDashStyle, 
 			PenAlignment penAlignment )
 		{
-			Brush brush = null;
+			Brush brush;
 			Brush backBrush = null;
+			Brush OldBrush = null;
 
 			// Turn off Antialias
 			SmoothingMode oldMode = this.SmoothingMode;
@@ -4121,25 +4123,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			else
 			{
 				// If a gradient type  is set create a brush with gradient
-				brush = GetGradientBrush( rect, backColor, backSecondaryColor, backGradientStyle );
+				brush = GetGradientBrush(rect, backColor, backSecondaryColor, backGradientStyle);
 			}
 
 			if( backHatchStyle != ChartHatchStyle.None )
 			{
-				brush = GetHatchBrush( backHatchStyle, backColor, backSecondaryColor );
+				if (brush != null && brush != _solidBrush)
+					brush.Dispose();
+				brush = GetHatchBrush(backHatchStyle, backColor, backSecondaryColor);
 			}
 
 			if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
 			{
 				backBrush = brush;
-				brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor );
-			}
+				if (brush != _solidBrush)
+					OldBrush = brush;
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            }
 
 			// For inset alignment resize fill rectangle
 			RectangleF fillRect;
 			
 			// The fill rectangle is same
-			fillRect = new RectangleF( rect.X + borderWidth, rect.Y + borderWidth, rect.Width - borderWidth * 2, rect.Height - borderWidth * 2 );
+			fillRect = new RectangleF(rect.X + borderWidth, rect.Y + borderWidth, rect.Width - borderWidth * 2, rect.Height - borderWidth * 2);
 
 			// FillRectangle and DrawRectangle works differently with RectangleF.
 			fillRect.Width += 1;
@@ -4149,7 +4157,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if( backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
 			{
 				// Load image
-                System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
+                Image image = _common.ImageLoader.LoadImage( backImage );
                                 
 
 				// Prepare image properties (transparent color)
@@ -4242,18 +4250,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Dispose Image and Gradient
-			if( backGradientStyle != GradientStyle.None )
-			{
+			if (brush != null && brush != _solidBrush)
 				brush.Dispose();
-			}
-			if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
-			{
-				brush.Dispose();
-			}
-			if( backHatchStyle != ChartHatchStyle.None )
-			{
-				brush.Dispose();
-			}
+			OldBrush?.Dispose();
 
 			// Set Old Smoothing Mode
 			this.SmoothingMode = oldMode;
@@ -4388,7 +4387,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			ChartDashStyle borderDashStyle, 
 			PenAlignment penAlignment )
 		{
-			Brush brush = null;
+			Brush brush;
 			Brush backBrush = null;
             Brush OldBrush = null;
 
@@ -4781,7 +4780,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			GraphicsPath path = CreateRoundedRectPath(rect, cornerRadius);
 
 			// Create gradient brush
-			PathGradientBrush shadowBrush = new PathGradientBrush(path);
+			using PathGradientBrush shadowBrush = new PathGradientBrush(path);
 			shadowBrush.CenterColor = centerColor;
 
 			// Set the color along the entire boundary of the path
@@ -5245,11 +5244,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="backColor">Fill color</param>
 		private void DrawPieSoftShadow( float startAngle, float sweepAngle, RectangleF absRect, Color backColor )
 		{
-			GraphicsPath path = new GraphicsPath();
+			using GraphicsPath path = new GraphicsPath();
 			
 			path.AddEllipse( absRect.X, absRect.Y, absRect.Width, absRect.Height );
 
-			PathGradientBrush brush = new PathGradientBrush( path );
+			using PathGradientBrush brush = new PathGradientBrush( path );
 		
 			Color[] colors = {
 								Color.FromArgb( 0, backColor ),

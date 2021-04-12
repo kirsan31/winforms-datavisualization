@@ -602,9 +602,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								}
 
 
-								// Create new point
-								DataPoint	newDataPoint = new DataPoint(series);
-								bool		emptyValues = false;
+                                // Create new point
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                                DataPoint	newDataPoint = new DataPoint(series);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                                bool		emptyValues = false;
 								bool		xValueIsNull = false;
 								
 								//************************************************************
@@ -842,8 +844,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						if(index >= series.Points.Count ||
 							series.Points[index].XValue != index + 1)
 						{
-							DataPoint newPoint = new DataPoint(series);
-							newPoint.AxisLabel = (string)axisLabels[index];
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                            DataPoint newPoint = new DataPoint(series);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                            newPoint.AxisLabel = (string)axisLabels[index];
 							newPoint.XValue = index + 1;
 							newPoint.YValues[0] = 0.0;
 							newPoint.IsEmpty = true;

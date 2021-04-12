@@ -136,7 +136,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 			ChartDashStyle borderDashStyle)	
 		{
 			RectangleF absolute = graph.Round( rect );
-			RectangleF shadowRect = absolute;
+			RectangleF shadowRect;
 
 			// Calculate shadow colors (0.2 - 0.6)
 			float colorDarkeningIndex = 0.2f + (0.4f * (borderSkin.PageColor.R + borderSkin.PageColor.G + borderSkin.PageColor.B) / 765f);
@@ -209,15 +209,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 				path.Dispose();
 
 			// Bottom/Right inner shadow
-			Region	innerShadowRegion = new Region(
-				graph.CreateRoundedRectPath(
-				new RectangleF(
-				shadowRect.X - radius, 
-				shadowRect.Y - radius, 
-				shadowRect.Width + radius - radius*0.25f, 
-				shadowRect.Height + radius - radius*0.25f), 
-				cornerRadius));
-			innerShadowRegion.Complement(graph.CreateRoundedRectPath(shadowRect, cornerRadius));
+			path = graph.CreateRoundedRectPath(
+							new RectangleF(
+							shadowRect.X - radius,
+							shadowRect.Y - radius,
+							shadowRect.Width + radius - radius * 0.25f,
+							shadowRect.Height + radius - radius * 0.25f),
+							cornerRadius);
+			Region	innerShadowRegion = new Region(path);
+			path.Dispose();
+			path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
+			innerShadowRegion.Complement(path);
+			path.Dispose();
 			graph.Clip = innerShadowRegion;
 			graph.DrawRoundedRectShadowAbs(
 				shadowRect, 
@@ -227,6 +230,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 				Color.FromArgb(128, Color.Gray), 
 				.5f);
 			graph.Clip = new Region();
+			innerShadowRegion.Dispose();
 		}
 
 		#endregion

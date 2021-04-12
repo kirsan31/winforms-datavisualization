@@ -1258,8 +1258,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     graph.EndHotRegion();
                 }
 
-                // Restore old clip region
-                graph.Clip = oldClipRegion;
+				// Restore old clip region
+				var clip = graph.Clip;
+				graph.Clip = oldClipRegion;
+				clip.Dispose();
             }
 		}
 
@@ -1380,9 +1382,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     graph.EndHotRegion();
                 }
 
-                // Restore old clip region
-                graph.Clip = oldClipRegion;
-            }
+				// Restore old clip region
+				var clip = graph.Clip;
+				graph.Clip = oldClipRegion;
+				clip?.Dispose();
+			}
 		}
 
 		#endregion

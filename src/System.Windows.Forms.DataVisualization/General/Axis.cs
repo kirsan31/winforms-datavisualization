@@ -1846,7 +1846,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (ChartArea.CircularUsePolygons)
             {
                 oldRegion = graph.Clip;
-                graph.Clip = new Region(graph.GetPolygonCirclePath(rect, ChartArea.CircularSectorsNumber));
+                using var gp = graph.GetPolygonCirclePath(rect, ChartArea.CircularSectorsNumber);
+                graph.Clip = new Region(gp);
             }
 
             // Get center point
@@ -1945,7 +1946,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             rect.Inflate(-rectInflate, -rectInflate);
 
             // Create circle pen
-            Pen circlePen = new Pen(color, width);
+            using Pen circlePen = new Pen(color, width);
             circlePen.DashStyle = graph.GetPenStyle(style);
 
             // Draw circle
@@ -2828,7 +2829,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool addStrip = false;
             if (this.IsInterlaced)
             {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                 StripLine stripLine = new StripLine();
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 stripLine.interlaced = true;
                 // VSTS fix of 164115 IsInterlaced StripLines with no border are rendered with black border, regression of VSTS 136763
                 stripLine.BorderColor = Color.Empty;
@@ -3585,6 +3588,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         this.CustomLabels.Add(label.Clone());
                                     }
 
+                                    originalLabels.Dispose();
                                     originalLabels = null;
                                 }
 
@@ -3710,9 +3714,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             GraphicsUnit.Point);
                     }
                 }
+                originalLabels?.Dispose();
 
-				// Change the auto-fit angle for top and bottom axes from 90 to -90
-				if(this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+                // Change the auto-fit angle for top and bottom axes from 90 to -90
+                if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
 				{
 					if(autoLabelAngle == 90)
 					{

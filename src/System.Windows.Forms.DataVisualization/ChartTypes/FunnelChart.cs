@@ -980,7 +980,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			this.Graph.StartHotRegion( point );
 
 			// Create segment path
-			GraphicsPath segmentPath = new GraphicsPath();
+			using GraphicsPath segmentPath = new GraphicsPath();
 
 			// Add top line
 			if(startWidth > 0f)
@@ -992,7 +992,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					sidePoints[1] = new PointF(xCenterPointAbs, location + topRotationHeight);
 					sidePoints[2] = new PointF(xCenterPointAbs - startWidth / 2f, location);
 					sidePoints[3] = new PointF(xCenterPointAbs, location - topRotationHeight);
-					GraphicsPath topCurve = new GraphicsPath();
+					using GraphicsPath topCurve = new GraphicsPath();
 					topCurve.AddClosedCurve(sidePoints, tension);
 					topCurve.Flatten();
 					topCurve.Reverse();
@@ -1057,7 +1057,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					sidePoints[1] = new PointF(xCenterPointAbs, location + height + bottomRotationHeight);
 					sidePoints[2] = new PointF(xCenterPointAbs - endWidth / 2f, location + height);
 					sidePoints[3] = new PointF(xCenterPointAbs, location + height - bottomRotationHeight);
-					GraphicsPath topCurve = new GraphicsPath();
+					using GraphicsPath topCurve = new GraphicsPath();
 					topCurve.AddClosedCurve(sidePoints, tension);
 					topCurve.Flatten();
 					topCurve.Reverse();
@@ -1217,7 +1217,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					point.series.Name,
 					pointIndex);
 			}
-			segmentPath.Dispose();
 
 
 			// Add top 3D surface
@@ -1230,7 +1229,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					sidePoints[1] = new PointF(xCenterPointAbs, location + topRotationHeight);
 					sidePoints[2] = new PointF(xCenterPointAbs - startWidth / 2f, location);
 					sidePoints[3] = new PointF(xCenterPointAbs, location - topRotationHeight);
-					GraphicsPath topCurve = new GraphicsPath();
+					using GraphicsPath topCurve = new GraphicsPath();
 					topCurve.AddClosedCurve(sidePoints, tension);
 
 					if( this.Common.ProcessModePaint )
@@ -1265,7 +1264,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							point.series.Name,
 							pointIndex);
 					}
-					topCurve.Dispose();
 				}
 			}
 
@@ -1279,7 +1277,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					sidePoints[1] = new PointF(xCenterPointAbs, location + height + bottomRotationHeight);
 					sidePoints[2] = new PointF(xCenterPointAbs - endWidth / 2f, location + height);
 					sidePoints[3] = new PointF(xCenterPointAbs, location + height - bottomRotationHeight);
-					GraphicsPath topCurve = new GraphicsPath();
+					using GraphicsPath topCurve = new GraphicsPath();
 					topCurve.AddClosedCurve(sidePoints, tension);
 
 					if( this.Common.ProcessModePaint )
@@ -1314,8 +1312,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							point.series.Name,
 							pointIndex);
 					}
-					topCurve.Dispose();
-
 				}
 			}
 		

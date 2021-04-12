@@ -2113,11 +2113,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 									continue;
 								}
 
-								// Create new legend item
-								LegendItem	item = new LegendItem(point.Label, point.Color, "");
+                                // Create new legend item
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                                LegendItem	item = new LegendItem(point.Label, point.Color, "");
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
-								// Check if series is drawn in 3D chart area
-								bool area3D = this.Common.Chart.ChartAreas[series.ChartArea].Area3DStyle.Enable3D;
+                                // Check if series is drawn in 3D chart area
+                                bool area3D = this.Common.Chart.ChartAreas[series.ChartArea].Area3DStyle.Enable3D;
 
 								// Set legend item appearance properties
 								item.SetAttributes(this.Common, series);
@@ -2180,9 +2182,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								continue;
 							}
 
-							// Create legend item
-							LegendItem	item = new LegendItem(series.Name, series.Color, "");
-							item.SetAttributes(this.Common, series);
+                            // Create legend item
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                            LegendItem	item = new LegendItem(series.Name, series.Color, "");
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                            item.SetAttributes(this.Common, series);
 
 							item.ToolTip = series.ReplaceKeywords(series.LegendToolTip);
 
@@ -4149,7 +4153,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				using(SolidBrush textBrush = new SolidBrush(this.TitleForeColor))
 				{
 					// Set text alignment
-					StringFormat format = new StringFormat();
+					using StringFormat format = new StringFormat();
 					format.Alignment = this.TitleAlignment;
 					//format.LineAlignment = StringAlignment.Center;
 
@@ -4942,8 +4946,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>Index of newly added item.</returns>
 		public void Insert(int index, Color color, string text)
 		{
-			LegendItem	item = new LegendItem(text, color, "");
-			this.Insert(index, item);
+#pragma warning disable CA2000 // Dispose objects before losing scope
+            LegendItem	item = new LegendItem(text, color, "");
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            this.Insert(index, item);
 		}
 
 		/// <summary>
@@ -4968,8 +4974,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>Index of newly added item.</returns>
 		public void Insert(int index, string image, string text)
 		{
-			LegendItem	item = new LegendItem(text, Color.Empty, image);
-			this.Insert(index, item);
+#pragma warning disable CA2000 // Dispose objects before losing scope
+            LegendItem	item = new LegendItem(text, Color.Empty, image);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            this.Insert(index, item);
 		}
 
 		/// <summary>

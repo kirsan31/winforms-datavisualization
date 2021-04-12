@@ -421,7 +421,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Create and initialize data point
                     if (valueExsist)
                     {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                         DataPoint newDataPoint = new DataPoint(series);
+#pragma warning restore CA2000 // Dispose objects before losing scope
                         bool emptyValues = false;
 
                         // Set X to the value provided
@@ -630,7 +632,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Create and initialize data point
                     if (xValueExsist || yValueExsist)
                     {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                         DataPoint newDataPoint = new DataPoint(series);
+#pragma warning restore CA2000 // Dispose objects before losing scope
                         bool emptyValues = false;
 
                         // Set X to the value provided
@@ -810,7 +814,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Create and initialize data point
                     if (xValueExsist || yValueExsist)
                     {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                         DataPoint newDataPoint = new DataPoint(series);
+#pragma warning restore CA2000 // Dispose objects before losing scope
                         bool emptyValues = false;
 
                         // Set X to the value provided or use sequence numbers starting with 1
@@ -1047,8 +1053,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Justification = "X and Y are cartesian coordinates and well understood")]
         public void InsertXY(int index, object xValue, params object[] yValue)
 		{
-			DataPoint	newDataPoint = new DataPoint(series);
-			newDataPoint.SetValueXY(xValue, yValue);
+#pragma warning disable CA2000 // Dispose objects before losing scope
+            DataPoint	newDataPoint = new DataPoint(series);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            newDataPoint.SetValueXY(xValue, yValue);
 			DataPointInit(ref newDataPoint);			
 			this.Insert(index, newDataPoint);
 		}
@@ -1062,8 +1070,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Justification = "Y is a cartesian coordinate and well understood")]
         public void InsertY(int index, params object[] yValue)
 		{
-			DataPoint	newDataPoint = new DataPoint(series);
-			newDataPoint.SetValueY(yValue);
+#pragma warning disable CA2000 // Dispose objects before losing scope
+            DataPoint	newDataPoint = new DataPoint(series);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            newDataPoint.SetValueY(yValue);
 			DataPointInit(ref newDataPoint);			
 			this.Insert(index, newDataPoint);
 		}

@@ -694,7 +694,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					// If there is more then one graphical path split them and create 
 					// image maps for every graphical path separately.
-					GraphicsPathIterator iterator = new GraphicsPathIterator(hotRegionPathAbs);
+					using GraphicsPathIterator iterator = new GraphicsPathIterator(hotRegionPathAbs);
 
 					// There is more then one path.
                     using (GraphicsPath subPath = new GraphicsPath())
@@ -1431,8 +1431,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Draw line to the anchor point
 			if(!float.IsNaN(anchorPoint.X) && !float.IsNaN(anchorPoint.Y))
 			{
+				using var pen = new Pen(Color.Black, this.LineWidth + 2);
 				// Check if point is inside annotation position
-				if(!rectanglePosition.Contains(anchorPoint.X, anchorPoint.Y))
+				if (!rectanglePosition.Contains(anchorPoint.X, anchorPoint.Y))
 				{
 					PointF	lineSecondPoint = PointF.Empty;
 					if(anchorPoint.X < rectanglePosition.X)
@@ -1512,14 +1513,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						this.ShadowColor,
 						this.ShadowOffset);
 
-					// Create hot region path
-					using( GraphicsPath linePath = new GraphicsPath() )
+					// Create hot region path					
+					using ( GraphicsPath linePath = new GraphicsPath() )
 					{
 						linePath.AddLine(						
 							graphics.GetAbsolutePoint(anchorPoint),
 							graphics.GetAbsolutePoint(lineSecondPoint) );
-
-						linePath.Widen(new Pen(Color.Black, this.LineWidth + 2));
+						
+						linePath.Widen(pen);
 						hotRegion.SetMarkers();
 						hotRegion.AddPath( linePath, false );
 					}
@@ -1573,11 +1574,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							graphics.GetAbsolutePoint(textLinePoint1),
 							graphics.GetAbsolutePoint(textLinePoint2) );
 
-						linePath.Widen(new Pen(Color.Black, this.LineWidth + 2));
+						linePath.Widen(pen);
 						hotRegion.SetMarkers();
 						hotRegion.AddPath( linePath, false );
 					}
-
 				}
 			}
 
