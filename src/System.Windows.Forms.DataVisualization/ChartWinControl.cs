@@ -26,6 +26,8 @@ using System.Windows.Forms.DataVisualization.Charting.Formulas;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 using System.Windows.Forms.Design.DataVisualization.Charting;
 
+using Microsoft.DotNet.DesignTools.Serialization;
+
 namespace System.Windows.Forms.DataVisualization.Charting
 {
     using Size = System.Drawing.Size;

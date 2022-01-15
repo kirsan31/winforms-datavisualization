@@ -11,6 +11,7 @@
 using System.ComponentModel.Design.Serialization;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
+using Microsoft.DotNet.DesignTools.Serialization;
 
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
@@ -19,15 +20,14 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
     /// </summary>
     internal class ChartWinDesignerSerializer : CodeDomSerializer
 	{
-		#region Methods
-
-		/// <summary>
-		/// Serializes the specified object into a CodeDOM object.
-		/// </summary>
-		/// <param name="manager">A serialization manager interface that is used during the deserialization process.</param>
-		/// <param name="value">The object to serialize.</param>
-		/// <returns>A CodeDOM object representing the object that has been serialized.</returns>
-		public override object Serialize(IDesignerSerializationManager manager, object value)
+        #region Methods
+        /// <summary>
+        /// Serializes the specified object into a CodeDOM object.
+        /// </summary>
+        /// <param name="manager">A serialization manager interface that is used during the deserialization process.</param>
+        /// <param name="value">The object to serialize.</param>
+        /// <returns>A CodeDOM object representing the object that has been serialized.</returns>
+        public override object Serialize(IDesignerSerializationManager manager, object value)
 		{
 			// Set serialization flag
 			bool	oldSerializationFlag = false;

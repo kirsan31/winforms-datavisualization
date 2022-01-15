@@ -75,13 +75,14 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         #endregion
     }
 
+#warning designer
     /// <summary>
     /// This class merely subclasses System.Drawing.Design.ColorEditor and nothing more.
     /// This is done so that in the runtime assembly, we refer to this class via an AssemblyQualifiedName
     /// instead of the system ColorEditor. This avoids placing version info in the runtime assembly, allowing
     /// is to build (theoretically) against any version of the system ColorEditor.
     /// </summary>
-    internal class ChartColorEditor : ColorEditor
+    internal class ChartColorEditor : UITypeEditor
     {
         // left empty on purpose, see summary comment.
     }

@@ -27,6 +27,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		{
 		}
 
+#warning designer
+        /*
 		/// <summary>
 		/// Edit object's value.
 		/// </summary>
@@ -38,14 +40,15 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		{
 			return base.EditValue(context, provider, value);
 		}
+		*/
 
-		#endregion
-	}
+        #endregion
+    }
 
-	/// <summary>
-	/// Designer editor for the legend collection.
-	/// </summary>
-	internal class LegendCollectionEditor : ChartCollectionEditor
+    /// <summary>
+    /// Designer editor for the legend collection.
+    /// </summary>
+    internal class LegendCollectionEditor : ChartCollectionEditor
 	{
 		#region Editor methods
 

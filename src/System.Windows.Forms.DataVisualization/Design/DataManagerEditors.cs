@@ -12,10 +12,11 @@
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Design;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
+
+using Microsoft.DotNet.DesignTools.Editors;
 
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
@@ -311,6 +312,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		{
 		}
 
+#warning designer
+        /*
 		/// <summary>
 		/// Do not allow to edit if multiple series selected.
 		/// </summary>
@@ -330,13 +333,14 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 			}
 			return base.EditValue(context, provider, value);
 		}
+		*/
 
-		/// <summary>
-		/// Create instance of data point object
-		/// </summary>
-		/// <param name="itemType">Item type.</param>
-		/// <returns>New item instance.</returns>
-		protected override object CreateInstance(Type itemType)
+        /// <summary>
+        /// Create instance of data point object
+        /// </summary>
+        /// <param name="itemType">Item type.</param>
+        /// <returns>New item instance.</returns>
+        protected override object CreateInstance(Type itemType)
 		{
 			if (Context != null && Context.Instance != null)
 			{
@@ -364,23 +368,28 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 	/// </summary>
 	internal class ChartCollectionEditor : CollectionEditor
 	{
-		#region Editor methods and properties 
+        #region Editor methods and properties 
 
-		// Collection editor form
-		CollectionForm	_form = null;
+#warning designer
+        // Collection editor form
+        //        CollectionForm _form = null;
         Chart _chart = null;
         ITypeDescriptorContext _context = null;
         
         // Help topic string
 		string	_helpTopic = "";
-		/// <summary>
-		/// Object constructor.
-		/// </summary>
-		/// <param name="type">AxisName.</param>
-		public ChartCollectionEditor(Type type) : base(type)
+
+#warning designer
+        /// <summary>
+        /// Object constructor.
+        /// </summary>
+        /// <param name="type">AxisName.</param>
+        public ChartCollectionEditor(Type type) : base(null, type)
 		{
 		}
 
+#warning designer
+        /*
 		/// <summary>
 		/// Edit object's value.
 		/// </summary>
@@ -423,6 +432,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 }
             }
         }
+		*/
 
         /// <summary>
         /// Called when [name reference changing].
@@ -494,7 +504,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             return result;
         }
 
-
+#warning designer
+        /*
 		/// <summary>
 		/// Ovveride the HelpTopic property to provide different topics,
 		/// depending on selected property.
@@ -532,6 +543,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 			// Re-Init topic name
 			_helpTopic = "";
 		}
+		*/
 
         /// <summary>
         /// Returns the collection form property grid. Added for VS2005 compatibility.
@@ -579,11 +591,15 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             }
         }
 
-		/// <summary>
-		/// Cretaes form for collection editing.
-		/// </summary>
-		/// <returns>Form object.</returns>
-		protected override CollectionForm CreateCollectionForm()
+
+#warning designer
+
+        /*
+        /// <summary>
+        /// Cretaes form for collection editing.
+        /// </summary>
+        /// <returns>Form object.</returns>
+        protected override CollectionForm CreateCollectionForm()
 		{
 			_form = base.CreateCollectionForm();
 
@@ -617,12 +633,13 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 
 			return _form;
 		}
+        */
 
 
-		/// <summary>
-		/// Update design-time HTML when OK button is clicked in the collection editor
-		/// </summary>
-		private void OnOkClicked(object sender, EventArgs e)
+        /// <summary>
+        /// Update design-time HTML when OK button is clicked in the collection editor
+        /// </summary>
+        private void OnOkClicked(object sender, EventArgs e)
 		{
 			// Clear the help topic
 			_helpTopic = "";

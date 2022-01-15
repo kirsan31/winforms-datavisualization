@@ -13,6 +13,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Windows.Forms.DataVisualization.Charting;
+using Microsoft.DotNet.DesignTools.Designers;
 
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
@@ -58,9 +59,9 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(SystemEvents_UserPreferenceChanged);
         }
 
-        protected override void OnMouseDragBegin(int x, int y)
+        protected override void OnMouseDragBegin(int x, int y, Keys modifierKeys)
         {
-            base.OnMouseDragBegin(x, y);
+            base.OnMouseDragBegin(x, y, modifierKeys);
             ChartWinDesigner.controlDesigner = this;
         }
 

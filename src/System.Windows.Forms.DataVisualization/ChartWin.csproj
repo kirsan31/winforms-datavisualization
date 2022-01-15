@@ -28,6 +28,10 @@
     <Compile Remove="Common\EditorNames.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WinForms.Designer.SDK" Version="1.0.0-prerelease-preview5.21520.4" />
+  </ItemGroup>
+
   <ItemGroup Label="Embedded Resources">
     <EmbeddedResource Update="Common\SR.resx">
       <LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
