@@ -2351,7 +2351,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal override string ReplaceKeywords(string strOriginal)
 		{
 			// Nothing to process
-			if(strOriginal == null || strOriginal.Length == 0)
+			if(strOriginal is null || strOriginal.Length == 0)
 				return strOriginal;
 
 			// Replace all "\n" strings with '\n' character
@@ -2370,10 +2370,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // #CUSTOMPROPERTY - one of the custom properties by name
             result = DataPoint.ReplaceCustomPropertyKeyword(result, this);
             
-			if(this.series != null)
+			if(this.series is not null)
 			{
 				// #INDEX - point index
-				result = result.Replace(KeywordName.Index, this.series.Points.IndexOf(this).ToString(System.Globalization.CultureInfo.InvariantCulture));
+                if(result.Contains(KeywordName.Index, StringComparison.Ordinal)) // on series with many points unnecessary Points.IndexOf hang up GUI :(
+                    result = result.Replace(KeywordName.Index, this.series.Points.IndexOf(this).ToString(CultureInfo.InvariantCulture));
 
 				// Replace series keywords
 				result = this.series.ReplaceKeywords(result);
@@ -2412,7 +2413,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // remove keywords #VAL? for unexisted Y value indices
                 for (int index = this.YValues.Length; index <= 7; index++)
                 {
-                    result = this.RemoveOneKeyword(result, KeywordName.ValY + index + 1, SR.FormatErrorString);
+                    result = this.RemoveOneKeyword(result, KeywordName.ValY + index + 1);
                 }
 
 				for(int index = 1; index <= this.YValues.Length; index++)
@@ -2460,12 +2461,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="strOriginal">Original format string</param>
         /// <param name="keyword">The keyword</param>
-        /// <param name="strToReplace">String to replace the keyword.</param>
         /// <returns>Modified format string</returns>
-        private string RemoveOneKeyword(string strOriginal, string keyword, string strToReplace)
+        private string RemoveOneKeyword(string strOriginal, string keyword)
         {
             string result = strOriginal;
-            int keyIndex = -1;
+            int keyIndex;
             while ((keyIndex = result.IndexOf(keyword, StringComparison.Ordinal)) != -1)
             {
                 // Get optional format
@@ -2475,14 +2475,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int formatEnd = result.IndexOf('}', keyEndIndex);
                     if (formatEnd == -1)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionDataSeriesKeywordFormatInvalid(result)));
+                        throw new InvalidOperationException(SR.ExceptionDataSeriesKeywordFormatInvalid(result));
                     }
 
                     keyEndIndex = formatEnd + 1;
                 }
                 // Remove keyword string (with optional format)
                 result = result.Remove(keyIndex, keyEndIndex - keyIndex);
-                if (!String.IsNullOrEmpty(strToReplace))
+                var strToReplace = SR.FormatErrorString;
+                if (!string.IsNullOrEmpty(strToReplace))
                 {
                     result = result.Insert(keyIndex, strToReplace);
                 }

@@ -1228,7 +1228,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		{
 			string result = strOriginal;
-			int	keyIndex = -1;
+			int	keyIndex;
 			while((keyIndex = result.IndexOf(keyword, StringComparison.Ordinal)) != -1)
 			{
 				// Get optional format
