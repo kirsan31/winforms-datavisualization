@@ -1980,8 +1980,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else
             {
-                string stringValue = "";
-                stringValue = value.ToString();
+                var stringValue = value.ToString();
                 return CommonElements.ParseDouble(stringValue);
             }
         }
@@ -2402,7 +2401,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         KeywordName.ValX,
                         this.XValue,
                         this.series.XValueType,
-                        "");
+                        string.Empty);
                 }
 
                 // remove keywords #VAL? for unexisted Y value indices
@@ -2422,7 +2421,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         KeywordName.ValY + index,
                         this.YValues[index - 1],
                         this.series.YValueType,
-                        "");
+                        string.Empty);
                 }
 
                 result = this.series.ReplaceOneKeyword(
@@ -2434,7 +2433,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     KeywordName.ValY,
                     this.YValues[0],
                     this.series.YValueType,
-                    "");
+                    string.Empty);
 
                 result = this.series.ReplaceOneKeyword(
                     Chart,
@@ -2445,7 +2444,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     KeywordName.Val,
                     this.YValues[0],
                     this.series.YValueType,
-                    "");
+                    string.Empty);
             }
 
             return result;
@@ -2961,9 +2960,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // After changing the default value of the common attribute you must also
                 // change the DefaultAttribute of the property representing this attribute.
                 if (!IsCustomPropertySet(CommonCustomProperties.ToolTip))
-                    SetAttributeObject(CommonCustomProperties.ToolTip, "");
+                    SetAttributeObject(CommonCustomProperties.ToolTip, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.LegendToolTip))
-                    SetAttributeObject(CommonCustomProperties.LegendToolTip, "");
+                    SetAttributeObject(CommonCustomProperties.LegendToolTip, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.Color))
                     SetAttributeObject(CommonCustomProperties.Color, Color.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.IsValueShownAsLabel))
@@ -2973,9 +2972,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (!IsCustomPropertySet(CommonCustomProperties.MarkerSize))
                     SetAttributeObject(CommonCustomProperties.MarkerSize, 5);
                 if (!IsCustomPropertySet(CommonCustomProperties.MarkerImage))
-                    SetAttributeObject(CommonCustomProperties.MarkerImage, "");
+                    SetAttributeObject(CommonCustomProperties.MarkerImage, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.Label))
-                    SetAttributeObject(CommonCustomProperties.Label, "");
+                    SetAttributeObject(CommonCustomProperties.Label, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.BorderWidth))
                     SetAttributeObject(CommonCustomProperties.BorderWidth, 1);
                 if (!IsCustomPropertySet(CommonCustomProperties.BorderDashStyle))
@@ -2983,13 +2982,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
                 if (!IsCustomPropertySet(CommonCustomProperties.AxisLabel))
-                    SetAttributeObject(CommonCustomProperties.AxisLabel, "");
+                    SetAttributeObject(CommonCustomProperties.AxisLabel, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.LabelFormat))
-                    SetAttributeObject(CommonCustomProperties.LabelFormat, "");
+                    SetAttributeObject(CommonCustomProperties.LabelFormat, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.BorderColor))
                     SetAttributeObject(CommonCustomProperties.BorderColor, Color.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.BackImage))
-                    SetAttributeObject(CommonCustomProperties.BackImage, "");
+                    SetAttributeObject(CommonCustomProperties.BackImage, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.BackImageWrapMode))
                     SetAttributeObject(CommonCustomProperties.BackImageWrapMode, ChartImageWrapMode.Tile);
                 if (!IsCustomPropertySet(CommonCustomProperties.BackImageAlignment))
@@ -3013,22 +3012,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (!IsCustomPropertySet(CommonCustomProperties.MarkerBorderWidth))
                     SetAttributeObject(CommonCustomProperties.MarkerBorderWidth, 1);
                 if (!IsCustomPropertySet(CommonCustomProperties.MapAreaAttributes))
-                    SetAttributeObject(CommonCustomProperties.MapAreaAttributes, "");
+                    SetAttributeObject(CommonCustomProperties.MapAreaAttributes, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.PostBackValue))
-                    SetAttributeObject(CommonCustomProperties.PostBackValue, "");
+                    SetAttributeObject(CommonCustomProperties.PostBackValue, string.Empty);
 
                 if (!IsCustomPropertySet(CommonCustomProperties.LabelForeColor))
                     SetAttributeObject(CommonCustomProperties.LabelForeColor, Color.Black);
                 if (!IsCustomPropertySet(CommonCustomProperties.LabelAngle))
                     SetAttributeObject(CommonCustomProperties.LabelAngle, 0);
                 if (!IsCustomPropertySet(CommonCustomProperties.LabelToolTip))
-                    SetAttributeObject(CommonCustomProperties.LabelToolTip, "");
+                    SetAttributeObject(CommonCustomProperties.LabelToolTip, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.LabelUrl))
-                    SetAttributeObject(CommonCustomProperties.LabelUrl, "");
+                    SetAttributeObject(CommonCustomProperties.LabelUrl, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.LabelPostBackValue))
-                    SetAttributeObject(CommonCustomProperties.LabelPostBackValue, "");
+                    SetAttributeObject(CommonCustomProperties.LabelPostBackValue, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.LabelMapAreaAttributes))
-                    SetAttributeObject(CommonCustomProperties.LabelMapAreaAttributes, "");
+                    SetAttributeObject(CommonCustomProperties.LabelMapAreaAttributes, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.LabelBackColor))
                     SetAttributeObject(CommonCustomProperties.LabelBackColor, Color.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.LabelBorderWidth))
@@ -3039,15 +3038,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     SetAttributeObject(CommonCustomProperties.LabelBorderColor, Color.Empty);
 
                 if (!IsCustomPropertySet(CommonCustomProperties.Url))
-                    SetAttributeObject(CommonCustomProperties.Url, "");
+                    SetAttributeObject(CommonCustomProperties.Url, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.LegendUrl))
-                    SetAttributeObject(CommonCustomProperties.LegendUrl, "");
+                    SetAttributeObject(CommonCustomProperties.LegendUrl, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.LegendPostBackValue))
-                    SetAttributeObject(CommonCustomProperties.LegendPostBackValue, "");
+                    SetAttributeObject(CommonCustomProperties.LegendPostBackValue, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.LegendText))
-                    SetAttributeObject(CommonCustomProperties.LegendText, "");
+                    SetAttributeObject(CommonCustomProperties.LegendText, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.LegendMapAreaAttributes))
-                    SetAttributeObject(CommonCustomProperties.LegendMapAreaAttributes, "");
+                    SetAttributeObject(CommonCustomProperties.LegendMapAreaAttributes, string.Empty);
                 if (!IsCustomPropertySet(CommonCustomProperties.IsVisibleInLegend))
                     SetAttributeObject(CommonCustomProperties.IsVisibleInLegend, true);
             }
@@ -3145,7 +3144,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (IsSerializing())
                         {
-                            return "";
+                            return string.Empty;
                         }
                         if (this.isEmptyPoint)
                         {
@@ -3200,7 +3199,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (IsSerializing())
                         {
-                            return "";
+                            return string.Empty;
                         }
                         if (this.isEmptyPoint)
                         {
@@ -3262,7 +3261,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (IsSerializing())
                         {
-                            return "";
+                            return string.Empty;
                         }
                         if (this.isEmptyPoint)
                         {
@@ -3573,7 +3572,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (IsSerializing())
                         {
-                            return "";
+                            return string.Empty;
                         }
                         if (this.isEmptyPoint)
                         {
@@ -4191,7 +4190,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (IsSerializing())
                         {
-                            return "";
+                            return string.Empty;
                         }
                         if (this.isEmptyPoint)
                         {
@@ -4480,7 +4479,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             get
             {
                 // Save all custom properties in a string
-                string result = "";
+                string result = string.Empty;
                 string[] attributesNames = CommonCustomProperties.GetNames(typeof(CommonCustomProperties));
                 for (int i = properties.Count - 1; i >= 0; i--)
                 {
@@ -4623,7 +4622,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (IsSerializing())
                         {
-                            return "";
+                            return string.Empty;
                         }
                         if (this.isEmptyPoint)
                         {
@@ -4733,7 +4732,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (IsSerializing())
                         {
-                            return "";
+                            return string.Empty;
                         }
                         if (this.isEmptyPoint)
                         {
@@ -4785,7 +4784,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (IsSerializing())
                         {
-                            return "";
+                            return string.Empty;
                         }
                         if (this.isEmptyPoint)
                         {
@@ -5048,7 +5047,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (IsSerializing())
                         {
-                            return "";
+                            return string.Empty;
                         }
                         if (this.isEmptyPoint)
                         {
@@ -5522,7 +5521,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.pointCustomProperties)
                 ResetProperty(CommonCustomProperties.Label);
             else
-                series.label = "";
+                series.label = string.Empty;
         }
 
         /// <summary>
@@ -5534,7 +5533,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.pointCustomProperties)
                 ResetProperty(CommonCustomProperties.AxisLabel);
             else
-                series.axisLabel = "";
+                series.axisLabel = string.Empty;
         }
 
         /// <summary>
@@ -5546,7 +5545,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.pointCustomProperties)
                 ResetProperty(CommonCustomProperties.LabelFormat);
             else
-                series.labelFormat = "";
+                series.labelFormat = string.Empty;
         }
 
         /// <summary>
@@ -5634,7 +5633,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.pointCustomProperties)
                 ResetProperty(CommonCustomProperties.BackImage);
             else
-                series.backImage = "";
+                series.backImage = string.Empty;
         }
 
         /// <summary>
@@ -5745,7 +5744,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.pointCustomProperties)
                 ResetProperty(CommonCustomProperties.MarkerImage);
             else
-                series.markerImage = "";
+                series.markerImage = string.Empty;
         }
 
         /// <summary>
@@ -5793,7 +5792,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.pointCustomProperties)
                 ResetProperty(CommonCustomProperties.ToolTip);
             else
-                series.toolTip = "";
+                series.toolTip = string.Empty;
 
             if (Chart != null && Chart.selection != null)
             {
@@ -5821,7 +5820,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.pointCustomProperties)
                 ResetProperty(CommonCustomProperties.LegendText);
             else
-                series.legendText = "";
+                series.legendText = string.Empty;
         }
 
         /// <summary>
@@ -5833,7 +5832,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.pointCustomProperties)
                 ResetProperty(CommonCustomProperties.LegendToolTip);
             else
-                series.legendToolTip = "";
+                series.legendToolTip = string.Empty;
 
             if (Chart != null && Chart.selection != null)
             {
@@ -5900,7 +5899,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.pointCustomProperties)
                 ResetProperty(CommonCustomProperties.LabelToolTip);
             else
-                series.labelToolTip = "";
+                series.labelToolTip = string.Empty;
 
             if (Chart != null && Chart.selection != null)
             {
