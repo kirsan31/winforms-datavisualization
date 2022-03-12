@@ -4446,20 +4446,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 string newText = ((string[])labelTextRows[longestLabelIndex])[longestLabelRowIndex];
                 for (index = 0; index < (newText.Length) / 2 - 1; index++)
                 {
-                    if (newText[(newText.Length) / 2 - index] == ' ')
+                    if (newText[newText.Length / 2 - index] == ' ')
                     {
-                        newText =
-                            newText.Substring(0, (newText.Length) / 2 - index) +
-                            "\n" +
-                            newText.Substring((newText.Length) / 2 - index + 1);
+                        newText = string.Concat(newText.AsSpan(0, newText.Length / 2 - index), "\n", newText.AsSpan(newText.Length / 2 - index + 1));
                         changed = true;
                     }
-                    else if (newText[(newText.Length) / 2 + index] == ' ')
+                    else if (newText[newText.Length / 2 + index] == ' ')
                     {
-                        newText =
-                            newText.Substring(0, (newText.Length) / 2 + index) +
-                            "\n" +
-                            newText.Substring((newText.Length) / 2 + index + 1);
+                        newText = string.Concat(newText.AsSpan(0, newText.Length / 2 + index), "\n", newText.AsSpan(newText.Length / 2 + index + 1));
                         changed = true;
                     }
 

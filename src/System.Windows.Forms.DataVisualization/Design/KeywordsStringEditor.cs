@@ -19,6 +19,7 @@ using System.Drawing.Design;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
+using System;
 
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
@@ -402,9 +403,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 				int length = this._selectedKeywordLength;
 
 				// Update currently selected kyword
-				this._richTextBox.Text = this._richTextBox.Text.Substring(0, start) + 
-					keywordEditor.Keyword + 
-					this._richTextBox.Text.Substring(start + length);
+				this._richTextBox.Text = string.Concat(this._richTextBox.Text.AsSpan(0, start), keywordEditor.Keyword, this._richTextBox.Text.AsSpan(start + length));
 				this._richTextBox.SelectionStart = start + keywordEditor.Keyword.Length;
 			}
 
