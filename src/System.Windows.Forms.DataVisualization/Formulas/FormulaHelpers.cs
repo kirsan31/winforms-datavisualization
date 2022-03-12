@@ -1500,8 +1500,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             }
             else if (seriesFieldId.StartsWith("Y", StringComparison.Ordinal))
             {
-                int id = 0;
-                if (int.TryParse(seriesFieldId.Substring(1), out id))
+                int id;
+                if (int.TryParse(seriesFieldId.AsSpan(1), out id))
                     if (id - 1 < seriesFields.Count)
                     {
                         seriesField = seriesFields[id - 1];
@@ -1590,8 +1590,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             }
             else if (seriesFieldId.StartsWith("Y", StringComparison.Ordinal))
             {
-                int seriesFieldIndex = 0;
-                if (int.TryParse(seriesFieldId.Substring(1), out seriesFieldIndex))
+                int seriesFieldIndex;
+                if (int.TryParse(seriesFieldId.AsSpan(1), out seriesFieldIndex))
                     if (seriesFieldIndex < seriesFields.Count)
                     {
                         seriesField = seriesFields[seriesFieldIndex - 1];
