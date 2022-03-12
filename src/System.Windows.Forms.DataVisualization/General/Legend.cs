@@ -191,14 +191,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         //***********************************************************
 		//** Private data members, which store properties values
 		//***********************************************************
-		private ElementPosition			_position = null;
-		private bool					_enabled = true;
+		private ElementPosition			_position;
+        private bool					_enabled = true;
 
 		private LegendStyle				_legendStyle = LegendStyle.Table;
 
 		private	LegendTableStyle		_legendTableStyle = LegendTableStyle.Auto;
-		private LegendItemsCollection	_customLegends = null;
-		private ChartHatchStyle			_backHatchStyle = ChartHatchStyle.None;
+		private LegendItemsCollection	_customLegends;
+        private ChartHatchStyle			_backHatchStyle = ChartHatchStyle.None;
 		private string					_backImage = "";
 		private ChartImageWrapMode		_backImageWrapMode = ChartImageWrapMode.Tile;
 		private Color					_backImageTransparentColor = Color.Empty;
@@ -210,12 +210,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private int						_borderWidth = 1;
 		private ChartDashStyle			_borderDashStyle = ChartDashStyle.Solid;
         private FontCache               _fontCache = new FontCache();
-        private Font                    _font = null;
-		private Color					_foreColor = Color.Black;
+        private Font                    _font;
+        private Color					_foreColor = Color.Black;
 		private StringAlignment			_legendAlignment = StringAlignment.Near;
 		private Docking			        _legendDocking = Docking.Right;
-		private int						_shadowOffset = 0;
-		private Color					_shadowColor = Color.FromArgb(128, 0, 0, 0);
+		private int						_shadowOffset;
+        private Color					_shadowColor = Color.FromArgb(128, 0, 0, 0);
 		private bool					_isTextAutoFit = true;
         private string                  _dockedToChartArea = Constants.NotSetValue;
 		private bool					_isDockedInsideChartArea = true;
@@ -225,24 +225,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		//***********************************************************
 
 		// Collection of custom and series legend items
-		internal LegendItemsCollection	legendItems = null;
+		internal LegendItemsCollection	legendItems;
 
-		// Number of rows and columns
-		private int		_itemColumns = 0;
-
-
-		// Font calculated by auto fitting
-		internal Font	autofitFont = null;
-
-		// Indicates that all items in the legend should be equally spaced
-		private	bool	_isEquallySpacedItems = false;
+        // Number of rows and columns
+        private int		_itemColumns;
 
 
-		// Indicate that legend rows should be drawn with isInterlaced background color.
-		private bool		_interlacedRows = false;
+        // Font calculated by auto fitting
+        internal Font	autofitFont;
 
-		// Legend isInterlaced rows color
-		private Color		_interlacedRowsColor = Color.Empty;
+        // Indicates that all items in the legend should be equally spaced
+        private	bool	_isEquallySpacedItems;
+
+
+        // Indicate that legend rows should be drawn with isInterlaced background color.
+        private bool		_interlacedRows;
+
+        // Legend isInterlaced rows color
+        private Color		_interlacedRowsColor = Color.Empty;
 
 		// Legend offsets
 		private Size		_offset = Size.Empty;
@@ -254,13 +254,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private int			_textWrapThreshold = 25;
 
 		// Value used to calculate auto-fit font size from the legend Font.
-		private int			_autoFitFontSizeAdjustment = 0;
+		private int			_autoFitFontSizeAdjustment;
 
-		// Legend column collection
-		private LegendCellColumnCollection _cellColumns = null;
+        // Legend column collection
+        private LegendCellColumnCollection _cellColumns;
 
-		// Indicates that legend items automatically added based on the exsisting 
-		// series in reversed order.
+        // Indicates that legend items automatically added based on the exsisting 
+        // series in reversed order.
         private LegendItemOrder _legendItemOrder = LegendItemOrder.Auto;
 
 		// Legend title text
@@ -273,10 +273,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private Color		_titleBackColor = Color.Empty;
 
 		// Legend title font
-		private Font		_titleFont = null;
+		private Font		_titleFont;
 
-		// Legend title alignment
-		private StringAlignment		_titleAlignment = StringAlignment.Center;
+        // Legend title alignment
+        private StringAlignment		_titleAlignment = StringAlignment.Center;
 
 		// Legend title visual separator
 		private LegendSeparatorStyle	_titleSeparator = LegendSeparatorStyle.None;
@@ -300,11 +300,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private int			_itemColumnSpacing = 50;
 
 		// Legend table column spacing calculated in relative coordinates
-		private int		_itemColumnSpacingRel = 0;
+		private int		_itemColumnSpacingRel;
 
-		// Legend title position in pixelcoordinates.
-		// Note that legend title always docked to the top of the legend.
-		private	Rectangle	_titlePosition = Rectangle.Empty;
+        // Legend title position in pixelcoordinates.
+        // Note that legend title always docked to the top of the legend.
+        private	Rectangle	_titlePosition = Rectangle.Empty;
 
 		// Legend header position in pixel coordinates.
 		private	Rectangle	_headerPosition = Rectangle.Empty;
@@ -313,31 +313,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private int			_autoFitMinFontSize = 7;
 
 		// Horizontal space left after fitting legend items
-		private int		_horizontalSpaceLeft = 0;
+		private int		_horizontalSpaceLeft;
 
-		// Vertical space left after fitting legend items
-		private int		_verticalSpaceLeft = 0;
+        // Vertical space left after fitting legend items
+        private int		_verticalSpaceLeft;
 
-		// Sub-columns sizes calculated during the fitting process
-		private int[,]	_subColumnSizes = null;
+        // Sub-columns sizes calculated during the fitting process
+        private int[,]	_subColumnSizes;
 
-		// Legend item heigts
-		private int[,]	_cellHeights = null;
+        // Legend item heigts
+        private int[,]	_cellHeights;
 
-		// Number of rows per each legend table column
-		private int[]		_numberOfRowsPerColumn = null;
+        // Number of rows per each legend table column
+        private int[]		_numberOfRowsPerColumn;
 
-		// Number of items from the collection that should be processed
-		private int			_numberOfLegendItemsToProcess = -1;
+        // Number of items from the collection that should be processed
+        private int			_numberOfLegendItemsToProcess = -1;
 
 		// Legend items area position in pixels
 		private Rectangle	_legendItemsAreaPosition = Rectangle.Empty;
 
 		// Indicates that not all legend items were able to fit the legend
-		private bool		_legendItemsTruncated = false;
+		private bool		_legendItemsTruncated;
 
-		// Size of the dots (pixels) that will drawn on the bottom of the legend when it is truncated
-		private	int			_truncatedDotsSize = 3;
+        // Size of the dots (pixels) that will drawn on the bottom of the legend when it is truncated
+        private	int			_truncatedDotsSize = 3;
 
 		// Maximum number of cells in the legend item
 		private	int			_numberOfCells = -1;
@@ -5027,8 +5027,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal int					borderWidth = 1;
 		internal ChartDashStyle			borderDashStyle = ChartDashStyle.Solid;
 		internal ChartHatchStyle		backHatchStyle = ChartHatchStyle.None;
-		internal int					shadowOffset = 0;
-		internal Color					shadowColor = Color.FromArgb(128, 0, 0, 0);
+		internal int					shadowOffset;
+        internal Color					shadowColor = Color.FromArgb(128, 0, 0, 0);
 		internal ChartImageWrapMode		backImageWrapMode = ChartImageWrapMode.Tile;
 		internal ChartImageAlignmentStyle		backImageAlign = ChartImageAlignmentStyle.TopLeft;
 
@@ -5047,25 +5047,25 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private int			_markerBorderWidth = 1;
 
 		// Collection of legend item cells
-		private	LegendCellCollection	_cells = null;
+		private	LegendCellCollection	_cells;
 
-		// Legend item visual separator
-		private LegendSeparatorStyle	_separatorType = LegendSeparatorStyle.None;
+        // Legend item visual separator
+        private LegendSeparatorStyle	_separatorType = LegendSeparatorStyle.None;
 
 		// Legend item visual separator color
 		private Color		_separatorColor = Color.Black;
 
 		// Indicates that temporary cells where added and thet have to be removed
-		internal bool		clearTempCells = false;
+		internal bool		clearTempCells;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
+        /// <summary>
         /// LegendItem constructor
-		/// </summary>
-		public LegendItem()
+        /// </summary>
+        public LegendItem()
 		{
 
 			// Create collection of legend item cells

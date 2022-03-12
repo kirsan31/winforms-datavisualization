@@ -48,17 +48,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 		// Total Y values from all series at specified index orgonized by stacked groups
 		// Hashtable will contain arrays of doubles stored by group name key.
-		Hashtable		_stackedGroupsTotalPerPoint = null;
+		Hashtable		_stackedGroupsTotalPerPoint;
 
 
-		#endregion
+        #endregion
 
-		#region IChartType interface implementation
+        #region IChartType interface implementation
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		override public string Name			{ get{ return ChartTypeNames.OneHundredPercentStackedColumn;}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        override public string Name			{ get{ return ChartTypeNames.OneHundredPercentStackedColumn;}}
 
 		/// <summary>
 		/// Indicates that it's a hundredred percent chart.
@@ -291,24 +291,24 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Indicates if chart is 100% stacked
 		/// </summary>
-		protected	bool			hundredPercentStacked = false;
+		protected	bool			hundredPercentStacked;
 
 
 
-		/// <summary>
-		/// True if stacke group name is applicable
-		/// </summary>
-		internal	bool			stackGroupNameUsed = false;
+        /// <summary>
+        /// True if stacke group name is applicable
+        /// </summary>
+        internal	bool			stackGroupNameUsed;
 
-		/// <summary>
-		/// List of all stack group names
-		/// </summary>
-		internal	ArrayList		stackGroupNames = null;
+        /// <summary>
+        /// List of all stack group names
+        /// </summary>
+        internal	ArrayList		stackGroupNames;
 
-		/// <summary>
-		/// Name of the current stack group.
-		/// </summary>
-		internal	string			currentStackGroup = string.Empty;
+        /// <summary>
+        /// Name of the current stack group.
+        /// </summary>
+        internal	string			currentStackGroup = string.Empty;
 
 
 

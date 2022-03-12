@@ -28,16 +28,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Custom Labels collection
-		private CustomLabelsCollection	_customLabels = null;
+		private CustomLabelsCollection	_customLabels;
 
-		#endregion 
+        #endregion
 
-		#region Axis labels properties
+        #region Axis labels properties
 
-		/// <summary>
-		/// Gets or sets the style of the label.
-		/// </summary>
-		[
+        /// <summary>
+        /// Gets or sets the style of the label.
+        /// </summary>
+        [
 		SRCategory("CategoryAttributeLabels"),
 		Bindable(true),
 		NotifyParentPropertyAttribute(true),

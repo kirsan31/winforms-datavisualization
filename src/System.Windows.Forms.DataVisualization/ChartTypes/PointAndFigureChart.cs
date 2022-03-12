@@ -69,20 +69,20 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Indicates that class subscribed fro the customize event.
 		/// </summary>
-		static private	bool	_customizeSubscribed = false;
+		static private	bool	_customizeSubscribed;
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Methods
+        #region Methods
 
-		/// <summary>
-		/// Prepares PointAndFigure chart type for rendering. We hide original series
+        /// <summary>
+        /// Prepares PointAndFigure chart type for rendering. We hide original series
         /// during rendering and only using the data for calculations. New RangeColumn
         /// type series is added wich displayes the columns of Os or Xs.
         /// All the changes in this method are reversed back in the UnPrepareData method. 
-		/// </summary>
-		/// <param name="series">Series to be prepared.</param>
-		internal static void PrepareData(Series series)
+        /// </summary>
+        /// <param name="series">Series to be prepared.</param>
+        internal static void PrepareData(Series series)
 		{
 			// Check series chart type
 			if(String.Compare( series.ChartTypeName, ChartTypeNames.PointAndFigure, StringComparison.OrdinalIgnoreCase ) != 0 || !series.IsVisible())

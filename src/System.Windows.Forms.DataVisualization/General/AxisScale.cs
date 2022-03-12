@@ -104,27 +104,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		// chart area margin, Measured as a percentage of default 
 		// margin size.
 		internal double					margin = 100.0;
-		internal double					marginView = 0.0;
-		internal bool					offsetTempSet = false;
+		internal double					marginView;
+        internal bool					offsetTempSet;
 
-		// Used for column chart margin
-		internal double					marginTemp = 0.0;
-		private ArrayList				_stripLineOffsets = new ArrayList();
+        // Used for column chart margin
+        internal double					marginTemp;
+        private ArrayList				_stripLineOffsets = new ArrayList();
 		
 
 		// Data members, which store properties values
-		private  bool					_isLogarithmic = false;
-		internal double					logarithmBase = 10.0;
-		internal bool					isReversed = false;
-		internal bool					isStartedFromZero = true;
-		internal TickMark				minorTickMark = null;
-		internal TickMark				majorTickMark = null;
-		internal Grid					minorGrid = null;
-		internal Grid					majorGrid = null;
-		internal bool					enabled = false;		
-		internal bool					autoEnabled = true;		
-		internal LabelStyle					labelStyle = null;
-		private	 DateTimeIntervalType	_internalIntervalType = DateTimeIntervalType.Auto;
+		private  bool					_isLogarithmic;
+        internal double					logarithmBase = 10.0;
+		internal bool					isReversed;
+        internal bool					isStartedFromZero = true;
+		internal TickMark				minorTickMark;
+        internal TickMark				majorTickMark;
+        internal Grid					minorGrid;
+        internal Grid					majorGrid;
+        internal bool					enabled;
+        internal bool					autoEnabled = true;		
+		internal LabelStyle					labelStyle;
+        private	 DateTimeIntervalType	_internalIntervalType = DateTimeIntervalType.Auto;
 		internal double					maximum = Double.NaN;
 		internal double					crossing = Double.NaN;
 		internal double					minimum = Double.NaN;
@@ -137,19 +137,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal bool					tempAutoMaximum = true;
 		internal bool					tempAutoMinimum = true;
 		internal double					tempMajorGridInterval = Double.NaN;
-		internal double					tempMinorGridInterval = 0.0;
-		internal double					tempMajorTickMarkInterval = Double.NaN;
-		internal double					tempMinorTickMarkInterval = 0.0;
-		internal double					tempLabelInterval = Double.NaN;
+		internal double					tempMinorGridInterval;
+        internal double					tempMajorTickMarkInterval = Double.NaN;
+		internal double					tempMinorTickMarkInterval;
+        internal double					tempLabelInterval = Double.NaN;
 		internal DateTimeIntervalType	tempGridIntervalType = DateTimeIntervalType.NotSet;
 		internal DateTimeIntervalType	tempTickMarkIntervalType = DateTimeIntervalType.NotSet;
 		internal DateTimeIntervalType	tempLabelIntervalType = DateTimeIntervalType.NotSet;
 
 		// Paint mode
-		internal bool					paintMode = false;
+		internal bool					paintMode;
 
-		// Axis type (X, Y, X2, Y2)
-		internal AxisName				axisType = AxisName.X;
+        // Axis type (X, Y, X2, Y2)
+        internal AxisName				axisType = AxisName.X;
 
 		// Automatic maximum value (from data point values).
 		private bool					_autoMaximum = true;
@@ -165,23 +165,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Opposite Axis for this Axis. Necessary for Crossing.		
 		/// </summary>
-		internal Axis					oppositeAxis = null;
+		internal Axis					oppositeAxis;
 
-		// Axis data scaleView
-		private	AxisScaleView			_scaleView = null;
+        // Axis data scaleView
+        private	AxisScaleView			_scaleView;
 
-		// Axis scroll bar class
-		internal AxisScrollBar			scrollBar = null;
+        // Axis scroll bar class
+        internal AxisScrollBar			scrollBar;
 
-		// For scater chart X values could be rounded.
-		internal bool roundedXValues = false;
+        // For scater chart X values could be rounded.
+        internal bool roundedXValues;
 
-		// If Axis is logarithmic value shoud be converted to 
-		// linear only once.
-		internal bool logarithmicConvertedToLinear = false;
+        // If Axis is logarithmic value shoud be converted to 
+        // linear only once.
+        internal bool logarithmicConvertedToLinear;
 
-		// IsLogarithmic minimum value
-		internal double logarithmicMinimum;
+        // IsLogarithmic minimum value
+        internal double logarithmicMinimum;
 
 		// IsLogarithmic maximum value
 		internal double logarithmicMaximum;
@@ -191,28 +191,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal double interval3DCorrection = Double.NaN;
 
 		// Axis coordinate convertion optimization fields
-		internal bool optimizedGetPosition = false;
-		internal double paintViewMax = 0.0;
-		internal double paintViewMin = 0.0;
-		internal double	paintRange = 0.0;
-		internal double	valueMultiplier = 0.0;
-		internal RectangleF	paintAreaPosition = RectangleF.Empty;
-		internal double paintAreaPositionBottom = 0.0;
-		internal double paintAreaPositionRight = 0.0;
-		internal double paintChartAreaSize = 0.0;	
+		internal bool optimizedGetPosition;
+        internal double paintViewMax;
+        internal double paintViewMin;
+        internal double	paintRange;
+        internal double	valueMultiplier;
+        internal RectangleF	paintAreaPosition = RectangleF.Empty;
+		internal double paintAreaPositionBottom;
+        internal double paintAreaPositionRight;
+        internal double paintChartAreaSize;
 
 
 
-		// Determines how number of intervals automatically calculated
-		private IntervalAutoMode _intervalAutoMode = IntervalAutoMode.FixedCount;
+        // Determines how number of intervals automatically calculated
+        private IntervalAutoMode _intervalAutoMode = IntervalAutoMode.FixedCount;
 
 		// True if scale segments are used
-		internal bool scaleSegmentsUsed = false;
+		internal bool scaleSegmentsUsed;
 
 
 
-		// Preffered number of intervals on the axis
-		internal int  prefferedNumberofIntervals = 5;
+        // Preffered number of intervals on the axis
+        internal int  prefferedNumberofIntervals = 5;
 
         private Stack<Double> _intervalsStore = new Stack<Double>();
 
@@ -717,7 +717,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
 		// Field that stores Axis automatic scale breaks style.
-		internal AxisScaleBreakStyle axisScaleBreakStyle = null;
+		internal AxisScaleBreakStyle axisScaleBreakStyle;
 
         /// <summary>
         /// Gets or sets the style of scale breaks.
@@ -744,12 +744,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		// Field that stores axis scale segments
-		internal AxisScaleSegmentCollection scaleSegments = null;
+		internal AxisScaleSegmentCollection scaleSegments;
 
-		/// <summary>
-		/// Axis scale segment collection.
-		/// </summary>
-		[
+        /// <summary>
+        /// Axis scale segment collection.
+        /// </summary>
+        [
 		SRCategory("CategoryAttributeScale"),
 		Browsable(false),
 		EditorBrowsable(EditorBrowsableState.Never),

@@ -74,13 +74,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Private data members, which store properties values
-		private double					_intervalOffset = 0;
-		private double					_interval = 0;
-		private DateTimeIntervalType	_intervalType = DateTimeIntervalType.Auto;
+		private double					_intervalOffset;
+        private double					_interval;
+        private DateTimeIntervalType	_intervalType = DateTimeIntervalType.Auto;
 		internal DateTimeIntervalType	intervalOffsetType = DateTimeIntervalType.Auto;
-		internal bool					interlaced = false;
-		private double					_stripWidth = 0;
-		private DateTimeIntervalType	_stripWidthType = DateTimeIntervalType.Auto;
+		internal bool					interlaced;
+        private double					_stripWidth;
+        private DateTimeIntervalType	_stripWidthType = DateTimeIntervalType.Auto;
 		private Color					_backColor = Color.Empty;
 		private ChartHatchStyle			_backHatchStyle = ChartHatchStyle.None;
 		private string					_backImage = "";
@@ -97,8 +97,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private	string					_text = "";
 		private Color					_foreColor = Color.Black;
         private FontCache               _fontCache = new FontCache();
-		private Font					_font = null;
-		private StringAlignment			_textAlignment = StringAlignment.Far;
+		private Font					_font;
+        private StringAlignment			_textAlignment = StringAlignment.Far;
 		private StringAlignment			_textLineAlignment = StringAlignment.Near;
 
 		// Chart image map properties 

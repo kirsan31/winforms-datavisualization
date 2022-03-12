@@ -466,21 +466,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			private	string					_name = string.Empty;
 
 			// Custom attribute information
-			private	CustomPropertyInfo		_customAttributeInfo = null;
+			private	CustomPropertyInfo		_customAttributeInfo;
 
-			#endregion // Fields
+            #endregion // Fields
 
-			#region Constructor
+            #region Constructor
 
-			/// <summary>
-			/// Property descriptor constructor.
-			/// </summary>
-			/// <param name="componentType">Component type.</param>
-			/// <param name="name">Property name.</param>
-			/// <param name="propertyType">Property type.</param>
+            /// <summary>
+            /// Property descriptor constructor.
+            /// </summary>
+            /// <param name="componentType">Component type.</param>
+            /// <param name="name">Property name.</param>
+            /// <param name="propertyType">Property type.</param>
             /// <param name="attributes">Property attributes.</param>
             /// <param name="customAttributeInfo">Custom attribute information.</param>
-			internal CustomAttributesPropertyDescriptor(  
+            internal CustomAttributesPropertyDescriptor(  
 				Type componentType,
 				string name,
 				Type propertyType,
@@ -813,10 +813,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Reference to the base property descriptor
-		private PropertyDescriptor	_basePropertyDescriptor = null; 
+		private PropertyDescriptor	_basePropertyDescriptor;
 
-		// Dynamic display name of the property
-		private string				_displayName = string.Empty;
+        // Dynamic display name of the property
+        private string				_displayName = string.Empty;
 
 		#endregion // Fields 
 

@@ -132,7 +132,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Private data members, which store properties values
         private Axis[] _axisArray = new Axis[4];
         private Color _backColor = Color.Empty;
-        private bool _backColorIsSet = false;
+        private bool _backColorIsSet;
         private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
         private string _backImage = "";
         private ChartImageWrapMode _backImageWrapMode = ChartImageWrapMode.Tile;
@@ -143,13 +143,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private Color _borderColor = Color.Black;
         private int _borderWidth = 1;
         private ChartDashStyle _borderDashStyle = ChartDashStyle.NotSet;
-        private int _shadowOffset = 0;
+        private int _shadowOffset;
         private Color _shadowColor = Color.FromArgb(128, 0, 0, 0);
-        private ElementPosition _areaPosition = null;
-        private ElementPosition _innerPlotPosition = null;
-        internal int IterationCounter = 0;
+        private ElementPosition _areaPosition;
+        private ElementPosition _innerPlotPosition;
+        internal int IterationCounter;
 
-        private bool _isSameFontSizeForAllAxes = false;
+        private bool _isSameFontSizeForAllAxes;
         internal float axesAutoFontSize = 8f;
 
         private string _alignWithChartArea = Constants.NotSetValue;
@@ -159,7 +159,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private int _circularUsePolygons = int.MinValue;
 
         // Flag indicates that chart area is acurrently aligned
-        internal bool alignmentInProcess = false;
+        internal bool alignmentInProcess;
 
         // Chart area position before adjustments
         internal RectangleF originalAreaPosition = RectangleF.Empty;
@@ -174,10 +174,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Center of the circulat chart area
         internal PointF circularCenter = PointF.Empty;
 
-        private ArrayList _circularAxisList = null;
+        private ArrayList _circularAxisList;
 
         // Buffered plotting area image
-        internal Bitmap areaBufferBitmap = null;
+        internal Bitmap areaBufferBitmap;
 
         private Cursor _cursorX = new Cursor();
         private Cursor _cursorY = new Cursor();
@@ -2952,7 +2952,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             internal string ChartType = string.Empty;
 
             // Series object. Can be set to NULL!
-            internal Series Series = null;
+            internal Series Series;
 
         }
 

@@ -94,16 +94,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// Fields used to fill area with gradient
 		/// </summary>
  
-		protected	bool			gradientFill = false;
+		protected	bool			gradientFill;
 
-		/// <summary>
-		/// Coordinates of the area path
-		/// </summary>
-		protected	GraphicsPath	areaPath = null;
+        /// <summary>
+        /// Coordinates of the area path
+        /// </summary>
+        protected	GraphicsPath	areaPath;
 
-		/// <summary>
-		/// Reference to the current series object
-		/// </summary>
+        /// <summary>
+        /// Reference to the current series object
+        /// </summary>
         protected Series Series { get; set; }
 
 		/// <summary>

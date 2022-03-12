@@ -93,13 +93,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Associated axis
-		internal Axis axis = null;
+		internal Axis axis;
 
-		// True if scale breaks are enabled
-		private bool _enabled = false;
+        // True if scale breaks are enabled
+        private bool _enabled;
 
-		// AxisName of the break line 
-		private BreakLineStyle _breakLineStyle = BreakLineStyle.Ragged;
+        // AxisName of the break line 
+        private BreakLineStyle _breakLineStyle = BreakLineStyle.Ragged;
 
 		// Spacing between scale segments created by scale breaks
 		private double _segmentSpacing = 1.5;

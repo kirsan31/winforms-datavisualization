@@ -219,10 +219,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Indicates that filtering do not remove points, just mark them as empty
-		private bool		_filterSetEmptyPoints = false;
+		private bool		_filterSetEmptyPoints;
 
-		// Indicates that points that match the criteria must be filtered out
-		private bool		_filterMatchedPoints = true;
+        // Indicates that points that match the criteria must be filtered out
+        private bool		_filterMatchedPoints = true;
 
         #endregion // Fields
 
@@ -1373,12 +1373,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private class PointElementFilter : IDataPointFilter
 		{
 			// Private fields
-			private DataManipulator	_dataManipulator = null;
-			private DateRangeType	_dateRange;
-			private int[]			_rangeElements = null;
+			private DataManipulator	_dataManipulator;
+            private DateRangeType	_dateRange;
+			private int[]			_rangeElements;
 
-			// Default constructor is not accesiable
-			private PointElementFilter()
+            // Default constructor is not accesiable
+            private PointElementFilter()
 			{
 			}
 
@@ -2153,7 +2153,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			internal	GroupingFunction	function = GroupingFunction.None;
 
 			// Index of the Y value for storing results
-			internal	int					outputIndex	= 0;
+			internal	int					outputIndex;
 
             /// <summary>
             /// Constructor.

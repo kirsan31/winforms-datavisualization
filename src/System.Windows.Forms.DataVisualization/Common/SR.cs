@@ -9909,9 +9909,9 @@ namespace System.Web.UI.DataVisualization.Charting
 			
 			static ResourceManager resourceManager = new ResourceManager(typeof(SR).FullName, typeof(SR).Module.Assembly);
 			
-			static CultureInfo _culture = null;
-			
-			public const string ExceptionElementPositionConverter = "ExceptionElementPositionConverter";
+			static CultureInfo _culture;
+
+            public const string ExceptionElementPositionConverter = "ExceptionElementPositionConverter";
 			
 			public const string ExceptionInvalidServiceContainer = "ExceptionInvalidServiceContainer";
 			

@@ -27,22 +27,22 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		#region Fields and Constructor
 
 		// Indicates that bubble size scale is calculated
-		private bool			_scaleDetected = false;
-	
-		// Minimum/Maximum bubble size
-		private double			_maxPossibleBubbleSize = 15F;
-		private double			_minPossibleBubbleSize = 3F;
-		private float			_maxBubleSize = 0f;
-		private float			_minBubleSize = 0f;
+		private bool			_scaleDetected;
 
-		// Current min/max size of the bubble size
-		private double			_minAll = double.MaxValue;
+        // Minimum/Maximum bubble size
+        private double			_maxPossibleBubbleSize = 15F;
+		private double			_minPossibleBubbleSize = 3F;
+		private float			_maxBubleSize;
+        private float			_minBubleSize;
+
+        // Current min/max size of the bubble size
+        private double			_minAll = double.MaxValue;
 		private double			_maxAll = double.MinValue;
 
 
 		// Bubble size difference value
-		private double	_valueDiff = 0;
-		private double	_valueScale = 1;
+		private double	_valueDiff;
+        private double	_valueScale = 1;
 
 		/// <summary>
 		/// Class public constructor

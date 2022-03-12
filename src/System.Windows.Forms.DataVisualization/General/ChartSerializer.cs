@@ -80,14 +80,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Private fields
 
 		// Reference to the service container
-		private IServiceContainer		_serviceContainer = null;
+		private IServiceContainer		_serviceContainer;
 
-		// Reference to the chart object
-		private Chart					_chart = null;
+        // Reference to the chart object
+        private Chart					_chart;
 
-		// Reference to the serializer object
+        // Reference to the serializer object
 
-		private SerializerBase			_serializer = new XmlFormatSerializer();
+        private SerializerBase			_serializer = new XmlFormatSerializer();
 
 		// Format of the serializer in use
 		private SerializationFormat		_format = SerializationFormat.Xml;

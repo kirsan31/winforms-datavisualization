@@ -155,8 +155,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Private data members, which store properties values
 			private ChartValueType				_xValueType = ChartValueType.Auto;
 			private ChartValueType				_yValueType = ChartValueType.Auto;
-			private bool						_isXValueIndexed = false;
-			private int							_yValuesPerPoint = 1;
+			private bool						_isXValueIndexed;
+        private int							_yValuesPerPoint = 1;
 			private	int							_markersStep = 1;
 			private	ChartColorPalette			_colorPalette = ChartColorPalette.None;
 			private AxisType					_xAxisType = AxisType.Primary;
@@ -165,10 +165,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			private string						_ySubAxisName = string.Empty;
 			private string						_xSubAxisName = string.Empty;
 #endif // SUBAXES
-            private DataPointCustomProperties   _emptyPointCustomProperties = null;
-			private DataPointCollection			_points;
-			private int							_shadowOffset = 0;
-			private Color						_shadowColor = Color.FromArgb(128, 0, 0, 0);
+            private DataPointCustomProperties   _emptyPointCustomProperties;
+        private DataPointCollection			_points;
+			private int							_shadowOffset;
+        private Color						_shadowColor = Color.FromArgb(128, 0, 0, 0);
 			private string						_chartType = ChartTypeNames.Column;
             private string                      _chartArea = String.Empty;
 
@@ -185,45 +185,45 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			private	string						_dataSourceYMembers = String.Empty;
 
 			// Automatic values type flags
-			internal bool						autoXValueType = false;
-			internal bool						autoYValueType = false;
-			
-            // Total Y value of all data points
-			private	double						_totalYvalue = double.NaN;
+			internal bool						autoXValueType;
+        internal bool						autoYValueType;
+
+        // Total Y value of all data points
+        private	double						_totalYvalue = double.NaN;
 
 			// Array of dummy data used at design time
-			private double[]					_dummyDoubleValues = null;
+			private double[]					_dummyDoubleValues;
 
-			// X value type if X value is indexed
-			internal ChartValueType			indexedXValueType = ChartValueType.Auto;
+        // X value type if X value is indexed
+        internal ChartValueType			indexedXValueType = ChartValueType.Auto;
 
 			// Default properties
             static internal DataPointCustomProperties defaultCustomProperties = InitializeDefaultCustomProperties();
 
 			// Indicates that a temp. marker style was set for drawing
-			internal bool						tempMarkerStyleIsSet = false;
+			internal bool						tempMarkerStyleIsSet;
 
-			// Indicates that number of Y values should be checked
-			private	bool						_checkPointsNumber = true;
+        // Indicates that number of Y values should be checked
+        private	bool						_checkPointsNumber = true;
 
 			// SmartLabelStyle style
-			private	SmartLabelStyle			_smartLabelStyle = null;
+			private	SmartLabelStyle			_smartLabelStyle;
 
-			// Indicates that there is no custom axis labels in data points or series
-			internal bool						noLabelsInPoints = true;
+        // Indicates that there is no custom axis labels in data points or series
+        internal bool						noLabelsInPoints = true;
 
 			// Indicates if series has all X values set to 0
-			internal bool						xValuesZeros = false;
+			internal bool						xValuesZeros;
 
-			// Indicates if check for series X zero values was done
-			internal bool						xValuesZerosChecked = false;
+        // Indicates if check for series X zero values was done
+        internal bool						xValuesZerosChecked;
 
 
-            // fake data points for selector service in design time.
-            // note: in design time fake points are generated 
-            // with short life time - during painting.
-            // this collection keep a copy of design time datapoints.
-            internal DataPointCollection        fakeDataPoints;
+        // fake data points for selector service in design time.
+        // note: in design time fake points are generated 
+        // with short life time - during painting.
+        // this collection keep a copy of design time datapoints.
+        internal DataPointCollection        fakeDataPoints;
 
 
         #endregion
@@ -248,12 +248,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			/// <summary>
 			/// If true shows point's value as a label.
 			/// </summary>
-			internal bool showLabelAsValue = false;
+			internal bool showLabelAsValue;
 
-			/// <summary>
-			/// Data point color
-			/// </summary>
-			internal Color color = Color.Empty;
+        /// <summary>
+        /// Data point color
+        /// </summary>
+        internal Color color = Color.Empty;
 
 			/// <summary>
 			/// Data point border color
@@ -318,22 +318,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			/// <summary>
 			/// Data point font
 			/// </summary>
-			internal Font font = null;
+			internal Font font;
 
-			/// <summary>
-			/// Data point line color
-			/// </summary>
-			internal Color fontColor = Color.Black;
+        /// <summary>
+        /// Data point line color
+        /// </summary>
+        internal Color fontColor = Color.Black;
 
 			/// <summary>
 			/// Data point font angle
 			/// </summary>
-			internal int fontAngle = 0;
+			internal int fontAngle;
 
-			/// <summary>
-			/// Data point marker style
-			/// </summary>
-			internal MarkerStyle markerStyle = MarkerStyle.None;
+        /// <summary>
+        /// Data point marker style
+        /// </summary>
+        internal MarkerStyle markerStyle = MarkerStyle.None;
 
 			/// <summary>
 			/// Data point marker size

@@ -15,9 +15,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
     {
         #region Member variables
 
-        private IChartElement  _parent = null;
-        private CommonElements _common = null;
-        private object _tag = null;
+        private IChartElement  _parent;
+        private CommonElements _common;
+        private object _tag;
 
         #endregion
 

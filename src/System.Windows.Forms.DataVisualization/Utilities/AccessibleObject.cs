@@ -19,10 +19,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         #region Fields
 
         // Reference to the chart control
-        private Chart _chart = null;
+        private Chart _chart;
 
         // List of chart accessible objects
-        private List<AccessibleObject> _chartAccessibleObjectList = null;
+        private List<AccessibleObject> _chartAccessibleObjectList;
 
         // Position of the chart in screen coordinates (optianl can be set to empty)
         private Point _chartScreenPosition = Point.Empty;
@@ -346,16 +346,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         #region Fields
 
         // Chart element presented by this accessibility object
-        internal object chartChildObject = null;
+        internal object chartChildObject;
 
         // Chart child object type
         internal ChartElementType chartChildObjectType = ChartElementType.Nothing;
 
         // Chart accessibility object
-        internal ChartAccessibleObject chartAccessibleObject = null;
+        internal ChartAccessibleObject chartAccessibleObject;
 
         // Chart accessibility object
-        internal AccessibleObject chartAccessibleParentObject = null;
+        internal AccessibleObject chartAccessibleParentObject;
 
         // Accessible object role
         internal AccessibleRole role = AccessibleRole.StaticText;

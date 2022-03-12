@@ -100,10 +100,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Scroll bar fields
 
         // Reference to the axis data scaleView class
-		internal Axis					axis = null;
+		internal Axis					axis;
 
-		// Indicates that scollbra will be drawn
-		private bool					_enabled = true;
+        // Indicates that scollbra will be drawn
+        private bool					_enabled = true;
 
         // Axis data scaleView scroll bar style
 		private	ScrollBarButtonStyles	_scrollBarButtonStyle = ScrollBarButtonStyles.All;
@@ -136,10 +136,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private	System.Windows.Forms.Timer	_scrollTimer = new System.Windows.Forms.Timer();
 
 		// Scroll size and direction when AutoScroll is set
-		private	MouseEventArgs			_mouseArguments = null;
+		private	MouseEventArgs			_mouseArguments;
 
-		// Position of the scrollbar (true - edge of PlotArea, false - edge of chart area)
-		private bool					_isPositionedInside = true;
+        // Position of the scrollbar (true - edge of PlotArea, false - edge of chart area)
+        private bool					_isPositionedInside = true;
 
 		#endregion
 
@@ -1797,11 +1797,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #region Private fields
 
 		// Private fields for properties values storage
-		private		Axis					_axis = null;
-		private		bool					_isHandled = false;
-		private		int						_mousePositionX = 0;
-		private		int						_mousePositionY = 0;
-		private		ScrollBarButtonType		_buttonType = ScrollBarButtonType.ThumbTracker;
+		private		Axis					_axis;
+        private		bool					_isHandled;
+        private		int						_mousePositionX;
+        private		int						_mousePositionY;
+        private		ScrollBarButtonType		_buttonType = ScrollBarButtonType.ThumbTracker;
 
 #endregion
 

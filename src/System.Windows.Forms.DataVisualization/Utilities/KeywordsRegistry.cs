@@ -380,16 +380,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// True if keyword value can be formatted.
 		/// </summary>
-		public	bool				SupportsFormatting = false;
+		public	bool				SupportsFormatting;
 
-		/// <summary>
-		/// True if keyword can be used with different point Y values.
-		/// </summary>
-		public	bool				SupportsValueIndex = false;
+        /// <summary>
+        /// True if keyword can be used with different point Y values.
+        /// </summary>
+        public	bool				SupportsValueIndex;
 
-		#endregion // Public Fields
+        #endregion // Public Fields
 
-		#region Constructor
+        #region Constructor
 
         /// <summary>
         /// Keyword information object constructor
@@ -402,7 +402,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="appliesToProperties">Comma separated list of applicable properties.</param>
         /// <param name="supportsFormatting">True if formatting is supported.</param>
         /// <param name="supportsValueIndex">True if different point Y values are supported.</param>
-		public KeywordInfo(
+        public KeywordInfo(
 			string name,
 			string keyword,
 			string keywordAliases,

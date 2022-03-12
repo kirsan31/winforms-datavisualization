@@ -38,7 +38,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		#region Fields
 
 		// Array of total points values
-		double[]		_totalPerPoint = null;
+		double[]		_totalPerPoint;
         int             _seriesCount   = -1;
 		#endregion
 
@@ -304,16 +304,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Indicates if chart is 100% stacked
 		/// </summary>
-		protected	bool			hundredPercentStacked = false;
+		protected	bool			hundredPercentStacked;
 
-		#endregion
+        #endregion
 
-		#region Constructor
+        #region Constructor
 
-		/// <summary>
-		/// Public constructor.
-		/// </summary>
-		public StackedAreaChart()
+        /// <summary>
+        /// Public constructor.
+        /// </summary>
+        public StackedAreaChart()
 		{
 			multiSeries = true;
 			COPCoordinatesToCheck = COPCoordinates.X | COPCoordinates.Y;

@@ -118,65 +118,65 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Line tension
 		/// </summary>
-		protected	float	lineTension = 0f;
+		protected	float	lineTension;
 
-		/// <summary>
-		/// Index of the drawing center point. int.MaxValue if drawn from left->right or right->left.
-		/// </summary>
-		protected	int		centerPointIndex = int.MaxValue;
+        /// <summary>
+        /// Index of the drawing center point. int.MaxValue if drawn from left->right or right->left.
+        /// </summary>
+        protected	int		centerPointIndex = int.MaxValue;
 
 		/// <summary>
 		/// Inicates that border color attribute must be used to draw the line
 		/// </summary>
-		protected	bool	useBorderColor = false;
+		protected	bool	useBorderColor;
 
-		/// <summary>
-		/// Inicates that line shadow should not be drawn
-		/// </summary>
-		protected	bool	disableShadow = false;
+        /// <summary>
+        /// Inicates that line shadow should not be drawn
+        /// </summary>
+        protected	bool	disableShadow;
 
-		/// <summary>
-		/// Inicates that only line shadow must be drawn
-		/// </summary>
-		protected	bool	drawShadowOnly = false;
+        /// <summary>
+        /// Inicates that only line shadow must be drawn
+        /// </summary>
+        protected	bool	drawShadowOnly;
 
-		// Pen used to draw the line chart
-		private		Pen		_linePen = new Pen(Color.Black);
+        // Pen used to draw the line chart
+        private		Pen		_linePen = new Pen(Color.Black);
 
 		/// <summary>
 		/// Horizontal axis minimum value
 		/// </summary>
-		protected	double	hAxisMin = 0.0;
+		protected	double	hAxisMin;
 
-		/// <summary>
-		/// Horizontal axis maximum value
-		/// </summary>
-		protected	double	hAxisMax = 0.0;
+        /// <summary>
+        /// Horizontal axis maximum value
+        /// </summary>
+        protected	double	hAxisMax;
 
-		/// <summary>
-		/// Vertical axis minimum value
-		/// </summary>
-		protected	double	vAxisMin = 0.0;
+        /// <summary>
+        /// Vertical axis minimum value
+        /// </summary>
+        protected	double	vAxisMin;
 
-		/// <summary>
-		/// Vertical axis maximum value
-		/// </summary>
-		protected	double	vAxisMax = 0.0;
+        /// <summary>
+        /// Vertical axis maximum value
+        /// </summary>
+        protected	double	vAxisMax;
 
-		/// <summary>
-		/// Clip region indicator
-		/// </summary>
-		protected	bool	clipRegionSet = false;
-		
-		/// <summary>
-		/// Indicates that several series are drawn at the same time. Stacked or Side-by-side.
-		/// </summary>
-		protected	bool	multiSeries = false;
+        /// <summary>
+        /// Clip region indicator
+        /// </summary>
+        protected	bool	clipRegionSet;
 
-		/// <summary>
-		/// Indicates which coordinates should be tested against the COP.
-		/// </summary>
-		protected	COPCoordinates	COPCoordinatesToCheck = COPCoordinates.X;
+        /// <summary>
+        /// Indicates that several series are drawn at the same time. Stacked or Side-by-side.
+        /// </summary>
+        protected	bool	multiSeries;
+
+        /// <summary>
+        /// Indicates which coordinates should be tested against the COP.
+        /// </summary>
+        protected	COPCoordinates	COPCoordinatesToCheck = COPCoordinates.X;
 
 		/// <summary>
 		/// Number of data points loops required to draw chart.
@@ -186,23 +186,23 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Indicates that line markers are shown at data point.
 		/// </summary>
-		protected	bool	showPointLines = false;
+		protected	bool	showPointLines;
 
-		/// <summary>
-		/// Indicates that that lines outside the area should be still processed while drawing.
-		/// </summary>
-		protected	bool	drawOutsideLines = false;
+        /// <summary>
+        /// Indicates that that lines outside the area should be still processed while drawing.
+        /// </summary>
+        protected	bool	drawOutsideLines;
 
 
-		/// <summary>
-		/// Indicates if base (point) chart type should be processed
-		/// </summary>
-		private		bool	_processBaseChart = false;
+        /// <summary>
+        /// Indicates if base (point) chart type should be processed
+        /// </summary>
+        private		bool	_processBaseChart;
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public LineChart() : base(false)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public LineChart() : base(false)
 		{
 			// Draw markers on the front edge
 			middleMarker = false;

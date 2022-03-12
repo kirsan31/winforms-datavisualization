@@ -288,11 +288,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Previous line segment pen.
 		/// </summary>
-		internal	Pen		frontLinePen = null;
+		internal	Pen		frontLinePen;
 
-		#endregion
+        #endregion
 
-		#region 3D Line drawing methods
+        #region 3D Line drawing methods
 
         /// <summary>
         /// Draws grid line in 3D space (on two area scene walls)
@@ -306,7 +306,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="horizontal">Indicates that grid line is horizontal</param>
         /// <param name="common">Common Elements</param>
         /// <param name="obj">Selected object</param>
-		internal void Draw3DGridLine(
+        internal void Draw3DGridLine(
 			ChartArea area,
 			Color color, 
 			int width, 
@@ -4584,16 +4584,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private	PointF	_coordXY = new PointF(0f, 0f);
 		
 		// Point Z coordinate (depth)
-		private float	_coordZ = 0;
+		private float	_coordZ;
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the X coordinate of the point.
-		/// </summary>
-		[
+        /// </summary>
+        [
 		Bindable(true),
 		DefaultValue(0),
 		SRDescription("DescriptionAttributePoint3D_X")

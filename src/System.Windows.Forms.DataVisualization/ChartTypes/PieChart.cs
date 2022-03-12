@@ -95,13 +95,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		private float _sizeCorrection = 0.95F;
 
 		// True if any pie slice is exploded
-		private bool _sliceExploded = false;
+		private bool _sliceExploded;
 
-		// True if labels overlap for 2D Pie and outside labels
-		private bool _labelsOverlap = false;
+        // True if labels overlap for 2D Pie and outside labels
+        private bool _labelsOverlap;
 
-		// Left Lable column used for 3D chart and outside labels
-		internal LabelColumn labelColumnLeft;
+        // Left Lable column used for 3D chart and outside labels
+        internal LabelColumn labelColumnLeft;
 
 		// Right Lable column used for 3D chart and outside labels
 		internal LabelColumn labelColumnRight;
@@ -4815,9 +4815,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			private RectangleF _chartAreaPosition;
 			private RectangleF _innerPlotPosition;
 			internal float columnHeight;
-			internal int numOfItems = 0;
-			private int _numOfInsertedLabels = 0;
-			private DataPoint [] _points;
+			internal int numOfItems;
+            private int _numOfInsertedLabels;
+            private DataPoint [] _points;
 			private float [] _yPositions;
 			private bool _rightPosition = true;
 			private float _labelLineSize;

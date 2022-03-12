@@ -43,22 +43,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Private data members, which store properties values
-		private int				_compression = 0;
+		private int				_compression;
 
-		// Chart data source object
-		private object	_dataSource = null;
+        // Chart data source object
+        private object	_dataSource;
 
-		// Indicates that control was bound to the data source
-		internal bool	boundToDataSource = false;
+        // Indicates that control was bound to the data source
+        internal bool	boundToDataSource;
 
-		#endregion
+        #endregion
 
-		#region Constructor
+        #region Constructor
 
-		/// <summary>
-		/// Chart internal constructor.
-		/// </summary>
-		/// <param name="container">Service container</param>
+        /// <summary>
+        /// Chart internal constructor.
+        /// </summary>
+        /// <param name="container">Service container</param>
         internal ChartImage(IServiceContainer container)
             : base(container)
         {
@@ -1224,10 +1224,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
 			/// Indicates that chart exceptions should be suppressed.
 			/// </summary>
-			private bool					_suppressExceptions = false;
+			private bool					_suppressExceptions;
 
-			// Chart Graphic object
-            internal ChartGraphics ChartGraph { get; set; }
+        // Chart Graphic object
+        internal ChartGraphics ChartGraph { get; set; }
 
 			// Private data members, which store properties values
 			private GradientStyle			_backGradientStyle = GradientStyle.None;
@@ -1247,22 +1247,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			private int						_width = 300;
 			private int						_height = 300;
 			private	DataManipulator			_dataManipulator = new DataManipulator();
-			internal HotRegionsList			hotRegionsList = null;
-			private BorderSkin	            _borderSkin = null;
-            // Chart areas collection
-            private ChartAreaCollection     _chartAreas = null;
+			internal HotRegionsList			hotRegionsList;
+        private BorderSkin	            _borderSkin;
+        // Chart areas collection
+        private ChartAreaCollection     _chartAreas;
 
-			// Chart legend collection
-			private LegendCollection		_legends = null;
+        // Chart legend collection
+        private LegendCollection		_legends;
 
-			// Chart title collection
-			private TitleCollection			_titles = null;
+        // Chart title collection
+        private TitleCollection			_titles;
 
-		    // Chart annotation collection
-			private	AnnotationCollection	_annotations = null;
+        // Chart annotation collection
+        private	AnnotationCollection	_annotations;
 
-			// Annotation smart labels class
-			internal AnnotationSmartLabel	annotationSmartLabel = new AnnotationSmartLabel();
+        // Annotation smart labels class
+        internal AnnotationSmartLabel	annotationSmartLabel = new AnnotationSmartLabel();
 
 			// Chart picture events
             internal event EventHandler<ChartPaintEventArgs> BeforePaint;
@@ -1278,35 +1278,35 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			internal const float			maxTitleSize = 15F;
 
 			// Printing indicator
-			internal bool					isPrinting = false;
+			internal bool					isPrinting;
 
-			// Indicates chart selection mode
-			internal bool					isSelectionMode = false;
+        // Indicates chart selection mode
+        internal bool					isSelectionMode;
 
-            private FontCache               _fontCache = new FontCache();
+        private FontCache               _fontCache = new FontCache();
             
 			// Position of the chart 3D border
 			private RectangleF				_chartBorderPosition = RectangleF.Empty;
 
    			// Saving As Image indicator
-			internal bool					isSavingAsImage = false;
+			internal bool					isSavingAsImage;
 
-            // Indicates that chart background is restored from the double buffer
-			// prior to drawing top level objects like annotations, cursors and selection.
-			internal bool					backgroundRestored = false;
+        // Indicates that chart background is restored from the double buffer
+        // prior to drawing top level objects like annotations, cursors and selection.
+        internal bool					backgroundRestored;
 
-            // Buffered image of non-top level chart elements
-		    internal		Bitmap				nonTopLevelChartBuffer = null;
+        // Buffered image of non-top level chart elements
+        internal		Bitmap				nonTopLevelChartBuffer;
 
         #endregion
 
-            #region Constructors
+        #region Constructors
 
-            /// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="container">Service container</param>
-		public ChartPicture(IServiceContainer container) 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="container">Service container</param>
+        public ChartPicture(IServiceContainer container) 
 		{
 			if(container == null)
 			{
@@ -3271,15 +3271,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Private fields
-        private object          _chartElement = null;
-        private ChartGraphics   _chartGraph = null;
-		private CommonElements	_common = null;
-		private Chart			_chart = null;
-		private ElementPosition _position = null;
+        private object          _chartElement;
+        private ChartGraphics   _chartGraph;
+        private CommonElements	_common;
+        private Chart			_chart;
+        private ElementPosition _position;
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
 
         /// <summary>

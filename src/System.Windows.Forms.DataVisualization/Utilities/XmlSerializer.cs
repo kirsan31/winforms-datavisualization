@@ -159,17 +159,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// Indicates that unknown properties and elements are ignored
 		/// </summary>
-		private	bool					_isUnknownAttributeIgnored = false;
+		private	bool					_isUnknownAttributeIgnored;
 
-		/// <summary>
-		/// Indicates that serializer works in template creation mode
-		/// </summary>
-		private	bool					_isTemplateMode = false;
+        /// <summary>
+        /// Indicates that serializer works in template creation mode
+        /// </summary>
+        private	bool					_isTemplateMode;
 
-		/// <summary>
-		/// Indicates that object properties are reset before loading
-		/// </summary>
-		private	bool					_isResetWhenLoading = true;
+        /// <summary>
+        /// Indicates that object properties are reset before loading
+        /// </summary>
+        private	bool					_isResetWhenLoading = true;
 
 		/// <summary>
 		/// Comma separated list of serializable (Save/Load/Reset) properties. "ClassName.PropertyName"
@@ -1131,22 +1131,22 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		private class ItemInfo
 		{
 			public	string		name = "";
-			public	bool		any = false;
-			public	bool		startsWith = false;
-			public	bool		endsWith = false;
-		}
+			public	bool		any;
+            public	bool		startsWith;
+            public	bool		endsWith;
+        }
 
 		// Storage for serializable content items
-		private	ArrayList		serializableContentList = null;
+		private	ArrayList		serializableContentList;
 
-		// Storage for non serializable content items
-		private	ArrayList		nonSerializableContentList = null;
+        // Storage for non serializable content items
+        private	ArrayList		nonSerializableContentList;
 
-		/// <summary>
-		/// Return serializable content list.
-		/// </summary>
-		/// <returns>Serializable content list.</returns>
-		private ArrayList GetSerializableContentList()
+        /// <summary>
+        /// Return serializable content list.
+        /// </summary>
+        /// <returns>Serializable content list.</returns>
+        private ArrayList GetSerializableContentList()
 		{
 			if(serializableContentList == null)
 			{

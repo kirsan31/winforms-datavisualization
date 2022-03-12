@@ -98,61 +98,61 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Determines whether or not to show debug markings in debug mode. For internal use.
         /// </summary>
-        internal bool ShowDebugMarkings = false;
+        internal bool ShowDebugMarkings;
 
-		// Chart services components
-		private ChartTypeRegistry				_chartTypeRegistry = null;
-		private BorderTypeRegistry				_borderTypeRegistry = null;
-		private CustomPropertyRegistry			_customAttributeRegistry = null;
-		private DataManager						_dataManager = null;
-		internal ChartImage						chartPicture = null;
-		private ImageLoader						_imageLoader = null;
-		internal ServiceContainer				serviceContainer = null;
-		private ChartSerializer					_chartSerializer = null;
-		private	PrintingManager					_printingManager = null;
+        // Chart services components
+        private ChartTypeRegistry				_chartTypeRegistry;
+        private BorderTypeRegistry				_borderTypeRegistry;
+        private CustomPropertyRegistry			_customAttributeRegistry;
+        private DataManager						_dataManager;
+        internal ChartImage						chartPicture;
+        private ImageLoader						_imageLoader;
+        internal ServiceContainer				serviceContainer;
+        private ChartSerializer					_chartSerializer;
+        private	PrintingManager					_printingManager;
 
-		// Selection class
-		internal Selection						selection = null;
+        // Selection class
+        internal Selection						selection;
 
-		// Named images collection
-		private NamedImagesCollection			_namedImages = null;
-
-		
-		// Formula registry servise component
-		private FormulaRegistry					_formulaRegistry = null;
+        // Named images collection
+        private NamedImagesCollection			_namedImages;
 
 
-		// Indicates that control invalidation is temporary disabled
-		internal bool							disableInvalidates = false;
+        // Formula registry servise component
+        private FormulaRegistry					_formulaRegistry;
 
-		// Indicates that chart is serializing the data
-		internal bool							serializing = false;
+
+        // Indicates that control invalidation is temporary disabled
+        internal bool							disableInvalidates;
+
+        // Indicates that chart is serializing the data
+        internal bool							serializing;
 
         // Detailed serialization status which allows not only to determine if serialization
         // is curently in process but also check if we are saving, loading or resetting the chart.
         internal SerializationStatus            serializationStatus = SerializationStatus.None;
 
 		// Bitmap used for double buffering chart painting
-		internal Bitmap							paintBufferBitmap = null;
+		internal Bitmap							paintBufferBitmap;
 
-		// Graphics of the double buffered bitmap
-		internal Graphics						paintBufferBitmapGraphics = null;
+        // Graphics of the double buffered bitmap
+        internal Graphics						paintBufferBitmapGraphics;
 
-		// Indicates that only chart area cursor/selection must be drawn during the next paint event
-		internal bool							paintTopLevelElementOnly = false;
+        // Indicates that only chart area cursor/selection must be drawn during the next paint event
+        internal bool							paintTopLevelElementOnly;
 
-		// Indicates that some chart properties where changed (used for painting)
-		internal bool							dirtyFlag = true;
+        // Indicates that some chart properties where changed (used for painting)
+        internal bool							dirtyFlag = true;
 
 
 		// Chart default cursor
 		internal System.Windows.Forms.Cursor	defaultCursor = Cursors.Default;
 
 		// Keywords registry
-		private KeywordsRegistry				_keywordsRegistry = null;
+		private KeywordsRegistry				_keywordsRegistry;
 
-		// Horizontal rendering resolution.
-		static internal double					renderingDpiX = 96.0;
+        // Horizontal rendering resolution.
+        static internal double					renderingDpiX = 96.0;
 
 		// Vertical rendering resolution.
 		static internal double					renderingDpiY = 96.0;
@@ -2987,7 +2987,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Accessibility
 
         // Current chart accessibility object
-        private ChartAccessibleObject _chartAccessibleObject = null;
+        private ChartAccessibleObject _chartAccessibleObject;
 
         /// <summary>
         /// Overridden to return the custom AccessibleObject for the entire chart.
@@ -3109,8 +3109,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         public class CustomizeLegendEventArgs : EventArgs
         {
-            private LegendItemsCollection _legendItems = null;
-            private string _legendName = "";
+            private LegendItemsCollection _legendItems;
+        private string _legendName = "";
 
             /// <summary>
             /// Default construvtor is not accessible

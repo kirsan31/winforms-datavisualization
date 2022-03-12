@@ -94,21 +94,21 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Vertical axis
 		/// </summary>
-		protected	Axis	vAxis = null;	
+		protected	Axis	vAxis;
 
-		/// <summary>
-		/// Horizontal axis
-		/// </summary>
-		protected	Axis	hAxis = null;
+        /// <summary>
+        /// Horizontal axis
+        /// </summary>
+        protected	Axis	hAxis;
 
-		#endregion
+        #endregion
 
-		#region Constructor
+        #region Constructor
 
-		/// <summary>
-		/// Error bar chart constructor.
-		/// </summary>
-		public ErrorBarChart()
+        /// <summary>
+        /// Error bar chart constructor.
+        /// </summary>
+        public ErrorBarChart()
 		{
 		}
 

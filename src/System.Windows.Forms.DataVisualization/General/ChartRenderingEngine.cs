@@ -65,19 +65,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
         //private string documentTitle = string.Empty;
 
         // True if text should be clipped
-        internal bool IsTextClipped = false;
+        internal bool IsTextClipped;
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Drawing Methods
+        #region Drawing Methods
 
-		/// <summary>
-		/// Draws a line connecting two PointF structures.
-		/// </summary>
-		/// <param name="pen">Pen object that determines the color, width, and style of the line.</param>
-		/// <param name="pt1">PointF structure that represents the first point to connect.</param>
-		/// <param name="pt2">PointF structure that represents the second point to connect.</param>
-		internal void DrawLine(
+        /// <summary>
+        /// Draws a line connecting two PointF structures.
+        /// </summary>
+        /// <param name="pen">Pen object that determines the color, width, and style of the line.</param>
+        /// <param name="pt1">PointF structure that represents the first point to connect.</param>
+        /// <param name="pt2">PointF structure that represents the second point to connect.</param>
+        internal void DrawLine(
 			Pen pen,
 			PointF pt1,
 			PointF pt2

@@ -85,9 +85,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		#region Fields
 
 		// Chart types image resource manager
-		private		ResourceManager		_resourceManager = null;
+		private		ResourceManager		_resourceManager;
 
-		// Storage for registered/created chart types
+        // Storage for registered/created chart types
         internal    Hashtable           registeredChartTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
         private     Hashtable           _createdChartTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
 

@@ -103,25 +103,25 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Reference to the chart area object
-		private	ChartArea	_chartArea = null;
+		private	ChartArea	_chartArea;
 
-		// Enables/disables 3D chart types in the area.
-		private	bool		_enable3D	= false;
+        // Enables/disables 3D chart types in the area.
+        private	bool		_enable3D;
 
-		// Indicates that axes are set at the right angle independent of the rotation.
-		private	bool		_isRightAngleAxes	= true;
+        // Indicates that axes are set at the right angle independent of the rotation.
+        private	bool		_isRightAngleAxes	= true;
 
 		// Indicates that series should be drawn as isClustered.
-		private	bool		_isClustered	= false;
+		private	bool		_isClustered;
 
-		// 3D area lightStyle style.
-		private LightStyle	_lightStyle = LightStyle.Simplistic;
+        // 3D area lightStyle style.
+        private LightStyle	_lightStyle = LightStyle.Simplistic;
 
 		// 3D area perspective which controls the scaleView of the chart depth.
-		private int			_perspective = 0;
+		private int			_perspective;
 
-		// Chart area rotation angle around the X axis.
-		private int			_inclination = 30;
+        // Chart area rotation angle around the X axis.
+        private int			_inclination = 30;
 
 		// Chart area rotation angle around the Y axis.
 		private int			_rotation = 30;
@@ -484,55 +484,55 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal	SizeF				areaSceneWallWidth = SizeF.Empty;
 
 		// Chart area scene depth
-		internal	float				areaSceneDepth = 0;
+		internal	float				areaSceneDepth;
 
-		// Visible surfaces in plotting area
-		private		SurfaceNames			_visibleSurfaces;
+        // Visible surfaces in plotting area
+        private		SurfaceNames			_visibleSurfaces;
 
 		// Z axis depth of series points
-		private		double				_pointsDepth = 0;
+		private		double				_pointsDepth;
 
-		// Z axis depth of the gap between isClustered series
-		private		double				_pointsGapDepth = 0;
+        // Z axis depth of the gap between isClustered series
+        private		double				_pointsGapDepth;
 
-		/// <summary>
-		/// Indicates that series order should be reversed to simulate Y axis rotation.
-		/// </summary>
-		private	bool				_reverseSeriesOrder = false;
+        /// <summary>
+        /// Indicates that series order should be reversed to simulate Y axis rotation.
+        /// </summary>
+        private	bool				_reverseSeriesOrder;
 
-		/// <summary>
-		/// Old X axis reversed flag
-		/// </summary>
-		internal	bool				oldReverseX = false;
+        /// <summary>
+        /// Old X axis reversed flag
+        /// </summary>
+        internal	bool				oldReverseX;
 
-		/// <summary>
-		/// Old Y axis reversed flag
-		/// </summary>
-		internal	bool				oldReverseY = false;
+        /// <summary>
+        /// Old Y axis reversed flag
+        /// </summary>
+        internal	bool				oldReverseY;
 
-		/// <summary>
-		/// Old Y axis rotation angle
-		/// </summary>
-		internal	int					oldYAngle = 30;
+        /// <summary>
+        /// Old Y axis rotation angle
+        /// </summary>
+        internal	int					oldYAngle = 30;
 
 		/// <summary>
 		/// List of all stack group names
 		/// </summary>
-		private	ArrayList			_stackGroupNames = null;
+		private	ArrayList			_stackGroupNames;
 
         /// <summary>
         /// This list contains an array of series names for each 3D cluster
         /// </summary>
-		internal	List<List<string>>	seriesClusters = null;
+		internal	List<List<string>>	seriesClusters;
 
         #endregion
 
-		#region 3D Style properties
+        #region 3D Style properties
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets a ChartArea3DStyle object, used to draw all series in a chart area in 3D.
-		/// </summary>
-		[
+        /// </summary>
+        [
 		SRCategory("CategoryAttribute3D"),
 		Bindable(true),
 		DefaultValue(null),
@@ -1871,17 +1871,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			/// <summary>
 			/// Chart area object reference.
 			/// </summary>
-			private	ChartArea	_area = null;
+			private	ChartArea	_area;
 
-			/// <summary>
-			/// Area X position where visible sides are switched.
-			/// </summary>
-			private	Point3D		_areaProjectionCenter = new Point3D(float.NaN, float.NaN, float.NaN);
+            /// <summary>
+            /// Area X position where visible sides are switched.
+            /// </summary>
+            private	Point3D		_areaProjectionCenter = new Point3D(float.NaN, float.NaN, float.NaN);
 
 			/// <summary>
 			/// Selection mode. Points order should be reversed.
 			/// </summary>
-			private bool		_selection = false;
+			private bool		_selection;
 
             /// <summary>
             /// Public constructor.

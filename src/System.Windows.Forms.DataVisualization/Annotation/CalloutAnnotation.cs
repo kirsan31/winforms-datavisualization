@@ -88,13 +88,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private		CalloutStyle		_calloutStyle = CalloutStyle.Rectangle;
 
 		// Cloud shape path
-		private		static				GraphicsPath	_cloudPath = null;
+		private		static				GraphicsPath	_cloudPath;
 
-		// Cloud shape outline path
-		private		static				GraphicsPath	_cloudOutlinePath = null;
+        // Cloud shape outline path
+        private		static				GraphicsPath	_cloudOutlinePath;
 
-		// Cloud shape boundary rectangle
-		private		static				RectangleF	_cloudBounds = RectangleF.Empty;
+        // Cloud shape boundary rectangle
+        private		static				RectangleF	_cloudBounds = RectangleF.Empty;
 
 		#endregion
 

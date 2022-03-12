@@ -733,11 +733,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 		/// <summary>
 		/// Indicates that top left outside dark shadow must be drawn
 		/// </summary>
-        internal bool drawOutsideTopLeftShadow = false;
+        internal bool drawOutsideTopLeftShadow;
 
-		/// <summary>
-		/// Array of corner radius
-		/// </summary>
+        /// <summary>
+        /// Array of corner radius
+        /// </summary>
         internal float[] cornerRadius = { 15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f };
 
 		/// <summary>
@@ -753,7 +753,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 		/// <summary>
 		/// Indicates that screws should be drawn in the corners of the frame
 		/// </summary>
-        internal bool drawScrews = false;
+        internal bool drawScrews;
 
 
         internal float resolution = 96f;

@@ -51,16 +51,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		private	string _name  = string.Empty;
-		private System.Drawing.Image _image = null;
+		private System.Drawing.Image _image;
 
-		#endregion
+        #endregion
 
-		#region Constructor
+        #region Constructor
 
-		/// <summary>
+        /// <summary>
         /// NamedImage constructor.
-		/// </summary>
-		public NamedImage()
+        /// </summary>
+        public NamedImage()
 		{
 		}
 

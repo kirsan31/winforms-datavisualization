@@ -44,12 +44,12 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container _components = null;
+		private System.ComponentModel.Container _components;
 
-		/// <summary>
-		/// Property name that is beign edited.
-		/// </summary>
-		private	string	_propertyName = string.Empty;
+        /// <summary>
+        /// Property name that is beign edited.
+        /// </summary>
+        private	string	_propertyName = string.Empty;
 
 		/// <summary>
 		/// Object/class name beign edited.
@@ -75,17 +75,17 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		/// <summary>
 		/// List of applicable keywords
 		/// </summary>
-		internal ArrayList	applicableKeywords = null;
+		internal ArrayList	applicableKeywords;
 
-		/// <summary>
-		/// Reference to the keywords registry
-		/// </summary>
-		internal KeywordsRegistry KeywordsRegistry = null;
+        /// <summary>
+        /// Reference to the keywords registry
+        /// </summary>
+        internal KeywordsRegistry KeywordsRegistry;
 
-		/// <summary>
-		/// Name of the last selected keyword name
-		/// </summary>
-		private string _selectedKeywordName = string.Empty;
+        /// <summary>
+        /// Name of the last selected keyword name
+        /// </summary>
+        private string _selectedKeywordName = string.Empty;
 
 		/// <summary>
 		/// Start index of selected keyword.
@@ -101,7 +101,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		/// Indicates that RTF control control is updating its text.
 		/// Used to prevent recursive calls.
 		/// </summary>
-		private bool _updating = false;
+		private bool _updating;
 
         // resolved VSTS by extending the dialog by 36x28 pixels.
         // 5027	 MultiLang: ChartAPI: Strings are truncated on the 'String Keywords Editor' dialog
@@ -825,15 +825,15 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		#region Editor methods and properties
 
 		// Editor services
-		private IWindowsFormsEditorService	_edSvc = null;
+		private IWindowsFormsEditorService	_edSvc;
 
-		/// <summary>
-		/// Edit label format by showing the form
-		/// </summary>
-		/// <param name="context">Editing context.</param>
-		/// <param name="provider">Provider.</param>
-		/// <param name="value">Value to edit.</param>
-		/// <returns>Result</returns>
+        /// <summary>
+        /// Edit label format by showing the form
+        /// </summary>
+        /// <param name="context">Editing context.</param>
+        /// <param name="provider">Provider.</param>
+        /// <param name="value">Value to edit.</param>
+        /// <returns>Result</returns>
         [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
             Justification = "Too large of a code change to justify making this change")]
 		public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 

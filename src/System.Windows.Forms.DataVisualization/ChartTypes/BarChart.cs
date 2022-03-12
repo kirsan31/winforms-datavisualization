@@ -113,12 +113,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			/// <summary>
 			/// Indicates that two Y values are used to calculate bar position
 			/// </summary>
-			protected	bool	useTwoValues = false;
+			protected	bool	useTwoValues;
 
-			/// <summary>
-			/// Indicates that bars from different series are drawn side by side
-			/// </summary>
-			protected	bool	drawSeriesSideBySide = true;
+        /// <summary>
+        /// Indicates that bars from different series are drawn side by side
+        /// </summary>
+        protected	bool	drawSeriesSideBySide = true;
 
 			/// <summary>
 			/// Defines the default drawing style of the labels.
@@ -128,16 +128,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			/// <summary>
 			/// Indicates that second point loop is required to draw points labels or markers.
 			/// </summary>
-			protected	bool	pointLabelsMarkersPresent = false;
+			protected	bool	pointLabelsMarkersPresent;
 
-		#endregion
+        #endregion
 
-		#region Constructor
+        #region Constructor
 
-			/// <summary>
-			/// Default constructor
-			/// </summary>
-			public BarChart()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public BarChart()
 			{
 			}
 
@@ -2175,17 +2175,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <summary>
 		/// Chart area object reference.
 		/// </summary>
-		private	ChartArea	_area = null;
+		private	ChartArea	_area;
 
-		/// <summary>
-		/// Area X position where visible sides are switched.
-		/// </summary>
-		private	Point3D		_areaProjectionCenter = new Point3D(float.NaN, float.NaN, float.NaN);
+        /// <summary>
+        /// Area X position where visible sides are switched.
+        /// </summary>
+        private	Point3D		_areaProjectionCenter = new Point3D(float.NaN, float.NaN, float.NaN);
 
 		/// <summary>
 		/// Selection mode. Points order should be reversed.
 		/// </summary>
-		private bool		_selection = false;
+		private bool		_selection;
 
         #endregion // Fields
 

@@ -183,7 +183,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// <summary>
         /// Flag to prevent stack overflow.
         /// </summary>
-        private bool _button_EnabledChanging = false;
+        private bool _button_EnabledChanging;
 
         /// <summary>
         /// Handles the EnabledChanged event of the Button control.

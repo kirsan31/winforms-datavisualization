@@ -97,37 +97,37 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Fields used to fill area with gradient 
 		/// </summary>
-        internal bool gradientFill = false;
+        internal bool gradientFill;
 
-		/// <summary>
-		/// Shape of the low values
-		/// </summary>
+        /// <summary>
+        /// Shape of the low values
+        /// </summary>
         internal GraphicsPath areaBottomPath = new GraphicsPath();
 
 		/// <summary>
 		/// Coordinates of the area path
 		/// </summary>
-		protected	GraphicsPath	areaPath = null;
+		protected	GraphicsPath	areaPath;
 
-		/// <summary>
-		/// Reference to the current series object
-		/// </summary>
-        private Series _series = null;
+        /// <summary>
+        /// Reference to the current series object
+        /// </summary>
+        private Series _series;
 
-		/// <summary>
-		/// Array of low line values
-		/// </summary>
-        internal PointF[] lowPoints = null;
+        /// <summary>
+        /// Array of low line values
+        /// </summary>
+        internal PointF[] lowPoints;
 
-		/// <summary>
-		/// Check if series are indexed based
-		/// </summary>
-        internal bool indexedBasedX = false;
+        /// <summary>
+        /// Check if series are indexed based
+        /// </summary>
+        internal bool indexedBasedX;
 
-		/// <summary>
-		/// Secondary Y coordinate that should be used for bottom line of the range (left point)
-		/// </summary>
-		private		float			_thirdPointY2Value = float.NaN;
+        /// <summary>
+        /// Secondary Y coordinate that should be used for bottom line of the range (left point)
+        /// </summary>
+        private		float			_thirdPointY2Value = float.NaN;
 
 		/// <summary>
 		/// Secondary Y coordinate that should be used for bottom line of the range (right point)

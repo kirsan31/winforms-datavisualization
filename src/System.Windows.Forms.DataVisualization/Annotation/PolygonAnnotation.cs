@@ -34,19 +34,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private    GraphicsPath    _graphicsPath;
 
 		// Indicates that path was changed
-		internal	bool			pathChanged = false;
+		internal	bool			pathChanged;
 
-		// Collection of path points exposed at design-time
-		private AnnotationPathPointCollection _pathPoints;
+        // Collection of path points exposed at design-time
+        private AnnotationPathPointCollection _pathPoints;
 
 		// Indicate that filled polygon must be drawn
-		internal bool				isPolygon = false;
+		internal bool				isPolygon;
 
-		// Indicates that annotation will be placed using free-draw style
-		internal bool				isFreeDrawPlacement = false;
+        // Indicates that annotation will be placed using free-draw style
+        internal bool				isFreeDrawPlacement;
 
-		// Line start/end caps
-		private		LineAnchorCapStyle		_startCap = LineAnchorCapStyle.None;
+        // Line start/end caps
+        private		LineAnchorCapStyle		_startCap = LineAnchorCapStyle.None;
 		private		LineAnchorCapStyle		_endCap = LineAnchorCapStyle.None;
 
 		#endregion
@@ -1392,16 +1392,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	{
 		#region Fields
 
-		internal		PolylineAnnotation	annotation = null;
-        private         GraphicsPath        _graphicsPath = null;
+		internal		PolylineAnnotation	annotation;
+        private         GraphicsPath        _graphicsPath;
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// Default public constructor.
-		/// </summary>
+        /// <summary>
+        /// Default public constructor.
+        /// </summary>
         public AnnotationPathPointCollection(PolylineAnnotation annotation)
             : base(annotation)
 		{
@@ -1489,13 +1489,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Point X value
-		private float		_x = 0f;
+		private float		_x;
 
-		// Point Y value
-		private float		_y = 0f;
+        // Point Y value
+        private float		_y;
 
-		// Point type
-		private byte		_pointType = 1;
+        // Point type
+        private byte		_pointType = 1;
 
 		#endregion // Fields
 

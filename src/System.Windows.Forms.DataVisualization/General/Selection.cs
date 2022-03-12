@@ -197,26 +197,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Private data members, which store properties values
-		private GraphicsPath		_path = null;
-		private bool				_relativeCoordinates = true;
+		private GraphicsPath		_path;
+        private bool				_relativeCoordinates = true;
 		private RectangleF			_boundingRectangle = RectangleF.Empty;
-		private object				_selectedObject = null;
-		private int					_pointIndex = -1;
+		private object				_selectedObject;
+        private int					_pointIndex = -1;
 		private string				_seriesName = "";
 		private ChartElementType	_type = ChartElementType.Nothing;
 
 
-		private object				_selectedSubObject = null;
+		private object				_selectedSubObject;
 
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Properties
+        #region Properties
 
-		/// <summary>
-		/// Region is Graphics path
-		/// </summary>
-		internal GraphicsPath Path
+        /// <summary>
+        /// Region is Graphics path
+        /// </summary>
+        internal GraphicsPath Path
 		{
 			get
 			{
@@ -409,12 +409,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Reference to the common elements object
 		/// </summary>
-		private CommonElements _common = null;
+		private CommonElements _common;
 
         /// <summary>
 		/// True if hit test function is called
 		/// </summary>
-		internal bool hitTestCalled = false;
+		internal bool hitTestCalled;
 
         #endregion // Fields
 
@@ -963,22 +963,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Private members
-		private object _obj = null;
-		private Series _series = null;
-		private int _dataPoint = -1;
-		private ChartArea _chartArea = null;
-		private Axis _axis = null;
-		private ChartElementType _type = ChartElementType.Nothing;
-		private object _subObject = null;
+		private object _obj;
+        private Series _series;
+        private int _dataPoint = -1;
+		private ChartArea _chartArea;
+        private Axis _axis;
+        private ChartElementType _type = ChartElementType.Nothing;
+		private object _subObject;
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		/// <summary>
-		/// Gets or sets the data series object.
-		/// </summary>
-		public Series Series
+        /// <summary>
+        /// Gets or sets the data series object.
+        /// </summary>
+        public Series Series
 		{
 			get
 			{
@@ -1160,7 +1160,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// The chart service container
         /// </summary>
-        private IServiceContainer _service = null;
+        private IServiceContainer _service;
 
         /// <summary>
         /// Stores the tooltip of the control.
@@ -1180,15 +1180,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
 		// ToolTips enabled or disabled from series or legend
-		private bool					_toolTipsEnabled = false;
+		private bool					_toolTipsEnabled;
 
-		// Tool tips enabled flag checked
-		internal bool					enabledChecked = false;
+        // Tool tips enabled flag checked
+        internal bool					enabledChecked;
 
-		#endregion
+        #endregion
 
         #region Constructors 
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Selection"/> class.
         /// </summary>
@@ -1237,7 +1237,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #region Properties
 
-        private Chart _chartControl = null;
+        private Chart _chartControl;
         /// <summary>
         /// Returns the attached chart control
         /// </summary>
@@ -1256,7 +1256,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        private ChartPicture _chartPicture = null;
+        private ChartPicture _chartPicture;
         /// <summary>
         /// Returns the attached ChartPicture
         /// </summary>
@@ -1276,7 +1276,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        private Data.DataManager _dataManager = null;
+        private Data.DataManager _dataManager;
         /// <summary>
         /// Gets the chart data manager ( for series access )
         /// </summary>
@@ -3101,9 +3101,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
     #region Private fields
 
 		// Private fields for properties values storage
-		private		int					x = 0;
-		private		int					y = 0;
-		private		string				text = "";
+		private		int					x;
+        private		int					y;
+        private		string				text = "";
 		private		HitTestResult		result = new HitTestResult();
 		
         #endregion

@@ -117,16 +117,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Indicates that only candle-stick type of the open-close marks should be used
 		/// </summary>
-		protected	bool	forceCandleStick = false;
+		protected	bool	forceCandleStick;
 
-		#endregion
+        #endregion
 
-		#region Constructor
+        #region Constructor
 
-		/// <summary>
-		/// Stock chart constructor.
-		/// </summary>
-		public StockChart()
+        /// <summary>
+        /// Stock chart constructor.
+        /// </summary>
+        public StockChart()
 		{
 		}
 

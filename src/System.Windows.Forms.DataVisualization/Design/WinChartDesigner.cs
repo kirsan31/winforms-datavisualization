@@ -27,7 +27,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         #region Fields
 
         // Reference to the chart designer
-        static internal ChartWinDesigner controlDesigner = null;
+        static internal ChartWinDesigner controlDesigner;
 
         #endregion
 

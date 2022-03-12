@@ -26,12 +26,12 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		/// <summary>
 		/// List of keywords that are applicable to the edited property
 		/// </summary>
-		private ArrayList _applicableKeywords = null;
+		private ArrayList _applicableKeywords;
 
-		/// <summary>
-		/// Keyword beign edited or empty if inserting a new one.
-		/// </summary>
-		internal string Keyword = string.Empty;
+        /// <summary>
+        /// Keyword beign edited or empty if inserting a new one.
+        /// </summary>
+        internal string Keyword = string.Empty;
 
 		/// <summary>
 		/// Maximum number of supported Y values.

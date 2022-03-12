@@ -158,10 +158,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private TextStyle               _style = TextStyle.Default;
 
 		// Title position
-		private ElementPosition			_position = null;
+		private ElementPosition			_position;
 
-		// Background properties
-		private bool					_visible = true;
+        // Background properties
+        private bool					_visible = true;
 		private Color					_backColor = Color.Empty;
 		private ChartHatchStyle			_backHatchStyle = ChartHatchStyle.None;
 		private string					_backImage = "";
@@ -170,8 +170,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private ChartImageAlignmentStyle			_backImageAlignment = ChartImageAlignmentStyle.TopLeft;
 		private GradientStyle			_backGradientStyle = GradientStyle.None;
 		private Color					_backSecondaryColor = Color.Empty;
-		private int						_shadowOffset = 0;
-		private Color					_shadowColor = Color.FromArgb(128, 0, 0, 0);
+		private int						_shadowOffset;
+        private Color					_shadowColor = Color.FromArgb(128, 0, 0, 0);
 
 		// Border properties
 		private Color					_borderColor = Color.Empty;
@@ -188,10 +188,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private Docking					_docking = Docking.Top;
         private string                  _dockedToChartArea = Constants.NotSetValue;
 		private bool					_isDockedInsideChartArea = true;
-		private	int						_dockingOffset = 0;
+		private	int						_dockingOffset;
 
-		// Interactive properties
-		private	string					_toolTip = String.Empty;
+        // Interactive properties
+        private	string					_toolTip = String.Empty;
 
 
         // Default text orientation

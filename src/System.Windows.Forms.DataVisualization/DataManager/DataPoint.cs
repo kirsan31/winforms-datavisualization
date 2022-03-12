@@ -210,17 +210,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Reference to the sereies of data points
-		internal Series		series = null;
+		internal Series		series;
 
-		#endregion
+        #endregion
 
-		#region Constructors and Initialization
+        #region Constructors and Initialization
 
-		/// <summary>
-		/// Data Point Collection object constructor.
-		/// </summary>
-		/// <param name="series">Series object, which the Data Point Collection belongs to.</param>
-		internal DataPointCollection(Series series) : base(series)
+        /// <summary>
+        /// Data Point Collection object constructor.
+        /// </summary>
+        /// <param name="series">Series object, which the Data Point Collection belongs to.</param>
+        internal DataPointCollection(Series series) : base(series)
 		{
 			this.series = series;
 		}
@@ -2716,28 +2716,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal		bool			pointCustomProperties = true;
 
 		// Reference to the data point series
-		internal		Series			series = null;
+		internal		Series			series;
 
-		// Storage for the custom properties names/values
-		internal		Hashtable	properties = new Hashtable();
+        // Storage for the custom properties names/values
+        internal		Hashtable	properties = new Hashtable();
 
 		// Flag indicating that temp. color was set
-		internal bool	tempColorIsSet = false;
+		internal bool	tempColorIsSet;
 
-		// Design time custom properties data
-		internal CustomProperties customProperties = null;
+        // Design time custom properties data
+        internal CustomProperties customProperties;
 
-		// IsEmpty point indicator
-		internal bool	isEmptyPoint = false;
+        // IsEmpty point indicator
+        internal bool	isEmptyPoint;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
+        /// <summary>
         /// DataPointCustomProperties constructor.
-		/// </summary>
-		public DataPointCustomProperties()
+        /// </summary>
+        public DataPointCustomProperties()
 		{
 			// Initialize the data series
 			this.series = null;
@@ -5955,55 +5955,55 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Reference to the 2D data point object
 		/// </summary>
-		internal	DataPoint	dataPoint = null;
+		internal	DataPoint	dataPoint;
 
-		/// <summary>
-		/// Data point index.
-		/// </summary>
-		internal	int			index = 0;
+        /// <summary>
+        /// Data point index.
+        /// </summary>
+        internal	int			index;
 
-		/// <summary>
-		/// Point X position in relative coordinates.
-		/// </summary>
-		internal	double		xPosition = 0.0;
+        /// <summary>
+        /// Point X position in relative coordinates.
+        /// </summary>
+        internal	double		xPosition;
 
-		/// <summary>
-		/// Point Y position in relative coordinates.
-		/// </summary>
-		internal	double		yPosition = 0.0;
+        /// <summary>
+        /// Point Y position in relative coordinates.
+        /// </summary>
+        internal	double		yPosition;
 
-		/// <summary>
-		/// Point X center position in relative coordinates. Used for side-by-side charts.
-		/// </summary>
-		internal	double		xCenterVal = 0.0;
+        /// <summary>
+        /// Point X center position in relative coordinates. Used for side-by-side charts.
+        /// </summary>
+        internal	double		xCenterVal;
 
-		/// <summary>
-		/// Point Z position in relative coordinates.
-		/// </summary>
-		internal	float		zPosition = 0f;
+        /// <summary>
+        /// Point Z position in relative coordinates.
+        /// </summary>
+        internal	float		zPosition;
 
-		/// <summary>
-		/// Point width.
-		/// </summary>
-		internal	double		width = 0.0;
+        /// <summary>
+        /// Point width.
+        /// </summary>
+        internal	double		width;
 
-		/// <summary>
-		/// Point height.
-		/// </summary>
-		internal	double		height = 0.0;
+        /// <summary>
+        /// Point height.
+        /// </summary>
+        internal	double		height;
 
-		/// <summary>
-		/// Point depth.
-		/// </summary>
-		internal	float		depth = 0f;
+        /// <summary>
+        /// Point depth.
+        /// </summary>
+        internal	float		depth;
 
-		/// <summary>
-		/// Indicates that point belongs to indexed series.
-		/// </summary>
-		internal	bool		indexedSeries = false;
+        /// <summary>
+        /// Indicates that point belongs to indexed series.
+        /// </summary>
+        internal	bool		indexedSeries;
 
-		#endregion
-	}
+        #endregion
+    }
 
 	/// <summary>
 	/// Design-time representation of the CustomProperties.
@@ -6018,16 +6018,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Reference to the properties class
-        internal DataPointCustomProperties m_DataPointCustomProperties = null;
+        internal DataPointCustomProperties m_DataPointCustomProperties;
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Constructor
+        #region Constructor
 
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="properties">Attributes object.</param>
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="properties">Attributes object.</param>
         internal CustomProperties(DataPointCustomProperties properties)
 		{
             this.m_DataPointCustomProperties = properties;

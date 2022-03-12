@@ -140,21 +140,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private	AntiAliasingStyles		_antiAliasing = AntiAliasingStyles.All;
 
 		// True if rendering into the metafile
-		internal bool				IsMetafile = false;
+		internal bool				IsMetafile;
 
-		#endregion
+        #endregion
 
-		#region Lines Methods
+        #region Lines Methods
 
-		/// <summary>
-		/// Draws a line connecting the two specified points.
-		/// </summary>
-		/// <param name="color">Line color.</param>
-		/// <param name="width">Line width.</param>
-		/// <param name="style">Line style.</param>
-		/// <param name="firstPointF">A Point that represents the first point to connect.</param>
-		/// <param name="secondPointF">A Point that represents the second point to connect.</param>
-		internal void DrawLineRel( 
+        /// <summary>
+        /// Draws a line connecting the two specified points.
+        /// </summary>
+        /// <param name="color">Line color.</param>
+        /// <param name="width">Line width.</param>
+        /// <param name="style">Line style.</param>
+        /// <param name="firstPointF">A Point that represents the first point to connect.</param>
+        /// <param name="secondPointF">A Point that represents the second point to connect.</param>
+        internal void DrawLineRel( 
 			Color color, 
 			int width, 
 			ChartDashStyle style, 

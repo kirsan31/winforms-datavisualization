@@ -119,13 +119,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Reference to the series this style belongs to
-        internal object chartElement = null;
+        internal object chartElement;
 
         // Indicates if SmartLabelStyle algorithm is enabled.
         private bool _enabled = true;
 
         // Indicates that marker overlapping by label is allowed.
-        private bool _isMarkerOverlappingAllowed = false;
+        private bool _isMarkerOverlappingAllowed;
 
         // Indicates that overlapped labels that can't be repositioned will be hidden.
         private bool _isOverlappedHidden = true;
@@ -134,7 +134,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private LabelAlignmentStyles _movingDirection = LabelAlignmentStyles.Top | LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Right | LabelAlignmentStyles.Left | LabelAlignmentStyles.TopLeft | LabelAlignmentStyles.TopRight | LabelAlignmentStyles.BottomLeft | LabelAlignmentStyles.BottomRight;
 
         // Minimum distance the overlapped SmartLabelStyle can be moved from the marker. Distance is measured in pixels.
-        private double _minMovingDistance = 0.0;
+        private double _minMovingDistance;
 
         // Maximum distance the overlapped SmartLabelStyle can be moved from the marker. Distance is measured in pixels.
         private double _maxMovingDistance = 30.0;
@@ -533,13 +533,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // List of all SmartLabelStyle positions in the area
-        internal ArrayList smartLabelsPositions = null;
+        internal ArrayList smartLabelsPositions;
 
         // Indicates that not a single collision is allowed
-        internal bool checkAllCollisions = false;
+        internal bool checkAllCollisions;
 
         // Number of positions in array for the markers
-        internal int markersCount = 0;
+        internal int markersCount;
 
         #endregion
 

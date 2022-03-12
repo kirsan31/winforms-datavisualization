@@ -106,13 +106,13 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
     internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
     {
         // Chart object 
-        private Chart _chart = null;
+        private Chart _chart;
 
         // Object to edit
-        protected object editValue = null;
+        protected object editValue;
 
         // Indicates that editor was used for the Y values members
-        protected bool usedForYValue = false;
+        protected bool usedForYValue;
 
         #region Control constructor
 
@@ -233,14 +233,14 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		#region Converter methods
 
 		// Reference to the chart type registry
-		private ChartTypeRegistry	_chartTypeRegistry = null;
+		private ChartTypeRegistry	_chartTypeRegistry;
 
-		/// <summary>
-		/// Override this function to support chart type drawing
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <returns>Can paint values.</returns>
-		public override bool GetPaintValueSupported(ITypeDescriptorContext context)
+        /// <summary>
+        /// Override this function to support chart type drawing
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <returns>Can paint values.</returns>
+        public override bool GetPaintValueSupported(ITypeDescriptorContext context)
 		{
             // Initialize the chartTypeRegistry using context
 			if (context != null && context.Instance != null)
@@ -373,11 +373,11 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 #warning designer
         // Collection editor form
         //        CollectionForm _form = null;
-        Chart _chart = null;
-        ITypeDescriptorContext _context = null;
-        
+        Chart _chart;
+        ITypeDescriptorContext _context;
+
         // Help topic string
-		string	_helpTopic = "";
+        string	_helpTopic = "";
 
 #warning designer
         /// <summary>

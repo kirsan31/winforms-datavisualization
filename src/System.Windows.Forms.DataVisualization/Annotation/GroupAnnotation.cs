@@ -31,16 +31,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Collection of annotations in the group
-		internal	AnnotationCollection	annotations = null;
+		internal	AnnotationCollection	annotations;
 
-		#endregion
+        #endregion
 
-		#region Construction and Initialization
+        #region Construction and Initialization
 
-		/// <summary>
-		/// Default public constructor.
-		/// </summary>
-		public AnnotationGroup() 
+        /// <summary>
+        /// Default public constructor.
+        /// </summary>
+        public AnnotationGroup() 
             : base()
 		{
             annotations = new AnnotationCollection(this);

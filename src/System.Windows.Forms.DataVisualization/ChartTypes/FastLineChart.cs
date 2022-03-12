@@ -44,26 +44,26 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Indicates that chart is drawn in 3D area
 		/// </summary>
-		internal bool				chartArea3DEnabled = false;
-		
-		/// <summary>
-		/// Current chart graphics
-		/// </summary>
+		internal bool				chartArea3DEnabled;
+
+        /// <summary>
+        /// Current chart graphics
+        /// </summary>
         internal ChartGraphics Graph { get; set; }
 
 		/// <summary>
 		/// Z coordinate of the 3D series
 		/// </summary>
-        internal float seriesZCoordinate = 0f;
+        internal float seriesZCoordinate;
 
-		/// <summary>
-		/// 3D transformation matrix
-		/// </summary>
-        internal Matrix3D matrix3D = null;
+        /// <summary>
+        /// 3D transformation matrix
+        /// </summary>
+        internal Matrix3D matrix3D;
 
-		/// <summary>
-		/// Reference to common chart elements
-		/// </summary>
+        /// <summary>
+        /// Reference to common chart elements
+        /// </summary>
         internal CommonElements Common { get; set; }
 
 		/// <summary>

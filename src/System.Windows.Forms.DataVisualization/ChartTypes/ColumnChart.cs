@@ -33,25 +33,25 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// Labels and markers have to be shifted if there 
 		/// is more than one series for column chart.
 		/// </summary>
-		private double _shiftedX = 0;
+		private double _shiftedX;
 
-		/// <summary>
-		/// Labels and markers have to be shifted if there 
-		/// is more than one series for column chart. This property 
-		/// will give a name of the series, which is used, for 
-		/// labels and markers. Point chart 
-		/// </summary>
-		private string _shiftedSerName = "";
+        /// <summary>
+        /// Labels and markers have to be shifted if there 
+        /// is more than one series for column chart. This property 
+        /// will give a name of the series, which is used, for 
+        /// labels and markers. Point chart 
+        /// </summary>
+        private string _shiftedSerName = "";
 
 		/// <summary>
 		/// Indicates that two Y values are used to calculate column position
 		/// </summary>
-		protected	bool	useTwoValues = false;
+		protected	bool	useTwoValues;
 
-		/// <summary>
-		/// Indicates that columns from different series are drawn side by side
-		/// </summary>
-		protected	bool	drawSeriesSideBySide = true;
+        /// <summary>
+        /// Indicates that columns from different series are drawn side by side
+        /// </summary>
+        protected	bool	drawSeriesSideBySide = true;
 
 		/// <summary>
 		/// Coordinates of COP used when sorting 3D points order

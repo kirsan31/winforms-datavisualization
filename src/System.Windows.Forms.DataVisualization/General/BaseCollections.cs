@@ -21,9 +21,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
     {
         #region Member variables
 
-        private IChartElement _parent = null;
-        private CommonElements _common = null;
-        internal int _suspendUpdates = 0;
+        private IChartElement _parent;
+        private CommonElements _common;
+        internal int _suspendUpdates;
         #endregion
 
         #region Properties
@@ -264,8 +264,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     {
 
         #region Fields
-        private List<T> _cachedState = null;
-        private int _disableDeleteCount = 0;
+        private List<T> _cachedState;
+        private int _disableDeleteCount;
         #endregion
 
         #region Properties

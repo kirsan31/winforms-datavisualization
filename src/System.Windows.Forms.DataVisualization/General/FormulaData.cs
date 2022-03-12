@@ -243,7 +243,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// All X values are zero.
         /// </summary>
-        private bool _zeroXValues = false;
+        private bool _zeroXValues;
 
         /// <summary>
         /// Utility class for Statistical formulas

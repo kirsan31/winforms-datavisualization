@@ -39,16 +39,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
         // Annotation object that was last clicked on
-		internal Annotation					lastClickedAnnotation = null;
+		internal Annotation					lastClickedAnnotation;
 
-		// Start point of annotation moving or resizing
-		private	PointF						_movingResizingStartPoint = PointF.Empty;
+        // Start point of annotation moving or resizing
+        private	PointF						_movingResizingStartPoint = PointF.Empty;
 
         // Current resizing mode
         private ResizingMode _resizingMode = ResizingMode.None;
         
         // Annotation object which is currently placed on the chart
-		internal		Annotation			placingAnnotation = null;
+		internal		Annotation			placingAnnotation;
 
         #endregion
 

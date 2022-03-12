@@ -69,19 +69,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Cursor fields
 
         // Reference to the chart area object the cursor belongs to
-		private	ChartArea				_chartArea = null;
+		private	ChartArea				_chartArea;
 
-		// Defines which axis the cursor attached to X or Y
-		private AxisName				_attachedToXAxis = AxisName.X;
+        // Defines which axis the cursor attached to X or Y
+        private AxisName				_attachedToXAxis = AxisName.X;
 
 		// Enables/Disables chart area cursor.
-		private	bool					_isUserEnabled = false;
+		private	bool					_isUserEnabled;
 
-		// Enables/Disables chart area selection.
-		private	bool					_isUserSelectionEnabled = false;
+        // Enables/Disables chart area selection.
+        private	bool					_isUserSelectionEnabled;
 
-		// Indicates that cursor will automatically scroll the area scaleView if necessary.
-		private	bool					_autoScroll = true;
+        // Indicates that cursor will automatically scroll the area scaleView if necessary.
+        private	bool					_autoScroll = true;
 				
 		// Cursor line color
 		private	Color					_lineColor = Color.Red;
@@ -114,34 +114,34 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private	DateTimeIntervalType	_intervalType = DateTimeIntervalType.Auto;
 
 		// Cursor movement interval offset current & original values
-		private double					_intervalOffset = 0;
+		private double					_intervalOffset;
 
-		// Cursor movement interval offset type
-		private	DateTimeIntervalType	_intervalOffsetType = DateTimeIntervalType.Auto;
+        // Cursor movement interval offset type
+        private	DateTimeIntervalType	_intervalOffsetType = DateTimeIntervalType.Auto;
 
 		// Reference to the axis obhect
-		private	Axis					_axis = null;
+		private	Axis					_axis;
 
-		// User selection start point
-		private	PointF					_userSelectionStart = PointF.Empty;
+        // User selection start point
+        private	PointF					_userSelectionStart = PointF.Empty;
 
 		// Indicates that selection must be drawn
 		private	bool					_drawSelection = true;
 
         // Indicates that events must be fired when position/selection is changed
-		private	bool					_fireUserChangingEvent = false;
+		private	bool					_fireUserChangingEvent;
 
-		// Indicates that XXXChanged events must be fired when position/selection is changed
-		private	bool					_fireUserChangedEvent = false;
+        // Indicates that XXXChanged events must be fired when position/selection is changed
+        private	bool					_fireUserChangedEvent;
 
-		// Scroll size and direction when AutoScroll is set
-		private	MouseEventArgs			_mouseMoveArguments = null;
+        // Scroll size and direction when AutoScroll is set
+        private	MouseEventArgs			_mouseMoveArguments;
 
-		// Timer used to scroll the data while selecting
-		private	System.Windows.Forms.Timer					_scrollTimer = new System.Windows.Forms.Timer();
+        // Timer used to scroll the data while selecting
+        private	System.Windows.Forms.Timer					_scrollTimer = new System.Windows.Forms.Timer();
 
 		// Indicates that axis data scaleView was scrolled as a result of the mouse move event
-		private bool					_viewScrolledOnMouseMove = false;
+		private bool					_viewScrolledOnMouseMove;
 
         #endregion
 
@@ -1519,9 +1519,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #region Private fields
 
 		// Private fields for properties values storage
-		private		ChartArea		_chartArea = null;
-		private		Axis			_axis = null;
-		private		double			_newPosition = double.NaN;
+		private		ChartArea		_chartArea;
+        private		Axis			_axis;
+        private		double			_newPosition = double.NaN;
 		private		double			_newSelectionStart = double.NaN;
 		private		double			_newSelectionEnd = double.NaN;
 

@@ -37,16 +37,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private		string			_text = "";
 
 		// Indicates multiline text
-		private		bool			_isMultiline = false;
+		private		bool			_isMultiline;
 
-		// Current content size
-		internal	SizeF			contentSize = SizeF.Empty;
+        // Current content size
+        internal	SizeF			contentSize = SizeF.Empty;
 
 		// Indicates that annotion is an ellipse
-		internal	bool			isEllipse = false;
+		internal	bool			isEllipse;
 
         // Control used to edit text
-        private TextBox _editTextBox = null;
+        private TextBox _editTextBox;
 
 
         #region Construction and Initialization

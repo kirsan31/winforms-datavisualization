@@ -25,13 +25,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
 	{
 		#region Fields
 		// Series collection
-		private SeriesCollection		_series = null;
+		private SeriesCollection		_series;
 
-		// Servise container reference
-		internal IServiceContainer		serviceContainer = null;
+        // Servise container reference
+        internal IServiceContainer		serviceContainer;
 
         // Chart color palette
-		private	ChartColorPalette		_colorPalette = ChartColorPalette.BrightPastel;
+        private	ChartColorPalette		_colorPalette = ChartColorPalette.BrightPastel;
 
         #endregion
 

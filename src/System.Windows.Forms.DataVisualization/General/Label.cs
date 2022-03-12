@@ -374,16 +374,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields and Constructors
 
 		// Private data members, which store properties values
-		private double			_fromPosition = 0;
-		private double			_toPosition = 0;
-		private string			_text = "";
+		private double			_fromPosition;
+        private double			_toPosition;
+        private string			_text = "";
 		private LabelMarkStyle	_labelMark = LabelMarkStyle.None;
 		private Color			_foreColor = Color.Empty;
 		private Color			_markColor = Color.Empty;
-		private int				_labelRowIndex = 0;
+		private int				_labelRowIndex;
 
-		// Custom grid lines and tick marks flags
-		private	GridTickTypes	_gridTick = GridTickTypes.None;
+        // Custom grid lines and tick marks flags
+        private	GridTickTypes	_gridTick = GridTickTypes.None;
 
 		// Indicates if label was automatically created or cpecified by user (custom)
 		internal bool			customLabel = true;
@@ -397,18 +397,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		// Label tooltip
 		private string			_tooltip = string.Empty;
 
-        private Axis            _axis = null;
+        private Axis            _axis;
 
 
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public CustomLabel()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public CustomLabel()
 		{
 		}
 
@@ -825,10 +825,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Reference to the Axis 
-		private Axis					_axis = null;
+		private Axis					_axis;
 
-		// Private data members, which store properties values
-		private bool					_enabled = true;
+        // Private data members, which store properties values
+        private bool					_enabled = true;
 
 		internal double					intervalOffset = double.NaN;
 		internal double					interval = double.NaN;
@@ -838,11 +838,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private FontCache               _fontCache = new FontCache();
 		private Font					_font;
 		private Color					_foreColor = Color.Black;
-		internal int					angle = 0;
-		internal bool					isStaggered = false;
-		private bool					_isEndLabelVisible = true;
-		private bool					_truncatedLabels = false;
-		private string					_format = "";
+		internal int					angle;
+        internal bool					isStaggered;
+        private bool					_isEndLabelVisible = true;
+		private bool					_truncatedLabels;
+        private string					_format = "";
 
 		#endregion
 

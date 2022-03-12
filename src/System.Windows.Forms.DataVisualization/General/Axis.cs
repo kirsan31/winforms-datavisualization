@@ -134,23 +134,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private Color _lineColor = Color.Black;
         private bool _isLabelAutoFit = true;
         private AxisArrowStyle _arrowStyle = AxisArrowStyle.None;
-        private StripLinesCollection _stripLines = null;
+        private StripLinesCollection _stripLines;
         private bool _isMarksNextToAxis = true;
 
         // Default text orientation
         private TextOrientation _textOrientation = TextOrientation.Auto;
 
         // Size of the axis elements in percentage
-        internal float titleSize = 0F;
-        internal float labelSize = 0F;
-        internal float labelNearOffset = 0F;
-        internal float labelFarOffset = 0F;
-        internal float unRotatedLabelSize = 0F;
-        internal float markSize = 0F;
-        internal float scrollBarSize = 0F;
-        internal float totlaGroupingLabelsSize = 0F;
-        internal float[] groupingLabelSizes = null;
-        internal float totlaGroupingLabelsSizeAdjustment = 0f;
+        internal float titleSize;
+        internal float labelSize;
+        internal float labelNearOffset;
+        internal float labelFarOffset;
+        internal float unRotatedLabelSize;
+        internal float markSize;
+        internal float scrollBarSize;
+        internal float totlaGroupingLabelsSize;
+        internal float[] groupingLabelSizes;
+        internal float totlaGroupingLabelsSizeAdjustment;
         private LabelAutoFitStyles _labelAutoFitStyle = LabelAutoFitStyles.DecreaseFont |
                                                             LabelAutoFitStyles.IncreaseFont |
                                                             LabelAutoFitStyles.LabelsAngleStep30 |
@@ -158,7 +158,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                                             LabelAutoFitStyles.WordWrap;
 
         // Auto calculated font for labels
-        internal Font autoLabelFont = null;
+        internal Font autoLabelFont;
         internal int autoLabelAngle = -1000;
         internal int autoLabelOffset = -1;
 
@@ -199,7 +199,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Flag, which tells to Set Data method to take, again values from 
         // data source and not to use cached values.
-        internal int numberOfPointsInAllSeries = 0;
+        internal int numberOfPointsInAllSeries;
 
         // Original axis scaleView position
         private double _originalViewPosition = double.NaN;
@@ -208,7 +208,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Indicates that isInterlaced strip lines will be displayed for the axis.
         /// </summary>
-        private bool _isInterlaced = false;
+        private bool _isInterlaced;
 
         /// <summary>
         /// Color used to draw isInterlaced strip lines for the axis.
@@ -218,12 +218,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Axis interval offset.
         /// </summary>
-        private double _intervalOffset = 0;
+        private double _intervalOffset;
 
         /// <summary>
         /// Axis interval.
         /// </summary>
-        internal double interval = 0;
+        internal double interval;
 
         /// <summary>
         /// Axis interval units type.

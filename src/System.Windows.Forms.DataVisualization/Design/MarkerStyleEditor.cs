@@ -26,7 +26,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 	{
 		#region Editor method and properties
 
-		ChartGraphics	_chartGraph = null;
+		ChartGraphics	_chartGraph;
         private bool _disposed;
 
 		/// <summary>

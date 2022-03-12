@@ -32,13 +32,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Axes which belong to this Chart Area
-		internal Axis					axisY = null;
-		internal Axis					axisX = null;
-		internal Axis					axisX2 = null;
-		internal Axis					axisY2 = null;
-		
-		// Array of series which belong to this chart area
-		private List<string>		    _series =		new List<string>();
+		internal Axis					axisY;
+        internal Axis					axisX;
+        internal Axis					axisX2;
+        internal Axis					axisY2;
+
+        // Array of series which belong to this chart area
+        private List<string>		    _series =		new List<string>();
 
 		// Array of chart types which belong to this chart area
 		internal ArrayList				chartTypes =	new ArrayList();
@@ -59,43 +59,43 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		// Series with minimum interval between two data points for all 
 		// series which belong to this chart area.
-		private Series					_intervalSeries = null;
+		private Series					_intervalSeries;
 
-		// Indicates that points are located through equal X intervals
-		internal bool					intervalSameSize = false;
+        // Indicates that points are located through equal X intervals
+        internal bool					intervalSameSize;
 
-		// Indicates that points alignment checked
-		internal bool					diffIntervalAlignmentChecked = false;
+        // Indicates that points alignment checked
+        internal bool					diffIntervalAlignmentChecked;
 
-		// Chart Area contains stacked chart types
-		internal bool					stacked = false;
+        // Chart Area contains stacked chart types
+        internal bool					stacked;
 
-		// Chart type with two y values used for scale ( bubble chart type )
-		internal bool					secondYScale = false;
+        // Chart type with two y values used for scale ( bubble chart type )
+        internal bool					secondYScale;
 
-		// The X and Y axes are switched
-		internal bool					switchValueAxes = false;
+        // The X and Y axes are switched
+        internal bool					switchValueAxes;
 
-		// True for all chart types, which have axes. False for doughnut and pie chart.
-		internal bool					requireAxes = true;
+        // True for all chart types, which have axes. False for doughnut and pie chart.
+        internal bool					requireAxes = true;
 
 		// Indicates that chart area has circular shape (like in radar or polar chart)
-		internal bool					chartAreaIsCurcular = false;
+		internal bool					chartAreaIsCurcular;
 
-		// Chart Area contains 100 % stacked chart types
-		internal bool					hundredPercent = false;
+        // Chart Area contains 100 % stacked chart types
+        internal bool					hundredPercent;
 
-		// Chart Area contains 100 % stacked chart types
-		internal bool					hundredPercentNegative = false;
+        // Chart Area contains 100 % stacked chart types
+        internal bool					hundredPercentNegative;
 
-		#endregion
+        #endregion
 
-		#region Internal properties
+        #region Internal properties
 
-		/// <summary>
-		/// True if sub axis supported on this chart area
-		/// </summary>
-		internal bool IsSubAxesSupported
+        /// <summary>
+        /// True if sub axis supported on this chart area
+        /// </summary>
+        internal bool IsSubAxesSupported
 		{
 			get
 			{

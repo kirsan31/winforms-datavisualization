@@ -41,17 +41,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Vertical axis
 		/// </summary>
-		protected	Axis	vAxis = null;	
+		protected	Axis	vAxis;
 
-		/// <summary>
-		/// Horizontal axis
-		/// </summary>
-		protected	Axis	hAxis = null;
+        /// <summary>
+        /// Horizontal axis
+        /// </summary>
+        protected	Axis	hAxis;
 
-		/// <summary>
-		/// Side by side drawing flag.
-		/// </summary>
-		protected	bool	showSideBySide = true;
+        /// <summary>
+        /// Side by side drawing flag.
+        /// </summary>
+        protected	bool	showSideBySide = true;
 
 		#endregion
 

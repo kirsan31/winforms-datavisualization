@@ -64,11 +64,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Indexed series flag
 		/// </summary>
-        internal bool indexedSeries = false;
+        internal bool indexedSeries;
 
-		/// <summary>
-		/// Common elements object
-		/// </summary>
+        /// <summary>
+        /// Common elements object
+        /// </summary>
         internal CommonElements Common { get; set; }
 
 		/// <summary>
@@ -84,16 +84,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Stores information about 3D labels. Used to draw 3D labels in layers.
 		/// </summary>
-		internal ArrayList label3DInfoList = null;
+		internal ArrayList label3DInfoList;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// Class public constructor.
-		/// </summary>
-		public PointChart()
+        /// <summary>
+        /// Class public constructor.
+        /// </summary>
+        public PointChart()
 		{
 		}
 
@@ -1759,8 +1759,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// </summary>
 		internal class Label3DInfo
 		{
-			internal DataPoint3D PointEx = null;
-			internal PointF MarkerPosition = PointF.Empty;
+			internal DataPoint3D PointEx;
+            internal PointF MarkerPosition = PointF.Empty;
 			internal SizeF MarkerSize = SizeF.Empty;
 		}
 

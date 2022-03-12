@@ -149,12 +149,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		#region Fields and Constructor
 
 		// Array list of funnel segments
-        internal ArrayList segmentList = null;
+        internal ArrayList segmentList;
 
-		// List of data point labels information 
-        internal ArrayList labelInfoList = null;
+        // List of data point labels information 
+        internal ArrayList labelInfoList;
 
-		// Chart graphics object.
+        // Chart graphics object.
         internal ChartGraphics Graph { get; set; }
 
 		// Chart area the chart type belongs to.
@@ -167,18 +167,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         internal RectangleF plotAreaSpacing = new RectangleF(3f, 3f, 3f, 3f);
 
 		// Current chart type series
-		private Series			_chartTypeSeries = null;
+		private Series			_chartTypeSeries;
 
-		// Sum of all Y values in the data series
-        internal double yValueTotal = 0.0;
+        // Sum of all Y values in the data series
+        internal double yValueTotal;
 
-		// Maximum Y value in the data series
-		private double			_yValueMax = 0.0;
+        // Maximum Y value in the data series
+        private double			_yValueMax;
 
-		// Sum of all X values in the data series
-		private double			_xValueTotal = 0.0;
+        // Sum of all X values in the data series
+        private double			_xValueTotal;
 
-		// Number of points in the series
+        // Number of points in the series
         internal int pointNumber;
 
 		// Calculted plotting area of the chart
@@ -191,21 +191,21 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		private	SizeF			_funnelNeckSize = new SizeF(50f, 30f);
 
 		// Gap between funnel segments
-        internal float funnelSegmentGap = 0f;
+        internal float funnelSegmentGap;
 
-		// 3D funnel rotation angle
-		private int				_rotation3D = 5;
+        // 3D funnel rotation angle
+        private int				_rotation3D = 5;
 
 		// Indicates that rounded shape is used to draw 3D chart type instead of square
         internal bool round3DShape = true;
 
 		// Indicates that Pyramid chart is rendered.
-        internal bool isPyramid = false;
+        internal bool isPyramid;
 
-		// Minimum data point height
-		private	float			_funnelMinPointHeight = 0f;
+        // Minimum data point height
+        private	float			_funnelMinPointHeight;
 
-		// Name of the attribute that controls the height of the gap between the points
+        // Name of the attribute that controls the height of the gap between the points
         internal string funnelPointGapAttributeName = CustomPropertyName.FunnelPointGap;
 
 		// Name of the attribute that controls the 3D funnel rotation angle
@@ -227,12 +227,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         internal string funnelLabelStyleAttributeName = CustomPropertyName.FunnelLabelStyle;
 
 		// Array of data point value adjusments in percentage
-		private		double[]	_valuePercentages = null;
+		private		double[]	_valuePercentages;
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FunnelChart()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FunnelChart()
 		{
 		}
 
@@ -2947,31 +2947,31 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		#region Fields
 
 		// Assosiated data point
-		public	DataPoint	Point = null;
+		public	DataPoint	Point;
 
-		// Data point index
-		public	int			PointIndex = 0;
+        // Data point index
+        public	int			PointIndex;
 
-		// Segment top position
-		public	float		Location = 0f;
+        // Segment top position
+        public	float		Location;
 
-		// Segment height
-		public	float		Height = 0f;
+        // Segment height
+        public	float		Height;
 
-		// Segment top width
-		public	float		StartWidth = 0f;
+        // Segment top width
+        public	float		StartWidth;
 
-		// Segment bottom width
-		public	float		EndWidth = 0f;
+        // Segment bottom width
+        public	float		EndWidth;
 
-		// Segment has nothing on the top
-		public	bool		NothingOnTop = false;
+        // Segment has nothing on the top
+        public	bool		NothingOnTop;
 
-		// Segment has nothing on the bottom
-		public	bool		NothingOnBottom = false;
+        // Segment has nothing on the bottom
+        public	bool		NothingOnBottom;
 
-		#endregion // Fields
-	}
+        #endregion // Fields
+    }
 
 	/// <summary>
 	/// Helper data structure used to store information about funnel data point label.
@@ -2981,13 +2981,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		#region Fields
 
 		// Assosiated data point
-		public	DataPoint			Point = null;
+		public	DataPoint			Point;
 
-		// Data point index
-		public	int					PointIndex = 0;
+        // Data point index
+        public	int					PointIndex;
 
-		// Label text
-		public	string				Text = string.Empty;
+        // Label text
+        public	string				Text = string.Empty;
 
 		// Data point label size
 		public	SizeF				Size = SizeF.Empty;

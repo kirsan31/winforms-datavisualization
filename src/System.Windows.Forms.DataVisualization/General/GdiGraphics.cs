@@ -694,8 +694,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Graphics object
 		/// </summary>
-		Graphics		_graphics = null;
+		Graphics		_graphics;
 
-		#endregion // Fields
-	}
+        #endregion // Fields
+    }
 }

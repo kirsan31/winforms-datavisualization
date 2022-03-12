@@ -94,7 +94,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private FontCache _fontCache = new FontCache();
 
         // Legend column text font
-        private Font _font = null;
+        private Font _font;
 
         // Legend column series symbol size
         private Size _seriesSymbolSize = new Size(200, 70);
@@ -121,7 +121,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private Color _headerBackColor = Color.Empty;
 
         // Legend column header text font
-        private Font _headerFont = null;
+        private Font _headerFont;
 
         // Minimum column width
         private int _minimumCellWidth = -1;
@@ -689,7 +689,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private FontCache _fontCache = new FontCache();
 
         // Legend cell text font
-        private Font _font = null;
+        private Font _font;
 
         // Legend cell image name
         private string _image = string.Empty;
@@ -730,7 +730,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private Size _cachedCellSize = Size.Empty;
 
         // Font reduced value used to calculate last cached cell size
-        private int _cachedCellSizeFontReducedBy = 0;
+        private int _cachedCellSizeFontReducedBy;
 
         #endregion // Fields
 
@@ -2254,20 +2254,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Top margin
-        private int _top = 0;
+        private int _top;
 
         // Bottom margin
-        private int _bottom = 0;
+        private int _bottom;
 
         // Left margin
-        private int _left = 0;
+        private int _left;
 
         // Right margin
-        private int _right = 0;
+        private int _right;
 
         // Reference to common chart elements which allows to invalidate
         // chart when one of the properties is changed.
-        internal CommonElements Common = null;
+        internal CommonElements Common;
 
         #endregion // Fields
 

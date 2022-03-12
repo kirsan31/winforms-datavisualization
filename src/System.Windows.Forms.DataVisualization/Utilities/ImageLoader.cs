@@ -35,19 +35,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		#region Fields
 
 		// Image storage
-		private Hashtable			_imageData = null;
+		private Hashtable			_imageData;
 
-		// Reference to the service container
-		private IServiceContainer	_serviceContainer = null;
+        // Reference to the service container
+        private IServiceContainer	_serviceContainer;
 
-		#endregion
+        #endregion
 
-		#region Constructors and Initialization
+        #region Constructors and Initialization
 
-		/// <summary>
-		/// Default constructor is not accessible.
-		/// </summary>
-		private ImageLoader()
+        /// <summary>
+        /// Default constructor is not accessible.
+        /// </summary>
+        private ImageLoader()
 		{
 		}
 

@@ -39,23 +39,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Private data members, which store properties values
-		private		float	_x = 0;
-		private		float	_y = 0;
-		private		float	_width = 0;
-		private		float	_height = 0;
-		internal	bool	_auto = true;
+		private		float	_x;
+        private		float	_y;
+        private		float	_width;
+        private		float	_height;
+        internal	bool	_auto = true;
 
 		// Indicates the auto position of all areas must be reset
-		internal	bool			resetAreaAutoPosition = false;
+		internal	bool			resetAreaAutoPosition;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// ElementPosition default constructor
-		/// </summary>
-		public ElementPosition()
+        /// <summary>
+        /// ElementPosition default constructor
+        /// </summary>
+        public ElementPosition()
 		{
 		}
 

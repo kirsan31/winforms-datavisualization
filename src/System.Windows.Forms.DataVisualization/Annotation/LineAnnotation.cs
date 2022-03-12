@@ -28,10 +28,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Indicates that an infinitive line should be drawn through 2 specified points.
-		private		bool		_isInfinitive = false;
+		private		bool		_isInfinitive;
 
-		// Line start/end caps
-		private		LineAnchorCapStyle		_startCap = LineAnchorCapStyle.None;
+        // Line start/end caps
+        private		LineAnchorCapStyle		_startCap = LineAnchorCapStyle.None;
 		private		LineAnchorCapStyle		_endCap = LineAnchorCapStyle.None;
 
 		#endregion

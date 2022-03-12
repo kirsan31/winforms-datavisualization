@@ -56,17 +56,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		internal	Color	kagiUpColor = Color.Empty;
 
 		// Current properties used for kagi line (1 up; -1 down; 0 none)
-		internal	int		currentKagiDirection = 0;
+		internal	int		currentKagiDirection;
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Methods
+        #region Methods
 
-		/// <summary>
-		/// Prepares Kagi chart type for rendering.
-		/// </summary>
-		/// <param name="series">Series to be prepared.</param>
-		internal static void PrepareData(Series series)
+        /// <summary>
+        /// Prepares Kagi chart type for rendering.
+        /// </summary>
+        /// <param name="series">Series to be prepared.</param>
+        internal static void PrepareData(Series series)
 		{
 			// Check series chart type
             if (String.Compare(series.ChartTypeName, ChartTypeNames.Kagi, StringComparison.OrdinalIgnoreCase) != 0 || !series.IsVisible())

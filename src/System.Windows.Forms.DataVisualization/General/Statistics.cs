@@ -52,17 +52,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Reference to the class which describes calculation settings and 
         // provides access to chart common elements.
-		private DataFormula _formulaData = null;
+		private DataFormula _formulaData;
 
-		#endregion // Fields
-		
-		#region Constructor
+        #endregion // Fields
 
-		/// <summary>
+        #region Constructor
+
+        /// <summary>
         /// StatisticFormula Constructor
-		/// </summary>
-		/// <param name="formulaData">Formula Data</param>
-		internal StatisticFormula( DataFormula formulaData )
+        /// </summary>
+        /// <param name="formulaData">Formula Data</param>
+        internal StatisticFormula( DataFormula formulaData )
 		{
 			this._formulaData = formulaData;
 		}
@@ -1024,52 +1024,52 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// First series' mean.
         /// </summary>
-        internal double firstSeriesMean = 0.0;
+        internal double firstSeriesMean;
 
         /// <summary>
         /// Second series' mean.
         /// </summary>
-        internal double secondSeriesMean = 0.0;
+        internal double secondSeriesMean;
 
         /// <summary>
         /// First series' variance.
         /// </summary>
-        internal double firstSeriesVariance = 0.0;
+        internal double firstSeriesVariance;
 
         /// <summary>
         /// Second series' variance.
         /// </summary>
-        internal double secondSeriesVariance = 0.0;
+        internal double secondSeriesVariance;
 
         /// <summary>
         /// T value.
         /// </summary>
-        internal double tValue = 0.0;
+        internal double tValue;
 
         /// <summary>
         /// Degree of freedom.
         /// </summary>
-        internal double degreeOfFreedom = 0.0;
+        internal double degreeOfFreedom;
 
         /// <summary>
         /// Probability T one tail.
         /// </summary>
-        internal double probabilityTOneTail = 0.0;
+        internal double probabilityTOneTail;
 
         /// <summary>
         /// Critical T one tail.
         /// </summary>
-        internal double tCriticalValueOneTail = 0.0;
+        internal double tCriticalValueOneTail;
 
         /// <summary>
         /// Probability T two tails.
         /// </summary>
-        internal double probabilityTTwoTail = 0.0;
+        internal double probabilityTTwoTail;
 
         /// <summary>
         /// Critical T two tails.
         /// </summary>
-        internal double tCriticalValueTwoTail = 0.0;
+        internal double tCriticalValueTwoTail;
 
         #endregion
 
@@ -1200,37 +1200,37 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// First series' mean.
         /// </summary>
-        internal double firstSeriesMean = 0.0;
+        internal double firstSeriesMean;
 
         /// <summary>
         /// Second series' mean.
         /// </summary>
-        internal double secondSeriesMean = 0.0;
+        internal double secondSeriesMean;
 
         /// <summary>
         /// First series' variance.
         /// </summary>
-        internal double firstSeriesVariance = 0.0;
+        internal double firstSeriesVariance;
 
         /// <summary>
         /// Second series' variance.
         /// </summary>
-        internal double secondSeriesVariance = 0.0;
+        internal double secondSeriesVariance;
 
         /// <summary>
         /// F value.
         /// </summary>
-        internal double fValue = 0.0;
+        internal double fValue;
 
         /// <summary>
         /// Probability F one tail.
         /// </summary>
-        internal double probabilityFOneTail = 0.0;
+        internal double probabilityFOneTail;
 
         /// <summary>
         /// Critical F one tail.
         /// </summary>
-        internal double fCriticalValueOneTail = 0.0;
+        internal double fCriticalValueOneTail;
 
         #endregion
 
@@ -1326,52 +1326,52 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Sum of squares between groups.
         /// </summary>
-        internal double sumOfSquaresBetweenGroups = 0.0;
+        internal double sumOfSquaresBetweenGroups;
 
         /// <summary>
         /// Sum of squares within groups.
         /// </summary>
-        internal double sumOfSquaresWithinGroups = 0.0;
+        internal double sumOfSquaresWithinGroups;
 
         /// <summary>
         /// Total sum of squares.
         /// </summary>
-        internal double sumOfSquaresTotal = 0.0;
+        internal double sumOfSquaresTotal;
 
         /// <summary>
         /// Degree of freedom between groups.
         /// </summary>
-        internal double degreeOfFreedomBetweenGroups = 0.0;
+        internal double degreeOfFreedomBetweenGroups;
 
         /// <summary>
         /// Degree of freedom within groups.
         /// </summary>
-        internal double degreeOfFreedomWithinGroups = 0.0;
+        internal double degreeOfFreedomWithinGroups;
 
         /// <summary>
         /// Total degree of freedom.
         /// </summary>
-        internal double degreeOfFreedomTotal = 0.0;
+        internal double degreeOfFreedomTotal;
 
         /// <summary>
         /// Mean square variance between groups.
         /// </summary>
-        internal double meanSquareVarianceBetweenGroups = 0.0;
+        internal double meanSquareVarianceBetweenGroups;
 
         /// <summary>
         /// Mean square variance between groups.
         /// </summary>
-        internal double meanSquareVarianceWithinGroups = 0.0;
+        internal double meanSquareVarianceWithinGroups;
 
         /// <summary>
         /// F ratio.
         /// </summary>
-        internal double fRatio = 0.0;
+        internal double fRatio;
 
         /// <summary>
         /// F critical value.
         /// </summary>
-        internal double fCriticalValue = 0.0;
+        internal double fCriticalValue;
 
         #endregion
 
