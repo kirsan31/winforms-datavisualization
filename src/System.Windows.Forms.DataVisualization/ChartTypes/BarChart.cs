@@ -496,11 +496,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						{
 							// The formula for position is based on a distance 
 							// from the grid line or nPoints position.
-							xPosition = vAxis.GetPosition( (double)pointIndex + 1 ) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width;
+							xPosition = vAxis.GetPosition( (double)pointIndex + 1 ) - width * numOfSeries / 2.0 + width/2 + seriesIndx * width;
 						}
 						else if( sameInterval )
 						{
-							xPosition = vAxis.GetPosition( point.XValue ) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width;
+							xPosition = vAxis.GetPosition( point.XValue ) - width * numOfSeries / 2.0 + width/2 + seriesIndx * width;
 						}
 						else
 						{
@@ -2129,7 +2129,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="area">Chart area.</param>
 		/// <param name="series">Series values to be used.</param>
 		/// <param name="list">List to add to.</param>
-		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, ArrayList list)		
+		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, List<RectangleF> list)		
 		{
             // NOTE: Bar chart do not support SmartLabelStyle feature.
 		}

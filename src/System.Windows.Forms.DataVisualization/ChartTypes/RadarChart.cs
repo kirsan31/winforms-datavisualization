@@ -11,6 +11,7 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
@@ -266,7 +267,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			{
 				if(series.IsVisible() && series.ChartArea == area.Name)
 				{
-					sectorNumber = (int)Math.Max(series.Points.Count, sectorNumber);
+					sectorNumber = Math.Max(series.Points.Count, sectorNumber);
 				}
 			}
 			return sectorNumber;
@@ -280,7 +281,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		public virtual float[] GetYAxisLocations(ChartArea area)
 		{
 			float[]	axesLocation = new float[area.CircularSectorsNumber];
-			float sectorSize = 360f / ((float)axesLocation.Length);
+			float sectorSize = 360f / axesLocation.Length;
 			for(int index = 0; index < axesLocation.Length; index++)
 			{
 				axesLocation[index] = sectorSize * index;
@@ -1498,7 +1499,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="area">Chart area.</param>
 		/// <param name="series">Series values to be used.</param>
 		/// <param name="list">List to add to.</param>
-		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, ArrayList list)		
+		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, List<RectangleF> list)		
 		{
 			//************************************************************
 			//** Fill the array of data points coordinates (absolute)

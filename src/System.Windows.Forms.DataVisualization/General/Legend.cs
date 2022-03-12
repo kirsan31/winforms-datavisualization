@@ -661,11 +661,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			Size itemHalfSpacing = Size.Empty;
 			if(this._verticalSpaceLeft > 0)
 			{
-				itemHalfSpacing.Height = (int)(this._verticalSpaceLeft / this.GetMaximumNumberOfRows() / 2);
+				itemHalfSpacing.Height = this._verticalSpaceLeft / this.GetMaximumNumberOfRows() / 2;
 			}
 			if(this._horizontalSpaceLeft > 0)
 			{
-				itemHalfSpacing.Width = (int)(_horizontalSpaceLeft / 2);
+				itemHalfSpacing.Width = _horizontalSpaceLeft / 2;
 			}
 
 			// Iterate through all legend items
@@ -2472,7 +2472,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Calculate dots step (no more than 10 pixel)
 				int markerCount = 3;
 				int step = (this._legendItemsAreaPosition.Width / 3) / markerCount;
-				step = (int)Math.Min(step, 10);
+				step = Math.Min(step, 10);
 
 				// Calculate start point
 				PointF	point = new PointF(
@@ -4770,7 +4770,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Check if all chart area names are valid
                     if (legend.DockedToChartArea != Constants.NotSetValue && this.Chart.ChartAreas.IndexOf(legend.DockedToChartArea)<0)
                     {
-                        throw (new ArgumentException(SR.ExceptionLegendDockedChartAreaIsMissing((string)legend.DockedToChartArea)));
+                        throw (new ArgumentException(SR.ExceptionLegendDockedChartAreaIsMissing(legend.DockedToChartArea)));
                     }
 
 					// Process only legends docked to specified area
@@ -4847,7 +4847,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						}
 						catch
 						{
-							throw(new ArgumentException( SR.ExceptionLegendDockedChartAreaIsMissing( (string)legend.DockedToChartArea ) ) );
+							throw(new ArgumentException( SR.ExceptionLegendDockedChartAreaIsMissing(legend.DockedToChartArea) ) );
 						}
 					}
 				}
@@ -5863,7 +5863,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			bool area3D = common.Chart.ChartAreas[series.ChartArea].Area3DStyle.Enable3D;
 
 			// Get other properties
-			SetAttributes((DataPointCustomProperties) series, area3D);
+			SetAttributes(series, area3D);
 		}
 
 		/// <summary>

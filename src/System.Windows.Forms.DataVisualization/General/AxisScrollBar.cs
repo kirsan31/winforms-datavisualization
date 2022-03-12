@@ -550,7 +550,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             foreach (ScrollBarButtonType buttonType in Enum.GetValues(typeof(ScrollBarButtonType)))
 			{
                 // Get button rectangle
-				RectangleF buttonRect = this.GetScrollBarButtonRect(scrollBarClientRect, (ScrollBarButtonType)buttonType);
+				RectangleF buttonRect = this.GetScrollBarButtonRect(scrollBarClientRect, buttonType);
 
 				// Paint button
 				if(!buttonRect.IsEmpty)
@@ -558,8 +558,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					PaintScrollBar3DButton(
 						graph, 
 						buttonRect, 
-						((ScrollBarButtonType)this._pressedButtonType) == (ScrollBarButtonType)buttonType, 
-						(ScrollBarButtonType)buttonType);
+						((ScrollBarButtonType)this._pressedButtonType) == buttonType,
+                        buttonType);
 				}
 			}
 
@@ -1045,7 +1045,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								distance = _lastClickMousePosition.Y - y;
 
 								// Convert to relative coordinates
-								distance = distance * 100F / ((float)(this.axis.Common.Height - 1));
+								distance = distance * 100F / (this.axis.Common.Height - 1);
 							}
 							else
 							{
@@ -1053,7 +1053,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								distance = x - _lastClickMousePosition.X;
 
 								// Convert to relative coordinates
-								distance = distance * 100F / ((float)(this.axis.Common.Width - 1)); 
+								distance = distance * 100F / (this.axis.Common.Width - 1); 
 							}
 
 							// Convert to percentages from total tracking area
@@ -1203,8 +1203,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Convert mouse click coordinates to relative
 			PointF	position = new PointF(x, y);
-			position.X = x * 100F / ((float)(this.axis.Common.Width - 1)); 
-			position.Y = y * 100F / ((float)(this.axis.Common.Height - 1)); 
+			position.X = x * 100F / (this.axis.Common.Width - 1); 
+			position.Y = y * 100F / (this.axis.Common.Height - 1); 
 
 			// Check if mouse button was clicked in the scroll bar
 			RectangleF	scrollBarRect = this.GetScrollBarRect();
@@ -1574,11 +1574,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Get scroll bar relative size depending on the axis location
 			if(this.axis.AxisPosition == AxisPosition.Left || this.axis.AxisPosition == AxisPosition.Right)
 			{
-				return this._scrollBarSize * 100F / ((float)(this.axis.Common.Width - 1)); 
+				return this._scrollBarSize * 100F / (this.axis.Common.Width - 1); 
 			}
 			else
 			{
-				return this._scrollBarSize * 100F / ((float)(this.axis.Common.Height - 1)); 
+				return this._scrollBarSize * 100F / (this.axis.Common.Height - 1); 
 			}
 		}
 
@@ -1749,8 +1749,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			SizeF relative = SizeF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
-			relative.Width = size.Width * 100F / ((float)(this.axis.Common.Width - 1)); 
-			relative.Height = size.Height * 100F / ((float)(this.axis.Common.Height - 1)); 
+			relative.Width = size.Width * 100F / (this.axis.Common.Width - 1); 
+			relative.Height = size.Height * 100F / (this.axis.Common.Height - 1); 
 			
 			// Return relative coordinates
 			return relative;

@@ -92,7 +92,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             // Draw marker sample
             if (attributes is not null)
             {
-                PointF point = new PointF(e.Bounds.X + ((float)e.Bounds.Width) / 2F - 0.5F, e.Bounds.Y + ((float)e.Bounds.Height) / 2F - 0.5F);
+                PointF point = new PointF(e.Bounds.X + e.Bounds.Width / 2F - 0.5F, e.Bounds.Y + e.Bounds.Height / 2F - 0.5F);
                 Color color = (attributes.MarkerColor == Color.Empty) ? Color.Black : attributes.MarkerColor;
                 int size = attributes.MarkerSize;
                 if (size > (e.Bounds.Height - 4))

@@ -1471,7 +1471,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 if (seriesField != null)
                 {
                     result.Add(new SeriesFieldInfo(series, (DataField)seriesField));
-                    seriesFields.Remove((DataField)formulaField);
+                    seriesFields.Remove(formulaField);
                     unmappedFormulaFields.Remove(formulaField);
                 }
                 else
@@ -1558,7 +1558,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 if (seriesField != null)
                 {
                     result.Add(new SeriesFieldInfo(seriesName, (DataField)seriesField));
-                    seriesFields.Remove((DataField)formulaField);
+                    seriesFields.Remove(formulaField);
                     unmappedFormulaFields.Remove(formulaField);
                 }
                 else

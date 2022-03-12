@@ -307,8 +307,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					double	xValue = point.XValue;
 					if( indexedSeries )
 					{
-						xValue = (double)index;
-						xPosition = (float)(hAxis.GetPosition( (double)index ) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width);
+						xValue = index;
+						xPosition = (float)(hAxis.GetPosition(index) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width);
 					}
 					else if( currentShowSideBySide )
 					{
@@ -570,8 +570,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						double	xValue = point.XValue;
 						if( indexedSeries )
 						{
-							xValue = (double)index;
-							xPosition = (float)(hAxis.GetPosition( (double)index ) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width);
+							xValue = index;
+							xPosition = (float)(hAxis.GetPosition(index) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width);
 						}
 						else if( currentShowSideBySide )
 						{
@@ -1088,8 +1088,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					double	xValue = point.XValue;
 					if( indexedSeries )
 					{
-						xValue = (double)index;
-						xPosition = (float)(hAxis.GetPosition( (double)index ) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width);
+						xValue = index;
+						xPosition = (float)(hAxis.GetPosition(index) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width);
 					}
 					else if( currentShowSideBySide )
 					{
@@ -1358,8 +1358,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						double	xValue = point.XValue;
 						if( indexedSeries )
 						{
-							xValue = (double)index;
-							xPosition = (float)(hAxis.GetPosition( (double)index ) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width);
+							xValue = index;
+							xPosition = (float)(hAxis.GetPosition(index) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width);
 						}
 						else if( currentShowSideBySide )
 						{
@@ -1798,7 +1798,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="area">Chart area.</param>
 		/// <param name="series">Series values to be used.</param>
 		/// <param name="list">List to add to.</param>
-		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, ArrayList list)		
+		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, List<RectangleF> list)		
 		{
 			// No data point markers supported for SmartLabelStyle
 		}

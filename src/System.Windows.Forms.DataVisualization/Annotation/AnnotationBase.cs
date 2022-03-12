@@ -10,6 +10,7 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -3284,7 +3285,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Adds anchor position to the list. Used to check SmartLabelStyle overlapping.
         /// </summary>
         /// <param name="list">List to add to.</param>
-        internal void AddSmartLabelMarkerPositions(ArrayList list)
+        internal void AddSmartLabelMarkerPositions(List<RectangleF> list)
         {
             // Anchor position is added to the list of non-overlapped markers
             if (this.Visible && this.IsAnchorDrawn())

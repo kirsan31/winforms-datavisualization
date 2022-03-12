@@ -3292,7 +3292,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-            this.markSize += (float)Math.Max(majorTickSize, minorTickSize);
+            this.markSize += Math.Max(majorTickSize, minorTickSize);
 
 
             // Add axis line size
@@ -3476,7 +3476,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // Pick up maximum font size
                 float size = 8f;
-				size = (float)Math.Max(this.LabelAutoFitMaxFontSize, this.LabelAutoFitMinFontSize);
+				size = Math.Max(this.LabelAutoFitMaxFontSize, this.LabelAutoFitMinFontSize);
 				_minLabelFontSize = Math.Min(this.LabelAutoFitMinFontSize, this.LabelAutoFitMaxFontSize);
 				_aveLabelFontSize = _minLabelFontSize + Math.Abs(size - _minLabelFontSize)/2f;
 
@@ -5100,13 +5100,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Calculate max height of the second row of labels
                                 if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
                                 {
-                                    groupingLabelSizes[groupLevelIndex - 1] = (float)Math.Max(groupingLabelSizes[groupLevelIndex - 1], axisLabelSize.Height);
+                                    groupingLabelSizes[groupLevelIndex - 1] = Math.Max(groupingLabelSizes[groupLevelIndex - 1], axisLabelSize.Height);
                                 }
                                 else
                                 {
                                     axisLabelSize.Width = chartGraph.GetAbsoluteSize(new SizeF(axisLabelSize.Height, axisLabelSize.Height)).Height;
                                     axisLabelSize.Width = chartGraph.GetRelativeSize(new SizeF(axisLabelSize.Width, axisLabelSize.Width)).Width;
-                                    groupingLabelSizes[groupLevelIndex - 1] = (float)Math.Max(groupingLabelSizes[groupLevelIndex - 1], axisLabelSize.Width);
+                                    groupingLabelSizes[groupLevelIndex - 1] = Math.Max(groupingLabelSizes[groupLevelIndex - 1], axisLabelSize.Width);
                                 }
 
                                 // Check if string fits

@@ -244,8 +244,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     Rectangle chartPosition = new Rectangle(marginPixel.X, marginPixel.Y, _chartImage.Width, _chartImage.Height);
 
                     // Make sure chart corretly fits the margin area
-                    float chartWidthScale = ((float)marginPixel.Width) / ((float)chartPosition.Width);
-                    float chartHeightScale = ((float)marginPixel.Height) / ((float)chartPosition.Height);
+                    float chartWidthScale = marginPixel.Width / ((float)chartPosition.Width);
+                    float chartHeightScale = marginPixel.Height / ((float)chartPosition.Height);
                     chartPosition.Width = (int)(chartPosition.Width * Math.Min(chartWidthScale, chartHeightScale));
                     chartPosition.Height = (int)(chartPosition.Height * Math.Min(chartWidthScale, chartHeightScale));
 

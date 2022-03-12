@@ -297,7 +297,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Check required Y values number
 					if(dp.YValues.Length < 2)
 					{
-						throw(new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(ChartTypeNames.PointAndFigure, ((int)(2)).ToString(CultureInfo.CurrentCulture))));
+						throw(new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(ChartTypeNames.PointAndFigure, 2.ToString(CultureInfo.CurrentCulture))));
 					}
 
 					if(dp.YValues[yValueHighIndex] > maxPrice)
@@ -624,7 +624,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						else
 						{
 							// Opposite direction by more than reversal amount
-							DataPoint newDataPoint = (DataPoint)dataPoint.Clone();
+							DataPoint newDataPoint = dataPoint.Clone();
 							newDataPoint["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
 							newDataPoint.series = series;
 							newDataPoint.XValue = dataPoint.XValue;

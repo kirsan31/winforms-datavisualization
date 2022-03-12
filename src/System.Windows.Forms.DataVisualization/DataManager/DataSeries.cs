@@ -905,7 +905,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 //#else
 				int seed = 0;
 				for (int index = 0; index < this.Name.Length; index++)
-					seed += (int)this.Name[index];
+					seed += this.Name[index];
 				
 				Random random2 = new Random(seed);
 

@@ -1481,7 +1481,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// clear top level objects hot regions only
 					for(int index = 0; index < this.Common.HotRegionsList.List.Count; index++)
 					{
-						HotRegion region = (HotRegion)this.Common.HotRegionsList.List[index];
+						HotRegion region = this.Common.HotRegionsList.List[index];
 						if(region.Type == ChartElementType.Annotation)
 						{
 							this.Common.HotRegionsList.List.RemoveAt(index);
@@ -1902,7 +1902,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				areaColumns = 1;
 			}
-			int	areaRows = (int)Math.Ceiling(((float)areaNumber) / ((float)areaColumns));
+			int	areaRows = (int)Math.Ceiling(areaNumber / ((float)areaColumns));
 
 			// Set position for all areas
 			int	column = 0;

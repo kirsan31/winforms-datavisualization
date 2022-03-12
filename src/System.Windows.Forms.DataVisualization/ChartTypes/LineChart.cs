@@ -2092,7 +2092,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				if((decimal)thirdPoint.Y > plotAreaPositionBottom ||
 					(decimal)fourthPoint.Y > plotAreaPositionBottom )
 				{
-					intersectionPoint.yPosition = (double)area.PlotAreaPosition.Bottom;
+					intersectionPoint.yPosition = area.PlotAreaPosition.Bottom;
 					firstIntersectionOnBottom = true;
 				}
 				intersectionPoint.xPosition = (intersectionPoint.yPosition - fourthPoint.Y) *
@@ -2127,11 +2127,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					intersectionPoint2 = new DataPoint3D();
 					if(!firstIntersectionOnBottom)
 					{
-						intersectionPoint2.yPosition = (double)area.PlotAreaPosition.Bottom;
+						intersectionPoint2.yPosition = area.PlotAreaPosition.Bottom;
 					}
 					else
 					{
-						intersectionPoint2.yPosition = (double)area.PlotAreaPosition.Y;
+						intersectionPoint2.yPosition = area.PlotAreaPosition.Y;
 					}
 					intersectionPoint2.xPosition = (intersectionPoint2.yPosition - fourthPoint.Y) *
 						(thirdPoint.X - fourthPoint.X) / 

@@ -236,7 +236,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             // 
             // buttonOk
             // 
-            this._buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonOk.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
             this._buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._buttonOk.Location = new System.Drawing.Point(305, 9);
             this._buttonOk.Name = "_buttonOk";
@@ -247,7 +247,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             // 
             // buttonCancel
             // 
-            this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonCancel.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
             this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.Location = new System.Drawing.Point(401, 9);
             this._buttonCancel.Name = "_buttonCancel";

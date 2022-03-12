@@ -342,7 +342,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					//************************************************************
 
 					// Check for min/max X values
-					double xValue = (indexedSeries) ? (double)index : point.XValue;
+					double xValue = (indexedSeries) ? index : point.XValue;
 					xValue = HAxis.GetLogValue(xValue);
 					if(xValue > horizontalViewMax || xValue < horizontalViewMin)
 					{
@@ -395,7 +395,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						// The formula for position is based on a distance 
 						// from the grid line or nPoints position.
-						markerPosition.X = (float)HAxis.GetPosition( (double)index );
+						markerPosition.X = (float)HAxis.GetPosition(index);
 					}
 					else
 					{
@@ -1098,7 +1098,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Check for min/max X values
-			double xValue = (pointEx.indexedSeries) ? (double)pointEx.index : point.XValue;
+			double xValue = (pointEx.indexedSeries) ? pointEx.index : point.XValue;
 			xValue = HAxis.GetLogValue(xValue);
 			if(xValue > HAxis.ViewMaximum || xValue < HAxis.ViewMinimum)
 			{
@@ -1603,7 +1603,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="area">Chart area.</param>
 		/// <param name="series">Series values to be used.</param>
 		/// <param name="list">List to add to.</param>
-		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, ArrayList list)		
+		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, List<RectangleF> list)		
 		{
             this.Common = common;
             // Check if series is indexed
@@ -1639,7 +1639,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Check for min/max X values
-				double xValue = (indexedSeries) ? (double)index : point.XValue;
+				double xValue = (indexedSeries) ? index : point.XValue;
 				xValue = hAxis.GetLogValue(xValue);
 				if(xValue > hAxis.ViewMaximum || xValue < hAxis.ViewMinimum)
 				{
@@ -1676,7 +1676,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				{
 					// The formula for position is based on a distance 
 					// from the grid line or nPoints position.
-					markerPosition.X = (float)hAxis.GetPosition( (double)index );
+					markerPosition.X = (float)hAxis.GetPosition(index);
 				}
 				else
 				{

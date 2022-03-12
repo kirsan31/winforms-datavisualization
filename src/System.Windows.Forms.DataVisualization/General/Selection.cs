@@ -404,7 +404,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Collection with Hor Region Elements
 		/// </summary>
-		private System.Collections.ArrayList _regionList = new ArrayList();
+		private List<HotRegion> _regionList = new List<HotRegion>();
 
 		/// <summary>
 		/// Reference to the common elements object
@@ -447,7 +447,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Collection with Hor Region Elements
 		/// </summary>
-		internal ArrayList List
+		internal List<HotRegion> List
 		{
 			get
 			{
@@ -1718,7 +1718,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal HitTestResult[] HitTest(int x, int y, bool ignoreTransparent, params ChartElementType[] requestedElementTypes)
         {
             List<HitTestResult> result = new List<HitTestResult>();
-            ArrayList regionList = this.ChartPicture.Common.HotRegionsList.List;
+            var regionList = this.ChartPicture.Common.HotRegionsList.List;
 
             if (regionList.Count == 0)
             {
@@ -1753,7 +1753,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // This hit test result will be used in VS2005 desing time click.
             for (int index = regionList.Count - 1; index >= 0; index--)
             {
-                HotRegion region = (HotRegion)regionList[index];
+                HotRegion region = regionList[index];
 
                 // Check if only looking for specific chart element type
                 if (!String.IsNullOrEmpty(alowedElements) && alowedElements.IndexOf(region.Type.ToString() + ";", StringComparison.Ordinal) == -1)
@@ -1771,8 +1771,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 else
                 {
-                    newX = (float)x;
-                    newY = (float)y;
+                    newX = x;
+                    newY = y;
                     newMouseRect = mouseRect;
                 }
 
@@ -2340,7 +2340,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             for (int i = hrList.List.Count - 1; i >= 0; i--)
             {
-                HotRegion rgn = (HotRegion)hrList.List[i];
+                HotRegion rgn = hrList.List[i];
                 if (rgn.Type == elementType)
                 {
                     switch (rgn.Type)

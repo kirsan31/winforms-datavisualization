@@ -472,7 +472,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			outputValues = new double [2][];
 		
 			// Find triangular period
-			double tempPeriod = ((double)period + 1.0) / 2.0;
+			double tempPeriod = (period + 1.0) / 2.0;
 			tempPeriod = Math.Round(tempPeriod);
 			double [] tempOut;
 			double [] tempIn = inputValues[1];

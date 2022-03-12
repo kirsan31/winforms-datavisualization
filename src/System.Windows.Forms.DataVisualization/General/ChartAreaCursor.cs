@@ -887,7 +887,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						List<string> seriesArray = _axis.ChartArea.GetXAxesSeries((_axis.axisType == AxisName.X) ? AxisType.Primary : AxisType.Secondary, _axis.SubAxisName);
 						if(seriesArray.Count > 0)
 						{
-                            string seriesName = seriesArray[0] as string;
+                            string seriesName = seriesArray[0];
 							axisSeries = _axis.Common.DataManager.Series[seriesName];
 							if(axisSeries != null && !axisSeries.IsXValueIndexed)
 							{
@@ -1137,8 +1137,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							double		offsetFromBoundary = 0.0;
 
 							// Translate mouse pixel coordinates into the relative chart area coordinates
-							float mouseX = e.X * 100F / ((float)(this._chartArea.Common.Width - 1)); 
-							float mouseY = e.Y * 100F / ((float)(this._chartArea.Common.Height - 1)); 
+							float mouseX = e.X * 100F / (this._chartArea.Common.Width - 1); 
+							float mouseY = e.Y * 100F / (this._chartArea.Common.Height - 1); 
 
 							// Check if coordinate is inside chart plotting area
 							if(this._axis.AxisPosition == AxisPosition.Bottom || this._axis.AxisPosition == AxisPosition.Top)
@@ -1387,8 +1387,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if(this._chartArea != null && this._chartArea.Common != null && this.GetAxis()!= null)
 			{
 				// Translate mouse pixel coordinates into the relative chart area coordinates
-				result.X = point.X * 100F / ((float)(this._chartArea.Common.Width - 1)); 
-				result.Y = point.Y * 100F / ((float)(this._chartArea.Common.Height - 1)); 
+				result.X = point.X * 100F / (this._chartArea.Common.Width - 1); 
+				result.Y = point.Y * 100F / (this._chartArea.Common.Height - 1); 
 
 				// Round coordinate if it' outside chart plotting area
 				RectangleF	plotAreaPosition = this._chartArea.PlotAreaPosition.ToRectangleF();

@@ -448,14 +448,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 
 			// Set Clip Region in rounded to a pixel coordinates
-			RectangleF areaPosition = ((ChartGraphics)graph).GetAbsoluteRectangle( area.PlotAreaPosition.ToRectangleF());
+			RectangleF areaPosition = graph.GetAbsoluteRectangle( area.PlotAreaPosition.ToRectangleF());
 			float right = (float)Math.Ceiling(areaPosition.Right);
 			float bottom = (float)Math.Ceiling(areaPosition.Bottom);
 			areaPosition.X = (float)Math.Floor(areaPosition.X);
 			areaPosition.Width = right - areaPosition.X;
 			areaPosition.Y = (float)Math.Floor(areaPosition.Y);
 			areaPosition.Height = bottom - areaPosition.Y;
-			((ChartGraphics)graph).SetClipAbs( areaPosition );
+            graph.SetClipAbs( areaPosition );
 
 			// Draw shadow
 			ProcessChartType( false, graph, common, area, true, false, seriesToDraw );
@@ -466,8 +466,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Draw labels
 			ProcessChartType( false, graph, common, area, false, true, seriesToDraw );
 
-			// Reset Clip Region
-			((ChartGraphics)graph).ResetClip();
+            // Reset Clip Region
+            graph.ResetClip();
 		}
 
 		/// <summary>
@@ -694,7 +694,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 	
 						// Adjust width by number of stacked groups
-						width = width / (double)this.stackGroupNames.Count;
+						width = width / stackGroupNames.Count;
 	
 
 						// Call Back Paint event
@@ -745,7 +745,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Adjust X position of each stack group
 						if(this.stackGroupNames.Count > 1)
 						{
-							xPosition = xPosition - width * ((double) this.stackGroupNames.Count) / 2.0 + width / 2.0 + groupIndex * width;
+							xPosition = xPosition - width * stackGroupNames.Count / 2.0 + width / 2.0 + groupIndex * width;
 						}
 	
 
@@ -2097,7 +2097,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="area">Chart area.</param>
 		/// <param name="series">Series values to be used.</param>
 		/// <param name="list">List to add to.</param>
-		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, ArrayList list)
+		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, List<RectangleF> list)
 		{
             // NOTE: Stacked Bar chart type do not support SmartLabelStyle feature
 		}

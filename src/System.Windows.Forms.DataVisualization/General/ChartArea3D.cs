@@ -551,7 +551,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _area3DStyle = value;
 
 				// Initialize style object
-                _area3DStyle.Initialize((ChartArea)this);
+                _area3DStyle.Initialize(this);
 			}
 		}
 
@@ -603,7 +603,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal void DrawArea3DScene(ChartGraphics graph, RectangleF position)
 		{
 			// Reference to the chart area class
-			ChartArea chartArea = (ChartArea)this;
+			ChartArea chartArea = this;
 
 			// Calculate relative size of the wall
 			areaSceneWallWidth = graph.GetRelativeSize( new SizeF(this.Area3DStyle.WallWidth, this.Area3DStyle.WallWidth));
@@ -826,17 +826,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			Series	smallestIntervalSeries = null;
 			if(this._series.Count > 0)
 			{
-				smallestIntervalSeries = this.Common.DataManager.Series[(string)this._series[0]];
+				smallestIntervalSeries = this.Common.DataManager.Series[this._series[0]];
 			}
 
 			// Get X axis
-			Axis	xAxis = ((ChartArea)this).AxisX;
+			Axis	xAxis = this.AxisX;
 			if(this._series.Count > 0)
 			{
 				Series	firstSeries = this.Common.DataManager.Series[this._series[0]];
 				if(firstSeries != null && firstSeries.XAxisType == AxisType.Secondary)
 				{
-					xAxis = ((ChartArea)this).AxisX2;
+					xAxis = this.AxisX2;
 				}
 			}
 
@@ -881,10 +881,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Get smallest interval categorical axis
-			Axis	categoricalAxis = ((ChartArea)this).AxisX;
+			Axis	categoricalAxis = this.AxisX;
 			if(smallestIntervalSeries != null && smallestIntervalSeries.XAxisType == AxisType.Secondary)
 			{
-				categoricalAxis = ((ChartArea)this).AxisX2;
+				categoricalAxis = this.AxisX2;
 			}
 
 			//***********************************************************
@@ -1179,7 +1179,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			float sceneDepth;
 
-			ChartArea area = (ChartArea) this;
+			ChartArea area = this;
 
 
 			// Reset current list of clusters
@@ -1211,7 +1211,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal void Estimate3DInterval(ChartGraphics graph )
 		{
 			// Reference to the chart area class
-            ChartArea area = (ChartArea)this;
+            ChartArea area = this;
 
 			// Calculate relative size of the wall
 			areaSceneWallWidth = graph.GetRelativeSize( new SizeF(this.Area3DStyle.WallWidth, this.Area3DStyle.WallWidth));
@@ -1510,7 +1510,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal void PaintChartSeries3D( ChartGraphics graph )
 		{
 			// Reference to the chart area object
-			ChartArea	area = (ChartArea)this;
+			ChartArea	area = this;
 
 			// Get order of series drawing
 			List<Series>	seriesDrawingOrder = GetSeriesDrawingOrder(_reverseSeriesOrder);
@@ -1590,14 +1590,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					for(int seriesIndex = 0; seriesIndex < seriesList.Count; seriesIndex++)
 					{
 						// Check if series is not empty
-						if(((Series)seriesList[seriesIndex]).Points.Count == 0)
+						if(seriesList[seriesIndex].Points.Count == 0)
 						{
 							continue;
 						}
 
 						// Get series Z position
 						float seriesDepth, seriesZPosition;
-						this.GetSeriesZPositionAndDepth((Series)seriesList[seriesIndex], out seriesDepth, out seriesZPosition);
+						this.GetSeriesZPositionAndDepth(seriesList[seriesIndex], out seriesDepth, out seriesZPosition);
 
 						// Check if series passes the Z coordinate of Center of Projection
 						if(seriesZPosition >= areaProjectionCenter.Z)
@@ -1690,7 +1690,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			int mainYValueIndex,
 			bool sideBySide)
 		{
-			ChartArea area = (ChartArea)this;
+			ChartArea area = this;
 
 			// Array of points in all series
 			ArrayList pointsList = new ArrayList();
@@ -1798,8 +1798,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						// The formula for position is based on a distance 
 						//from the grid line or nPoints position.
-						xPosition = hAxis.GetPosition( (double)index ) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width;
-						xCenterVal = hAxis.GetPosition( (double)index );
+						xPosition = hAxis.GetPosition(index) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width;
+						xCenterVal = hAxis.GetPosition(index);
 
 					}
 					else if( sameInterval )
@@ -1852,7 +1852,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			//************************************************************
 			if(comparer == null)
 			{
-				comparer = new PointsDrawingOrderComparer((ChartArea)this, selection, coord);
+				comparer = new PointsDrawingOrderComparer(this, selection, coord);
 			}
 			pointsList.Sort(comparer);
 
@@ -2043,8 +2043,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Calculate the smallest interval (0.5 pixels) in relative coordinates
 			SizeF	interval = new SizeF(0.5f, 0.5f);
-			interval.Width = interval.Width * 100F / ((float)(this.Common.Chart.Width - 1)); 
-			interval.Height = interval.Height * 100F / ((float)(this.Common.Chart.Height - 1)); 
+			interval.Width = interval.Width * 100F / (this.Common.Chart.Width - 1); 
+			interval.Height = interval.Height * 100F / (this.Common.Chart.Height - 1); 
 
 			// Find middle point and check it's surface orientation
 			bool	doneFlag = false;

@@ -376,8 +376,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Draw chart
 			ProcessChartType( false, graph, common, area, seriesToDraw );
 
-			// Reset Clip Region
-			((ChartGraphics)graph).ResetClip();
+            // Reset Clip Region
+            graph.ResetClip();
 		}
 
 		/// <summary>

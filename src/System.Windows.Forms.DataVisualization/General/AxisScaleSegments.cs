@@ -840,7 +840,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			get 
 			{ 
-				return (AxisScaleSegment)this.List[(int)index]; 
+				return (AxisScaleSegment)this.List[index]; 
 			} 
 		}
 

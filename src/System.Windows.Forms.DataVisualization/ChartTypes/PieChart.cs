@@ -540,8 +540,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Reset overlapped labels flag
 				this._labelsOverlap = false;
 
-				//Set Clip Region
-				((ChartGraphics)graph).SetClip( area.Position.ToRectangleF() );
+                //Set Clip Region
+                graph.SetClip( area.Position.ToRectangleF() );
 
 				// Resize pie because of labels
 				SizeCorrection( graph, common, area );
@@ -572,8 +572,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Draw Pie labels
 				ProcessChartType( false, graph, common, area, false, LabelsMode.Draw );
 
-				//Reset Clip Region
-				((ChartGraphics)graph).ResetClip();
+                //Reset Clip Region
+                graph.ResetClip();
 			}
 		}
 
@@ -5648,7 +5648,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="area">Chart area.</param>
 		/// <param name="series">Series values to be used.</param>
 		/// <param name="list">List to add to.</param>
-		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, ArrayList list)		
+		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, List<RectangleF> list)		
 		{
 		}
 

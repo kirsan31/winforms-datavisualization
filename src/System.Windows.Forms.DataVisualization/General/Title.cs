@@ -1853,7 +1853,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Check if all chart area names are valid
                     if (title.DockedToChartArea != Constants.NotSetValue && chartPicture.ChartAreas.IndexOf(title.DockedToChartArea)<0)
                     {
-                        throw (new ArgumentException(SR.ExceptionChartTitleDockedChartAreaIsMissing((string)title.DockedToChartArea)));
+                        throw (new ArgumentException(SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea)));
                     }
 
 					// Process only titles docked to specified area
@@ -1955,7 +1955,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						}
 						catch
 						{
-							throw(new ArgumentException( SR.ExceptionChartTitleDockedChartAreaIsMissing( (string)title.DockedToChartArea ) ) );
+							throw(new ArgumentException( SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea) ) );
 						}
 					}
 				}

@@ -753,8 +753,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     // Calculate marker rectangle
                     RectangleF rect = RectangleF.Empty;
-                    rect.X = point.X - ((float)markerSize) / 2F;
-                    rect.Y = point.Y - ((float)markerSize) / 2F;
+                    rect.X = point.X - markerSize / 2F;
+                    rect.Y = point.Y - markerSize / 2F;
                     rect.Width = markerSize;
                     rect.Height = markerSize;
 
@@ -1589,7 +1589,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Set new hot region element type 
                     if (common.HotRegionsList.List != null && common.HotRegionsList.List.Count > 0)
 					{
-						((HotRegion)common.HotRegionsList.List[common.HotRegionsList.List.Count - 1]).Type = 
+                        common.HotRegionsList.List[common.HotRegionsList.List.Count - 1].Type = 
 							ChartElementType.DataPointLabel;
 					}
 				}
@@ -3831,7 +3831,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			else
 			{
 				// Polygon sector size
-				sectorSize = 360f / ((float)polygonSectorsNumber);
+				sectorSize = 360f / polygonSectorsNumber;
 			}
 
 			Matrix matrix = null;
@@ -3918,7 +3918,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     else
                     {
                         // Polygon sector size
-                        sectorSize = 360f / ((float)polygonSectorsNumber);
+                        sectorSize = 360f / polygonSectorsNumber;
                     }
 
 					Matrix matrix = null;
@@ -4636,10 +4636,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             RectangleF relative = RectangleF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
-			relative.X = rectangle.X * 100F / ((float)(_width - 1)); 
-			relative.Y = rectangle.Y * 100F / ((float)(_height - 1)); 
-			relative.Width = rectangle.Width * 100F / ((float)(_width - 1)); 
-			relative.Height = rectangle.Height * 100F / ((float)(_height - 1)); 
+			relative.X = rectangle.X * 100F / (_width - 1); 
+			relative.Y = rectangle.Y * 100F / (_height - 1); 
+			relative.Width = rectangle.Width * 100F / (_width - 1); 
+			relative.Height = rectangle.Height * 100F / (_height - 1); 
 
 			// Return Relative coordinates
 			return relative;
@@ -4660,8 +4660,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             PointF relative = PointF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
-			relative.X = point.X * 100F / ((float)(_width - 1)); 
-			relative.Y = point.Y * 100F / ((float)(_height - 1)); 
+			relative.X = point.X * 100F / (_width - 1); 
+			relative.Y = point.Y * 100F / (_height - 1); 
 			
 			// Return Relative coordinates
 			return relative;
@@ -4683,8 +4683,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             SizeF relative = SizeF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
-			relative.Width = size.Width * 100F / ((float)(_width - 1)); 
-			relative.Height = size.Height * 100F / ((float)(_height - 1)); 
+			relative.Width = size.Width * 100F / (_width - 1); 
+			relative.Height = size.Height * 100F / (_height - 1); 
 			
 			// Return relative coordinates
 			return relative;

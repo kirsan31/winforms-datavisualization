@@ -99,8 +99,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			get
 			{
-				if(((ChartArea)this).Area3DStyle.Enable3D ||
-					((ChartArea)this).chartAreaIsCurcular)
+				if(this.Area3DStyle.Enable3D ||
+                    this.chartAreaIsCurcular)
 				{
 					return false;
 				}
@@ -145,7 +145,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal Axis GetAxis(AxisName axisName, AxisType axisType, string subAxisName)
 		{
 			// Ignore sub axis in 3D
-			if( ((ChartArea)this).Area3DStyle.Enable3D)
+			if(this.Area3DStyle.Enable3D)
 			{
 				subAxisName = string.Empty;
 			}
@@ -154,17 +154,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(axisType == AxisType.Primary)
 				{
-					return ((ChartArea)this).AxisX.GetSubAxis(subAxisName);
+					return this.AxisX.GetSubAxis(subAxisName);
 				}
-				return ((ChartArea)this).AxisX2.GetSubAxis(subAxisName);
+				return this.AxisX2.GetSubAxis(subAxisName);
 			}
 			else 
 			{
 				if(axisType == AxisType.Primary)
 				{
-					return ((ChartArea)this).AxisY.GetSubAxis(subAxisName);
+					return this.AxisY.GetSubAxis(subAxisName);
 				}
-				return ((ChartArea)this).AxisY2.GetSubAxis(subAxisName);
+				return this.AxisY2.GetSubAxis(subAxisName);
 			}
 		}
 
@@ -194,7 +194,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Reset opposite Axes field. This cashing 
 			// value is used for optimization.
-			foreach( Axis axisItem in ((ChartArea)this).Axes )
+			foreach( Axis axisItem in this.Axes )
 			{
                 axisItem.oppositeAxis = null;
 #if SUBAXES
@@ -1056,8 +1056,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Chart type with two y values used for scale ( bubble chart type )
 				else if( secondYScale )
 				{
-					autoMaximum = Common.DataManager.GetMaxXWithRadiusValue( (ChartArea)this, xAxesSeries );
-					autoMinimum = Common.DataManager.GetMinXWithRadiusValue( (ChartArea)this, xAxesSeries );
+					autoMaximum = Common.DataManager.GetMaxXWithRadiusValue(this, xAxesSeries );
+					autoMinimum = Common.DataManager.GetMinXWithRadiusValue(this, xAxesSeries );
 					ChartValueType valueTypes = Common.DataManager.Series[xAxesSeries[0]].XValueType;
 					if( valueTypes != ChartValueType.Date && 
                         valueTypes != ChartValueType.DateTime && 
@@ -1131,8 +1131,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Chart type with two y values used for scale ( bubble chart type )
 				else if( secondYScale )
 				{
-					autoMaximum = Common.DataManager.GetMaxYWithRadiusValue( (ChartArea)this, yAxesSeries );
-					autoMinimum = Common.DataManager.GetMinYWithRadiusValue( (ChartArea)this, yAxesSeries );
+					autoMaximum = Common.DataManager.GetMaxYWithRadiusValue(this, yAxesSeries );
+					autoMinimum = Common.DataManager.GetMinYWithRadiusValue(this, yAxesSeries );
 				}
 
 				// *****************************
@@ -1146,7 +1146,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						foreach(Series series in this.Common.Chart.Series)
 						{
-							if(series.ChartArea == ((ChartArea)this).Name)
+							if(series.ChartArea == this.Name)
 							{
 								IChartType charType = Common.ChartTypeRegistry.GetChartType( series.ChartTypeName );
 								if(charType != null && charType.ExtraYValuesConnectedToYAxis)
@@ -1312,7 +1312,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				axisInterval = axis.CalcInterval( ( axis.ViewMaximum - axis.ViewMinimum ) / 5 );
 			}
 
-			ChartArea area = (ChartArea)this;
+			ChartArea area = this;
 			if( area.Area3DStyle.Enable3D && !double.IsNaN(axis.interval3DCorrection) )
 			{
 				axisInterval = Math.Ceiling( axisInterval / axis.interval3DCorrection );

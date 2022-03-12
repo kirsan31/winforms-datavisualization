@@ -14,6 +14,7 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
@@ -533,7 +534,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // List of all SmartLabelStyle positions in the area
-        internal ArrayList smartLabelsPositions;
+        internal List<RectangleF> smartLabelsPositions;
 
         // Indicates that not a single collision is allowed
         internal bool checkAllCollisions;
@@ -562,7 +563,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal void Reset()
         {
             // Re-initialize list of labels position
-            smartLabelsPositions = new ArrayList();
+            smartLabelsPositions = new List<RectangleF>();
         }
 
         /// <summary>
@@ -1307,7 +1308,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             // Create array list if needed
                             if (this.smartLabelsPositions == null)
                             {
-                                this.smartLabelsPositions = new ArrayList();
+                                this.smartLabelsPositions = new List<RectangleF>();
                             }
 
                             // Add label position into the list
@@ -1339,7 +1340,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (this.smartLabelsPositions == null)
             {
-                this.smartLabelsPositions = new ArrayList();
+                this.smartLabelsPositions = new List<RectangleF>();
             }
 
             // Add label position into the list

@@ -490,7 +490,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		internal static string FontToString(Font font)
 		{
 			// Save basic properties persisted by font converter
-			string fontData = (string)SerializerBase.fontConverter.ConvertToInvariantString(font);
+			string fontData = SerializerBase.fontConverter.ConvertToInvariantString(font);
 
 			// Persist properties not serialiazed by the converter
 			if(font.GdiCharSet != 1)

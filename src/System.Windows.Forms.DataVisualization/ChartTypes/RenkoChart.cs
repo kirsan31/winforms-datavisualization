@@ -54,6 +54,7 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
@@ -440,7 +441,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					while(numberOfBricks > 0)
 					{
 						// Create new point
-						DataPoint newDataPoint = (DataPoint)dataPoint.Clone();
+						DataPoint newDataPoint = dataPoint.Clone();
 						newDataPoint["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
 						newDataPoint.series = series;
 						newDataPoint.YValues = new double[2];
@@ -656,7 +657,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="area">Chart area.</param>
 		/// <param name="series">Series values to be used.</param>
 		/// <param name="list">List to add to.</param>
-		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, ArrayList list)
+		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, List<RectangleF> list)
 		{
             // NOTE: SmartLabelStyle feature is not supported by this chart type.
 		}

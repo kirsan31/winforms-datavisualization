@@ -54,7 +54,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			set
 			{
 				labelStyle = value;
-				labelStyle.Axis = (Axis)this;
+				labelStyle.Axis = this;
 				this.Invalidate();
 			}
 		}
@@ -201,7 +201,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (
                 !this.LabelStyle.Enabled || 
                 !this.enabled || 
-                !String.IsNullOrEmpty(((Axis)this).SubAxisName) || 
+                !String.IsNullOrEmpty(this.SubAxisName) || 
                 this.axisType == AxisName.Y || 
                 this.axisType == AxisName.Y2
                 )
@@ -295,16 +295,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			switch( axisType )
 			{
 				case AxisName.X:
-					dataSeries = ChartArea.GetXAxesSeries( AxisType.Primary, ((Axis)this).SubAxisName );
+					dataSeries = ChartArea.GetXAxesSeries( AxisType.Primary, this.SubAxisName );
 					break;
 				case AxisName.Y:
-					dataSeries = ChartArea.GetYAxesSeries( AxisType.Primary, ((Axis)this).SubAxisName );
+					dataSeries = ChartArea.GetYAxesSeries( AxisType.Primary, this.SubAxisName );
 					break;
 				case AxisName.X2:
-					dataSeries = ChartArea.GetXAxesSeries( AxisType.Secondary, ((Axis)this).SubAxisName );
+					dataSeries = ChartArea.GetXAxesSeries( AxisType.Secondary, this.SubAxisName );
 					break;
 				case AxisName.Y2:
-					dataSeries = ChartArea.GetYAxesSeries( AxisType.Secondary, ((Axis)this).SubAxisName );
+					dataSeries = ChartArea.GetYAxesSeries( AxisType.Secondary, this.SubAxisName );
 					break;
 			}
 
@@ -317,7 +317,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //Let's convert the ArrayList of the series names into to string[]
             string[] dataSeriesNames = new string[dataSeries.Count];
             for (int i = 0; i < dataSeries.Count; i++)
-                dataSeriesNames[i] = (string)dataSeries[i];
+                dataSeriesNames[i] = dataSeries[i];
 
 			// Check if series X values all set to zeros
             bool seriesXValuesZeros = ChartHelper.SeriesXValuesZeros(this.Common, dataSeriesNames);
@@ -419,7 +419,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Labels from point position
 				for( int point = 0; point < numOfPoints; point++ )
 				{
-					CustomLabels.Add( ((double)point)+ 0.5, ((double)point)+ 1.5, 
+					CustomLabels.Add(point + 0.5, point + 1.5, 
 						ValueConverter.FormatValue(
 							this.Common.Chart,
 							this,
@@ -435,7 +435,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if( endLabels == 1 )
 				{
 					// max position
-					CustomLabels.Add( ((double)numOfPoints)+ 0.5, ((double)numOfPoints)+ 1.5, 
+					CustomLabels.Add(numOfPoints + 0.5, numOfPoints + 1.5, 
 						ValueConverter.FormatValue(
 							this.Common.Chart,
 							this,
@@ -495,7 +495,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				Series	axisSeries = null;
 				if(axisType == AxisName.X || axisType == AxisName.X2)
 				{
-					List<string> seriesArray = ChartArea.GetXAxesSeries((axisType == AxisName.X) ? AxisType.Primary : AxisType.Secondary, ((Axis)this).SubAxisName);
+					List<string> seriesArray = ChartArea.GetXAxesSeries((axisType == AxisName.X) ? AxisType.Primary : AxisType.Secondary, this.SubAxisName);
 					if(seriesArray.Count > 0)
 					{
 						axisSeries = Common.DataManager.Series[seriesArray[0]];

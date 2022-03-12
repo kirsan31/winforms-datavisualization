@@ -1864,11 +1864,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 float scaleValue = 1f;
                 if (imagePosition.Height > imageCellPosition.Height)
                 {
-                    scaleValue = (float)imagePosition.Height / (float)imageCellPosition.Height;
+                    scaleValue = imagePosition.Height / (float)imageCellPosition.Height;
                 }
                 if (imagePosition.Width > imageCellPosition.Width)
                 {
-                    scaleValue = Math.Max(scaleValue, (float)imagePosition.Width / (float)imageCellPosition.Width);
+                    scaleValue = Math.Max(scaleValue, imagePosition.Width / (float)imageCellPosition.Width);
                 }
 
                 // Scale image size
@@ -2034,11 +2034,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     float scaleValue = 1f;
                     if (imageScale.Height > seriesMarkerPosition.Height)
                     {
-                        scaleValue = (float)imageScale.Height / (float)seriesMarkerPosition.Height;
+                        scaleValue = imageScale.Height / (float)seriesMarkerPosition.Height;
                     }
                     if (imageScale.Width > seriesMarkerPosition.Width)
                     {
-                        scaleValue = Math.Max(scaleValue, (float)imageScale.Width / (float)seriesMarkerPosition.Width);
+                        scaleValue = Math.Max(scaleValue, imageScale.Width / (float)seriesMarkerPosition.Width);
                     }
 
                     // Scale image size
@@ -2138,7 +2138,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         legendItem.markerImage.Length > 0)
                     {
                         // Calculate marker size
-                        int markerSize = (int)Math.Min(seriesMarkerPosition.Width, seriesMarkerPosition.Height);
+                        int markerSize = Math.Min(seriesMarkerPosition.Width, seriesMarkerPosition.Height);
                         markerSize = (int)Math.Min(legendItem.markerSize, (legendItem.style == LegendImageStyle.Line) ? 2f * (markerSize / 3f) : markerSize);
 
                         // Reduce marker size to fit border
@@ -2175,11 +2175,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             float scaleValue = 1f;
                             if (imageScale.Height > seriesMarkerPosition.Height)
                             {
-                                scaleValue = (float)imageScale.Height / (float)seriesMarkerPosition.Height;
+                                scaleValue = imageScale.Height / (float)seriesMarkerPosition.Height;
                             }
                             if (imageScale.Width > seriesMarkerPosition.Width)
                             {
-                                scaleValue = Math.Max(scaleValue, (float)imageScale.Width / (float)seriesMarkerPosition.Width);
+                                scaleValue = Math.Max(scaleValue, imageScale.Width / (float)seriesMarkerPosition.Width);
                             }
 
                             // Scale image size

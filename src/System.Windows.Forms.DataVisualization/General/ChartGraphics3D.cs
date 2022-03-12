@@ -322,8 +322,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             ChartElementType chartElementType = obj is StripLine ? ChartElementType.StripLines : ChartElementType.Gridlines;
 
-			// Draw strip line on the back/front wall
-			((ChartGraphics)this).Draw3DLine( 
+            // Draw strip line on the back/front wall
+            this.Draw3DLine( 
 				area.matrix3D,
 				color, width, style,
 				new Point3D(point1.X, point1.Y, zPositon),
@@ -345,7 +345,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					point1.X = Math.Max(point1.X, point2.X);
 				}
 
-				((ChartGraphics)this).Draw3DLine( 
+                this.Draw3DLine( 
 					area.matrix3D,
 					color, width, style,
 					new Point3D(point1.X, point1.Y, 0f),
@@ -361,7 +361,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Draw strip line on the bottom wall (if visible)
 				point1.Y = Math.Max(point1.Y, point2.Y);
 
-				((ChartGraphics)this).Draw3DLine( 
+                this.Draw3DLine( 
 					area.matrix3D,
 					color, width, style,
 					new Point3D(point1.X, point1.Y, 0f),
@@ -427,8 +427,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			
 			if( common.ProcessModePaint )
 			{
-				// Draw 2D line in 3D space
-				((ChartGraphics)this).DrawLineRel(color, width, style, points[0].PointF, points[1].PointF);
+                // Draw 2D line in 3D space
+                this.DrawLineRel(color, width, style, points[0].PointF, points[1].PointF);
 			}
 
 		}
@@ -757,7 +757,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         // Add point to the map area
                         common.HotRegionsList.AddHotRegion(
-                            (ChartGraphics)this,
+                            this,
                             path,
                             false,
                             point.ReplaceKeywords(point.ToolTip),
@@ -775,7 +775,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     common.HotRegionsList.AddHotRegion(
                         path,
                         false,
-                        (ChartGraphics)this,
+                        this,
                         point,
                         point.series.Name,
                         pointIndex);
@@ -879,7 +879,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         // Add point to the map area
                         common.HotRegionsList.AddHotRegion(
-                            (ChartGraphics)this,
+                            this,
                             path,
                             false,
                             point.ReplaceKeywords(point.ToolTip),
@@ -894,7 +894,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
 
-                    common.HotRegionsList.AddHotRegion(path, false, (ChartGraphics)this, point, point.series.Name, pointIndex);
+                    common.HotRegionsList.AddHotRegion(path, false, this, point, point.series.Name, pointIndex);
                 }
             }
 		}
@@ -1011,7 +1011,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         // Add point to the map area
                         common.HotRegionsList.AddHotRegion(
-                            (ChartGraphics)this,
+                            this,
                             path,
                             false,
                             point.ReplaceKeywords(point.ToolTip),
@@ -1028,7 +1028,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     common.HotRegionsList.AddHotRegion(
                         path,
                         false,
-                        (ChartGraphics)this,
+                        this,
                         point,
                         point.series.Name,
                         pointIndex);
@@ -2708,7 +2708,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 
 					// Point found
-					return (DataPoint3D)point3D;
+					return point3D;
 				}
 
 				++neighborPointIndex;
@@ -3437,7 +3437,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			RectangleF imageScaleRect,
 			DrawingOperationTypes operationType )
 		{
-			ChartGraphics	graph = (ChartGraphics)this;
+			ChartGraphics	graph = this;
 			GraphicsPath	resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
 				? new GraphicsPath() : null;
 
@@ -3472,8 +3472,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if( (operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
 				{
 					RectangleF	rect = RectangleF.Empty;
-					rect.X = markerRotatedPosition.X - ((float)markerSize)/2F;
-					rect.Y = markerRotatedPosition.Y - ((float)markerSize)/2F;
+					rect.X = markerRotatedPosition.X - markerSize / 2F;
+					rect.Y = markerRotatedPosition.Y - markerSize / 2F;
 					rect.Width = markerSize;
 					rect.Height = markerSize;
 					resultPath.AddRectangle(rect);
@@ -3494,8 +3494,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     // Calculate marker rectangle
                     RectangleF rect = RectangleF.Empty;
-                    rect.X = markerRotatedPosition.X - ((float)markerSize) / 2F;
-                    rect.Y = markerRotatedPosition.Y - ((float)markerSize) / 2F;
+                    rect.X = markerRotatedPosition.X - markerSize / 2F;
+                    rect.Y = markerRotatedPosition.Y - markerSize / 2F;
                     rect.Width = markerSize;
                     rect.Height = markerSize;
 

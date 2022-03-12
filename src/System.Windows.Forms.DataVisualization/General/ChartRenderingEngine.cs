@@ -177,7 +177,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			float tension
 			)
 		{
-            ChartGraphics chartGraphics = this as ChartGraphics;
+            ChartGraphics chartGraphics = this;
             if (chartGraphics == null || !chartGraphics.IsMetafile)
             {
                 RenderingObject.DrawCurve(pen, points, offset, numberOfSegments, tension);

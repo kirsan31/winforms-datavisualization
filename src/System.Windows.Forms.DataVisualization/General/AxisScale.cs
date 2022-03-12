@@ -385,19 +385,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				// Set intervals for labels, grids and tick marks. ( Auto interval type )
 				if( tempMajorGridInterval <= 0.0 ||
-					(double.IsNaN(tempMajorGridInterval) && ((Axis)this).Interval <= 0.0) ) 
+					(double.IsNaN(tempMajorGridInterval) && this.Interval <= 0.0) ) 
 				{
 					majorGrid.intervalType = value;
 				}
 
 				if( this.tempMajorTickMarkInterval <= 0.0 ||
-					(double.IsNaN(tempMajorTickMarkInterval) && ((Axis)this).Interval <= 0.0) ) 
+					(double.IsNaN(tempMajorTickMarkInterval) && this.Interval <= 0.0) ) 
 				{
 					majorTickMark.intervalType = value;
 				}
 
 				if( this.tempLabelInterval <= 0.0 ||
-					(double.IsNaN(tempLabelInterval) && ((Axis)this).Interval <= 0.0) ) 
+					(double.IsNaN(tempLabelInterval) && this.Interval <= 0.0) ) 
 				{
 					labelStyle.intervalType = value;
 				}
@@ -417,19 +417,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			set
 			{
 				if( tempMajorGridInterval <= 0.0 ||
-					(double.IsNaN(tempMajorGridInterval) && ((Axis)this).Interval <= 0.0) ) 
+					(double.IsNaN(tempMajorGridInterval) && this.Interval <= 0.0) ) 
 				{
 					majorGrid.interval = value;
 				}
 
 				if( tempMajorTickMarkInterval <= 0.0 ||
-					(double.IsNaN(tempMajorTickMarkInterval) && ((Axis)this).Interval <= 0.0) ) 
+					(double.IsNaN(tempMajorTickMarkInterval) && this.Interval <= 0.0) ) 
 				{
 					majorTickMark.interval = value;
 				}
 
 				if( tempLabelInterval <= 0.0 ||
-					(double.IsNaN(tempLabelInterval) && ((Axis)this).Interval <= 0.0) ) 
+					(double.IsNaN(tempLabelInterval) && this.Interval <= 0.0) ) 
 				{
 					labelStyle.interval = value;
 				}
@@ -445,21 +445,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal void SetIntervalAndType(double newInterval, DateTimeIntervalType newIntervalType)
 		{
 			if( tempMajorGridInterval <= 0.0 ||
-				(double.IsNaN(tempMajorGridInterval) && ((Axis)this).Interval <= 0.0) ) 
+				(double.IsNaN(tempMajorGridInterval) && this.Interval <= 0.0) ) 
 			{
 				majorGrid.interval = newInterval;
 				majorGrid.intervalType = newIntervalType;
 			}
 
 			if( tempMajorTickMarkInterval <= 0.0 ||
-				(double.IsNaN(tempMajorTickMarkInterval) && ((Axis)this).Interval <= 0.0) ) 
+				(double.IsNaN(tempMajorTickMarkInterval) && this.Interval <= 0.0) ) 
 			{
 				majorTickMark.interval = newInterval;
 				majorTickMark.intervalType = newIntervalType;
 			}
 
 			if( tempLabelInterval <= 0.0 ||
-				(double.IsNaN(tempLabelInterval) && ((Axis)this).Interval <= 0.0) ) 
+				(double.IsNaN(tempLabelInterval) && this.Interval <= 0.0) ) 
 			{
 				labelStyle.interval = newInterval;
 				labelStyle.intervalType = newIntervalType;
@@ -510,12 +510,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					_autoMaximum = false;
 				}
 
-				// Reset original property value fields
-				((Axis)this).tempMaximum = maximum;
+                // Reset original property value fields
+                this.tempMaximum = maximum;
 
-				// This line is added because of Save ScaleView State August 29, 2003
-				// in Web Forms. This place could cause problems with Reset Auto Values.
-				((Axis)this).tempAutoMaximum = _autoMaximum;
+                // This line is added because of Save ScaleView State August 29, 2003
+                // in Web Forms. This place could cause problems with Reset Auto Values.
+                this.tempAutoMaximum = _autoMaximum;
 
 				this.Invalidate();
 			}
@@ -561,12 +561,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					logarithmicMinimum = value;
 				}
 
-				// Reset original property value fields
-				((Axis)this).tempMinimum = minimum;
+                // Reset original property value fields
+                this.tempMinimum = minimum;
 
-				// This line is added because of Save ScaleView State August 29, 2003
-				// in Web Forms. This place could cause problems with Reset Auto Values.
-				((Axis)this).tempAutoMinimum = _autoMinimum;
+                // This line is added because of Save ScaleView State August 29, 2003
+                // in Web Forms. This place could cause problems with Reset Auto Values.
+                this.tempAutoMinimum = _autoMinimum;
 
 				this.Invalidate();
 			}
@@ -599,8 +599,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				crossing = value;
 
-				// Reset original property value fields
-				((Axis)this).tempCrossing = crossing;
+                // Reset original property value fields
+                this.tempCrossing = crossing;
 
 				this.Invalidate();
 			}
@@ -738,7 +738,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			set
 			{
 				this.axisScaleBreakStyle = value;
-				this.axisScaleBreakStyle.axis = (Axis)this;
+				this.axisScaleBreakStyle.axis = this;
 				//this.Invalidate();
 			}
 		}
@@ -789,7 +789,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			set
 			{
 				_scaleView = value;
-				_scaleView.axis = (Axis)this;
+				_scaleView.axis = this;
 				this.Invalidate();
 			}
 		}
@@ -813,7 +813,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			set
 			{
 				scrollBar = value;
-				scrollBar.axis = (Axis)this;
+				scrollBar.axis = this;
 				this.Invalidate();
 			}
 		}
@@ -991,11 +991,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			double val = position;
 			if( AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom )
 			{
-				val *= 100F / ((float)(this.Common.ChartPicture.Width - 1));
+				val *= 100F / (this.Common.ChartPicture.Width - 1);
 			}
 			else 
 			{
-				val *= 100F / ((float)(this.Common.ChartPicture.Height - 1));
+				val *= 100F / (this.Common.ChartPicture.Height - 1);
 			}
 
 			// Get from relative position
@@ -1089,7 +1089,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.minorGrid.intervalOffset = Double.IsNaN(this.minorGrid.intervalOffset) ? offset : this.minorGrid.intervalOffset + offset;
                 this.minorTickMark.intervalOffset = Double.IsNaN(this.minorTickMark.intervalOffset) ? offset : this.minorTickMark.intervalOffset + offset;
 
-				foreach( StripLine strip in ((Axis)(this)).StripLines )
+				foreach( StripLine strip in this.StripLines )
 				{
 					_stripLineOffsets.Add( strip.IntervalOffset );
 					strip.IntervalOffset -= contraOffset;
@@ -1113,7 +1113,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.majorGrid.intervalOffset = this._intervalsStore.Pop();
                 this.labelStyle.intervalOffset = this._intervalsStore.Pop();
 				int index = 0;
-				foreach( StripLine strip in ((Axis)(this)).StripLines )
+				foreach( StripLine strip in this.StripLines )
 				{
 					if( _stripLineOffsets.Count > index )
 					{
@@ -1516,7 +1516,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if( axisType == AxisName.X )
 			{ 
 				// Check X axes type
-				list = ChartArea.GetXAxesSeries( AxisType.Primary, ((Axis)this).SubAxisName );
+				list = ChartArea.GetXAxesSeries( AxisType.Primary, this.SubAxisName );
 				if( list.Count == 0 )
 				{
 					return ChartValueType.Auto;
@@ -1530,7 +1530,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			else if( axisType == AxisName.X2 )
 			{ 
 				// Check X2 axes type
-				list = ChartArea.GetXAxesSeries( AxisType.Secondary, ((Axis)this).SubAxisName );
+				list = ChartArea.GetXAxesSeries( AxisType.Secondary, this.SubAxisName );
 				if( list.Count == 0 )
 				{
 					return ChartValueType.Auto;
@@ -1544,7 +1544,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			else if( axisType == AxisName.Y )
 			{ 
 				// Check Y axes type
-				list = ChartArea.GetYAxesSeries( AxisType.Primary, ((Axis)this).SubAxisName );
+				list = ChartArea.GetYAxesSeries( AxisType.Primary, this.SubAxisName );
 				if( list.Count == 0 )
 				{
 					return ChartValueType.Auto;
@@ -1558,7 +1558,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			else if( axisType == AxisName.Y2 )
 			{ 
 				// Check Y2 axes type
-				list = ChartArea.GetYAxesSeries( AxisType.Secondary, ((Axis)this).SubAxisName );
+				list = ChartArea.GetYAxesSeries( AxisType.Secondary, this.SubAxisName );
 				if( list.Count == 0 )
 				{
 					return ChartValueType.Auto;
@@ -1664,7 +1664,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				// X Axis
 				case AxisName.X:
-					list = ChartArea.GetXAxesSeries( AxisType.Primary, ((Axis)this).SubAxisName ); 
+					list = ChartArea.GetXAxesSeries( AxisType.Primary, this.SubAxisName ); 
 					// There aren't data series
 					if( list.Count == 0 )
                         oppositeAxis = ChartArea.AxisY;
@@ -1676,7 +1676,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					break;
 					// X2 Axis
 				case AxisName.X2:
-					list = ChartArea.GetXAxesSeries( AxisType.Secondary, ((Axis)this).SubAxisName ); 
+					list = ChartArea.GetXAxesSeries( AxisType.Secondary, this.SubAxisName ); 
 					// There aren't data series
 					if( list.Count == 0 )
                         oppositeAxis = ChartArea.AxisY2;
@@ -1688,7 +1688,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					break;
 					// Y Axis
 				case AxisName.Y:
-					list = ChartArea.GetYAxesSeries( AxisType.Primary, ((Axis)this).SubAxisName ); 
+					list = ChartArea.GetYAxesSeries( AxisType.Primary, this.SubAxisName ); 
 					// There aren't data series
 					if( list.Count == 0 )
                         oppositeAxis = ChartArea.AxisX;
@@ -1700,7 +1700,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					break;
 					// Y2 Axis
 				case AxisName.Y2:
-					list = ChartArea.GetYAxesSeries( AxisType.Secondary, ((Axis)this).SubAxisName ); 
+					list = ChartArea.GetYAxesSeries( AxisType.Secondary, this.SubAxisName ); 
 					// There aren't data series
 					if( list.Count == 0 )
                         oppositeAxis = ChartArea.AxisX2;
@@ -2221,9 +2221,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Case when minimum or maximum is set and interval is > maximum. 
 			// Reasons overflow exception.
-			if( ((Axis)this).interval != 0 && ((Axis)this).interval > axisInterval && minimumValue + ((Axis)this).interval > maximumValue )
+			if(this.interval != 0 && this.interval > axisInterval && minimumValue + this.interval > maximumValue )
 			{
-				axisInterval = ((Axis)this).interval;
+				axisInterval = this.interval;
 				if( autoMaximum )
 				{
 					maximumValue = minimumValue + axisInterval;

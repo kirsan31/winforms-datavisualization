@@ -335,7 +335,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					prevClose = dataPoint.YValues[yValueIndex];
 
 					// Add first point
-					DataPoint newDataPoint = (DataPoint)dataPoint.Clone();
+					DataPoint newDataPoint = dataPoint.Clone();
                     newDataPoint["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
 					newDataPoint.series = series;
 					newDataPoint.XValue = dataPoint.XValue;
@@ -387,7 +387,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					else
 					{
 						// Opposite direction by more than reversal amount
-						DataPoint newDataPoint = (DataPoint)dataPoint.Clone();
+						DataPoint newDataPoint = dataPoint.Clone();
                         newDataPoint["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
 						newDataPoint.series = series;
 						newDataPoint.XValue = dataPoint.XValue;

@@ -404,8 +404,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						// The formula for position is based on a distance 
 						//from the grid line or nPoints position.
-						xPosition = hAxis.GetPosition( (double)index ) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width;
-						xCenterVal = hAxis.GetPosition( (double)index );
+						xPosition = hAxis.GetPosition(index) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width;
+						xCenterVal = hAxis.GetPosition(index);
 					}
 					else if( sameInterval )
 					{

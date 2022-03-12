@@ -723,7 +723,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Set X value
                 if (_zeroXValues)
-                    output[0][indexPoint] = (double)indexPoint + 1.0;
+                    output[0][indexPoint] = indexPoint + 1.0;
                 else
                     output[0][indexPoint] = point.XValue;
 
