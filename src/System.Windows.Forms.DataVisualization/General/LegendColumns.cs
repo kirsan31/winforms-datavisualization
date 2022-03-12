@@ -22,7 +22,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     using System.Drawing.Design;
     using System.Drawing.Drawing2D;
     using System.Windows.Forms.Design.DataVisualization.Charting;
-    using SizeF = System.Drawing.SizeF;
+    using SizeF = Drawing.SizeF;
 
     #region Enumerations
 
@@ -199,8 +199,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         [
         Browsable(false),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
         ]
         public virtual Legend Legend
         {
@@ -221,7 +221,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeSeriesItems"),
         DefaultValue(LegendCellColumnType.Text),
         SRDescription("DescriptionAttributeLegendCellColumn_ColumnType"),
-        ParenthesizePropertyNameAttribute(true)
+        ParenthesizePropertyName(true)
         ]
         public virtual LegendCellColumnType ColumnType
         {
@@ -383,9 +383,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeSeriesItems"),
         DefaultValue(typeof(Margins), "0,0,15,15"),
         SRDescription("DescriptionAttributeLegendCellColumn_Margins"),
-        SerializationVisibilityAttribute(SerializationVisibility.Attribute),
+        SerializationVisibility(SerializationVisibility.Attribute),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         ]
         public virtual Margins Margins
         {
@@ -409,7 +409,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Returns true if property should be serialized.  This is for internal use only.
         /// </summary>
-        [EditorBrowsableAttribute(EditorBrowsableState.Never)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ShouldSerializeMargins()
         {
             if (this._margins.Top == 0 &&
@@ -824,7 +824,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         DefaultValue(LegendCellType.Text),
         SRDescription("DescriptionAttributeLegendCell_CellType"),
-        ParenthesizePropertyNameAttribute(true)
+        ParenthesizePropertyName(true)
         ]
         public virtual LegendCellType CellType
         {
@@ -844,8 +844,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         [
         Browsable(false),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
         ]
         public virtual Legend Legend
         {
@@ -864,8 +864,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         [
         Browsable(false),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
         ]
         public virtual LegendItem LegendItem
         {
@@ -1122,8 +1122,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeLayout"),
         DefaultValue(typeof(Margins), "0,0,15,15"),
         SRDescription("DescriptionAttributeLegendCell_Margins"),
-        SerializationVisibilityAttribute(SerializationVisibility.Attribute),
-        NotifyParentPropertyAttribute(true),
+        SerializationVisibility(SerializationVisibility.Attribute),
+        NotifyParentProperty(true),
         ]
         public virtual Margins Margins
         {
@@ -1147,7 +1147,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Returns true if property should be serialized.  This method is for internal use only.
         /// </summary>
-        [EditorBrowsableAttribute(EditorBrowsableState.Never)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         internal bool ShouldSerializeMargins()
         {
             if (this._margins.Top == 0 &&
@@ -1824,7 +1824,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Get image size in relative coordinates
                 Rectangle imagePosition = Rectangle.Empty;
-                System.Drawing.Image image = this.Common.ImageLoader.LoadImage(this.Image);
+                Image image = this.Common.ImageLoader.LoadImage(this.Image);
 
                 SizeF imageSize = new SizeF();
 
@@ -2019,7 +2019,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Get image size
                 Rectangle imageScale = Rectangle.Empty;
-                System.Drawing.Image image = this.Common.ImageLoader.LoadImage(legendItem.Image);
+                Image image = this.Common.ImageLoader.LoadImage(legendItem.Image);
 
                 if (image != null)
                 {
@@ -2049,7 +2049,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     imageScale.Y = (int)((seriesMarkerPosition.Y + seriesMarkerPosition.Height / 2f) - imageScale.Height / 2f);
 
                     // Set image transparent color
-                    System.Drawing.Imaging.ImageAttributes imageAttributes = new System.Drawing.Imaging.ImageAttributes();
+                    using Drawing.Imaging.ImageAttributes imageAttributes = new Drawing.Imaging.ImageAttributes();
                     if (legendItem.BackImageTransparentColor != Color.Empty)
                     {
                         imageAttributes.SetColorKey(legendItem.BackImageTransparentColor, legendItem.BackImageTransparentColor, System.Drawing.Imaging.ColorAdjustType.Default);
@@ -2162,7 +2162,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (legendItem.markerImage.Length > 0)
                         {
                             // Get image size
-                            System.Drawing.Image image = this.Common.ImageLoader.LoadImage(legendItem.markerImage);
+                            Image image = this.Common.ImageLoader.LoadImage(legendItem.markerImage);
 
                             SizeF imageSize = new SizeF();
 
@@ -2306,8 +2306,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMisc"),
         DefaultValue(0),
         SRDescription("DescriptionAttributeMargins_Top"),
-        RefreshPropertiesAttribute(RefreshProperties.All),
-        NotifyParentPropertyAttribute(true),
+        RefreshProperties(RefreshProperties.All),
+        NotifyParentProperty(true),
         ]
         public int Top
         {
@@ -2333,8 +2333,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMisc"),
         DefaultValue(0),
         SRDescription("DescriptionAttributeMargins_Bottom"),
-        RefreshPropertiesAttribute(RefreshProperties.All),
-        NotifyParentPropertyAttribute(true),
+        RefreshProperties(RefreshProperties.All),
+        NotifyParentProperty(true),
         ]
         public int Bottom
         {
@@ -2359,9 +2359,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeMisc"),
         DefaultValue(0),
-        RefreshPropertiesAttribute(RefreshProperties.All),
+        RefreshProperties(RefreshProperties.All),
         SRDescription("DescriptionAttributeMargins_Left"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         ]
         public int Left
         {
@@ -2387,8 +2387,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMisc"),
         DefaultValue(0),
         SRDescription("DescriptionAttributeMargins_Right"),
-        RefreshPropertiesAttribute(RefreshProperties.All),
-        NotifyParentPropertyAttribute(true),
+        RefreshProperties(RefreshProperties.All),
+        NotifyParentProperty(true),
         ]
         public int Right
         {
@@ -2544,6 +2544,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return Count - 1;
         }
 
+
         /// <summary>
         /// Inserts a cell into the collection.
         /// </summary>
@@ -2560,6 +2561,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="alignment">
         /// A <see cref="ContentAlignment"/> value representing cell content alignment.
         /// </param>
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
         public void Insert(int index, LegendCellType cellType, string text, ContentAlignment alignment)
         {
             this.Insert(index, new LegendCell(cellType, text, alignment));

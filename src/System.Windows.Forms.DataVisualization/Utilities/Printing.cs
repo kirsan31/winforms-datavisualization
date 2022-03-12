@@ -159,7 +159,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		public void PageSetup()
 		{
 			// Create print preview dialog
-			PageSetupDialog	pageSetupDialog = new PageSetupDialog();
+			using PageSetupDialog pageSetupDialog = new PageSetupDialog();
 
 			// Initialize printing document
 			pageSetupDialog.Document = this.PrintDocument;
@@ -175,7 +175,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		public void PrintPreview()
 		{
 			// Create print preview dialog
-			PrintPreviewDialog	printPreviewDialog = new PrintPreviewDialog();
+			using PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog();
 
 			// Initialize printing document
 			printPreviewDialog.Document = this.PrintDocument;
@@ -194,7 +194,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if(showPrintDialog)
 			{
 				// Create and show Print dialog
-				PrintDialog printDialog = new PrintDialog();
+				using PrintDialog printDialog = new PrintDialog();
                 printDialog.UseEXDialog = true;
 				printDialog.Document = this.PrintDocument;
 				DialogResult dialogResult = printDialog.ShowDialog();

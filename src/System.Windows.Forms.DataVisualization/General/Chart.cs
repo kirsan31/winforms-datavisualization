@@ -434,49 +434,44 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.boundToDataSource = true;
 
             object dataSource = this.DataSource;
-            if (dataSource != null)
-            {
-                // Convert data source to recognizable source for the series
-                if (dataSource is DataSet && ((DataSet)dataSource).Tables.Count > 0)
-                {
-                    dataSource = ((DataSet)dataSource).DefaultViewManager.CreateDataView(((DataSet)dataSource).Tables[0]);
+            if (dataSource is null)
+                return;
 
-                }
-                else if (dataSource is DataTable)
+			DataView dataView = null;
+			// Convert data source to recognizable source for the series
+			if (dataSource is DataSet && ((DataSet)dataSource).Tables.Count > 0)
+            {
+				dataView = ((DataSet)dataSource).DefaultViewManager.CreateDataView(((DataSet)dataSource).Tables[0]);
+				dataSource = dataView;
+			}
+            else if (dataSource is DataTable)
+            {
+				dataView = new DataView((DataTable)dataSource);
+				dataSource = dataView;
+			}
+            else if (dataSource is IListSource)
+            {
+                if (((IListSource)dataSource).ContainsListCollection && ((IListSource)dataSource).GetList().Count > 0)
                 {
-                    dataSource = new DataView((DataTable)dataSource);
-                }
-                else if (dataSource is IList)
-                {
-                    dataSource = dataSource as IList;
-                }
-                else if (dataSource is IListSource  )
-                {
-                    if (((IListSource)dataSource).ContainsListCollection && ((IListSource)dataSource).GetList().Count > 0)
-                    {
-                        dataSource = ((IListSource)dataSource).GetList()[0] as IEnumerable;
-                    }
-                    else
-                    {
-                        dataSource = ((IListSource)dataSource).GetList();
-                    }
+                    dataSource = ((IListSource)dataSource).GetList()[0] as IEnumerable;
                 }
                 else
                 {
-                    dataSource = dataSource as IEnumerable;
+                    dataSource = ((IListSource)dataSource).GetList();
                 }
-
-                // Data bind
-                DataBind(dataSource as IEnumerable, null);
             }
-        }
 
-		/// <summary>
-		/// Data binds control to the data source
-		/// </summary>
-		/// <param name="dataSource">Data source to bind to.</param>
-		/// <param name="seriesList">List of series to bind.</param>
-		internal void DataBind(IEnumerable dataSource, ArrayList seriesList)
+            // Data bind
+            DataBind(dataSource as IEnumerable, null);
+			dataView?.Dispose();
+		}
+
+        /// <summary>
+        /// Data binds control to the data source
+        /// </summary>
+        /// <param name="dataSource">Data source to bind to.</param>
+        /// <param name="seriesList">List of series to bind.</param>
+        internal void DataBind(IEnumerable dataSource, ArrayList seriesList)
 		{
 			// Data bind series
 			if(dataSource != null && this.Common != null)

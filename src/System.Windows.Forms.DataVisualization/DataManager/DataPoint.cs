@@ -1051,11 +1051,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="yValue">List of Y values of the data point.</param>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
             Justification = "X and Y are cartesian coordinates and well understood")]
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
         public void InsertXY(int index, object xValue, params object[] yValue)
 		{
-#pragma warning disable CA2000 // Dispose objects before losing scope
-            DataPoint	newDataPoint = new DataPoint(series);
-#pragma warning restore CA2000 // Dispose objects before losing scope
+            DataPoint newDataPoint = new DataPoint(series);
             newDataPoint.SetValueXY(xValue, yValue);
 			DataPointInit(ref newDataPoint);			
 			this.Insert(index, newDataPoint);
@@ -1068,11 +1067,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="yValue">List of Y values of the data point.</param>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
             Justification = "Y is a cartesian coordinate and well understood")]
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
         public void InsertY(int index, params object[] yValue)
 		{
-#pragma warning disable CA2000 // Dispose objects before losing scope
-            DataPoint	newDataPoint = new DataPoint(series);
-#pragma warning restore CA2000 // Dispose objects before losing scope
+            DataPoint newDataPoint = new DataPoint(series);
             newDataPoint.SetValueY(yValue);
 			DataPointInit(ref newDataPoint);			
 			this.Insert(index, newDataPoint);

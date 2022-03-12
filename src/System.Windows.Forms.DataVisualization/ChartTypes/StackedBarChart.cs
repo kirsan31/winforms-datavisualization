@@ -2041,12 +2041,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Measure string
                         if (sizeFont.IsEmpty)
                         {
-                            sizeFont = graph.GetRelativeSize(
+							using var formatTmp = new StringFormat(StringFormat.GenericTypographic);
+							sizeFont = graph.GetRelativeSize(
                                 graph.MeasureString(
                                 text,
                                 point.Font,
                                 new SizeF(1000f, 1000f),
-                                new StringFormat(StringFormat.GenericTypographic)));
+								formatTmp));
                         }
 
                         // Get label background position

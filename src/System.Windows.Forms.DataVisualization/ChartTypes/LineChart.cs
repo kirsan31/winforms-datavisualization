@@ -729,7 +729,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						if(color != Color.Empty && color != Color.Transparent && pointBorderWidth > 0 && dashStyle != ChartDashStyle.NotSet)
 						{
-							Pen shadowPen = new Pen((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb((useBorderColor) ? point.BorderColor.A/2 : point.Color.A/2, series.ShadowColor), pointBorderWidth);
+							using Pen shadowPen = new Pen((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb((useBorderColor) ? point.BorderColor.A/2 : point.Color.A/2, series.ShadowColor), pointBorderWidth);
 							shadowPen.DashStyle = graph.GetPenStyle( point.BorderDashStyle );
 							shadowPen.StartCap = LineCap.Round;
 							shadowPen.EndCap = LineCap.Round;
@@ -901,7 +901,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         try
                         {
                             path.AddCurve(points, pointIndex - 1, 1, this.lineTension);
-                            path.Widen(new Pen(point.Color, pointBorderWidth + 2));
+							using var pen = new Pen(point.Color, pointBorderWidth + 2);
+							path.Widen(pen);
                             path.Flatten();
                         }
                         catch (OutOfMemoryException)
@@ -939,7 +940,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
         private const long maxGDIRange = 0x800000;
         // VSTS: 9698 - issue: the line start from X = 0 when GDI overflows (before we expected exception)
-        private bool IsLinePointsOverflow(PointF point)
+        private static bool IsLinePointsOverflow(PointF point)
         {
             return point.X <= -maxGDIRange || point.X >= maxGDIRange || point.Y <= -maxGDIRange || point.Y >= maxGDIRange;
         }
@@ -1024,7 +1025,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="point">Point to draw the line for.</param>
 		/// <param name="series">Point series.</param>
 		/// <param name="firstPoint">First line point.</param>
-		/// <param name="secondPoint">Seconf line point.</param>
+		/// <param name="secondPoint">Second line point.</param>
 		protected void DrawLine(
 			ChartGraphics graph, 
 			DataPoint point, 

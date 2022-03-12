@@ -837,6 +837,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			this.AddHotRegion( rectArea, selectedObject, type, relativeCoordinates, false );
 		}
 
+
         /// <summary>
         /// Add Hot region to the collection.
         /// </summary>
@@ -845,7 +846,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="type">AxisName of the object which present hot region</param>
         /// <param name="relativeCoordinates">Coordinates for rectangle are relative</param>
         /// <param name="insertAtBeginning">Insert the hot region at the beginning of the collection</param>
-		internal void AddHotRegion( RectangleF rectArea, object selectedObject, ChartElementType type, bool relativeCoordinates, bool insertAtBeginning )
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
+        internal void AddHotRegion( RectangleF rectArea, object selectedObject, ChartElementType type, bool relativeCoordinates, bool insertAtBeginning )
 		{
 			if( ( ProcessChartMode & ProcessMode.HotRegions ) == ProcessMode.HotRegions )
 			{
