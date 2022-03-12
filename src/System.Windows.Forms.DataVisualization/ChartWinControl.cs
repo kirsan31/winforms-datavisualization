@@ -936,7 +936,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		internal void ResetPaletteCustomColors()
 		{
-			this.PaletteCustomColors = new Color[0];
+			this.PaletteCustomColors = Array.Empty<Color>();
 		}
 
 		/// <summary>

@@ -1086,7 +1086,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
 		}
 
 		// Array of custom palette colors.
-		private Color[] _paletteCustomColors = new Color[0];
+		private Color[] _paletteCustomColors = Array.Empty<Color>();
 
 		/// <summary>
 		/// Array of custom palette colors.

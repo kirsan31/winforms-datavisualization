@@ -1100,7 +1100,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         internal ChartElementOutline()
         {
-            this.Markers = new ReadOnlyCollection<PointF>( new PointF[] {});
+            this.Markers = new ReadOnlyCollection<PointF>(Array.Empty<PointF>());
         }
 
         /// <summary>
@@ -1879,7 +1879,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Justification = "X and Y are cartesian coordinates and well understood")]
         internal HitTestResult HitTest(int x, int y)
         {
-            return this.HitTest(x, y, false, new ChartElementType[] {})[0];
+            return this.HitTest(x, y, false, Array.Empty<ChartElementType>())[0];
         }
 
         /// <summary>
@@ -1893,7 +1893,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Justification = "X and Y are cartesian coordinates and well understood")]
         public HitTestResult HitTest(int x, int y, bool ignoreTransparent)
         {
-            return this.HitTest(x, y, ignoreTransparent, new ChartElementType[] { })[0];
+            return this.HitTest(x, y, ignoreTransparent, Array.Empty<ChartElementType>())[0];
         }
 
         /// <summary>
