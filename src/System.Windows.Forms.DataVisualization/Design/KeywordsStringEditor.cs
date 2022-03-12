@@ -560,7 +560,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 			resultRtf += @"\viewkind4\uc1\pard\f0\fs17 ";
 
 			// Add text
-            resultRtf += GetUnicodeRtf(this.GetColorHilightedRtfText(originalText));
+            resultRtf += KeywordsStringEditorForm.GetUnicodeRtf(this.GetColorHilightedRtfText(originalText));
 
 			// Finish RTF format
 			resultRtf += @"\par\r\n}";
@@ -569,7 +569,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		}
         
         // VSTS: 65162: The non ansi 1252 characters will be lost, we need conversion in \uXXXX? format.
-        private string GetUnicodeRtf(string orginalText)
+        private static string GetUnicodeRtf(string orginalText)
         {
             System.Text.StringBuilder result = new System.Text.StringBuilder();
             foreach (char c in orginalText.ToCharArray())

@@ -2415,7 +2415,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // remove keywords #VAL? for unexisted Y value indices
                 for (int index = this.YValues.Length; index <= 7; index++)
                 {
-                    result = this.RemoveOneKeyword(result, KeywordName.ValY + index + 1);
+                    result = RemoveOneKeyword(result, KeywordName.ValY + index + 1);
                 }
 
 				for(int index = 1; index <= this.YValues.Length; index++)
@@ -2464,7 +2464,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="strOriginal">Original format string</param>
         /// <param name="keyword">The keyword</param>
         /// <returns>Modified format string</returns>
-        private string RemoveOneKeyword(string strOriginal, string keyword)
+        private static string RemoveOneKeyword(string strOriginal, string keyword)
         {
             string result = strOriginal;
             int keyIndex;

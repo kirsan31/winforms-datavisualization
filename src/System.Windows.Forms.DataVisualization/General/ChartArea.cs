@@ -394,7 +394,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Avoid serialization of the axes array
         /// </summary>
         [EditorBrowsableAttribute(EditorBrowsableState.Never)]
-        internal bool ShouldSerializeAxes()
+        internal static bool ShouldSerializeAxes()
         {
             return false;
         }
