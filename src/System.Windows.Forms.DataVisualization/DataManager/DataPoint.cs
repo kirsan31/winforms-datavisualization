@@ -2578,9 +2578,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         sb.AppendFormat(CultureInfo.CurrentCulture, "{0}", YValues[i]);
                     else
                         sb.AppendFormat(CultureInfo.CurrentCulture, ", {0}", YValues[i]);
-                sb.Append("}");
+                sb.Append('}');
             }
-            sb.Append("}");
+            sb.Append('}');
             return sb.ToString();
         }
         #endregion
