@@ -1613,18 +1613,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				GetCloudPath(position);
 			}
 
-			// Translate and sacle original path to fit specified position
+			// Translate and scale original path to fit specified position
 			GraphicsPath resultPath = (GraphicsPath)_cloudOutlinePath.Clone();
-			Matrix matrix = new Matrix();
+			using Matrix matrix = new Matrix();
 			matrix.Translate(-_cloudBounds.X, -_cloudBounds.Y);
 			resultPath.Transform(matrix);
-            matrix.Dispose();
-            matrix = new Matrix();
+            matrix.Reset();
 			matrix.Translate(position.X, position.Y);
 			matrix.Scale(position.Width / _cloudBounds.Width, position.Height / _cloudBounds.Height);
 			resultPath.Transform(matrix);
-            matrix.Dispose();
-
 
             return resultPath;
 		}
@@ -1727,18 +1724,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				_cloudBounds = _cloudPath.GetBounds();
 			}
 
-			// Translate and sacle original path to fit specified position
+			// Translate and scale original path to fit specified position
 			GraphicsPath resultPath = (GraphicsPath)_cloudPath.Clone();
-			Matrix matrix = new Matrix();
+			using Matrix matrix = new Matrix();
 			matrix.Translate(-_cloudBounds.X, -_cloudBounds.Y);
 			resultPath.Transform(matrix);
-            matrix.Dispose();
-            matrix = new Matrix();
+            matrix.Reset();
 			matrix.Translate(position.X, position.Y);
 			matrix.Scale(position.Width / _cloudBounds.Width, position.Height / _cloudBounds.Height);
 			resultPath.Transform(matrix);
-            matrix.Dispose();
-
 
             return resultPath;
 		}

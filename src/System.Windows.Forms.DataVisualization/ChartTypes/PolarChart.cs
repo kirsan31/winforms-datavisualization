@@ -199,7 +199,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		{
 			PointF[]	pointPos = new PointF[series.Points.Count + 1];
 			int index = 0;
-			foreach( DataPoint point in series.Points )
+			Matrix matrix = null;
+
+			foreach ( DataPoint point in series.Points )
 			{
 				// Change Y value if line is out of plot area
 				double yValue = GetYValue(Common, area, series, point, index, 0);
@@ -215,7 +217,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 				// Rotate position
 				float	sectorAngle = area.CircularPositionToAngle(point.XValue);
-				using Matrix matrix = new Matrix();
+				if (matrix is null)
+					matrix = new Matrix();
+				else
+					matrix.Reset();
+
 				matrix.RotateAt(sectorAngle, graph.GetAbsolutePoint(area.circularCenter));
 				PointF[]	rotatedPoint = new PointF[] { pointPos[index] };
 				matrix.TransformPoints(rotatedPoint);
@@ -224,6 +230,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				index++;
 			}
 
+			matrix?.Dispose();
 			// Add last center point
 			pointPos[index] = graph.GetAbsolutePoint(area.circularCenter);
 

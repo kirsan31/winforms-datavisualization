@@ -4601,6 +4601,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Get absolute markers size and spacing
             float spacing = graph.GetAbsolutePoint(new PointF(0, this.markSize + Axis.elementSpacing)).Y;
+            Matrix newMatrix = null;
 
             //*****************************************************************
             //** Loop through all axis labels
@@ -4670,7 +4671,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     outsidePoint.Y -= spacing;
 
                     PointF[] rotatedPoint = new PointF[] { outsidePoint };
-                    using Matrix newMatrix = new Matrix();
+                    if (newMatrix is null)
+                        newMatrix = new Matrix();
+                    else
+                        newMatrix.Reset();
+
                     newMatrix.RotateAt(axis.AxisPosition, areaCenterAbs);
                     newMatrix.TransformPoints(rotatedPoint);
 
@@ -4700,7 +4705,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     PointF[] labelPosition = new PointF[] { new PointF(areaCenterAbs.X, plotAreaRectAbs.Y) };
                     labelPosition[0].Y += labelsSizeEstimate;
                     labelPosition[0].Y -= spacing;
-                    using Matrix newMatrix = new Matrix();
+                    if (newMatrix is null)
+                        newMatrix = new Matrix();
+                    else
+                        newMatrix.Reset();
+
                     newMatrix.RotateAt(textAngle, areaCenterAbs);
                     newMatrix.TransformPoints(labelPosition);
 
@@ -4745,6 +4754,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
+            newMatrix?.Dispose();
             return labelsFit;
         }
 

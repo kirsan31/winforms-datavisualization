@@ -590,17 +590,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool outside = true;
             PointF[] points = new PointF[numberOfCornersX2];
             PointF[] tempPoints = new PointF[1];
-            // overflow check
-            for (int pointIndex = 0; pointIndex < numberOfCornersX2; pointIndex++)
-			{
-				tempPoints[0] = new PointF(rect.X + rect.Width/2f, (outside == true) ? rect.Y : rect.Y + rect.Height/4f);
-				using Matrix	matrix = new Matrix();
+			Matrix matrix = null;
+
+			// overflow check
+			for (int pointIndex = 0; pointIndex < numberOfCornersX2; pointIndex++)
+			{				
+				if (matrix is null)
+					matrix = new Matrix();
+				else
+					matrix.Reset();
+
+				tempPoints[0] = new PointF(rect.X + rect.Width / 2f, (outside == true) ? rect.Y : rect.Y + rect.Height / 4f);
 				matrix.RotateAt(pointIndex*(360f/(numberOfCorners*2f)), new PointF(rect.X + rect.Width/2f, rect.Y + rect.Height/2f));
 				matrix.TransformPoints(tempPoints);
 				points[pointIndex] = tempPoints[0];
 				outside = !outside;
 			}
 
+			matrix?.Dispose();
 			return points;
 		}
 
@@ -3827,11 +3834,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				sectorSize = 360f / ((float)polygonSectorsNumber);
 			}
 
+			Matrix matrix = null;
+
 			// Loop throug all sectors
-			for(curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
+			for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
 			{
 				// Create matrix
-				using Matrix matrix = new Matrix();
+				if (matrix is null)
+					matrix = new Matrix();
+				else
+					matrix.Reset();
+
 				matrix.RotateAt(curentSector, centerPoint);
 
 				// Get point and rotate it
@@ -3848,8 +3861,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				prevPoint = points[0];
 			}
 
+			matrix?.Dispose();
 			path.CloseAllFigures();
-
 			return path;
 		}
 
@@ -3908,12 +3921,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         sectorSize = 360f / ((float)polygonSectorsNumber);
                     }
 
-                    // Loop throug all sectors
-                    for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
+					Matrix matrix = null;
+
+					// Loop through all sectors
+					for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
                     {
-                        // Create matrix
-                        using Matrix matrix = new Matrix();
-                        matrix.RotateAt(curentSector, centerPoint);
+						// Create matrix
+						if (matrix is null)
+							matrix = new Matrix();
+						else
+							matrix.Reset();
+
+						matrix.RotateAt(curentSector, centerPoint);
 
                         // Get point and rotate it
                         PointF[] points = new PointF[] { firstPoint };
@@ -3924,7 +3943,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             path.AddLine(prevPoint, points[0]);
 
-                            // Fill each segment separatly for the 3D look
+                            // Fill each segment separately for the 3D look
                             if (fill3DCircle)
                             {
                                 path.AddLine(points[0], centerPoint);
@@ -3941,7 +3960,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         prevPoint = points[0];
                     }
 
-                    path.CloseAllFigures();
+					matrix?.Dispose();
+					path.CloseAllFigures();
 
                     // Fill last segment for the 3D look
                     if (!prevPoint.IsEmpty && fill3DCircle)
