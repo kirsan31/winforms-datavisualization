@@ -85,7 +85,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         internal static void PrepareData(Series series)
 		{
 			// Check series chart type
-			if(String.Compare( series.ChartTypeName, ChartTypeNames.PointAndFigure, StringComparison.OrdinalIgnoreCase ) != 0 || !series.IsVisible())
+			if(!string.Equals(series.ChartTypeName, ChartTypeNames.PointAndFigure, StringComparison.OrdinalIgnoreCase) || !series.IsVisible())
 			{
 				return;
 			}
@@ -679,7 +679,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Check if proportional symbol custom attribute is set
 					bool	proportionalSymbols = true;
 					string	attrValue = pointAndFigureSeries[CustomPropertyName.ProportionalSymbols];
-					if(attrValue != null && String.Compare( attrValue, "True", StringComparison.OrdinalIgnoreCase ) != 0 )
+					if(attrValue != null && !string.Equals(attrValue, "True", StringComparison.OrdinalIgnoreCase))
 					{
 						proportionalSymbols = false;
 					}

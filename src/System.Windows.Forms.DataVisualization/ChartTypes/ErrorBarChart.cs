@@ -282,8 +282,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			foreach( Series ser in common.DataManager.Series )
 			{
 				// Process non empty series of the area with error bar chart type
-				if( String.Compare( ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase ) != 0 
-					|| ser.ChartArea != area.Name || !ser.IsVisible())
+				if(!string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
 				}
@@ -333,9 +332,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 					
 					currentDrawSeriesSideBySide = false;
-					if(String.Compare(linkedSeriesChartType, ChartTypeNames.Column, StringComparison.OrdinalIgnoreCase) ==0 
-                        || String.Compare(linkedSeriesChartType, ChartTypeNames.RangeColumn, StringComparison.OrdinalIgnoreCase) == 0
-                        )
+					if(string.Equals(linkedSeriesChartType, ChartTypeNames.Column, StringComparison.OrdinalIgnoreCase) || string.Equals(linkedSeriesChartType, ChartTypeNames.RangeColumn, StringComparison.OrdinalIgnoreCase))
 					{
 						currentDrawSeriesSideBySide = true;
 					}
@@ -344,15 +341,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						if(common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 						{
 							string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-							if(String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+							if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 							{
 								currentDrawSeriesSideBySide = false;
 							}
-							else if(String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+							else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 							{
 								currentDrawSeriesSideBySide = true;
 							}
-							else if(String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+							else if(string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 							{
 								// Do nothing
 							}
@@ -384,11 +381,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				if(!currentDrawSeriesSideBySide && ser.IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 				{
 					string attribValue = ser[CustomPropertyName.DrawSideBySide];
-					if(String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) ==0)
+					if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 					{
 						showSideBySide = false;
 					}
-					else if(String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) ==0)
+					else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 					{
 						showSideBySide = true;
 						numberOfLinkedSeries = typeSeries.Count;
@@ -398,7 +395,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// NOTE: Lines of code below were added to fix issue #4048
 						sideBySideWidth = (float)(ser.GetPointWidth(graph, hAxis, interval, 0.8)) / numberOfLinkedSeries;
 					}
-					else if(String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) ==0)
+					else if(string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 					{
 					}
 					else
@@ -476,17 +473,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							errorBarStyle = point[CustomPropertyName.ErrorBarStyle];
 						}
 
-                        if(String.Compare( errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase ) == 0)
+                        if(string.Equals(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase))
 						{
 							// default - do nothing
 						}
-						else if(String.Compare(errorBarStyle, "UpperError", StringComparison.OrdinalIgnoreCase ) == 0)
+						else if(string.Equals(errorBarStyle, "UpperError", StringComparison.OrdinalIgnoreCase))
 						{
 							barStyle = ErrorBarStyle.UpperError;
 							low = vAxis.GetLogValue( point.YValues[0] );
 							high = vAxis.GetLogValue( point.YValues[2] );
 						}
-						else if(String.Compare(errorBarStyle, "LowerError", StringComparison.OrdinalIgnoreCase ) == 0)
+						else if(string.Equals(errorBarStyle, "LowerError", StringComparison.OrdinalIgnoreCase))
 						{
 							barStyle = ErrorBarStyle.LowerError;
 							low = vAxis.GetLogValue( point.YValues[1] );
@@ -626,16 +623,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							{
 								errorBarStyle = point[CustomPropertyName.ErrorBarStyle];
 							}
-							if(String.Compare(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase) == 0)
+							if(string.Equals(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase))
 							{
 								// default - do nothing
 							}
-							else if(String.Compare(errorBarStyle, "UpperError", StringComparison.OrdinalIgnoreCase) == 0)
+							else if(string.Equals(errorBarStyle, "UpperError", StringComparison.OrdinalIgnoreCase))
 							{
 								low = vAxis.GetLogValue( point.YValues[0] );
 								high = vAxis.GetLogValue( point.YValues[2] );
 							}
-							else if(String.Compare(errorBarStyle, "LowerError", StringComparison.OrdinalIgnoreCase) == 0)
+							else if(string.Equals(errorBarStyle, "LowerError", StringComparison.OrdinalIgnoreCase))
 							{
 								low = vAxis.GetLogValue( point.YValues[1] );
 								high = vAxis.GetLogValue( point.YValues[0] );
@@ -789,7 +786,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			bool draw3D)
 		{
 			markerStyle = markerStyle.ToUpper(CultureInfo.InvariantCulture);
-			if(markerStyle.Length > 0 && String.Compare(markerStyle, "None", StringComparison.OrdinalIgnoreCase) != 0)
+			if(markerStyle.Length > 0 && !string.Equals(markerStyle, "None", StringComparison.OrdinalIgnoreCase))
 			{
 				// Make sure Y value is in range
 				if( yPosition > vAxis.ViewMaximum || yPosition < vAxis.ViewMinimum)
@@ -809,7 +806,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Draw horizontal line marker
-				if(String.Compare(markerStyle, "Line", StringComparison.OrdinalIgnoreCase) == 0)
+				if(string.Equals(markerStyle, "Line", StringComparison.OrdinalIgnoreCase))
 				{
 					graph.DrawLineRel(
 						point.Color, 
@@ -1061,8 +1058,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			foreach( Series ser in common.DataManager.Series )
 			{
 				// Process non empty series of the area with stock chart type
-				if( String.Compare( ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase ) != 0 
-					|| ser.ChartArea != area.Name || !ser.IsVisible())
+				if(!string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
 				}
@@ -1113,9 +1109,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 
 					bool	currentDrawSeriesSideBySide = false;
-					if(String.Compare(linkedSeriesChartType, ChartTypeNames.Column, StringComparison.OrdinalIgnoreCase ) == 0
-                        || String.Compare(linkedSeriesChartType, ChartTypeNames.RangeColumn, StringComparison.OrdinalIgnoreCase) == 0
-                        )
+					if(string.Equals(linkedSeriesChartType, ChartTypeNames.Column, StringComparison.OrdinalIgnoreCase) || string.Equals(linkedSeriesChartType, ChartTypeNames.RangeColumn, StringComparison.OrdinalIgnoreCase))
 					{
 						currentDrawSeriesSideBySide = true;
 					}
@@ -1124,15 +1118,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						if(common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 						{
 							attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-							if(String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase ) == 0)
+							if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 							{
 								currentDrawSeriesSideBySide = false;
 							}
-							else if(String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase ) == 0)
+							else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 							{
 								currentDrawSeriesSideBySide = true;
 							}
-							else if(String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase ) == 0)
+							else if(string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 							{
 								// Do nothing
 							}
@@ -1228,17 +1222,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						{
 							errorBarStyle = point[CustomPropertyName.ErrorBarStyle];
 						}
-						if(String.Compare(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase) == 0)
+						if(string.Equals(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase))
 						{
 							// default - do nothing
 						}
-						else if(String.Compare(errorBarStyle, "UpperError", StringComparison.OrdinalIgnoreCase) == 0)
+						else if(string.Equals(errorBarStyle, "UpperError", StringComparison.OrdinalIgnoreCase))
 						{
 							barStyle = ErrorBarStyle.UpperError;
 							low = vAxis.GetLogValue( point.YValues[0] );
 							high = vAxis.GetLogValue( point.YValues[2] );
 						}
-						else if(String.Compare(errorBarStyle, "LowerError", StringComparison.OrdinalIgnoreCase) == 0)
+						else if(string.Equals(errorBarStyle, "LowerError", StringComparison.OrdinalIgnoreCase))
 						{
 							barStyle = ErrorBarStyle.LowerError;
 							low = vAxis.GetLogValue( point.YValues[1] );
@@ -1396,16 +1390,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							{
 								errorBarStyle = point[CustomPropertyName.ErrorBarStyle];
 							}
-							if(String.Compare(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase ) == 0)
+							if(string.Equals(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase))
 							{
 								// default - do nothing
 							}
-							else if(String.Compare(errorBarStyle, "UpperError", StringComparison.OrdinalIgnoreCase ) == 0)
+							else if(string.Equals(errorBarStyle, "UpperError", StringComparison.OrdinalIgnoreCase))
 							{
 								low = vAxis.GetLogValue( point.YValues[0] );
 								high = vAxis.GetLogValue( point.YValues[2] );
 							}
-							else if(String.Compare(errorBarStyle, "LowerError", StringComparison.OrdinalIgnoreCase ) == 0)
+							else if(string.Equals(errorBarStyle, "LowerError", StringComparison.OrdinalIgnoreCase))
 							{
 								low = vAxis.GetLogValue( point.YValues[1] );
 								high = vAxis.GetLogValue( point.YValues[0] );
@@ -1576,7 +1570,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		internal static void CalculateErrorAmount(Series errorBarSeries)
 		{
 			// Check input parameters
-			if(String.Compare(errorBarSeries.ChartTypeName, ChartTypeNames.ErrorBar, StringComparison.OrdinalIgnoreCase) != 0 )
+			if(!string.Equals(errorBarSeries.ChartTypeName, ChartTypeNames.ErrorBar, StringComparison.OrdinalIgnoreCase))
 			{
 				return;
 			}
@@ -1771,7 +1765,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		internal static void GetDataFromLinkedSeries(Series errorBarSeries)
 		{
 			// Check input parameters
-			if(String.Compare(errorBarSeries.ChartTypeName, ChartTypeNames.ErrorBar, StringComparison.OrdinalIgnoreCase) != 0 || errorBarSeries.Chart == null)
+			if(!string.Equals(errorBarSeries.ChartTypeName, ChartTypeNames.ErrorBar, StringComparison.OrdinalIgnoreCase) || errorBarSeries.Chart == null)
 			{
 				return;
 			}

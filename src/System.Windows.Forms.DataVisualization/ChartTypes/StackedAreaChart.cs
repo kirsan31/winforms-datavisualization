@@ -239,7 +239,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 
 					// Exit loop when current series was found
-                    if (String.Compare(series.Name, ser.Name, StringComparison.Ordinal) == 0)
+                    if (string.Equals(series.Name, ser.Name, StringComparison.Ordinal))
 					{
 						break;
 					}
@@ -425,8 +425,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			foreach( Series ser in common.DataManager.Series )
 			{
 				// Process non empty series of the area with area chart type
-				if( String.Compare( ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase ) != 0 
-					|| ser.ChartArea != area.Name || !ser.IsVisible())
+				if(!string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
 				}
@@ -775,8 +774,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				curentPointsArray = null;
 				foreach( Series ser in common.DataManager.Series )
 				{
-					if( String.Compare( ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase ) != 0 
-						|| ser.ChartArea != area.Name || !ser.IsVisible())
+					if(!string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 					{
 						continue;
 					}
@@ -881,8 +879,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				curentPointsArray = null;
 				foreach( Series ser in common.DataManager.Series )
 				{
-					if( String.Compare( ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase ) != 0 
-						|| ser.ChartArea != area.Name || !ser.IsVisible())
+					if(!string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 					{
 						continue;
 					}
@@ -1211,7 +1208,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						}
 
 						// Check series name
-						if(String.Compare(ser.Name, secondPoint.dataPoint.series.Name, StringComparison.Ordinal) == 0)
+						if(string.Equals(ser.Name, secondPoint.dataPoint.series.Name, StringComparison.Ordinal))
 						{
 							seriesFound = true;
 						}
@@ -1226,10 +1223,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				DataPointCustomProperties	pointProperties = null;
 				foreach(Series ser in area.Common.DataManager.Series)
 				{
-					if(String.Compare(ser.ChartTypeName, secondPoint.dataPoint.series.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0)
+					if(string.Equals(ser.ChartTypeName, secondPoint.dataPoint.series.ChartTypeName, StringComparison.OrdinalIgnoreCase))
 					{
 						// Check series name
-                        if (pointProperties != null && String.Compare(ser.Name, secondPoint.dataPoint.series.Name, StringComparison.Ordinal) == 0)
+                        if (pointProperties != null && string.Equals(ser.Name, secondPoint.dataPoint.series.Name, StringComparison.Ordinal))
 						{
                             if (pointProperties.Color.A != 255)
 							{
@@ -1591,8 +1588,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			foreach(Series ser in common.DataManager.Series)
 			{
 				// Check series of the current chart type & area
-				if(String.Compare(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) == 0 &&
-                    String.Compare(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 &&
+				if(string.Equals(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) &&
+string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) &&
 					ser.IsVisible())
 				{
 					yValue = ser.Points[pointIndex].YValues[0];
@@ -1614,7 +1611,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 
 					// Exit loop when current series was found
-                    if (String.Compare(series.Name, ser.Name, StringComparison.Ordinal) == 0)
+                    if (string.Equals(series.Name, ser.Name, StringComparison.Ordinal))
 					{
 						break;
 					}

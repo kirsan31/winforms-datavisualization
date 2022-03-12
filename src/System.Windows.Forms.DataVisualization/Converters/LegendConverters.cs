@@ -235,7 +235,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string stringValue = value as string;
             if (stringValue != null)
 			{
-                if (String.Compare(stringValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(stringValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return System.Drawing.Size.Empty;
 				}
@@ -435,7 +435,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string stringValue = value as string;
             if (stringValue != null)
 			{
-                if (String.Compare(stringValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(stringValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return -1;
 				}

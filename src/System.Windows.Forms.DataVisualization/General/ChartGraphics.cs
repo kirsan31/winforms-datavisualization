@@ -4923,15 +4923,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			string styleName = point[CustomPropertyName.PieDrawingStyle];
 			if(styleName != null)
 			{
-				if(String.Compare(styleName, "Default", StringComparison.OrdinalIgnoreCase) == 0)
+				if(string.Equals(styleName, "Default", StringComparison.OrdinalIgnoreCase))
 				{
 					pieDrawingStyle = PieDrawingStyle.Default;
 				}
-                else if (String.Compare(styleName, "SoftEdge", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleName, "SoftEdge", StringComparison.OrdinalIgnoreCase))
 				{
 					pieDrawingStyle = PieDrawingStyle.SoftEdge;
 				}
-                else if (String.Compare(styleName, "Concave", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleName, "Concave", StringComparison.OrdinalIgnoreCase))
 				{
 					pieDrawingStyle = PieDrawingStyle.Concave;
 				}					
@@ -5516,23 +5516,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			string styleName = point[CustomPropertyName.DrawingStyle];
 			if(styleName != null)
 			{
-				if(String.Compare(styleName, "Default", StringComparison.OrdinalIgnoreCase) == 0)
+				if(string.Equals(styleName, "Default", StringComparison.OrdinalIgnoreCase))
 				{
 					barDrawingStyle = BarDrawingStyle.Default;
 				}
-                else if (String.Compare(styleName, "Cylinder", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleName, "Cylinder", StringComparison.OrdinalIgnoreCase))
 				{
 					barDrawingStyle = BarDrawingStyle.Cylinder;
 				}
-                else if (String.Compare(styleName, "Emboss", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleName, "Emboss", StringComparison.OrdinalIgnoreCase))
 				{
 					barDrawingStyle = BarDrawingStyle.Emboss;
 				}
-                else if (String.Compare(styleName, "LightToDark", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleName, "LightToDark", StringComparison.OrdinalIgnoreCase))
 				{
 					barDrawingStyle = BarDrawingStyle.LightToDark;
 				}
-                else if (String.Compare(styleName, "Wedge", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleName, "Wedge", StringComparison.OrdinalIgnoreCase))
 				{
 					barDrawingStyle = BarDrawingStyle.Wedge;
 				}

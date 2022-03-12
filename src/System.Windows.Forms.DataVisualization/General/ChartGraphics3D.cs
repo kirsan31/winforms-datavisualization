@@ -2667,7 +2667,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 					// Check required point index for the first point
 					if( point.index == index &&
-                        (neighborDataPoint == null || String.Compare(neighborDataPoint.dataPoint.series.Name, point.dataPoint.series.Name, StringComparison.Ordinal) == 0))
+                        (neighborDataPoint == null || string.Equals(neighborDataPoint.dataPoint.series.Name, point.dataPoint.series.Name, StringComparison.Ordinal)))
 					{
 						++neighborPointIndex;
 						return point;
@@ -2681,7 +2681,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 					// Check required point index for the first point
 					if( point.index == index &&
-                        (neighborDataPoint == null || String.Compare(neighborDataPoint.dataPoint.series.Name, point.dataPoint.series.Name, StringComparison.Ordinal) == 0))
+                        (neighborDataPoint == null || string.Equals(neighborDataPoint.dataPoint.series.Name, point.dataPoint.series.Name, StringComparison.Ordinal)))
 					{
 						--neighborPointIndex;
 						return point;
@@ -2700,7 +2700,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Check if point belongs to the same series
 					if(neighborDataPoint != null)
 					{
-                        if (String.Compare(neighborDataPoint.dataPoint.series.Name, point3D.dataPoint.series.Name, StringComparison.Ordinal) != 0)
+                        if (!string.Equals(neighborDataPoint.dataPoint.series.Name, point3D.dataPoint.series.Name, StringComparison.Ordinal))
 						{
 							++neighborPointIndex;
 							continue;

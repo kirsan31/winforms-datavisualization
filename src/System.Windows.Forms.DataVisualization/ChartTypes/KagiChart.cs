@@ -69,7 +69,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         internal static void PrepareData(Series series)
 		{
 			// Check series chart type
-            if (String.Compare(series.ChartTypeName, ChartTypeNames.Kagi, StringComparison.OrdinalIgnoreCase) != 0 || !series.IsVisible())
+            if (!string.Equals(series.ChartTypeName, ChartTypeNames.Kagi, StringComparison.OrdinalIgnoreCase) || !series.IsVisible())
 			{
 				return;
 			}

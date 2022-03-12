@@ -220,7 +220,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						labelYValueIndex = 0;
 						if(ser.IsCustomPropertySet(CustomPropertyName.BubbleUseSizeForLabel))
 						{
-							if(String.Compare(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase) == 0)
+							if(string.Equals(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase))
 							{
 								labelYValueIndex = 1;
 								break;
@@ -320,7 +320,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			double valueDiff;
 			foreach( Series ser in common.DataManager.Series )
 			{
-				if( String.Compare( ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) == 0 &&
+				if(string.Equals(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) &&
 					ser.ChartArea == area.Name &&
 					ser.IsVisible())
 				{
@@ -347,7 +347,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Check if custom properties set to use second Y value (bubble size) as label text
 					if(ser.IsCustomPropertySet(CustomPropertyName.BubbleUseSizeForLabel))
 					{
-						if(String.Compare(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase) == 0)
+						if(string.Equals(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase))
 						{
 							break;
 						}
@@ -362,8 +362,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			double	maxSer = double.MinValue;
 			foreach( Series ser in common.DataManager.Series )
 			{
-				if( String.Compare(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) == 0 
-                    && ser.ChartArea == area.Name 
+				if(string.Equals(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) && ser.ChartArea == area.Name 
                     && ser.IsVisible() )
 				{
 					foreach(DataPoint point in ser.Points)
@@ -438,7 +437,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Try to find bubble size scale in the custom series properties
 			foreach( Series ser in area.Common.DataManager.Series )
 			{
-				if( String.Compare( ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) == 0 &&
+				if(string.Equals(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) &&
 					ser.ChartArea == area.Name &&
 					ser.IsVisible())
 				{

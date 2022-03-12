@@ -253,9 +253,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		internal static void PrepareData(Series series)
 		{
 			// Check series chart type
-			if( String.Compare(series.ChartTypeName, ChartTypeNames.Pie, StringComparison.OrdinalIgnoreCase ) != 0 && 
-				String.Compare(series.ChartTypeName, ChartTypeNames.Doughnut, StringComparison.OrdinalIgnoreCase ) != 0 
-                )
+			if(!string.Equals(series.ChartTypeName, ChartTypeNames.Pie, StringComparison.OrdinalIgnoreCase) &&
+!string.Equals(series.ChartTypeName, ChartTypeNames.Doughnut, StringComparison.OrdinalIgnoreCase))
 			{
 				return;
 			}
@@ -322,11 +321,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				bool percent = true;
 				if(series.IsCustomPropertySet(CustomPropertyName.CollectedThresholdUsePercent))
 				{
-					if(string.Compare(series[CustomPropertyName.CollectedThresholdUsePercent], "True", StringComparison.OrdinalIgnoreCase) == 0)
+					if(string.Equals(series[CustomPropertyName.CollectedThresholdUsePercent], "True", StringComparison.OrdinalIgnoreCase))
 					{
 						percent = true;
 					}
-                    else if (string.Compare(series[CustomPropertyName.CollectedThresholdUsePercent], "False", StringComparison.OrdinalIgnoreCase) == 0)
+                    else if (string.Equals(series[CustomPropertyName.CollectedThresholdUsePercent], "False", StringComparison.OrdinalIgnoreCase))
 					{
 						percent = false;
 					}
@@ -804,7 +803,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				if(point.IsCustomPropertySet(CustomPropertyName.Exploded))
 				{
 					explodedAttrib = point[CustomPropertyName.Exploded];
-					if( String.Compare(explodedAttrib,"true", StringComparison.OrdinalIgnoreCase) == 0 )
+					if(string.Equals(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase))
 						exploded = true;
 					else
 						exploded = false;
@@ -1080,9 +1079,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				string labelStyleAttrib = series[CustomPropertyName.LabelStyle];
 
 				// Labels Disabled
-				if( String.Compare(labelStyleAttrib,"disabled",StringComparison.OrdinalIgnoreCase) == 0 )
+				if(string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Disabled;
-                else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Outside;
 				else
 					style = PieLabelStyle.Inside;
@@ -1092,9 +1091,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				string labelStyleAttrib = series[CustomPropertyName.PieLabelStyle];
 
 				// Labels Disabled
-                if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Disabled;
-                else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Outside;
 				else
 					style = PieLabelStyle.Inside;
@@ -1106,9 +1105,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				string labelStyleAttrib = point[CustomPropertyName.LabelStyle];
 
 				// Labels Disabled
-                if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Disabled;
-                else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Outside;
 				else
 					style = PieLabelStyle.Inside;
@@ -1119,9 +1118,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				string labelStyleAttrib = point[CustomPropertyName.PieLabelStyle];
 
 				// Labels Disabled
-                if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Disabled;
-                else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Outside;
 				else
 					style = PieLabelStyle.Inside;
@@ -1501,9 +1500,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				string labelStyleAttrib = series[CustomPropertyName.LabelStyle];
 
 				// Labels Disabled
-                if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Disabled;
-                else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Outside;
 				else
 					style = PieLabelStyle.Inside;
@@ -1513,9 +1512,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				string labelStyleAttrib = series[CustomPropertyName.PieLabelStyle];
 
 				// Labels Disabled
-                if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Disabled;
-                else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Outside;
 				else
 					style = PieLabelStyle.Inside;
@@ -1527,9 +1526,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				string labelStyleAttrib = point[CustomPropertyName.LabelStyle];
 
 				// Labels Disabled
-                if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Disabled;
-                else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Outside;
 				else
 					style = PieLabelStyle.Inside;
@@ -1539,9 +1538,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				string labelStyleAttrib = point[CustomPropertyName.PieLabelStyle];
 
 				// Labels Disabled
-                if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Disabled;
-                else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Outside;
 				else
 					style = PieLabelStyle.Inside;
@@ -1579,9 +1578,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				string labelStyleAttrib = series[CustomPropertyName.LabelStyle];
 
 				// Labels Disabled
-				if( String.Compare(labelStyleAttrib,"disabled", StringComparison.OrdinalIgnoreCase) == 0 )
+				if(string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Disabled;
-                else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Outside;
 				else
 					style = PieLabelStyle.Inside;
@@ -1591,9 +1590,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				string labelStyleAttrib = series[CustomPropertyName.PieLabelStyle];
 
 				// Labels Disabled
-                if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Disabled;
-                else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Outside;
 				else
 					style = PieLabelStyle.Inside;
@@ -1605,9 +1604,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				string labelStyleAttrib = point[CustomPropertyName.LabelStyle];
 
 				// Labels Disabled
-                if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Disabled;
-                else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Outside;
 				else
 					style = PieLabelStyle.Inside;
@@ -1617,9 +1616,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				string labelStyleAttrib = point[CustomPropertyName.PieLabelStyle];
 
 				// Labels Disabled
-                if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Disabled;
-                else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
 					style = PieLabelStyle.Outside;
 				else
 					style = PieLabelStyle.Inside;
@@ -2404,7 +2403,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				if(point.IsCustomPropertySet(CustomPropertyName.Exploded))
 				{
 					explodedAttrib = point[CustomPropertyName.Exploded];
-					if( String.Compare(explodedAttrib,"true",StringComparison.OrdinalIgnoreCase) == 0 )
+					if(string.Equals(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase))
 					{
 						isExploded = true;
 					}
@@ -2540,7 +2539,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					if(point.IsCustomPropertySet(CustomPropertyName.Exploded))
 					{
 						explodedAttrib = point[CustomPropertyName.Exploded];
-						if( String.Compare(explodedAttrib,"true",StringComparison.OrdinalIgnoreCase) == 0 )
+						if(string.Equals(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase))
 							exploded = true;
 						else
 							exploded = false;

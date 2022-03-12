@@ -1365,7 +1365,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							this.showPointLines = false;
 							if(pointAttr.dataPoint.IsCustomPropertySet(CustomPropertyName.ShowMarkerLines))
 							{
-								if(String.Compare(pointAttr.dataPoint[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase) == 0)
+								if(string.Equals(pointAttr.dataPoint[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase))
 								{
 									this.showPointLines = true;
 								}
@@ -1374,7 +1374,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							{
 								if(pointAttr.dataPoint.series.IsCustomPropertySet(CustomPropertyName.ShowMarkerLines))
 								{
-                                    if (String.Compare(pointAttr.dataPoint.series[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase) == 0)
+                                    if (string.Equals(pointAttr.dataPoint.series[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase))
 									{
 										this.showPointLines = true;
 									}

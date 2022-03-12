@@ -203,8 +203,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			foreach(Series ser in common.DataManager.Series)
 			{
 				// Check series of the current chart type & area
-				if(String.Compare(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) == 0 &&
-                    String.Compare(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 && 
+				if(string.Equals(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) &&
+string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) && 
 					ser.IsVisible())
 				{
 
@@ -247,7 +247,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 
 					// Exit loop when current series was found
-                    if (String.Compare(series.Name, ser.Name, StringComparison.Ordinal) == 0)
+                    if (string.Equals(series.Name, ser.Name, StringComparison.Ordinal))
 					{
 						break;
 					}
@@ -520,8 +520,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			{
 				// Process non empty series of the area with stacked column chart type
 				Series ser = common.DataManager.Series[seriesIndex];
-				if( String.Compare( ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase ) != 0 
-					|| ser.ChartArea != area.Name || !ser.IsVisible())
+				if(!string.Equals(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
 				}
@@ -550,8 +549,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				{
 					// Process non empty series of the area with stacked column chart type
 					Series ser = common.DataManager.Series[seriesIndex];
-					if( String.Compare( ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase ) != 0 
-						|| ser.ChartArea != area.Name || !ser.IsVisible())
+					if(!string.Equals(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 					{
 						continue;
 					}
@@ -572,8 +570,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			foreach( Series ser in common.DataManager.Series )
 			{
 				// Process non empty series of the area with stacked column chart type
-				if( String.Compare( ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase ) != 0 
-					|| ser.ChartArea != area.Name || !ser.IsVisible())
+				if(!string.Equals(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
 				}
@@ -642,8 +639,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					foreach( Series ser in common.DataManager.Series )
 					{
 						// Process non empty series of the area with stacked column chart type
-						if( String.Compare( ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase ) != 0 
-							|| ser.ChartArea != area.Name || !ser.IsVisible())
+						if(!string.Equals(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 						{
 							continue;
 						}
@@ -971,8 +967,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				{
 					// Process non empty series of the area with stacked column chart type
 					Series ser = common.DataManager.Series[seriesIndex];
-					if( String.Compare( ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase ) != 0 
-						|| ser.ChartArea != area.Name || !ser.IsVisible())
+					if(!string.Equals(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 					{
 						continue;
 					}
@@ -1016,7 +1011,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			ArrayList list = new ArrayList();
 			foreach(Series series in common.DataManager.Series)
 			{
-                if (String.Compare(series.ChartTypeName, chartTypeName, StringComparison.OrdinalIgnoreCase) == 0 &&
+                if (string.Equals(series.ChartTypeName, chartTypeName, StringComparison.OrdinalIgnoreCase) &&
                     chartAreaName == series.ChartArea &&
                     series.IsVisible())
                 {
@@ -1303,8 +1298,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			foreach(Series ser in common.DataManager.Series)
 			{
 				// Check series of the current chart type & area
-				if(String.Compare(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) == 0 &&
-                    String.Compare(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 && 
+				if(string.Equals(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) &&
+string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) && 
 					ser.IsVisible())
 				{
 
@@ -1336,7 +1331,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 
 					// Exit loop when current series was found
-                    if (String.Compare(series.Name, ser.Name, StringComparison.Ordinal) == 0)
+                    if (string.Equals(series.Name, ser.Name, StringComparison.Ordinal))
 					{
 						break;
 					}

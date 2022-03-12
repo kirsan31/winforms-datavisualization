@@ -773,7 +773,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 
                     // Check if it's a Polar chart type
                     IChartType chartType = control.ChartAreas[newSeries.ChartArea].GetCircularChartType() as IChartType;
-                    if (chartType != null && String.Compare(chartType.Name, ChartTypeNames.Polar, StringComparison.OrdinalIgnoreCase) == 0)
+                    if (chartType != null && string.Equals(chartType.Name, ChartTypeNames.Polar, StringComparison.OrdinalIgnoreCase))
                     {
                         newSeries.ChartTypeName = ChartTypeNames.Polar;
                     }

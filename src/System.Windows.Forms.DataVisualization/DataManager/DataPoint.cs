@@ -123,15 +123,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			// Check if sorting value is valid
 			sortBy = sortBy.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
-            if (string.Compare(sortBy, "X", StringComparison.Ordinal) == 0)
+            if (string.Equals(sortBy, "X", StringComparison.Ordinal))
 			{
 				_sortingValueIndex = -1;
 			}
-            else if (string.Compare(sortBy, "Y", StringComparison.Ordinal) == 0)
+            else if (string.Equals(sortBy, "Y", StringComparison.Ordinal))
 			{
 				_sortingValueIndex = 0;
 			}
-            else if (string.Compare(sortBy, "AXISLABEL", StringComparison.Ordinal) == 0)
+            else if (string.Equals(sortBy, "AXISLABEL", StringComparison.Ordinal))
 			{
 				_sortingValueIndex = -2;
 			}
@@ -1902,27 +1902,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Assign data point attribute by name
 			if(stringValue.Length > 0)
 			{
-                if (string.Compare(propertyName, "AxisLabel", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(propertyName, "AxisLabel", StringComparison.OrdinalIgnoreCase))
 				{
 					this.AxisLabel = stringValue;
 				}
-                else if (string.Compare(propertyName, "Tooltip", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(propertyName, "Tooltip", StringComparison.OrdinalIgnoreCase))
 				{
 					this.ToolTip = stringValue;
 				}
-                else if (string.Compare(propertyName, "Label", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(propertyName, "Label", StringComparison.OrdinalIgnoreCase))
 				{
 					this.Label = stringValue;
 				}
-                else if (string.Compare(propertyName, "LegendTooltip", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(propertyName, "LegendTooltip", StringComparison.OrdinalIgnoreCase))
 				{
 					this.LegendToolTip = stringValue;
 				}
-                else if (string.Compare(propertyName, "LegendText", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(propertyName, "LegendText", StringComparison.OrdinalIgnoreCase))
 				{
 					this.LegendText = stringValue;
 				}
-                else if (string.Compare(propertyName, "LabelToolTip", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(propertyName, "LabelToolTip", StringComparison.OrdinalIgnoreCase))
 				{
 					this.LabelToolTip = stringValue;
 				}
@@ -2303,7 +2303,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 throw new ArgumentNullException("valueName");
 
 			valueName = valueName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
-            if (string.Compare(valueName, "X", StringComparison.Ordinal) == 0)
+            if (string.Equals(valueName, "X", StringComparison.Ordinal))
 			{
 				return this.XValue;
 			}
@@ -4499,7 +4499,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						bool	customAttribute = true;
 						foreach(string name in attributesNames)
 						{
-                            if (string.Compare(attributeName, name, StringComparison.OrdinalIgnoreCase) == 0)
+                            if (string.Equals(attributeName, name, StringComparison.OrdinalIgnoreCase))
 							{
 								customAttribute = false;
 								break;
@@ -4574,7 +4574,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             string existingAttributeNameStr = existingAttributeName as string;
                             if (existingAttributeNameStr != null)
 							{
-                                if (string.Compare(existingAttributeNameStr, values[0], StringComparison.OrdinalIgnoreCase) == 0)
+                                if (string.Equals(existingAttributeNameStr, values[0], StringComparison.OrdinalIgnoreCase))
 								{
 									throw(new FormatException( SR.ExceptionAttributeNameIsNotUnique(values[0] ) ) );
 								}
@@ -6107,7 +6107,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					bool	userDefinedAttribute = true;
 					foreach(CustomPropertyInfo info in registry.registeredCustomProperties)
 					{
-						if(string.Compare(info.Name, values[0], StringComparison.OrdinalIgnoreCase) == 0)
+						if(string.Equals(info.Name, values[0], StringComparison.OrdinalIgnoreCase))
 						{
 							userDefinedAttribute = false;
 						}

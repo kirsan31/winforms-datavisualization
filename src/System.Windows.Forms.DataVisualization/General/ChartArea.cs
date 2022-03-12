@@ -2630,11 +2630,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             // Get custom attribute
                             if (series.IsCustomPropertySet(CustomPropertyName.AreaDrawingStyle))
                             {
-                                if (String.Compare(series[CustomPropertyName.AreaDrawingStyle], "Polygon", StringComparison.OrdinalIgnoreCase) == 0)
+                                if (string.Equals(series[CustomPropertyName.AreaDrawingStyle], "Polygon", StringComparison.OrdinalIgnoreCase))
                                 {
                                     _circularUsePolygons = 1;
                                 }
-                                else if (String.Compare(series[CustomPropertyName.AreaDrawingStyle], "Circle", StringComparison.OrdinalIgnoreCase) == 0)
+                                else if (string.Equals(series[CustomPropertyName.AreaDrawingStyle], "Circle", StringComparison.OrdinalIgnoreCase))
                                 {
                                     _circularUsePolygons = 0;
                                 }
@@ -2666,19 +2666,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (series.IsVisible() && series.ChartArea == this.Name && series.IsCustomPropertySet(CustomPropertyName.CircularLabelsStyle))
                 {
                     string styleName = series[CustomPropertyName.CircularLabelsStyle];
-                    if (String.Compare(styleName, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+                    if (string.Equals(styleName, "Auto", StringComparison.OrdinalIgnoreCase))
                     {
                         style = CircularAxisLabelsStyle.Auto;
                     }
-                    else if (String.Compare(styleName, "Circular", StringComparison.OrdinalIgnoreCase) == 0)
+                    else if (string.Equals(styleName, "Circular", StringComparison.OrdinalIgnoreCase))
                     {
                         style = CircularAxisLabelsStyle.Circular;
                     }
-                    else if (String.Compare(styleName, "Radial", StringComparison.OrdinalIgnoreCase) == 0)
+                    else if (string.Equals(styleName, "Radial", StringComparison.OrdinalIgnoreCase))
                     {
                         style = CircularAxisLabelsStyle.Radial;
                     }
-                    else if (String.Compare(styleName, "Horizontal", StringComparison.OrdinalIgnoreCase) == 0)
+                    else if (string.Equals(styleName, "Horizontal", StringComparison.OrdinalIgnoreCase))
                     {
                         style = CircularAxisLabelsStyle.Horizontal;
                     }

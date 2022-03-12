@@ -309,8 +309,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			foreach( Series ser in common.DataManager.Series )
 			{
 				// Process non empty series of the area with stock chart type
-				if( String.Compare( ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase ) != 0 
-					|| ser.ChartArea != area.Name || !ser.IsVisible())
+				if(!string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
 				}
@@ -658,15 +657,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 			if(styleType != null && styleType.Length > 0)
 			{
-				if(String.Compare(styleType, "Candlestick", StringComparison.OrdinalIgnoreCase) == 0)
+				if(string.Equals(styleType, "Candlestick", StringComparison.OrdinalIgnoreCase))
 				{
 					style = StockOpenCloseMarkStyle.Candlestick;
 				}
-                else if (String.Compare(styleType, "Triangle", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleType, "Triangle", StringComparison.OrdinalIgnoreCase))
 				{
 					style = StockOpenCloseMarkStyle.Triangle;
 				}
-                else if (String.Compare(styleType, "Line", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleType, "Line", StringComparison.OrdinalIgnoreCase))
 				{
 					style = StockOpenCloseMarkStyle.Line;
 				}
@@ -687,17 +686,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 			if(showOpenClose != null && showOpenClose.Length > 0)
 			{
-				if(String.Compare(showOpenClose, "Both", StringComparison.OrdinalIgnoreCase) == 0)
+				if(string.Equals(showOpenClose, "Both", StringComparison.OrdinalIgnoreCase))
 				{
 					showOpen = true;
 					showClose = true;
 				}
-                else if (String.Compare(showOpenClose, "Open", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(showOpenClose, "Open", StringComparison.OrdinalIgnoreCase))
 				{
 					showOpen = true;
 					showClose = false;
 				}
-                else if (String.Compare(showOpenClose, "Close", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(showOpenClose, "Close", StringComparison.OrdinalIgnoreCase))
 				{
 					showOpen = false;
 					showClose = true;
@@ -939,15 +938,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             valueType = ser[CustomPropertyName.LabelValueType];
                         }
 
-                        if (String.Compare(valueType, "High", StringComparison.OrdinalIgnoreCase) == 0)
+                        if (string.Equals(valueType, "High", StringComparison.OrdinalIgnoreCase))
                         {
                             valueIndex = 0;
                         }
-                        else if (String.Compare(valueType, "Low", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(valueType, "Low", StringComparison.OrdinalIgnoreCase))
                         {
                             valueIndex = 1;
                         }
-                        else if (String.Compare(valueType, "Open", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(valueType, "Open", StringComparison.OrdinalIgnoreCase))
                         {
                             valueIndex = 2;
                         }
@@ -1107,8 +1106,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			foreach( Series ser in common.DataManager.Series )
 			{
 				// Process non empty series of the area with stock chart type
-				if( String.Compare( ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase ) != 0 
-					|| ser.ChartArea != area.Name || !ser.IsVisible())
+				if(!string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
 				}
@@ -1483,15 +1481,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 			if(styleType != null && styleType.Length > 0)
 			{
-				if(String.Compare(styleType, "Candlestick", StringComparison.OrdinalIgnoreCase) == 0)
+				if(string.Equals(styleType, "Candlestick", StringComparison.OrdinalIgnoreCase))
 				{
 					style = StockOpenCloseMarkStyle.Candlestick;
 				}
-                else if (String.Compare(styleType, "Triangle", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleType, "Triangle", StringComparison.OrdinalIgnoreCase))
 				{
 					style = StockOpenCloseMarkStyle.Triangle;
 				}
-                else if (String.Compare(styleType, "Line", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleType, "Line", StringComparison.OrdinalIgnoreCase))
 				{
 					style = StockOpenCloseMarkStyle.Line;
 				}
@@ -1512,17 +1510,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 			if(showOpenClose != null && showOpenClose.Length > 0)
 			{
-				if(String.Compare(showOpenClose, "Both", StringComparison.OrdinalIgnoreCase) == 0)
+				if(string.Equals(showOpenClose, "Both", StringComparison.OrdinalIgnoreCase))
 				{
 					showOpen = true;
 					showClose = true;
 				}
-                else if (String.Compare(showOpenClose, "Open", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(showOpenClose, "Open", StringComparison.OrdinalIgnoreCase))
 				{
 					showOpen = true;
 					showClose = false;
 				}
-                else if (String.Compare(showOpenClose, "Close", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(showOpenClose, "Close", StringComparison.OrdinalIgnoreCase))
 				{
 					showOpen = false;
 					showClose = true;

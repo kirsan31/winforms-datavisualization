@@ -172,11 +172,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     (point.IsCustomPropertySet(CustomPropertyName.PolarDrawingStyle)) ?
                     point[CustomPropertyName.PolarDrawingStyle] :
                     ser[CustomPropertyName.PolarDrawingStyle];
-				if(String.Compare(attributeValue, "Line", StringComparison.OrdinalIgnoreCase ) == 0)
+				if(string.Equals(attributeValue, "Line", StringComparison.OrdinalIgnoreCase))
 				{
 					drawingStyle = RadarDrawingStyle.Line;
 				}
-				else if(String.Compare(attributeValue, "Marker", StringComparison.OrdinalIgnoreCase ) == 0)
+				else if(string.Equals(attributeValue, "Marker", StringComparison.OrdinalIgnoreCase))
 				{
 					drawingStyle = RadarDrawingStyle.Marker;
 				}

@@ -235,8 +235,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			foreach( Series ser in common.DataManager.Series )
 			{
 				// Process non empty series of the area with box plot chart type
-				if( String.Compare( ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase ) != 0 
-					|| ser.ChartArea != area.Name || !ser.IsVisible())
+				if(!string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
 				}
@@ -253,15 +252,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				if(ser.IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 				{
 					string attribValue = ser[CustomPropertyName.DrawSideBySide];
-					if(String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0 )
+					if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 					{
 						currentShowSideBySide = false;
 					}
-                    else if (String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+                    else if (string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 					{
 						currentShowSideBySide = true;
 					}
-                    else if (String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+                    else if (string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 					{
 					}
 					else
@@ -436,11 +435,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							{
 								showAverageValue = point[CustomPropertyName.BoxPlotShowAverage];
 							}
-							if(String.Compare( showAverageValue, "True", StringComparison.OrdinalIgnoreCase ) == 0 )
+							if(string.Equals(showAverageValue, "True", StringComparison.OrdinalIgnoreCase))
 							{
 								// default - do nothing
 							}
-							else if(String.Compare( showAverageValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+							else if(string.Equals(showAverageValue, "False", StringComparison.OrdinalIgnoreCase))
 							{
 								showAverage = false;
 							}
@@ -492,11 +491,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							{
 								showMedianValue = point[CustomPropertyName.BoxPlotShowMedian];
 							}
-							if(String.Compare(showMedianValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+							if(string.Equals(showMedianValue, "True", StringComparison.OrdinalIgnoreCase))
 							{
 								// default - do nothing
 							}
-							else if(String.Compare(showMedianValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+							else if(string.Equals(showMedianValue, "False", StringComparison.OrdinalIgnoreCase))
 							{
 								showMedian = false;
 							}
@@ -721,7 +720,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			bool draw3D)
 		{
 			markerStyle = markerStyle.ToUpper(CultureInfo.InvariantCulture);
-			if(markerStyle.Length > 0 && String.Compare(markerStyle, "None", StringComparison.OrdinalIgnoreCase ) != 0)
+			if(markerStyle.Length > 0 && !string.Equals(markerStyle, "None", StringComparison.OrdinalIgnoreCase))
 			{
 				// Make sure Y value is in range
 				if( yPosition > vAxis.ViewMaximum || yPosition < vAxis.ViewMinimum)
@@ -748,7 +747,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Draw horizontal line marker
-                if (String.Compare(markerStyle, "Line", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(markerStyle, "Line", StringComparison.OrdinalIgnoreCase))
 				{
 					graph.DrawLineRel(
 						lineColor, 
@@ -1005,8 +1004,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			foreach( Series ser in common.DataManager.Series )
 			{
 				// Process non empty series of the area with stock chart type
-				if( String.Compare( ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase ) != 0 
-					|| ser.ChartArea != area.Name || !ser.IsVisible())
+				if(!string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) || ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
 				}
@@ -1022,15 +1020,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				if(ser.IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 				{
 					string attribValue = ser[CustomPropertyName.DrawSideBySide];
-					if(String.Compare( attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+					if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 					{
 						currentShowSideBySide = false;
 					}
-                    else if (String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+                    else if (string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 					{
 						currentShowSideBySide = true;
 					}
-                    else if (String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+                    else if (string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 					{
 					}
 					else
@@ -1223,11 +1221,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							{
 								showAverageValue = point[CustomPropertyName.BoxPlotShowAverage];
 							}
-							if(String.Compare(showAverageValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+							if(string.Equals(showAverageValue, "True", StringComparison.OrdinalIgnoreCase))
 							{
 								// default - do nothing
 							}
-							else if(String.Compare(showAverageValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+							else if(string.Equals(showAverageValue, "False", StringComparison.OrdinalIgnoreCase))
 							{
 								showAverage = false;
 							}
@@ -1272,11 +1270,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							{
 								showMedianValue = point[CustomPropertyName.BoxPlotShowMedian];
 							}
-							if(String.Compare( showMedianValue, "True", StringComparison.OrdinalIgnoreCase ) == 0)
+							if(string.Equals(showMedianValue, "True", StringComparison.OrdinalIgnoreCase))
 							{
 								// default - do nothing
 							}
-							else if(String.Compare(showMedianValue, "False", StringComparison.OrdinalIgnoreCase ) == 0)
+							else if(string.Equals(showMedianValue, "False", StringComparison.OrdinalIgnoreCase))
 							{
 								showMedian = false;
 							}
@@ -1521,7 +1519,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		internal static void CalculateBoxPlotFromLinkedSeries(Series boxPlotSeries)
 		{
 			// Check input parameters
-			if(String.Compare( boxPlotSeries.ChartTypeName, ChartTypeNames.BoxPlot, StringComparison.OrdinalIgnoreCase) != 0)
+			if(!string.Equals(boxPlotSeries.ChartTypeName, ChartTypeNames.BoxPlot, StringComparison.OrdinalIgnoreCase))
 			{
 				return;
 			}
@@ -1685,11 +1683,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 			if(showUnusualValues.Length > 0)
 			{
-				if(String.Compare(showUnusualValues, "True", StringComparison.OrdinalIgnoreCase ) == 0)
+				if(string.Equals(showUnusualValues, "True", StringComparison.OrdinalIgnoreCase))
 				{
 					addUnusualValues = true;
 				}
-				else if(String.Compare(showUnusualValues, "False", StringComparison.OrdinalIgnoreCase ) == 0)
+				else if(string.Equals(showUnusualValues, "False", StringComparison.OrdinalIgnoreCase))
 				{
 					addUnusualValues = false;
 				}

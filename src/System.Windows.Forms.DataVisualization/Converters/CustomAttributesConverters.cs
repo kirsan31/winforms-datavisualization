@@ -599,7 +599,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				// Get default value string
 				string defaultValue = GetStringFromValue(this._customAttributeInfo.DefaultValue);
-				return (String.Compare(val, defaultValue, StringComparison.Ordinal) == 0);
+				return (string.Equals(val, defaultValue, StringComparison.Ordinal));
 			}
 
 			/// <summary>

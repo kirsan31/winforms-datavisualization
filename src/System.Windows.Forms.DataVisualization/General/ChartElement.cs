@@ -1337,7 +1337,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 series.IsCustomPropertySet(Utilities.CustomPropertyName.IsXAxisQuantitative))
             {
                 string attribValue = series[Utilities.CustomPropertyName.IsXAxisQuantitative];
-                if (String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
                 {
                     return false;
                 }

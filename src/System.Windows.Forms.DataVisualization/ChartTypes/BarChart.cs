@@ -335,15 +335,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					if(common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 					{
 						string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-						if(String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase ) == 0)
+						if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 						{
 							currentDrawSeriesSideBySide = false;
 						}
-                        else if (String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 						{
 							currentDrawSeriesSideBySide = true;
 						}
-                        else if (String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 						{
 							// Do nothing
 						}
@@ -840,13 +840,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                         if (valueLabelAttrib.Length > 0)
                         {
-                            if (String.Compare(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase) == 0)
+                            if (string.Equals(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Left;
-                            if (String.Compare(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase) == 0)
+                            if (string.Equals(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Right;
-                            if (String.Compare(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase) == 0)
+                            if (string.Equals(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Center;
-                            else if (String.Compare(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase) == 0)
+                            else if (string.Equals(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Outside;
                         }
 
@@ -1193,7 +1193,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Take attribute value
-                if (String.Compare(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase))
 				{
 					// IsEmpty points represented with zero values
 					return 0;
@@ -1304,15 +1304,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						if(common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 						{
 							string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-							if(String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+							if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 							{
 								currentDrawSeriesSideBySide = false;
 							}
-							else if(String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+							else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 							{
 								currentDrawSeriesSideBySide = true;
 							}
-							else if(String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+							else if(string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 							{
 								// Do nothing
 							}
@@ -1868,13 +1868,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                         if (valueLabelAttrib != null && valueLabelAttrib.Length > 0)
                         {
-                            if (String.Compare(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase) == 0)
+                            if (string.Equals(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Left;
-                            else if (String.Compare(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase) == 0)
+                            else if (string.Equals(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Right;
-                            else if (String.Compare(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase) == 0)
+                            else if (string.Equals(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Center;
-                            else if (String.Compare(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase) == 0)
+                            else if (string.Equals(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Outside;
                         }
 

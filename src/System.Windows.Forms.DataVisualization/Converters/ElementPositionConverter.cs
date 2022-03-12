@@ -83,7 +83,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string posValue = value as string;
 			if(posValue != null) 
 			{
-                if (String.Compare(posValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(posValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return new ElementPosition();
 				}

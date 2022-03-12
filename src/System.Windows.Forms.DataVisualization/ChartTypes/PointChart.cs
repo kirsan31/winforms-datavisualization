@@ -688,43 +688,43 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         this.autoLabelPosition = false;
 
                         // Get label position from attribute
-                        if (String.Compare(attrib, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+                        if (string.Equals(attrib, "Auto", StringComparison.OrdinalIgnoreCase))
                         {
                             this.autoLabelPosition = true;
                         }
-                        else if (String.Compare(attrib, "Center", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Center", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.Center;
                         }
-                        else if (String.Compare(attrib, "Bottom", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Bottom", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.Bottom;
                         }
-                        else if (String.Compare(attrib, "TopLeft", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "TopLeft", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.TopLeft;
                         }
-                        else if (String.Compare(attrib, "TopRight", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "TopRight", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.TopRight;
                         }
-                        else if (String.Compare(attrib, "BottomLeft", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "BottomLeft", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.BottomLeft;
                         }
-                        else if (String.Compare(attrib, "BottomRight", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "BottomRight", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.BottomRight;
                         }
-                        else if (String.Compare(attrib, "Left", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Left", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.Left;
                         }
-                        else if (String.Compare(attrib, "Right", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Right", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.Right;
                         }
-                        else if (String.Compare(attrib, "Top", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Top", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.Top;
                         }
@@ -1526,7 +1526,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Take attribute value
-			if( String.Compare(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase) == 0 )
+			if(string.Equals(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase))
 			{
 				// IsEmpty points represented with zero values
                 return 0.0;

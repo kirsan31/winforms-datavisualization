@@ -1055,43 +1055,43 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         this._autoLabelPosition = false;
 
                         // Get label position from attribute
-                        if (String.Compare(attrib, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+                        if (string.Equals(attrib, "Auto", StringComparison.OrdinalIgnoreCase))
                         {
                             this._autoLabelPosition = true;
                         }
-                        else if (String.Compare(attrib, "Center", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Center", StringComparison.OrdinalIgnoreCase))
                         {
                             this._labelPosition = LabelAlignmentStyles.Center;
                         }
-                        else if (String.Compare(attrib, "Bottom", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Bottom", StringComparison.OrdinalIgnoreCase))
                         {
                             this._labelPosition = LabelAlignmentStyles.Bottom;
                         }
-                        else if (String.Compare(attrib, "TopLeft", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "TopLeft", StringComparison.OrdinalIgnoreCase))
                         {
                             this._labelPosition = LabelAlignmentStyles.TopLeft;
                         }
-                        else if (String.Compare(attrib, "TopRight", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "TopRight", StringComparison.OrdinalIgnoreCase))
                         {
                             this._labelPosition = LabelAlignmentStyles.TopRight;
                         }
-                        else if (String.Compare(attrib, "BottomLeft", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "BottomLeft", StringComparison.OrdinalIgnoreCase))
                         {
                             this._labelPosition = LabelAlignmentStyles.BottomLeft;
                         }
-                        else if (String.Compare(attrib, "BottomRight", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "BottomRight", StringComparison.OrdinalIgnoreCase))
                         {
                             this._labelPosition = LabelAlignmentStyles.BottomRight;
                         }
-                        else if (String.Compare(attrib, "Left", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Left", StringComparison.OrdinalIgnoreCase))
                         {
                             this._labelPosition = LabelAlignmentStyles.Left;
                         }
-                        else if (String.Compare(attrib, "Right", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Right", StringComparison.OrdinalIgnoreCase))
                         {
                             this._labelPosition = LabelAlignmentStyles.Right;
                         }
-                        else if (String.Compare(attrib, "Top", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Top", StringComparison.OrdinalIgnoreCase))
                         {
                             this._labelPosition = LabelAlignmentStyles.Top;
                         }
@@ -1314,15 +1314,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					(point.IsCustomPropertySet(CustomPropertyName.RadarDrawingStyle)) ? 
 					point[CustomPropertyName.RadarDrawingStyle] : 
 					ser[CustomPropertyName.RadarDrawingStyle];
-				if(String.Compare(attributeValue, "Area", StringComparison.OrdinalIgnoreCase) == 0 )
+				if(string.Equals(attributeValue, "Area", StringComparison.OrdinalIgnoreCase))
 				{
 					drawingStyle = RadarDrawingStyle.Area;
 				}
-                else if (String.Compare(attributeValue, "Line", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(attributeValue, "Line", StringComparison.OrdinalIgnoreCase))
 				{
 					drawingStyle = RadarDrawingStyle.Line;
 				}
-				else if(String.Compare(attributeValue, "Marker", StringComparison.OrdinalIgnoreCase) == 0)
+				else if(string.Equals(attributeValue, "Marker", StringComparison.OrdinalIgnoreCase))
 				{
 					drawingStyle = RadarDrawingStyle.Marker;
 				}
@@ -1422,7 +1422,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Take attribute value
-			if( String.Compare(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase) == 0 )
+			if(string.Equals(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase))
 			{
 				// IsEmpty points represented with zero values
 				return 0;

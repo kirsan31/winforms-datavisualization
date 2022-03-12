@@ -1499,7 +1499,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			
 			foreach( string seriesName in _series )
 			{
-				if( String.Compare( chartType, Common.DataManager.Series[seriesName].ChartTypeName, StringComparison.OrdinalIgnoreCase ) == 0 )
+				if(string.Equals(chartType, Common.DataManager.Series[seriesName].ChartTypeName, StringComparison.OrdinalIgnoreCase))
 				{
 					// Add a series name to the collection
 					list.Add( seriesName );

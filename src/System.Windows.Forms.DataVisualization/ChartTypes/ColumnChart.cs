@@ -254,15 +254,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				if(common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 				{
 					string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-					if(String.Compare( attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0 )
+					if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 					{
 						currentDrawSeriesSideBySide = false;
 					}
-					else if(String.Compare( attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+					else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 					{
 						currentDrawSeriesSideBySide = true;
 					}
-					else if(String.Compare( attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+					else if(string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 					{
 						// Do nothing
 					}
@@ -651,15 +651,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					if(common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 					{
 						string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-						if(String.Compare( attribValue, "False", StringComparison.OrdinalIgnoreCase)==0)
+						if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 						{
 							currentDrawSeriesSideBySide = false;
 						}
-						else if(String.Compare( attribValue, "True", StringComparison.OrdinalIgnoreCase)==0)
+						else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 						{
 							currentDrawSeriesSideBySide = true;
 						}
-						else if(String.Compare( attribValue, "Auto", StringComparison.OrdinalIgnoreCase)==0)
+						else if(string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 						{
 							// Do nothing
 						}

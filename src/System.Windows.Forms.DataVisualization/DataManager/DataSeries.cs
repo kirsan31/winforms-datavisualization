@@ -1512,7 +1512,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 				else if(this.IsCustomPropertySet("UseDummyData"))
 				{
-					if(String.Compare(this["UseDummyData"], "True", StringComparison.OrdinalIgnoreCase) == 0)
+					if(string.Equals(this["UseDummyData"], "True", StringComparison.OrdinalIgnoreCase))
 					{
 						fillTempData = true;
 					}
@@ -2228,15 +2228,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			get
 			{
 				SeriesChartType	type = SeriesChartType.Column;
-				if(String.Compare(this.ChartTypeName, ChartTypeNames.OneHundredPercentStackedArea, StringComparison.OrdinalIgnoreCase) == 0)
+				if(string.Equals(this.ChartTypeName, ChartTypeNames.OneHundredPercentStackedArea, StringComparison.OrdinalIgnoreCase))
 				{
 					type = SeriesChartType.StackedArea100;
 				}
-                else if (String.Compare(this.ChartTypeName, ChartTypeNames.OneHundredPercentStackedBar, StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(this.ChartTypeName, ChartTypeNames.OneHundredPercentStackedBar, StringComparison.OrdinalIgnoreCase))
 				{
 					type = SeriesChartType.StackedBar100;
 				}
-                else if (String.Compare(this.ChartTypeName, ChartTypeNames.OneHundredPercentStackedColumn, StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(this.ChartTypeName, ChartTypeNames.OneHundredPercentStackedColumn, StringComparison.OrdinalIgnoreCase))
 				{
 					type = SeriesChartType.StackedColumn100;
 				}

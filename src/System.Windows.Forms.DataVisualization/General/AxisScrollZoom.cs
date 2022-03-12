@@ -1456,7 +1456,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string crossingValue = value as string;
             if (crossingValue != null)
 			{
-                if (String.Compare(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return Double.NaN;
 				}
@@ -1612,7 +1612,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string crossingValue = value as string;
 			if (crossingValue != null)
 			{
-                if (String.Compare(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return Double.NaN;
 				}

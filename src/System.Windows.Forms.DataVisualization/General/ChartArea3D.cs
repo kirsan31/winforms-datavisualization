@@ -860,15 +860,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					if(this.Common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 					{
 						string attribValue = this.Common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-						if(String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+						if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 						{
 							drawSideBySide = false;
 						}
-						else if(String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+						else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 						{
 							drawSideBySide = true;
 						}
-                        else if (String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 						{
 							// Do nothing
 						}
@@ -905,7 +905,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						// Get series object from name
 						Series	curSeries = this.Common.DataManager.Series[seriesName];
-						if(String.Compare(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 )
+						if(string.Equals(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase))
 						{
 							++seriesNumber;
 						}
@@ -936,7 +936,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						// Get series object from name
 						Series	curSeries = this.Common.DataManager.Series[seriesName];
-						if(String.Compare(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 )
+						if(string.Equals(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase))
 						{
 							string seriesStackGroupName = string.Empty;
 							if(curSeries.IsCustomPropertySet(CustomPropertyName.StackedGroupName))
