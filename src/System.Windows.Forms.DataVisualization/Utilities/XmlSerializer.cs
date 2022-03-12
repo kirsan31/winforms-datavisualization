@@ -1078,7 +1078,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             }
             String typeStr = attr.ConverterTypeName;
             
-            if (attr.ConverterTypeName.Contains(",") )
+            if (attr.ConverterTypeName.Contains(',') )
             {
                 typeStr = attr.ConverterTypeName.Split(',')[0];
             }
