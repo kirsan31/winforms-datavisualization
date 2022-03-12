@@ -180,9 +180,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <returns>Legend item style.</returns>
 		virtual public LegendImageStyle GetLegendImageStyle(Series series)
 		{
-			if(series != null)
+			if(series is not null)
 			{
-				RadarDrawingStyle drawingStyle = GetDrawingStyle(series, new DataPoint(series)); 
+				using var point = new DataPoint(series);
+				RadarDrawingStyle drawingStyle = GetDrawingStyle(series, point); 
 				if(drawingStyle == RadarDrawingStyle.Line)
 				{
 					return LegendImageStyle.Line;
@@ -448,7 +449,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 fillPath.AddLine(dataPointPos[secondPointIndex], graph.GetAbsolutePoint(area.circularCenter));
 
                                 // Shift shadow position
-                                Matrix shadowMatrix = new Matrix();
+                                using Matrix shadowMatrix = new Matrix();
                                 shadowMatrix.Translate(ser.ShadowOffset, ser.ShadowOffset);
                                 fillPath.Transform(shadowMatrix);
 
@@ -861,7 +862,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			else
 			{
 				// Add line
-				GraphicsPath	linePath = new GraphicsPath();
+				using GraphicsPath linePath = new GraphicsPath();
 				if(!leftSidePoint.IsEmpty)
 				{
 					linePath.AddLine(leftSidePoint, dataPointPos[firstPointIndex]);
@@ -871,7 +872,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Widen path
 				try
 				{
-					linePath.Widen(new Pen(Color.Black, borderWidth + 2));
+					using var pen = new Pen(Color.Black, borderWidth + 2);
+					linePath.Widen(pen);
 					linePath.Flatten();
 				}
                 catch (OutOfMemoryException)
@@ -886,7 +888,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Add to the selection path
 				selectionPath.AddPath(linePath, false);
 			}
-
 		}
 
 		/// <summary>
@@ -962,7 +963,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 				// Rotate position
 				float	sectorAngle = 360f / area.CircularSectorsNumber * index;
-				Matrix matrix = new Matrix();
+				using Matrix matrix = new Matrix();
 				matrix.RotateAt(sectorAngle, graph.GetAbsolutePoint(area.circularCenter));
 				PointF[]	rotatedPoint = new PointF[] { pointPos[index] };
 				matrix.TransformPoints(rotatedPoint);

@@ -282,13 +282,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				double axesValuesPixelSizeX = Math.Abs(hAxis.PositionToValue(axesMin.Width + pixelSize.Width, false) - hAxis.PositionToValue(axesMin.Width, false));
 
 				// Create line pen
-				Pen	linePen = new Pen(series.Color, series.BorderWidth);
+				using Pen	linePen = new Pen(series.Color, series.BorderWidth);
 				linePen.DashStyle = graph.GetPenStyle( series.BorderDashStyle );
 				linePen.StartCap = LineCap.Round;
 				linePen.EndCap = LineCap.Round;
 
 				// Create empty line pen
-				Pen	emptyLinePen = new Pen(series.EmptyPointStyle.Color, series.EmptyPointStyle.BorderWidth);
+				using Pen	emptyLinePen = new Pen(series.EmptyPointStyle.Color, series.EmptyPointStyle.BorderWidth);
 				emptyLinePen.DashStyle = graph.GetPenStyle( series.EmptyPointStyle.BorderDashStyle );
 				emptyLinePen.StartCap = LineCap.Round;
 				emptyLinePen.EndCap = LineCap.Round;

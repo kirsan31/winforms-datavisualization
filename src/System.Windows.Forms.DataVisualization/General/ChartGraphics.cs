@@ -354,7 +354,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
            System.Drawing.Image image = _common.ImageLoader.LoadImage( name );
 
 			// Create a brush
-			ImageAttributes attrib = new ImageAttributes();
+			using ImageAttributes attrib = new ImageAttributes();
 			attrib.SetWrapMode((mode == ChartImageWrapMode.Unscaled) ? WrapMode.Clamp : ((WrapMode)mode));
 			if(backImageTransparentColor != Color.Empty)
 			{
@@ -368,7 +368,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				backColor != Color.Transparent)
 			{
 				TextureBrush backFilledBrush = null;
-				Bitmap bitmap = new Bitmap(image.Width, image.Height);
+				using Bitmap bitmap = new Bitmap(image.Width, image.Height);
 				using(Graphics graphics = Graphics.FromImage(bitmap))
 				{
 					using(SolidBrush backBrush = new SolidBrush(backColor))
@@ -590,17 +590,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool outside = true;
             PointF[] points = new PointF[numberOfCornersX2];
             PointF[] tempPoints = new PointF[1];
-            // overflow check
-            for (int pointIndex = 0; pointIndex < numberOfCornersX2; pointIndex++)
-			{
-				tempPoints[0] = new PointF(rect.X + rect.Width/2f, (outside == true) ? rect.Y : rect.Y + rect.Height/4f);
-				Matrix	matrix = new Matrix();
+			Matrix matrix = null;
+
+			// overflow check
+			for (int pointIndex = 0; pointIndex < numberOfCornersX2; pointIndex++)
+			{				
+				if (matrix is null)
+					matrix = new Matrix();
+				else
+					matrix.Reset();
+
+				tempPoints[0] = new PointF(rect.X + rect.Width / 2f, (outside == true) ? rect.Y : rect.Y + rect.Height / 4f);
 				matrix.RotateAt(pointIndex*(360f/(numberOfCorners*2f)), new PointF(rect.X + rect.Width/2f, rect.Y + rect.Height/2f));
 				matrix.TransformPoints(tempPoints);
 				points[pointIndex] = tempPoints[0];
 				outside = !outside;
 			}
 
+			matrix?.Dispose();
 			return points;
 		}
 
@@ -695,7 +702,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     rect.Height = imageScaleRect.Height;
 
                     // Prepare image properties (transparent color)
-                    ImageAttributes attrib = new ImageAttributes();
+                    using ImageAttributes attrib = new ImageAttributes();
                     if (markerImageTransparentColor != Color.Empty)
                     {
                         attrib.SetColorKey(markerImageTransparentColor, markerImageTransparentColor, ColorAdjustType.Default);
@@ -704,7 +711,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Draw image shadow
                     if (shadowSize != 0 && shadowColor != Color.Empty)
                     {
-                        ImageAttributes attribShadow = new ImageAttributes();
+                        using ImageAttributes attribShadow = new ImageAttributes();
                         attribShadow.SetColorKey(markerImageTransparentColor, markerImageTransparentColor, ColorAdjustType.Default);
                         ColorMatrix colorMatrix = new ColorMatrix();
                         colorMatrix.Matrix00 = 0.25f; // Red
@@ -733,6 +740,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Draw standart marker using style, size and color
 			else if(markerStyle != MarkerStyle.None && markerSize > 0 && markerColor != Color.Empty)
 			{
+                Pen pen;
 				// Enable antialising
                 SmoothingMode oldSmoothingMode = this.SmoothingMode;
 				if(forceAntiAlias)
@@ -784,14 +792,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     Matrix oldMatrix = this.Transform;
                                     this.Transform = translateMatrix;
 
-                                    this.FillPolygon(new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor)), points);
+                                    using var sb = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
+                                    this.FillPolygon(sb, points);
 
                                     this.Transform = oldMatrix;
                                 }
 
                                 // Draw star
                                 this.FillPolygon(brush, points);
-                                this.DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
+                                pen = new Pen(markerBorderColor, markerBorderSize);
+                                this.DrawPolygon(pen, points);
+                                pen.Dispose();
                                 break;
                             }
                         case (MarkerStyle.Circle):
@@ -846,7 +857,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
 
                                 this.FillEllipse(brush, rect);
-                                this.DrawEllipse(new Pen(markerBorderColor, markerBorderSize), rect);
+                                pen = new Pen(markerBorderColor, markerBorderSize);
+                                this.DrawEllipse(pen, rect);
+                                pen.Dispose();
                                 break;
                             }
                         case (MarkerStyle.Square):
@@ -858,7 +871,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
 
                                 this.FillRectangle(brush, rect);
-                                this.DrawRectangle(new Pen(markerBorderColor, markerBorderSize), (int)Math.Round(rect.X, 0), (int)Math.Round(rect.Y, 0), (int)Math.Round(rect.Width, 0), (int)Math.Round(rect.Height, 0));
+                                pen = new Pen(markerBorderColor, markerBorderSize);
+                                this.DrawRectangle(pen, (int)Math.Round(rect.X, 0), (int)Math.Round(rect.Y, 0), (int)Math.Round(rect.Width, 0), (int)Math.Round(rect.Height, 0));
+                                pen.Dispose();
                                 break;
                             }
                         case (MarkerStyle.Cross):
@@ -898,7 +913,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 points[11].Y = point.Y + crossLineWidth / 2F;
 
                                 // Rotate cross coordinates 45 degrees
-                                Matrix rotationMatrix = new Matrix();
+                                using Matrix rotationMatrix = new Matrix();
                                 rotationMatrix.RotateAt(45, point);
                                 rotationMatrix.TransformPoints(points);
 
@@ -906,7 +921,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
                                     // Create translation matrix
-                                    Matrix translateMatrix = this.Transform.Clone();
+                                    using Matrix translateMatrix = this.Transform.Clone();
                                     translateMatrix.Translate(
                                         (softShadows) ? shadowSize + 1 : shadowSize,
                                         (softShadows) ? shadowSize + 1 : shadowSize);
@@ -959,12 +974,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
 
                                 // Create translation matrix
-                                Matrix translateMatrixShape = this.Transform.Clone();
+                                using Matrix translateMatrixShape = this.Transform.Clone();
                                 Matrix oldMatrixShape = this.Transform;
                                 this.Transform = translateMatrixShape;
 
                                 this.FillPolygon(brush, points);
-                                this.DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
+                                pen = new Pen(markerBorderColor, markerBorderSize);
+                                this.DrawPolygon(pen, points);
+                                pen.Dispose();
 
                                 this.Transform = oldMatrixShape;
 
@@ -985,7 +1002,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Draw shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
-                                    Matrix translateMatrix = this.Transform.Clone();
+                                    using Matrix translateMatrix = this.Transform.Clone();
                                     translateMatrix.Translate((softShadows) ? 0 : shadowSize,
                                         (softShadows) ? 0 : shadowSize);
                                     Matrix oldMatrix = this.Transform;
@@ -1022,7 +1039,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
 
                                 this.FillPolygon(brush, points);
-                                this.DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
+                                pen = new Pen(markerBorderColor, markerBorderSize);
+                                this.DrawPolygon(pen, points);
+                                pen.Dispose();
                                 break;
                             }
                         case (MarkerStyle.Triangle):
@@ -1038,7 +1057,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Draw image shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
-                                    Matrix translateMatrix = this.Transform.Clone();
+                                    using Matrix translateMatrix = this.Transform.Clone();
                                     translateMatrix.Translate((softShadows) ? shadowSize - 1 : shadowSize,
                                         (softShadows) ? shadowSize + 1 : shadowSize);
                                     Matrix oldMatrix = this.Transform;
@@ -1054,11 +1073,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     else
                                     {
                                         // Add polygon to the graphics path
-                                        GraphicsPath path = new GraphicsPath();
+                                        using GraphicsPath path = new GraphicsPath();
                                         path.AddPolygon(points);
 
                                         // Create path brush
-                                        PathGradientBrush shadowBrush = new PathGradientBrush(path);
+                                        using PathGradientBrush shadowBrush = new PathGradientBrush(path);
                                         shadowBrush.CenterColor = shadowColor;
 
                                         // Set the color along the entire boundary of the path
@@ -1086,8 +1105,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
 
                                 this.FillPolygon(brush, points);
-                                this.DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
-                                break;
+                                pen = new Pen(markerBorderColor, markerBorderSize);
+                                this.DrawPolygon(pen, points);
+								pen.Dispose();
+								break;
                             }
                         default:
                             {
@@ -1984,7 +2005,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Adjust label rectangle so it will be inside boundary
                     if (boundaryRect != RectangleF.Empty)
                     {
-                        Region region = new Region(labelRect);
+                        using Region region = new Region(labelRect);
                         region.Transform(_myMatrix);
 
                         // Extend boundary rectangle to the chart picture border
@@ -2260,7 +2281,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Create image attribute
-                    ImageAttributes attrib = new ImageAttributes();
+                    using ImageAttributes attrib = new ImageAttributes();
                     if (imageTransparentColor != Color.Empty)
                     {
                         attrib.SetColorKey(imageTransparentColor, imageTransparentColor, ColorAdjustType.Default);
@@ -3459,7 +3480,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
 
 				// Prepare image properties (transparent color)
-				ImageAttributes attrib = new ImageAttributes();
+				using ImageAttributes attrib = new ImageAttributes();
 				if(backImageTransparentColor != Color.Empty)
 				{
 					attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
@@ -3731,7 +3752,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 
 				// Create rounded rectangle path
-				GraphicsPath path = new GraphicsPath();
+				using GraphicsPath path = new GraphicsPath();
 				if(circular && offset.Width != offset.Height)
 				{
 					float	radiusX = offset.Width/2f;
@@ -3757,7 +3778,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					path.AddArc(offset.X, offset.Y, 2f*radius, 2f*radius, 180, 90);
 				}
 
-				PathGradientBrush shadowBrush = new PathGradientBrush(path);
+				using PathGradientBrush shadowBrush = new PathGradientBrush(path);
 				shadowBrush.CenterColor = shadowColor;
 
 				// Set the color along the entire boundary of the path
@@ -3813,11 +3834,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				sectorSize = 360f / ((float)polygonSectorsNumber);
 			}
 
+			Matrix matrix = null;
+
 			// Loop throug all sectors
-			for(curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
+			for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
 			{
 				// Create matrix
-				Matrix matrix = new Matrix();
+				if (matrix is null)
+					matrix = new Matrix();
+				else
+					matrix.Reset();
+
 				matrix.RotateAt(curentSector, centerPoint);
 
 				// Get point and rotate it
@@ -3834,8 +3861,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				prevPoint = points[0];
 			}
 
+			matrix?.Dispose();
 			path.CloseAllFigures();
-
 			return path;
 		}
 
@@ -3894,12 +3921,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         sectorSize = 360f / ((float)polygonSectorsNumber);
                     }
 
-                    // Loop throug all sectors
-                    for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
+					Matrix matrix = null;
+
+					// Loop through all sectors
+					for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
                     {
-                        // Create matrix
-                        Matrix matrix = new Matrix();
-                        matrix.RotateAt(curentSector, centerPoint);
+						// Create matrix
+						if (matrix is null)
+							matrix = new Matrix();
+						else
+							matrix.Reset();
+
+						matrix.RotateAt(curentSector, centerPoint);
 
                         // Get point and rotate it
                         PointF[] points = new PointF[] { firstPoint };
@@ -3910,7 +3943,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             path.AddLine(prevPoint, points[0]);
 
-                            // Fill each segment separatly for the 3D look
+                            // Fill each segment separately for the 3D look
                             if (fill3DCircle)
                             {
                                 path.AddLine(points[0], centerPoint);
@@ -3927,7 +3960,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         prevPoint = points[0];
                     }
 
-                    path.CloseAllFigures();
+					matrix?.Dispose();
+					path.CloseAllFigures();
 
                     // Fill last segment for the 3D look
                     if (!prevPoint.IsEmpty && fill3DCircle)
@@ -4067,8 +4101,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			ChartDashStyle borderDashStyle, 
 			PenAlignment penAlignment )
 		{
-			Brush brush = null;
+			Brush brush;
 			Brush backBrush = null;
+			Brush OldBrush = null;
 
 			// Turn off Antialias
 			SmoothingMode oldMode = this.SmoothingMode;
@@ -4108,25 +4143,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			else
 			{
 				// If a gradient type  is set create a brush with gradient
-				brush = GetGradientBrush( rect, backColor, backSecondaryColor, backGradientStyle );
+				brush = GetGradientBrush(rect, backColor, backSecondaryColor, backGradientStyle);
 			}
 
 			if( backHatchStyle != ChartHatchStyle.None )
 			{
-				brush = GetHatchBrush( backHatchStyle, backColor, backSecondaryColor );
+				if (brush != null && brush != _solidBrush)
+					brush.Dispose();
+				brush = GetHatchBrush(backHatchStyle, backColor, backSecondaryColor);
 			}
 
 			if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
 			{
 				backBrush = brush;
-				brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor );
-			}
+				if (brush != _solidBrush)
+					OldBrush = brush;
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            }
 
 			// For inset alignment resize fill rectangle
 			RectangleF fillRect;
 			
 			// The fill rectangle is same
-			fillRect = new RectangleF( rect.X + borderWidth, rect.Y + borderWidth, rect.Width - borderWidth * 2, rect.Height - borderWidth * 2 );
+			fillRect = new RectangleF(rect.X + borderWidth, rect.Y + borderWidth, rect.Width - borderWidth * 2, rect.Height - borderWidth * 2);
 
 			// FillRectangle and DrawRectangle works differently with RectangleF.
 			fillRect.Width += 1;
@@ -4136,11 +4177,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if( backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
 			{
 				// Load image
-                System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
+                Image image = _common.ImageLoader.LoadImage( backImage );
                                 
 
 				// Prepare image properties (transparent color)
-				ImageAttributes attrib = new ImageAttributes();
+				using ImageAttributes attrib = new ImageAttributes();
 				if(backImageTransparentColor != Color.Empty)
 				{
 					attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
@@ -4229,18 +4270,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Dispose Image and Gradient
-			if( backGradientStyle != GradientStyle.None )
-			{
+			if (brush != null && brush != _solidBrush)
 				brush.Dispose();
-			}
-			if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
-			{
-				brush.Dispose();
-			}
-			if( backHatchStyle != ChartHatchStyle.None )
-			{
-				brush.Dispose();
-			}
+			OldBrush?.Dispose();
 
 			// Set Old Smoothing Mode
 			this.SmoothingMode = oldMode;
@@ -4375,11 +4407,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			ChartDashStyle borderDashStyle, 
 			PenAlignment penAlignment )
 		{
-			Brush brush = null;
+			Brush brush;
 			Brush backBrush = null;
+            Brush OldBrush = null;
 
-			// Color is empty
-			if( backColor.IsEmpty ) 
+            // Color is empty
+            if ( backColor.IsEmpty ) 
 				backColor = Color.White;
 
 			if( backSecondaryColor.IsEmpty ) 
@@ -4408,23 +4441,35 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// If a gradient type  is set create a brush with gradient
 				RectangleF pathRect = path.GetBounds();
 				pathRect.Inflate(new SizeF(2,2));
-				brush = GetGradientBrush( 
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                brush = GetGradientBrush( 
 					pathRect, 
-					backColor, 
-					backSecondaryColor, 
-					backGradientStyle );
-			}
+					backColor,
+                    backSecondaryColor,
+                    backGradientStyle);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            }
 
-			if( backHatchStyle != ChartHatchStyle.None )
+            if ( backHatchStyle != ChartHatchStyle.None )
 			{
-				brush = GetHatchBrush( backHatchStyle, backColor, backSecondaryColor );
-			}
+                if (brush != null && brush != _solidBrush)
+                    brush.Dispose();
 
-			if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                brush = GetHatchBrush( backHatchStyle, backColor, backSecondaryColor );
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            }
+
+            if ( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
 			{
 				backBrush = brush;
-				brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor );
-			}
+                if (brush != _solidBrush)
+                    OldBrush = brush;
+
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            }
 
 			// For inset alignment resize fill rectangle
 			RectangleF fillRect = path.GetBounds();
@@ -4433,10 +4478,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if( backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
 			{
 				// Load image
-System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
+                Image image = _common.ImageLoader.LoadImage( backImage );
 
 				// Prepare image properties (transparent color)
-				ImageAttributes attrib = new ImageAttributes();
+				using ImageAttributes attrib = new ImageAttributes();
 				if(backImageTransparentColor != Color.Empty)
 				{
 					attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
@@ -4524,7 +4569,11 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
 			{
 				this.DrawPath( _pen, path );
 			}
-		}
+
+            if (brush != null && brush != _solidBrush)
+                brush.Dispose();
+            OldBrush?.Dispose();
+        }
 
 		/// <summary>
 		/// Creates brush with specified properties.
@@ -4751,7 +4800,7 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
 			GraphicsPath path = CreateRoundedRectPath(rect, cornerRadius);
 
 			// Create gradient brush
-			PathGradientBrush shadowBrush = new PathGradientBrush(path);
+			using PathGradientBrush shadowBrush = new PathGradientBrush(path);
 			shadowBrush.CenterColor = centerColor;
 
 			// Set the color along the entire boundary of the path
@@ -5215,11 +5264,11 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
 		/// <param name="backColor">Fill color</param>
 		private void DrawPieSoftShadow( float startAngle, float sweepAngle, RectangleF absRect, Color backColor )
 		{
-			GraphicsPath path = new GraphicsPath();
+			using GraphicsPath path = new GraphicsPath();
 			
 			path.AddEllipse( absRect.X, absRect.Y, absRect.Width, absRect.Height );
 
-			PathGradientBrush brush = new PathGradientBrush( path );
+			using PathGradientBrush brush = new PathGradientBrush( path );
 		
 			Color[] colors = {
 								Color.FromArgb( 0, backColor ),

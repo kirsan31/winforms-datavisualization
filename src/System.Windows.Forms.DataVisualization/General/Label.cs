@@ -941,7 +941,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         // Set graphics rotation matrix
-                        Matrix newMatrix = new Matrix();
+                        using Matrix newMatrix = new Matrix();
                         newMatrix.RotateAt(labelAngle, graph.GetAbsolutePoint(this._axis.ChartArea.circularCenter));
                         newMatrix.TransformPoints(labelPosition);
 
@@ -1524,7 +1524,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Draw label
-                    using (Brush brush = new SolidBrush((label.ForeColor.IsEmpty) ? _foreColor : label.ForeColor))
+#pragma warning disable CA2000 // Dispose objects before losing scope. Bug in analyzer!
+                    using (Brush brush = new SolidBrush(label.ForeColor.IsEmpty ? _foreColor : label.ForeColor))
+#pragma warning restore CA2000 // Dispose objects before losing scope
                     {
                         graph.DrawLabelStringRel(_axis,
                             label.RowIndex,
@@ -2241,7 +2243,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         //** Draw label text.
                         //********************************************************************
 
-                        using (Brush brush = new SolidBrush((label.ForeColor.IsEmpty) ? _foreColor : label.ForeColor))
+#pragma warning disable CA2000 // Dispose objects before losing scope. Bug in analyzer!
+                        using (Brush brush = new SolidBrush(label.ForeColor.IsEmpty ? _foreColor : label.ForeColor))
+#pragma warning restore CA2000 // Dispose objects before losing scope
                         {
                             graph.DrawLabelStringRel(
                                 labelsAxis,

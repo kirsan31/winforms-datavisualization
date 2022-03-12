@@ -558,7 +558,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             // Get previous point value					
                             double xPrevValue = (indexedSeries) ? (index) : ser.Points[index - 1].XValue;
 
-                            // Check if line is completly out of the data scaleView
+                            // Check if line is completely out of the data scaleView
                             if ((xValue <= hAxisMin && xPrevValue <= hAxisMin) ||
                                 (xValue >= hAxisMax && xPrevValue >= hAxisMax))
                             {
@@ -624,7 +624,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                                 // Draw top and bottom lines with antialiasing turned On.
                                 // Process only if line is drawn by an angle
-                                Pen areaLinePen = new Pen(areaBrush, 1);
+                                using Pen areaLinePen = new Pen(areaBrush, 1);
                                 if (!(firstPoint.X == secondPoint.X || firstPoint.Y == secondPoint.Y))
                                 {
                                     graph.DrawLine(areaLinePen, firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
@@ -680,43 +680,42 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             //**************************************************************
                             if (point.BorderWidth > 1 && point.BorderDashStyle != ChartDashStyle.NotSet && point.BorderColor != Color.Empty)
                             {
-                                // Create grapics path object dor the curve
-                                using (GraphicsPath linePath = new GraphicsPath())
+                                // Create graphics path object for the curve
+                                using GraphicsPath linePath = new GraphicsPath();
+                                try
                                 {
-                                    try
-                                    {
-                                        linePath.AddLine(firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
+                                    linePath.AddLine(firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
 
-                                        // Widen the lines to the size of pen plus 2
-                                        linePath.Widen(new Pen(point.Color, point.BorderWidth + 2));
-                                    }
-                                    catch (OutOfMemoryException)
-                                    {
-                                        // GraphicsPath.Widen incorrectly throws OutOfMemoryException
-                                        // catching here and reacting by not widening
-                                    }
-                                    catch (ArgumentException)
-                                    {
-                                    }
-
-                                    // Allocate array of floats
-                                    pointNew = PointF.Empty;
-                                    coord = new float[linePath.PointCount * 2];
-                                    for (int i = 0; i < linePath.PointCount; i++)
-                                    {
-                                        pointNew = graph.GetRelativePoint(linePath.PathPoints[i]);
-                                        coord[2 * i] = pointNew.X;
-                                        coord[2 * i + 1] = pointNew.Y;
-                                    }
-
-                                    common.HotRegionsList.AddHotRegion(
-                                        linePath,
-                                        false,
-                                        coord,
-                                        point,
-                                        ser.Name,
-                                        index);
+                                    // Widen the lines to the size of pen plus 2
+                                    using var pen = new Pen(point.Color, point.BorderWidth + 2);
+                                    linePath.Widen(pen);
                                 }
+                                catch (OutOfMemoryException)
+                                {
+                                    // GraphicsPath.Widen incorrectly throws OutOfMemoryException
+                                    // catching here and reacting by not widening
+                                }
+                                catch (ArgumentException)
+                                {
+                                }
+
+                                // Allocate array of floats
+                                pointNew = PointF.Empty;
+                                coord = new float[linePath.PointCount * 2];
+                                for (int i = 0; i < linePath.PointCount; i++)
+                                {
+                                    pointNew = graph.GetRelativePoint(linePath.PathPoints[i]);
+                                    coord[2 * i] = pointNew.X;
+                                    coord[2 * i + 1] = pointNew.Y;
+                                }
+
+                                common.HotRegionsList.AddHotRegion(
+                                    linePath,
+                                    false,
+                                    coord,
+                                    point,
+                                    ser.Name,
+                                    index);
                             }
                         }
                     }
@@ -730,27 +729,33 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Fill whole series area with gradient
-				if(gradientFill && areaPath != null)
+				if (gradientFill && areaPath is not null)
 				{
 					// Create gradient path
-                    using (GraphicsPath gradientPath = new GraphicsPath())
-                    {
-                        gradientPath.AddPath(areaPath, true);
-                        areaBottomPath.Reverse();
-                        gradientPath.AddPath(areaBottomPath, true);
+					using (GraphicsPath gradientPath = new GraphicsPath())
+					{
+						gradientPath.AddPath(areaPath, true);
+						areaBottomPath.Reverse();
+						gradientPath.AddPath(areaBottomPath, true);
 
-                        // Create brush
-                        using (Brush areaBrush = graph.GetGradientBrush(gradientPath.GetBounds(), this.Series.Color, this.Series.BackSecondaryColor, this.Series.BackGradientStyle))
-                        {
-                            // Fill area with gradient
-                            graph.FillPath(areaBrush, gradientPath);
-                        }
-                    }
+						// Create brush
+						using (Brush areaBrush = graph.GetGradientBrush(gradientPath.GetBounds(), this.Series.Color, this.Series.BackSecondaryColor, this.Series.BackGradientStyle))
+						{
+							// Fill area with gradient
+							graph.FillPath(areaBrush, gradientPath);
+						}
+					}
 
 					areaPath.Dispose();
 					areaPath = null;
 					gradientFill = false;
 				}
+				else if (areaPath is not null)
+				{
+					areaPath.Dispose();
+					areaPath = null;
+				}
+
 				areaBottomPath.Reset();
 
 				// Call Paint event

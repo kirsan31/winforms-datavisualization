@@ -1513,8 +1513,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Start Svg Selection mode
 						graph.StartHotRegion( point );
 
-						// Draw the bar rectangle
-						rectPath = graph.Fill3DRectangle( 
+                    // Draw the bar rectangle
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                    rectPath = graph.Fill3DRectangle( 
 							rectSize, 
 							pointEx.zPosition,
 							pointEx.depth,
@@ -1529,9 +1530,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							barDrawingStyle,
 							false,
 							drawingOperationType );
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
-						// End Svg Selection mode
-						graph.EndHotRegion( );
+                    // End Svg Selection mode
+                    graph.EndHotRegion( );
 
 						// Reset Clip Region
 						if(clipRegionSet)
@@ -1764,7 +1766,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							(point.series != null) ? point.series.ShadowOffset : 0,
 							(point.series != null) ? point.series.ShadowColor : Color.Empty,
 							RectangleF.Empty,
-							DrawingOperationTypes.DrawElement);
+							DrawingOperationTypes.DrawElement)?.Dispose();
 					}
 				}
 			}

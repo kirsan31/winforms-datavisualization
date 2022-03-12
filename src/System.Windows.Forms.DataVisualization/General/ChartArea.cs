@@ -2524,6 +2524,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Defines on how much (pixels) the circular chart area radius should be reduced
             float labelsSize = 0f;
+            Matrix newMatrix = null;
 
             //*****************************************************************
             //** Loop through all axis labels
@@ -2583,7 +2584,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     // Get label rotated position
                     PointF[] labelPosition = new PointF[] { new PointF(areaCenterAbs.X, plotAreaRectAbs.Y) };
-                    Matrix newMatrix = new Matrix();
+                    if (newMatrix is null)
+                        newMatrix = new Matrix();
+                    else
+                        newMatrix.Reset();
+
                     newMatrix.RotateAt(textAngle, areaCenterAbs);
                     newMatrix.TransformPoints(labelPosition);
 
@@ -2601,6 +2606,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
+            newMatrix?.Dispose();
             return labelsSize;
         }
 

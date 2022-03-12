@@ -556,7 +556,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     {
                         path.AddLine(point1, point2);
                         path.AddLine(point2, point3);
-                        path.Widen(new Pen(point.Color, point.BorderWidth + 2));
+						using var pen = new Pen(point.Color, point.BorderWidth + 2);
+
+						path.Widen(pen);
                     }
                     catch (OutOfMemoryException)
                     {

@@ -729,7 +729,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							}
 
 							// Add empty points
-							DataPoint emptyPoint = new DataPoint(pointAndFigureSeries);
+							using DataPoint emptyPoint = new DataPoint(pointAndFigureSeries);
 							emptyPoint.IsEmpty = true;
 							emptyPoint.AxisLabel = " ";
 							while(pointAndFigureSeries.Points.Count < pointCount)
@@ -832,25 +832,25 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Draw circles when price is dropping
 					if(ser.ShadowOffset != 0)
 					{
+						using var pen1 = new Pen(ser.ShadowColor, point.BorderWidth);
 						graph.DrawCircleAbs(
-							new Pen(ser.ShadowColor, point.BorderWidth), 
+							pen1, 
 							null, 
 							shadowPosition, 
 							1, 
 							false);
 					}
 
+					using var pen = new Pen(point.Color, point.BorderWidth);
 					// Draw 'O' symbol
 					graph.DrawCircleAbs(
-						new Pen(point.Color, point.BorderWidth), 
+						pen, 
 						null, 
 						position, 
 						1, 
 						false);
 				}
 			}
-
-
 		}
 
 		#endregion // Drawing methods

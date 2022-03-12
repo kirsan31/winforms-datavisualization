@@ -676,8 +676,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						{
 							lastInsertPoint = insertPosition;
 							++numberOfPoints;
-							DataPoint	dataPoint = new DataPoint(ser);
-							dataPoint.XValue = currentPointValue;
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                            DataPoint	dataPoint = new DataPoint(ser);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                            dataPoint.XValue = currentPointValue;
 							dataPoint.IsEmpty = true;
 							ser.Points.Insert(insertPosition, dataPoint);
 						}
@@ -2192,7 +2194,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Define an input and output series
 				Series input = inputSeries[seriesIndex];
 				Series output = input;
-				if(outputSeries != null && seriesIndex < outputSeries.Length)
+				Series inputTemp = null;
+				if (outputSeries != null && seriesIndex < outputSeries.Length)
 				{
 					output = outputSeries[seriesIndex];
 
@@ -2220,7 +2223,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Copy input data into temp storage
 				if(input != output)
 				{
-					Series inputTemp = new Series("Temp", input.YValuesPerPoint);
+					inputTemp = new Series("Temp", input.YValuesPerPoint);
 					foreach(DataPoint point in input.Points)
 					{
 						DataPoint dp = new DataPoint(inputTemp);
@@ -2236,6 +2239,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// No points to group
 				if(input.Points.Count == 0)
 				{
+					inputTemp?.Dispose();
 					continue;
 				}
 
@@ -2334,11 +2338,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								inputSeries[seriesIndex].Points[intervalLastIndex].XValue;
 						}
 
-						//**************************************************
-						//** Create new point object
-						//**************************************************
-						DataPoint	newPoint = new DataPoint();
-						newPoint.ResizeYValueArray(outputValuesNumber - 1);
+                        //**************************************************
+                        //** Create new point object
+                        //**************************************************
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                        DataPoint	newPoint = new DataPoint();
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                        newPoint.ResizeYValueArray(outputValuesNumber - 1);
 						newPoint.XValue = pointTempValues[0];
 						newPoint.AxisLabel = currentLabel;
 						for(int i = 1; i < pointTempValues.Length; i++)
@@ -2397,6 +2403,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						false,
 						ref emptyPointsSkipped);
 				}
+				inputTemp?.Dispose();
 			}
 		}
 
@@ -2616,11 +2623,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								pointTempValues[0] = intervalTo;
 							}
 
-							//**************************************************
-							//** Create new point object
-							//**************************************************
-							DataPoint	newPoint = new DataPoint();
-							newPoint.ResizeYValueArray(outputValuesNumber - 1);
+                            //**************************************************
+                            //** Create new point object
+                            //**************************************************
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                            DataPoint	newPoint = new DataPoint();
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                            newPoint.ResizeYValueArray(outputValuesNumber - 1);
 							newPoint.XValue = pointTempValues[0];
 							for(int i = 1; i < pointTempValues.Length; i++)
 							{

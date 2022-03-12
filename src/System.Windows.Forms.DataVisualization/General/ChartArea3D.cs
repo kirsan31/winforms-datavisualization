@@ -701,7 +701,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				chartArea.BorderColor, 
 				chartArea.BorderWidth, 
 				chartArea.BorderDashStyle, 
-				DrawingOperationTypes.DrawElement );
+				DrawingOperationTypes.DrawElement )?.Dispose();
 
 			// Draw side wall on the left or right side
 			wallRect2D = new RectangleF(position.Location, position.Size);
@@ -721,7 +721,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				chartArea.BorderColor, 
 				chartArea.BorderWidth, 
 				chartArea.BorderDashStyle, 
-				DrawingOperationTypes.DrawElement);
+				DrawingOperationTypes.DrawElement)?.Dispose();
 
 			// Draw bottom wall
 			if(IsBottomSceneWallVisible())
@@ -735,7 +735,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					wallRect2D.X += areaSceneWallWidth.Width;
 				}
 
-				wallZPosition = 0;
 				graph.Fill3DRectangle( 
 					wallRect2D,
 					0f,
@@ -746,9 +745,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					chartArea.BorderColor, 
 					chartArea.BorderWidth, 
 					chartArea.BorderDashStyle, 
-					DrawingOperationTypes.DrawElement );
+					DrawingOperationTypes.DrawElement )?.Dispose();
 			}
-
 		}
 
 		/// <summary>

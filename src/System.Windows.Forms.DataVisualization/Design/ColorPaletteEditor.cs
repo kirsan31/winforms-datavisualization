@@ -65,7 +65,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                     {
                         rect.Width = e.Bounds.Right - rect.X;
                     }
-                    e.Graphics.FillRectangle(new SolidBrush(paletteColors[i * colorStep]), rect);
+                    using var br = new SolidBrush(paletteColors[i * colorStep]);
+                    e.Graphics.FillRectangle(br, rect);
                     rect.X = rect.Right;
                     rect.Width = ((float)(e.Bounds.Width) / (float)(numberOfcolors));
                 }

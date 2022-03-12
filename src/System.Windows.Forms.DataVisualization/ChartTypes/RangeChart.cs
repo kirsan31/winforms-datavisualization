@@ -383,7 +383,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Calculate data point area segment path
-			GraphicsPath path = new GraphicsPath();
+			using GraphicsPath path = new GraphicsPath();
 			path.AddLine(highPoint1.X, lowPoint1.Y, highPoint1.X, highPoint1.Y);
 			if(this.lineTension == 0)
 			{
@@ -479,7 +479,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					Matrix oldMatrix = graph.Transform;
 					graph.Transform = translateMatrix;
 
-					Region	shadowRegion = new Region(path);
+					using Region shadowRegion = new Region(path);
                     using (Brush shadowBrush = new SolidBrush((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb(point.Color.A / 2, series.ShadowColor)))
                     {
                         Region clipRegion = null;
@@ -542,7 +542,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Draw top and bottom lines, because anti aliasing is not working for the FillPath method
 				if(graph.SmoothingMode != SmoothingMode.None)
 				{
-					Pen areaLinePen = new Pen(areaBrush, 1);
+					using Pen areaLinePen = new Pen(areaBrush, 1);
 
 					// This code is introduce because of problem 
 					// with Svg and Hatch Color
@@ -649,7 +649,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Create grapics path object dor the curved area
-				GraphicsPath mapAreaPath = new GraphicsPath();
+				using GraphicsPath mapAreaPath = new GraphicsPath();
 				mapAreaPath.AddLine(highPoint1.X, lowPoint1.Y, highPoint1.X, highPoint1.Y);
 				if(this.lineTension == 0)
 				{
@@ -691,15 +691,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					pointIndex );
 			
 			}
-            //Clean up
-            if (areaBrush != null)
-                areaBrush.Dispose();
-            if (path != null)
-            {
-                path.Dispose();
-                path = null;
-            }
 
+            //Clean up
+			areaBrush?.Dispose();
 		}
 
 		
@@ -748,17 +742,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			PointF fourthPointPosition,
 			bool clippedSegment)
 		{
-			// Create graphics path for selection
-			GraphicsPath	resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
+            // Create graphics path for selection
+#pragma warning disable CA2000 // Dispose objects before losing scope
+            GraphicsPath resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
 				? new GraphicsPath() : null;
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
 
-			//****************************************************************
-			//** Find line first and second points.
-			//****************************************************************
+            //****************************************************************
+            //** Find line first and second points.
+            //****************************************************************
 
-			// Check if points are drawn from sides to center (do only once)
-			if(centerPointIndex == int.MaxValue)
+            // Check if points are drawn from sides to center (do only once)
+            if (centerPointIndex == int.MaxValue)
 			{
 				centerPointIndex = GetCenterPointIndex(points);
 			}
@@ -813,13 +809,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Check if points are not null
-			if(firstPoint == null || secondPoint == null)
-			{
+			if(firstPoint is null || secondPoint is null)
 				return resultPath;
-			}
 
+			resultPath?.Dispose();
 
-            // Area point is drawn as one segment
+			// Area point is drawn as one segment
 			return Draw3DSurface( firstPoint, secondPoint, reversed,
 				area, graph, matrix, lightStyle, prevDataPointEx,
 				positionZ, depth, points, pointIndex, pointLoopIndex,
@@ -857,7 +852,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="clippedSegment">Indicates that drawn segment is 3D clipped. Only top/bottom should be drawn.</param>
 		/// <param name="clipOnTop">Indicates that top segment line should be clipped to the pkot area.</param>
 		/// <param name="clipOnBottom">Indicates that bottom segment line should be clipped to the pkot area.</param>
-		/// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+		/// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
 		protected override GraphicsPath Draw3DSurface( 
 			DataPoint3D firstPoint, 
 			DataPoint3D secondPoint, 
@@ -884,7 +879,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			bool clipOnBottom)
 		{
 			// Create graphics path for selection
-			GraphicsPath	resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
+			GraphicsPath resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
 				? new GraphicsPath() : null;
 
 			// Fint point with line properties
@@ -1046,10 +1041,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						}
 
 						// Add segment path
-						if(resultPath != null && segmentPath != null && segmentPath.PointCount > 0)
-						{
+						if(resultPath is not null && segmentPath is not null && segmentPath.PointCount > 0)
 							resultPath.AddPath(segmentPath, true);
-						}
+
+						segmentPath?.Dispose();
 
 						// Reset bottom line "forced" Y coordinates
 						_thirdPointY2Value = float.NaN;
@@ -1189,7 +1184,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			for(int elemLayer = 1; elemLayer <= 2; elemLayer++)
 			{
 				// Loop through all surfaces
-				SurfaceNames[]	surfacesOrder = null;
+				SurfaceNames[]	surfacesOrder;
 				if(bottomFirst)
 					surfacesOrder = new SurfaceNames[] {SurfaceNames.Back, SurfaceNames.Bottom, SurfaceNames.Top, SurfaceNames.Left, SurfaceNames.Right, SurfaceNames.Front};
 				else
@@ -1227,16 +1222,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 					// Draw surfaces
 					GraphicsPath surfacePath = null;
-					switch(currentSurface)
+#pragma warning disable CA2000 // Dispose objects before losing scope
+					switch (currentSurface)
 					{
-						case(SurfaceNames.Top):
+						case SurfaceNames.Top:
 							surfacePath = graph.Draw3DSurface( area, matrix, lightStyle, currentSurface, positionZ,  depth, 
 								surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
 								firstPoint, secondPoint,  points, pointIndex,
 								tension, operationType, LineSegmentType.Middle,
                                 (this.showPointLines) ? true : false, false, area.ReverseSeriesOrder, this.multiSeries, 0, true);
 							break;
-						case(SurfaceNames.Bottom):
+
+						case SurfaceNames.Bottom:
 						{
 							// Calculate coordinates
 							DataPoint3D	dp1 = new DataPoint3D();
@@ -1258,8 +1255,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 (this.showPointLines) ? true : false, false, area.ReverseSeriesOrder, this.multiSeries, 1, true);
 							break;
 						}
-
-						case(SurfaceNames.Left):
+						case SurfaceNames.Left:
 						{
 							if(surfaceSegmentType == LineSegmentType.Single ||
                                 (!area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.First) ||
@@ -1284,7 +1280,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							}
 							break;
 						}
-						case(SurfaceNames.Right):
+						case SurfaceNames.Right:
 						{
 							if(surfaceSegmentType == LineSegmentType.Single ||
                                 (!area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.Last) ||
@@ -1309,7 +1305,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 							break;
 						}
-						case(SurfaceNames.Back):
+						case SurfaceNames.Back:
 						{
 							// Calculate coordinates
 							DataPoint3D	dp1 = new DataPoint3D();
@@ -1332,7 +1328,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 							break;
 						}
-						case(SurfaceNames.Front):
+						case SurfaceNames.Front:
 						{
 							
 							// Calculate coordinates
@@ -1391,14 +1387,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							break;
 						}
 					}
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
 					// Add path of the fully visible surfaces to the result surface
-					if(elemLayer == 2 && resultPath != null && surfacePath != null && surfacePath.PointCount > 0)
+					if (elemLayer == 2 && resultPath is not null && surfacePath is not null && surfacePath.PointCount > 0)
 					{
 						resultPath.CloseFigure();
 						resultPath.AddPath(surfacePath, true);
 					}
-
+					surfacePath?.Dispose();
 				}
 			}
 
@@ -1635,19 +1632,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 			// Create graphics path for selection
 			bool	drawElements = ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement);
-			GraphicsPath	resultPath = new GraphicsPath();
+			GraphicsPath resultPath = new GraphicsPath();
 
 			//**********************************************************************
 			//** Prepare, transform polygon coordinates
 			//**********************************************************************
 
 			// Get top line path
-			GraphicsPath	topLine = graph.GetSplineFlattenPath(
+			using GraphicsPath topLine = graph.GetSplineFlattenPath(
 				area, positionZ, 
 				firstPoint, secondPoint, points, tension, false, true, 0);
 
 			// Get bottom line path
-			GraphicsPath	bottomLine = graph.GetSplineFlattenPath(
+			using GraphicsPath bottomLine = graph.GetSplineFlattenPath(
 				area, positionZ, 
 				thirdPoint, fourthPoint, points, tension, false, true, 1);
 
@@ -1684,7 +1681,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			//** Draw elements if required.
 			//**********************************************************************
 			Pen thickBorderPen = null;
-			if(drawElements)
+			if (drawElements)
 			{
 				// Remember SmoothingMode and turn off anti aliasing
 				SmoothingMode oldSmoothingMode = graph.SmoothingMode;
@@ -1702,11 +1699,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Draw thin polygon border of darker color around the whole polygon
 				if(forceThinBorder)
 				{
-					graph.DrawPath(new Pen(surfaceBorderColor, 1), resultPath);
+					using var pen = new Pen(surfaceBorderColor, 1);
+					graph.DrawPath(pen, resultPath);
 				}
 				else if(polygonColor.A == 255)
 				{
-					graph.DrawPath(new Pen(polygonColor, 1), resultPath);
+					using var pen = new Pen(polygonColor, 1);
+					graph.DrawPath(pen, resultPath);
 				}
 
 				// Create thick border line pen
@@ -1732,7 +1731,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 
 			// Calculate path for selection
-			if(resultPath != null && thickBorderPen != null)
+			if(resultPath is not null && thickBorderPen is not null)
 			{
 				// Widen result path
 				try
@@ -1749,6 +1748,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
 			}
 
+			thickBorderPen?.Dispose();
 			return resultPath;
 		}
 

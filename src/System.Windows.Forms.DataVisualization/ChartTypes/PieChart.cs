@@ -366,8 +366,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						if(collectedPoint == null)
 						{
 							firstCollectedPointIndex = dataPointIndex;
-							collectedPoint = dataPoint.Clone();
-						}
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                            collectedPoint = dataPoint.Clone();
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                        }
 
 						// Remove first collected point only when second collected point found
 						if(collectedCount == 2)
@@ -1816,7 +1818,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
 
                 // Make a polygon from curves
-                path.Flatten(new Matrix(), 1f);
+                using var matrix = new Matrix();
+                path.Flatten(matrix, 1f);
 
                 // Create an area of points and convert them to 
                 // relative coordinates.
@@ -2654,7 +2657,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			int pointIndex
 			)
 		{
-			SolidBrush brush = new SolidBrush(point.Color);
+			using SolidBrush brush = new SolidBrush(point.Color);
 
 			// For lightStyle style Non, Border color always exist.
 			Color penColor = Color.Empty;
@@ -2678,28 +2681,25 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				penCurveColor = penColor;
 			}
 
-			Pen pen = new Pen(penColor, point.BorderWidth);
+			using Pen pen = new Pen(penColor, point.BorderWidth);
 			pen.DashStyle = graph.GetPenStyle( point.BorderDashStyle );
 
 			// Pen for back side slice.
-			Pen backSlicePen;
+			Pen backSlicePen = null;
 			if( point.BorderColor == Color.Empty )
-			{
 				backSlicePen = new Pen(point.Color);
-			}
-			else
-			{
-				backSlicePen = pen;
-			}
 
-			Pen penCurve = new Pen(penCurveColor, point.BorderWidth);
+			using Pen penCurve = new Pen(penCurveColor, point.BorderWidth);
 			penCurve.DashStyle = graph.GetPenStyle( point.BorderDashStyle );
 
 			// Set Border Width;
 			PointF [] points = GetPiePoints( graph, area, pieWidth, rectangle, startAngle, sweepAngle, true, doughnutRadius, exploded );
 
-			if( points == null )
+			if (points is null)
+			{
+				backSlicePen?.Dispose();
 				return;
+			}
 
             // Remember data point anchor location
             point.positionRel.X = points[(int)PiePoints.TopLabelLine].X;
@@ -2720,7 +2720,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						area,
 						point,
 						brush,
-						backSlicePen,
+						backSlicePen ?? pen,
 						points[(int)PiePoints.BottomRectTopLeftPoint], 
 						points[(int)PiePoints.BottomStart], 
 						points[(int)PiePoints.BottomRectBottomRightPoint],
@@ -2738,7 +2738,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						area,
 						point,
 						brush,
-						backSlicePen,
+						backSlicePen ?? pen,
 						points[(int)PiePoints.BottomRectTopLeftPoint], 
 						points[(int)PiePoints.BottomStart], 
 						points[(int)PiePoints.BottomRectBottomRightPoint],
@@ -2991,13 +2991,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 			}
 
-            //Clean up resources
-            if (brush!=null) 
-                brush.Dispose();
-            if (pen != null)
-                pen.Dispose();
-            if (penCurve != null)
-                penCurve.Dispose();
+			backSlicePen?.Dispose();
 		}
 
 		/// <summary>
@@ -3283,14 +3277,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             using (GraphicsPath path = new GraphicsPath())
             {
                 Brush brush;
+				Brush brushToDispose = null;
 
-                if (area.Area3DStyle.LightStyle == LightStyle.None)
+				if (area.Area3DStyle.LightStyle == LightStyle.None)
                 {
                     brush = brushWithoutLight;
                 }
                 else
                 {
-                    brush = graph.GetGradientBrush(graph.GetAbsoluteRectangle(area.Position.ToRectangleF()), Color.FromArgb(brushWithoutLight.Color.A, 0, 0, 0), brushWithoutLight.Color, GradientStyle.VerticalCenter);
+                    brush = brushToDispose = graph.GetGradientBrush(graph.GetAbsoluteRectangle(area.Position.ToRectangleF()), Color.FromArgb(brushWithoutLight.Color.A, 0, 0, 0), brushWithoutLight.Color, GradientStyle.VerticalCenter);
                 }
 
                 float endAngle = startAngle + sweepAngle;
@@ -3298,8 +3293,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Very big pie slice ( > 180 degree )
                 if (sweepAngle > 180)
                 {
-                    if (DrawPieCurvesBigSlice(graph, area, dataPoint, startAngle, sweepAngle, points, brush, pen, rightPosition, sameBackFront, pointIndex))
-                        return;
+					if (DrawPieCurvesBigSlice(graph, area, dataPoint, startAngle, sweepAngle, points, brush, pen, rightPosition, sameBackFront, pointIndex))
+					{
+						brushToDispose?.Dispose();
+						return;
+					}
                 }
 
                 // Pie slice pass throw 180 degree. Curve has to be spited.
@@ -3470,7 +3468,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             );
                     }
                 }
-            }
+
+				brushToDispose?.Dispose();
+			}
 		}
 
 		/// <summary>
@@ -3795,14 +3795,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
 
                 Brush brush;
+				Brush brushToDispose = null;
 
-                if (area.Area3DStyle.LightStyle == LightStyle.None)
+				if (area.Area3DStyle.LightStyle == LightStyle.None)
                 {
                     brush = brushWithoutLight;
                 }
                 else
                 {
-                    brush = graph.GetGradientBrush(graph.GetAbsoluteRectangle(area.Position.ToRectangleF()), Color.FromArgb(brushWithoutLight.Color.A, 0, 0, 0), brushWithoutLight.Color, GradientStyle.VerticalCenter);
+                    brush = brushToDispose = graph.GetGradientBrush(graph.GetAbsoluteRectangle(area.Position.ToRectangleF()), Color.FromArgb(brushWithoutLight.Color.A, 0, 0, 0), brushWithoutLight.Color, GradientStyle.VerticalCenter);
                 }
 
                 float endAngle = startAngle + sweepAngle;
@@ -3810,8 +3811,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Very big pie slice ( > 180 degree )
                 if (sweepAngle > 180)
                 {
-                    if (DrawDoughnutCurvesBigSlice(graph, area, dataPoint, startAngle, sweepAngle, points, brush, pen, rightPosition, sameBackFront, pointIndex))
-                        return;
+					if (DrawDoughnutCurvesBigSlice(graph, area, dataPoint, startAngle, sweepAngle, points, brush, pen, rightPosition, sameBackFront, pointIndex))
+					{
+						brushToDispose?.Dispose();
+						return;
+					}
                 }
 
                 // Pie slice pass throw 180 degree. Curve has to be spited.
@@ -3983,8 +3987,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
                 }
 
-            }
-
+				brushToDispose?.Dispose();
+			}
 		}
 
 
@@ -5521,9 +5525,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		private void Draw3DInsideLabels( ChartGraphics graph, PointF [] points, DataPoint point, int pointIndex )		
 		{	
 			// Set String Alignment
-			StringFormat format = new StringFormat();
+			using StringFormat format = new StringFormat();
 			format.LineAlignment = StringAlignment.Center;
 			format.Alignment = StringAlignment.Center;
+
+			using StringFormat format2 = new StringFormat(StringFormat.GenericTypographic);
 
 			// Take label text
 			string text = GetLabelText( point );
@@ -5536,8 +5542,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				graph.MeasureString(
 				text.Replace("\\n", "\n"), 
 				point.Font, 
-				new SizeF(1000f, 1000f), 
-				new StringFormat(StringFormat.GenericTypographic)));
+				new SizeF(1000f, 1000f),
+				format2
+				));
 					
 			// Get label background position
 			RectangleF labelBackPosition = RectangleF.Empty;

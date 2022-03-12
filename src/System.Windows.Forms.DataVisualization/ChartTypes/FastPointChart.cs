@@ -282,14 +282,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				double axesValuesPixelSizeX = Math.Abs(hAxis.PositionToValue(axesMin.Width + pixelSize.Width, false) - hAxis.PositionToValue(axesMin.Width, false));
 				double axesValuesPixelSizeY = Math.Abs(vAxis.PositionToValue(axesMin.Height + pixelSize.Height, false) - vAxis.PositionToValue(axesMin.Height, false));
 
-				// Create point marker brush
-				SolidBrush	markerBrush = new SolidBrush( ((series.MarkerColor.IsEmpty) ? series.Color : series.MarkerColor) );
-				SolidBrush	emptyMarkerBrush = new SolidBrush( ((series.EmptyPointStyle.MarkerColor.IsEmpty) ? series.EmptyPointStyle.Color : series.EmptyPointStyle.MarkerColor) );
+                // Create point marker brush
+#pragma warning disable CA2000 // Dispose objects before losing scope. Bug in analyzer!
+                using SolidBrush markerBrush = new SolidBrush(series.MarkerColor.IsEmpty ? series.Color : series.MarkerColor);
+                using SolidBrush emptyMarkerBrush = new SolidBrush(series.EmptyPointStyle.MarkerColor.IsEmpty ? series.EmptyPointStyle.Color : series.EmptyPointStyle.MarkerColor);
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
 				// Create point marker border pen
-				Pen	borderPen = null;
+				Pen borderPen = null;
 				Pen	emptyBorderPen = null;
-				if(!series.MarkerBorderColor.IsEmpty && series.MarkerBorderWidth > 0)
+#pragma warning disable CA2000 // Dispose objects before losing scope. Bug in analyzer!
+				if (!series.MarkerBorderColor.IsEmpty && series.MarkerBorderWidth > 0)
 				{
 					borderPen = new Pen(series.MarkerBorderColor, series.MarkerBorderWidth);
 				}
@@ -297,6 +300,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				{
 					emptyBorderPen = new Pen(series.EmptyPointStyle.MarkerBorderColor, series.EmptyPointStyle.MarkerBorderWidth);
 				}
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
 				// Check if series is indexed
 				bool indexedSeries = ChartHelper.IndexedSeries(this.Common, series.Name );
@@ -383,16 +387,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Dispose used brushes and pens
-				markerBrush.Dispose();
-				emptyMarkerBrush.Dispose();
-				if(borderPen != null)
-				{
-					borderPen.Dispose();
-				}
-				if(emptyBorderPen != null)
-				{
-					emptyBorderPen.Dispose();
-				}
+			    borderPen?.Dispose();
+				emptyBorderPen?.Dispose();
 			}
 		}
 

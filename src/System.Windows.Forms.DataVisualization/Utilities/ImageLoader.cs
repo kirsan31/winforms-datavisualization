@@ -245,7 +245,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 				}
             }
 
-            // absolute uri(without Server.MapPath)in web is not allowed. Loading from replative uri Server[Page].MapPath is done above.
+            // absolute uri(without Server.MapPath)in web is not allowed. Loading from relative uri Server[Page].MapPath is done above.
             // Try to load as file
 			if(image == null)
 			{

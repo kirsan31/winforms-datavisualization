@@ -166,10 +166,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         protected override void RemoveItem(int index)
         {
-            this.Deinitialize(this[index]);
-            this[index].Parent = null;
+            var item = this[index];
+            this.Deinitialize(item);
+            item.Parent = null;
             base.RemoveItem(index);
             Invalidate();
+            item.Dispose();
         }
 
         /// <summary>

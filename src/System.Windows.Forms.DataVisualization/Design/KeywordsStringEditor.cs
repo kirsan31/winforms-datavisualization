@@ -355,7 +355,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		private void buttonInsert_Click(object sender, System.EventArgs e)
 		{
 			// Show keyword editor form
-			KeywordEditor keywordEditor = new KeywordEditor(
+			using KeywordEditor keywordEditor = new KeywordEditor(
 				this.applicableKeywords, 
 				string.Empty, 
 				this._maxYValueIndex);
@@ -392,7 +392,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 			string keyword = this._richTextBox.Text.Substring(this._selectedKeywordStart, this._selectedKeywordLength);
 
 			// Show keyword editor form
-			KeywordEditor keywordEditor = new KeywordEditor(
+			using KeywordEditor keywordEditor = new KeywordEditor(
 				this.applicableKeywords, 
 				keyword, 
 				this._maxYValueIndex);
@@ -930,7 +930,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 					}
 
 					// Show editor form
-					KeywordsStringEditorForm form = new KeywordsStringEditorForm(
+					using KeywordsStringEditorForm form = new KeywordsStringEditorForm(
 						(string)value,
                         instance.GetType().Name,
 						context.PropertyDescriptor.Name,

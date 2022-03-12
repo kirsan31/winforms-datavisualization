@@ -463,7 +463,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			
 			// Create a graphics path
-			GraphicsPath path = new GraphicsPath();
+			GraphicsPath path;
 
 			// Significant Points for Side polygons
 			PointF topCenter = points[(int)PiePoints.TopCenter];
@@ -1218,7 +1218,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Draw thin polygon border of darker color around the whole polygon
 				if(thinBorders != 0)
 				{
-					Pen thinLinePen = new Pen(surfaceBorderColor, 1);
+					using Pen thinLinePen = new Pen(surfaceBorderColor, 1);
 					if( (thinBorders & SurfaceNames.Left) != 0 )
 						DrawLine(thinLinePen, polygonPoints[3], polygonPoints[0]);						
 					if( (thinBorders & SurfaceNames.Right) != 0 )
@@ -1230,7 +1230,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 				else if(polygonColor.A == 255)
 				{
-					DrawPolygon(new Pen(polygonColor, 1), polygonPoints);
+					using var pen = new Pen(polygonColor, 1);
+					DrawPolygon(pen, polygonPoints);
 				}
 
 				// Create thick border line pen
@@ -1317,6 +1318,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Add polygon to the path
 				resultPath.AddPolygon(polygonPoints);
 			}
+			thickBorderPen?.Dispose();
 
 			return resultPath;
 		}
@@ -1540,9 +1542,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				? new GraphicsPath() : null;
 
 			// Get spline flatten path
-			GraphicsPath splineSurfacePath = GetSplineFlattenPath(
-				area, positionZ,
-				firstPoint, secondPoint, points, tension, true, false, yValueIndex);
+			using GraphicsPath splineSurfacePath = GetSplineFlattenPath(area, positionZ, firstPoint, secondPoint, points, tension, true, false, yValueIndex);
 
 			// Check if reversed drawing order required
 			bool	reversed = false;
@@ -1620,7 +1620,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 
 				// Draw flat surface
-				GraphicsPath	segmentResultPath = Draw3DSurface( 
+				using GraphicsPath	segmentResultPath = Draw3DSurface( 
 					area,
 					matrix,
 					lightStyle,
@@ -1742,8 +1742,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			//** Create graphics path for selection
 			//**********************************************************************
 			bool	drawElements = ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement);
-			GraphicsPath	resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
-				? new GraphicsPath() : null;
+			GraphicsPath resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath) ? new GraphicsPath() : null;
 
 			//**********************************************************************
 			//** Check surface coordinates
@@ -1865,6 +1864,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Draw just one surface
 					if(surfaceCompletlyOutside)
 					{
+						resultPath?.Dispose();
 						resultPath = this.Draw3DSurface( 
 							area, matrix, lightStyle, surfaceName, positionZ,  depth, 
 							cutSurfaceBackColor, cutSurfaceBorderColor, borderWidth, borderDashStyle, 							
@@ -1977,7 +1977,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							intersectionPoint2.dataPoint = secondPoint.dataPoint;
 							intersectionPoint2.index = secondPoint.index;
 
-							segmentPath = this.Draw3DSurface( 
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                            segmentPath = this.Draw3DSurface( 
 								area, matrix, lightStyle, surfaceName, positionZ,  depth, 
 								(firstSegmentVisible && segmentNumber != 3) ? backColor : cutSurfaceBackColor, 
 								(firstSegmentVisible && segmentNumber != 3) ? borderColor : cutSurfaceBorderColor, 
@@ -1986,7 +1987,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								points, pointIndex, tension, operationType, lineSegmentType,
 								forceThinBorder, forceThickBorder, reversedSeriesOrder,
 								multiSeries, yValueIndex, clipInsideArea);
-						}
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                        }
 
 						if(segmentIndex == 1 && intersectionPoint2 != null && segmentNumber == 3)
 						{
@@ -1994,6 +1996,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							intersectionPoint2.dataPoint = secondPoint.dataPoint;
 							intersectionPoint2.index = secondPoint.index;
 
+#pragma warning disable CA2000 // Dispose objects before losing scope
 							segmentPath = this.Draw3DSurface( 
 								area, matrix, lightStyle, surfaceName, positionZ,  depth, 
 								backColor, 
@@ -2003,15 +2006,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								points, pointIndex, tension, operationType, lineSegmentType,
 								forceThinBorder, forceThickBorder, reversedSeriesOrder,
 								multiSeries, yValueIndex, clipInsideArea);
+#pragma warning restore CA2000 // Dispose objects before losing scope
 						}
 
-						if(segmentIndex == 2 && !reversed ||
+						if (segmentIndex == 2 && !reversed ||
 							segmentIndex == 0 && reversed)
 						{
 							// Draw second segment
 							intersectionPoint.dataPoint = firstPoint.dataPoint;
 							intersectionPoint.index = firstPoint.index;
 
+#pragma warning disable CA2000 // Dispose objects before losing scope
 							segmentPath = this.Draw3DSurface( 
 								area, matrix, lightStyle, surfaceName, positionZ,  depth, 
 								(!firstSegmentVisible && segmentNumber != 3) ? backColor : cutSurfaceBackColor, 
@@ -2021,14 +2026,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								points, pointIndex, tension, operationType, lineSegmentType,
 								forceThinBorder, forceThickBorder, reversedSeriesOrder,
 								multiSeries, yValueIndex, clipInsideArea);
+#pragma warning restore CA2000 // Dispose objects before losing scope
 						}
 
 						// Add segment path
-						if(resultPath != null && segmentPath != null && segmentPath.PointCount > 0)
+						if (resultPath != null && segmentPath != null && segmentPath.PointCount > 0)
 						{
 							resultPath.SetMarkers();
 							resultPath.AddPath(segmentPath, true);
 						}
+						segmentPath?.Dispose();
 					}
 
 					// Restore previous y positions
@@ -2075,7 +2082,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			//**********************************************************************
 			//** Draw elements if required.
 			//**********************************************************************
-			Pen thinBorderPen = new Pen(surfaceBorderColor, 1);
+			using Pen thinBorderPen = new Pen(surfaceBorderColor, 1);
 			if(drawElements)
 			{
 				// Draw the polygon
@@ -2100,7 +2107,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					if(forceThickBorder)
 					{
-						Pen linePen = new Pen(surfaceBorderColor, borderWidth);
+						using Pen linePen = new Pen(surfaceBorderColor, borderWidth);
 						linePen.StartCap = LineCap.Round;
 						linePen.EndCap = LineCap.Round;
 
@@ -2138,7 +2145,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Draw thin polygon border of same color (solves anti-aliasing issues)
 					if(polygonColor.A == 255)
 					{
-						DrawPolygon(new Pen(polygonColor, 1), polygonPoints);
+						using var pen = new Pen(polygonColor, 1);
+						DrawPolygon(pen, polygonPoints);
 					}
 
 					// Draw thin Front & Back lines
@@ -2392,7 +2400,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Add polygon to the path
 				resultPath.AddPolygon(polygonPoints);
 			}
-
+			thickBorderPen?.Dispose();
 			return resultPath;
 		}
 
@@ -3569,7 +3577,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                                             // Draw circle (sphere)
                                             graph.FillEllipse(circleBrush, rect);
-                                            graph.DrawEllipse(new Pen(markerBorderColor, markerBorderSize), rect);
+											using var pen = new Pen(markerBorderColor, markerBorderSize);
+
+											graph.DrawEllipse(pen, rect);
                                         }
                                     }
                                 }
@@ -3926,8 +3936,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			DrawingOperationTypes operationType)
 		{
 			Point3D[]		cubePoints = new Point3D[8];
-			GraphicsPath	resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
-				? new GraphicsPath() : null;
+			GraphicsPath	resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath) ? new GraphicsPath() : null;
 
 			//*******************************************************
 			//** Define coordinates to draw the cylinder
@@ -4025,14 +4034,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			sidePoints[1] = cubePoints[1].PointF;
 			sidePoints[2] = cubePoints[5].PointF;
 			sidePoints[3] = cubePoints[2].PointF;
-			GraphicsPath bottomLeftSide = new GraphicsPath();
+			using GraphicsPath bottomLeftSide = new GraphicsPath();
 			bottomLeftSide.AddClosedCurve(sidePoints, 0.8f);
 			bottomLeftSide.Flatten();
 			sidePoints[0] = cubePoints[7].PointF;
 			sidePoints[1] = cubePoints[0].PointF;
 			sidePoints[2] = cubePoints[4].PointF;
 			sidePoints[3] = cubePoints[3].PointF;
-			GraphicsPath topRigthSide = new GraphicsPath();
+			using GraphicsPath topRigthSide = new GraphicsPath();
 			topRigthSide.AddClosedCurve(sidePoints, 0.8f);
 			topRigthSide.Flatten();
 
@@ -4076,172 +4085,174 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						// Declare a special brush for the front surface
 						Brush			frontSurfaceBrush = null;
 
-						switch(currentSurface)
-						{
-							case(SurfaceNames.Front):
-							{
-								// Set front surface color
-								surfaceColor = backColor;
+                        switch (currentSurface)
+                        {
+                            case (SurfaceNames.Front):
+                                {
+                                    // Set front surface color
+                                    surfaceColor = backColor;
 
-								// Add ellipse segment of the cylinder on top/rigth (reversed)
-								pathToDraw = new GraphicsPath();
-								PointF	leftSideLinePoint = PointF.Empty;
-								PointF	rightSideLinePoint = PointF.Empty;
-								AddEllipseSegment(
-									pathToDraw, 
-									topRigthSide, 
-									bottomLeftSide, 
-									(matrix.Perspective == 0) ? veticalOrientation : false, 
-									cylinderAngle, 
-									out leftSideLinePoint,
-									out rightSideLinePoint);
-								pathToDraw.Reverse();
-							
-								// Add ellipse segment of the cylinder on bottom/left
-								PointF	leftOppSideLinePoint = PointF.Empty;
-								PointF	rightOppSideLinePoint = PointF.Empty;
-								AddEllipseSegment(
-									pathToDraw, 
-									bottomLeftSide, 
-									topRigthSide, 
-									(matrix.Perspective == 0) ? veticalOrientation : false, 
-									cylinderAngle, 
-									out leftOppSideLinePoint,
-									out rightOppSideLinePoint);
-								pathToDraw.CloseAllFigures();
+                                    // Add ellipse segment of the cylinder on top/rigth (reversed)
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                                    pathToDraw = new GraphicsPath();
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                                    PointF leftSideLinePoint = PointF.Empty;
+                                    PointF rightSideLinePoint = PointF.Empty;
+                                    AddEllipseSegment(
+                                        pathToDraw,
+                                        topRigthSide,
+                                        bottomLeftSide,
+                                        (matrix.Perspective == 0) ? veticalOrientation : false,
+                                        cylinderAngle,
+                                        out leftSideLinePoint,
+                                        out rightSideLinePoint);
+                                    pathToDraw.Reverse();
 
-								// Reset indexes of opposite side points
-								this._oppLeftBottomPoint = -1;
-								this._oppRigthTopPoint = -1;
+                                    // Add ellipse segment of the cylinder on bottom/left
+                                    PointF leftOppSideLinePoint = PointF.Empty;
+                                    PointF rightOppSideLinePoint = PointF.Empty;
+                                    AddEllipseSegment(
+                                        pathToDraw,
+                                        bottomLeftSide,
+                                        topRigthSide,
+                                        (matrix.Perspective == 0) ? veticalOrientation : false,
+                                        cylinderAngle,
+                                        out leftOppSideLinePoint,
+                                        out rightOppSideLinePoint);
+                                    pathToDraw.CloseAllFigures();
 
-								// Create gradient brush for the front surface
-								if(lightStyle != LightStyle.None)
-								{
-									RectangleF boundsRect = pathToDraw.GetBounds();
-									if(boundsRect.Height > 0 && boundsRect.Width > 0)
-									{
-										Color	lightColor = ChartGraphics.GetGradientColor( backColor, Color.White, 0.3 );
-										Color	darkColor = ChartGraphics.GetGradientColor( backColor, Color.Black, 0.3 );
+                                    // Reset indexes of opposite side points
+                                    this._oppLeftBottomPoint = -1;
+                                    this._oppRigthTopPoint = -1;
 
-										// Create gradient
-										if(!leftSideLinePoint.IsEmpty && 
-											!rightSideLinePoint.IsEmpty && 
-											!leftOppSideLinePoint.IsEmpty && 
-											!rightOppSideLinePoint.IsEmpty)
-										{
-											PointF	boundsRectMiddlePoint = PointF.Empty;
-											boundsRectMiddlePoint.X = boundsRect.X + boundsRect.Width/2f;
-											boundsRectMiddlePoint.Y = boundsRect.Y + boundsRect.Height/2f;
+                                    // Create gradient brush for the front surface
+                                    if (lightStyle != LightStyle.None)
+                                    {
+                                        RectangleF boundsRect = pathToDraw.GetBounds();
+                                        if (boundsRect.Height > 0 && boundsRect.Width > 0)
+                                        {
+                                            Color lightColor = ChartGraphics.GetGradientColor(backColor, Color.White, 0.3);
+                                            Color darkColor = ChartGraphics.GetGradientColor(backColor, Color.Black, 0.3);
 
-											PointF	centralLinePoint = PointF.Empty;
-											double	centralLineAngle = ((cylinderAngle) * Math.PI / 180f);
-											if(cylinderAngle == 0 || cylinderAngle == 180 || cylinderAngle == -180)
-											{
-												centralLinePoint.X = boundsRectMiddlePoint.X + 100f;
-												centralLinePoint.Y = boundsRectMiddlePoint.Y;
-											}
-											else if(cylinderAngle == 90 || cylinderAngle == -90)
-											{
-												centralLinePoint.X = boundsRectMiddlePoint.X;
-												centralLinePoint.Y = boundsRectMiddlePoint.Y + 100f;
-											}
-											else if(cylinderAngle > -45 && cylinderAngle < 45)
-											{
-												centralLinePoint.X = boundsRectMiddlePoint.X + 100f;
-												centralLinePoint.Y = (float)(Math.Tan(centralLineAngle) * centralLinePoint.X);
-												centralLinePoint.Y += (float)(boundsRectMiddlePoint.Y - Math.Tan(centralLineAngle) * boundsRectMiddlePoint.X);
-											}
-											else
-											{
-												centralLinePoint.Y = boundsRectMiddlePoint.Y + 100f;
-												centralLinePoint.X = (float)(centralLinePoint.Y - (boundsRectMiddlePoint.Y - Math.Tan(centralLineAngle) * boundsRectMiddlePoint.X));
-												centralLinePoint.X /= (float)(Math.Tan(centralLineAngle)); 
-											}
+                                            // Create gradient
+                                            if (!leftSideLinePoint.IsEmpty &&
+                                                !rightSideLinePoint.IsEmpty &&
+                                                !leftOppSideLinePoint.IsEmpty &&
+                                                !rightOppSideLinePoint.IsEmpty)
+                                            {
+                                                PointF boundsRectMiddlePoint = PointF.Empty;
+                                                boundsRectMiddlePoint.X = boundsRect.X + boundsRect.Width / 2f;
+                                                boundsRectMiddlePoint.Y = boundsRect.Y + boundsRect.Height / 2f;
 
-
-											PointF	middlePoint1 = ChartGraphics.GetLinesIntersection(
-												boundsRectMiddlePoint.X, boundsRectMiddlePoint.Y,
-												centralLinePoint.X, centralLinePoint.Y,
-												leftSideLinePoint.X, leftSideLinePoint.Y, 
-												leftOppSideLinePoint.X, leftOppSideLinePoint.Y);
-
-											PointF	middlePoint2 = ChartGraphics.GetLinesIntersection(
-												boundsRectMiddlePoint.X, boundsRectMiddlePoint.Y,
-												centralLinePoint.X, centralLinePoint.Y,
-												rightSideLinePoint.X, rightSideLinePoint.Y,
-												rightOppSideLinePoint.X, rightOppSideLinePoint.Y);
-
-											// Gradient points can not have same coordinates
-											if(middlePoint1.X != middlePoint2.X || middlePoint1.Y != middlePoint2.Y)
-											{
-												frontSurfaceBrush = new LinearGradientBrush(
-													middlePoint1, 
-													middlePoint2,
-													lightColor, 
-													darkColor);
+                                                PointF centralLinePoint = PointF.Empty;
+                                                double centralLineAngle = ((cylinderAngle) * Math.PI / 180f);
+                                                if (cylinderAngle == 0 || cylinderAngle == 180 || cylinderAngle == -180)
+                                                {
+                                                    centralLinePoint.X = boundsRectMiddlePoint.X + 100f;
+                                                    centralLinePoint.Y = boundsRectMiddlePoint.Y;
+                                                }
+                                                else if (cylinderAngle == 90 || cylinderAngle == -90)
+                                                {
+                                                    centralLinePoint.X = boundsRectMiddlePoint.X;
+                                                    centralLinePoint.Y = boundsRectMiddlePoint.Y + 100f;
+                                                }
+                                                else if (cylinderAngle > -45 && cylinderAngle < 45)
+                                                {
+                                                    centralLinePoint.X = boundsRectMiddlePoint.X + 100f;
+                                                    centralLinePoint.Y = (float)(Math.Tan(centralLineAngle) * centralLinePoint.X);
+                                                    centralLinePoint.Y += (float)(boundsRectMiddlePoint.Y - Math.Tan(centralLineAngle) * boundsRectMiddlePoint.X);
+                                                }
+                                                else
+                                                {
+                                                    centralLinePoint.Y = boundsRectMiddlePoint.Y + 100f;
+                                                    centralLinePoint.X = (float)(centralLinePoint.Y - (boundsRectMiddlePoint.Y - Math.Tan(centralLineAngle) * boundsRectMiddlePoint.X));
+                                                    centralLinePoint.X /= (float)(Math.Tan(centralLineAngle));
+                                                }
 
 
-												ColorBlend colorBlend = new ColorBlend(5);
-												colorBlend.Colors[0] = darkColor;
-												colorBlend.Colors[1] = darkColor;
-												colorBlend.Colors[2] = lightColor;
-												colorBlend.Colors[3] = darkColor;
-												colorBlend.Colors[4] = darkColor;
+                                                PointF middlePoint1 = ChartGraphics.GetLinesIntersection(
+                                                    boundsRectMiddlePoint.X, boundsRectMiddlePoint.Y,
+                                                    centralLinePoint.X, centralLinePoint.Y,
+                                                    leftSideLinePoint.X, leftSideLinePoint.Y,
+                                                    leftOppSideLinePoint.X, leftOppSideLinePoint.Y);
 
-												colorBlend.Positions[0] = 0.0f;
-												colorBlend.Positions[1] = 0.0f;
-												colorBlend.Positions[2] = 0.5f;
-												colorBlend.Positions[3] = 1.0f;
-												colorBlend.Positions[4] = 1.0f;
+                                                PointF middlePoint2 = ChartGraphics.GetLinesIntersection(
+                                                    boundsRectMiddlePoint.X, boundsRectMiddlePoint.Y,
+                                                    centralLinePoint.X, centralLinePoint.Y,
+                                                    rightSideLinePoint.X, rightSideLinePoint.Y,
+                                                    rightOppSideLinePoint.X, rightOppSideLinePoint.Y);
 
-												((LinearGradientBrush)frontSurfaceBrush).InterpolationColors = colorBlend;
-											}
-										}
-
-									}
-								}
-
-								break;
-							}
-							case(SurfaceNames.Top):
-								if(veticalOrientation)
-								{
-									surfaceColor = topLightColor;
-									pathToDraw = topRigthSide;
-								}
-								break;
-							case(SurfaceNames.Bottom):
-								if(veticalOrientation)
-								{
-									surfaceColor = bottomLightColor;
-									pathToDraw = bottomLeftSide;
-								}
-								break;
-							case(SurfaceNames.Right):
-								if(!veticalOrientation)
-								{
-									surfaceColor = rightLightColor;
-									pathToDraw = topRigthSide;
-								}
-								break;
-							case(SurfaceNames.Left):
-								if(!veticalOrientation)
-								{
-									surfaceColor = leftLightColor;
-									pathToDraw = bottomLeftSide;
-								}
-								break;
-						}
+                                                // Gradient points can not have same coordinates
+                                                if (middlePoint1.X != middlePoint2.X || middlePoint1.Y != middlePoint2.Y)
+                                                {
+                                                    frontSurfaceBrush = new LinearGradientBrush(
+                                                        middlePoint1,
+                                                        middlePoint2,
+                                                        lightColor,
+                                                        darkColor);
 
 
-						//*******************************************************
-						//** Draw surface
-						//*******************************************************
-						if(pathToDraw != null)
+                                                    ColorBlend colorBlend = new ColorBlend(5);
+                                                    colorBlend.Colors[0] = darkColor;
+                                                    colorBlend.Colors[1] = darkColor;
+                                                    colorBlend.Colors[2] = lightColor;
+                                                    colorBlend.Colors[3] = darkColor;
+                                                    colorBlend.Colors[4] = darkColor;
+
+                                                    colorBlend.Positions[0] = 0.0f;
+                                                    colorBlend.Positions[1] = 0.0f;
+                                                    colorBlend.Positions[2] = 0.5f;
+                                                    colorBlend.Positions[3] = 1.0f;
+                                                    colorBlend.Positions[4] = 1.0f;
+
+                                                    ((LinearGradientBrush)frontSurfaceBrush).InterpolationColors = colorBlend;
+                                                }
+                                            }
+
+                                        }
+                                    }
+
+                                    break;
+                                }
+                            case (SurfaceNames.Top):
+                                if (veticalOrientation)
+                                {
+                                    surfaceColor = topLightColor;
+                                    pathToDraw = topRigthSide;
+                                }
+                                break;
+                            case (SurfaceNames.Bottom):
+                                if (veticalOrientation)
+                                {
+                                    surfaceColor = bottomLightColor;
+                                    pathToDraw = bottomLeftSide;
+                                }
+                                break;
+                            case (SurfaceNames.Right):
+                                if (!veticalOrientation)
+                                {
+                                    surfaceColor = rightLightColor;
+                                    pathToDraw = topRigthSide;
+                                }
+                                break;
+                            case (SurfaceNames.Left):
+                                if (!veticalOrientation)
+                                {
+                                    surfaceColor = leftLightColor;
+                                    pathToDraw = bottomLeftSide;
+                                }
+                                break;
+                        }
+
+
+                        //*******************************************************
+                        //** Draw surface
+                        //*******************************************************
+                        if (pathToDraw != null)
 						{
 							if( (operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement)
 							{
-								// Draw only completly visible surfaces
+								// Draw only completely visible surfaces
 								if((visibleSurfaces & currentSurface) != 0)
 								{
                                     using (Brush brush = new SolidBrush(surfaceColor))
@@ -4273,7 +4284,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							// Add surface coordinate to the path
 							if( (operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
 							{
-								// Only if surface is completly visible
+								// Only if surface is completely visible
 								if((visibleSurfaces & currentSurface) != 0)
 								{
 									if(pathToDraw != null  && pathToDraw.PointCount > 0)
@@ -4283,12 +4294,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 									}
 								}
 							}
+							if(currentSurface == SurfaceNames.Front)
+								pathToDraw.Dispose();
 						}
-
+						frontSurfaceBrush?.Dispose();
 					}
 				}
 			}
-
 			return resultPath;
 		}
 

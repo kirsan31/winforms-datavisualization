@@ -680,8 +680,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
 			// Create image from stream
 			imageStream.Seek(0, SeekOrigin.Begin);
-            System.Drawing.Image tempImage = System.Drawing.Image.FromStream(imageStream);
-			System.Drawing.Bitmap image = new Bitmap(tempImage);	// !!! .Net bug when image source stream is closed - can create brush using the image
+            using Image tempImage = Image.FromStream(imageStream);
+			Bitmap image = new Bitmap(tempImage);	// !!! .Net bug when image source stream is closed - can create brush using the image
             image.SetResolution(tempImage.HorizontalResolution, tempImage.VerticalResolution); //The bitmap created using the constructor does not copy the resolution of the image
 
 			// Close image stream
@@ -1334,15 +1334,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			// Check input parameters
 			if(objectToSerialize == null)
 			{
-				throw(new ArgumentNullException("objectToSerialize"));
+				throw(new ArgumentNullException(nameof(objectToSerialize)));
 			}
 			if(writer == null)
 			{
-				throw(new ArgumentNullException("writer"));
+				throw(new ArgumentNullException(nameof(writer)));
 			}
 			if(stream == null && textWriter == null && xmlWriter == null && writerStr == null)
 			{
-                throw (new ArgumentException(SR.ExceptionChartSerializerWriterObjectInvalid, "writer"));
+                throw (new ArgumentException(SR.ExceptionChartSerializerWriterObjectInvalid, nameof(writer)));
 			}
 
 			// Create XML document
@@ -1875,15 +1875,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			// Check input parameters
 			if(objectToDeserialize == null)
 			{
-				throw(new ArgumentNullException("objectToDeserialize"));
+				throw(new ArgumentNullException(nameof(objectToDeserialize)));
 			}
 			if(reader == null)
 			{
-				throw(new ArgumentNullException("reader"));
+				throw(new ArgumentNullException(nameof(reader)));
 			}
 			if(stream == null && textReader == null && xmlReader == null && readerStr == null)
 			{
-                throw (new ArgumentException(SR.ExceptionChartSerializerReaderObjectInvalid, "reader"));
+                throw (new ArgumentException(SR.ExceptionChartSerializerReaderObjectInvalid, nameof(reader)));
 			}
 
 			// Create XML document
@@ -2093,6 +2093,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			return setPropertiesNumber;
 		}
 
+
         /// <summary>
         /// Sets a property of an object using name and value as string.
         /// </summary>
@@ -2100,7 +2101,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="attrName">Attribute (property) name.</param>
         /// <param name="attrValue">Object value..</param>
         /// <returns>Object value as strig.</returns>
-		private void SetXmlValue(object obj, string attrName, string attrValue)
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
+        private void SetXmlValue(object obj, string attrName, string attrValue)
 		{
 			PropertyInfo pi = obj.GetType().GetProperty(attrName);
 			if(pi != null)
@@ -2171,11 +2173,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             // Check input parameters
             if (objectToSerialize == null)
             {
-                throw (new ArgumentNullException("objectToSerialize"));
+                throw (new ArgumentNullException(nameof(objectToSerialize)));
             }
             if (destination == null)
             {
-                throw (new ArgumentNullException("destination"));
+                throw (new ArgumentNullException(nameof(destination)));
             }
 
             string destinationStr = destination as string;
@@ -2199,7 +2201,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 return;
             }
 
-            throw (new ArgumentException(SR.ExceptionChartSerializerDestinationObjectInvalid, "destination"));
+            throw (new ArgumentException(SR.ExceptionChartSerializerDestinationObjectInvalid, nameof(destination)));
         }
 
 		/// <summary>
@@ -2209,9 +2211,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <param name="fileName">File name to serialize the data in.</param>
         internal void Serialize(object objectToSerialize, string fileName)
 		{
-			FileStream stream = new FileStream(fileName, FileMode.Create);
-			Serialize(objectToSerialize, new BinaryWriter(stream));
-			stream.Close();
+			using FileStream stream = new FileStream(fileName, FileMode.Create);
+			using BinaryWriter binaryWriter = new BinaryWriter(stream);
+			Serialize(objectToSerialize, binaryWriter);
 		}
 
 
@@ -2222,7 +2224,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <param name="stream">Defines the serialization destination.</param>
 		internal void Serialize(object objectToSerialize, Stream stream)
 		{
-			Serialize(objectToSerialize, new BinaryWriter(stream));
+			using BinaryWriter binaryWriter = new BinaryWriter(stream);
+			Serialize(objectToSerialize, binaryWriter);
 		}
 
 		/// <summary>
@@ -2236,13 +2239,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		internal void Serialize(object objectToSerialize, BinaryWriter writer)
 		{
 			// Check input parameters
-			if(objectToSerialize == null)
+			if(objectToSerialize is null)
 			{
-				throw(new ArgumentNullException("objectToSerialize"));
+				throw new ArgumentNullException(nameof(objectToSerialize));
 			}
-			if(writer == null)
+
+			if(writer is null)
 			{
-				throw(new ArgumentNullException("writer"));
+				throw new ArgumentNullException(nameof(writer));
 			}
 
 			// Write bnary format header into the stream, which consist of 15 characters
@@ -2768,11 +2772,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             // Check input parameters
             if (objectToDeserialize == null)
             {
-                throw (new ArgumentNullException("objectToDeserialize"));
+                throw (new ArgumentNullException(nameof(objectToDeserialize)));
             }
             if (source == null)
             {
-                throw (new ArgumentNullException("source"));
+                throw (new ArgumentNullException(nameof(source)));
             }
 
             string sourceStr = source as string;
@@ -2789,14 +2793,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 return;
             }
 
-            BinaryWriter binaryWriter = source as BinaryWriter;
-            if (binaryWriter != null)
+            if (source is BinaryWriter binaryWriter)
             {
                 Deserialize(objectToDeserialize, binaryWriter);
                 return;
             }
 
-            throw (new ArgumentException(SR.ExceptionChartSerializerSourceObjectInvalid, "source"));
+            throw (new ArgumentException(SR.ExceptionChartSerializerSourceObjectInvalid, nameof(source)));
         }
 
 		/// <summary>
@@ -2806,9 +2809,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <param name="fileName">File name to read the data from.</param>
 		public void Deserialize(object objectToDeserialize, string fileName)
 		{
-			FileStream stream = new FileStream(fileName, FileMode.Open);
-			Deserialize(objectToDeserialize, new BinaryReader(stream));
-			stream.Close();
+			using FileStream stream = new FileStream(fileName, FileMode.Open);
+			using var binaryReader = new BinaryReader(stream);
+			Deserialize(objectToDeserialize, binaryReader);
 		}
 
 		/// <summary>
@@ -2818,7 +2821,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <param name="stream">Stream to read the data from.</param>
 		public void Deserialize(object objectToDeserialize, Stream stream)
 		{
-			Deserialize(objectToDeserialize, new BinaryReader(stream));
+			using var binaryReader = new BinaryReader(stream);
+			Deserialize(objectToDeserialize, binaryReader);
 		}
 
 		/// <summary>
@@ -2831,11 +2835,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			// Check input parameters
 			if(objectToDeserialize == null)
 			{
-				throw(new ArgumentNullException("objectToDeserialize"));
+				throw(new ArgumentNullException(nameof(objectToDeserialize)));
 			}
 			if(reader == null)
 			{
-				throw(new ArgumentNullException("reader"));
+				throw(new ArgumentNullException(nameof(reader)));
 			}
 
 			// Binary deserializer do not support IsUnknownAttributeIgnored property
@@ -2993,6 +2997,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			return setPropertiesNumber;
 		}
 
+
         /// <summary>
         /// Reads and sets a property of an object.
         /// </summary>
@@ -3001,14 +3006,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="reader">Binary reader.</param>
         /// <param name="skipElement">if set to <c>true</c> the property will not be set.</param>
         /// <returns>True if property was set.</returns>
-		private bool SetPropertyValue(object obj, PropertyInfo pi, BinaryReader reader, bool skipElement)
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
+        private bool SetPropertyValue(object obj, PropertyInfo pi, BinaryReader reader, bool skipElement)
 		{
 			if(pi != null)
 			{
-				object objValue = null;
-
-
-				if(pi.PropertyType == typeof(bool))
+                object objValue;
+                if (pi.PropertyType == typeof(bool))
 				{
 					objValue = reader.ReadBoolean();
 				}

@@ -827,7 +827,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 else
                 {
-                    graph.Graphics.DrawRectangle(new Pen(Color.Magenta, 3), Rectangle.Round(graph.GetAbsoluteRectangle(lp)));
+                    using var pen = new Pen(Color.Magenta, 3);
+                    graph.Graphics.DrawRectangle(pen, Rectangle.Round(graph.GetAbsoluteRectangle(lp)));
                 }
             }
 #endif
@@ -872,7 +873,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 GetLabelPosition(graph, labelPosition, labelSize, format, true));
 
             // Create callout pen
-            Pen calloutPen = new Pen(smartLabelStyle.CalloutLineColor, smartLabelStyle.CalloutLineWidth);
+            using Pen calloutPen = new Pen(smartLabelStyle.CalloutLineColor, smartLabelStyle.CalloutLineWidth);
             calloutPen.DashStyle = graph.GetPenStyle(smartLabelStyle.CalloutLineDashStyle);
 
             // Draw callout frame

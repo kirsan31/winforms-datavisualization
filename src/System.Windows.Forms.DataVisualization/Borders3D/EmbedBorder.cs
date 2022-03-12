@@ -979,21 +979,24 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 			}
 
 			// Bottom/Right inner shadow
-			Region	innerShadowRegion = null;
-			if(drawBottomShadow)
+			Region	innerShadowRegion;
+			if (drawBottomShadow)
 			{
 				shadowRect = absolute;
 				shadowRect.Width -= radius * .3f;
 				shadowRect.Height -= radius * .3f;
-				innerShadowRegion = new Region(
-					graph.CreateRoundedRectPath(
+				path = graph.CreateRoundedRectPath(
 					new RectangleF(
-					shadowRect.X - radius, 
-					shadowRect.Y - radius, 
-					shadowRect.Width + 0.5f*radius, 
-					shadowRect.Height + 0.5f*radius), 
-					cornerRadius));
-				innerShadowRegion.Complement(graph.CreateRoundedRectPath(shadowRect, cornerRadius));
+					shadowRect.X - radius,
+					shadowRect.Y - radius,
+					shadowRect.Width + 0.5f * radius,
+					shadowRect.Height + 0.5f * radius),
+					cornerRadius);
+				innerShadowRegion = new Region(path);
+				path.Dispose();
+				path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
+				innerShadowRegion.Complement(path);
+				path.Dispose();
 				graph.Clip = innerShadowRegion;
 
 				shadowRect.X -= 0.5f*radius;
@@ -1009,27 +1012,33 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 					Color.FromArgb(175, (sunken) ? Color.White : shadowColor), 
 					1.0f);
 				graph.Clip = new Region();
+				innerShadowRegion.Dispose();
 			}
 
 			// Top/Left inner shadow					
 			shadowRect = absolute;
 			shadowRect.Width -= radius * .3f;
 			shadowRect.Height -= radius * .3f;
-			innerShadowRegion = new Region(
-				graph.CreateRoundedRectPath(
+			path = graph.CreateRoundedRectPath(
 				new RectangleF(
-				shadowRect.X + radius*.5f, 
-				shadowRect.Y + radius*.5f, 
-				shadowRect.Width - .2f*radius, 
-				shadowRect.Height - .2f*radius), 
-				cornerRadius));
+				shadowRect.X + radius * .5f,
+				shadowRect.Y + radius * .5f,
+				shadowRect.Width - .2f * radius,
+				shadowRect.Height - .2f * radius),
+				cornerRadius);
+			innerShadowRegion = new Region(path);
+			path.Dispose();
 
 			RectangleF shadowWithOffset = shadowRect;
 			shadowWithOffset.Width += radius;
 			shadowWithOffset.Height += radius;
-			innerShadowRegion.Complement(graph.CreateRoundedRectPath(shadowWithOffset, cornerRadius));
-			
-			innerShadowRegion.Intersect(graph.CreateRoundedRectPath(shadowRect, cornerRadius));
+			path = graph.CreateRoundedRectPath(shadowWithOffset, cornerRadius);
+			innerShadowRegion.Complement(path);
+			path.Dispose();
+
+			path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
+			innerShadowRegion.Intersect(path);
+			path.Dispose();
 			graph.Clip = innerShadowRegion;
 			graph.DrawRoundedRectShadowAbs(
 				shadowWithOffset, 
@@ -1039,7 +1048,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 				Color.FromArgb(175, (sunken) ? shadowColor : Color.White), 
 				1.0f);
 			graph.Clip = new Region();
-
+			innerShadowRegion.Dispose();
 		}
 
 		/// <summary>
@@ -1053,9 +1062,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 			Pen screwPen = new Pen(Color.FromArgb(128,255,255,255), 1);
 			graph.DrawEllipse(screwPen, rect.X, rect.Y, rect.Width, rect.Height);
             graph.DrawLine(screwPen, rect.X + 2 * resolution / 96.0f, rect.Y + rect.Height - 2 * resolution / 96.0f, rect.Right - 2 * resolution / 96.0f, rect.Y + 2 * resolution / 96.0f);
+			screwPen.Dispose();
 			screwPen = new Pen(Color.FromArgb(128, Color.Black), 1);
             graph.DrawEllipse(screwPen, rect.X + 1 * resolution / 96.0f, rect.Y + 1 * resolution / 96.0f, rect.Width, rect.Height);
             graph.DrawLine(screwPen, rect.X + 3 * resolution / 96.0f, rect.Y + rect.Height - 1 * resolution / 96.0f, rect.Right - 1 * resolution / 96.0f, rect.Y + 3 * resolution / 96.0f);
+			screwPen.Dispose();
 		}
 
 		#endregion

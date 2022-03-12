@@ -443,7 +443,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				//** Push bitmap buffer forward into the screen
 				//*******************************************************
                 // Set drawing scale 1:1. Only persist the transformation from current matrix
-                System.Drawing.Drawing2D.Matrix drawingMatrix = new System.Drawing.Drawing2D.Matrix();
+                using System.Drawing.Drawing2D.Matrix drawingMatrix = new System.Drawing.Drawing2D.Matrix();
                 System.Drawing.Drawing2D.Matrix oldMatrix = e.Graphics.Transform;
                 drawingMatrix.Translate(oldMatrix.OffsetX, oldMatrix.OffsetY);
                 e.Graphics.Transform = drawingMatrix;
@@ -451,7 +451,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Draw image
                 e.Graphics.DrawImage(paintBufferBitmap, 0, 0);
                 e.Graphics.Transform = oldMatrix;
-			}
+            }
 
 			// Clears control dirty flag
 			this.dirtyFlag = false;
