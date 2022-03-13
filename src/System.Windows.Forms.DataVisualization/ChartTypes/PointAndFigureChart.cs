@@ -729,7 +729,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							}
 
 							// Add empty points
-							using DataPoint emptyPoint = new DataPoint(pointAndFigureSeries);
+							DataPoint emptyPoint = new DataPoint(pointAndFigureSeries);
 							emptyPoint.IsEmpty = true;
 							emptyPoint.AxisLabel = " ";
 							while(pointAndFigureSeries.Points.Count < pointCount)

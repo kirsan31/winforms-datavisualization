@@ -120,7 +120,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     DefaultProperty("Axes"),
     SRDescription("DescriptionAttributeChartArea_ChartArea"),
     ]
-    public partial class ChartArea : ChartNamedElement
+    public partial class ChartArea : ChartNamedElement, IDisposable
     {
         #region Chart Area Fields
 
@@ -187,6 +187,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Gets or sets a flag that specifies whether the chart area is visible.
         private bool _visible = true;
+        private bool _disposedValue;
 
         #endregion
 
@@ -2961,58 +2962,59 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region IDisposable Members
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisX")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisX2")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisY")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisY2")]
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!_disposedValue)
             {
-                // Dispose managed resources
-                if (this._axisArray != null)
+                if (disposing)
                 {
-                    foreach (Axis axis in this._axisArray)
+                    // Dispose managed resources
+                    if (this._axisArray != null)
                     {
-                        axis.Dispose();
+                        foreach (Axis axis in this._axisArray)
+                        {
+                            axis.Dispose();
+                        }
+                        this._axisArray = null;
                     }
-                    this._axisArray = null;
-                }
-                if (this._areaPosition != null)
-                {
-                    this._areaPosition.Dispose();
+                    
+                    if (this.areaBufferBitmap != null)
+                    {
+                        this.areaBufferBitmap.Dispose();
+                        this.areaBufferBitmap = null;
+                    }
+                    
+                    if (this._cursorX != null)
+                    {
+                        this._cursorX.Dispose();
+                        this._cursorX = null;
+                    }
+                    
+                    if (this._cursorY != null)
+                    {
+                        this._cursorY.Dispose();
+                        this._cursorY = null;
+                    }
+                    
                     this._areaPosition = null;
-                }
-                if (this._innerPlotPosition != null)
-                {
-                    this._innerPlotPosition.Dispose();
                     this._innerPlotPosition = null;
-                }
-                if (this.PlotAreaPosition != null)
-                {
-                    this.PlotAreaPosition.Dispose();
                     this.PlotAreaPosition = null;
+                    
                 }
-                if (this.areaBufferBitmap != null)
-                {
-                    this.areaBufferBitmap.Dispose();
-                    this.areaBufferBitmap = null;
-                }
-                if (this._cursorX != null)
-                {
-                    this._cursorX.Dispose();
-                    this._cursorX = null;
-                }
-                if (this._cursorY != null)
-                {
-                    this._cursorY.Dispose();
-                    this._cursorY = null;
-                }
+                _disposedValue = true;
             }
-            base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

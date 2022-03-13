@@ -117,7 +117,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// all ChartGraphics3D class methods for 3D shapes. Only this 
     /// class should be used for any drawing in the chart.
 	/// </summary>
-    public partial class ChartGraphics : ChartElement
+    public partial class ChartGraphics : ChartElement, IDisposable
 	{
 		#region Fields
 
@@ -141,20 +141,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		// True if rendering into the metafile
 		internal bool				IsMetafile;
+		private bool _disposedValue;
 
-        #endregion
+		#endregion
 
-        #region Lines Methods
+		#region Lines Methods
 
-        /// <summary>
-        /// Draws a line connecting the two specified points.
-        /// </summary>
-        /// <param name="color">Line color.</param>
-        /// <param name="width">Line width.</param>
-        /// <param name="style">Line style.</param>
-        /// <param name="firstPointF">A Point that represents the first point to connect.</param>
-        /// <param name="secondPointF">A Point that represents the second point to connect.</param>
-        internal void DrawLineRel( 
+		/// <summary>
+		/// Draws a line connecting the two specified points.
+		/// </summary>
+		/// <param name="color">Line color.</param>
+		/// <param name="width">Line width.</param>
+		/// <param name="style">Line style.</param>
+		/// <param name="firstPointF">A Point that represents the first point to connect.</param>
+		/// <param name="secondPointF">A Point that represents the second point to connect.</param>
+		internal void DrawLineRel( 
 			Color color, 
 			int width, 
 			ChartDashStyle style, 
@@ -5731,34 +5732,46 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #endregion //RightToLeft
 
         #region IDisposable Members
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {   
-                // Free up managed resources
-                if (_pen != null)
-                {
-                    _pen.Dispose();
-                    _pen = null;
-                }
-                if (_solidBrush != null)
-                {
-                    _solidBrush.Dispose();
-                    _solidBrush = null;
-                }
-                if (_myMatrix != null)
-                {
-                    _myMatrix.Dispose();
-                    _myMatrix = null;
-                }
-            }
-            base.Dispose(disposing);
-        }
 
-        #endregion
-    }
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources.
+		/// </summary>
+		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+		protected virtual void Dispose(bool disposing)
+		{
+			if (!_disposedValue)
+			{
+				if (disposing)
+				{
+					if (_pen != null)
+					{
+						_pen.Dispose();
+						_pen = null;
+					}
+					if (_solidBrush != null)
+					{
+						_solidBrush.Dispose();
+						_solidBrush = null;
+					}
+					if (_myMatrix != null)
+					{
+						_myMatrix.Dispose();
+						_myMatrix = null;
+					}
+				}
+				_disposedValue = true;
+			}
+		}
+
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion
+	}
 }

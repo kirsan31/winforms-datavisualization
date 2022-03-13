@@ -112,7 +112,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRDescription("DescriptionAttributeAxis_Axis"),
         DefaultProperty("Enabled"),
     ]
-    public partial class Axis :  ChartNamedElement
+    public partial class Axis :  ChartNamedElement, IDisposable
     {
         #region Axis fields
 
@@ -254,6 +254,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Axis HREF
         /// </summary>
         private string _url = String.Empty;
+        private bool _disposedValue;
 
 
         #endregion
@@ -6219,47 +6220,58 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region IDisposable Members
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!_disposedValue)
             {
-                if (_fontCache != null)
+                if (disposing)
                 {
-                    _fontCache.Dispose();
-                    _fontCache = null;
-                }
+                    if (_fontCache != null)
+                    {
+                        _fontCache.Dispose();
+                        _fontCache = null;
+                    }
 
-                if (labelStyle != null)
-                {
-                    labelStyle.Dispose();
+                    if (_stripLines != null)
+                    {
+                        _stripLines.Dispose();
+                        _stripLines = null;
+                    }
+                    
+                    if (_customLabels != null)
+                    {
+                        _customLabels.Dispose();
+                        _customLabels = null;
+                    }
+                    
+                    if (tempLabels != null)
+                    {
+                        tempLabels.Dispose();
+                        tempLabels = null;
+                    }
+                    
+                    if (this.scrollBar != null)
+                    {
+                        this.scrollBar.Dispose();
+                        this.scrollBar = null;
+                    }
+                    
                     labelStyle = null;
                 }
-
-                if (_stripLines != null)
-                {
-                    _stripLines.Dispose();
-                    _stripLines = null;
-                }
-                if (_customLabels != null)
-                {
-                    _customLabels.Dispose();
-                    _customLabels = null;
-                }
-                if (tempLabels != null)
-                {
-                    tempLabels.Dispose();
-                    tempLabels = null;
-                }
-                if (this.scrollBar != null)
-                {
-                    this.scrollBar.Dispose();
-                    this.scrollBar = null;
-                }
+                _disposedValue = true;
             }
-            base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

@@ -68,7 +68,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRDescription("DescriptionAttributeStripLine_StripLine"),
 		DefaultProperty("IntervalOffset"),
 	]
-	public class StripLine : ChartElement
+	public class StripLine : ChartElement, IDisposable
     {
 
 		#region Fields
@@ -1359,7 +1359,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -1369,10 +1369,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     _fontCache = null;
                 }
             }
-            base.Dispose(disposing);
         }
 
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
-        #endregion
+
+		#endregion
 	}
 }

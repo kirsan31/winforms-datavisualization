@@ -1217,7 +1217,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// chart areas and series. It provides methods for positioning and 
     /// drawing all chart elements.
 	/// </summary>
-    internal class ChartPicture : ChartElement, IServiceProvider
+    internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
 	{
         #region Fields
 
@@ -1229,25 +1229,25 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Chart Graphic object
         internal ChartGraphics ChartGraph { get; set; }
 
-			// Private data members, which store properties values
-			private GradientStyle			_backGradientStyle = GradientStyle.None;
-			private Color					_backSecondaryColor = Color.Empty;
-			private Color					_backColor = Color.White;
-			private string					_backImage = "";
-			private ChartImageWrapMode		_backImageWrapMode = ChartImageWrapMode.Tile;
-			private Color					_backImageTransparentColor = Color.Empty;
-			private ChartImageAlignmentStyle			_backImageAlign = ChartImageAlignmentStyle.TopLeft;
-			private Color					_borderColor = Color.White;
-			private int						_borderWidth = 1;
-			private ChartDashStyle			_borderDashStyle = ChartDashStyle.NotSet;
-			private ChartHatchStyle			_backHatchStyle = ChartHatchStyle.None;
-			private AntiAliasingStyles		_antiAliasing = AntiAliasingStyles.All;
-			private TextAntiAliasingQuality	_textAntiAliasingQuality = TextAntiAliasingQuality.High;
-			private bool					_isSoftShadows = true;
-			private int						_width = 300;
-			private int						_height = 300;
-			private	DataManipulator			_dataManipulator = new DataManipulator();
-			internal HotRegionsList			hotRegionsList;
+		// Private data members, which store properties values
+		private GradientStyle			_backGradientStyle = GradientStyle.None;
+		private Color					_backSecondaryColor = Color.Empty;
+		private Color					_backColor = Color.White;
+		private string					_backImage = string.Empty;
+		private ChartImageWrapMode		_backImageWrapMode = ChartImageWrapMode.Tile;
+		private Color					_backImageTransparentColor = Color.Empty;
+		private ChartImageAlignmentStyle			_backImageAlign = ChartImageAlignmentStyle.TopLeft;
+		private Color					_borderColor = Color.White;
+		private int						_borderWidth = 1;
+		private ChartDashStyle			_borderDashStyle = ChartDashStyle.NotSet;
+		private ChartHatchStyle			_backHatchStyle = ChartHatchStyle.None;
+		private AntiAliasingStyles		_antiAliasing = AntiAliasingStyles.All;
+		private TextAntiAliasingQuality	_textAntiAliasingQuality = TextAntiAliasingQuality.High;
+		private bool					_isSoftShadows = true;
+		private int						_width = 300;
+		private int						_height = 300;
+		private	DataManipulator			_dataManipulator = new DataManipulator();
+		internal HotRegionsList			hotRegionsList;
         private BorderSkin	            _borderSkin;
         // Chart areas collection
         private ChartAreaCollection     _chartAreas;
@@ -1264,32 +1264,32 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Annotation smart labels class
         internal AnnotationSmartLabel	annotationSmartLabel = new AnnotationSmartLabel();
 
-			// Chart picture events
-            internal event EventHandler<ChartPaintEventArgs> BeforePaint;
-            internal event EventHandler<ChartPaintEventArgs> AfterPaint;
+		// Chart picture events
+        internal event EventHandler<ChartPaintEventArgs> BeforePaint;
+        internal event EventHandler<ChartPaintEventArgs> AfterPaint;
 
-			// Chart title position rectangle
-			private RectangleF				_titlePosition = RectangleF.Empty;
+		// Chart title position rectangle
+		private RectangleF				_titlePosition = RectangleF.Empty;
 
-			// Element spacing size
-			internal const float			elementSpacing = 3F;
+		// Element spacing size
+		internal const float			elementSpacing = 3F;
 
-			// Maximum size of the font in percentage
-			internal const float			maxTitleSize = 15F;
+		// Maximum size of the font in percentage
+		internal const float			maxTitleSize = 15F;
 
-			// Printing indicator
-			internal bool					isPrinting;
+		// Printing indicator
+		internal bool					isPrinting;
 
         // Indicates chart selection mode
         internal bool					isSelectionMode;
 
         private FontCache               _fontCache = new FontCache();
             
-			// Position of the chart 3D border
-			private RectangleF				_chartBorderPosition = RectangleF.Empty;
+		// Position of the chart 3D border
+		private RectangleF				_chartBorderPosition = RectangleF.Empty;
 
-   			// Saving As Image indicator
-			internal bool					isSavingAsImage;
+   		// Saving As Image indicator
+		internal bool					isSavingAsImage;
 
         // Indicates that chart background is restored from the double buffer
         // prior to drawing top level objects like annotations, cursors and selection.
@@ -1297,16 +1297,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Buffered image of non-top level chart elements
         internal		Bitmap				nonTopLevelChartBuffer;
+		private bool _disposedValue;
 
-        #endregion
+		#endregion
 
-        #region Constructors
+		#region Constructors
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="container">Service container</param>
-        public ChartPicture(IServiceContainer container) 
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="container">Service container</param>
+		public ChartPicture(IServiceContainer container) 
 		{
 			if(container == null)
 			{
@@ -3200,68 +3201,82 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#endregion
 
         #region IDisposable Members
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {   
-                // Dispose managed resources
-                if (ChartGraph != null)
-                {
-                    ChartGraph.Dispose();
-                    ChartGraph = null;
-                }
-                if (_legends != null)
-                {
-                    _legends.Dispose();
-                    _legends = null;
-                }
-                if (_titles != null)
-                {
-                    _titles.Dispose();
-                    _titles = null;
-                }
-                if (_chartAreas != null)
-                {
-                    _chartAreas.Dispose();
-                    _chartAreas = null;
-                }
-                if (_annotations != null)
-                {
-                    _annotations.Dispose();
-                    _annotations = null;
-                }
-                if (hotRegionsList != null)
-                {
-                    hotRegionsList.Dispose();
-                    hotRegionsList = null;
-                }
-                if (_fontCache != null)
-                {
-                    _fontCache.Dispose();
-                    _fontCache = null;
-                }
-                if (_borderSkin != null)
-                {
-                    _borderSkin.Dispose();
-                    _borderSkin = null;
-                }
 
-                if (nonTopLevelChartBuffer != null)
-                {
-                    nonTopLevelChartBuffer.Dispose();
-                    nonTopLevelChartBuffer = null;
-                }
-            }
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources.
+		/// </summary>
+		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+		protected virtual void Dispose(bool disposing)
+		{
+			if (!_disposedValue)
+			{
+				if (disposing)
+				{
+					if (ChartGraph != null)
+					{
+						ChartGraph.Dispose();
+						ChartGraph = null;
+					}
+					
+					if (_legends != null)
+					{
+						_legends.Dispose();
+						_legends = null;
+					}
+					
+					if (_titles != null)
+					{
+						_titles.Dispose();
+						_titles = null;
+					}
+					
+					if (_chartAreas != null)
+					{
+						_chartAreas.Dispose();
+						_chartAreas = null;
+					}
+					
+					if (_annotations != null)
+					{
+						_annotations.Dispose();
+						_annotations = null;
+					}
+					
+					if (hotRegionsList != null)
+					{
+						hotRegionsList.Dispose();
+						hotRegionsList = null;
+					}
+					
+					if (_fontCache != null)
+					{
+						_fontCache.Dispose();
+						_fontCache = null;
+					}
+					
+					if (nonTopLevelChartBuffer != null)
+					{
+						nonTopLevelChartBuffer.Dispose();
+						nonTopLevelChartBuffer = null;
+					}
+					
+					_borderSkin = null;
+				}
+				_disposedValue = true;
+			}
+		}
 
-            base.Dispose(disposing);
-        }
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 
 	/// <summary>
 	/// Event arguments of Chart paint event.
@@ -3732,6 +3747,4 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #endregion
     }
     #endregion
-
-
 }

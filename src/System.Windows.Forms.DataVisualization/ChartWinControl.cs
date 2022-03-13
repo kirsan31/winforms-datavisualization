@@ -91,7 +91,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [Designer(typeof(ChartWinDesigner))]
 	[DesignerSerializer(typeof(ChartWinDesignerSerializer), typeof(CodeDomSerializer))]
 	[DisplayNameAttribute("Chart")]
-    public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposable
+    public class Chart : System.Windows.Forms.Control, ISupportInitialize
 	{
         #region Control fields
 

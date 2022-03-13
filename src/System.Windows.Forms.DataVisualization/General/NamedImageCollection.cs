@@ -25,33 +25,33 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// objects.
     /// </summary>
     public class NamedImagesCollection : ChartNamedElementCollection<NamedImage>
-	{
-		#region Constructor
+    {
+        #region Constructor
 
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		internal NamedImagesCollection() : base(null)
-		{
-		}
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        internal NamedImagesCollection() : base(null)
+        {
+        }
 
         #endregion
 
-	}
+    }
 
-	/// <summary>
-	/// The NamedImage class stores a single Image with its unique name.
-	/// </summary>
-	[
-		SRDescription("DescriptionAttributeNamedImage_NamedImage"),
-		DefaultProperty("Name"),
-	]
-    public class NamedImage : ChartNamedElement
-	{
-		#region Fields
+    /// <summary>
+    /// The NamedImage class stores a single Image with its unique name.
+    /// </summary>
+    [
+        SRDescription("DescriptionAttributeNamedImage_NamedImage"),
+        DefaultProperty("Name"),
+    ]
+    public class NamedImage : ChartNamedElement, IDisposable
+    {
+        #region Fields
 
-		private	string _name  = string.Empty;
-		private System.Drawing.Image _image;
+        private string _name = string.Empty;
+        private System.Drawing.Image _image;
 
         #endregion
 
@@ -61,84 +61,92 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// NamedImage constructor.
         /// </summary>
         public NamedImage()
-		{
-		}
+        {
+        }
 
-		/// <summary>
+        /// <summary>
         /// NamedImage constructor.
-		/// </summary>
-		/// <param name="name">Image name.</param>
-		/// <param name="image">Image object.</param>
+        /// </summary>
+        /// <param name="name">Image name.</param>
+        /// <param name="image">Image object.</param>
         public NamedImage(string name, System.Drawing.Image image)
-		{
-			this._name = name;
+        {
+            this._name = name;
             this._image = image;
-		}
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		/// <summary>
-		/// Gets or sets the image name.
-		/// </summary>
-		[
-		Bindable(false),
-		SRDescription("DescriptionAttributeNamedImage_Name"),
-		]
-		public override string Name
-		{
-			get
-			{
-				return _name;
-			}
-			set
-			{
-				_name = value;
-			}
-		}
+        /// <summary>
+        /// Gets or sets the image name.
+        /// </summary>
+        [
+        Bindable(false),
+        SRDescription("DescriptionAttributeNamedImage_Name"),
+        ]
+        public override string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the image object.
-		/// </summary>
-		[
-		Bindable(false),
-		SRDescription("DescriptionAttributeNamedImage_Image"),
-		]
-		public System.Drawing.Image Image
-		{
-			get
-			{
+        /// <summary>
+        /// Gets or sets the image object.
+        /// </summary>
+        [
+        Bindable(false),
+        SRDescription("DescriptionAttributeNamedImage_Image"),
+        ]
+        public System.Drawing.Image Image
+        {
+            get
+            {
                 return _image;
-			}
-			set
-			{
+            }
+            set
+            {
                 _image = value;
-			}
-		}
+            }
+        }
 
-		#endregion
+        #endregion
 
 
         #region IDisposable Members
+
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                // Dispose managed resources
                 if (_image != null)
                 {
                     _image.Dispose();
                     _image = null;
                 }
             }
-            base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion
-	}
+    }
 }

@@ -11,7 +11,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <summary>
     /// ChartElement is the most basic element of the chart element hierarchy. 
     /// </summary>
-    public abstract class ChartElement : IChartElement, IDisposable
+    public abstract class ChartElement : IChartElement
     {
         #region Member variables
 
@@ -141,28 +141,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         CommonElements IChartElement.Common
         {
             get{ return this.Common; }
-        }
-
-        #endregion
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-        }
-
-        /// <summary>
-        /// Performs freeing, releasing, or resetting managed resources.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]        
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         #endregion

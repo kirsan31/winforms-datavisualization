@@ -1761,7 +1761,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -1770,16 +1770,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     _fontCache.Dispose();
                     _fontCache = null;
                 }
-                if (_position != null)
-                {
-                    _position.Dispose();
-                    _position = null;
-                }
+                
+                _position = null;
             }
         }
 
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
-        #endregion
+
+		#endregion
 	}
 
 	/// <summary>

@@ -171,7 +171,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             item.Parent = null;
             base.RemoveItem(index);
             Invalidate();
-            item.Dispose();
+            (item as IDisposable)?.Dispose();
         }
 
         /// <summary>
@@ -232,10 +232,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && typeof(T) is IDisposable)
             {
                 // Dispose managed resources
-                foreach (T element in this)
+                foreach (IDisposable element in this)
                 {
                     element.Dispose();
                 }
@@ -252,7 +252,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             GC.SuppressFinalize(this);
         }
         #endregion
-
     }
 
     /// <summary>
@@ -598,9 +597,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
 
-        #endregion
-
-        
+        #endregion   
     }
-
 }

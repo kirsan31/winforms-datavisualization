@@ -55,7 +55,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             _chartGraph.Graphics = e.Graphics;
 
             // Get marker properties
-            DataPointCustomProperties attributes = null, attributesToDispose = null;
+            DataPointCustomProperties attributes = null;
             if (e.Context is not null && e.Context.Instance is not null && markerStyle != MarkerStyle.None)
             {
                 // Check if several object selected
@@ -82,7 +82,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 }
                 else if (attrObject is LegendItem)
                 {
-                    attributes = attributesToDispose = new DataPointCustomProperties();
+                    attributes = new DataPointCustomProperties();
                     attributes.MarkerColor = ((LegendItem)attrObject).markerColor;
                     attributes.MarkerBorderColor = ((LegendItem)attrObject).markerBorderColor;
                     attributes.MarkerSize = ((LegendItem)attrObject).markerSize;
@@ -112,8 +112,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                     RectangleF.Empty,
                     true);                
             }
-
-            attributesToDispose?.Dispose();
         }
 
         #endregion

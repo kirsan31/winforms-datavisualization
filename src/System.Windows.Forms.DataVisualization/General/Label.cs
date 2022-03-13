@@ -820,7 +820,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRDescription("DescriptionAttributeLabel_Label"),
 		DefaultProperty("Enabled"),
 	]
-    public class LabelStyle : ChartElement
+    public class LabelStyle : ChartElement, IDisposable
 	{
 		#region Fields
 
@@ -842,16 +842,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal bool					isStaggered;
         private bool					_isEndLabelVisible = true;
 		private bool					_truncatedLabels;
-        private string					_format = "";
+        private string					_format = string.Empty;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// Public default constructor.
-		/// </summary>
-		public LabelStyle()
+        /// <summary>
+        /// Public default constructor.
+        /// </summary>
+        public LabelStyle()
 		{
             _font = _fontCache.DefaultFont;
 		}
@@ -2701,15 +2701,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region IDisposable Members
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                //Free managed resources
-                if (_fontCache!=null)
+                if (_fontCache != null)
                 {
                     _fontCache.Dispose();
                     _fontCache = null;
@@ -2717,7 +2716,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-	}
+        #endregion
+    }
 }

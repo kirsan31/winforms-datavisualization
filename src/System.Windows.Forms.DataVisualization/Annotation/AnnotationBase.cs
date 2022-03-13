@@ -117,7 +117,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     SRDescription("DescriptionAttributeAnnotation_Annotation"),
     DefaultProperty("Name"),
     ]
-    public abstract class Annotation : ChartNamedElement
+    public abstract class Annotation : ChartNamedElement, IDisposable
     {
         #region Fields
 
@@ -4082,23 +4082,29 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region IDisposable Members
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                //Free managed resources
                 if (_fontCache != null)
                 {
                     _fontCache.Dispose();
                     _fontCache = null;
                 }
             }
-            base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         #endregion
     }

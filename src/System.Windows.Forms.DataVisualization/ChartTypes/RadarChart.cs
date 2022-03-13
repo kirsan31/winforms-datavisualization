@@ -183,8 +183,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		{
 			if(series is not null)
 			{
-				using var point = new DataPoint(series);
-				RadarDrawingStyle drawingStyle = GetDrawingStyle(series, point); 
+				RadarDrawingStyle drawingStyle = GetDrawingStyle(series, new DataPoint(series)); 
 				if(drawingStyle == RadarDrawingStyle.Line)
 				{
 					return LegendImageStyle.Line;

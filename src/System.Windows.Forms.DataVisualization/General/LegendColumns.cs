@@ -75,7 +75,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeLegendCellColumn_LegendCellColumn"),
     ]
-    public class LegendCellColumn : ChartNamedElement
+    public class LegendCellColumn : ChartNamedElement, IDisposable
     {
         #region Fields
 
@@ -640,10 +640,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region IDisposable Members
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -653,6 +653,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     _fontCache = null;
                 }
             }
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
 
@@ -670,7 +679,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeLegendCell_LegendCell"),
     ]
-    public class LegendCell : ChartNamedElement
+    public class LegendCell : ChartNamedElement, IDisposable
     {
         #region Fields
 
@@ -2225,7 +2234,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -2235,9 +2244,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     _fontCache = null;
                 }
             }
-            base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         #endregion
     }
