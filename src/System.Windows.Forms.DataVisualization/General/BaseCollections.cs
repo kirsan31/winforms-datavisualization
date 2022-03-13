@@ -187,7 +187,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             item.Parent = null;
             base.RemoveItem(index);
             Invalidate();
-            (item as IDisposable)?.Dispose();
         }
 
         /// <summary>
