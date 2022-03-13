@@ -879,7 +879,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Check parameters
 			if(numberOfViews < 0)
 			{
-                throw (new ArgumentOutOfRangeException("numberOfViews", SR.ExceptionScrollBarZoomResetsNumberInvalid));
+                throw (new ArgumentOutOfRangeException(nameof(numberOfViews), SR.ExceptionScrollBarZoomResetsNumberInvalid));
 			}
 			// Check if storage was created
 			if(dataViewStates != null && dataViewStates.Count >= 3)

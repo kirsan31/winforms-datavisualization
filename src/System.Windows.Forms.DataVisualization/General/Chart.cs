@@ -114,7 +114,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 100)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartCompressionInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartCompressionInvalid));
 				}
 				_compression = value;
 			}
@@ -137,7 +137,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (imageStream == null)
-                throw new ArgumentNullException("imageStream");
+                throw new ArgumentNullException(nameof(imageStream));
 
 			// Create temporary Graphics object for metafile
             using (Bitmap bitmap = new Bitmap(this.Width, this.Height))
@@ -566,13 +566,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							// Double check that a string object is not provided for data binding
 							if(dataSource is string)
 							{
-                                throw (new ArgumentException(SR.ExceptionDataBindYValuesToString, "dataSource"));
+                                throw (new ArgumentException(SR.ExceptionDataBindYValuesToString, nameof(dataSource)));
 							}
 
 							// Check number of fields
 							if(yFieldNames == null || yFieldNames.GetLength(0) > series.YValuesPerPoint)
 							{
-								throw(new ArgumentOutOfRangeException("dataSource", SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture) ) ) );
+								throw(new ArgumentOutOfRangeException(nameof(dataSource), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture) ) ) );
 							}
 
 							//************************************************************
@@ -878,16 +878,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (dataSource == null)
-                throw (new ArgumentNullException("dataSource", SR.ExceptionDataPointInsertionNoDataSource));
+                throw (new ArgumentNullException(nameof(dataSource), SR.ExceptionDataPointInsertionNoDataSource));
 
             if (dataSource is string)
-                throw (new ArgumentException(SR.ExceptionDataBindSeriesToString, "dataSource"));
+                throw (new ArgumentException(SR.ExceptionDataBindSeriesToString, nameof(dataSource)));
 
             if (String.IsNullOrEmpty(yFields))
-                throw (new ArgumentException(SR.ExceptionChartDataPointsInsertionFailedYValuesEmpty, "yFields"));
+                throw (new ArgumentException(SR.ExceptionChartDataPointsInsertionFailedYValuesEmpty, nameof(yFields)));
 
             if (String.IsNullOrEmpty(seriesGroupByField))
-                throw (new ArgumentException(SR.ExceptionDataBindSeriesGroupByParameterIsEmpty, "seriesGroupByField"));
+                throw (new ArgumentException(SR.ExceptionDataBindSeriesGroupByParameterIsEmpty, nameof(seriesGroupByField)));
 
             
             // List of series and group by field values
@@ -1137,7 +1137,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (dataSource == null)
-                throw new ArgumentNullException("dataSource");
+                throw new ArgumentNullException(nameof(dataSource));
 
             // Get list of member names from the data source
             ArrayList dataSourceFields = GetDataSourceMemberNames(dataSource, true);
@@ -2523,7 +2523,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-					throw(new ArgumentOutOfRangeException("value", SR.ExceptionChartBorderIsNegative));
+					throw(new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartBorderIsNegative));
 				}
                 _borderWidth = value;
 			}
@@ -3015,11 +3015,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             if (width < 0)
             {
-                throw new ArgumentException(SR.ExceptionValueMustBeGreaterThan("Width", "0px"));
+                throw new ArgumentException(SR.ExceptionValueMustBeGreaterThan(nameof(Width), "0px"));
             }
             if (height < 0)
             {
-                throw new ArgumentException(SR.ExceptionValueMustBeGreaterThan("Height", "0px"));
+                throw new ArgumentException(SR.ExceptionValueMustBeGreaterThan(nameof(Height), "0px"));
             }
         }
 
@@ -3031,7 +3031,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (name == null)
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
 
 			// Load template data into the stream
 			Stream	stream = new FileStream(name, FileMode.Open, FileAccess.Read);
@@ -3051,7 +3051,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (stream == null)
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
 
             ChartSerializer serializer = (ChartSerializer)this.Common.container.GetService(typeof(ChartSerializer));
             if (serializer != null)

@@ -288,7 +288,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 100)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DPerspectiveInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPerspectiveInvalid));
 				}
 
                 _perspective = value;
@@ -327,7 +327,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < -90 || value > 90)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DInclinationInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DInclinationInvalid));
 				}
                 _inclination = value;
 
@@ -358,7 +358,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < -180 || value > 180)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DRotationInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DRotationInvalid));
 				}
                 _rotation = value;
 
@@ -389,7 +389,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 30)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DWallWidthInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DWallWidthInvalid));
 				}
 
                 _wallWidth = value;
@@ -420,7 +420,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 1000)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DPointsDepthInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPointsDepthInvalid));
 				}
 
                 _pointDepth = value;
@@ -451,7 +451,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 1000)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DPointsGapInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPointsGapInvalid));
 				}
 
                 _pointGapDepth = value;
@@ -1000,7 +1000,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (series == null)
-                throw new ArgumentNullException("series");
+                throw new ArgumentNullException(nameof(series));
 
 			// Get series cluster index
 			int seriesIndex = GetSeriesClusterIndex(series);

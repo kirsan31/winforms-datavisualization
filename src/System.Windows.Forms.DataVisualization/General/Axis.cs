@@ -1000,7 +1000,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisWidthIsNegative));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisWidthIsNegative));
                 }
                 _lineWidth = value;
                 this.Invalidate();
@@ -1070,7 +1070,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0f || value > 100f)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionValueMustBeInRange("MaximumAutoSize", "0", "100")));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionValueMustBeInRange(nameof(MaximumAutoSize), "0", "100")));
                 }
                 this._maximumAutoSize = value;
                 this.Invalidate();

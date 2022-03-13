@@ -491,11 +491,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (name == null)
             {
-                throw (new ArgumentNullException("name", SR.ExceptionDataSeriesNameIsEmpty));
+                throw (new ArgumentNullException(nameof(name), SR.ExceptionDataSeriesNameIsEmpty));
             }
             if (YValuesPerPoint < 1)
             {
-                throw (new ArgumentOutOfRangeException("yValues", SR.ExceptionDataSeriesYValuesPerPointIsZero));
+                throw (new ArgumentOutOfRangeException(nameof(yValues), SR.ExceptionDataSeriesYValuesPerPointIsZero));
             }
 
             InitProperties(name, yValues);
@@ -1306,7 +1306,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (sortBy == null)
-                throw new ArgumentNullException("sortBy");
+                throw new ArgumentNullException(nameof(sortBy));
 
             // Sort items using data points comparer class
             DataPointComparer comparer = new DataPointComparer(this, pointSortOrder, sortBy);
@@ -1333,7 +1333,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (comparer == null)
-                throw new ArgumentNullException("comparer");
+                throw new ArgumentNullException(nameof(comparer));
 
             // Sort points
             this.Points.ItemList.Sort(comparer);
@@ -1925,7 +1925,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Check if argument is in range
                 if (value < 1 || value > 32)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionDataSeriesYValueNumberInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionDataSeriesYValueNumberInvalid));
                 }
 
                 _checkPointsNumber = true;
@@ -2035,7 +2035,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value <= 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarkerStepNegativeValue, "value"));
+                    throw (new ArgumentException(SR.ExceptionMarkerStepNegativeValue, nameof(value)));
                 }
                 _markersStep = value;
                 this.Invalidate(true, false);

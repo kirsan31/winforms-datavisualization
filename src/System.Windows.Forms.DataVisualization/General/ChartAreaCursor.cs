@@ -427,7 +427,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Validation
 				if( value < 0.0 )
 				{
-                    throw (new ArgumentException(SR.ExceptionCursorIntervalOffsetIsNegative, "value")); 
+                    throw (new ArgumentException(SR.ExceptionCursorIntervalOffsetIsNegative, nameof(value))); 
 				}
 
 				_intervalOffset = value;
@@ -523,7 +523,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionCursorLineWidthIsNegative));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionCursorLineWidthIsNegative));
 				}
 				_lineWidth = value;
 				this.Invalidate(true);

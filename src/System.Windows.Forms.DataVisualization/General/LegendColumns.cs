@@ -347,7 +347,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value.Width < 0 || value.Height < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionSeriesSymbolSizeIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionSeriesSymbolSizeIsNegative, nameof(value)));
                 }
                 this._seriesSymbolSize = value;
                 this.Invalidate();
@@ -580,7 +580,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < -1)
                 {
-                    throw (new ArgumentException(SR.ExceptionMinimumCellWidthIsWrong, "value"));
+                    throw (new ArgumentException(SR.ExceptionMinimumCellWidthIsWrong, nameof(value)));
                 }
 
                 this._minimumCellWidth = value;
@@ -607,7 +607,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < -1)
                 {
-                    throw (new ArgumentException(SR.ExceptionMaximumCellWidthIsWrong, "value"));
+                    throw (new ArgumentException(SR.ExceptionMaximumCellWidthIsWrong, nameof(value)));
                 }
                 this._maximumCellWidth = value;
                 this.Invalidate();
@@ -1046,7 +1046,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value.Width < 0 || value.Height < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionLegendCellImageSizeIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionLegendCellImageSizeIsNegative, nameof(value)));
                 }
                 this._imageSize = value;
                 this.Invalidate();
@@ -1072,7 +1072,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value.Width < 0 || value.Height < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionLegendCellSeriesSymbolSizeIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionLegendCellSeriesSymbolSizeIsNegative, nameof(value)));
                 }
                 this._seriesSymbolSize = value;
                 this.Invalidate();
@@ -1118,7 +1118,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 1)
                 {
-                    throw (new ArgumentException(SR.ExceptionLegendCellSpanIsLessThenOne, "value"));
+                    throw (new ArgumentException(SR.ExceptionLegendCellSpanIsLessThenOne, nameof(value)));
                 }
                 this._cellSpan = value;
                 this.Invalidate();
@@ -2335,7 +2335,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarginTopIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionMarginTopIsNegative, nameof(value)));
                 }
                 this._top = value;
                 this.Invalidate();
@@ -2362,7 +2362,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarginBottomIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionMarginBottomIsNegative, nameof(value)));
                 }
                 this._bottom = value;
                 this.Invalidate();
@@ -2389,7 +2389,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarginLeftIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionMarginLeftIsNegative, nameof(value)));
                 }
                 this._left = value;
                 this.Invalidate();
@@ -2416,7 +2416,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarginRightIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionMarginRightIsNegative, nameof(value)));
                 }
                 this._right = value;
                 this.Invalidate();

@@ -91,9 +91,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (firstInputSeriesName == null)
-                throw new ArgumentNullException("firstInputSeriesName");
+                throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
-                throw new ArgumentNullException("secondInputSeriesName");
+                throw new ArgumentNullException(nameof(secondInputSeriesName));
 
 			// Create output class
 			ZTestResult zTestResult = new ZTestResult();
@@ -155,9 +155,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (firstInputSeriesName == null)
-                throw new ArgumentNullException("firstInputSeriesName");
+                throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
-                throw new ArgumentNullException("secondInputSeriesName");
+                throw new ArgumentNullException(nameof(secondInputSeriesName));
 
 			// Create output class
 			TTestResult tTestResult = new TTestResult();
@@ -218,9 +218,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (firstInputSeriesName == null)
-                throw new ArgumentNullException("firstInputSeriesName");
+                throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
-                throw new ArgumentNullException("secondInputSeriesName");
+                throw new ArgumentNullException(nameof(secondInputSeriesName));
 
 			// Create output class
 			TTestResult tTestResult = new TTestResult();
@@ -281,9 +281,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (firstInputSeriesName == null)
-                throw new ArgumentNullException("firstInputSeriesName");
+                throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
-                throw new ArgumentNullException("secondInputSeriesName");
+                throw new ArgumentNullException(nameof(secondInputSeriesName));
 
 			// Create output class
 			TTestResult tTestResult = new TTestResult();
@@ -358,9 +358,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (firstInputSeriesName == null)
-                throw new ArgumentNullException("firstInputSeriesName");
+                throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
-                throw new ArgumentNullException("secondInputSeriesName");
+                throw new ArgumentNullException(nameof(secondInputSeriesName));
 
 			// Create output class
 			FTestResult fTestResult = new FTestResult();
@@ -420,7 +420,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (inputSeriesNames == null)
-                throw new ArgumentNullException("inputSeriesNames");
+                throw new ArgumentNullException(nameof(inputSeriesNames));
 
 			// Create output class
 			AnovaResult anovaResult = new AnovaResult();
@@ -727,9 +727,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (firstInputSeriesName == null)
-                throw new ArgumentNullException("firstInputSeriesName");
+                throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
-                throw new ArgumentNullException("secondInputSeriesName");			
+                throw new ArgumentNullException(nameof(secondInputSeriesName));			
 
 			// Create temporary output series.
 			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
@@ -771,9 +771,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (firstInputSeriesName == null)
-                throw new ArgumentNullException("firstInputSeriesName");
+                throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
-                throw new ArgumentNullException("secondInputSeriesName");			
+                throw new ArgumentNullException(nameof(secondInputSeriesName));			
 
 			// Create temporary output series.
 			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
@@ -813,7 +813,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (inputSeriesName == null)
-                throw new ArgumentNullException("inputSeriesName");
+                throw new ArgumentNullException(nameof(inputSeriesName));
 			
 			// Create temporary output series.
 			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
@@ -853,7 +853,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (inputSeriesName == null)
-                throw new ArgumentNullException("inputSeriesName");			
+                throw new ArgumentNullException(nameof(inputSeriesName));			
 
 			// Create temporary output series.
 			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
@@ -895,7 +895,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (inputSeriesName == null)
-                throw new ArgumentNullException("inputSeriesName");
+                throw new ArgumentNullException(nameof(inputSeriesName));
 			
 			// Create temporary output series.
 			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );

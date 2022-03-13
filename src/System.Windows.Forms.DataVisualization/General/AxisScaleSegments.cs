@@ -90,7 +90,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleSegmentsPositionInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsPositionInvalid));
 				}
 				this._position = value;
 			}
@@ -114,7 +114,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleSegmentsSizeInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsSizeInvalid));
 					}
 				this._size = value;
 			}
@@ -138,7 +138,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleSegmentsSpacingInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsSpacingInvalid));
 				}
 				this._spacing = value;
 			}

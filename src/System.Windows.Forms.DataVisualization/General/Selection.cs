@@ -2190,7 +2190,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (chartObject == null)
-                throw new ArgumentNullException("chartObject");
+                throw new ArgumentNullException(nameof(chartObject));
 
             // Get outline
             ChartElementOutline result = new ChartElementOutline();

@@ -749,7 +749,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (imageFileName == null)
-                throw new ArgumentNullException("imageFileName");
+                throw new ArgumentNullException(nameof(imageFileName));
 
             // Create file stream for the specified file name
             FileStream fileStream = new FileStream(imageFileName, FileMode.Create);
@@ -775,9 +775,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (imageFileName == null)
-                throw new ArgumentNullException("imageFileName");
+                throw new ArgumentNullException(nameof(imageFileName));
             if (format == null)
-                throw new ArgumentNullException("format");
+                throw new ArgumentNullException(nameof(format));
 
             // Create file stream for the specified file name
             FileStream fileStream = new FileStream(imageFileName, FileMode.Create);
@@ -803,9 +803,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (imageStream == null)
-                throw new ArgumentNullException("imageStream");
+                throw new ArgumentNullException(nameof(imageStream));
             if (format == null)
-                throw new ArgumentNullException("format");
+                throw new ArgumentNullException(nameof(format));
 
             // Indicate that chart is saved into the image
             this.chartPicture.isSavingAsImage = true;
@@ -839,7 +839,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (imageStream == null)
-                throw new ArgumentNullException("imageStream");
+                throw new ArgumentNullException(nameof(imageStream));
 
             // Indicate that chart is saved into the image
             this.chartPicture.isSavingAsImage = true;
@@ -2778,7 +2778,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             //Check arguments
             if (series == null)
-                throw new ArgumentNullException("series");
+                throw new ArgumentNullException(nameof(series));
 
             // Create list of series
             ArrayList seriesList = new ArrayList();
@@ -2801,7 +2801,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             //Check arguments
             if (series == null)
-                throw new ArgumentNullException("series");
+                throw new ArgumentNullException(nameof(series));
 
             // Create list of series
             ArrayList seriesList = new ArrayList();
@@ -2928,7 +2928,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (serviceType == null)
-                throw new ArgumentNullException("serviceType");
+                throw new ArgumentNullException(nameof(serviceType));
 
             object service = null;
             if (serviceContainer != null)

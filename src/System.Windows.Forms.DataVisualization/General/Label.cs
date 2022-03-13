@@ -2547,7 +2547,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < -90 || value > 90)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisLabelFontAngleInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisLabelFontAngleInvalid));
 				}
 				
 				// Turn of label offset if angle is not 0, 90 or -90

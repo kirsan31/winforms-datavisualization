@@ -891,7 +891,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-                    throw (new ArgumentException(SR.ExceptionStripLineWidthIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionStripLineWidthIsNegative, nameof(value)));
 				}
 				_stripWidth = value;
 				this.Invalidate(); 

@@ -705,7 +705,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 2.0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleLogarithmBaseInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleLogarithmBaseInvalid));
                 }
 
                 logarithmBase = value;
@@ -937,7 +937,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (validateInput &&
                 (position < 0 || position > 100))
             {
-                throw (new ArgumentException(SR.ExceptionAxisScalePositionInvalid, "position"));
+                throw (new ArgumentException(SR.ExceptionAxisScalePositionInvalid, nameof(position)));
             }
 
             // Check if plot area position was already calculated
@@ -1204,7 +1204,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // If the interval is zero return error
             if (diff == 0.0)
             {
-                throw (new ArgumentOutOfRangeException("diff", SR.ExceptionAxisScaleIntervalIsZero));
+                throw (new ArgumentOutOfRangeException(nameof(diff), SR.ExceptionAxisScaleIntervalIsZero));
             }
 
             // If the real interval is > 1.0
@@ -1480,7 +1480,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // If the interval is zero return error
             if (years <= 1.0)
             {
-                throw (new ArgumentOutOfRangeException("years", SR.ExceptionAxisScaleIntervalIsLessThen1Year));
+                throw (new ArgumentOutOfRangeException(nameof(years), SR.ExceptionAxisScaleIntervalIsLessThen1Year));
             }
 
             if (years < 5)
@@ -2012,9 +2012,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (minimumValue <= 0.0 || maximumValue <= 0.0 || crossingValue <= 0.0)
             {
                 if (minimumValue <= 0.0)
-                    throw (new ArgumentOutOfRangeException("minimumValue", SR.ExceptionAxisScaleLogarithmicNegativeValues));
+                    throw (new ArgumentOutOfRangeException(nameof(minimumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues));
                 if (maximumValue <= 0.0)
-                    throw (new ArgumentOutOfRangeException("maximumValue", SR.ExceptionAxisScaleLogarithmicNegativeValues));
+                    throw (new ArgumentOutOfRangeException(nameof(maximumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues));
             }
 
             // Change crossing to linear scale

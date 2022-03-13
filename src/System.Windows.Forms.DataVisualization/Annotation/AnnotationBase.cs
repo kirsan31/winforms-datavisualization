@@ -561,7 +561,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < -WidthHightLimit || value > WidthHightLimit)
                 {
-                    throw new ArgumentException(SR.ExceptionValueMustBeInRange("Width", (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
+                    throw new ArgumentException(SR.ExceptionValueMustBeInRange(nameof(Width), (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
                 }
                 _width = value;
                 this.ResetCurrentRelativePosition();
@@ -613,7 +613,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < -WidthHightLimit || value > WidthHightLimit)
                 {
-                    throw new ArgumentException(SR.ExceptionValueMustBeInRange("Height", (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
+                    throw new ArgumentException(SR.ExceptionValueMustBeInRange(nameof(Height), (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
                 }
                 _height = value;
                 this.ResetCurrentRelativePosition();
@@ -938,7 +938,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationLineWidthIsNegative));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationLineWidthIsNegative));
                 }
                 _lineWidth = value;
                 Invalidate();
@@ -1582,7 +1582,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value > 100.0 || value < -100.0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationAnchorOffsetInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationAnchorOffsetInvalid));
                 }
                 anchorOffsetX = value;
                 this.ResetCurrentRelativePosition();
@@ -1621,7 +1621,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value > 100.0 || value < -100.0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationAnchorOffsetInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationAnchorOffsetInvalid));
                 }
                 anchorOffsetY = value;
                 this.ResetCurrentRelativePosition();

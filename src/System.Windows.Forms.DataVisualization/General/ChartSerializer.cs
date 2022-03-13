@@ -352,7 +352,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             //Check arguments
             if (fileName == null)
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
 
 			// Set serializing flag
 			if(GetChartObject() != null)
@@ -387,7 +387,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             //Check arguments
             if (stream == null)
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
 
 			// Set serializing flag
 			if(GetChartObject() != null)
@@ -422,7 +422,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             //Check arguments
             if (writer == null)
-                throw new ArgumentNullException("writer");
+                throw new ArgumentNullException(nameof(writer));
 
 			// Set serializing flag
 			if(GetChartObject() != null)
@@ -457,7 +457,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             //Check arguments
             if (writer == null)
-                throw new ArgumentNullException("writer");
+                throw new ArgumentNullException(nameof(writer));
 
 			// Set serializing flag
 			if(GetChartObject() != null)
@@ -492,7 +492,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             //Check arguments
             if (fileName == null)
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
             
             // Set serializing flag
 			if(GetChartObject() != null)
@@ -522,7 +522,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             //Check arguments
             if (stream == null)
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
             
             // Set serializing flag
 			if(GetChartObject() != null)
@@ -551,7 +551,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             //Check arguments
             if (reader == null)
-                throw new ArgumentNullException("reader");
+                throw new ArgumentNullException(nameof(reader));
 
 			// Set serializing flag
 			if(GetChartObject() != null)
@@ -580,7 +580,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             //Check arguments
             if (reader == null)
-                throw new ArgumentNullException("reader");
+                throw new ArgumentNullException(nameof(reader));
 
 			// Set serializing flag
 			if(GetChartObject() != null)

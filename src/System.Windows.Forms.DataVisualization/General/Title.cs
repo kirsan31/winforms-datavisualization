@@ -421,7 +421,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
                     if (value < -100 || value > 100)
                     {
-                        throw (new ArgumentOutOfRangeException("value", SR.ExceptionValueMustBeInRange("DockingOffset", (-100).ToString(CultureInfo.CurrentCulture), (100).ToString(CultureInfo.CurrentCulture))));
+                        throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionValueMustBeInRange(nameof(DockingOffset), (-100).ToString(CultureInfo.CurrentCulture), (100).ToString(CultureInfo.CurrentCulture))));
                     }
 					_dockingOffset = value;
 					this.Invalidate(false);
@@ -621,7 +621,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionTitleBorderWidthIsNegative));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionTitleBorderWidthIsNegative));
 				}
 				_borderWidth = value;
 				this.Invalidate(false);

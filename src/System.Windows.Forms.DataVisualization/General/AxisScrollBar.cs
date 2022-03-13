@@ -315,7 +315,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Check values range
 					if(value < 5.0 || value > 20.0)
 					{
-                        throw (new ArgumentOutOfRangeException("value", SR.ExceptionScrollBarSizeInvalid));
+                        throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionScrollBarSizeInvalid));
 					}
 					_scrollBarSize = value;
 					if(axis != null)

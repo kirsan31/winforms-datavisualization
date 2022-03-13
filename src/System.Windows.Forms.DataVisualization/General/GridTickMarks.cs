@@ -1691,7 +1691,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Validation
                 if (value < 0.0)
-                    throw (new ArgumentException(SR.ExceptionTickMarksIntervalIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionTickMarksIntervalIsNegative, nameof(value)));
 
                 interval = value;
                 intervalChanged = true;

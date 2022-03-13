@@ -2827,7 +2827,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0f || value > 100f)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionLegendMaximumAutoSizeInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendMaximumAutoSizeInvalid));
                 }
                 this._maximumLegendAutoSize = value;
                 this.Invalidate(false);
@@ -2996,7 +2996,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     if (value < 0)
                     {
-                        throw (new ArgumentOutOfRangeException("value", SR.ExceptionLegendColumnSpacingInvalid));
+                        throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendColumnSpacingInvalid));
                     }
                     this._itemColumnSpacing = value;
                     this.Invalidate(false);
@@ -3101,7 +3101,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionLegendBorderWidthIsNegative));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendBorderWidthIsNegative));
                 }
                 _borderWidth = value;
                 this.Invalidate(false);
@@ -3541,7 +3541,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     if (value < 0)
                     {
-                        throw (new ArgumentException(SR.ExceptionTextThresholdIsNegative, "value"));
+                        throw (new ArgumentException(SR.ExceptionTextThresholdIsNegative, nameof(value)));
                     }
                     this._textWrapThreshold = value;
                     this.Invalidate(false);
@@ -5448,7 +5448,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsZero));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsZero));
                 }
                 borderWidth = value;
                 this.Invalidate(false);
@@ -5497,7 +5497,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionLegendMarkerBorderWidthIsNegative));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendMarkerBorderWidthIsNegative));
                 }
                 this._markerBorderWidth = value;
                 this.Invalidate(false);

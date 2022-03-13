@@ -143,13 +143,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 			else
 			{
-				throw(new ArgumentException( SR.ExceptionDataPointConverterInvalidSorting, "sortBy"));
+				throw(new ArgumentException( SR.ExceptionDataPointConverterInvalidSorting, nameof(sortBy)));
 			}
 
 			// Check if data series support as many Y values as required
 			if(_sortingValueIndex > 0 && _sortingValueIndex >= series.YValuesPerPoint)
 			{
-				throw(new ArgumentException( SR.ExceptionDataPointConverterUnavailableSorting(sortBy, series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture) ), "sortBy"));
+				throw(new ArgumentException( SR.ExceptionDataPointConverterUnavailableSorting(sortBy, series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture) ), nameof(sortBy)));
 			}
 
             this._sortingOrder = sortOrder;
@@ -310,7 +310,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 					else
 					{
-                        throw (new ArgumentException(SR.ExceptionParameterFormatInvalid, "otherFields"));
+                        throw (new ArgumentException(SR.ExceptionParameterFormatInvalid, nameof(otherFields)));
 					}
 
 					// Check if format string was specified
@@ -345,11 +345,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (dataSource == null)
-                throw new ArgumentNullException("dataSource", SR.ExceptionDataPointInsertionNoDataSource);
+                throw new ArgumentNullException(nameof(dataSource), SR.ExceptionDataPointInsertionNoDataSource);
             if (dataSource is string)
-                throw (new ArgumentException(SR.ExceptionDataBindSeriesToString, "dataSource"));
+                throw (new ArgumentException(SR.ExceptionDataBindSeriesToString, nameof(dataSource)));
             if (yFields == null)
-                throw new ArgumentNullException("yFields");
+                throw new ArgumentNullException(nameof(yFields));
 
             // Convert comma separated Y values field names string to array of names
 			string[] yFieldNames = yFields.Replace(",,", "\n").Split(',');
@@ -359,7 +359,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
             if (yFieldNames.GetLength(0) > series.YValuesPerPoint)
-                throw (new ArgumentOutOfRangeException("yFields", SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
+                throw (new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
 
 			// Convert other fields/properties names to two arrays of names
 			string[] otherAttributeNames = null;
@@ -542,23 +542,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Y value must be provided
             if (yValues == null || 
                 yValues.Length==1 && yValues[0]==null)
-                throw new ArgumentNullException("yValues");
+                throw new ArgumentNullException(nameof(yValues));
             if (yValues.GetLength(0) == 0)
-                throw new ArgumentException(SR.ExceptionDataPointBindingYValueNotSpecified, "yValues");
+                throw new ArgumentException(SR.ExceptionDataPointBindingYValueNotSpecified, nameof(yValues));
 
 			// Double check that a string object is not provided for data binding
 			for(int i = 0; i < yValues.Length; i++)
 			{
 				if(yValues[i] is string)
 				{
-                    throw (new ArgumentException(SR.ExceptionDataBindYValuesToString, "yValues"));
+                    throw (new ArgumentException(SR.ExceptionDataBindYValuesToString, nameof(yValues)));
 				}
 			}
 
 			// Check if number of Y values do not out of range
 			if(yValues.GetLength(0) > series.YValuesPerPoint)
 			{
-				throw(new ArgumentOutOfRangeException("yValues", SR.ExceptionDataPointYValuesBindingCountMismatch( series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture) ) ) );
+				throw(new ArgumentOutOfRangeException(nameof(yValues), SR.ExceptionDataPointYValuesBindingCountMismatch( series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture) ) ) );
 			}
 
 			// Remove all existing data points
@@ -572,7 +572,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Double check that a string object is not provided for data binding
 				if(xValue is string)
 				{
-                    throw (new ArgumentException(SR.ExceptionDataBindXValuesToString, "xValue"));
+                    throw (new ArgumentException(SR.ExceptionDataBindXValuesToString, nameof(xValue)));
 				}
 				
 				// Get and reset Y values enumerators
@@ -618,7 +618,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         xValueExsist = xEnumerator.MoveNext();
                         if (yValueExsist && !xValueExsist)
                         {
-                            throw (new ArgumentOutOfRangeException("xValue", SR.ExceptionDataPointInsertionXValuesQtyIsLessYValues));
+                            throw (new ArgumentOutOfRangeException(nameof(xValue), SR.ExceptionDataPointInsertionXValuesQtyIsLessYValues));
                         }
                     }
 
@@ -726,13 +726,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (xValue is string)
-                throw new ArgumentException(SR.ExceptionDataBindXValuesToString, "xValue");
+                throw new ArgumentException(SR.ExceptionDataBindXValuesToString, nameof(xValue));
             if (yValue == null)
-                throw new ArgumentNullException("yValue", SR.ExceptionDataPointInsertionYValueNotSpecified);
+                throw new ArgumentNullException(nameof(yValue), SR.ExceptionDataPointInsertionYValueNotSpecified);
             if (yValue is string)
-                throw new ArgumentException(SR.ExceptionDataBindYValuesToString, "yValue");
+                throw new ArgumentException(SR.ExceptionDataBindYValuesToString, nameof(yValue));
             if (yFields == null)
-                throw new ArgumentOutOfRangeException("yFields", SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+                throw new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 
 			// Convert comma separated field names string to array of names
             string[] yFieldNames = yFields.Replace(",,", "\n").Split(',');            
@@ -741,7 +741,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				yFieldNames[index] = yFieldNames[index].Replace("\n", ",");
 			}
             if (yFieldNames.GetLength(0) > series.YValuesPerPoint)
-                throw new ArgumentOutOfRangeException("yFields", SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+                throw new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 			
 			// Remove all existing data points
 			this.Clear();
@@ -795,7 +795,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             xValueExsist = xEnumerator.MoveNext();
                             if (yValueExsist && !xValueExsist)
                             {
-                                throw (new ArgumentOutOfRangeException("xValue", SR.ExceptionDataPointInsertionXValuesQtyIsLessYValues));
+                                throw (new ArgumentOutOfRangeException(nameof(xValue), SR.ExceptionDataPointInsertionXValuesQtyIsLessYValues));
                             }
                         }
                         else
@@ -944,7 +944,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //Check arguments
             if (yValue == null || 
                 yValue.Length==1 && yValue[0]==null)
-                throw new ArgumentNullException("yValue");
+                throw new ArgumentNullException(nameof(yValue));
 
 			// Auto detect DateTime values type
 			if(this.series.YValueType == ChartValueType.Auto && 
@@ -1544,9 +1544,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             //Check arguments
             if (useValue == null)
-                throw new ArgumentNullException("useValue");
+                throw new ArgumentNullException(nameof(useValue));
             if (startIndex < 0 || startIndex >= this.Count)
-                throw new ArgumentOutOfRangeException("startIndex");
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
 
 			// Loop through all points from specified index
             for (int i = startIndex; i < this.Count; i++)
@@ -1593,9 +1593,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             //Check arguments
             if (useValue == null)
-                throw new ArgumentNullException("useValue");
+                throw new ArgumentNullException(nameof(useValue));
             if (startIndex < 0 || startIndex >= this.Count)
-                throw new ArgumentOutOfRangeException("startIndex");
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
 
             bool isYValue = useValue.StartsWith("Y", StringComparison.OrdinalIgnoreCase);
             double		maxValue = double.MinValue;
@@ -1649,9 +1649,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public DataPoint FindMinByValue(string useValue, int startIndex)
 		{
             if (useValue == null)
-                throw new ArgumentNullException("useValue");
+                throw new ArgumentNullException(nameof(useValue));
             if (startIndex < 0 || startIndex >= this.Count)
-                throw new ArgumentOutOfRangeException("startIndex");
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
 
             bool isYValue = useValue.StartsWith("Y", StringComparison.OrdinalIgnoreCase);
             double minValue = double.MaxValue;
@@ -2004,7 +2004,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (xValue == null)
-                throw new ArgumentNullException("xValue");
+                throw new ArgumentNullException(nameof(xValue));
 
 			// Set Y value first
 			SetValueY(yValue);
@@ -2091,11 +2091,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (yValue == null)
-                throw new ArgumentNullException("yValue");
+                throw new ArgumentNullException(nameof(yValue));
             
             // Check number of parameters. Should be more than 0 and 
 			if(yValue.Length == 0 || (base.series != null && yValue.Length > base.series.YValuesPerPoint))
-				throw(new ArgumentOutOfRangeException("yValue", SR.ExceptionDataPointYValuesSettingCountMismatch(base.series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
+				throw(new ArgumentOutOfRangeException(nameof(yValue), SR.ExceptionDataPointYValuesSettingCountMismatch(base.series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
 
 			// Check if there is a Null Y value
 			for( int i = 0 ; i < yValue.Length ; i++ )
@@ -2300,7 +2300,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (valueName == null)
-                throw new ArgumentNullException("valueName");
+                throw new ArgumentNullException(nameof(valueName));
 
 			valueName = valueName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
             if (string.Equals(valueName, "X", StringComparison.Ordinal))
@@ -2323,17 +2323,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 					catch(System.Exception)
 					{
-						throw(new ArgumentException( SR.ExceptionDataPointValueNameInvalid, "valueName"));
+						throw(new ArgumentException( SR.ExceptionDataPointValueNameInvalid, nameof(valueName)));
 					}
 
 					if(yIndex < 0)
 					{
-						throw(new ArgumentException( SR.ExceptionDataPointValueNameYIndexIsNotPositive, "valueName"));
+						throw(new ArgumentException( SR.ExceptionDataPointValueNameYIndexIsNotPositive, nameof(valueName)));
 					}
 
 					if(yIndex >= this.YValues.Length)
 					{
-						throw(new ArgumentException( SR.ExceptionDataPointValueNameYIndexOutOfRange, "valueName"));
+						throw(new ArgumentException( SR.ExceptionDataPointValueNameYIndexOutOfRange, nameof(valueName)));
 					}
 
 					return this.YValues[yIndex];
@@ -2341,7 +2341,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 			else
 			{
-				throw(new ArgumentException( SR.ExceptionDataPointValueNameInvalid, "valueName"));
+				throw(new ArgumentException( SR.ExceptionDataPointValueNameInvalid, nameof(valueName)));
 			}
 		}
 
@@ -3547,7 +3547,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNotPositive));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive));
 				}
 				if(this.pointCustomProperties)
 					SetAttributeObject(CommonCustomProperties.BorderWidth, value);
@@ -4059,7 +4059,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < -90 || value > 90)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAngleRangeInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAngleRangeInvalid));
 				}
 				if(this.pointCustomProperties)
 					SetAttributeObject(CommonCustomProperties.LabelAngle, value);
@@ -4428,7 +4428,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNotPositive));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive));
 				}
 				if(this.pointCustomProperties)
 					SetAttributeObject(CommonCustomProperties.MarkerBorderWidth, value);
@@ -5010,7 +5010,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-					throw(new ArgumentOutOfRangeException("value", SR.ExceptionLabelBorderIsNotPositive));
+					throw(new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLabelBorderIsNotPositive));
 				}
 				if(this.pointCustomProperties)
 					SetAttributeObject(CommonCustomProperties.LabelBorderWidth, value);

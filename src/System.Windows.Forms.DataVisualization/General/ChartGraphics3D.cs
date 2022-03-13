@@ -3730,7 +3730,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check imput array size
             if (cubePoints.Length != 8)
             {
-                throw (new ArgumentException(SR.ExceptionGraphics3DCoordinatesInvalid, "cubePoints"));
+                throw (new ArgumentException(SR.ExceptionGraphics3DCoordinatesInvalid, nameof(cubePoints)));
             }
 
             // Detect surfaces visibility

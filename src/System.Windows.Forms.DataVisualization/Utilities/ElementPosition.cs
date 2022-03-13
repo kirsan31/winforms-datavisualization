@@ -289,7 +289,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-					throw(new ArgumentOutOfRangeException("value", SR.ExceptionElementPositionArgumentOutOfRange));
+					throw(new ArgumentOutOfRangeException(nameof(value), SR.ExceptionElementPositionArgumentOutOfRange));
 				}
 				_x = value;
 				Auto = false;
@@ -326,7 +326,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-					throw(new ArgumentOutOfRangeException("value", SR.ExceptionElementPositionArgumentOutOfRange));
+					throw(new ArgumentOutOfRangeException(nameof(value), SR.ExceptionElementPositionArgumentOutOfRange));
 				}
 				_y = value;
 				Auto = false;
@@ -362,7 +362,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-					throw(new ArgumentOutOfRangeException("value", SR.ExceptionElementPositionArgumentOutOfRange));
+					throw(new ArgumentOutOfRangeException(nameof(value), SR.ExceptionElementPositionArgumentOutOfRange));
 				}
 				_width = value;
 				Auto = false;
@@ -398,7 +398,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-					throw(new ArgumentOutOfRangeException("value", SR.ExceptionElementPositionArgumentOutOfRange));
+					throw(new ArgumentOutOfRangeException(nameof(value), SR.ExceptionElementPositionArgumentOutOfRange));
 				}
 				_height = value;
 				Auto = false;

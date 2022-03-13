@@ -459,7 +459,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-					throw(new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNotPositive));
+					throw(new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive));
 				}
 				_borderWidth = value;
 				this.Invalidate();

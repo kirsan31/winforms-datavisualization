@@ -776,9 +776,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void CopySeriesValues(string inputSeries, string outputSeries)
         {
             if (inputSeries == null)
-                throw new ArgumentNullException("inputSeries");
+                throw new ArgumentNullException(nameof(inputSeries));
             if (outputSeries == null)
-                throw new ArgumentNullException("outputSeries");
+                throw new ArgumentNullException(nameof(outputSeries));
 
             Series[] inSeries;
             Series[] outSeries;
@@ -1152,9 +1152,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void FinancialFormula(FinancialFormula formulaName, string parameters, Series inputSeries, Series outputSeries)
         {
             if (inputSeries == null)
-                throw new ArgumentNullException("inputSeries");
+                throw new ArgumentNullException(nameof(inputSeries));
             if (outputSeries == null)
-                throw new ArgumentNullException("outputSeries");
+                throw new ArgumentNullException(nameof(outputSeries));
             FinancialFormula(formulaName, parameters, inputSeries.Name, outputSeries.Name);
         }
 
@@ -1196,9 +1196,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void FinancialFormula(FinancialFormula formulaName, string parameters, string inputSeries, string outputSeries)
         {
             if (inputSeries == null)
-                throw new ArgumentNullException("inputSeries");
+                throw new ArgumentNullException(nameof(inputSeries));
             if (outputSeries == null)
-                throw new ArgumentNullException("outputSeries");
+                throw new ArgumentNullException(nameof(outputSeries));
 
             // Get formula info
             FormulaInfo formulaInfo = FormulaHelper.GetFormulaInfo(formulaName);

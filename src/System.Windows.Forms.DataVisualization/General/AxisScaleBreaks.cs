@@ -196,7 +196,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 1 || value > 5)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleBreaksNumberInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksNumberInvalid));
 				}
 				this._maximumNumberOfBreaks = value;
 				this.Invalidate();
@@ -222,7 +222,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 10 || value > 90)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleBreaksCollapsibleSpaceInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksCollapsibleSpaceInvalid));
 				}
 				this._minimumNumberOfEmptySegments = value;
 				this.Invalidate();
@@ -290,7 +290,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 10)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleBreaksSpacingInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksSpacingInvalid));
 				}
 				this._segmentSpacing = value;
 				this.Invalidate();
@@ -338,7 +338,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 1.0 || value > 10)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleBreaksLineWidthInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksLineWidthInvalid));
 				}
 				this._breakLineWidth = value;
 				this.Invalidate();
