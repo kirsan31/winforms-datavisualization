@@ -89,26 +89,28 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 	/// </summary>
 	internal class ErrorBarChart : IChartType
 	{
-		#region Fields
+        #region Fields
 
-		/// <summary>
-		/// Vertical axis
-		/// </summary>
-		protected	Axis	vAxis;
+        /// <summary>
+        /// Vertical axis
+        /// </summary>
+#pragma warning disable CA2213 // Disposable fields should be disposed
+        protected	Axis	vAxis;
 
         /// <summary>
         /// Horizontal axis
         /// </summary>
         protected	Axis	hAxis;
+#pragma warning restore CA2213 // Disposable fields should be disposed
 
-        #endregion
+		#endregion
 
-        #region Constructor
+		#region Constructor
 
-        /// <summary>
-        /// Error bar chart constructor.
-        /// </summary>
-        public ErrorBarChart()
+		/// <summary>
+		/// Error bar chart constructor.
+		/// </summary>
+		public ErrorBarChart()
 		{
 		}
 

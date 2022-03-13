@@ -140,8 +140,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Annotation axes attaching fields
         private string _axisXName = String.Empty;
         private string _axisYName = String.Empty;
+#pragma warning disable CA2213 // Disposable fields should be disposed
         private Axis _axisX;
         private Axis _axisY;
+#pragma warning restore CA2213 // Disposable fields should be disposed
 
         // Visual attribute fields
         private bool _visible = true;

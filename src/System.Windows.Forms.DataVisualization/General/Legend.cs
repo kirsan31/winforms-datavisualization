@@ -210,7 +210,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private int _borderWidth = 1;
         private ChartDashStyle _borderDashStyle = ChartDashStyle.Solid;
         private FontCache _fontCache = new FontCache();
+#pragma warning disable CA2213 // Disposable fields should be disposed
         private Font _font;
+#pragma warning restore CA2213 // Disposable fields should be disposed
         private Color _foreColor = Color.Black;
         private StringAlignment _legendAlignment = StringAlignment.Near;
         private Docking _legendDocking = Docking.Right;
@@ -232,7 +234,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
         // Font calculated by auto fitting
+#pragma warning disable CA2213 // Disposable fields should be disposed
         internal Font autofitFont;
+#pragma warning restore CA2213 // Disposable fields should be disposed
 
         // Indicates that all items in the legend should be equally spaced
         private bool _isEquallySpacedItems;
