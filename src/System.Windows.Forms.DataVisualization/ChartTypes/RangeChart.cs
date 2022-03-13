@@ -285,7 +285,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			lowPoints = null;
 
 			// Check if series is indexed based
-            indexedBasedX = ChartHelper.IndexedSeries(common, area.GetSeriesFromChartType(this.Name).ToArray());
+            indexedBasedX = ChartHelper.IndexedSeries(common, area.GetSeriesFromChartType(this.Name));
 
 			// Call base class
 			base.ProcessChartType(selection, graph, common, area, seriesToDraw);

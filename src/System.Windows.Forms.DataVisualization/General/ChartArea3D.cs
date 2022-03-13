@@ -820,7 +820,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			//***********************************************************
 
 			// Check if any series attached to the area is indexed
-            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, this._series.ToArray());
+            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, this._series);
 
 			// Smallest interval series
 			Series	smallestIntervalSeries = null;
@@ -1622,7 +1622,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		/// <param name="seriesNamesList">Array of series names.</param>
 		/// <returns>Number of stack groups. One by default.</returns>
-		private int GetNumberOfStackGroups(IList<string> seriesNamesList)
+		private int GetNumberOfStackGroups(List<string> seriesNamesList)
 		{
 			this._stackGroupNames = new ArrayList();
 			foreach( object seriesName in seriesNamesList )
@@ -1723,7 +1723,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
 			// Check if chart series are indexed
-            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, seriesNamesList.ToArray());
+            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, seriesNamesList);
 
 			//************************************************************
 			//** Loop through all series and fill array of points

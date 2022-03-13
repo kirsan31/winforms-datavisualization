@@ -362,7 +362,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Check if bar chart series are indexed
-                bool indexedSeries = ChartHelper.IndexedSeries(area.Common, typeSeries.ToArray());
+                bool indexedSeries = ChartHelper.IndexedSeries(area.Common, typeSeries);
 
 		
 				//************************************************************

@@ -342,7 +342,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			List<string>	typeSeries = area.GetSeriesFromChartType(this.Name);
 
 			// Check if series are indexed
-            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, typeSeries.ToArray());
+            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, typeSeries);
 		
 			//************************************************************
 			//** Loop through all series

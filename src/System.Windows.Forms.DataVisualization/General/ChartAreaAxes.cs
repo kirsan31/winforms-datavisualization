@@ -43,7 +43,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private List<string> _series = new List<string>();
 
         // Array of chart types which belong to this chart area
-        internal ArrayList chartTypes = new ArrayList();
+        internal List<string> chartTypes = new List<string>();
 
         /// <summary>
         /// List of series names that last interval numbers where cashed for
@@ -124,7 +124,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Chart types which belongs to this chart area.
         /// </summary>
-        internal ArrayList ChartTypes
+        internal List<string> ChartTypes
         {
             get
             {
@@ -631,8 +631,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
             // Used for scrolling with logarithmic axes.
-            if (!Double.IsNaN(axis.ScaleView.Position) &&
-                !Double.IsNaN(axis.ScaleView.Size) &&
+            if (!double.IsNaN(axis.ScaleView.Position) &&
+                !double.IsNaN(axis.ScaleView.Size) &&
                 !axis.refreshMinMaxFromData &&
                 axis.IsLogarithmic)
             {
@@ -654,8 +654,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // The minimum and maximum values from data manager don’t exist.
 
             if (axis.enabled &&
-                ((axis.AutoMaximum || double.IsNaN(axis.Maximum)) && (autoMaximum == Double.MaxValue || autoMaximum == Double.MinValue)) ||
-                ((axis.AutoMinimum || double.IsNaN(axis.Minimum)) && (autoMinimum == Double.MaxValue || autoMinimum == Double.MinValue)))
+                ((axis.AutoMaximum || double.IsNaN(axis.Maximum)) && (autoMaximum == double.MaxValue || autoMaximum == double.MinValue)) ||
+                ((axis.AutoMinimum || double.IsNaN(axis.Minimum)) && (autoMinimum == double.MaxValue || autoMinimum == double.MinValue)))
             {
                 if (this.AllEmptyPoints())
                 {
@@ -1035,10 +1035,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Creates a list of series, which have same X axis type.
-            string[] xAxesSeries = GetXAxesSeries(type, axis.SubAxisName).ToArray();
+            var xAxesSeries = GetXAxesSeries(type, axis.SubAxisName);
 
             // Creates a list of series, which have same Y axis type.
-            string[] yAxesSeries = GetYAxesSeries(type, axis.SubAxisName).ToArray();
+            var yAxesSeries = GetYAxesSeries(type, axis.SubAxisName);
 
             // Get auto maximum and auto minimum value
             if (axis.axisType == AxisName.X2 || axis.axisType == AxisName.X) // X axis type is used (X or X2)
@@ -1099,8 +1099,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             double stackMinArea = double.MaxValue;
 
                             // Split series by group names
-                            ArrayList stackedGroups = this.SplitSeriesInStackedGroups(yAxesSeries);
-                            foreach (string[] groupSeriesNames in stackedGroups)
+                            var stackedGroups = this.SplitSeriesInStackedGroups(yAxesSeries);
+                            foreach (var groupSeriesNames in stackedGroups)
                             {
                                 // For stacked bar and column
                                 double stackMaxBarColumnForGroup = Common.DataManager.GetMaxStackedYValue(0, groupSeriesNames);
@@ -1192,9 +1192,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="seriesNames">Array of series name to split.</param>
         /// <returns>An array list that contains sub-arrays of series names split by group name.</returns>
-        private ArrayList SplitSeriesInStackedGroups(string[] seriesNames)
+        private List<List<string>> SplitSeriesInStackedGroups(List<string> seriesNames)
         {
-            Hashtable groupsHashTable = new Hashtable();
+            Dictionary<string, List<string>> groupsDict = new Dictionary<string, List<string>>();
+
             foreach (string seriesName in seriesNames)
             {
                 // Get series object
@@ -1209,36 +1210,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     groupName = StackedColumnChart.GetSeriesStackGroupName(series);
                 }
 
-                // Check if this group was alreday added in to the hashtable
-                if (groupsHashTable.ContainsKey(groupName))
-                {
-                    ArrayList list = (ArrayList)groupsHashTable[groupName];
+                // Check if this group was already added in to the Dictionary
+                if (groupsDict.TryGetValue(groupName, out var list))
                     list.Add(seriesName);
-                }
                 else
-                {
-                    ArrayList list = new ArrayList();
-                    list.Add(seriesName);
-                    groupsHashTable.Add(groupName, list);
-                }
+                    groupsDict.Add(groupName, new List<string> { seriesName });
             }
 
-            // Convert results to a list that contains array of strings
-            ArrayList result = new ArrayList();
-            foreach (DictionaryEntry entry in groupsHashTable)
-            {
-                ArrayList list = (ArrayList)entry.Value;
-                if (list.Count > 0)
-                {
-                    int index = 0;
-                    string[] stringArray = new String[list.Count];
-                    foreach (string str in list)
-                    {
-                        stringArray[index++] = str;
-                    }
-                    result.Add(stringArray);
-                }
-            }
+            // Convert results to a list that contains list of strings
+            List<List<string>> result = new List<List<string>>(groupsDict.Count);
+            foreach (var val in groupsDict.Values)
+                result.Add(val);
 
             return result;
         }
@@ -1279,7 +1261,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // The maximum is equal to the number of data points.
-            double autoMaximum = Common.DataManager.GetNumberOfPoints(GetXAxesSeries(type, axis.SubAxisName).ToArray());
+            double autoMaximum = Common.DataManager.GetNumberOfPoints(GetXAxesSeries(type, axis.SubAxisName));
             double autoMinimum = 0.0;
 
             // Axis margin used only for zooming
@@ -1439,7 +1421,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         // Series is not empty
-                        if (Common.DataManager.GetNumberOfPoints(series.Name) != 0)
+                        if (series.Points.Count > 0)
                         {
                             this.chartTypes.Add(series.ChartTypeName);
                         }
@@ -1456,7 +1438,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     if (seriesArray.Count > 0)
                     {
                         bool indexed = false;
-                        string seriesNamesStr = "";
+                        string seriesNamesStr = string.Empty;
                         foreach (string seriesName in seriesArray)
                         {
                             seriesNamesStr = seriesNamesStr + seriesName.Replace(",", "\\,") + ",";
@@ -1713,7 +1695,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             long ticksInterval = long.MaxValue;
             int monthsInteval = 0;
             double previousInterval = double.MinValue;
-            double oldInterval = Double.MaxValue;
+            double oldInterval = double.MaxValue;
 
             // Initialize return value
             sameInterval = true;
@@ -1755,14 +1737,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Data series loop
             int seriesIndex = 0;
             Series currentSmallestSeries = null;
-            ArrayList[] seriesXValues = new ArrayList[seriesList.Count];
+            List<double>[] seriesXValues = new List<double>[seriesList.Count];
             foreach (string ser in seriesList)
             {
                 Series dataSeries = Common.DataManager.Series[ser];
                 bool isXValueDateTime = dataSeries.IsXValueDateTime();
 
                 // Copy X values to array and prepare for sorting Sort X values.
-                seriesXValues[seriesIndex] = new ArrayList();
+                seriesXValues[seriesIndex] = new List<double>();
                 bool sortPoints = false;
                 double prevXValue = double.MinValue;
                 double curentXValue = 0.0;
@@ -1777,6 +1759,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         prevXValue = dataSeries.Points[0].XValue;
                     }
                 }
+
                 foreach (DataPoint point in dataSeries.Points)
                 {
                     if (isLogarithmic)
@@ -1807,7 +1790,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 for (int point = 1; point < seriesXValues[seriesIndex].Count; point++)
                 {
                     // Interval between two sorted data points.
-                    double interval = Math.Abs((double)seriesXValues[seriesIndex][point - 1] - (double)seriesXValues[seriesIndex][point]);
+                    double interval = Math.Abs(seriesXValues[seriesIndex][point - 1] - seriesXValues[seriesIndex][point]);
 
                     // Check if all intervals are same
                     if (sameInterval)
@@ -1818,8 +1801,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             {
                                 // Calculate first interval
                                 GetDateInterval(
-                                    (double)seriesXValues[seriesIndex][point - 1],
-                                    (double)seriesXValues[seriesIndex][point],
+                                    seriesXValues[seriesIndex][point - 1],
+                                    seriesXValues[seriesIndex][point],
                                     out monthsInteval,
                                     out ticksInterval);
                             }
@@ -1829,8 +1812,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 long curentTicksInterval = long.MaxValue;
                                 int curentMonthsInteval = 0;
                                 GetDateInterval(
-                                    (double)seriesXValues[seriesIndex][point - 1],
-                                    (double)seriesXValues[seriesIndex][point],
+                                    seriesXValues[seriesIndex][point - 1],
+                                    seriesXValues[seriesIndex][point],
                                     out curentMonthsInteval,
                                     out curentTicksInterval);
 
@@ -1873,16 +1856,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // All X values must be same
                 int listIndex = 0;
-                foreach (ArrayList xList in seriesXValues)
+                foreach (var xList in seriesXValues)
                 {
                     for (int pointIndex = 0; pointIndex < xList.Count && !sameXValue; pointIndex++)
                     {
-                        double xValue = (double)xList[pointIndex];
+                        double xValue = xList[pointIndex];
 
                         // Loop through all other lists and see if point is there
                         for (int index = listIndex + 1; index < seriesXValues.Length && !sameXValue; index++)
                         {
-                            if ((pointIndex < seriesXValues[index].Count && (double)seriesXValues[index][pointIndex] == xValue) ||
+                            if ((pointIndex < seriesXValues[index].Count && seriesXValues[index][pointIndex] == xValue) ||
                                 seriesXValues[index].Contains(xValue))
                             {
                                 sameXValue = true;
@@ -1904,7 +1887,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
             // Interval not found. Interval is 1.
-            if (oldInterval == Double.MaxValue)
+            if (oldInterval == double.MaxValue)
             {
                 oldInterval = 1;
             }

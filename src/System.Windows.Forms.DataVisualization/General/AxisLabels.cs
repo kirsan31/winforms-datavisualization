@@ -314,19 +314,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				return;
 			}
 
-            //Let's convert the ArrayList of the series names into to string[]
-            string[] dataSeriesNames = new string[dataSeries.Count];
-            for (int i = 0; i < dataSeries.Count; i++)
-                dataSeriesNames[i] = dataSeries[i];
-
 			// Check if series X values all set to zeros
-            bool seriesXValuesZeros = ChartHelper.SeriesXValuesZeros(this.Common, dataSeriesNames);
+            bool seriesXValuesZeros = ChartHelper.SeriesXValuesZeros(this.Common, dataSeries);
 
             // Check if series is indexed (All X values zeros or IsXValueIndexed flag set)
             bool indexedSeries = true;
             if (!seriesXValuesZeros)
             {
-                indexedSeries = ChartHelper.IndexedSeries(this.Common, dataSeriesNames);
+                indexedSeries = ChartHelper.IndexedSeries(this.Common, dataSeries);
             }
 
 			// Show End Labels
@@ -353,7 +348,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// X values from data points are not 0.
-            if (fromSeries && !ChartHelper.SeriesXValuesZeros(this.Common, dataSeries.ToArray()))
+            if (fromSeries && !ChartHelper.SeriesXValuesZeros(this.Common, dataSeries))
 			{
 				fromSeries = false;
 			}
@@ -399,7 +394,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if( fromSeries )
 			{
 				int numOfPoints;
-				numOfPoints = Common.DataManager.GetNumberOfPoints( dataSeries.ToArray() );
+				numOfPoints = Common.DataManager.GetNumberOfPoints( dataSeries );
 
 				// Show end labels
 				if( endLabels == 1 )

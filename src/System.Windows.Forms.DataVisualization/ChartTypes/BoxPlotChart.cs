@@ -228,7 +228,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             List<string> typeSeries = area.GetSeriesFromChartType(this.Name);
 
             // Zero X values mode.
-            bool indexedSeries = ChartHelper.IndexedSeries(area.Common, typeSeries.ToArray());
+            bool indexedSeries = ChartHelper.IndexedSeries(area.Common, typeSeries);
 
             //************************************************************
             //** Loop through all series
@@ -997,7 +997,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             List<string> typeSeries = area.GetSeriesFromChartType(this.Name);
 
             // Zero X values mode.
-            bool indexedSeries = ChartHelper.IndexedSeries(common, typeSeries.ToArray());
+            bool indexedSeries = ChartHelper.IndexedSeries(common, typeSeries);
 
             //************************************************************
             //** Loop through all series

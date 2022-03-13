@@ -270,7 +270,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Check if series is indexed
 			if( ShiftedSerName.Length == 0)
 			{
-                indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(this.Name).ToArray());
+                indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(this.Name));
 			}
 			else
 			{
@@ -1607,7 +1607,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		{
             this.Common = common;
             // Check if series is indexed
-            indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(this.Name).ToArray());
+            indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(this.Name));
 
 			//************************************************************
 			//** Set active horizontal/vertical axis

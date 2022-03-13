@@ -281,7 +281,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Check if column chart series are indexed
-            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(Name).ToArray());
+            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(Name));
 
 			//************************************************************
 			//** Loop through all series

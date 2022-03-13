@@ -8,6 +8,7 @@
 //
 
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
@@ -258,7 +259,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// </summary>
         /// <param name="series">Series IDs</param>
         /// <returns>Maximum number of data points</returns>
-        internal int GetNumberOfPoints(params string[] series)
+        internal int GetNumberOfPoints(List<string> series)
         {
             int numberOfPoints = 0;
             foreach (string seriesName in series)
@@ -276,7 +277,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <returns>Maximum Y value</returns>
         internal double GetMaxYValue(int valueIndex, params string[] series)
         {
-            double returnValue = Double.MinValue;
+            double returnValue = double.MinValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -302,9 +303,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="area">Chart Area</param>
         /// <param name="series">Series IDs</param>
         /// <returns>Maximum Y value</returns>
-        internal double GetMaxYWithRadiusValue(ChartArea area, params string[] series)
+        internal double GetMaxYWithRadiusValue(ChartArea area, List<string> series)
         {
-            double returnValue = Double.MinValue;
+            double returnValue = double.MinValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -337,9 +338,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="area">Chart Area</param>
         /// <param name="series">Series IDs</param>
         /// <returns>Maximum X value</returns>
-        internal double GetMaxXWithRadiusValue(ChartArea area, params string[] series)
+        internal double GetMaxXWithRadiusValue(ChartArea area, List<string> series)
         {
-            double returnValue = Double.MinValue;
+            double returnValue = double.MinValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -372,9 +373,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="area">Chart Area</param>
         /// <param name="series">Series IDs</param>
         /// <returns>Minimum X value</returns>
-        internal double GetMinXWithRadiusValue(ChartArea area, params string[] series)
+        internal double GetMinXWithRadiusValue(ChartArea area, List<string> series)
         {
-            double returnValue = Double.MaxValue;
+            double returnValue = double.MaxValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -408,7 +409,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <returns>Maximum Y value</returns>
         internal double GetMaxYValue(params string[] series)
         {
-            double returnValue = Double.MinValue;
+            double returnValue = double.MinValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -438,7 +439,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <returns>Maximum X value</returns>
         internal double GetMaxXValue(params string[] series)
         {
-            double returnValue = Double.MinValue;
+            double returnValue = double.MinValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -455,10 +456,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="min">Returns maximum X value.</param>
         /// <param name="max">Returns minimum X value.</param>
         /// <param name="series">Series IDs</param>
-        internal void GetMinMaxXValue(out double min, out double max, params string[] series)
+        internal void GetMinMaxXValue(out double min, out double max, List<string> series)
         {
-            max = Double.MinValue;
-            min = Double.MaxValue;
+            max = double.MinValue;
+            min = double.MaxValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -476,10 +477,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="min">Returns maximum Y value.</param>
         /// <param name="max">Returns minimum Y value.</param>
         /// <param name="series">Series IDs</param>
-        internal void GetMinMaxYValue(int valueIndex, out double min, out double max, params string[] series)
+        internal void GetMinMaxYValue(int valueIndex, out double min, out double max, List<string> series)
         {
-            max = Double.MinValue;
-            min = Double.MaxValue;
+            max = double.MinValue;
+            min = double.MaxValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -506,10 +507,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="min">Returns maximum Y value.</param>
         /// <param name="max">Returns minimum Y value.</param>
         /// <param name="series">Series IDs</param>
-        internal void GetMinMaxYValue(out double min, out double max, params string[] series)
+        internal void GetMinMaxYValue(out double min, out double max, List<string> series)
         {
-            max = Double.MinValue;
-            min = Double.MaxValue;
+            max = double.MinValue;
+            min = double.MaxValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -541,8 +542,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="max">Returns minimum Y value.</param>
         internal void GetMinMaxYValue(System.Collections.ArrayList seriesList, out double min, out double max)
         {
-            max = Double.MinValue;
-            min = Double.MaxValue;
+            max = double.MinValue;
+            min = double.MaxValue;
             foreach (Series series in seriesList)
             {
                 foreach (DataPoint seriesPoint in series.Points)
@@ -572,7 +573,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="valueIndex">Index of Y value to use</param>
         /// <param name="series">Series IDs</param>
         /// <returns>Maximum stacked Y value</returns>
-        internal double GetMaxStackedYValue(int valueIndex, params string[] series)
+        internal double GetMaxStackedYValue(int valueIndex, List<string> series)
         {
             double returnValue = 0;
             double numberOfPoints = GetNumberOfPoints(series);
@@ -617,10 +618,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="valueIndex">Index of Y value to use</param>
         /// <param name="series">Series IDs</param>
         /// <returns>Maximum stacked Y value</returns>
-        internal double GetMaxUnsignedStackedYValue(int valueIndex, params string[] series)
+        internal double GetMaxUnsignedStackedYValue(int valueIndex, List<string> series)
         {
             double returnValue = 0;
-            double maxValue = Double.MinValue;
+            double maxValue = double.MinValue;
             double numberOfPoints = GetNumberOfPoints(series);
             for (int pointIndex = 0; pointIndex < numberOfPoints; pointIndex++)
             {
@@ -642,7 +643,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
 
                         if (chartType.Stacked)
                         {
-                            maxValue = Double.MinValue;
+                            maxValue = double.MinValue;
                             stackedMax += this._series[seriesName].Points[pointIndex].YValues[valueIndex];
                             if (stackedMax > maxValue)
                                 maxValue = stackedMax;
@@ -664,7 +665,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// </summary>
         /// <param name="series">Series IDs</param>
         /// <returns>Maximum stacked X value</returns>
-        internal double GetMaxStackedXValue(params string[] series)
+        internal double GetMaxStackedXValue(List<string> series)
         {
             double returnValue = 0;
             double numberOfPoints = GetNumberOfPoints(series);
@@ -694,7 +695,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <returns>Minimum Y value</returns>
         internal double GetMinYValue(int valueIndex, params string[] series)
         {
-            double returnValue = Double.MaxValue;
+            double returnValue = double.MaxValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -720,9 +721,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="area">Chart Area</param>
         /// <param name="series">Series IDs</param>
         /// <returns>Minimum Y value</returns>
-        internal double GetMinYWithRadiusValue(ChartArea area, params string[] series)
+        internal double GetMinYWithRadiusValue(ChartArea area, List<string> series)
         {
-            double returnValue = Double.MaxValue;
+            double returnValue = double.MaxValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -756,7 +757,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <returns>Minimum Y value</returns>
         internal double GetMinYValue(params string[] series)
         {
-            double returnValue = Double.MaxValue;
+            double returnValue = double.MaxValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -786,7 +787,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <returns>Minimum X value</returns>
         internal double GetMinXValue(params string[] series)
         {
-            double returnValue = Double.MaxValue;
+            double returnValue = double.MaxValue;
             foreach (string seriesName in series)
             {
                 foreach (DataPoint seriesPoint in this._series[seriesName].Points)
@@ -803,9 +804,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="valueIndex">Index of Y value to use</param>
         /// <param name="series">Series IDs</param>
         /// <returns>Minimum stacked Y value</returns>
-        internal double GetMinStackedYValue(int valueIndex, params string[] series)
+        internal double GetMinStackedYValue(int valueIndex, List<string> series)
         {
-            double returnValue = Double.MaxValue;
+            double returnValue = double.MaxValue;
             double numberOfPoints = GetNumberOfPoints(series);
             for (int pointIndex = 0; pointIndex < numberOfPoints; pointIndex++)
             {
@@ -852,16 +853,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="valueIndex">Index of Y value to use</param>
         /// <param name="series">Series IDs</param>
         /// <returns>Minimum stacked Y value</returns>
-        internal double GetMinUnsignedStackedYValue(int valueIndex, params string[] series)
+        internal double GetMinUnsignedStackedYValue(int valueIndex, List<string> series)
         {
-            double returnValue = Double.MaxValue;
-            double minValue = Double.MaxValue;
+            double returnValue = double.MaxValue;
+            double minValue = double.MaxValue;
             double numberOfPoints = GetNumberOfPoints(series);
             for (int pointIndex = 0; pointIndex < numberOfPoints; pointIndex++)
             {
                 double stackedMin = 0;
                 double noStackedMin = 0;
-                minValue = Double.MaxValue;
+                minValue = double.MaxValue;
                 foreach (string seriesName in series)
                 {
                     if (this._series[seriesName].Points.Count > pointIndex)
@@ -902,7 +903,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// </summary>
         /// <param name="series">Series IDs</param>
         /// <returns>Minimum stacked X value</returns>
-        internal double GetMinStackedXValue(params string[] series)
+        internal double GetMinStackedXValue(List<string> series)
         {
             double returnValue = 0;
             double numberOfPoints = GetNumberOfPoints(series);
@@ -928,12 +929,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="supportNegative">Indicates that negative values are shown on the other side of the axis.</param>
         /// <param name="series">Series names</param>
         /// <returns>Maximum 100% stacked Y value</returns>
-        internal double GetMaxHundredPercentStackedYValue(bool supportNegative, params string[] series)
+        internal double GetMaxHundredPercentStackedYValue(bool supportNegative, List<string> series)
         {
             double returnValue = 0;
 
             // Convert array of series names into array of series
-            Series[] seriesArray = new Series[series.Length];
+            Series[] seriesArray = new Series[series.Count];
             int seriesIndex = 0;
             foreach (string seriesName in series)
             {
@@ -988,12 +989,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         /// <param name="supportNegative">Indicates that negative values are shown on the other side of the axis.</param>
         /// <param name="series">Series names</param>
         /// <returns>Minimum 100% stacked Y value</returns>
-        internal double GetMinHundredPercentStackedYValue(bool supportNegative, params string[] series)
+        internal double GetMinHundredPercentStackedYValue(bool supportNegative, List<string> series)
         {
             double returnValue = 0.0;
 
             // Convert array of series names into array of series
-            Series[] seriesArray = new Series[series.Length];
+            Series[] seriesArray = new Series[series.Count];
             int seriesIndex = 0;
             foreach (string seriesName in series)
             {

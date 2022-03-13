@@ -9,6 +9,7 @@
 //
 
 
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Drawing2D;
 
@@ -1380,7 +1381,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="common">Reference to common chart classes.</param>
 		/// <param name="series">Data series names.</param>
 		/// <returns>True if any series is indexed.</returns>
-        static internal bool IndexedSeries(CommonElements common, params string[] series)
+        static internal bool IndexedSeries(CommonElements common, List<string> series)
 		{
 			// Data series loop
 			bool	zeroXValues = true;
@@ -1408,10 +1409,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Check if all data points in many series have X value set to 0.
 		/// </summary>
-        /// <param name="common">Reference to common chart classes.</param>
+		/// <param name="common">Reference to common chart classes.</param>
 		/// <param name="series">Data series.</param>
 		/// <returns>True if all data points have value 0.</returns>
-        static internal bool SeriesXValuesZeros(CommonElements common, params string[] series)
+		static internal bool SeriesXValuesZeros(CommonElements common, List<string> series)
 		{
 			// Data series loop
 			foreach( string ser in series )
