@@ -164,9 +164,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="rect">RectangleF structure.</param>
 		public void FromRectangleF(RectangleF rect)
 		{
-            if (rect == null)
-                throw new ArgumentNullException("rect");
-
 			this._x = rect.X;
 			this._y = rect.Y;
 			this._width = rect.Width;

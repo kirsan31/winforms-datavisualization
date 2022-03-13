@@ -4630,10 +4630,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>RectangleF structure in relative coordinates.</returns>
 		public RectangleF GetRelativeRectangle( RectangleF rectangle )
 		{
-            // Check arguments
-            if (rectangle == null)
-                throw new ArgumentNullException("rectangle");
-            
             RectangleF relative = RectangleF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
@@ -4654,10 +4650,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>PointF object in relative coordinates.</returns>
 		public PointF GetRelativePoint( PointF point )
 		{
-            // Check arguments
-            if (point == null)
-                throw new ArgumentNullException("point");
-            
             PointF relative = PointF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
@@ -4677,10 +4669,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>SizeF object in relative coordinates.</returns>
 		public SizeF GetRelativeSize( SizeF size )
 		{
-            // Check arguments
-            if (size == null)
-                throw new ArgumentNullException("size"); 
-            
             SizeF relative = SizeF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
@@ -4699,10 +4687,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>PointF object in absolute coordinates.</returns>
 		public PointF GetAbsolutePoint( PointF point )
 		{
-            // Check arguments
-            if (point == null)
-                throw new ArgumentNullException("point");
-
 			PointF absolute = PointF.Empty;
 
 			// Convert relative coordinates to absolute coordinates
@@ -4721,10 +4705,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>RectangleF object in absolute coordinates.</returns>
 		public RectangleF GetAbsoluteRectangle( RectangleF rectangle )
 		{
-            // Check arguments
-            if (rectangle == null)
-                throw new ArgumentNullException("rectangle");
-
 			RectangleF absolute = RectangleF.Empty;
 
 			// Convert relative coordinates to absolute coordinates
@@ -4745,10 +4725,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>SizeF object in absolute coordinates.</returns>
 		public SizeF GetAbsoluteSize( SizeF size )
 		{
-            // Check arguments
-            if (size == null)
-                throw new ArgumentNullException("size"); 
-            
             SizeF absolute = SizeF.Empty;
 
 			// Convert relative coordinates to absolute coordinates
