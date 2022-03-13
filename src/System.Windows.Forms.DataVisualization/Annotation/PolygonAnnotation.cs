@@ -1388,7 +1388,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	[
 		SRDescription("DescriptionAttributeAnnotationPathPointCollection_AnnotationPathPointCollection"),
 	]
-    public class AnnotationPathPointCollection : ChartElementCollection<AnnotationPathPoint>
+    public class AnnotationPathPointCollection : ChartElementCollection<AnnotationPathPoint>, IDisposable
 	{
 		#region Fields
 
@@ -1457,7 +1457,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {   
@@ -1468,11 +1468,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this._graphicsPath = null;
                 }
             }
-            base.Dispose(disposing);
         }
 
-        #endregion
-    }
+		/// <summary>
+		/// Performs freeing, releasing, or resetting managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			this.Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion
+	}
 
 	/// <summary>
 	/// The <b>AnnotationPathPoint</b> class represents a path point of a polyline or polygon, 

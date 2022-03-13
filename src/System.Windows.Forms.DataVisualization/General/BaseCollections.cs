@@ -16,7 +16,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <summary>
     /// Base class for all chart element collections
     /// </summary>
-    public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, IDisposable
+    public abstract class ChartElementCollection<T> : Collection<T>, IChartElement
         where T : ChartElement
     {
         #region Member variables
@@ -130,13 +130,29 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Removes all elements from the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         protected override void ClearItems()
         {
             SuspendUpdates();
             while (this.Count > 0)
             {
                 this.RemoveItem(this.Count - 1); // Due to List<T>.RemoveAt implementation. Thanks to https://github.com/dotnet/winforms-datavisualization/pull/23
+            }
+            ResumeUpdates();
+        }
+
+        /// <summary>
+        /// Removes all elements from the <see cref="T:System.Collections.ObjectModel.Collection`1"/> and dispose them.
+        /// </summary>
+        protected virtual void ClearItemsWithDispose()
+        {
+            int idx;
+            SuspendUpdates();
+            while (this.Count > 0)
+            {
+                idx = this.Count - 1;
+                var itm = this[idx] as IDisposable;
+                this.RemoveItem(idx); // Due to List<T>.RemoveAt implementation. Thanks to https://github.com/dotnet/winforms-datavisualization/pull/23
+                itm?.Dispose();
             }
             ResumeUpdates();
         }
@@ -222,35 +238,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             get{ return this.Common; }
         }
 
-        #endregion
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing && typeof(T) is IDisposable)
-            {
-                // Dispose managed resources
-                foreach (IDisposable element in this)
-                {
-                    element.Dispose();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Performs freeing, releasing, or resetting managed resources.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
         #endregion
     }
 

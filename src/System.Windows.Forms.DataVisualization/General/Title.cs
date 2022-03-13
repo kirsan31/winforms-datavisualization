@@ -1796,16 +1796,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	[
 		SRDescription("DescriptionAttributeTitles"),
 	]
-    public class TitleCollection : ChartNamedElementCollection<Title>
+    public class TitleCollection : ChartNamedElementCollection<Title>, IDisposable
 	{
+		private bool _disposedValue;
 
 		#region Constructors
 
 		/// <summary>
-        /// TitleCollection constructor.
+		/// TitleCollection constructor.
 		/// </summary>
 		/// <param name="parent">Parent chart element.</param>
-        internal TitleCollection(IChartElement parent)
+		internal TitleCollection(IChartElement parent)
             : base(parent)
         {
         }
@@ -2013,8 +2014,40 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (title.DockedToChartArea == e.OldName)
                     title.DockedToChartArea = e.NewName;
         }
-        #endregion
+		#endregion
 
+		#region IDisposable Members
 
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources
+		/// </summary>
+		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+		protected virtual void Dispose(bool disposing)
+		{
+			if (_disposedValue)
+				return;
+
+			if (disposing)
+			{
+				// Dispose managed resources
+				foreach (var element in this)
+				{
+					element.Dispose();
+				}
+			}
+
+			_disposedValue = true;
+		}
+
+		/// <summary>
+		/// Performs freeing, releasing, or resetting managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			this.Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion
 	}
 }

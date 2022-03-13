@@ -3589,7 +3589,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         this.CustomLabels.Add(label.Clone());
                                     }
 
-                                    originalLabels.Dispose();
                                     originalLabels = null;
                                 }
 
@@ -3715,7 +3714,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             GraphicsUnit.Point);
                     }
                 }
-                originalLabels?.Dispose();
 
                 // Change the auto-fit angle for top and bottom axes from 90 to -90
                 if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
@@ -6240,25 +6238,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         _stripLines.Dispose();
                         _stripLines = null;
                     }
-                    
-                    if (_customLabels != null)
-                    {
-                        _customLabels.Dispose();
-                        _customLabels = null;
-                    }
-                    
-                    if (tempLabels != null)
-                    {
-                        tempLabels.Dispose();
-                        tempLabels = null;
-                    }
-                    
+
                     if (this.scrollBar != null)
                     {
                         this.scrollBar.Dispose();
                         this.scrollBar = null;
                     }
-                    
+
+                    _customLabels = null;
+                    tempLabels=null;
                     labelStyle = null;
                 }
                 _disposedValue = true;

@@ -64,8 +64,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
         SRDescription("DescriptionAttributeSeriesCollection_SeriesCollection"),
     ]
-    public class SeriesCollection : ChartNamedElementCollection<Series>
+    public class SeriesCollection : ChartNamedElementCollection<Series>, IDisposable
     {
+        private bool _disposedValue;
 
         #region Constructors
 
@@ -139,6 +140,39 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
         #endregion
 
+        #region IDisposable Members
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposedValue)
+                return;
+            
+            if (disposing)
+            {
+                // Dispose managed resources
+                foreach (var element in this)
+                {
+                    element.Dispose();
+                }
+            }
+            
+            _disposedValue = true;
+        }
+
+        /// <summary>
+        /// Performs freeing, releasing, or resetting managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 
     /// <summary>
@@ -2514,18 +2548,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         _fontCache = null;
                     }
                     
-                    if (this._points != null)
-                    {
-                        this._points.Dispose();
-                        this._points = null;
-                    }
-                    
-                    if (this.fakeDataPoints != null)
-                    {
-                        this.fakeDataPoints.Dispose();
-                        this.fakeDataPoints = null;
-                    }
-                    
+                    this._points = null;
+                    this.fakeDataPoints = null;
                     this._emptyPointCustomProperties = null;
                 }
                 _disposedValue = true;

@@ -4697,8 +4697,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
         SRDescription("DescriptionAttributeLegendCollection_LegendCollection"),
     ]
-    public class LegendCollection : ChartNamedElementCollection<Legend>
+    public class LegendCollection : ChartNamedElementCollection<Legend>, IDisposable
     {
+        private bool _disposedValue;
+
         #region Constructors
         /// <summary>
         /// LegendCollection constructor.
@@ -4913,6 +4915,39 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
         #endregion
 
+        #region IDisposable Members
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposedValue)
+                return;
+
+            if (disposing)
+            {
+                // Dispose managed resources
+                foreach (var element in this)
+                {
+                    element.Dispose();
+                }
+            }
+
+            _disposedValue = true;
+        }
+
+        /// <summary>
+        /// Performs freeing, releasing, or resetting managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 
     /// <summary>
@@ -4921,8 +4956,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
         SRDescription("DescriptionAttributeCustomLabelsCollection_CustomLabelsCollection"),
     ]
-    public class LegendItemsCollection : ChartElementCollection<LegendItem>
+    public class LegendItemsCollection : ChartElementCollection<LegendItem>, IDisposable
     {
+        private bool _disposedValue;
+
         #region Constructors
 
         /// <summary>
@@ -5005,6 +5042,39 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion
 
+        #region IDisposable Members
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposedValue)
+                return;
+
+            if (disposing)
+            {
+                // Dispose managed resources
+                foreach (var element in this)
+                {
+                    element.Dispose();
+                }
+            }
+
+            _disposedValue = true;
+        }
+
+        /// <summary>
+        /// Performs freeing, releasing, or resetting managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 
 

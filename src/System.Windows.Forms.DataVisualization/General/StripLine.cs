@@ -40,29 +40,62 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRDescription("DescriptionAttributeStripLinesCollection_StripLinesCollection"),
 
 	]
-    public class StripLinesCollection : ChartElementCollection<StripLine>
+    public class StripLinesCollection : ChartElementCollection<StripLine>, IDisposable
     {
+		private bool _disposedValue;
 
-        #region Constructor
-        /// <summary>
+		#region Constructor
+		/// <summary>
 		/// Legend item collection object constructor
 		/// </summary>
 		/// <param name="axis">Axis object reference.</param>
-        internal StripLinesCollection(Axis axis)
+		internal StripLinesCollection(Axis axis)
             : base(axis)
         {
         }
-        #endregion
+		#endregion
 
+		#region IDisposable Members
 
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources
+		/// </summary>
+		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+		protected virtual void Dispose(bool disposing)
+		{
+			if (_disposedValue)
+				return;
+
+			if (disposing)
+			{
+				// Dispose managed resources
+				foreach (var element in this)
+				{
+					element.Dispose();
+				}
+			}
+
+			_disposedValue = true;
+		}
+
+		/// <summary>
+		/// Performs freeing, releasing, or resetting managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			this.Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion
 	}
 
 	/// <summary>
-    /// The StripLine class contains properties which define visual appearance 
-    /// of the stripe or line, its position according to the axis.  It 
-    /// may optionally contain the repeat interval. Text may associate 
-    /// with a strip or a line.  It also contains methods of drawing and hit 
-    /// testing.
+	/// The StripLine class contains properties which define visual appearance 
+	/// of the stripe or line, its position according to the axis.  It 
+	/// may optionally contain the repeat interval. Text may associate 
+	/// with a strip or a line.  It also contains methods of drawing and hit 
+	/// testing.
 	/// </summary>
 	[
 		SRDescription("DescriptionAttributeStripLine_StripLine"),

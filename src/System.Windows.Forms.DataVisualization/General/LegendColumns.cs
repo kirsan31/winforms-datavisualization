@@ -128,7 +128,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private int _minimumCellWidth = -1;
 
         // Maximum column width
-        private int _maximumCellWidth = -1;
+        private int _maximumCellWidth = -1;        
 
         #endregion // Fields
 
@@ -2519,8 +2519,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeLegendCellCollection_LegendCellCollection"),
     ]
-    public class LegendCellCollection : ChartNamedElementCollection<LegendCell>
+    public class LegendCellCollection : ChartNamedElementCollection<LegendCell>, IDisposable
     {
+        private bool _disposedValue;
 
         #region Constructors
 
@@ -2585,6 +2586,39 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion
 
+        #region IDisposable Members
+        
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposedValue)
+                return;
+            
+            if (disposing)
+            {
+                // Dispose managed resources
+                foreach (var element in this)
+                {
+                    element.Dispose();
+                }
+            }
+            
+            _disposedValue = true;
+        }
+        
+        /// <summary>
+        /// Performs freeing, releasing, or resetting managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        
+        #endregion
     }
 
     /// <summary>
@@ -2594,8 +2628,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeLegendCellColumnCollection_LegendCellColumnCollection"),
     ]
-    public class LegendCellColumnCollection : ChartNamedElementCollection<LegendCellColumn>
+    public class LegendCellColumnCollection : ChartNamedElementCollection<LegendCellColumn>, IDisposable
     {
+        private bool _disposedValue;
 
         #region Construction and Initialization
 
@@ -2621,23 +2656,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
+            if (_disposedValue)
+                return;
+
             if (disposing)
-            {
-                //Free managed resources
-                foreach (LegendCellColumn item in this)
-                {
-                    item.Dispose();
-                }
-                this.ClearItems();
-            }
-            base.Dispose(disposing);
+                ClearItemsWithDispose();
+
+            _disposedValue = true;
         }
 
+        /// <summary>
+        /// Performs freeing, releasing, or resetting managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         #endregion
     }
-
 }
 
