@@ -870,7 +870,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						this.multiSeries, 0, true);
 
 					// No second draw of the prev. front line required
-					graph.frontLinePen = null;
+					if (graph.frontLinePen is not null)
+					{
+						graph.frontLinePen.Dispose();
+						graph.frontLinePen = null;
+					}
 
 					// Change direction 
 					currentKagiDirection = (currentKagiDirection == 1) ? -1 : 1;
@@ -899,11 +903,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						lineColor = (currentKagiDirection == 1) ? this.kagiUpColor : color;
 					}
-
 				}
 
 				// No second draw of the prev. front line required
-				graph.frontLinePen = null;
+				if (graph.frontLinePen is not null)
+				{
+					graph.frontLinePen.Dispose();
+					graph.frontLinePen = null;
+				}
 			}
 
 			if(resultPath != null)

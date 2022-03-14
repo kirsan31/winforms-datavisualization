@@ -288,9 +288,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Previous line segment pen.
         /// </summary>
-#pragma warning disable CA2213 // Disposable fields should be disposed
         internal Pen frontLinePen;
-#pragma warning restore CA2213 // Disposable fields should be disposed
 
         #endregion
 
@@ -1237,7 +1235,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 // Create thick border line pen
+#pragma warning disable CA2000 // Dispose objects before losing scope
                 thickBorderPen = new Pen(surfaceBorderColor, borderWidth);
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 thickBorderPen.StartCap = LineCap.Round;
                 thickBorderPen.EndCap = LineCap.Round;
 
@@ -1297,7 +1297,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Reset line properties
-                    frontLinePen = null;
+                    if (frontLinePen is not null)
+                    {
+                        frontLinePen.Dispose();
+                        frontLinePen = null;
+                    }
+
                     frontLinePoint1 = PointF.Empty;
                     frontLinePoint2 = PointF.Empty;
                 }
@@ -1308,6 +1313,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (drawElements)
                 {
                     // Add top line
+                    frontLinePen?.Dispose();
                     frontLinePen = thickBorderPen;
                     frontLinePoint1 = polygonPoints[0];
                     frontLinePoint2 = polygonPoints[1];
@@ -1320,7 +1326,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Add polygon to the path
                 resultPath.AddPolygon(polygonPoints);
             }
-            thickBorderPen?.Dispose();
 
             return resultPath;
         }
@@ -2084,7 +2089,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //**********************************************************************
             //** Draw elements if required.
             //**********************************************************************
-            using Pen thinBorderPen = new Pen(surfaceBorderColor, 1);
+#pragma warning disable CA2000 // Dispose objects before losing scope
+            Pen thinBorderPen = new Pen(surfaceBorderColor, 1);
+#pragma warning restore CA2000 // Dispose objects before losing scope
             if (drawElements)
             {
                 // Draw the polygon
@@ -2164,7 +2171,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (borderWidth > 1 && !forceThickBorder)
             {
                 // Create thick border line pen
+#pragma warning disable CA2000 // Dispose objects before losing scope
                 thickBorderPen = new Pen(surfaceBorderColor, borderWidth);
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 thickBorderPen.StartCap = LineCap.Round;
                 thickBorderPen.EndCap = LineCap.Round;
 
@@ -2361,16 +2370,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         (float)Math.Round(frontLinePoint2.Y));
 
                     // Reset line properties
-                    frontLinePen = null;
+                    if (frontLinePen is not null)
+                    {
+                        frontLinePen.Dispose();
+                        frontLinePen = null;
+                    }
                     frontLinePoint1 = PointF.Empty;
                     frontLinePoint2 = PointF.Empty;
                 }
 
                 //**********************************************************************
-                //** Check if front line should be redrawn whith the next segment.
+                //** Check if front line should be redrawn with the next segment.
                 //**********************************************************************
                 if (drawElements)
                 {
+                    frontLinePen?.Dispose();
                     frontLinePen = (borderWidth > 1) ? thickBorderPen : thinBorderPen;
                     frontLinePoint1 = polygonPoints[0];
                     frontLinePoint2 = polygonPoints[1];
@@ -2402,7 +2416,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Add polygon to the path
                 resultPath.AddPolygon(polygonPoints);
             }
-            thickBorderPen?.Dispose();
+
+            if(thickBorderPen is not null && thickBorderPen != frontLinePen)
+                thickBorderPen.Dispose();
+
+            if (thinBorderPen != frontLinePen)
+                thinBorderPen.Dispose();
+
             return resultPath;
         }
 

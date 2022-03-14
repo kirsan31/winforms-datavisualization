@@ -299,8 +299,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     area.ReverseSeriesOrder,
 					this.multiSeries, 0, true);
 
-                // No second draw of the prev. front line required
-                graph.frontLinePen = null;
+				// No second draw of the prev. front line required
+				if (graph.frontLinePen is not null)
+				{
+					graph.frontLinePen.Dispose();
+					graph.frontLinePen = null;
+				}
 
 				// Draw second line
 				middlePoint.dataPoint = firstPoint.dataPoint;
@@ -314,7 +318,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					this.multiSeries, 0, true);
 
 				// No second draw of the prev. front line required
-				graph.frontLinePen = null;
+				if (graph.frontLinePen is not null)
+				{
+					graph.frontLinePen.Dispose();
+					graph.frontLinePen = null;
+				}
 			}
 			else
 			{
@@ -328,10 +336,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					(this.showPointLines) ? true : false, false,
                     area.ReverseSeriesOrder,
 					this.multiSeries, 0, true);
-				
+
 				// No second draw of the prev. front line required
-				graph.frontLinePen = null;
-				
+				if (graph.frontLinePen is not null)
+				{
+					graph.frontLinePen.Dispose();
+					graph.frontLinePen = null;
+				}
+
 				// Draw first line
 				middlePoint.dataPoint = secondPoint.dataPoint;
 				resultPathLine1 = graph.Draw3DSurface( 
@@ -344,7 +356,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					this.multiSeries, 0, true);
 
 				// No second draw of the prev. front line required
-				graph.frontLinePen = null;
+				if (graph.frontLinePen is not null)
+				{
+					graph.frontLinePen.Dispose();
+					graph.frontLinePen = null;
+				}
 			}
 #pragma warning restore CA2000 // Dispose objects before losing scope
 

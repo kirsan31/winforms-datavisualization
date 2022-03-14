@@ -1183,9 +1183,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			ChartArea area, 
 			Series seriesToDraw )
 		{
-			
+
 			// Reset graphics fields
-			graph.frontLinePen = null;
+			if (graph.frontLinePen is not null)
+			{
+				graph.frontLinePen.Dispose();
+				graph.frontLinePen = null;
+			}
+
 			graph.frontLinePoint1 = PointF.Empty;
 			graph.frontLinePoint2 = PointF.Empty;
 

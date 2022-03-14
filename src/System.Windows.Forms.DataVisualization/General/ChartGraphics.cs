@@ -5724,15 +5724,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						_pen.Dispose();
 						_pen = null;
 					}
+
 					if (_solidBrush != null)
 					{
 						_solidBrush.Dispose();
 						_solidBrush = null;
 					}
+
 					if (_myMatrix != null)
 					{
 						_myMatrix.Dispose();
 						_myMatrix = null;
+					}
+
+					if (frontLinePen != null)
+					{
+						frontLinePen.Dispose();
+						frontLinePen = null;
 					}
 				}
 				_disposedValue = true;
