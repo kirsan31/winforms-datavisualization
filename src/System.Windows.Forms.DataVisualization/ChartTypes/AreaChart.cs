@@ -99,9 +99,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <summary>
         /// Coordinates of the area path
         /// </summary>
-#pragma warning disable CA2213 // Disposable fields should be disposed
         protected GraphicsPath areaPath;
-#pragma warning restore CA2213 // Disposable fields should be disposed
 
         /// <summary>
         /// Reference to the current series object

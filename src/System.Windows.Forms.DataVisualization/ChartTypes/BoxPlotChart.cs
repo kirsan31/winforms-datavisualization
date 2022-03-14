@@ -1812,7 +1812,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            //Nothing to dispose at the base class. 
+            if (disposing)
+            {
+                hAxis = null;
+                vAxis = null;
+            }
         }
 
         /// <summary>

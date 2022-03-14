@@ -3002,7 +3002,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this._areaPosition = null;
                     this._innerPlotPosition = null;
                     this.PlotAreaPosition = null;
-                    
+                    this.axisY = null;
+                    this.axisX = null;
+                    this.axisX2 = null;
+                    this.axisY2 = null;
                 }
                 _disposedValue = true;
             }

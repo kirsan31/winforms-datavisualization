@@ -4677,6 +4677,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     
                     _position = null;
+                    _font = null;
+                    autofitFont = null;
                 }
                 _disposedValue = true;
             }

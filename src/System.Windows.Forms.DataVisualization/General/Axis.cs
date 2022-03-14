@@ -6250,6 +6250,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     _customLabels = null;
                     tempLabels = null;
                     labelStyle = null;
+                    oppositeAxis = null;
+                    autoLabelFont = null;
                 }
                 _disposedValue = true;
             }

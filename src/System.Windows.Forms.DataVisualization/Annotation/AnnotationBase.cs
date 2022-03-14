@@ -4096,6 +4096,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     _fontCache.Dispose();
                     _fontCache = null;
                 }
+
+                _axisX = null;
+                _axisY = null;
             }
         }
 

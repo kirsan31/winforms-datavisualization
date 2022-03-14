@@ -2183,7 +2183,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //**************************************************
             //** Check and parse formula
             //**************************************************
-            int outputValuesNumber = 1;
+            int outputValuesNumber;
             GroupingFunctionInfo[] functions = GetGroupingFunctions(inputSeries, formula, out outputValuesNumber);
 
             //**************************************************
