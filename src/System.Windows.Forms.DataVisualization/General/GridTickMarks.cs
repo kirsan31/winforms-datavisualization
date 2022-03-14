@@ -457,7 +457,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             using (GraphicsPath path = new GraphicsPath())
                             {
                                 path.AddRectangle(graph.GetAbsoluteRectangle(rect));
-                                path.Transform(graph.Transform);
+								using var mt = graph.Transform;
+								path.Transform(mt);
                                 this.Axis.Common.HotRegionsList.AddHotRegion(
                                     path,
                                     false,

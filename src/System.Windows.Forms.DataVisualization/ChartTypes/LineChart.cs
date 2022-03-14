@@ -736,7 +736,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 							// Translate curve
 							GraphicsState graphicsState = graph.Save();
-							Matrix transform = graph.Transform.Clone();
+							using Matrix transform = graph.Transform;
 							transform.Translate(series.ShadowOffset, series.ShadowOffset);
 							graph.Transform = transform;
 

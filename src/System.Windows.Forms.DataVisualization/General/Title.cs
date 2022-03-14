@@ -1426,7 +1426,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         format.FormatFlags |= StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft;
 
                         // Save old graphics transformation
-                        oldTransform = chartGraph.Transform.Clone();
+                        oldTransform = chartGraph.Transform;
 
                         // Rotate tile 180 degrees at center
                         PointF center = PointF.Empty;
@@ -1435,7 +1435,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         center.Y = absPosition.Y + absPosition.Height / 2F;
 
                         // Create and set new transformation matrix
-                        Matrix newMatrix = chartGraph.Transform.Clone();
+                        using Matrix newMatrix = chartGraph.Transform;
                         newMatrix.RotateAt(180, center);
                         chartGraph.Transform = newMatrix;
                     }
@@ -1464,8 +1464,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			    //***************************************************************
 			    if(oldTransform != null)
 			    {
-				    chartGraph.Transform = oldTransform;
-			    }
+					chartGraph.Transform = oldTransform;
+					oldTransform.Dispose();
+				}
 
                 if (Common.ProcessModeRegions)
                 {

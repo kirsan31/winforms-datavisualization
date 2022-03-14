@@ -474,9 +474,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				if(point.Color != Color.Empty && point.Color != Color.Transparent)
 				{
 					// Translate drawing matrix
-					Matrix translateMatrix = graph.Transform.Clone();
+					using Matrix translateMatrix = graph.Transform;
 					translateMatrix.Translate(series.ShadowOffset, series.ShadowOffset);
-					Matrix oldMatrix = graph.Transform;
+					using Matrix oldMatrix = graph.Transform;
 					graph.Transform = translateMatrix;
 
 					using Region shadowRegion = new Region(path);

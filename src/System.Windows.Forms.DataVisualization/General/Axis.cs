@@ -1339,13 +1339,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     ICircularChartType chartType = ChartArea.GetCircularChartType();
                     if (chartType != null)
                     {
-                        Matrix oldMatrix = graph.Transform;
+                        using Matrix oldMatrix = graph.Transform;
                         float[] axesLocation = chartType.GetYAxisLocations(ChartArea);
                         bool drawLabels = true;
                         foreach (float curentSector in axesLocation)
                         {
                             // Set graphics rotation matrix
-                            Matrix newMatrix = oldMatrix.Clone();
+                            using Matrix newMatrix = oldMatrix.Clone();
                             newMatrix.RotateAt(
                                 curentSector,
                                 graph.GetAbsolutePoint(ChartArea.circularCenter));
@@ -1743,12 +1743,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (this.Common.ProcessModeRegions)
                 {
                     // NOTE: Solves Issue #4423
-                    // Transform title position coordinates using curent Graphics matrix
+                    // Transform title position coordinates using current Graphics matrix
                     RectangleF transformedTitlePosition = graph.GetAbsoluteRectangle(_titlePosition);
                     PointF[] rectPoints = new PointF[] {
                         new PointF(transformedTitlePosition.X, transformedTitlePosition.Y),
                         new PointF(transformedTitlePosition.Right, transformedTitlePosition.Bottom) };
-                    graph.Transform.TransformPoints(rectPoints);
+                    using var mt = graph.Transform;
+                    mt.TransformPoints(rectPoints);
                     transformedTitlePosition = new RectangleF(
                         rectPoints[0].X,
                         rectPoints[0].Y,
@@ -1774,6 +1775,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (oldTransform != null)
                 {
                     graph.Transform = oldTransform;
+                    oldTransform.Dispose();
                 }
             }
         }
@@ -1788,7 +1790,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private Matrix SetRotationTransformation(ChartGraphics graph, RectangleF titlePosition)
         {
             // Save old graphics transformation
-            Matrix oldTransform = graph.Transform.Clone();
+            Matrix oldTransform = graph.Transform;
 
             // Rotate left tile 90 degrees at center
             PointF center = PointF.Empty;
@@ -1797,7 +1799,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Create and set new transformation matrix
             float angle = (this.GetTextOrientation() == TextOrientation.Rotated90) ? 90f : -90f;
-            Matrix newMatrix = graph.Transform.Clone();
+            using Matrix newMatrix = graph.Transform;
             newMatrix.RotateAt(angle, graph.GetAbsolutePoint(center));
             graph.Transform = newMatrix;
 
@@ -1857,8 +1859,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             PointF centerPoint = graph.GetAbsolutePoint(ChartArea.circularCenter);
 
             // Set graphics rotation matrix
-            Matrix oldMatrix = graph.Transform;
-            Matrix newMatrix = oldMatrix.Clone();
+            using Matrix oldMatrix = graph.Transform;
+            using Matrix newMatrix = oldMatrix.Clone();
             newMatrix.RotateAt(
                 angle,
                 centerPoint);
@@ -1896,14 +1898,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Restore graphics
             graph.Transform = oldMatrix;
-            newMatrix.Dispose();
 
             // Restore clip region
             if (ChartArea.CircularUsePolygons)
             {
                 graph.Clip = oldRegion;
             }
-
         }
 
         /// <summary>

@@ -993,16 +993,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             format.LineAlignment = StringAlignment.Far;
                         }
 
-                        // Set text rotation matrix
-                        Matrix oldMatrix = graph.Transform;
+                        Matrix oldMatrix = null;
                         if (labelsStyle == CircularAxisLabelsStyle.Radial || labelsStyle == CircularAxisLabelsStyle.Circular)
                         {
-                            Matrix textRotationMatrix = oldMatrix.Clone();
+                            // Set text rotation matrix
+                            oldMatrix = graph.Transform;
+                            using Matrix textRotationMatrix = oldMatrix.Clone();
                             textRotationMatrix.RotateAt(textAngle, labelPosition[0]);
                             graph.Transform = textRotationMatrix;
                         }
 
-                        // Get axis titl (label) color
+                        // Get axis title (label) color
                         Color labelColor = _foreColor;
                         if (!circAxis.TitleForeColor.IsEmpty)
                         {
@@ -1029,37 +1030,38 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 size,
                                 format);
                             PointF[] points = new PointF[]
-							{
-								labelRect.Location, 
-								new PointF(labelRect.Right, labelRect.Y),
-								new PointF(labelRect.Right, labelRect.Bottom),
-								new PointF(labelRect.X, labelRect.Bottom)
-							};
+                            {
+                                labelRect.Location,
+                                new PointF(labelRect.Right, labelRect.Y),
+                                new PointF(labelRect.Right, labelRect.Bottom),
+                                new PointF(labelRect.X, labelRect.Bottom)
+                            };
 
                             using (GraphicsPath path = new GraphicsPath())
                             {
                                 path.AddPolygon(points);
                                 path.CloseAllFigures();
-                                path.Transform(graph.Transform);
+                                using var mt = graph.Transform;
+                                path.Transform(mt);
                                 this._axis.Common.HotRegionsList.AddHotRegion(
                                     path,
                                     false,
                                     ChartElementType.AxisLabels,
                                     circAxis.Title);
                             }
-                    }
+                        }
 
-					// Restore graphics
-					if(labelsStyle == CircularAxisLabelsStyle.Radial || labelsStyle == CircularAxisLabelsStyle.Circular)
-					{
-						graph.Transform = oldMatrix;
-					}
-				}
+                        // Restore graphics
+                        if (labelsStyle == CircularAxisLabelsStyle.Radial || labelsStyle == CircularAxisLabelsStyle.Circular)
+                        {
+                            graph.Transform = oldMatrix;
+                            oldMatrix.Dispose();
+                        }
+                    }
 
                     ++index;
                 }
             }
-
 		}
 
 		/// <summary>

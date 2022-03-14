@@ -401,8 +401,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
 
                     // Get scaling component from the drawing graphics
-                    float scaleX = e.Graphics.Transform.Elements[0];
-                    float scaleY = e.Graphics.Transform.Elements[3];
+                    using var mt = e.Graphics.Transform;
+                    float scaleX = mt.Elements[0];
+                    float scaleY = mt.Elements[3];
 
                     // Create offscreen buffer bitmap
                     if (paintBufferBitmap == null ||
@@ -446,7 +447,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 //*******************************************************
                 // Set drawing scale 1:1. Only persist the transformation from current matrix
                 using System.Drawing.Drawing2D.Matrix drawingMatrix = new System.Drawing.Drawing2D.Matrix();
-                System.Drawing.Drawing2D.Matrix oldMatrix = e.Graphics.Transform;
+                using System.Drawing.Drawing2D.Matrix oldMatrix = e.Graphics.Transform;
                 drawingMatrix.Translate(oldMatrix.OffsetX, oldMatrix.OffsetY);
                 e.Graphics.Transform = drawingMatrix;
 

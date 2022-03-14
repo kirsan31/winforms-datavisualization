@@ -735,8 +735,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 		}
 
+
 		/// <summary>
-		/// Gets or sets the world transformation for this Graphics object.
+		/// Gets or sets the world transformation for this Graphics object.<br/>
+		/// Get return a new instance of the <see cref="Matrix" /> that represents the geometric world transformation.<br/>
+		/// Set only apply world transformation and not store <see cref="Matrix" /> itself.
 		/// </summary>
 		internal Matrix Transform
 		{

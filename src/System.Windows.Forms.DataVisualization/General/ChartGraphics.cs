@@ -788,9 +788,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Draw shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
-                                    Matrix translateMatrix = this.Transform.Clone();
+                                    using Matrix translateMatrix = this.Transform;
                                     translateMatrix.Translate(shadowSize, shadowSize);
-                                    Matrix oldMatrix = this.Transform;
+                                    using Matrix oldMatrix = this.Transform;
                                     this.Transform = translateMatrix;
 
                                     using var sb = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
@@ -922,11 +922,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
                                     // Create translation matrix
-                                    using Matrix translateMatrix = this.Transform.Clone();
+                                    using Matrix translateMatrix = this.Transform;
                                     translateMatrix.Translate(
                                         (softShadows) ? shadowSize + 1 : shadowSize,
                                         (softShadows) ? shadowSize + 1 : shadowSize);
-                                    Matrix oldMatrix = this.Transform;
+                                    using Matrix oldMatrix = this.Transform;
                                     this.Transform = translateMatrix;
 
                                     if (!softShadows)
@@ -975,8 +975,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
 
                                 // Create translation matrix
-                                using Matrix translateMatrixShape = this.Transform.Clone();
-                                Matrix oldMatrixShape = this.Transform;
+                                using Matrix translateMatrixShape = this.Transform;
+                                using Matrix oldMatrixShape = this.Transform;
                                 this.Transform = translateMatrixShape;
 
                                 this.FillPolygon(brush, points);
@@ -1003,10 +1003,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Draw shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
-                                    using Matrix translateMatrix = this.Transform.Clone();
+                                    using Matrix translateMatrix = this.Transform;
                                     translateMatrix.Translate((softShadows) ? 0 : shadowSize,
                                         (softShadows) ? 0 : shadowSize);
-                                    Matrix oldMatrix = this.Transform;
+                                    using Matrix oldMatrix = this.Transform;
                                     this.Transform = translateMatrix;
 
                                     if (!softShadows)
@@ -1058,10 +1058,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Draw image shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
-                                    using Matrix translateMatrix = this.Transform.Clone();
+                                    using Matrix translateMatrix = this.Transform;
                                     translateMatrix.Translate((softShadows) ? shadowSize - 1 : shadowSize,
                                         (softShadows) ? shadowSize + 1 : shadowSize);
-                                    Matrix oldMatrix = this.Transform;
+                                    using Matrix oldMatrix = this.Transform;
                                     this.Transform = translateMatrix;
 
                                     if (!softShadows)
@@ -1497,13 +1497,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 
 				// Create a matrix and rotate it.
-				_myMatrix = this.Transform.Clone();
+				_myMatrix?.Dispose();
+				_myMatrix = this.Transform;
 				_myMatrix.RotateAt( angle, rotationPoint );
 
 				// Save old state
 				GraphicsState graphicsState = this.Save();
 
-				// Set transformatino
+				// Set transformation
 				this.Transform = _myMatrix;
 
                 // Check for empty colors
@@ -1643,7 +1644,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			)
 		{
 			// Create a matrix and rotate it.
-			_myMatrix = this.Transform.Clone();
+			_myMatrix?.Dispose();
+			_myMatrix = this.Transform;
 			_myMatrix.RotateAt(angle, absPosition);
     
 			// Save aold state
@@ -1689,10 +1691,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 new PointF(absCenter.X + size.Width / 2f, absCenter.Y + size.Height / 2f), 
                 new PointF(absCenter.X - size.Width / 2f, absCenter.Y + size.Height / 2f)};
 
-            //Prepare the same tranformation matrix as used for the axis title
-            Matrix matrix = this.Transform.Clone();
+            //Prepare the same transformation matrix as used for the axis title
+            using Matrix matrix = this.Transform;
             matrix.RotateAt(angle, absCenter);
-            //Tranform the rectangle points
+            //Transform the rectangle points
             matrix.TransformPoints(points);
 
             //Return the path consisting of the rect points
@@ -1930,7 +1932,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 oldTransform = null;
                 if (angle != 0)
                 {
-                    _myMatrix = this.Transform.Clone();
+					_myMatrix?.Dispose();
+					_myMatrix = this.Transform;
                     _myMatrix.RotateAt(angle, rotationPoint);
 
                     // Old angle
@@ -2082,7 +2085,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     // Update transformation matrix
                     this.Transform = _myMatrix;
-                }
+				}
 
                 //********************************************************************
                 //** Reserve space on the left for the label iamge
@@ -2216,7 +2219,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     using (GraphicsPath path = new GraphicsPath())
                     {
                         path.AddRectangle(labelRect);
-                        path.Transform(this.Transform);
+						using var mt = this.Transform;
+						path.Transform(mt);
                         string url = string.Empty;
                         string mapAreaAttributes = string.Empty;
                         string postbackValue = string.Empty;
@@ -2302,7 +2306,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         using (GraphicsPath path = new GraphicsPath())
                         {
                             path.AddRectangle(imageRect);
-                            path.Transform(this.Transform);
+							using var mt = this.Transform;
+							path.Transform(mt);
                             string imageUrl = string.Empty;
                             string imageMapAreaAttributes = string.Empty;
                             string postbackValue = string.Empty;
@@ -2325,6 +2330,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if(oldTransform != null)
 			{
 				this.Transform = oldTransform;
+				oldTransform.Dispose();
 			}
 		}
 
@@ -2345,11 +2351,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			bool truncatedRight,
 			Matrix originalTransform)
 		{
-			// Remeber current and then reset original matrix
-			Matrix curentMatrix = this.Transform;
+			// Remember current and then reset original matrix
+			Matrix curentMatrix = null;
 			if(originalTransform != null)
 			{
-				this.Transform = originalTransform;
+				curentMatrix = this.Transform;
+				this.Transform = originalTransform;				
 			}
 
 			// Calculate center of the text rectangle
@@ -2450,10 +2457,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				markPen.Dispose();
 			}
 
-			// Restore currentmatrix
+			// Restore current matrix
 			if(originalTransform != null)
 			{
 				this.Transform = curentMatrix;
+				curentMatrix.Dispose();
 			}
 		}
 
@@ -2718,7 +2726,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			RectangleF rect;
 			SizeF size;
-			Matrix oldTransform;
 			PointF rotationCenter = PointF.Empty;
 
 			// Check that rectangle is not empty
@@ -2749,12 +2756,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				rotationCenter.X = ( rect.Left + rect.Right ) / 2;
 				rotationCenter.Y = ( rect.Bottom + rect.Top ) / 2;
 			}
+
 			// Create a matrix and rotate it.
-			_myMatrix = this.Transform.Clone();
+			_myMatrix?.Dispose();
+			_myMatrix = this.Transform;
 			_myMatrix.RotateAt( angle, rotationCenter);
 
 			// Old angle
-			oldTransform = this.Transform;
+			using var oldTransform = this.Transform;
 
 			// Set Angle
 			this.Transform = _myMatrix;
@@ -3396,31 +3405,32 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// For inset alignment resize fill rectangle
 			RectangleF fillRect;
-			if( penAlignment == PenAlignment.Inset  &&
-				borderWidth > 0)
+			if( penAlignment == PenAlignment.Inset  && borderWidth > 0)
 			{
-				// SVG and Metafiles do not support inset pen styles - use same rectangle
-				if( this.ActiveRenderingType == RenderingType.Svg ||
-					this.IsMetafile)
+				// SVG and Meta files do not support inset pen styles - use same rectangle
+				if (this.ActiveRenderingType == RenderingType.Svg || this.IsMetafile)
 				{
-					fillRect = new RectangleF( rect.X, rect.Y, rect.Width, rect.Height);
+					fillRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 				}
-                else if (this.Graphics.Transform.Elements[0] != 1f ||
-                    this.Graphics.Transform.Elements[3] != 1f)
-                {
-                    // Do not reduce filling rectangle if scaling is used in the graphics
-                    // transformations. Rounding may cause a 1 pixel gap between the border 
-                    // and the filling.
-                    fillRect = new RectangleF( rect.X, rect.Y, rect.Width, rect.Height);
-                }
 				else
 				{
-					// The fill rectangle is resized because of border size.
-					fillRect = new RectangleF( 
-						rect.X + borderWidth, 
-						rect.Y + borderWidth, 
-						rect.Width - borderWidth * 2f + 1, 
-						rect.Height - borderWidth * 2f + 1);
+					using var mt = this.Graphics.Transform;
+					if (mt.Elements[0] != 1f || mt.Elements[3] != 1f)
+					{
+						// Do not reduce filling rectangle if scaling is used in the graphics
+						// transformations. Rounding may cause a 1 pixel gap between the border 
+						// and the filling.
+						fillRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+					}
+					else
+					{
+						// The fill rectangle is resized because of border size.
+						fillRect = new RectangleF(
+							rect.X + borderWidth,
+							rect.Y + borderWidth,
+							rect.Width - borderWidth * 2f + 1,
+							rect.Height - borderWidth * 2f + 1);
+					}
 				}
 			}
 			else
