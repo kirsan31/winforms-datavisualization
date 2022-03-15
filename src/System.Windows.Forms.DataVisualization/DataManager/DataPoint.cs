@@ -2389,7 +2389,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     ChartElementType.DataPoint,
                     result,
                     KeywordName.Percent,
-                    (this.YValues[0] / (this.series.GetTotalYValue())),
+                    this.YValues[0] / (this.series.GetTotalYValue()),
                     ChartValueType.Double,
                     "P");
 
@@ -2412,36 +2412,39 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         string.Empty);
                 }
 
-                // remove keywords #VAL? for unexisted Y value indices
-                for (int index = this.YValues.Length; index <= 7; index++)
+                if (result.Contains(KeywordName.ValY, StringComparison.Ordinal))
                 {
-                    result = RemoveOneKeyword(result, KeywordName.ValY + index + 1);
-                }
+                    // remove keywords #VALY? for unexcited Y value indexes
+                    for (int index = this.YValues.Length; index <= 7; index++)
+                    {
+                        result = RemoveOneKeyword(result, KeywordName.ValY + index + 1);
+                    }
 
-                for (int index = 1; index <= this.YValues.Length; index++)
-                {
+                    for (int index = 1; index <= this.YValues.Length; index++)
+                    {
+                        result = this.series.ReplaceOneKeyword(
+                            this.Chart,
+                            this,
+                            this.Tag,
+                            ChartElementType.DataPoint,
+                            result,
+                            KeywordName.ValY + index,
+                            this.YValues[index - 1],
+                            this.series.YValueType,
+                            string.Empty);
+                    }
+
                     result = this.series.ReplaceOneKeyword(
-                        this.Chart,
+                        Chart,
                         this,
                         this.Tag,
                         ChartElementType.DataPoint,
                         result,
-                        KeywordName.ValY + index,
-                        this.YValues[index - 1],
+                        KeywordName.ValY,
+                        this.YValues[0],
                         this.series.YValueType,
                         string.Empty);
                 }
-
-                result = this.series.ReplaceOneKeyword(
-                    Chart,
-                    this,
-                    this.Tag,
-                    ChartElementType.DataPoint,
-                    result,
-                    KeywordName.ValY,
-                    this.YValues[0],
-                    this.series.YValueType,
-                    string.Empty);
 
                 result = this.series.ReplaceOneKeyword(
                     Chart,
