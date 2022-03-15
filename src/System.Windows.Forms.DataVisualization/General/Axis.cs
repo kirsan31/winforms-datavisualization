@@ -3157,7 +3157,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.Title.Length > 0)
             {
                 // Measure axis title
-                SizeF titleStringSize = chartGraph.MeasureStringRel(this.Title.Replace("\\n", "\n"), this.TitleFont, new SizeF(10000f, 10000f), StringFormat.GenericTypographic, this.GetTextOrientation());
+                using var sf = StringFormat.GenericTypographic;
+                SizeF titleStringSize = chartGraph.MeasureStringRel(this.Title.Replace("\\n", "\n"), this.TitleFont, new SizeF(10000f, 10000f), sf, this.GetTextOrientation());
 
                 // Switch Width & Heigth for vertical axes
                 // If axis is horizontal

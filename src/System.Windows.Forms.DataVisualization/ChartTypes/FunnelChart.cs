@@ -1486,12 +1486,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Start Svg Selection mode
 					this.Graph.StartHotRegion( labelInfo.Point );
 
+					using var sf = StringFormat.GenericTypographic;
 					// Get size of a single character used for spacing
 					SizeF spacing = this.Graph.MeasureString(
 						"W",
 						labelInfo.Point.Font,
 						new SizeF(1000f, 1000F),
-						StringFormat.GenericTypographic );
+						sf );
 
 					// Draw a callout line
 					if( !labelInfo.CalloutPoint1.IsEmpty &&
@@ -1638,11 +1639,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							}
 
 							// Measure string size
+							using var sf = StringFormat.GenericTypographic;
 							labelInfo.Size = this.Graph.MeasureString(
 								labelInfo.Text,
 								point.Font,
 								plotAreaPositionAbs.Size,
-								StringFormat.GenericTypographic);
+								sf);
 							
 							// Add label information into the list
 							if(labelInfo.Text.Length > 0 &&

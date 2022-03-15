@@ -517,7 +517,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Draw text
 			using( Brush textBrush = new SolidBrush(this.ForeColor) )
 			{
-                using (StringFormat format = new StringFormat(StringFormat.GenericTypographic))
+                using (StringFormat format = StringFormat.GenericTypographic)
                 {
                     //***************************************************************
 				    //** Set text format
@@ -890,11 +890,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if(GetGraphics() != null && this.Text.Trim().Length > 0)
 			{
 				// Measure text using current font and slightly increase it
-                contentSize = GetGraphics().MeasureString(
+				using var sf = StringFormat.GenericTypographic;
+				contentSize = GetGraphics().MeasureString(
                      "W" + this.ReplaceKeywords(this.Text.Replace("\\n", "\n")),
                      this.Font,
                      new SizeF(2000, 2000),
-                     StringFormat.GenericTypographic);
+                     sf);
 
 				contentSize.Height *= 1.04f;
 

@@ -1035,7 +1035,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                     // Get point label style attribute
                     SizeF sizeMarker = new SizeF(markerSize, markerSize);
-                    SizeF sizeFont = graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic);
+					using var sf = StringFormat.GenericTypographic;
+					SizeF sizeFont = graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf);
 
                     // Increase label size when background is drawn
                     SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);

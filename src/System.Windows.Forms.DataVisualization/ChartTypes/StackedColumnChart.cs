@@ -1141,12 +1141,13 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         // Check if Smart Labels are enabled
                         if (series.SmartLabelStyle.Enabled)
                         {
+                            using var sf = StringFormat.GenericTypographic;
                             sizeFont = graph.GetRelativeSize(
                                 graph.MeasureString(
                                 text,
                                 point.Font,
                                 new SizeF(1000f, 1000f),
-                                StringFormat.GenericTypographic));
+                                sf));
                             // Force some SmartLabelStyle settings for column chart
                             bool oldMarkerOverlapping = series.SmartLabelStyle.IsMarkerOverlappingAllowed;
                             LabelAlignmentStyles oldMovingDirection = series.SmartLabelStyle.MovingDirection;
@@ -1195,12 +1196,13 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                             // Measure string
                             if (sizeFont.IsEmpty)
                             {
+                                using var sf = StringFormat.GenericTypographic;
                                 sizeFont = graph.GetRelativeSize(
                                     graph.MeasureString(
                                     text,
                                     point.Font,
                                     new SizeF(1000f, 1000f),
-                                    StringFormat.GenericTypographic));
+                                    sf));
                             }
 
                             // Get label background position
@@ -1861,12 +1863,13 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     // Check if Smart Labels are enabled
                     if (series.SmartLabelStyle.Enabled)
                     {
+                        using var sf = StringFormat.GenericTypographic;
                         sizeFont = graph.GetRelativeSize(
                             graph.MeasureString(
                             text,
                             point.Font,
                             new SizeF(1000f, 1000f),
-                            StringFormat.GenericTypographic));
+                            sf));
 
                         // Force some SmartLabelStyle settings for column chart
                         bool oldMarkerOverlapping = series.SmartLabelStyle.IsMarkerOverlappingAllowed;
@@ -1907,12 +1910,13 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         // Measure string
                         if (sizeFont.IsEmpty)
                         {
+                            using var sf = StringFormat.GenericTypographic;
                             sizeFont = graph.GetRelativeSize(
                                 graph.MeasureString(
                                 text,
                                 point.Font,
                                 new SizeF(1000f, 1000f),
-                                StringFormat.GenericTypographic));
+                                sf));
                         }
 
                         // Get label background position

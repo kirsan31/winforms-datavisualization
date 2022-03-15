@@ -532,7 +532,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Draw text
 					using( Brush textBrush = new SolidBrush(this.ForeColor) )
 					{
-                        using (StringFormat format = new StringFormat(StringFormat.GenericTypographic))
+                        using (StringFormat format = StringFormat.GenericTypographic)
                         {
                             format.Alignment = StringAlignment.Center;
                             format.LineAlignment = StringAlignment.Center;

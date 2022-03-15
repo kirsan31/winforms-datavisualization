@@ -997,12 +997,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 labelPosition = graph.GetRelativePoint(labelPosition);
 
                                 // Measure string
+                                using var sf = StringFormat.GenericTypographic;
                                 SizeF sizeFont = graph.GetRelativeSize(
                                     graph.MeasureString(
                                     text,
                                     point.Font,
                                     new SizeF(1000f, 1000f),
-                                    StringFormat.GenericTypographic));
+                                    sf));
 
                                 // Get label background position
                                 RectangleF labelBackPosition = RectangleF.Empty;
@@ -1479,12 +1480,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     area.matrix3D.TransformPoints(points);
 
                     // Measure string
+                    using var sf = StringFormat.GenericTypographic;
                     SizeF sizeFont = graph.GetRelativeSize(
                         graph.MeasureString(
                         text,
                         pointEx.dataPoint.Font,
                         new SizeF(1000f, 1000f),
-                        StringFormat.GenericTypographic));
+                        sf));
 
                     // Get label background position
                     RectangleF labelBackPosition = RectangleF.Empty;

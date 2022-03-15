@@ -1052,12 +1052,13 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         //************************************************************
                         // Measure string
                         //************************************************************
+                        using var sf = StringFormat.GenericTypographic;
                         SizeF sizeFont = graph.GetRelativeSize(
                             graph.MeasureString(
                             text,
                             point.Font,
                             new SizeF(1000f, 1000f),
-                            StringFormat.GenericTypographic));
+                            sf));
 
                         //************************************************************
                         // Check labels style custom properties 
@@ -1987,12 +1988,13 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     // Check if Smart Labels are enabled
                     if (ser.SmartLabelStyle.Enabled)
                     {
+                        using var sf = StringFormat.GenericTypographic;
                         sizeFont = graph.GetRelativeSize(
                             graph.MeasureString(
                             text,
                             point.Font,
                             new SizeF(1000f, 1000f),
-                            StringFormat.GenericTypographic));
+                            sf));
 
                         // Force some SmartLabelStyle settings for column chart
                         bool oldMarkerOverlapping = ser.SmartLabelStyle.IsMarkerOverlappingAllowed;
@@ -2036,7 +2038,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         // Measure string
                         if (sizeFont.IsEmpty)
                         {
-                            using var formatTmp = new StringFormat(StringFormat.GenericTypographic);
+                            using var formatTmp = StringFormat.GenericTypographic;
                             sizeFont = graph.GetRelativeSize(
                                 graph.MeasureString(
                                 text,

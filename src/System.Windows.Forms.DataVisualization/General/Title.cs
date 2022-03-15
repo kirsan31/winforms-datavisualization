@@ -1163,11 +1163,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 					// Measure text size
 					layoutArea = chartGraph.GetAbsoluteSize(layoutArea);
+					using var sf = StringFormat.GenericDefault;
 					SizeF titleSize = chartGraph.MeasureString(
 						"W" + titleText.Replace("\\n", "\n"), 
 						this.Font, 
 						layoutArea, 
-						StringFormat.GenericDefault,
+						sf,
                         this.GetTextOrientation());
 
                     // Increase text size by 4 pixels
@@ -1256,11 +1257,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				// Adjust text position to be only around the text itself
 				SizeF titleArea = chartGraph.GetAbsoluteSize(titlePosition.Size);
+				using var sf = StringFormat.GenericDefault;
 				SizeF titleSize = chartGraph.MeasureString(
                     "W" + titleText.Replace("\\n", "\n"), 
 					this.Font, 
 					titleArea,
-                    StringFormat.GenericDefault,
+                    sf,
                     this.GetTextOrientation());
 
 				// Convert text size to relative coordinates
@@ -1650,11 +1652,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			layoutArea.Width -= 2f * elementSpacing;
 			layoutArea.Height -= 2f * elementSpacing;
 			layoutArea = chartGraph.GetAbsoluteSize(layoutArea);
+			using var sf = StringFormat.GenericDefault;
 			SizeF titleSize = chartGraph.MeasureString(
                 "W" + this.Text.Replace("\\n", "\n"), 
 				this.Font, 
 				layoutArea, 
-				StringFormat.GenericDefault,
+				sf,
                 this.GetTextOrientation());
 
             // Increase text size by 4 pixels

@@ -1754,7 +1754,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             using (SolidBrush fontBrush = new SolidBrush(this.GetCellForeColor()))
             {
                 // Create cell text format
-                using (StringFormat format = new StringFormat(StringFormat.GenericDefault))
+                using (StringFormat format = StringFormat.GenericDefault)
                 {
                     format.FormatFlags = StringFormatFlags.LineLimit;
                     format.Trimming = StringTrimming.EllipsisCharacter;

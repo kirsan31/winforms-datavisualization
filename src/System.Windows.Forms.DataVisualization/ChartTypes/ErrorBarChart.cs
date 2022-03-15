@@ -958,8 +958,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         if (ser.SmartLabelStyle.Enabled)
                         {
                             // Get text size
-                            sizeFont = graph.GetRelativeSize(
-                                graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
+                            using var sf = StringFormat.GenericTypographic;
+                            sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
 
                             // Adjust label position using SmartLabelStyle algorithm
                             position = area.smartLabels.AdjustSmartLabelPosition(
@@ -986,8 +986,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             // Get text size
                             if (sizeFont.IsEmpty)
                             {
-                                sizeFont = graph.GetRelativeSize(
-                                    graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
+                                using var sf = StringFormat.GenericTypographic;
+                                sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
                             }
 
                             // Get label background position

@@ -3828,11 +3828,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 titleMaxSize.Width -= this.GetBorderSize() * 2 + this._offset.Width;
 
                 // Measure title text size
+                using var sf = StringFormat.GenericTypographic;
                 titleSize = chartGraph.MeasureStringAbs(
                     this.Title.Replace("\\n", "\n"),
                     this.TitleFont,
                     titleMaxSize,
-                    StringFormat.GenericTypographic);
+                    sf);
 
                 // Add text spacing
                 titleSize.Height += this._offset.Height;

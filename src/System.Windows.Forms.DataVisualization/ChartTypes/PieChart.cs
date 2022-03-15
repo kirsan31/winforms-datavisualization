@@ -1223,12 +1223,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     format.Alignment = StringAlignment.Center;
                     format.LineAlignment = StringAlignment.Center;
 
-                    SizeF sizeFont = graph.GetRelativeSize(
+					using var sf = StringFormat.GenericTypographic;
+					SizeF sizeFont = graph.GetRelativeSize(
                         graph.MeasureString(
                         text.Replace("\\n", "\n"),
                         point.Font,
                         new SizeF(1000f, 1000f),
-                        StringFormat.GenericTypographic));
+                        sf));
 
                     // Get label background position
                     RectangleF labelBackPosition = RectangleF.Empty;
@@ -5528,7 +5529,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			format.LineAlignment = StringAlignment.Center;
 			format.Alignment = StringAlignment.Center;
 
-			using StringFormat format2 = new StringFormat(StringFormat.GenericTypographic);
+			using StringFormat format2 = StringFormat.GenericTypographic;
 
 			// Take label text
 			string text = GetLabelText( point );

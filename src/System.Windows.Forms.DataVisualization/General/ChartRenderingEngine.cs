@@ -281,14 +281,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			StringFormat format
 			)
 		{
-            using (StringFormat fmt = (StringFormat)format.Clone())
-            {
-                if ( IsRightToLeft )
-                    fmt.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
-                if (!IsTextClipped && (fmt.FormatFlags & StringFormatFlags.NoClip) != StringFormatFlags.NoClip)
-                    fmt.FormatFlags |= StringFormatFlags.NoClip;
-                RenderingObject.DrawString(s, font, brush, layoutRectangle, fmt);
-            }
+			if (IsRightToLeft || (!IsTextClipped && (format.FormatFlags & StringFormatFlags.NoClip) != StringFormatFlags.NoClip))
+			{
+				using (StringFormat fmt = (StringFormat)format.Clone())
+				{
+					if (IsRightToLeft)
+						fmt.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
+					if (!IsTextClipped && (fmt.FormatFlags & StringFormatFlags.NoClip) != StringFormatFlags.NoClip)
+						fmt.FormatFlags |= StringFormatFlags.NoClip;
+					RenderingObject.DrawString(s, font, brush, layoutRectangle, fmt);
+				}
+			}
+			else
+				RenderingObject.DrawString(s, font, brush, layoutRectangle, format);
 		}
 
 		/// <summary>

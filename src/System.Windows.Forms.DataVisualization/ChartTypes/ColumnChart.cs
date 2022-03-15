@@ -1218,8 +1218,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     // Start Svg Selection mode
                     graph.StartHotRegion(point, true);
 
-                    // Get string size
-                    SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
+					// Get string size
+					using var sf = StringFormat.GenericTypographic;
+					SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
 
                     // Get label background position
                     RectangleF labelBackPosition = RectangleF.Empty;
@@ -1342,8 +1343,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     // Start Svg Selection mode
                     graph.StartHotRegion(point, true);
 
-                    // Get string size
-                    SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
+					// Get string size
+					using var sf = StringFormat.GenericTypographic;
+					SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
 
                     // Get label background position
                     RectangleF labelBackPosition = RectangleF.Empty;
