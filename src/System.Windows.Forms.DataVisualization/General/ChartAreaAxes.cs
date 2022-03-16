@@ -18,6 +18,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 
 namespace System.Windows.Forms.DataVisualization.Charting
@@ -48,7 +49,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// List of series names that last interval numbers where cashed for
         /// </summary>
-        private string _intervalSeriesList = "";
+        private string _intervalSeriesList = string.Empty;
 
         // Minimum interval between two data points for all 
         // series which belong to this chart area.
@@ -1701,15 +1702,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
             sameInterval = true;
             series = null;
 
-            // Create comma separate string of series names
-            string seriesNames = "";
-            if (seriesList != null)
+            // Create string of series names
+            string seriesNames;
+
+            if (seriesList?.Count > 1)
             {
+                StringBuilder sb = new StringBuilder();
                 foreach (string serName in seriesList)
-                {
-                    seriesNames += serName + ",";
-                }
+                    sb.Append(serName);
+
+                seriesNames = sb.ToString();
             }
+            else if (seriesList?.Count == 1)
+                seriesNames = seriesList[0];
+            else
+                seriesNames = string.Empty;
 
             // Do not calculate interval every time;
             if (checkSameInterval == false || diffIntervalAlignmentChecked == true)
