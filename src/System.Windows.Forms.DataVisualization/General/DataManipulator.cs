@@ -229,8 +229,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Data manipulator helper functions
 
         /// <summary>
-        /// Helper function that converts one series or a comma separated
-        /// list of series names into the Series array.
+        /// Helper function that converts one series, or a comma separated list of series names, or collection (<see cref="IList{T}"/>) of series names into the Series array.
         /// </summary>
         /// <param name="obj">Series or string of series names.</param>
         /// <param name="createNew">If series with this name do not exist - create new.</param>
@@ -239,22 +238,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             Series[] array = null;
 
-            if (obj == null)
+            if (obj is null)
             {
                 return null;
             }
 
             // Parameter is one series
-            if (obj.GetType() == typeof(Series))
+            if (obj is Series ser)
             {
-                array = new Series[1];
-                array[0] = (Series)obj;
+                array = new Series[1] { ser };
             }
 
             // Parameter is a string (comma separated series names)
-            else if (obj.GetType() == typeof(string))
+            else if (obj is string series)
             {
-                string series = (string)obj;
                 int index = 0;
 
                 // "*" means process all series from the collection
@@ -295,7 +292,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             array[index] = Common.DataManager.Series[seriesName.Trim()];
                         }
-                        catch (System.Exception)
+                        catch (Exception)
                         {
                             if (createNew)
                             {
@@ -311,6 +308,35 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                         ++index;
                     }
+                }
+            }
+            else if (obj is IList<string> serList)
+            {
+                int index = 0;
+                // Create array of series
+                array = new Series[serList.Count];
+
+                foreach (string seriesName in serList)
+                {
+                    try
+                    {
+                        array[index] = Common.DataManager.Series[seriesName];
+                    }
+                    catch (Exception)
+                    {
+                        if (createNew)
+                        {
+                            Series newSeries = new Series(seriesName);
+                            Common.DataManager.Series.Add(newSeries);
+                            array[index] = newSeries;
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+
+                    ++index;
                 }
             }
 

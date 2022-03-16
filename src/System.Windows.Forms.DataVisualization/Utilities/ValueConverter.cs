@@ -41,9 +41,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			ChartValueType valueType,
 			ChartElementType elementType)
 		{
-            format = format ?? String.Empty;
+            format ??= string.Empty;
             string	convertionFormat = format;
-			string	result = "";
+			string	result = string.Empty;
 
 			// Make sure value index is part of the format
 			if(convertionFormat != null && convertionFormat.Length > 0)
@@ -56,7 +56,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 						// If format is not followed by the value index
 						if(!convertionFormat.Substring(bracketIndex).StartsWith("{0:", StringComparison.Ordinal))
 						{
-							// Check charcter prior to the bracket
+							// Check character prior to the bracket
 							if(bracketIndex >= 1 && convertionFormat.Substring(bracketIndex - 1, 1) == "{")
 							{
 								continue;

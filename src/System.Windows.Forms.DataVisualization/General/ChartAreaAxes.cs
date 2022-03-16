@@ -18,6 +18,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 
@@ -1436,34 +1437,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 for (int axisIndex = 0; axisIndex <= 1; axisIndex++)
                 {
                     List<string> seriesArray = this.GetXAxesSeries((axisIndex == 0) ? AxisType.Primary : AxisType.Secondary, string.Empty);
-                    if (seriesArray.Count > 0)
+                    if (seriesArray.Count > 0 && seriesArray.Any(sn => Common.DataManager.Series[sn].IsXValueIndexed))
                     {
-                        bool indexed = false;
-                        string seriesNamesStr = string.Empty;
-                        foreach (string seriesName in seriesArray)
+                        try
                         {
-                            seriesNamesStr = seriesNamesStr + seriesName.Replace(",", "\\,") + ",";
-                            if (Common.DataManager.Series[seriesName].IsXValueIndexed)
-                            {
-                                indexed = true;
-                            }
+                            Common.DataManipulator.CheckXValuesAlignment(Common.DataManipulator.ConvertToSeriesArray(seriesArray, false));
                         }
-
-                        if (indexed)
+                        catch (Exception e)
                         {
-                            try
-                            {
-                                Common.DataManipulator.CheckXValuesAlignment(
-                                    Common.DataManipulator.ConvertToSeriesArray(seriesNamesStr.TrimEnd(','), false));
-                            }
-                            catch (Exception e)
-                            {
-                                throw (new ArgumentException(SR.ExceptionAxisSeriesNotAligned + e.Message));
-                            }
+                            throw new ArgumentException(SR.ExceptionAxisSeriesNotAligned + e.Message);
                         }
                     }
                 }
             }
+
             if (initializeAxes)
             {
                 // Set default min, max etc.
