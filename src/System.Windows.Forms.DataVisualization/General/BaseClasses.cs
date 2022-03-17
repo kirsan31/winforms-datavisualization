@@ -240,16 +240,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (_name != value)
                 {
-                    if (Parent is INameController)
-                    {
-                        INameController nameController = Parent as INameController;
-                        
+                    if (Parent is INameController nameController)
+                    {                        
                         if (!nameController.IsUniqueName(value))
                             throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(value, nameController.GetType().Name));
                         
                         // Fire the name change events in case when the old name is not empty
                         NameReferenceChangedEventArgs args = new NameReferenceChangedEventArgs(this, _name, value);
                         nameController.OnNameReferenceChanging(args);
+                        nameController.ChangeName(_name, value);
                         _name = value;
                         nameController.OnNameReferenceChanged(args);
                     }

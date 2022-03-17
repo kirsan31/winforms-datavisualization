@@ -251,6 +251,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
         private List<T> _cachedState;
         private int _disableDeleteCount;
+        private readonly Dictionary<string, int> _nameIdxDic = new Dictionary<string, int>();
         #endregion
 
         #region Properties
@@ -279,6 +280,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 throw new ArgumentException(SR.ExceptionNameNotFound(name, this.GetType().Name));
             }
+
             set
             {
                 int nameIndex = this.IndexOf(name);
@@ -333,7 +335,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </returns>
         public virtual bool IsUniqueName(string name)
         {
-            return FindByName(name)==null;
+            return !_nameIdxDic.ContainsKey(name);
         }
 
         /// <summary>
@@ -345,14 +347,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Find unique name
             string result = string.Empty;
             string prefix = this.NamePrefix;
-            for (int i = 1; i < System.Int32.MaxValue; i++)
+            for (int i = 1; i < int.MaxValue; i++)
             {
                 result = prefix + i.ToString(CultureInfo.InvariantCulture);
                 // Check whether the name is unique
                 if (IsUniqueName(result))
-                {
                     break;
-                }
             }
             return result;
         }
@@ -364,13 +364,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns></returns>
         public int IndexOf(string name)
         {
-            int i = 0;
-            foreach (T namedObj in this)
-            {
-                if (namedObj.Name == name)
-                    return i;
-                i++;
-            }
+            if (_nameIdxDic.TryGetValue(name, out var index))
+                return index;
+
             return -1;
         }
 
@@ -380,7 +376,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="name">Chart element name.</param>
         internal void VerifyNameReference(string name)
         {
-            if (Chart!=null && !Chart.serializing && !IsNameReferenceValid(name))
+            if (Chart != null && !Chart.serializing && !IsNameReferenceValid(name))
                 throw new ArgumentException(SR.ExceptionNameNotFound(name, this.GetType().Name));
         }
 
@@ -390,7 +386,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="name">Chart element name.</param>
         internal bool IsNameReferenceValid(string name)
         {
-            return  String.IsNullOrEmpty(name) || 
+            return  string.IsNullOrEmpty(name) || 
                     name == Constants.NotSetValue ||
                     IndexOf(name) >= 0;
         }
@@ -402,11 +398,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns></returns>
         public virtual T FindByName(string name)
         {
-            foreach (T namedObj in this)
-            {
-                if (namedObj.Name == name)
-                    return namedObj;
-            }
+            int idx = IndexOf(name);
+            if (idx > -1)
+                return this[idx];
+
             return null;
         }
 
@@ -417,7 +412,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="item">The object to insert.</param>
         protected override void InsertItem(int index, T item)
         {
-            if (String.IsNullOrEmpty(item.Name))
+            if (string.IsNullOrEmpty(item.Name))
                 item.Name = this.NextUniqueName();
             else if (!IsUniqueName(item.Name))
                 throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(item.Name, this.GetType().Name));
@@ -425,7 +420,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //If the item references other named references we might need to fix the references
             FixNameReferences(item);
 
-            base.InsertItem(index, item);
+            _nameIdxDic.Add(item.Name, index);
+            base.InsertItem(index, item);            
 
             if (this.Count == 1 && item != null)
             { 
@@ -441,7 +437,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="item">The new value for the element at the specified index.</param>
         protected override void SetItem(int index, T item)
         {
-            if (String.IsNullOrEmpty(item.Name))
+            if (string.IsNullOrEmpty(item.Name))
                 item.Name = this.NextUniqueName();
             else if (!IsUniqueName(item.Name) && IndexOf(item.Name) != index)
                 throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(item.Name, this.GetType().Name));
@@ -450,10 +446,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             FixNameReferences(item);
 
             // Remember the removedElement
-            ChartNamedElement removedElement = index<Count ? this[index] : null;
-            
+            ChartNamedElement removedElement = index < Count ? this[index] : null;
+
             ((INameController)this).OnNameReferenceChanging(new NameReferenceChangedEventArgs(removedElement, item));
-            base.SetItem(index, item);
+            
+            base.SetItem(index, item); // if index < 0 or >= Count we will have ArgumentOutOfRangeException here
+            _nameIdxDic.Remove(removedElement.Name); // removedElement not null here
+            _nameIdxDic.Add(item.Name, index);
+
             // Fire the NameReferenceChanged event to update all the dependent elements
             ((INameController)this).OnNameReferenceChanged(new NameReferenceChangedEventArgs(removedElement, item));
         }
@@ -466,11 +466,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Remember the removedElement
             ChartNamedElement removedElement = index < Count ? this[index] : null;
+
             if (_disableDeleteCount == 0)
             {
-                ((INameController)this).OnNameReferenceChanged(new NameReferenceChangedEventArgs(removedElement, null));
-            }            
-            base.RemoveItem(index);
+                ((INameController)this).OnNameReferenceChanging(new NameReferenceChangedEventArgs(removedElement, null));
+            }
+            
+            base.RemoveItem(index); // if index < 0 or >= Count we will have ArgumentOutOfRangeException here
+            _nameIdxDic.Remove(removedElement.Name); // removedElement not null here
+
             if (_disableDeleteCount == 0)
             {
                 // All elements referencing the removed element will be redirected to the first element in collection
@@ -505,10 +509,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this instance is in edit mode by collecrtion editor.
+        /// Gets or sets a value indicating whether this instance is in edit mode by collection editor.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance the colection is editing; otherwise, <c>false</c>.
+        /// 	<c>true</c> if this instance the collection is editing; otherwise, <c>false</c>.
         /// </value>
         bool INameController.IsColectionEditing
         {
@@ -571,6 +575,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _cachedState.Clear();
                 _cachedState = null;
             }
+        }
+
+        /// <summary>
+        /// Change name.
+        /// </summary>
+        /// <param name="curName">Name of the current.</param>
+        /// <param name="newName">The new name.</param>
+        /// <exception cref="System.ArgumentException"></exception>
+        void INameController.ChangeName(string curName, string newName)
+        {
+            if (_nameIdxDic.Remove(curName, out var indx))
+                _nameIdxDic.Add(newName, indx);
+            else
+                throw new ArgumentException(SR.ExceptionNameNotFound(curName, this.GetType().Name));
         }
 
         /// <summary>
