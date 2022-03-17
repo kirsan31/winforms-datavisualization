@@ -10,6 +10,10 @@
     <DefineConstants>$(DefineConstants)</DefineConstants>
     <Platforms>AnyCPU</Platforms>
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+	<Deterministic>false</Deterministic>
+	<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+	<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+	<AssemblyVersion>1.1.*</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
