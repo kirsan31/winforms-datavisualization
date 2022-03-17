@@ -9,6 +9,7 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.ComponentModel.Design.Serialization;
@@ -2059,7 +2060,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// any).</remarks>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
             Justification = "X and Y are cartesian coordinates and well understood")]
-        public HitTestResult[] HitTest(int x, int y, bool ignoreTransparent, params ChartElementType[] requestedElement)
+        public IList<HitTestResult> HitTest(int x, int y, bool ignoreTransparent, params ChartElementType[] requestedElement)
         {
             return this.selection.HitTest(x, y, ignoreTransparent, requestedElement);
         }
