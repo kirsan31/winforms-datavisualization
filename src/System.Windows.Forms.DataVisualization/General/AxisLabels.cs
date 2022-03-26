@@ -768,7 +768,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Check if series has axis labels set
                 if ((axisType == AxisName.X || axisType == AxisName.X2) && (margin != 0 || maxPointCount == 1 || !this._autoMinimum) && !ser.IsXValueIndexed)
                 {
-                    if (ser.Points[0].AxisLabel.Length > 0 && ser.Points[ser.Points.Count - 1].AxisLabel.Length > 0)
+                    if (ser.Points.Count > 0 && ser.Points[0].AxisLabel.Length > 0 && ser.Points[^1].AxisLabel.Length > 0)
                     {
                         allEmpty = false;
                     }
@@ -784,8 +784,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
 
-                // VSTS 140676: Serach for IndexedSeriesLabelsSourceAttr attribute 
-                // to find if we have indexed series as source of formula generated nonindexed series.
+                // VSTS 140676: Search for IndexedSeriesLabelsSourceAttr attribute 
+                // to find if we have indexed series as source of formula generated non indexed series.
                 string labelSeriesName = ser[DataFormula.IndexedSeriesLabelsSourceAttr];
                 if (!string.IsNullOrEmpty(labelSeriesName))
                 {
