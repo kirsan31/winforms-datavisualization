@@ -276,7 +276,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 int index = this.IndexOf(name);
                 if (index != -1)
                 {
-                    return this[index];
+                    try
+                    {
+                        return this[index];
+                    }
+                    catch (ArgumentOutOfRangeException ex)
+                    {
+                        throw new ArgumentException(SR.ExceptionNameNotFound(name, this.GetType().Name), ex);
+                    }
                 }
                 throw new ArgumentException(SR.ExceptionNameNotFound(name, this.GetType().Name));
             }
@@ -419,9 +426,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             //If the item references other named references we might need to fix the references
             FixNameReferences(item);
-
+            
+            base.InsertItem(index, item); // if index < 0 or >= Count we will have ArgumentOutOfRangeException here
             _nameIdxDic.Add(item.Name, index);
-            base.InsertItem(index, item);            
 
             if (this.Count == 1 && item != null)
             { 
