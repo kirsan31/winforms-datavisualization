@@ -750,14 +750,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool indexedSeries
             )
         {
-            // Get max number of data points in the series
-            int maxPointCount = 0;
-            foreach (string seriesName in series)
-            {
-                Series ser = Common.DataManager.Series[seriesName];
-                maxPointCount = Math.Max(maxPointCount, ser.Points.Count);
-            }
-
+            int maxPointCount = -1;
             // Check if axis only contains axis labels
             bool allEmpty = true;
             foreach (string seriesName in series)
@@ -766,11 +759,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 Series ser = Common.DataManager.Series[seriesName];
 
                 // Check if series has axis labels set
-                if ((axisType == AxisName.X || axisType == AxisName.X2) && (margin != 0 || maxPointCount == 1 || !this._autoMinimum) && !ser.IsXValueIndexed)
+                if (allEmpty && (axisType == AxisName.X || axisType == AxisName.X2) && !ser.IsXValueIndexed &&
+                    ser.Points.Count > 0 && ser.Points[0].AxisLabel.Length > 0 && ser.Points[^1].AxisLabel.Length > 0)
                 {
-                    if (ser.Points.Count > 0 && ser.Points[0].AxisLabel.Length > 0 && ser.Points[^1].AxisLabel.Length > 0)
+                    if (margin != 0 || !this._autoMinimum)
                     {
                         allEmpty = false;
+                    }
+                    else // need to check maxPointCount - max number of data points in the series
+                    {
+                        if (maxPointCount == -1)
+                        {
+                            // Get max number of data points in the series
+                            maxPointCount = 0;
+                            foreach (string seriesN in series)
+                            {
+                                maxPointCount = Math.Max(maxPointCount, Common.DataManager.Series[seriesN].Points.Count);
+                            }
+                        }
+
+                        if (maxPointCount == 1)
+                            allEmpty = false;
                     }
                 }
 
