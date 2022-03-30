@@ -426,8 +426,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             //If the item references other named references we might need to fix the references
             FixNameReferences(item);
-            
+
+            bool needUpdDic = index < Count; // we need to increase all indexes >= index if inserting not to the end of the list
             base.InsertItem(index, item); // if index < 0 or >= Count we will have ArgumentOutOfRangeException here
+            if (needUpdDic)
+            {
+                foreach (var dEntry in _nameIdxDic)
+                {
+                    if (dEntry.Value >= index)
+                        _nameIdxDic[dEntry.Key] = dEntry.Value + 1;
+                }
+            }
+
             _nameIdxDic.Add(item.Name, index);
 
             if (this.Count == 1 && item != null)
@@ -478,9 +488,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 ((INameController)this).OnNameReferenceChanging(new NameReferenceChangedEventArgs(removedElement, null));
             }
-            
+
+            bool needUpdDic = index < Count - 1; // we need to decrease all indexes > index if removing not the last element
             base.RemoveItem(index); // if index < 0 or >= Count we will have ArgumentOutOfRangeException here
             _nameIdxDic.Remove(removedElement.Name); // removedElement not null here
+            if (needUpdDic)
+            {
+                foreach (var dEntry in _nameIdxDic)
+                {
+                    if (dEntry.Value > index)
+                        _nameIdxDic[dEntry.Key] = dEntry.Value - 1;
+                }
+            }            
 
             if (_disableDeleteCount == 0)
             {
