@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
+    <ProjectReference Include="..\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChartWin", "src\System.Wind
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChartSamples", "sample\ChartSamples\ChartSamples.csproj", "{E895DC8D-9781-4B0C-A792-11A0989CE720}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "src\Tests\Tests\Tests.csproj", "{E8E8B63C-4D8D-4986-A8F1-B7B84326321C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "src\Tests\Tests.csproj", "{E8E8B63C-4D8D-4986-A8F1-B7B84326321C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
