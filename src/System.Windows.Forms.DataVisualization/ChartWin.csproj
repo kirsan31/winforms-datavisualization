@@ -37,7 +37,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.WinForms.Designer.SDK" Version="1.0.0-prerelease-preview5.21520.4" />
+		<PackageReference Include="Microsoft.WinForms.Designer.SDK" Version="1.1.0-prerelease-preview3.22076.5" />
 	</ItemGroup>
 
 	<ItemGroup Label="Embedded Resources">
