@@ -11,95 +11,82 @@
 using System.ComponentModel.Design.Serialization;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
+
 using Microsoft.DotNet.DesignTools.Serialization;
 
-namespace System.Windows.Forms.Design.DataVisualization.Charting
+namespace System.Windows.Forms.Design.DataVisualization.Charting;
+
+/// <summary>
+/// Windows forms chart control designer class.
+/// </summary>
+internal class ChartWinDesignerSerializer : CodeDomSerializer
 {
-    /// <summary>
-    /// Windows forms chart control designer class.
-    /// </summary>
-    internal class ChartWinDesignerSerializer : CodeDomSerializer
+	#region Methods
+	/// <summary>
+	/// Serializes the specified object into a CodeDOM object.
+	/// </summary>
+	/// <param name="manager">A serialization manager interface that is used during the deserialization process.</param>
+	/// <param name="value">The object to serialize.</param>
+	/// <returns>A CodeDOM object representing the object that has been serialized.</returns>
+	public override object Serialize(IDesignerSerializationManager manager, object value)
 	{
-        #region Methods
-        /// <summary>
-        /// Serializes the specified object into a CodeDOM object.
-        /// </summary>
-        /// <param name="manager">A serialization manager interface that is used during the deserialization process.</param>
-        /// <param name="value">The object to serialize.</param>
-        /// <returns>A CodeDOM object representing the object that has been serialized.</returns>
-        public override object Serialize(IDesignerSerializationManager manager, object value)
+		// Set serialization flag
+		bool oldSerializationFlag = false;
+		SerializationStatus oldSerializationStatus = SerializationStatus.None;
+		Chart chart = value as Chart;
+		if (chart is not null)
 		{
-			// Set serialization flag
-			bool	oldSerializationFlag = false;
-            SerializationStatus oldSerializationStatus = SerializationStatus.None;
+			oldSerializationFlag = chart.serializing;
+			oldSerializationStatus = chart.serializationStatus;
 
-            Chart chart = value as Chart;
-			if(chart != null)
+			chart.serializing = true;
+			chart.serializationStatus = SerializationStatus.Saving;
+		}
+
+		// Serialize object using the base class serializer
+		object result = null;
+		CodeDomSerializer baseSerializer = (CodeDomSerializer)manager.GetSerializer(typeof(Chart).BaseType, typeof(CodeDomSerializer));
+		if (baseSerializer is not null)
+		{
+			result = IsSerialized(manager, value) ? GetExpression(manager, value) : baseSerializer.Serialize(manager, value);
+            // Custom serialization of the DataSource property
+            // Check if DataSource property is set
+            if (chart is not null && chart.DataSource is string dSstring && dSstring != "(none)" && result is CodeDom.CodeStatementCollection statements)
 			{
-                oldSerializationFlag = chart.serializing;
-                oldSerializationStatus = chart.serializationStatus;
-
-                chart.serializing = true;
-                chart.serializationStatus = SerializationStatus.Saving;
-			}
-
-			// Serialize object using the base class serializer
-			object	result = null;
-			CodeDomSerializer baseSerializer = (CodeDomSerializer)manager.GetSerializer(typeof(Chart).BaseType, typeof(CodeDomSerializer));
-			if(baseSerializer != null)
-			{
-				result = baseSerializer.Serialize(manager, value);
-
-                System.CodeDom.CodeStatementCollection statements = result as System.CodeDom.CodeStatementCollection;
-
-				// Sustom serialization of the DataSource property
-                if (statements != null && chart != null) 
+                // Add assignment statement for the DataSource property
+                CodeDom.CodeExpression targetObject = base.SerializeToExpression(manager, value);
+				if (targetObject is not null)
 				{
-					// Check if DataSource property is set 
-					if(chart.DataSource != null && chart.DataSource is String && ((String)chart.DataSource) != "(none)")
-					{
-						// Add assignment statement for the DataSource property
-						System.CodeDom.CodeExpression targetObject = 
-							base.SerializeToExpression(manager, value);
-						if (targetObject != null) 
-						{
-							System.CodeDom.CodeAssignStatement assignStatement = new System.CodeDom.CodeAssignStatement(
-								new System.CodeDom.CodePropertyReferenceExpression (targetObject, "DataSource"),
-								new System.CodeDom.CodePropertyReferenceExpression (new System.CodeDom.CodeThisReferenceExpression(), (String)chart.DataSource));
-							statements.Add(assignStatement);
-						}
-					}
+					CodeDom.CodeAssignStatement assignStatement = new CodeDom.CodeAssignStatement(
+						new CodeDom.CodePropertyReferenceExpression(targetObject, "DataSource"),
+						new CodeDom.CodePropertyReferenceExpression(new CodeDom.CodeThisReferenceExpression(), dSstring));
+					statements.Add(assignStatement);
 				}
 			}
-
-			// Clear serialization flag
-			if(chart != null)
-			{
-                chart.serializing = oldSerializationFlag;
-                chart.serializationStatus = oldSerializationStatus;
-			}
-
-			return result;
 		}
 
-		/// <summary>
-		/// Deserializes the specified serialized CodeDOM object into an object.
-		/// </summary>
-		/// <param name="manager">A serialization manager interface that is used during the deserialization process.</param>
-		/// <param name="codeObject">A serialized CodeDOM object to deserialize.</param>
-		/// <returns>The deserialized CodeDOM object.</returns>
-		public override object Deserialize(IDesignerSerializationManager manager,object codeObject)
+		// Clear serialization flag
+		if (chart is not null)
 		{
-			CodeDomSerializer baseSerializer = (CodeDomSerializer)manager.GetSerializer(typeof(Chart).BaseType, typeof(CodeDomSerializer));
-			if(baseSerializer != null)
-			{
-				return baseSerializer.Deserialize(manager, codeObject);
-			}
-
-			return null;
+			chart.serializing = oldSerializationFlag;
+			chart.serializationStatus = oldSerializationStatus;
 		}
 
-		#endregion
+		return result;
 	}
+
+	/// <summary>
+	/// Deserializes the specified serialized CodeDOM object into an object.
+	/// </summary>
+	/// <param name="manager">A serialization manager interface that is used during the deserialization process.</param>
+	/// <param name="codeObject">A serialized CodeDOM object to deserialize.</param>
+	/// <returns>The deserialized CodeDOM object.</returns>
+	public override object Deserialize(IDesignerSerializationManager manager, object codeObject)
+	{
+		CodeDomSerializer baseSerializer = (CodeDomSerializer)manager.GetSerializer(typeof(Chart).BaseType, typeof(CodeDomSerializer));
+		return baseSerializer?.Deserialize(manager, codeObject);
+	}
+
+	#endregion
 }
 
