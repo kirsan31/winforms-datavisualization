@@ -168,7 +168,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     int seriesCount = GetSeriesCount(common, area);
                     return 100.0 / seriesCount;
                 }
-                return (point.YValues[0] / _totalPerPoint[pointIndex]) * 100.0;
+                return point.YValues[0] / _totalPerPoint[pointIndex] * 100.0;
             }
 
             // Get point Height if pointIndex == -1
@@ -213,7 +213,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     String.Compare(series.ChartTypeName, ser.ChartTypeName, true, System.Globalization.CultureInfo.CurrentCulture) == 0 &&
                     series.IsVisible())
                 {
-                    yValue = (ser.Points[pointIndex].YValues[0] / _totalPerPoint[pointIndex]) * 100.0;
+                    yValue = ser.Points[pointIndex].YValues[0] / _totalPerPoint[pointIndex] * 100.0;
 
                     // Fix of bug #677411 - Dev10 3D stacked area throws an exception when casting NaN to decimal
                     if (double.IsNaN(yValue) && _totalPerPoint[pointIndex] == 0)
@@ -445,7 +445,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
                 else if (seriesPointsNumber != ser.Points.Count)
                 {
-                    throw (new ArgumentException(SR.ExceptionStackedAreaChartSeriesDataPointsNumberMismatch));
+                    throw new ArgumentException(SR.ExceptionStackedAreaChartSeriesDataPointsNumberMismatch);
                 }
 
                 // Set active horizontal/vertical axis
@@ -491,8 +491,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     point.positionRel = new PointF(float.NaN, float.NaN);
 
                     // Get point value					
-                    double yValue = (point.IsEmpty) ? 0.0 : GetYValue(common, area, ser, point, index, 0);
-                    double xValue = (indexedSeries) ? (index + 1.0) : point.XValue;
+                    double yValue = point.IsEmpty ? 0.0 : GetYValue(common, area, ser, point, index, 0);
+                    double xValue = indexedSeries ? (index + 1.0) : point.XValue;
 
                     // Adjust point position with previous value
                     if (prevPointsArray != null && index < prevPointsArray.Count)
@@ -555,7 +555,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         if (common.ProcessModePaint)
                         {
                             // Get previous point value					
-                            double xPrevValue = (indexedSeries) ? (index) : ser.Points[index - 1].XValue;
+                            double xPrevValue = indexedSeries ? index : ser.Points[index - 1].XValue;
 
                             // Check if line is completely out of the data scaleView
                             if ((xValue <= hAxisMin && xPrevValue <= hAxisMin) ||
@@ -598,7 +598,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             }
 
                             // Check if we need second loop to draw area border
-                            if ((point.BorderColor != Color.Empty && point.BorderWidth > 0))
+                            if (point.BorderColor != Color.Empty && point.BorderWidth > 0)
                             {
                                 requiresSecondPointLoop = true;
                             }
@@ -808,8 +808,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     foreach (DataPoint point in ser.Points)
                     {
                         // Get point value					
-                        double yValue = (point.IsEmpty) ? 0.0 : GetYValue(common, area, ser, point, index, 0);
-                        double xValue = (indexedSeries) ? (index + 1.0) : point.XValue;
+                        double yValue = point.IsEmpty ? 0.0 : GetYValue(common, area, ser, point, index, 0);
+                        double xValue = indexedSeries ? (index + 1.0) : point.XValue;
 
                         // Adjust point position with previous value
                         if (prevPointsArray != null && index < prevPointsArray.Count)
@@ -913,8 +913,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     foreach (DataPoint point in ser.Points)
                     {
                         // Get point value					
-                        double yValue = (point.IsEmpty) ? 0.0 : GetYValue(common, area, ser, point, index, 0);
-                        double xValue = (indexedSeries) ? (index + 1.0) : point.XValue;
+                        double yValue = point.IsEmpty ? 0.0 : GetYValue(common, area, ser, point, index, 0);
+                        double xValue = indexedSeries ? (index + 1.0) : point.XValue;
 
                         // Adjust point position with previous value
                         if (prevPointsArray != null && index < prevPointsArray.Count)
@@ -1127,7 +1127,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Draw labels in the third loop
             else
             {
-                DataPoint3D pointEx = ((DataPoint3D)points[pointIndex]);
+                DataPoint3D pointEx = (DataPoint3D)points[pointIndex];
 
                 // Draw label for the first point
                 if (pointEx.index == 2)
@@ -1441,7 +1441,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Draw data point value label
             // ****************************
             if ((!pointEx.dataPoint.IsEmpty && (pointEx.dataPoint.series.IsValueShownAsLabel || pointShowLabelAsValue || pointLabel.Length > 0)) ||
-                (pointShowLabelAsValue || pointLabel.Length > 0))
+                pointShowLabelAsValue || pointLabel.Length > 0)
             {
                 // Label text format
                 using (StringFormat format = new StringFormat())

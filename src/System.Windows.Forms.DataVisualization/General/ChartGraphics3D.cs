@@ -556,8 +556,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         path.AddLine(bottomCenter, topCenter);
                     }
                     // Get surface colors
-                    Color frontLightColor, leftLightColor, topLightColor, backLightColor, rightLightColor, bottomLightColor;
-                    area.matrix3D.GetLight(brush.Color, out frontLightColor, out backLightColor, out leftLightColor, out rightLightColor, out topLightColor, out bottomLightColor);
+                    area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
 
                     Color lightColor;
                     if (area.Area3DStyle.Inclination < 0)
@@ -617,8 +616,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Get surface colors
-                    Color frontLightColor, leftLightColor, topLightColor, backLightColor, rightLightColor, bottomLightColor;
-                    area.matrix3D.GetLight(brush.Color, out frontLightColor, out backLightColor, out leftLightColor, out rightLightColor, out topLightColor, out bottomLightColor);
+                    area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
 
                     Color lightColor;
                     if (area.Area3DStyle.Inclination < 0)
@@ -843,8 +841,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (common.ProcessModePaint)
                 {
                     // Get surface colors
-                    Color frontLightColor, leftLightColor, topLightColor, backLightColor, rightLightColor, bottomLightColor;
-                    area.matrix3D.GetLight(brush.Color, out frontLightColor, out backLightColor, out leftLightColor, out rightLightColor, out topLightColor, out bottomLightColor);
+                    area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
 
                     Pen newPen = (Pen)pen.Clone();
 
@@ -975,8 +972,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (common.ProcessModePaint)
                 {
                     // Get surface colors
-                    Color frontLightColor, leftLightColor, topLightColor, backLightColor, rightLightColor, bottomLightColor;
-                    area.matrix3D.GetLight(brush.Color, out frontLightColor, out backLightColor, out leftLightColor, out rightLightColor, out topLightColor, out bottomLightColor);
+                    area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
 
                     Pen newPen = (Pen)pen.Clone();
 
@@ -1090,30 +1086,30 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Make all angles to be between -90 and 90.			
             if (angle > -90 && angle < 90)
             {
-                angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
+                angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
             }
             else if (angle > -270 && angle < -90)
             {
                 angle = angle + 180;
-                angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
+                angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
                 angle = angle - 180;
             }
             else if (angle > 90 && angle < 270)
             {
                 angle = angle - 180;
-                angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
+                angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
                 angle = angle + 180;
             }
             else if (angle > 270 && angle < 450)
             {
                 angle = angle - 360;
-                angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
+                angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
                 angle = angle + 360;
             }
             else if (angle > 450)
             {
                 angle = angle - 540;
-                angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
+                angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
                 angle = angle + 540;
             }
             return angle;
@@ -1158,7 +1154,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             SurfaceNames thinBorders)
         {
             // Create graphics path for selection
-            bool drawElements = ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement);
+            bool drawElements = (operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement;
             GraphicsPath resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
                 ? new GraphicsPath() : null;
 
@@ -1263,25 +1259,25 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (frontLinePoint1 != PointF.Empty && frontLinePen != null)
                 {
-                    if ((frontLinePoint1.X == polygonPoints[0].X &&
+                    if (frontLinePoint1.X == polygonPoints[0].X &&
                         frontLinePoint1.Y == polygonPoints[0].Y ||
                         frontLinePoint2.X == polygonPoints[1].X &&
-                        frontLinePoint2.Y == polygonPoints[1].Y) ||
+                        frontLinePoint2.Y == polygonPoints[1].Y ||
 
-                        (frontLinePoint1.X == polygonPoints[1].X &&
+                        frontLinePoint1.X == polygonPoints[1].X &&
                         frontLinePoint1.Y == polygonPoints[1].Y ||
                         frontLinePoint2.X == polygonPoints[0].X &&
-                        frontLinePoint2.Y == polygonPoints[0].Y) ||
+                        frontLinePoint2.Y == polygonPoints[0].Y ||
 
-                        (frontLinePoint1.X == polygonPoints[3].X &&
+                        frontLinePoint1.X == polygonPoints[3].X &&
                         frontLinePoint1.Y == polygonPoints[3].Y ||
                         frontLinePoint2.X == polygonPoints[2].X &&
-                        frontLinePoint2.Y == polygonPoints[2].Y) ||
+                        frontLinePoint2.Y == polygonPoints[2].Y ||
 
-                        (frontLinePoint1.X == polygonPoints[2].X &&
+                        frontLinePoint1.X == polygonPoints[2].X &&
                         frontLinePoint1.Y == polygonPoints[2].Y ||
                         frontLinePoint2.X == polygonPoints[3].X &&
-                        frontLinePoint2.Y == polygonPoints[3].Y))
+                        frontLinePoint2.Y == polygonPoints[3].Y)
                     {
                         // Do not draw the line if it will be overlapped with current
                     }
@@ -1748,7 +1744,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //**********************************************************************
             //** Create graphics path for selection
             //**********************************************************************
-            bool drawElements = ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement);
+            bool drawElements = (operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement;
             GraphicsPath resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath) ? new GraphicsPath() : null;
 
             //**********************************************************************
@@ -2209,7 +2205,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     LineSegmentType tempLineSegmentType = LineSegmentType.Single;
 
                     // Check left line visibility
-                    thickBorderOnLeft = (ChartGraphics.ShouldDrawLineChartSurface(
+                    thickBorderOnLeft = ChartGraphics.ShouldDrawLineChartSurface(
                         area,
                         reversedSeriesOrder,
                         SurfaceNames.Left,
@@ -2219,11 +2215,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         firstPoint,
                         secondPoint,
                         multiSeries,
-                        ref tempLineSegmentType) == 2);
+                        ref tempLineSegmentType) == 2;
 
 
                     // Check right line visibility
-                    thickBorderOnRight = (ChartGraphics.ShouldDrawLineChartSurface(
+                    thickBorderOnRight = ChartGraphics.ShouldDrawLineChartSurface(
                         area,
                         reversedSeriesOrder,
                         SurfaceNames.Right,
@@ -2233,7 +2229,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         firstPoint,
                         secondPoint,
                         multiSeries,
-                        ref tempLineSegmentType) == 2);
+                        ref tempLineSegmentType) == 2;
                 }
 
                 // Switch left & right border if series is reversed
@@ -2475,17 +2471,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool rightPointVisible = false;
             if (surfaceName == SurfaceNames.Left)
             {
-                // Find Left point 
-                DataPoint3D leftPoint = null, leftPointAttr = null;
                 int pointArrayIndex = int.MinValue;
+                // Find Left point 
+                DataPoint3D leftPoint;
+                DataPoint3D leftPointAttr;
                 if (!reversedSeriesOrder)
                 {
-                    leftPoint = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
-                    leftPointAttr = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), (multiSeries) ? secondPoint : null, ref pointArrayIndex);
+                    leftPoint = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
+                    leftPointAttr = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), multiSeries ? secondPoint : null, ref pointArrayIndex);
                 }
                 else
                 {
-                    leftPoint = ChartGraphics.FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
+                    leftPoint = ChartGraphics.FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
                     leftPointAttr = leftPoint;
                 }
                 if (leftPoint != null)
@@ -2508,10 +2505,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Check if found point is outside the scaleView
-                    double xValue = (leftPoint.indexedSeries) ? leftPoint.index : leftPoint.dataPoint.XValue;
+                    double xValue = leftPoint.indexedSeries ? leftPoint.index : leftPoint.dataPoint.XValue;
                     if (xValue > hAxisMax || xValue < hAxisMin)
                     {
-                        DataPoint3D currentPoint = null;
+                        DataPoint3D currentPoint;
                         if (reversedSeriesOrder)
                         {
                             currentPoint = (firstPoint.index > secondPoint.index) ? firstPoint : secondPoint;
@@ -2520,7 +2517,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             currentPoint = (firstPoint.index < secondPoint.index) ? firstPoint : secondPoint;
                         }
-                        double currentXValue = (currentPoint.indexedSeries) ? currentPoint.index : currentPoint.dataPoint.XValue;
+                        double currentXValue = currentPoint.indexedSeries ? currentPoint.index : currentPoint.dataPoint.XValue;
                         if (currentXValue > hAxisMax || currentXValue < hAxisMin)
                         {
                             leftPointVisible = false;
@@ -2532,17 +2529,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Find Right point 
             if (surfaceName == SurfaceNames.Right)
             {
-                DataPoint3D rightPoint = null, rightPointAttr = null;
                 int pointArrayIndex = int.MinValue;
+                DataPoint3D rightPoint;
+                DataPoint3D rightPointAttr;
                 if (!reversedSeriesOrder)
                 {
-                    rightPoint = ChartGraphics.FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
+                    rightPoint = ChartGraphics.FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
                     rightPointAttr = rightPoint;
                 }
                 else
                 {
-                    rightPoint = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
-                    rightPointAttr = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), (multiSeries) ? secondPoint : null, ref pointArrayIndex);
+                    rightPoint = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
+                    rightPointAttr = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), multiSeries ? secondPoint : null, ref pointArrayIndex);
                 }
                 if (rightPoint != null)
                 {
@@ -2564,10 +2562,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Check if found point is outside the scaleView
-                    double xValue = (rightPoint.indexedSeries) ? rightPoint.index : rightPoint.dataPoint.XValue;
+                    double xValue = rightPoint.indexedSeries ? rightPoint.index : rightPoint.dataPoint.XValue;
                     if (xValue > hAxisMax || xValue < hAxisMin)
                     {
-                        DataPoint3D currentPoint = null;
+                        DataPoint3D currentPoint;
                         if (reversedSeriesOrder)
                         {
                             currentPoint = (firstPoint.index > secondPoint.index) ? firstPoint : secondPoint;
@@ -2576,7 +2574,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             currentPoint = (firstPoint.index < secondPoint.index) ? firstPoint : secondPoint;
                         }
-                        double currentXValue = (currentPoint.indexedSeries) ? currentPoint.index : currentPoint.dataPoint.XValue;
+                        double currentXValue = currentPoint.indexedSeries ? currentPoint.index : currentPoint.dataPoint.XValue;
                         if (currentXValue > hAxisMax || currentXValue < hAxisMin)
                         {
                             rightPointVisible = false;
@@ -2873,8 +2871,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Get surface colors
-            Color frontLightColor, leftLightColor, topLightColor, backLightColor, rightLightColor, bottomLightColor;
-            matrix.GetLight(backColor, out frontLightColor, out backLightColor, out leftLightColor, out rightLightColor, out topLightColor, out bottomLightColor);
+            matrix.GetLight(backColor, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
 
             // Darken colors by specified values
             if (topRightDarkening != 0f)
@@ -2944,42 +2941,42 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                         switch (currentSurface)
                         {
-                            case (SurfaceNames.Front):
+                            case SurfaceNames.Front:
                                 surfaceColor = frontLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[0].X, cubePoints[0].Y);
                                 pointsSurface[1] = new PointF(cubePoints[1].X, cubePoints[1].Y);
                                 pointsSurface[2] = new PointF(cubePoints[2].X, cubePoints[2].Y);
                                 pointsSurface[3] = new PointF(cubePoints[3].X, cubePoints[3].Y);
                                 break;
-                            case (SurfaceNames.Back):
+                            case SurfaceNames.Back:
                                 surfaceColor = backLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[4].X, cubePoints[4].Y);
                                 pointsSurface[1] = new PointF(cubePoints[5].X, cubePoints[5].Y);
                                 pointsSurface[2] = new PointF(cubePoints[6].X, cubePoints[6].Y);
                                 pointsSurface[3] = new PointF(cubePoints[7].X, cubePoints[7].Y);
                                 break;
-                            case (SurfaceNames.Left):
+                            case SurfaceNames.Left:
                                 surfaceColor = leftLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[0].X, cubePoints[0].Y);
                                 pointsSurface[1] = new PointF(cubePoints[1].X, cubePoints[1].Y);
                                 pointsSurface[2] = new PointF(cubePoints[5].X, cubePoints[5].Y);
                                 pointsSurface[3] = new PointF(cubePoints[4].X, cubePoints[4].Y);
                                 break;
-                            case (SurfaceNames.Right):
+                            case SurfaceNames.Right:
                                 surfaceColor = rightLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[3].X, cubePoints[3].Y);
                                 pointsSurface[1] = new PointF(cubePoints[2].X, cubePoints[2].Y);
                                 pointsSurface[2] = new PointF(cubePoints[6].X, cubePoints[6].Y);
                                 pointsSurface[3] = new PointF(cubePoints[7].X, cubePoints[7].Y);
                                 break;
-                            case (SurfaceNames.Top):
+                            case SurfaceNames.Top:
                                 surfaceColor = topLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[0].X, cubePoints[0].Y);
                                 pointsSurface[1] = new PointF(cubePoints[3].X, cubePoints[3].Y);
                                 pointsSurface[2] = new PointF(cubePoints[7].X, cubePoints[7].Y);
                                 pointsSurface[3] = new PointF(cubePoints[4].X, cubePoints[4].Y);
                                 break;
-                            case (SurfaceNames.Bottom):
+                            case SurfaceNames.Bottom:
                                 surfaceColor = bottomLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[1].X, cubePoints[1].Y);
                                 pointsSurface[1] = new PointF(cubePoints[2].X, cubePoints[2].Y);
@@ -3075,7 +3072,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Calculate wedge size to fit the rectangle
                 RectangleF positionAbs = GetAbsoluteRectangle(position);
-                float size = (isVertical) ? positionAbs.Width / 2f : positionAbs.Height / 2f;
+                float size = isVertical ? positionAbs.Width / 2f : positionAbs.Height / 2f;
                 if (isVertical && 2f * size > positionAbs.Height)
                 {
                     size = positionAbs.Height / 2f;
@@ -3275,7 +3272,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                   bounds,
                                   (!isVertical) ? Color.Transparent : Color.FromArgb(120, Color.White),
                                   (!isVertical) ? Color.FromArgb(120, Color.White) : Color.Transparent,
-                                  (isVertical) ? LinearGradientMode.Vertical : LinearGradientMode.Horizontal))
+                                  isVertical ? LinearGradientMode.Vertical : LinearGradientMode.Horizontal))
                         {
                             // Fill shadow path on the top side of the bar
                             this.FillPath(topBrush, path);
@@ -3329,9 +3326,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         using (LinearGradientBrush topBrush = new LinearGradientBrush(
                                   bounds,
-                                  (isVertical) ? Color.Transparent : Color.FromArgb(80, Color.Black),
-                                  (isVertical) ? Color.FromArgb(80, Color.Black) : Color.Transparent,
-                                  (isVertical) ? LinearGradientMode.Vertical : LinearGradientMode.Horizontal))
+                                  isVertical ? Color.Transparent : Color.FromArgb(80, Color.Black),
+                                  isVertical ? Color.FromArgb(80, Color.Black) : Color.Transparent,
+                                  isVertical ? LinearGradientMode.Vertical : LinearGradientMode.Horizontal))
                         {
                             // Fill shadow path on the top side of the bar
                             this.FillPath(topBrush, path);
@@ -3527,7 +3524,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Draw marker depending on style
                     switch (markerStyle)
                     {
-                        case (MarkerStyle.Circle):
+                        case MarkerStyle.Circle:
                             {
                                 if ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement)
                                 {
@@ -3614,7 +3611,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                                 break;
                             }
-                        case (MarkerStyle.Square):
+                        case MarkerStyle.Square:
                             {
 
                                 // Calculate marker non-rotated rectangle
@@ -3641,7 +3638,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                         default:
                             {
-                                throw (new InvalidOperationException(SR.ExceptionGraphics3DMarkerStyleUnknown));
+                                throw new InvalidOperationException(SR.ExceptionGraphics3DMarkerStyleUnknown);
                             }
                     }
                 }
@@ -3750,7 +3747,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check imput array size
             if (cubePoints.Length != 8)
             {
-                throw (new ArgumentException(SR.ExceptionGraphics3DCoordinatesInvalid, nameof(cubePoints)));
+                throw new ArgumentException(SR.ExceptionGraphics3DCoordinatesInvalid, nameof(cubePoints));
             }
 
             // Detect surfaces visibility
@@ -4009,8 +4006,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Get surface colors
-            Color frontLightColor, leftLightColor, topLightColor, backLightColor, rightLightColor, bottomLightColor;
-            matrix.GetLight(backColor, out frontLightColor, out backLightColor, out leftLightColor, out rightLightColor, out topLightColor, out bottomLightColor);
+            matrix.GetLight(backColor, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
 
             // Darken colors by specified values
             if (topRightDarkening != 0f)
@@ -4109,7 +4105,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                         switch (currentSurface)
                         {
-                            case (SurfaceNames.Front):
+                            case SurfaceNames.Front:
                                 {
                                     // Set front surface color
                                     surfaceColor = backColor;
@@ -4124,7 +4120,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         pathToDraw,
                                         topRigthSide,
                                         bottomLeftSide,
-                                        (matrix.Perspective == 0) ? veticalOrientation : false,
+                                        (matrix.Perspective == 0) && veticalOrientation,
                                         cylinderAngle,
                                         out leftSideLinePoint,
                                         out rightSideLinePoint);
@@ -4137,7 +4133,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         pathToDraw,
                                         bottomLeftSide,
                                         topRigthSide,
-                                        (matrix.Perspective == 0) ? veticalOrientation : false,
+                                        (matrix.Perspective == 0) && veticalOrientation,
                                         cylinderAngle,
                                         out leftOppSideLinePoint,
                                         out rightOppSideLinePoint);
@@ -4167,7 +4163,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                                 boundsRectMiddlePoint.Y = boundsRect.Y + boundsRect.Height / 2f;
 
                                                 PointF centralLinePoint = PointF.Empty;
-                                                double centralLineAngle = ((cylinderAngle) * Math.PI / 180f);
+                                                double centralLineAngle = cylinderAngle * Math.PI / 180f;
                                                 if (cylinderAngle == 0 || cylinderAngle == 180 || cylinderAngle == -180)
                                                 {
                                                     centralLinePoint.X = boundsRectMiddlePoint.X + 100f;
@@ -4188,7 +4184,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                                 {
                                                     centralLinePoint.Y = boundsRectMiddlePoint.Y + 100f;
                                                     centralLinePoint.X = (float)(centralLinePoint.Y - (boundsRectMiddlePoint.Y - Math.Tan(centralLineAngle) * boundsRectMiddlePoint.X));
-                                                    centralLinePoint.X /= (float)(Math.Tan(centralLineAngle));
+                                                    centralLinePoint.X /= (float)Math.Tan(centralLineAngle);
                                                 }
 
 
@@ -4236,28 +4232,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                                     break;
                                 }
-                            case (SurfaceNames.Top):
+                            case SurfaceNames.Top:
                                 if (veticalOrientation)
                                 {
                                     surfaceColor = topLightColor;
                                     pathToDraw = topRigthSide;
                                 }
                                 break;
-                            case (SurfaceNames.Bottom):
+                            case SurfaceNames.Bottom:
                                 if (veticalOrientation)
                                 {
                                     surfaceColor = bottomLightColor;
                                     pathToDraw = bottomLeftSide;
                                 }
                                 break;
-                            case (SurfaceNames.Right):
+                            case SurfaceNames.Right:
                                 if (!veticalOrientation)
                                 {
                                     surfaceColor = rightLightColor;
                                     pathToDraw = topRigthSide;
                                 }
                                 break;
-                            case (SurfaceNames.Left):
+                            case SurfaceNames.Left:
                                 if (!veticalOrientation)
                                 {
                                     surfaceColor = leftLightColor;

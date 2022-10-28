@@ -1834,12 +1834,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int versionIndex = buildNumber.IndexOf("VERSION=", StringComparison.Ordinal);
                     if (versionIndex >= 0)
                     {
-                        buildNumber = buildNumber.Substring(versionIndex + 8);
+                        buildNumber = buildNumber[(versionIndex + 8)..];
                     }
                     versionIndex = buildNumber.IndexOf(",", StringComparison.Ordinal);
                     if (versionIndex >= 0)
                     {
-                        buildNumber = buildNumber.Substring(0, versionIndex);
+                        buildNumber = buildNumber[..versionIndex];
                     }
                 }
                 return buildNumber;
@@ -1933,7 +1933,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             foreach (Series series in this.Series)
             {
                 // Check if palette colors should be aplied to the points
-                bool applyToPoints = false;
+                bool applyToPoints;
                 if (series.Palette != ChartColorPalette.None)
                 {
                     applyToPoints = true;

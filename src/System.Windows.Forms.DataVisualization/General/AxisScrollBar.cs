@@ -315,7 +315,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Check values range
 					if(value < 5.0 || value > 20.0)
 					{
-                        throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionScrollBarSizeInvalid));
+                        throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionScrollBarSizeInvalid);
 					}
 					_scrollBarSize = value;
 					if(axis != null)
@@ -454,7 +454,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #endif // SUBAXES
 
                 // Check if data scaleView size in percentage is less than 100%
-                return (GetDataViewPercentage() < 100.0) ? true : false;
+                return GetDataViewPercentage() < 100.0;
             }
 		}
 
@@ -695,7 +695,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				GradientStyle.None, 
 				Color.Empty, 
 				darkerColor,
-				(pressedState) ? 1 : 0, 
+				pressedState ? 1 : 0, 
 				ChartDashStyle.Solid, 
 				Color.Empty, 
 				0, 
@@ -713,21 +713,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 				// Draw top/left border with button color
 				graph.DrawLineRel(
-					(singlePixelBorder) ? lighterColor : _buttonCurrentColor, 1, ChartDashStyle.Solid,
+					singlePixelBorder ? lighterColor : _buttonCurrentColor, 1, ChartDashStyle.Solid,
 					new PointF(buttonRect.X, buttonRect.Bottom),
 					new PointF(buttonRect.X, buttonRect.Top));
 				graph.DrawLineRel(
-					(singlePixelBorder) ? lighterColor : _buttonCurrentColor, 1, ChartDashStyle.Solid,
+					singlePixelBorder ? lighterColor : _buttonCurrentColor, 1, ChartDashStyle.Solid,
 					new PointF(buttonRect.Left, buttonRect.Y),
 					new PointF(buttonRect.Right, buttonRect.Y));
 
 				// Draw right/bottom border with the darkest color
 				graph.DrawLineRel(
-					(singlePixelBorder) ? darkerColor : darkestColor, 1, ChartDashStyle.Solid,
+					singlePixelBorder ? darkerColor : darkestColor, 1, ChartDashStyle.Solid,
 					new PointF(buttonRect.Right, buttonRect.Bottom),
 					new PointF(buttonRect.Right, buttonRect.Top));
 				graph.DrawLineRel(
-					(singlePixelBorder) ? darkerColor : darkestColor, 1, ChartDashStyle.Solid,
+					singlePixelBorder ? darkerColor : darkestColor, 1, ChartDashStyle.Solid,
 					new PointF(buttonRect.Left, buttonRect.Bottom),
 					new PointF(buttonRect.Right, buttonRect.Bottom));
 
@@ -756,11 +756,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Check axis orientation
-			bool	verticalAxis = (this.axis.AxisPosition == AxisPosition.Left || 
-				this.axis.AxisPosition == AxisPosition.Right) ? true : false;
+			bool	verticalAxis = this.axis.AxisPosition == AxisPosition.Left || 
+				this.axis.AxisPosition == AxisPosition.Right;
 
 			// Set graphics transformation for button pressed mode
-			float pressedShifting = (singlePixelBorder) ? 0.5f : 1f;
+			float pressedShifting = singlePixelBorder ? 0.5f : 1f;
 			if(pressedState)
 			{
 				graph.TranslateTransform(pressedShifting, pressedShifting);
@@ -768,10 +768,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Draw button image
 			RectangleF	buttonAbsRect = graph.GetAbsoluteRectangle(buttonRect);
-			float		imageOffset = (singlePixelBorder) ? 2 : 3;
+			float		imageOffset = singlePixelBorder ? 2 : 3;
 			switch(buttonType)
 			{
-				case(ScrollBarButtonType.SmallDecrement):
+				case ScrollBarButtonType.SmallDecrement:
 				{
 					// Calculate triangal points position
 					PointF[] points = new PointF[3];
@@ -800,7 +800,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 					break;
 				}
-				case(ScrollBarButtonType.SmallIncrement):
+				case ScrollBarButtonType.SmallIncrement:
 				{
 					// Calculate triangal points position
 					PointF[] points = new PointF[3];
@@ -829,7 +829,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 					break;
 				}
-				case(ScrollBarButtonType.ZoomReset):
+				case ScrollBarButtonType.ZoomReset:
 				{						
 					// Draw circule with a minus sign
                     using (Pen pen = new Pen(this._lineCurrentColor, 1))
@@ -864,13 +864,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				_lastClickMousePosition = new PointF(e.X, e.Y);
 				_lastClickViewPosition = this.axis.ScaleView.Position;
 
-				// Check if button was pressed inside the scroll bar
-				ScrollBarButtonType	buttonType;
-				if(GetElementByPixelPosition(e.X, e.Y, out buttonType))
-				{
-					this.ButtonClicked(buttonType, e.X, e.Y);
-				}
-			}
+                // Check if button was pressed inside the scroll bar
+                if (GetElementByPixelPosition(e.X, e.Y, out ScrollBarButtonType buttonType))
+                {
+                    this.ButtonClicked(buttonType, e.X, e.Y);
+                }
+            }
 		}
 
 		/// <summary>
@@ -881,18 +880,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// If scroll bar button was pressed
 			if(this._pressedButtonType != int.MaxValue)
 			{
-				// Check if button was unpressed inside the reset zoom button
-				ScrollBarButtonType	buttonType;
-				if(GetElementByPixelPosition(e.X, e.Y, out buttonType))
-				{
-					if(buttonType == ScrollBarButtonType.ZoomReset)
-					{
-						this.ButtonClicked(buttonType, e.X, e.Y);
-					}
-				}
+                // Check if button was unpressed inside the reset zoom button
+                if (GetElementByPixelPosition(e.X, e.Y, out ScrollBarButtonType buttonType))
+                {
+                    if (buttonType == ScrollBarButtonType.ZoomReset)
+                    {
+                        this.ButtonClicked(buttonType, e.X, e.Y);
+                    }
+                }
 
-				// Stop scrolling timer
-				_scrollTimer.Stop();
+                // Stop scrolling timer
+                _scrollTimer.Stop();
 				_mouseArguments = null;
 
 				// Clear pressed button state
@@ -929,17 +927,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					// Check if mouse cursor is still in the pressed button's rectangle
 					bool inPressedButton = false;
-					ScrollBarButtonType	buttonType;
-					if(GetElementByPixelPosition(e.X, e.Y, out buttonType))
-					{
-						if(buttonType == (ScrollBarButtonType)this._pressedButtonType)
-						{
-							inPressedButton = true;
-						}
-					}
+                    if (GetElementByPixelPosition(e.X, e.Y, out ScrollBarButtonType buttonType))
+                    {
+                        if (buttonType == (ScrollBarButtonType)this._pressedButtonType)
+                        {
+                            inPressedButton = true;
+                        }
+                    }
 
-					// Clear pressed button state
-					if(!inPressedButton)
+                    // Clear pressed button state
+                    if (!inPressedButton)
 					{
 						// Stop scrolling timer
 						_scrollTimer.Stop();
@@ -989,22 +986,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				//**************************************************
 				switch(buttonType)
 				{
-					case(ScrollBarButtonType.SmallIncrement):
+					case ScrollBarButtonType.SmallIncrement:
 						this.axis.ScaleView.Scroll(ScrollType.SmallIncrement, true);
 						break;
-					case(ScrollBarButtonType.SmallDecrement):
+					case ScrollBarButtonType.SmallDecrement:
 						this.axis.ScaleView.Scroll(ScrollType.SmallDecrement, true);
 						break;
-					case(ScrollBarButtonType.LargeIncrement):
+					case ScrollBarButtonType.LargeIncrement:
 						this.axis.ScaleView.Scroll(ScrollType.LargeIncrement, true);
 						break;
-					case(ScrollBarButtonType.LargeDecrement):
+					case ScrollBarButtonType.LargeDecrement:
 						this.axis.ScaleView.Scroll(ScrollType.LargeDecrement, true);
 						break;
-					case(ScrollBarButtonType.ZoomReset):
+					case ScrollBarButtonType.ZoomReset:
 						this.axis.ScaleView.ZoomReset(1, true);
 						break;
-					case(ScrollBarButtonType.ThumbTracker):
+					case ScrollBarButtonType.ThumbTracker:
 					{
 						if(!_lastClickMousePosition.IsEmpty && 
 							!double.IsNaN(this._lastClickViewPosition) &&
@@ -1018,8 +1015,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							scrollBarClientRect.Inflate(-borderRelativeSize.Width, -borderRelativeSize.Height);
 
 							// Check axis orientation
-							bool	verticalAxis = (this.axis.AxisPosition == AxisPosition.Left || 
-								this.axis.AxisPosition == AxisPosition.Right) ? true : false;
+							bool	verticalAxis = this.axis.AxisPosition == AxisPosition.Left || 
+								this.axis.AxisPosition == AxisPosition.Right;
 
 							// Get button relative size
 							SizeF	buttonSize = new SizeF(scrollBarClientRect.Width, scrollBarClientRect.Height);
@@ -1061,7 +1058,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 							// Get axis scale size without margins
 							double	axisScaleSize = Math.Abs(
-								(this.axis.maximum - this.axis.marginView) -
+								this.axis.maximum - this.axis.marginView -
 								(this.axis.minimum + this.axis.marginView));
 
 							// Calculate the same percentage using axis scale
@@ -1072,12 +1069,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							{
                                 double minSize = ChartHelper.GetIntervalSize(0, axis.ScaleView.SmallScrollMinSize, axis.ScaleView.SmallScrollMinSizeType);
 
-								double rounder = (Math.Round(distance / minSize));
+								double rounder = Math.Round(distance / minSize);
 								distance = (float)(rounder * minSize);
 							}
 
 							// Scroll scaleView into the new position
-							this.axis.ScaleView.Scroll(this._lastClickViewPosition + ((this.axis.IsReversed) ? -1 : 1) * distance, true);
+							this.axis.ScaleView.Scroll(this._lastClickViewPosition + (this.axis.IsReversed ? -1 : 1) * distance, true);
 						}
 						break;
 					}
@@ -1253,8 +1250,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			RectangleF	buttonRect = new RectangleF(scrollBarClientRect.Location, scrollBarClientRect.Size);
 
 			// Check axis orientation
-			bool	verticalAxis = (this.axis.AxisPosition == AxisPosition.Left || 
-				this.axis.AxisPosition == AxisPosition.Right) ? true : false;
+			bool	verticalAxis = this.axis.AxisPosition == AxisPosition.Left || 
+				this.axis.AxisPosition == AxisPosition.Right;
 
 			// Get relative size of 1 pixel
 			SizeF	pixelRelativeSize = new SizeF(1, 1);
@@ -1288,9 +1285,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Calculate scroll bar buttons position
 			switch(buttonType)
 			{
-				case(ScrollBarButtonType.LargeDecrement):
-				case(ScrollBarButtonType.LargeIncrement):
-				case(ScrollBarButtonType.ThumbTracker):
+				case ScrollBarButtonType.LargeDecrement:
+				case ScrollBarButtonType.LargeIncrement:
+				case ScrollBarButtonType.ThumbTracker:
 				{
 					// Get tracker button position and size first
 					if(verticalAxis)
@@ -1321,7 +1318,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							buttonRect.Y +=  (float)(this.GetDataViewPositionPercentage() * (trackingAreaSize / 100f));
 							if((buttonRect.Y + buttonRect.Height) > scrollBarClientRect.Bottom - this.GetButtonsNumberBottom()*buttonSize.Height - ((this.GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Height))
 							{
-								buttonRect.Y = (scrollBarClientRect.Bottom - this.GetButtonsNumberBottom()*buttonSize.Height) - buttonRect.Height - ((this.GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Height);
+								buttonRect.Y = scrollBarClientRect.Bottom - this.GetButtonsNumberBottom()*buttonSize.Height - buttonRect.Height - ((this.GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Height);
 							}
 						}
 					}
@@ -1344,7 +1341,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							buttonRect.X +=  (float)(this.GetDataViewPositionPercentage() * (trackingAreaSize / 100f));
 							if((buttonRect.X + buttonRect.Width) > scrollBarClientRect.Right - this.GetButtonsNumberBottom()*buttonSize.Width - ((this.GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Width))
 							{
-								buttonRect.X = (scrollBarClientRect.Right - buttonRect.Width) - this.GetButtonsNumberBottom()*buttonSize.Width - ((this.GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Width);
+								buttonRect.X = scrollBarClientRect.Right - buttonRect.Width - this.GetButtonsNumberBottom()*buttonSize.Width - ((this.GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Width);
 							}
 						}
 						else
@@ -1365,7 +1362,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						if(verticalAxis)
 						{
 							buttonRect.Y = buttonRect.Bottom + pixelRelativeSize.Height;
-							buttonRect.Height = (scrollBarClientRect.Bottom - this.GetButtonsNumberBottom()*buttonSize.Height - pixelRelativeSize.Height) - buttonRect.Y;
+							buttonRect.Height = scrollBarClientRect.Bottom - this.GetButtonsNumberBottom()*buttonSize.Height - pixelRelativeSize.Height - buttonRect.Y;
 						}
 						else
 						{
@@ -1393,14 +1390,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						else
 						{
 							buttonRect.X = buttonRect.Right + pixelRelativeSize.Width;
-							buttonRect.Width = (scrollBarClientRect.Right - this.GetButtonsNumberBottom()*buttonSize.Width - pixelRelativeSize.Height) - buttonRect.X;
+							buttonRect.Width = scrollBarClientRect.Right - this.GetButtonsNumberBottom()*buttonSize.Width - pixelRelativeSize.Height - buttonRect.X;
 						}
 					}
 
 					break;
 				}
 
-				case(ScrollBarButtonType.SmallDecrement):
+				case ScrollBarButtonType.SmallDecrement:
 					if(this._scrollBarButtonStyle == ScrollBarButtonStyles.All ||
 						this._scrollBarButtonStyle == ScrollBarButtonStyles.SmallScroll)
 					{
@@ -1420,7 +1417,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 					break;
 
-				case(ScrollBarButtonType.SmallIncrement):
+				case ScrollBarButtonType.SmallIncrement:
 					if(this._scrollBarButtonStyle == ScrollBarButtonStyles.All ||
 						this._scrollBarButtonStyle == ScrollBarButtonStyles.SmallScroll)
 					{
@@ -1440,7 +1437,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 					break;
 
-				case(ScrollBarButtonType.ZoomReset):
+				case ScrollBarButtonType.ZoomReset:
 					if(this._scrollBarButtonStyle == ScrollBarButtonStyles.All ||
 						this._scrollBarButtonStyle == ScrollBarButtonStyles.ResetZoom)
 					{
@@ -1520,28 +1517,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						barPosition.Y = areaPosition.Y;
 						barPosition.Height = areaPosition.Height;
 						barPosition.X = 
-							( (this.IsPositionedInside) ? (float)(axis.GetAxisPosition(true)) : areaPosition.X) - scrollBarSize;// - axisLineSize.Width / 2f;
+							( this.IsPositionedInside ? (float)axis.GetAxisPosition(true) : areaPosition.X) - scrollBarSize;// - axisLineSize.Width / 2f;
 						barPosition.Width = scrollBarSize;
 						break;
 					case AxisPosition.Right:
 						barPosition.Y = areaPosition.Y;
 						barPosition.Height = areaPosition.Height;
 						barPosition.X = 
-							(this.IsPositionedInside) ? (float)axis.GetAxisPosition(true) : areaPosition.Right;// + axisLineSize.Width / 2f;
+							this.IsPositionedInside ? (float)axis.GetAxisPosition(true) : areaPosition.Right;// + axisLineSize.Width / 2f;
 						barPosition.Width = scrollBarSize;
 						break;
 					case AxisPosition.Bottom:
 						barPosition.X = areaPosition.X;
 						barPosition.Width = areaPosition.Width;
 						barPosition.Y = 
-							(this.IsPositionedInside) ? (float)axis.GetAxisPosition(true) : areaPosition.Bottom;// + axisLineSize.Height / 2f;
+							this.IsPositionedInside ? (float)axis.GetAxisPosition(true) : areaPosition.Bottom;// + axisLineSize.Height / 2f;
 						barPosition.Height = scrollBarSize;
 						break;
 					case AxisPosition.Top:
 						barPosition.X = areaPosition.X;
 						barPosition.Width = areaPosition.Width;
 						barPosition.Y = 
-							( (this.IsPositionedInside) ? (float)axis.GetAxisPosition(true) : areaPosition.Y) - scrollBarSize;// - axisLineSize.Height / 2f;
+							( this.IsPositionedInside ? (float)axis.GetAxisPosition(true) : areaPosition.Y) - scrollBarSize;// - axisLineSize.Height / 2f;
 						barPosition.Height = scrollBarSize;
 						break;
 				}
@@ -1659,7 +1656,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				double	axisScaleSize = Math.Abs(minimum - maximum);
 
 				// Calculate data scaleView position in percentage
-				viewPosition = (this.axis.ScaleView.Position - (minimum)) / (axisScaleSize / 100.0);
+				viewPosition = (this.axis.ScaleView.Position - minimum) / (axisScaleSize / 100.0);
 			}
 
 			return viewPosition;

@@ -352,7 +352,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 				}
 				else if(Context.Instance is Array)
 				{
-                    throw (new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported));
+                    throw new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported);
 				}
 			}
 
@@ -682,7 +682,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             if (element != null)
                 return element.Common.Chart;
             else
-                throw (new InvalidOperationException(SR.ExceptionEditorContectInstantsIsNotChartObject));
+                throw new InvalidOperationException(SR.ExceptionEditorContectInstantsIsNotChartObject);
 		}
 
         protected override void DestroyInstance(object instance)

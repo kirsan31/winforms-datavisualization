@@ -4,7 +4,7 @@
 
 
 //
-//  Purpose:	Base class for all anotation objects. Provides 
+//  Purpose:	Base class for all annotation objects. Provides
 //				basic set of properties and methods.
 //
 
@@ -105,13 +105,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
     #endregion
 
     /// <summary>
-    /// <b>Annotation</b> is an abstract class that defines properties and methods 
+    /// <b>Annotation</b> is an abstract class that defines properties and methods
     /// common to all annotations.
     /// </summary>
     /// <remarks>
-    /// All annotations are derived from the <b>Annotation</b> class, which can be 
-    /// used to set properties common to all annotation objects (e.g. color, position, 
-    /// anchoring and others). 
+    /// All annotations are derived from the <b>Annotation</b> class, which can be
+    /// used to set properties common to all annotation objects (e.g. color, position,
+    /// anchoring and others).
     /// </remarks>
     [
     SRDescription("DescriptionAttributeAnnotation_Annotation"),
@@ -185,7 +185,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal RectangleF currentPositionRel = new RectangleF(float.NaN, float.NaN, float.NaN, float.NaN);
         internal PointF currentAnchorLocationRel = new PointF(float.NaN, float.NaN);
 
-        // Smart labels style		
+        // Smart labels style
         private AnnotationSmartLabelStyle _smartLabelStyle;
 
         // Index of last selected point in the annotation path
@@ -268,7 +268,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <remarks>
         /// This property is used to get the name of each annotation Style
-        /// (e.g. Line, Rectangle, Ellipse). 
+        /// (e.g. Line, Rectangle, Ellipse).
         /// <para>
         /// This property is for internal use and is hidden at design and run time.
         /// </para>
@@ -295,8 +295,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A string which represents the name of an existing chart area.
         /// </value>
         /// <remarks>
-        /// If the chart area name is specified, an annotation will only be drawn inside the 
-        /// plotting area of the chart area specified.  All parts of the annotation 
+        /// If the chart area name is specified, an annotation will only be drawn inside the
+        /// plotting area of the chart area specified.  All parts of the annotation
         /// outside of the plotting area will be clipped.
         /// <para>
         /// To disable chart area clipping, set the property to "NotSet" or an empty string.
@@ -339,11 +339,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets the smart labels style of an annotation.
         /// </summary>
         /// <value>
-        /// An <see cref="AnnotationSmartLabelStyle"/> object that represents an annotation's 
+        /// An <see cref="AnnotationSmartLabelStyle"/> object that represents an annotation's
         /// smart labels style properties.
         /// </value>
         /// <remarks>
-        /// Smart labels are used to prevent an annotation from overlapping data point labels 
+        /// Smart labels are used to prevent an annotation from overlapping data point labels
         /// and other annotations.
         /// <para>
         /// Note that data point labels must also have smart labels enabled.
@@ -360,10 +360,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             get
             {
-                if (this._smartLabelStyle == null)
-                {
-                    this._smartLabelStyle = new AnnotationSmartLabelStyle(this);
-                }
+                this._smartLabelStyle ??= new AnnotationSmartLabelStyle(this);
                 return _smartLabelStyle;
             }
             set
@@ -392,21 +389,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Position
 
         /// <summary>
-        /// Gets or sets a flag that specifies whether the size of an annotation is always 
+        /// Gets or sets a flag that specifies whether the size of an annotation is always
         /// defined in relative chart coordinates.
         /// <seealso cref="Width"/>
         /// <seealso cref="Height"/>
         /// </summary>
         /// <value>
-        /// <b>True</b> if an annotation's <see cref="Width"/> and <see cref="Height"/> are always 
+        /// <b>True</b> if an annotation's <see cref="Width"/> and <see cref="Height"/> are always
         /// in chart relative coordinates, <b>false</b> otherwise.
         /// </value>
         /// <remarks>
-        /// An annotation's width and height may be set in relative chart or axes coordinates. 
+        /// An annotation's width and height may be set in relative chart or axes coordinates.
         /// By default, relative chart coordinates are used.
         /// <para>
-        /// To use axes coordinates for size set the <b>IsSizeAlwaysRelative</b> property to 
-        /// <b>false</b> and either anchor the annotation to a data point or set the 
+        /// To use axes coordinates for size set the <b>IsSizeAlwaysRelative</b> property to
+        /// <b>false</b> and either anchor the annotation to a data point or set the
         /// <see cref="AxisX"/> or <see cref="AxisY"/> properties.
         /// </para>
         /// </remarks>
@@ -438,16 +435,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A Double value that represents the X coordinate of an annotation.
         /// </value>
         /// <remarks>
-        /// The X coordinate of an annotation is in relative chart coordinates or axes coordinates. Chart 
+        /// The X coordinate of an annotation is in relative chart coordinates or axes coordinates. Chart
         /// relative coordinates are used by default.
         /// <para>
-        /// To use axes coordinates, anchor 
-        /// an annotation to a data point using the <see cref="AnchorDataPoint"/> property, or 
+        /// To use axes coordinates, anchor
+        /// an annotation to a data point using the <see cref="AnchorDataPoint"/> property, or
         /// set the annotation axes using the <see cref="AxisX"/> or <see cref="AxisY"/> properties.
         /// </para>
         /// <para>
-        /// Set the X position to Double.NaN ("NotSet") to achieve automatic position calculation 
-        /// when the annotation is anchored using the <see cref="AnchorDataPoint"/> property or 
+        /// Set the X position to Double.NaN ("NotSet") to achieve automatic position calculation
+        /// when the annotation is anchored using the <see cref="AnchorDataPoint"/> property or
         /// the <see cref="AnchorX"/> and <see cref="AnchorY"/> properties.
         /// </para>
         /// </remarks>
@@ -458,7 +455,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         RefreshPropertiesAttribute(RefreshProperties.All),
         TypeConverter(typeof(DoubleNanValueConverter)),
         ]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "X")]
         virtual public double X
         {
             get
@@ -482,16 +478,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A Double value that represents the Y coordinate of an annotation.
         /// </value>
         /// <remarks>
-        /// The Y coordinate of an annotation is in relative chart coordinates or axes coordinates. Chart 
+        /// The Y coordinate of an annotation is in relative chart coordinates or axes coordinates. Chart
         /// relative coordinates are used by default.
         /// <para>
-        /// To use axes coordinates, anchor 
-        /// an annotation to a data point using the <see cref="AnchorDataPoint"/> property, or 
+        /// To use axes coordinates, anchor
+        /// an annotation to a data point using the <see cref="AnchorDataPoint"/> property, or
         /// set the annotation axes using the <see cref="AxisX"/> or <see cref="AxisY"/> properties.
         /// </para>
         /// <para>
-        /// Set the Y position to Double.NaN ("NotSet") to achieve automatic position calculation 
-        /// when the annotation is anchored using the <see cref="AnchorDataPoint"/> property or 
+        /// Set the Y position to Double.NaN ("NotSet") to achieve automatic position calculation
+        /// when the annotation is anchored using the <see cref="AnchorDataPoint"/> property or
         /// the <see cref="AnchorX"/> and <see cref="AnchorY"/> properties.
         /// </para>
         /// </remarks>
@@ -502,7 +498,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         RefreshPropertiesAttribute(RefreshProperties.All),
         TypeConverter(typeof(DoubleNanValueConverter)),
         ]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Y")]
         virtual public double Y
         {
             get
@@ -526,21 +521,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A Double value that represents an annotation's width.
         /// </value>
         /// <remarks>
-        /// An annotation's width can be a negative value, in which case the annotation orientation 
+        /// An annotation's width can be a negative value, in which case the annotation orientation
         /// is switched.
         /// <para>
-        /// Annotation width can be in relative chart or axes coordinates. Chart 
+        /// Annotation width can be in relative chart or axes coordinates. Chart
         /// relative coordinates are used by default.
         /// </para>
         /// <para>
-        /// To use axes coordinates, anchor 
-        /// an annotation to a data point using the <see cref="AnchorDataPoint"/> property, or 
-        /// set the annotation axes using the <see cref="AxisX"/> or <see cref="AxisY"/> properties 
+        /// To use axes coordinates, anchor
+        /// an annotation to a data point using the <see cref="AnchorDataPoint"/> property, or
+        /// set the annotation axes using the <see cref="AxisX"/> or <see cref="AxisY"/> properties
         /// and set the <see cref="IsSizeAlwaysRelative"/> property to <b>false</b>.
         /// </para>
         /// <para>
-        /// Set the width to Double.NaN ("NotSet") to achieve automatic size calculation for 
-        /// annotations with text. The size will automatically be calculated based on 
+        /// Set the width to Double.NaN ("NotSet") to achieve automatic size calculation for
+        /// annotations with text. The size will automatically be calculated based on
         /// the annotation text and font size.
         /// </para>
         /// </remarks>
@@ -578,21 +573,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A Double value that represents an annotation's height.
         /// </value>
         /// <remarks>
-        /// An annotation's height can be a negative value, in which case the annotation orientation 
+        /// An annotation's height can be a negative value, in which case the annotation orientation
         /// is switched.
         /// <para>
-        /// Annotation height can be in relative chart or axes coordinates. Chart 
+        /// Annotation height can be in relative chart or axes coordinates. Chart
         /// relative coordinates are used by default.
         /// </para>
         /// <para>
-        /// To use axes coordinates, anchor 
-        /// an annotation to a data point using the <see cref="AnchorDataPoint"/> property, or 
-        /// set the annotation axes using the <see cref="AxisX"/> or <see cref="AxisY"/> properties 
+        /// To use axes coordinates, anchor
+        /// an annotation to a data point using the <see cref="AnchorDataPoint"/> property, or
+        /// set the annotation axes using the <see cref="AxisX"/> or <see cref="AxisY"/> properties
         /// and set the <see cref="IsSizeAlwaysRelative"/> property to <b>false</b>.
         /// </para>
         /// <para>
-        /// Set the height to Double.NaN ("NotSet") to achieve automatic size calculation for 
-        /// annotations with text. The size will automatically be calculated based on 
+        /// Set the height to Double.NaN ("NotSet") to achieve automatic size calculation for
+        /// annotations with text. The size will automatically be calculated based on
         /// the annotation text and font size.
         /// </para>
         /// </remarks>
@@ -630,9 +625,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A Double value that represents the position of an annotation's right boundary.
         /// </value>
         /// <remarks>
-        /// To use axes coordinates, anchor 
-        /// an annotation to a data point using the <see cref="AnchorDataPoint"/> property, or 
-        /// set the annotation axes using the <see cref="AxisX"/> or <see cref="AxisY"/> properties 
+        /// To use axes coordinates, anchor
+        /// an annotation to a data point using the <see cref="AnchorDataPoint"/> property, or
+        /// set the annotation axes using the <see cref="AxisX"/> or <see cref="AxisY"/> properties
         /// and set the <see cref="IsSizeAlwaysRelative"/> property to <b>false</b>.
         /// </remarks>
         [
@@ -668,9 +663,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A Double value that represents the position of an annotation's bottom boundary.
         /// </value>
         /// <remarks>
-        /// To use axes coordinates, anchor 
-        /// an annotation to a data point using the <see cref="AnchorDataPoint"/> property, or 
-        /// set the annotation axes using the <see cref="AxisX"/> or <see cref="AxisY"/> properties 
+        /// To use axes coordinates, anchor
+        /// an annotation to a data point using the <see cref="AnchorDataPoint"/> property, or
+        /// set the annotation axes using the <see cref="AxisX"/> or <see cref="AxisY"/> properties
         /// and set the <see cref="IsSizeAlwaysRelative"/> property to <b>false</b>.
         /// </remarks>
         [
@@ -787,8 +782,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="ContentAlignment"/> value that represents the content alignment.
         /// </value>
         /// <remarks>
-        /// This property is used to align text for <see cref="TextAnnotation"/>, <see cref="RectangleAnnotation"/>,  
-        /// <see cref="EllipseAnnotation"/> and <see cref="CalloutAnnotation"/> objects, and to align 
+        /// This property is used to align text for <see cref="TextAnnotation"/>, <see cref="RectangleAnnotation"/>,
+        /// <see cref="EllipseAnnotation"/> and <see cref="CalloutAnnotation"/> objects, and to align
         /// a non-scaled image inside an <see cref="ImageAnnotation"/> object.
         /// </remarks>
         [
@@ -938,7 +933,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationLineWidthIsNegative));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationLineWidthIsNegative);
                 }
                 _lineWidth = value;
                 Invalidate();
@@ -1071,7 +1066,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <seealso cref="BackGradientStyle"/>
         /// </summary>
         /// <value>
-        /// A <see cref="Color"/> value used for the secondary color of an annotation background with 
+        /// A <see cref="Color"/> value used for the secondary color of an annotation background with
         /// hatching or gradient fill.
         /// </value>
         /// <remarks>
@@ -1229,7 +1224,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Gets or sets the name of the Y axis which an annotation is attached to.
         /// NOTE: "AxisYName" property was used before but the name was changed to solve the
-        /// duplicated hash value during the serialization with the "TitleSeparator" property. 
+        /// duplicated hash value during the serialization with the "TitleSeparator" property.
         /// </summary>
         /// <value>
         /// A string value that represents the name of the Y axis which an annotation
@@ -1274,8 +1269,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <see cref="Axis"/> object which an annotation is attached to.
         /// </value>
         /// <remarks>
-        /// When an annotation is attached to an axis, its X position is always in 
-        /// axis coordinates. To define an annotation's size in axis coordinates as well, 
+        /// When an annotation is attached to an axis, its X position is always in
+        /// axis coordinates. To define an annotation's size in axis coordinates as well,
         /// make sure the <see cref="IsSizeAlwaysRelative"/> property is set to <b>false</b>.
         /// <para>
         /// Set this value to <b>null</b> or <b>nothing</b> to disable attachment to the axis.
@@ -1318,8 +1313,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <see cref="Axis"/> object which an annotation is attached to.
         /// </value>
         /// <remarks>
-        /// When an annotation is attached to an axis, its Y position is always in 
-        /// axis coordinates. To define an annotation's size in axis coordinates as well, 
+        /// When an annotation is attached to an axis, its Y position is always in
+        /// axis coordinates. To define an annotation's size in axis coordinates as well,
         /// make sure <see cref="IsSizeAlwaysRelative"/> property is set to <b>false</b>.
         /// <para>
         /// Set this value to <b>null</b> or <b>nothing</b> to disable annotation attachment to an axis.
@@ -1361,7 +1356,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets the name of a data point which an annotation is anchored to.
         /// </summary>
         /// <value>
-        /// A string value that represents the name of the data point which an 
+        /// A string value that represents the name of the data point which an
         /// annotation is anchored to.
         /// </value>
         /// <remarks>
@@ -1408,17 +1403,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="DataPoint"/> object an annotation is anchored to.
         /// </value>
         /// <remarks>
-        /// The annotation is anchored to the X and Y values of the specified data point, 
+        /// The annotation is anchored to the X and Y values of the specified data point,
         /// and automatically uses the same axes coordinates as the data point.
         /// <para>
-        /// To automatically position an annotation relative to an anchor point, make sure 
+        /// To automatically position an annotation relative to an anchor point, make sure
         /// its <see cref="X"/> and <see cref="Y"/> properties are set to <b>Double.NaN</b>.
-        /// The <see cref="AnchorAlignment"/> property may be used to change an annotation's 
-        /// automatic position alignment to an anchor point. The <see cref="AnchorOffsetX"/> and 
+        /// The <see cref="AnchorAlignment"/> property may be used to change an annotation's
+        /// automatic position alignment to an anchor point. The <see cref="AnchorOffsetX"/> and
         /// <see cref="AnchorOffsetY"/> properties may be used to add extra spacing.
         /// </para>
         /// <para>
-        /// When using this property, make sure the <see cref="AnchorX"/> and <see cref="AnchorY"/> 
+        /// When using this property, make sure the <see cref="AnchorX"/> and <see cref="AnchorY"/>
         /// properties are set to <b>Double.NaN</b> (they have precedence).
         /// </para>
         /// <para>
@@ -1465,13 +1460,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A double value that represents the X coordinate which an annotation is anchored to.
         /// </value>
         /// <remarks>
-        /// The annotation is anchored to the X coordinate specified in relative or axis coordinates, 
+        /// The annotation is anchored to the X coordinate specified in relative or axis coordinates,
         /// depending on the <see cref="AxisX"/> property value.
         /// <para>
-        /// To automatically position an annotation relative to an anchor point, make sure 
+        /// To automatically position an annotation relative to an anchor point, make sure
         /// its <see cref="X"/> property is set to <b>Double.NaN</b>.
-        /// The <see cref="AnchorAlignment"/> property may be used to change the annotation's 
-        /// automatic position alignment to the anchor point. The <see cref="AnchorOffsetX"/> and 
+        /// The <see cref="AnchorAlignment"/> property may be used to change the annotation's
+        /// automatic position alignment to the anchor point. The <see cref="AnchorOffsetX"/> and
         /// <see cref="AnchorOffsetY"/> properties may be used to add extra spacing.
         /// </para>
         /// <para>
@@ -1514,13 +1509,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A double value that represents the Y coordinate which an annotation is anchored to.
         /// </value>
         /// <remarks>
-        /// The annotation is anchored to the Y coordinate specified in relative or axis coordinates, 
+        /// The annotation is anchored to the Y coordinate specified in relative or axis coordinates,
         /// depending on the <see cref="AxisX"/> property value.
         /// <para>
-        /// To automatically position an annotation relative to an anchor point, make sure 
+        /// To automatically position an annotation relative to an anchor point, make sure
         /// its <see cref="Y"/> property is set to <b>Double.NaN</b>.
-        /// The <see cref="AnchorAlignment"/> property may be used to change the annotation's 
-        /// automatic position alignment to the anchor point. The <see cref="AnchorOffsetX"/> and 
+        /// The <see cref="AnchorAlignment"/> property may be used to change the annotation's
+        /// automatic position alignment to the anchor point. The <see cref="AnchorOffsetX"/> and
         /// <see cref="AnchorOffsetY"/> properties may be used to add extra spacing.
         /// </para>
         /// <para>
@@ -1562,8 +1557,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A double value that represents the x-coordinate offset between the positions of an annotation and its anchor point.
         /// </value>
         /// <remarks>
-        /// The annotation must be anchored using the <see cref="AnchorDataPoint"/> or 
-        /// <see cref="AnchorX"/> properties, and its <see cref="X"/> property must be set 
+        /// The annotation must be anchored using the <see cref="AnchorDataPoint"/> or
+        /// <see cref="AnchorX"/> properties, and its <see cref="X"/> property must be set
         /// to <b>Double.NaN</b>.
         /// </remarks>
         [
@@ -1582,7 +1577,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value > 100.0 || value < -100.0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationAnchorOffsetInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationAnchorOffsetInvalid);
                 }
                 anchorOffsetX = value;
                 this.ResetCurrentRelativePosition();
@@ -1601,7 +1596,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A double value that represents the y-coordinate offset between the positions of an annotation and its anchor point.
         /// </value>
         /// <remarks>
-        /// Annotation must be anchored using <see cref="Annotation.AnchorDataPoint"/> or 
+        /// Annotation must be anchored using <see cref="Annotation.AnchorDataPoint"/> or
         /// <see cref="Annotation.AnchorY"/> properties and it's <see cref="Annotation.Y"/> property must be set
         /// to <b>Double.NaN</b>.
         /// </remarks>
@@ -1621,7 +1616,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value > 100.0 || value < -100.0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationAnchorOffsetInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationAnchorOffsetInvalid);
                 }
                 anchorOffsetY = value;
                 this.ResetCurrentRelativePosition();
@@ -1638,12 +1633,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <seealso cref="AnchorOffsetY"/>
         /// </summary>
         /// <value>
-        /// A <see cref="ContentAlignment"/> value that represents the annotation's alignment to 
+        /// A <see cref="ContentAlignment"/> value that represents the annotation's alignment to
         /// the anchor point.
         /// </value>
         /// <remarks>
-        /// The annotation must be anchored using either <see cref="AnchorDataPoint"/>, or the <see cref="AnchorX"/> 
-        /// and <see cref="AnchorY"/> properties. Its <see cref="X"/> and <see cref="Y"/> 
+        /// The annotation must be anchored using either <see cref="AnchorDataPoint"/>, or the <see cref="AnchorX"/>
+        /// and <see cref="AnchorY"/> properties. Its <see cref="X"/> and <see cref="Y"/>
         /// properties must be set to <b>Double.NaN</b>.
         /// </remarks>
         [
@@ -1670,7 +1665,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Editing Permissions
 
         /// <summary>
-        /// Gets or sets a flag that specifies whether an annotation may be selected 
+        /// Gets or sets a flag that specifies whether an annotation may be selected
         /// with a mouse by the end user.
         /// </summary>
         /// <value>
@@ -1694,7 +1689,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets a flag that specifies whether an annotation may be moved 
+        /// Gets or sets a flag that specifies whether an annotation may be moved
         /// with a mouse by the end user.
         /// </summary>
         /// <value>
@@ -1718,7 +1713,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets a flag that specifies whether an annotation anchor may be moved 
+        /// Gets or sets a flag that specifies whether an annotation anchor may be moved
         /// with a mouse by the end user.
         /// </summary>
         /// <value>
@@ -1742,7 +1737,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets a flag that specifies whether an annotation may be resized 
+        /// Gets or sets a flag that specifies whether an annotation may be resized
         /// with a mouse by the end user.
         /// </summary>
         /// <value>
@@ -1766,7 +1761,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets a flag that specifies whether an annotation's text may be edited 
+        /// Gets or sets a flag that specifies whether an annotation's text may be edited
         /// when the end user double clicks on the text.
         /// </summary>
         /// <value>
@@ -1790,7 +1785,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets a flag that specifies whether a polygon annotation's points 
+        /// Gets or sets a flag that specifies whether a polygon annotation's points
         /// may be moved with a mouse by the end user.
         /// </summary>
         /// <value>
@@ -1824,8 +1819,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A string value.
         /// </value>
         /// <remarks>
-        /// Special keywords can be used in the text when an annotation is anchored to 
-        /// a data point using the <see cref="AnchorDataPoint"/> property.  For a listing of 
+        /// Special keywords can be used in the text when an annotation is anchored to
+        /// a data point using the <see cref="AnchorDataPoint"/> property.  For a listing of
         /// these keywords, refer to the "Annotations" help topic.
         /// </remarks>
         [
@@ -2040,14 +2035,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             chartArea.requireAxes &&
                             chartArea.matrix3D.IsInitialized())
                         {
-                            // Get anotation Z coordinate (use scene depth or anchored point Z position)
+                            // Get annotation Z coordinate (use scene depth or anchored point Z position)
                             float positionZ = chartArea.areaSceneDepth;
                             if (this.AnchorDataPoint != null && this.AnchorDataPoint.series != null)
                             {
-                                float depth = 0f;
                                 chartArea.GetSeriesZPositionAndDepth(
                                     this.AnchorDataPoint.series,
-                                    out depth,
+                                    out float depth,
                                     out positionZ);
                                 positionZ += depth / 2f;
                             }
@@ -2142,7 +2136,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Resizes an annotation according to its content size.
         /// </summary>
         /// <remarks>
-        /// Sets the annotation width and height to fit the specified text. This method applies to 
+        /// Sets the annotation width and height to fit the specified text. This method applies to
         /// <see cref="TextAnnotation"/>, <see cref="RectangleAnnotation"/>, <see cref="EllipseAnnotation"/>
         /// and <see cref="CalloutAnnotation"/> objects only.
         /// </remarks>
@@ -2188,7 +2182,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Anchor data point is not allowed for gropped annotations
                 if (this.AnnotationGroup != null)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionAnnotationGroupedAnchorDataPointMustBeEmpty));
+                    throw new InvalidOperationException(SR.ExceptionAnnotationGroupedAnchorDataPointMustBeEmpty);
                 }
 
                 // Get data point relative coordinate
@@ -2261,13 +2255,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             //***********************************************************************
-            //** Flags which indicate that coordinate was already transformed 
+            //** Flags which indicate that coordinate was already transformed
             //** into chart relative coordinate system.
             //***********************************************************************
             bool inRelativeX = false;
             bool inRelativeY = false;
-            bool inRelativeWidth = (_isSizeAlwaysRelative) ? true : false;
-            bool inRelativeHeight = (_isSizeAlwaysRelative) ? true : false;
+            bool inRelativeWidth = _isSizeAlwaysRelative;
+            bool inRelativeHeight = _isSizeAlwaysRelative;
             bool inRelativeAnchorX = false;
             bool inRelativeAnchorY = false;
 
@@ -2290,10 +2284,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Do not save relative position of annotations inside the group
                 saveCurrentPosition = false;
 
+
                 // Take relative position of the group
-                SizeF groupSize = SizeF.Empty;
-                PointF groupAnchorLocation = PointF.Empty;
-                group.GetRelativePosition(out groupLocation, out groupSize, out groupAnchorLocation);
+                group.GetRelativePosition(out groupLocation, out SizeF groupSize, out _);
 
                 // Calculate Scale
                 groupScaleX = groupSize.Width / 100.0;
@@ -2551,14 +2544,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 chartArea.requireAxes &&
                 chartArea.matrix3D.IsInitialized())
             {
-                // Get anotation Z coordinate (use scene depth or anchored point Z position)
+                // Get annotation Z coordinate (use scene depth or anchored point Z position)
                 float positionZ = chartArea.areaSceneDepth;
                 if (this.AnchorDataPoint != null && this.AnchorDataPoint.series != null)
                 {
-                    float depth = 0f;
                     chartArea.GetSeriesZPositionAndDepth(
                         this.AnchorDataPoint.series,
-                        out depth,
+                        out float depth,
                         out positionZ);
                     positionZ += depth / 2f;
                 }
@@ -2650,58 +2642,54 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                         // Adjust label position using SmartLabelStyle algorithm
                         LabelAlignmentStyles labelAlignment = LabelAlignmentStyles.Bottom;
-                        using (StringFormat format = new StringFormat())
+                        using StringFormat format = new StringFormat();
+                        SizeF markerSizeRel = new SizeF((float)this.AnchorOffsetX, (float)this.AnchorOffsetY);
+                        PointF newlocation = this.Chart.chartPicture.annotationSmartLabel.AdjustSmartLabelPosition(
+                            this.Common,
+                            this.Chart.chartPicture.ChartGraph,
+                            chartArea,
+                            this.SmartLabelStyle,
+                            location,
+                            size,
+                            format,
+                            anchorLocation,
+                            markerSizeRel,
+                            labelAlignment,
+                            this is CalloutAnnotation);
+
+                        // Restore old movement distance restriction
+                        this.SmartLabelStyle.MinMovingDistance = oldMinMovingDistance;
+                        this.SmartLabelStyle.MaxMovingDistance = oldMaxMovingDistance;
+
+                        // Check if annotation should be hidden
+                        if (newlocation.IsEmpty)
                         {
-                            SizeF markerSizeRel = new SizeF((float)this.AnchorOffsetX, (float)this.AnchorOffsetY);
-                            PointF newlocation = this.Chart.chartPicture.annotationSmartLabel.AdjustSmartLabelPosition(
-                                this.Common,
+                            location = new PointF(float.NaN, float.NaN);
+                        }
+                        else
+                        {
+                            // Get new position using alignment in format
+                            RectangleF newPosition = this.Chart.chartPicture.annotationSmartLabel.GetLabelPosition(
                                 this.Chart.chartPicture.ChartGraph,
-                                chartArea,
-                                this.SmartLabelStyle,
-                                location,
+                                newlocation,
                                 size,
                                 format,
-                                anchorLocation,
-                                markerSizeRel,
-                                labelAlignment,
-                                (this is CalloutAnnotation));
+                                false);
 
-                            // Restore old movement distance restriction
-                            this.SmartLabelStyle.MinMovingDistance = oldMinMovingDistance;
-                            this.SmartLabelStyle.MaxMovingDistance = oldMaxMovingDistance;
-
-                            // Check if annotation should be hidden
-                            if (newlocation.IsEmpty)
-                            {
-                                location = new PointF(float.NaN, float.NaN);
-                            }
-                            else
-                            {
-                                // Get new position using alignment in format
-                                RectangleF newPosition = this.Chart.chartPicture.annotationSmartLabel.GetLabelPosition(
-                                    this.Chart.chartPicture.ChartGraph,
-                                    newlocation,
-                                    size,
-                                    format,
-                                    false);
-
-                                // Set new location
-                                location = newPosition.Location;
-                            }
+                            // Set new location
+                            location = newPosition.Location;
                         }
                     }
                 }
                 else
                 {
                     // Add annotation position into the list (to prevent overlapping)
-                    using (StringFormat format = new StringFormat())
-                    {
-                        this.Chart.chartPicture.annotationSmartLabel.AddSmartLabelPosition(
-                            this.Chart.chartPicture.ChartGraph,
-                            location,
-                            size,
-                            format);
-                    }
+                    using StringFormat format = new StringFormat();
+                    this.Chart.chartPicture.annotationSmartLabel.AddSmartLabelPosition(
+                        this.Chart.chartPicture.ChartGraph,
+                        location,
+                        size,
+                        format);
                 }
             }
 
@@ -2737,8 +2725,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             double newX = position.X;
             double newY = position.Y;
-            double newRight = position.Right;
-            double newBottom = position.Bottom;
+            double newRight;
+            double newBottom;
             double newWidth = position.Width;
             double newHeight = position.Height;
             double newAnchorX = anchorPoint.X;
@@ -2889,14 +2877,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Fire position changing event
                 if (this.Chart != null)
                 {
-                    AnnotationPositionChangingEventArgs args = new AnnotationPositionChangingEventArgs();
-                    args.NewLocationX = newX;
-                    args.NewLocationY = newY;
-                    args.NewSizeWidth = newWidth;
-                    args.NewSizeHeight = newHeight;
-                    args.NewAnchorLocationX = newAnchorX;
-                    args.NewAnchorLocationY = newAnchorY;
-                    args.Annotation = this;
+                    AnnotationPositionChangingEventArgs args = new AnnotationPositionChangingEventArgs
+                    {
+                        NewLocationX = newX,
+                        NewLocationY = newY,
+                        NewSizeWidth = newWidth,
+                        NewSizeHeight = newHeight,
+                        NewAnchorLocationX = newAnchorX,
+                        NewAnchorLocationY = newAnchorY,
+                        Annotation = this
+                    };
 
                     if (this.Chart.OnAnnotationPositionChanging(ref args))
                     {
@@ -2956,16 +2946,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (!movingDistance.IsEmpty)
             {
-                // Convert pixel coordinates into relative 
+                // Convert pixel coordinates into relative
                 if (pixelCoord)
                 {
                     movingDistance = Chart.chartPicture.ChartGraph.GetRelativeSize(movingDistance);
                 }
 
+
                 // Get annotation position in relative coordinates
-                PointF firstPoint = PointF.Empty;
-                PointF anchorPoint = PointF.Empty;
-                SizeF size = SizeF.Empty;
+                PointF firstPoint;
+                PointF anchorPoint;
+                SizeF size;
                 if (userInput)
                 {
                     if (this.startMovePositionRel.X == 0f &&
@@ -3103,8 +3094,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 int separatorIndex = dataPointName.IndexOf("\\r", StringComparison.Ordinal);
                 if (separatorIndex > 0)
                 {
-                    string seriesName = dataPointName.Substring(0, separatorIndex);
-                    string pointIndex = dataPointName.Substring(separatorIndex + 2);
+                    string seriesName = dataPointName[..separatorIndex];
+                    string pointIndex = dataPointName[(separatorIndex + 2)..];
 
                     if (int.TryParse(pointIndex, NumberStyles.Any, CultureInfo.InvariantCulture, out int index))
                     {
@@ -3135,20 +3126,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int separatorIndex = axisName.IndexOf("\\r", StringComparison.Ordinal);
                     if (separatorIndex > 0)
                     {
-                        string areaName = axisName.Substring(0, separatorIndex);
-                        string axisType = axisName.Substring(separatorIndex + 2);
+                        string areaName = axisName[..separatorIndex];
+                        string axisType = axisName[(separatorIndex + 2)..];
                         switch ((AxisName)Enum.Parse(typeof(AxisName), axisType))
                         {
-                            case (AxisName.X):
+                            case AxisName.X:
                                 axis = Chart.ChartAreas[areaName].AxisX;
                                 break;
-                            case (AxisName.Y):
+                            case AxisName.Y:
                                 axis = Chart.ChartAreas[areaName].AxisY;
                                 break;
-                            case (AxisName.X2):
+                            case AxisName.X2:
                                 axis = Chart.ChartAreas[areaName].AxisX2;
                                 break;
-                            case (AxisName.Y2):
+                            case AxisName.Y2:
                                 axis = Chart.ChartAreas[areaName].AxisY2;
                                 break;
                         }
@@ -3332,14 +3323,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         chartArea.requireAxes &&
                         chartArea.matrix3D.IsInitialized())
                     {
-                        // Get anotation Z coordinate (use scene depth or anchored point Z position)
+                        // Get annotation Z coordinate (use scene depth or anchored point Z position)
                         float positionZ = chartArea.areaSceneDepth;
                         if (this.AnchorDataPoint != null && this.AnchorDataPoint.series != null)
                         {
-                            float depth = 0f;
                             chartArea.GetSeriesZPositionAndDepth(
                                 this.AnchorDataPoint.series,
-                                out depth,
+                                out float depth,
                                 out positionZ);
                             positionZ += depth / 2f;
                         }
@@ -3407,7 +3397,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Second anchor <see cref="DataPoint"/>.
         /// </param>
         /// <remarks>
-        /// Anchors an annotation's top/left and bottom/right corners to the 
+        /// Anchors an annotation's top/left and bottom/right corners to the
         /// specified data points.
         /// </remarks>
         public void SetAnchor(DataPoint dataPoint1, DataPoint dataPoint2)
@@ -3446,10 +3436,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Begins end user placement of an annotation using the mouse.
         /// </summary>
         /// <remarks>
-        /// When this method is called, the end user is allowed to place an annotation using the 
+        /// When this method is called, the end user is allowed to place an annotation using the
         /// mouse.
         /// <para>
-        /// Placement will finish when the end user specifies all required points, or 
+        /// Placement will finish when the end user specifies all required points, or
         /// the <see cref="EndPlacement"/> method is called.</para>
         /// </remarks>
         virtual public void BeginPlacement()
@@ -3457,17 +3447,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Can't place annotations inside the group
             if (this.AnnotationGroup != null)
             {
-                throw (new InvalidOperationException(SR.ExceptionAnnotationGroupedUnableToStartPlacement));
+                throw new InvalidOperationException(SR.ExceptionAnnotationGroupedUnableToStartPlacement);
             }
 
             if (this.Chart != null)
             {
-                // Set the annotation object which is currently placed 
+                // Set the annotation object which is currently placed
                 this.Chart.Annotations.placingAnnotation = this;
             }
             else
             {
-                throw (new InvalidOperationException(SR.ExceptionAnnotationNotInCollection));
+                throw new InvalidOperationException(SR.ExceptionAnnotationNotInCollection);
             }
         }
 
@@ -3475,11 +3465,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Ends user placement of an annotation.
         /// </summary>
         /// <remarks>
-        /// Ends an annotation placement operation previously started by a 
+        /// Ends an annotation placement operation previously started by a
         /// <see cref="BeginPlacement"/> method call.
         /// <para>
         /// Calling this method is not required, since placement will automatically
-        /// end when an end user enters all required points. However, it is useful when an annotation 
+        /// end when an end user enters all required points. However, it is useful when an annotation
         /// placement operation needs to be aborted for some reason.
         /// </para>
         /// </remarks>
@@ -3521,11 +3511,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Remeber position where mouse was clicked
                     this.lastPlacementPosition = this.GetGraphics().GetRelativePoint(point);
 
+
                     // Get annotation position in relative coordinates
-                    PointF firstPoint = PointF.Empty;
-                    PointF anchorPoint = PointF.Empty;
-                    SizeF size = SizeF.Empty;
-                    this.GetRelativePosition(out firstPoint, out size, out anchorPoint);
+                    this.GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
 
                     // Set annotation X, Y coordinate
                     if (this.AllowMoving)
@@ -3597,10 +3585,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (buttons == MouseButtons.Left)
             {
                 // Get annotation position in relative coordinates
-                PointF firstPoint = PointF.Empty;
-                PointF anchorPoint = PointF.Empty;
-                SizeF size = SizeF.Empty;
-                this.GetRelativePosition(out firstPoint, out size, out anchorPoint);
+                this.GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
 
                 if (this.AllowResizing)
                 {
@@ -3676,10 +3661,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 !this.lastPlacementPosition.IsEmpty)
             {
                 // Get annotation position in relative coordinates
-                PointF firstPoint = PointF.Empty;
-                PointF anchorPoint = PointF.Empty;
-                SizeF size = SizeF.Empty;
-                this.GetRelativePosition(out firstPoint, out size, out anchorPoint);
+                this.GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
 
                 if (this.AllowResizing)
                 {
@@ -3887,14 +3869,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             chartArea.requireAxes &&
                             chartArea.matrix3D.IsInitialized())
                         {
-                            // Get anotation Z coordinate (use scene depth or anchored point Z position)
+                            // Get annotation Z coordinate (use scene depth or anchored point Z position)
                             float positionZ = chartArea.areaSceneDepth;
                             if (this.AnchorDataPoint != null && this.AnchorDataPoint.series != null)
                             {
-                                float depth = 0f;
                                 chartArea.GetSeriesZPositionAndDepth(
                                     this.AnchorDataPoint.series,
-                                    out depth,
+                                    out float depth,
                                     out positionZ);
                                 positionZ += depth / 2f;
                             }
@@ -3912,7 +3893,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                     }
 
-                    // Get plot rectangle position and inflate it slightly 
+                    // Get plot rectangle position and inflate it slightly
                     // to solve any float rounding issues.
                     RectangleF rect = chartArea.PlotAreaPosition.ToRectangleF();
                     rect.Inflate(0.00001f, 0.00001f);
@@ -3942,7 +3923,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Checks if provided pixel coordinate is contained in one of the 
+        /// Checks if provided pixel coordinate is contained in one of the
         /// selection handles rectangle.
         /// </summary>
         /// <param name="point">Coordinate in pixels.</param>
@@ -4072,7 +4053,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (this.AnnotationGroup != null)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionAnnotationGroupedAxisMustBeEmpty));
+                    throw new InvalidOperationException(SR.ExceptionAnnotationGroupedAxisMustBeEmpty);
                 }
             }
         }
@@ -4118,10 +4099,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// This class is used to stores position changing event data for an annotation.
     /// </summary>
     /// <remarks>
-    /// Provides additional data like the new annotation and anchor position when an end user 
+    /// Provides additional data like the new annotation and anchor position when an end user
     /// is moving the annotation with the mouse.
     /// <para>
-    /// Can be used to restrict annotation movement, or snap the annotation position to 
+    /// Can be used to restrict annotation movement, or snap the annotation position to
     /// specific points.
     /// </para>
     /// </remarks>

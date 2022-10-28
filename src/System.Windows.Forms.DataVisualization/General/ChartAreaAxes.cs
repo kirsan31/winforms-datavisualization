@@ -349,7 +349,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             foreach (Axis currentAxis in axesArray)
             {
 
-                useScaleSegments = (currentAxis.ScaleSegments.Count > 0);
+                useScaleSegments = currentAxis.ScaleSegments.Count > 0;
 
                 if (!useScaleSegments)
                 {
@@ -446,7 +446,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (axis.IsLogarithmic)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionChartAreaAxisScaleLogarithmicUnsuitable));
+                    throw new InvalidOperationException(SR.ExceptionChartAreaAxisScaleLogarithmicUnsuitable);
                 }
                 //Set axis defaults from the indexed series
                 SetDefaultFromIndexes(axis);
@@ -642,9 +642,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Get minimum and maximum from data source
-            double autoMaximum;
-            double autoMinimum;
-            this.GetValuesFromData(axis, out autoMinimum, out autoMaximum);
+            this.GetValuesFromData(axis, out double autoMinimum, out double autoMaximum);
 
             // ***************************************************
             // This part of code is used to add a margin to the 
@@ -656,7 +654,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // The minimum and maximum values from data manager don’t exist.
 
             if (axis.enabled &&
-                ((axis.AutoMaximum || double.IsNaN(axis.Maximum)) && (autoMaximum == double.MaxValue || autoMaximum == double.MinValue)) ||
+                (axis.AutoMaximum || double.IsNaN(axis.Maximum)) && (autoMaximum == double.MaxValue || autoMaximum == double.MinValue) ||
                 ((axis.AutoMinimum || double.IsNaN(axis.Minimum)) && (autoMinimum == double.MaxValue || autoMinimum == double.MinValue)))
             {
                 if (this.AllEmptyPoints())
@@ -669,7 +667,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     if (!this.Common.ChartPicture.SuppressExceptions)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionAxisMinimumMaximumInvalid));
+                        throw new InvalidOperationException(SR.ExceptionAxisMinimumMaximumInvalid);
                     }
                 }
             }
@@ -1053,7 +1051,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     catch (System.Exception)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionAxisStackedChartsDataPointsNumberMismatch));
+                        throw new InvalidOperationException(SR.ExceptionAxisStackedChartsDataPointsNumberMismatch);
                     }
                 }
 
@@ -1129,7 +1127,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     catch (System.Exception)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionAxisStackedChartsDataPointsNumberMismatch));
+                        throw new InvalidOperationException(SR.ExceptionAxisStackedChartsDataPointsNumberMismatch);
                     }
                 }
                 // Chart type with two y values used for scale ( bubble chart type )
@@ -1418,7 +1416,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             if (Common.ChartTypeRegistry.GetChartType(series.ChartTypeName).SwitchValueAxes != switchValueAxes)
                             {
-                                throw (new InvalidOperationException(SR.ExceptionChartAreaChartTypesCanNotCombine));
+                                throw new InvalidOperationException(SR.ExceptionChartAreaChartTypesCanNotCombine);
                             }
                         }
 
@@ -1631,7 +1629,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (_series.Count == 0)
             {
-                throw (new InvalidOperationException(SR.ExceptionChartAreaSeriesNotFound));
+                throw new InvalidOperationException(SR.ExceptionChartAreaSeriesNotFound);
             }
 
             return Common.DataManager.Series[_series[0]];
@@ -1647,8 +1645,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Minimum Interval</returns>
         internal double GetPointsInterval(bool isLogarithmic, double logarithmBase)
         {
-            bool sameInterval;
-            return GetPointsInterval(_series, isLogarithmic, logarithmBase, false, out sameInterval);
+            return GetPointsInterval(_series, isLogarithmic, logarithmBase, false, out bool sameInterval);
         }
 
         /// <summary>
@@ -1663,8 +1660,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Minimum Interval</returns>
         internal double GetPointsInterval(List<string> seriesList, bool isLogarithmic, double logarithmBase, bool checkSameInterval, out bool sameInterval)
         {
-            Series nullSeries = null;
-            return GetPointsInterval(seriesList, isLogarithmic, logarithmBase, checkSameInterval, out sameInterval, out nullSeries);
+            return GetPointsInterval(seriesList, isLogarithmic, logarithmBase, checkSameInterval, out sameInterval, out Series nullSeries);
         }
 
         /// <summary>
@@ -1804,11 +1800,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             {
                                 // Calculate current interval
                                 long curentTicksInterval = long.MaxValue;
-                                int curentMonthsInteval = 0;
                                 GetDateInterval(
                                     seriesXValues[seriesIndex][point - 1],
                                     seriesXValues[seriesIndex][point],
-                                    out curentMonthsInteval,
+                                    out int curentMonthsInteval,
                                     out curentTicksInterval);
 
                                 // Compare current interval with previous

@@ -597,7 +597,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal void StartHotRegion(DataPoint point, bool labelRegion)
 		{
 			string hRef = string.Empty;
-			string tooltip = (labelRegion) ? point.LabelToolTip : point.ToolTip;
+			string tooltip = labelRegion ? point.LabelToolTip : point.ToolTip;
 
             if (hRef.Length > 0 || tooltip.Length > 0)
 			{

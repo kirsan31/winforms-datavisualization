@@ -421,7 +421,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
                     if (value < -100 || value > 100)
                     {
-                        throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionValueMustBeInRange(nameof(DockingOffset), (-100).ToString(CultureInfo.CurrentCulture), (100).ToString(CultureInfo.CurrentCulture))));
+                        throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionValueMustBeInRange(nameof(DockingOffset), (-100).ToString(CultureInfo.CurrentCulture), 100.ToString(CultureInfo.CurrentCulture)));
                     }
 					_dockingOffset = value;
 					this.Invalidate(false);
@@ -621,7 +621,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionTitleBorderWidthIsNegative));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionTitleBorderWidthIsNegative);
 				}
 				_borderWidth = value;
 				this.Invalidate(false);
@@ -1850,7 +1850,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if(chartPicture != null)
 			{
 				// Get elemets spacing
-				float areaSpacing = Math.Min((chartAreasRectangle.Height/100F) * elementSpacing, (chartAreasRectangle.Width/100F) * elementSpacing);
+				float areaSpacing = Math.Min(chartAreasRectangle.Height/100F * elementSpacing, chartAreasRectangle.Width/100F * elementSpacing);
 
 				// Loop through all titles
 				foreach(Title title in chartPicture.Titles)
@@ -1864,7 +1864,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Check if all chart area names are valid
                     if (title.DockedToChartArea != Constants.NotSetValue && chartPicture.ChartAreas.IndexOf(title.DockedToChartArea)<0)
                     {
-                        throw (new ArgumentException(SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea)));
+                        throw new ArgumentException(SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea));
                     }
 
 					// Process only titles docked to specified area
@@ -1966,7 +1966,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						}
 						catch
 						{
-							throw(new ArgumentException( SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea) ) );
+							throw new ArgumentException( SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea) ) ;
 						}
 					}
 				}
@@ -1983,7 +1983,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						RectangleF titlePlottingRectangle = area.PlotAreaPosition.ToRectangleF();
 
 						// Get elemets spacing
-						float areaSpacing = Math.Min((titlePlottingRectangle.Height/100F) * elementSpacing, (titlePlottingRectangle.Width/100F) * elementSpacing);
+						float areaSpacing = Math.Min(titlePlottingRectangle.Height/100F * elementSpacing, titlePlottingRectangle.Width/100F * elementSpacing);
 
 						// Loop through all titles
 						foreach(Title title in chartPicture.Titles)

@@ -140,7 +140,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Check required Y values number
 			if(point.YValues.Length < this.YValuesPerPoint)
 			{
-				throw(new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
+				throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
 			}
 
 			// Marker size
@@ -201,7 +201,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							_maxPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMaxSize]);
 							if(_maxPossibleBubbleSize < 0 || _maxPossibleBubbleSize > 100)
 							{
-								throw(new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize")));
+								throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize"));
 							}
 						}
 
@@ -211,7 +211,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							_minPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMinSize]);
 							if(_minPossibleBubbleSize < 0 || _minPossibleBubbleSize > 100)
 							{
-								throw(new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMinSize")));
+								throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMinSize"));
 							}
 						}
 
@@ -245,7 +245,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                     // Check required Y values number
                                     if (point.YValues.Length < this.YValuesPerPoint)
                                     {
-                                        throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
+                                        throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
                                     }
 
                                     minSer = Math.Min(minSer, point.YValues[1]);
@@ -340,7 +340,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						maxPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMaxSize]);
 						if(maxPossibleBubbleSize < 0 || maxPossibleBubbleSize > 100)
 						{
-							throw(new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize")));
+							throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize"));
 						}
 					}
 
@@ -447,7 +447,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						maxPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMaxSize]);
 						if(maxPossibleBubbleSize < 0 || maxPossibleBubbleSize > 100)
 						{
-							throw(new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize")));
+							throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize"));
 						}
 					}
 				}

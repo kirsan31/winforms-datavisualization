@@ -306,7 +306,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal override string ToStringInternal()
         {
             string typeName = GetType().Name;
-            return (string.IsNullOrEmpty(_name)) ? typeName : typeName + '-' + _name;
+            return string.IsNullOrEmpty(_name) ? typeName : typeName + '-' + _name;
         }
         
         #endregion

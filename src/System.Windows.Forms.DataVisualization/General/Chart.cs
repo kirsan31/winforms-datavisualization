@@ -114,7 +114,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0 || value > 100)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartCompressionInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartCompressionInvalid);
                 }
                 _compression = value;
             }
@@ -528,12 +528,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
 
+                bool autoDetectType = true;
+
 
                 //************************************************************
                 //** Loop through the enumerator.
                 //************************************************************
-                bool valueExsists = true;
-                bool autoDetectType = true;
+                bool valueExsists;
                 do
                 {
                     // Move to the next item
@@ -562,13 +563,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             // Double check that a string object is not provided for data binding
                             if (dataSource is string)
                             {
-                                throw (new ArgumentException(SR.ExceptionDataBindYValuesToString, nameof(dataSource)));
+                                throw new ArgumentException(SR.ExceptionDataBindYValuesToString, nameof(dataSource));
                             }
 
                             // Check number of fields
                             if (yFieldNames == null || yFieldNames.GetLength(0) > series.YValuesPerPoint)
                             {
-                                throw (new ArgumentOutOfRangeException(nameof(dataSource), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
+                                throw new ArgumentOutOfRangeException(nameof(dataSource), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
                             }
 
                             //************************************************************
@@ -642,7 +643,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         }
                                         else
                                         {
-                                            yValuesObj[i] = (((Series)seriesList[0]).IsYValueDateTime()) ? DateTime.Now.Date.ToOADate() : 0.0;
+                                            yValuesObj[i] = ((Series)seriesList[0]).IsYValueDateTime() ? DateTime.Now.Date.ToOADate() : 0.0;
                                         }
                                     }
                                 }
@@ -803,13 +804,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // All series must be indexed
             if (!indexedX)
             {
-                throw (new InvalidOperationException(SR.ExceptionChartDataPointsAlignmentFaild));
+                throw new InvalidOperationException(SR.ExceptionChartDataPointsAlignmentFaild);
             }
 
             // AxisLabel can't be empty or duplicated
             if (!uniqueAxisLabels)
             {
-                throw (new InvalidOperationException(SR.ExceptionChartDataPointsAlignmentFaildAxisLabelsInvalid));
+                throw new InvalidOperationException(SR.ExceptionChartDataPointsAlignmentFaildAxisLabelsInvalid);
             }
 
             // Assign unique X values for data points in all series with same axis LabelStyle
@@ -874,16 +875,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (dataSource == null)
-                throw (new ArgumentNullException(nameof(dataSource), SR.ExceptionDataPointInsertionNoDataSource));
+                throw new ArgumentNullException(nameof(dataSource), SR.ExceptionDataPointInsertionNoDataSource);
 
             if (dataSource is string)
-                throw (new ArgumentException(SR.ExceptionDataBindSeriesToString, nameof(dataSource)));
+                throw new ArgumentException(SR.ExceptionDataBindSeriesToString, nameof(dataSource));
 
             if (String.IsNullOrEmpty(yFields))
-                throw (new ArgumentException(SR.ExceptionChartDataPointsInsertionFailedYValuesEmpty, nameof(yFields)));
+                throw new ArgumentException(SR.ExceptionChartDataPointsInsertionFailedYValuesEmpty, nameof(yFields));
 
             if (String.IsNullOrEmpty(seriesGroupByField))
-                throw (new ArgumentException(SR.ExceptionDataBindSeriesGroupByParameterIsEmpty, nameof(seriesGroupByField)));
+                throw new ArgumentException(SR.ExceptionDataBindSeriesGroupByParameterIsEmpty, nameof(seriesGroupByField));
 
 
             // List of series and group by field values
@@ -954,10 +955,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     object groupObj = DataPointCollection.ConvertEnumerationItem(
                         enumerator.Current,
                         seriesGroupByField);
+                    int seriesIndex = groupByValueList.IndexOf(groupObj);
 
                     // Check series group by field and create new series if required
-                    Series series = null;
-                    int seriesIndex = groupByValueList.IndexOf(groupObj);
+                    Series series;
                     if (seriesIndex >= 0)
                     {
                         // Select existing series from the list
@@ -1307,7 +1308,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (container == null)
             {
-                throw (new ArgumentNullException(SR.ExceptionInvalidServiceContainer));
+                throw new ArgumentNullException(SR.ExceptionInvalidServiceContainer);
             }
 
             // Create and set Common Elements
@@ -1346,7 +1347,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 return this;
             }
-            throw (new ArgumentException(SR.ExceptionChartPictureUnsupportedType(serviceType.ToString())));
+            throw new ArgumentException(SR.ExceptionChartPictureUnsupportedType(serviceType.ToString()));
         }
 
         #endregion
@@ -1411,7 +1412,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Text rendering quality.</returns>
         internal TextRenderingHint GetTextRenderingHint()
         {
-            TextRenderingHint result = TextRenderingHint.SingleBitPerPixelGridFit;
+            TextRenderingHint result;
             if ((this.AntiAliasing & AntiAliasingStyles.Text) == AntiAliasingStyles.Text)
             {
                 result = TextRenderingHint.ClearTypeGridFit;
@@ -1823,7 +1824,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** Get the 3D border interface
             //******************************************************
             _titlePosition = RectangleF.Empty;
-            IBorderType border3D = null;
             bool titleInBorder = false;
 
             if (_borderSkin.SkinStyle != BorderSkinStyle.None)
@@ -1832,7 +1832,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this._chartBorderPosition = chartGraph.GetAbsoluteRectangle(chartAreasRectangle);
 
                 // Get border interface 
-                border3D = Common.BorderTypeRegistry.GetBorderType(_borderSkin.SkinStyle.ToString());
+                IBorderType border3D = Common.BorderTypeRegistry.GetBorderType(_borderSkin.SkinStyle.ToString());
                 if (border3D != null)
                 {
                     border3D.Resolution = chartGraph.Graphics.DpiX;
@@ -2519,7 +2519,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartBorderIsNegative));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartBorderIsNegative);
                 }
                 _borderWidth = value;
             }
@@ -2585,7 +2585,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Check the chart area used for alignment
                         if (this._chartAreas.IndexOf(area.AlignWithChartArea) < 0)
                         {
-                            throw (new InvalidOperationException(SR.ExceptionChartAreaNameReferenceInvalid(area.Name, area.AlignWithChartArea)));
+                            throw new InvalidOperationException(SR.ExceptionChartAreaNameReferenceInvalid(area.Name, area.AlignWithChartArea));
                         }
                     }
                 }
@@ -3078,7 +3078,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 catch (Exception ex)
                 {
-                    throw (new InvalidOperationException(ex.Message));
+                    throw new InvalidOperationException(ex.Message);
                 }
                 finally
                 {

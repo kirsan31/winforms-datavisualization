@@ -974,7 +974,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Check interval type
 				switch(type)
 				{
-					case(DateTimeIntervalType.Years):
+					case DateTimeIntervalType.Years:
 						int year = (int)((int)(newStartDate.Year / intervalSize) * intervalSize);
 						if(year <= 0)
 						{
@@ -984,7 +984,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							1, 1, 0, 0, 0);
 						break;
 
-					case(DateTimeIntervalType.Months):
+					case DateTimeIntervalType.Months:
 						int month = (int)((int)(newStartDate.Month / intervalSize) * intervalSize);
 						if(month <= 0)
 						{
@@ -994,7 +994,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							month, 1, 0, 0, 0);
 						break;
 
-					case(DateTimeIntervalType.Days):
+					case DateTimeIntervalType.Days:
 						int day = (int)((int)(newStartDate.Day / intervalSize) * intervalSize);
 						if(day <= 0)
 						{
@@ -1004,13 +1004,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							newStartDate.Month, day, 0, 0, 0);
 						break;
 
-					case(DateTimeIntervalType.Hours):
+					case DateTimeIntervalType.Hours:
 						int hour = (int)((int)(newStartDate.Hour / intervalSize) * intervalSize);
 						newStartDate = new DateTime(newStartDate.Year, 
 							newStartDate.Month, newStartDate.Day, hour, 0, 0);
 						break;
 
-					case(DateTimeIntervalType.Minutes):
+					case DateTimeIntervalType.Minutes:
 						int minute = (int)((int)(newStartDate.Minute / intervalSize) * intervalSize);
 						newStartDate = new DateTime(newStartDate.Year, 
 							newStartDate.Month, 
@@ -1020,7 +1020,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							0);
 						break;
 
-					case(DateTimeIntervalType.Seconds):
+					case DateTimeIntervalType.Seconds:
 						int second = (int)((int)(newStartDate.Second / intervalSize) * intervalSize);
 						newStartDate = new DateTime(newStartDate.Year, 
 							newStartDate.Month, 
@@ -1031,7 +1031,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							0);
 						break;
 
-					case(DateTimeIntervalType.Milliseconds):
+					case DateTimeIntervalType.Milliseconds:
 						int milliseconds = (int)((int)(newStartDate.Millisecond / intervalSize) * intervalSize);
 						newStartDate = new DateTime(newStartDate.Year, 
 							newStartDate.Month, 
@@ -1042,13 +1042,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							milliseconds);
 						break;
 
-					case(DateTimeIntervalType.Weeks):
+					case DateTimeIntervalType.Weeks:
 
                         // NOTE: Code below was changed to fix issue #5962
                         // Elements that have interval set to weeks should be aligned to the 
                         // nearest Monday no matter how many weeks is the interval.
 						//newStartDate = newStartDate.AddDays(-((int)newStartDate.DayOfWeek * intervalSize));
-                        newStartDate = newStartDate.AddDays(-((int)newStartDate.DayOfWeek));
+                        newStartDate = newStartDate.AddDays(-(int)newStartDate.DayOfWeek);
 						newStartDate = new DateTime(newStartDate.Year, 
 							newStartDate.Month, newStartDate.Day, 0, 0, 0);
 						break;
@@ -1173,28 +1173,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					DateTime	roundedDateValue = dateValue;
 					switch(type)
 					{
-						case(DateTimeIntervalType.Years): // Ignore hours,...
+						case DateTimeIntervalType.Years: // Ignore hours,...
 							roundedDateValue = new DateTime(dateValue.Year, 
 								dateValue.Month, dateValue.Day, 0, 0, 0);
 							break;
 
-						case(DateTimeIntervalType.Months): // Ignore hours,...
+						case DateTimeIntervalType.Months: // Ignore hours,...
 							roundedDateValue = new DateTime(dateValue.Year, 
 								dateValue.Month, dateValue.Day, 0, 0, 0);
 							break;
 
-						case(DateTimeIntervalType.Days): // Ignore hours,...
+						case DateTimeIntervalType.Days: // Ignore hours,...
 							roundedDateValue = new DateTime(dateValue.Year, 
 								dateValue.Month, dateValue.Day, 0, 0, 0);
 							break;
 
-						case(DateTimeIntervalType.Hours): //
+						case DateTimeIntervalType.Hours: //
 							roundedDateValue = new DateTime(dateValue.Year, 
 								dateValue.Month, dateValue.Day, dateValue.Hour, 
 								dateValue.Minute, 0);
 							break;
 
-						case(DateTimeIntervalType.Minutes):
+						case DateTimeIntervalType.Minutes:
 							roundedDateValue = new DateTime(dateValue.Year, 
 								dateValue.Month, 
 								dateValue.Day, 
@@ -1203,7 +1203,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								dateValue.Second);
 							break;
 
-						case(DateTimeIntervalType.Seconds):
+						case DateTimeIntervalType.Seconds:
 							roundedDateValue = new DateTime(dateValue.Year, 
 								dateValue.Month, 
 								dateValue.Day, 
@@ -1213,7 +1213,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								0);
 							break;
 
-						case(DateTimeIntervalType.Weeks):
+						case DateTimeIntervalType.Weeks:
 							roundedDateValue = new DateTime(dateValue.Year, 
 								dateValue.Month, dateValue.Day, 0, 0, 0);
 							break;
@@ -1248,7 +1248,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					pointIndex += series.Points.Count/5 + 1;
 				}
 
-				double size = (pointIndex + 1) - current + adjuster;
+				double size = pointIndex + 1 - current + adjuster;
 		
 				return (size != 0) ? size : interval;
 			}

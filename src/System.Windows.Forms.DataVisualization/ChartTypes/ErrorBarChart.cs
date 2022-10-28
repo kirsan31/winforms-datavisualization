@@ -294,10 +294,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 vAxis = area.GetAxis(AxisName.Y, ser.YAxisType, ser.YSubAxisName);
 
                 // Get interval between points
-                double interval = (indexedSeries) ? 1 : area.GetPointsInterval(hAxis.IsLogarithmic, hAxis.logarithmBase);
+                double interval = indexedSeries ? 1 : area.GetPointsInterval(hAxis.IsLogarithmic, hAxis.logarithmBase);
 
                 // Calculates points width
-                float width = (float)(ser.GetPointWidth(graph, hAxis, interval, 0.4));
+                float width = (float)ser.GetPointWidth(graph, hAxis, interval, 0.4);
 
 
                 // Align error bar X position with linked series				
@@ -314,7 +314,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     int valueTypeIndex = linkedSeriesName.IndexOf(":", StringComparison.Ordinal);
                     if (valueTypeIndex >= 0)
                     {
-                        linkedSeriesName = linkedSeriesName.Substring(0, valueTypeIndex);
+                        linkedSeriesName = linkedSeriesName[..valueTypeIndex];
                     }
 
                     // All linked data series from chart area which have Error bar chart type
@@ -357,7 +357,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             }
                             else
                             {
-                                throw (new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid));
+                                throw new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid);
                             }
                         }
                     }
@@ -375,7 +375,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             area.GetPointsInterval(typeLinkedSeries, hAxis.IsLogarithmic, hAxis.logarithmBase, true, out showSideBySide);
                         }
 
-                        sideBySideWidth = (float)(common.DataManager.Series[linkedSeriesName].GetPointWidth(graph, hAxis, interval, 0.8)) / numberOfLinkedSeries;
+                        sideBySideWidth = (float)common.DataManager.Series[linkedSeriesName].GetPointWidth(graph, hAxis, interval, 0.8) / numberOfLinkedSeries;
                     }
                 }
 
@@ -395,14 +395,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         width /= numberOfLinkedSeries;
 
                         // NOTE: Lines of code below were added to fix issue #4048
-                        sideBySideWidth = (float)(ser.GetPointWidth(graph, hAxis, interval, 0.8)) / numberOfLinkedSeries;
+                        sideBySideWidth = (float)ser.GetPointWidth(graph, hAxis, interval, 0.8) / numberOfLinkedSeries;
                     }
                     else if (string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
                     {
                     }
                     else
                     {
-                        throw (new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid));
+                        throw new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid);
                     }
                 }
 
@@ -423,7 +423,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     // Check required Y values number
                     if (point.YValues.Length < this.YValuesPerPoint)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
+                        throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
                     }
 
                     // Reset pre-calculated point position
@@ -493,7 +493,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         }
                         else
                         {
-                            throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(point[CustomPropertyName.ErrorBarStyle], "ErrorBarStyle")));
+                            throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(point[CustomPropertyName.ErrorBarStyle], "ErrorBarStyle"));
                         }
                     }
 
@@ -641,7 +641,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             }
                             else
                             {
-                                throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(point[CustomPropertyName.ErrorBarStyle], "ErrorBarStyle")));
+                                throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(point[CustomPropertyName.ErrorBarStyle], "ErrorBarStyle"));
                             }
                         }
 
@@ -708,9 +708,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             float xPosition,
             float width)
         {
-            double yPosition = 0.0;
-            string markerStyle = String.Empty;
-
+            double yPosition;
+            string markerStyle;
             // Draw lower error marker
             if (barStyle == ErrorBarStyle.Both || barStyle == ErrorBarStyle.LowerError)
             {
@@ -1068,7 +1067,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Check that we have at least 4 Y values
                 if (ser.YValuesPerPoint < 3)
                 {
-                    throw (new ArgumentException(SR.ExceptionChartTypeRequiresYValues(ChartTypeNames.ErrorBar, 3.ToString(CultureInfo.CurrentCulture))));
+                    throw new ArgumentException(SR.ExceptionChartTypeRequiresYValues(ChartTypeNames.ErrorBar, 3.ToString(CultureInfo.CurrentCulture)));
                 }
 
                 // Set active horizontal/vertical axis
@@ -1076,10 +1075,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 vAxis = area.GetAxis(AxisName.Y, ser.YAxisType, ser.YSubAxisName);
 
                 // Get interval between points
-                double interval = (indexedSeries) ? 1 : area.GetPointsInterval(hAxis.IsLogarithmic, hAxis.logarithmBase);
+                double interval = indexedSeries ? 1 : area.GetPointsInterval(hAxis.IsLogarithmic, hAxis.logarithmBase);
 
                 // Calculates the width of the candles.
-                float width = (float)(ser.GetPointWidth(graph, hAxis, interval, 0.4));
+                float width = (float)ser.GetPointWidth(graph, hAxis, interval, 0.4);
 
                 // Align error bar X position with linked series				
                 float sideBySideWidth = width;
@@ -1093,7 +1092,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     int valueTypeIndex = attribValue.IndexOf(":", StringComparison.Ordinal);
                     if (valueTypeIndex >= 0)
                     {
-                        attribValue = attribValue.Substring(0, valueTypeIndex);
+                        attribValue = attribValue[..valueTypeIndex];
                     }
 
                     // All linked data series from chart area which have Error bar chart type
@@ -1134,7 +1133,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             }
                             else
                             {
-                                throw (new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid));
+                                throw new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid);
                             }
                         }
                     }
@@ -1162,8 +1161,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 //************************************************************
                 //** Get series depth and Z position
                 //************************************************************
-                float seriesDepth, seriesZPosition;
-                area.GetSeriesZPositionAndDepth(ser, out seriesDepth, out seriesZPosition);
+                area.GetSeriesZPositionAndDepth(ser, out float seriesDepth, out float seriesZPosition);
 
                 //************************************************************
                 //** Series data points loop
@@ -1174,7 +1172,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     // Check required Y values number
                     if (point.YValues.Length < this.YValuesPerPoint)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
+                        throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
                     }
 
                     // Reset pre-calculated point position
@@ -1242,7 +1240,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         }
                         else
                         {
-                            throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(point[CustomPropertyName.ErrorBarStyle], "ErrorBarStyle")));
+                            throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(point[CustomPropertyName.ErrorBarStyle], "ErrorBarStyle"));
                         }
                     }
 
@@ -1408,7 +1406,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             }
                             else
                             {
-                                throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(point[CustomPropertyName.ErrorBarStyle], "ErrorBarStyle")));
+                                throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(point[CustomPropertyName.ErrorBarStyle], "ErrorBarStyle"));
                             }
                         }
 
@@ -1480,9 +1478,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             float zPosition,
             float depth)
         {
-            float yPosition = 0f;
-            string markerStyle = String.Empty;
-
+            float yPosition;
+            string markerStyle;
             // Draw lower error marker
             if (barStyle == ErrorBarStyle.Both || barStyle == ErrorBarStyle.LowerError)
             {
@@ -1612,26 +1609,26 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
                 else
                 {
-                    throw (new InvalidOperationException(SR.ExceptionErrorBarTypeInvalid(errorBarSeries[CustomPropertyName.ErrorBarType])));
+                    throw new InvalidOperationException(SR.ExceptionErrorBarTypeInvalid(errorBarSeries[CustomPropertyName.ErrorBarType]));
                 }
 
                 // Check if parameter is specified
-                typeName = typeName.Substring(errorBarType.ToString().Length);
+                typeName = typeName[errorBarType.ToString().Length..];
                 if (typeName.Length > 0)
                 {
                     // Must be followed by '(' and ends with ')'
                     if (!typeName.StartsWith("(", StringComparison.Ordinal) || !typeName.EndsWith(")", StringComparison.Ordinal))
                     {
-                        throw (new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(errorBarSeries[CustomPropertyName.ErrorBarType])));
+                        throw new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(errorBarSeries[CustomPropertyName.ErrorBarType]));
                     }
-                    typeName = typeName.Substring(1, typeName.Length - 2);
+                    typeName = typeName[1..^1];
 
 
                     if (typeName.Length > 0)
                     {
                         if (!double.TryParse(typeName, NumberStyles.Any, CultureInfo.InvariantCulture, out param))
                         {
-                            throw (new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(errorBarSeries[CustomPropertyName.ErrorBarType])));
+                            throw new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(errorBarSeries[CustomPropertyName.ErrorBarType]));
                         }
                     }
                 }
@@ -1784,8 +1781,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             int valueTypeIndex = linkedSeriesName.IndexOf(":", StringComparison.Ordinal);
             if (valueTypeIndex >= 0)
             {
-                valueName = linkedSeriesName.Substring(valueTypeIndex + 1);
-                linkedSeriesName = linkedSeriesName.Substring(0, valueTypeIndex);
+                valueName = linkedSeriesName[(valueTypeIndex + 1)..];
+                linkedSeriesName = linkedSeriesName[..valueTypeIndex];
             }
 
             // Get reference to the chart control
@@ -1795,7 +1792,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Get linked series and check existance
                 if (control.Series.IndexOf(linkedSeriesName) == -1)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionDataSeriesNameNotFound(linkedSeriesName)));
+                    throw new InvalidOperationException(SR.ExceptionDataSeriesNameNotFound(linkedSeriesName));
                 }
                 Series linkedSeries = control.Series[linkedSeriesName];
 

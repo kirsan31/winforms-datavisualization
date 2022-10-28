@@ -78,7 +78,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			Chart	chart = series.Chart;
 			if(chart == null)
 			{
-				throw(new InvalidOperationException(SR.ExceptionKagiNullReference));
+				throw new InvalidOperationException(SR.ExceptionKagiNullReference);
 			}
 
             // Kagi chart may not be combined with any other chart types
@@ -87,7 +87,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 if (currentSeries.IsVisible() && currentSeries != series && area == chart.ChartAreas[currentSeries.ChartArea])
                 {
-                    throw (new InvalidOperationException(SR.ExceptionKagiCanNotCombine));
+                    throw new InvalidOperationException(SR.ExceptionKagiCanNotCombine);
                 }
             }
 
@@ -156,10 +156,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Save flag that axis interval is automatic
 						series["OldAutomaticXAxisInterval"] = "true";
 
-						// Calculate and set axis date-time interval
-						DateTimeIntervalType	intervalType = DateTimeIntervalType.Auto;
-						xAxis.interval = xAxis.CalcInterval(minX, maxX, true, out intervalType, series.XValueType);
-						xAxis.intervalType = intervalType;
+                        // Calculate and set axis date-time interval
+                        xAxis.interval = xAxis.CalcInterval(minX, maxX, true, out DateTimeIntervalType intervalType, series.XValueType);
+                        xAxis.intervalType = intervalType;
 					}
 				}
 			}
@@ -181,11 +180,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				Chart	chart = series.Chart;
 				if(chart == null)
 				{
-                    throw (new InvalidOperationException(SR.ExceptionKagiNullReference));
+                    throw new InvalidOperationException(SR.ExceptionKagiNullReference);
 				}
 
 				// Get original Kagi series
-				Series	kagiSeries = chart.Series[series.Name.Substring(19)];
+				Series	kagiSeries = chart.Series[series.Name[19..]];
                 Series.MovePositionMarkers(kagiSeries, series);
                 // Copy data back to original Kagi series
 				kagiSeries.Points.Clear();
@@ -197,13 +196,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 				}
 
-				// Restore series properties
-                bool xValIndexed;
-                bool parseSucceed = bool.TryParse(kagiSeries["OldXValueIndexed"], out xValIndexed);
+                // Restore series properties
+                bool parseSucceed = bool.TryParse(kagiSeries["OldXValueIndexed"], out bool xValIndexed);
                 kagiSeries.IsXValueIndexed = parseSucceed && xValIndexed;
 
-                int yValPerPoint;
-                parseSucceed = int.TryParse(kagiSeries["OldYValuesPerPoint"], NumberStyles.Any, CultureInfo.InvariantCulture, out yValPerPoint);
+                parseSucceed = int.TryParse(kagiSeries["OldYValuesPerPoint"], NumberStyles.Any, CultureInfo.InvariantCulture, out int yValPerPoint);
                 if (parseSucceed)
                 {
                     kagiSeries.YValuesPerPoint = yValPerPoint;
@@ -253,26 +250,24 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 bool usePercentage = attrValue.EndsWith("%", StringComparison.Ordinal);
                 if (usePercentage)
                 {
-                    attrValue = attrValue.Substring(0, attrValue.Length - 1);
+                    attrValue = attrValue[..^1];
                 }
 
                 if (usePercentage)
                 {
-                    double percent;
-                    bool parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out percent);
+                    bool parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double percent);
                     if (parseSucceed)
                     {
                         percentOfPrice = percent;
                     }
                     else
                     {
-                        throw (new InvalidOperationException(SR.ExceptionKagiAttributeFormatInvalid("ReversalAmount")));
+                        throw new InvalidOperationException(SR.ExceptionKagiAttributeFormatInvalid("ReversalAmount"));
                     }
                 }
                 else
                 {
-                    double amount;
-                    bool parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out amount);
+                    bool parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double amount);
                     if (parseSucceed)
                     {
                         reversalAmount = amount;
@@ -280,7 +275,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
                     else
                     {
-                        throw (new InvalidOperationException(SR.ExceptionKagiAttributeFormatInvalid("ReversalAmount")));
+                        throw new InvalidOperationException(SR.ExceptionKagiAttributeFormatInvalid("ReversalAmount"));
                     }
                 }
 
@@ -301,8 +296,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			int	yValueIndex = 0;
             if (series.IsCustomPropertySet(CustomPropertyName.UsedYValue))
             {
-                int yi;
-                bool parseSucceed = int.TryParse(series[CustomPropertyName.UsedYValue], NumberStyles.Any, CultureInfo.InvariantCulture, out yi);
+                bool parseSucceed = int.TryParse(series[CustomPropertyName.UsedYValue], NumberStyles.Any, CultureInfo.InvariantCulture, out int yi);
 
                 if (parseSucceed)
                 {
@@ -310,21 +304,20 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
                 else
                 {
-                    throw (new InvalidOperationException(SR.ExceptionKagiAttributeFormatInvalid("UsedYValue")));
+                    throw new InvalidOperationException(SR.ExceptionKagiAttributeFormatInvalid("UsedYValue"));
                 }
 
                 if (yValueIndex >= series.YValuesPerPoint)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionKagiAttributeOutOfRange("UsedYValue")));
+                    throw new InvalidOperationException(SR.ExceptionKagiAttributeOutOfRange("UsedYValue"));
                 }
             }
 
-			// Calculate reversal amount
-			double	reversalAmountPercentage = 0.0;
-			double	reversalAmount = GetReversalAmount(series, out reversalAmountPercentage);
+            // Calculate reversal amount
+            double reversalAmount = GetReversalAmount(series, out double reversalAmountPercentage);
 
-			// Fill points
-			double	prevClose = double.NaN;
+            // Fill points
+            double	prevClose = double.NaN;
 			int		prevDirection = 0;	// 1 up; -1 down; 0 none
 			int		pointIndex = 0;
 			foreach(DataPoint dataPoint in originalData.Points)
@@ -349,7 +342,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Calculate reversal amount as percentage of previous price
 				if(reversalAmountPercentage != 0.0)
 				{
-					reversalAmount = (prevClose / 100.0) * reversalAmountPercentage;
+					reversalAmount = prevClose / 100.0 * reversalAmountPercentage;
 				}
 
 				// Check direction of the price change
@@ -448,7 +441,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 					catch
 					{
-						throw(new InvalidOperationException(SR.ExceptionKagiAttributeFormatInvalid("Up Brick color")));
+						throw new InvalidOperationException(SR.ExceptionKagiAttributeFormatInvalid("Up Brick color"));
 					}
 				}
 
@@ -692,7 +685,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
 				points, 
 				secondPoint.index - 1, 
-				(this.multiSeries) ? secondPoint : null, 
+				this.multiSeries ? secondPoint : null, 
 				ref pointArrayIndex);
 
 			// Fint point with line properties
@@ -707,7 +700,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Adjust point visual properties 
-			Color			color = (useBorderColor) ? pointAttr.dataPoint.BorderColor : pointAttr.dataPoint.Color;
+			Color			color = useBorderColor ? pointAttr.dataPoint.BorderColor : pointAttr.dataPoint.Color;
 			ChartDashStyle	dashStyle = pointAttr.dataPoint.BorderDashStyle;
 			if( pointAttr.dataPoint.IsEmpty && pointAttr.dataPoint.Color == Color.Empty)
 			{
@@ -733,7 +726,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 					catch
 					{
-						throw(new InvalidOperationException(SR.ExceptionKagiAttributeFormatInvalid("Up Brick color")));
+						throw new InvalidOperationException(SR.ExceptionKagiAttributeFormatInvalid("Up Brick color"));
 					}
 				}
 
@@ -788,7 +781,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					DataPoint3D prevPoint = ChartGraphics.FindPointByIndex(
 						points, 
 						secondPoint.index - 2, 
-						(this.multiSeries) ? secondPoint : null, 
+						this.multiSeries ? secondPoint : null, 
 						ref pointArrayIndex);
 
 					bool	twoVertSegments = false;
@@ -824,10 +817,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 				if(segmentIndex == 0)
 				{
-					lineSegmentType = (originalDrawOrder) ? LineSegmentType.First : LineSegmentType.Last;
-					middlePoint.dataPoint = (originalDrawOrder) ? secondPoint.dataPoint : firstPoint.dataPoint;
-					point1 = (originalDrawOrder) ? firstPoint : middlePoint;
-					point2 = (originalDrawOrder) ? middlePoint : secondPoint;
+					lineSegmentType = originalDrawOrder ? LineSegmentType.First : LineSegmentType.Last;
+					middlePoint.dataPoint = originalDrawOrder ? secondPoint.dataPoint : firstPoint.dataPoint;
+					point1 = originalDrawOrder ? firstPoint : middlePoint;
+					point2 = originalDrawOrder ? middlePoint : secondPoint;
 				}
 				else if(segmentIndex == 1)
 				{
@@ -847,7 +840,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
 						point1, point2, 
 						points, pointIndex, 0f, operationType, lineSegmentType, 
-						(this.showPointLines) ? true : false, false,
+						this.showPointLines, false,
                         area.ReverseSeriesOrder,
 						this.multiSeries, 0, true);
 				}
@@ -865,7 +858,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
 						point1, vertSplitPoint, 
 						points, pointIndex, 0f, operationType, LineSegmentType.Middle, 
-						(this.showPointLines) ? true : false, false,
+						this.showPointLines, false,
                         area.ReverseSeriesOrder,
 						this.multiSeries, 0, true);
 
@@ -895,7 +888,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
 						vertSplitPoint, point2, 
 						points, pointIndex, 0f, operationType, lineSegmentType, 
-						(this.showPointLines) ? true : false, false,
+						this.showPointLines, false,
                         area.ReverseSeriesOrder,
 						this.multiSeries, 0, true);
 

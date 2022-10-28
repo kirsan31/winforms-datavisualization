@@ -459,7 +459,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-					throw(new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive));
+					throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive);
 				}
 				_borderWidth = value;
 				this.Invalidate();
@@ -534,7 +534,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 			{
 				return this;
 			}
-			throw (new ArgumentException( SR.ExceptionBorderTypeRegistryUnsupportedType( serviceType.ToString()) ));
+			throw new ArgumentException( SR.ExceptionBorderTypeRegistryUnsupportedType( serviceType.ToString()) );
 		}
 
 		#endregion
@@ -558,7 +558,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 				}
 
 				// Error - throw exception
-                throw (new ArgumentException(SR.ExceptionBorderTypeNameIsNotUnique( name ) ) );
+                throw new ArgumentException(SR.ExceptionBorderTypeNameIsNotUnique( name ) ) ;
 			}
 
 			// Make sure that specified class support IBorderType interface
@@ -574,7 +574,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 			}
 			if(!found)
 			{
-                throw (new ArgumentException(SR.ExceptionBorderTypeHasNoInterface ));
+                throw new ArgumentException(SR.ExceptionBorderTypeHasNoInterface );
 			}
 
 			// Add border type to the hash table
@@ -591,7 +591,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 			// First check if border type with specified name registered
 			if(!registeredBorderTypes.Contains(name))
 			{
-				throw( new ArgumentException( SR.ExceptionBorderTypeUnknown( name ) ) );
+				throw new ArgumentException( SR.ExceptionBorderTypeUnknown( name ) ) ;
 			}
 
 			// Check if the border type object is already created

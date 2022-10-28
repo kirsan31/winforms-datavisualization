@@ -474,7 +474,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						double yValue = GetYValue(common, area, ser, point, index, this.YValueIndex);
 
 						// Recalculates x position
-						double	xValue = (indexedSeries) ? index + 1 : point.XValue;
+						double	xValue = indexedSeries ? index + 1 : point.XValue;
 
 						// If not first point
 						if(index != 0)
@@ -502,7 +502,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 										DataPoint nextPoint = ser.Points[index + 1];
 
 										// Recalculates x position
-										double	xValueNext = (indexedSeries) ? index + 2 : nextPoint.XValue;
+										double	xValueNext = indexedSeries ? index + 2 : nextPoint.XValue;
 
 										if( (xValue < hAxisMin && xValueNext > hAxisMin) ||
 											(xValue > hAxisMax && xValueNext < hAxisMax) )
@@ -634,7 +634,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							// Get Y values of the current and previous data points
 							prevDataPoint = point;
 							yValuePrev = GetYValue(common, area, ser, point, index, 0);
-							xValuePrev = (indexedSeries) ? index + 1 : point.XValue;
+							xValuePrev = indexedSeries ? index + 1 : point.XValue;
 							yValuePrev = VAxis.GetLogValue( yValuePrev );
 							xValuePrev = HAxis.GetLogValue( xValuePrev );
 
@@ -721,7 +721,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Start drawing from the second point
 				if(pointIndex > 0)
 				{
-					Color			color = (useBorderColor) ? point.BorderColor : point.Color;
+					Color			color = useBorderColor ? point.BorderColor : point.Color;
 					ChartDashStyle	dashStyle = point.BorderDashStyle;
 
 					// Draw line shadow
@@ -729,7 +729,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						if(color != Color.Empty && color != Color.Transparent && pointBorderWidth > 0 && dashStyle != ChartDashStyle.NotSet)
 						{
-							using Pen shadowPen = new Pen((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb((useBorderColor) ? point.BorderColor.A/2 : point.Color.A/2, series.ShadowColor), pointBorderWidth);
+							using Pen shadowPen = new Pen((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb(useBorderColor ? point.BorderColor.A/2 : point.Color.A/2, series.ShadowColor), pointBorderWidth);
 							shadowPen.DashStyle = graph.GetPenStyle( point.BorderDashStyle );
 							shadowPen.StartCap = LineCap.Round;
 							shadowPen.EndCap = LineCap.Round;
@@ -957,12 +957,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="pt2">PointF structure that represents the second point to connect.</param>
         private void DrawTruncatedLine(ChartGraphics graph, Pen pen, PointF pt1, PointF pt2)
         {
-            PointF adjustedPoint1 = PointF.Empty;
-            PointF adjustedPoint2 = PointF.Empty;
 
             // Check line angle. Intersection with vertical or horizontal lines will be done based on the results
-            bool topBottomLine = (Math.Abs(pt2.Y - pt1.Y) > Math.Abs(pt2.X - pt1.X));
+            bool topBottomLine = Math.Abs(pt2.Y - pt1.Y) > Math.Abs(pt2.X - pt1.X);
             RectangleF rect = new RectangleF(0, 0, graph.Common.ChartPicture.Width, graph.Common.ChartPicture.Height);
+            PointF adjustedPoint1;
+            PointF adjustedPoint2;
             if (topBottomLine)
             {
                 // Find the intersection point between the original line and Y = 0 and Y = Height lines
@@ -1194,9 +1194,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			graph.frontLinePoint1 = PointF.Empty;
 			graph.frontLinePoint2 = PointF.Empty;
 
-			// Get list of series to draw
-			List<string> typeSeries = null;
-			if( (area.Area3DStyle.IsClustered && this.SideBySideSeries) ||
+            // Get list of series to draw
+            List<string> typeSeries;
+            if ( (area.Area3DStyle.IsClustered && this.SideBySideSeries) ||
 				this.Stacked)
 			{
 				// Draw all series of the same chart type
@@ -1260,7 +1260,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Throw error exception
 					if(!validOrder)
 					{
-                        throw (new InvalidOperationException(SR.Exception3DChartPointsXValuesUnsorted));
+                        throw new InvalidOperationException(SR.Exception3DChartPointsXValuesUnsorted);
 					}
 
 					// Remember previous value
@@ -1331,7 +1331,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						DataPoint3D	prevDataPointEx = ChartGraphics.FindPointByIndex(
 							dataPointDrawingOrder, 
 							pointEx.index - 1,	
-							(this.multiSeries) ? pointEx : null, 
+							this.multiSeries ? pointEx : null, 
 							ref pointArrayIndex);
 
 						//************************************************************
@@ -1342,8 +1342,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Get Y values of the current and previous data points
 						double	yValue = GetYValue(common, area, ser, pointEx.dataPoint, pointEx.index - 1, 0);
 						double	yValuePrev = GetYValue(common, area, ser, prevDataPointEx.dataPoint, prevDataPointEx.index - 1, 0);
-						double	xValue = (pointEx.indexedSeries) ? pointEx.index : pointEx.dataPoint.XValue;
-						double	xValuePrev = (prevDataPointEx.indexedSeries) ? prevDataPointEx.index : prevDataPointEx.dataPoint.XValue;
+						double	xValue = pointEx.indexedSeries ? pointEx.index : pointEx.dataPoint.XValue;
+						double	xValuePrev = prevDataPointEx.indexedSeries ? prevDataPointEx.index : prevDataPointEx.dataPoint.XValue;
 
 						// Axes are logarithmic
 						yValue = VAxis.GetLogValue( yValue );
@@ -1355,7 +1355,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						//************************************************************
 						//** Draw line
 						//************************************************************
-						DataPoint3D		pointAttr = (prevDataPointEx.dataPoint.IsEmpty) ? prevDataPointEx : pointEx;
+						DataPoint3D		pointAttr = prevDataPointEx.dataPoint.IsEmpty ? prevDataPointEx : pointEx;
 						if(pointAttr.dataPoint.Color != Color.Empty)
 						{
 							// Detect if we need to get graphical path of drawn object
@@ -1494,7 +1494,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
 				points, 
 				secondPoint.index - 1, 
-				(this.multiSeries) ? secondPoint : null, 
+				this.multiSeries ? secondPoint : null, 
 				ref pointArrayIndex);
 
 
@@ -1510,7 +1510,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Adjust point visual properties 
-			Color			color = (useBorderColor) ? pointAttr.dataPoint.BorderColor : pointAttr.dataPoint.Color;
+			Color			color = useBorderColor ? pointAttr.dataPoint.BorderColor : pointAttr.dataPoint.Color;
 			ChartDashStyle	dashStyle = pointAttr.dataPoint.BorderDashStyle;
 			if( pointAttr.dataPoint.IsEmpty && pointAttr.dataPoint.Color == Color.Empty)
 			{
@@ -1540,7 +1540,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				tension,
 				operationType,
 				LineSegmentType.Single,
-				(this.showPointLines) ? true : false,
+				this.showPointLines,
 				false,
                 area.ReverseSeriesOrder,
 				this.multiSeries,
@@ -2017,11 +2017,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			decimal plotAreaPositionRight = Math.Round((decimal)area.PlotAreaPosition.Right, decimals);
 			decimal plotAreaPositionBottom = Math.Round((decimal)area.PlotAreaPosition.Bottom, decimals);
 
-			// Make area a little bit bigger
-			plotAreaPositionX -= 0.001M;
-			plotAreaPositionY -= 0.001M;
-			plotAreaPositionRight += 0.001M;
-			plotAreaPositionBottom += 0.001M;
+            // Make area a little bit bigger
+            plotAreaPositionY -= 0.001M;
+            plotAreaPositionBottom += 0.001M;
 
 
 
@@ -2331,7 +2329,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						float thirdPointNewY = (!firstSegmentVisible || segmentNumber == 3) ? thirdPoint.Y : fourthPoint.Y;
 						if(segmentNumber == 3)
 						{
-							thirdPointNewY = (secondSegmentOutsideTop) ? thirdPoint.Y : fourthPoint.Y;
+							thirdPointNewY = secondSegmentOutsideTop ? thirdPoint.Y : fourthPoint.Y;
 						}
 
 						segmentPath =  Draw3DSurface( intersectionPoint, secondPoint, reversed,

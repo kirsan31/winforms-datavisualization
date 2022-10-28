@@ -2791,8 +2791,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.IsArea3D(area))
             {
 
-                bool axisOnEdge;
-                float zPositon = axis.GetMarksZPosition(out axisOnEdge);
+                float zPositon = axis.GetMarksZPosition(out bool axisOnEdge);
 
                 // Transform coordinates
                 Point3D[] points = new Point3D[list1.Count];
@@ -2977,10 +2976,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 float positionZ = chartArea.areaSceneDepth;
                 if (point != null && point.series != null)
                 {
-                    float depth;
                     chartArea.GetSeriesZPositionAndDepth(
                         point.series,
-                        out depth,
+                        out float depth,
                         out positionZ);
                     positionZ += depth / 2f;
                 }

@@ -94,7 +94,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			Chart	chart = series.Chart;
 			if(chart == null)
 			{
-                throw (new InvalidOperationException(SR.ExceptionPointAndFigureNullReference));
+                throw new InvalidOperationException(SR.ExceptionPointAndFigureNullReference);
 			}
 
             // PointAndFigure chart may not be combined with any other chart types
@@ -103,7 +103,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 if (currentSeries.IsVisible() && currentSeries != series && area == chart.ChartAreas[currentSeries.ChartArea])
                 {
-                    throw (new InvalidOperationException(SR.ExceptionPointAndFigureCanNotCombine));
+                    throw new InvalidOperationException(SR.ExceptionPointAndFigureCanNotCombine);
                 }
             }
 
@@ -205,7 +205,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				Chart	chart = series.Chart;
 				if(chart == null)
 				{
-                    throw (new InvalidOperationException(SR.ExceptionPointAndFigureNullReference));
+                    throw new InvalidOperationException(SR.ExceptionPointAndFigureNullReference);
 				}
 
 				// Unsubscribe for customize event
@@ -216,7 +216,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Get original PointAndFigure series
-				Series	pointAndFigureSeries = chart.Series[series.Name.Substring(29)];
+				Series	pointAndFigureSeries = chart.Series[series.Name[29..]];
                 Series.MovePositionMarkers(pointAndFigureSeries, series);
 
 				// Copy data back to original PointAndFigure series
@@ -229,14 +229,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 				}
 
-				// Restore series properties
-                bool xValIndexed;
-                bool parseSucceed = bool.TryParse(pointAndFigureSeries["OldXValueIndexed"], out xValIndexed);
+                // Restore series properties
+                bool parseSucceed = bool.TryParse(pointAndFigureSeries["OldXValueIndexed"], out bool xValIndexed);
 
                 pointAndFigureSeries.IsXValueIndexed = parseSucceed && xValIndexed;
 
-                int yVals;
-                parseSucceed = int.TryParse(pointAndFigureSeries["OldYValuesPerPoint"], NumberStyles.Any, CultureInfo.InvariantCulture, out yVals);
+                parseSucceed = int.TryParse(pointAndFigureSeries["OldYValuesPerPoint"], NumberStyles.Any, CultureInfo.InvariantCulture, out int yVals);
 
                 if (parseSucceed)
                 {
@@ -297,7 +295,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Check required Y values number
 					if(dp.YValues.Length < 2)
 					{
-						throw(new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(ChartTypeNames.PointAndFigure, 2.ToString(CultureInfo.CurrentCulture))));
+						throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(ChartTypeNames.PointAndFigure, 2.ToString(CultureInfo.CurrentCulture)));
 					}
 
 					if(dp.YValues[yValueHighIndex] > maxPrice)
@@ -342,14 +340,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 bool usePercentage = attrValue.EndsWith("%", StringComparison.Ordinal);
                 if (usePercentage)
                 {
-                    attrValue = attrValue.Substring(0, attrValue.Length - 1);
+                    attrValue = attrValue[..^1];
                 }
 
-                bool parseSucceed = false;
+                bool parseSucceed;
                 if (usePercentage)
                 {
-                    double percent;
-                    parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out percent);
+                    parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double percent);
                     if (parseSucceed)
                     {
                         percentOfPriceRange = percent;
@@ -358,8 +355,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
                 else
                 {
-                    double b = 0;
-                    parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out b);
+                    parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double b);
                     if (parseSucceed)
                     {
                         boxSize = b;
@@ -368,18 +364,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
                 if (!parseSucceed)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionRenkoBoxSizeFormatInvalid));
+                    throw new InvalidOperationException(SR.ExceptionRenkoBoxSizeFormatInvalid);
                 }
             }
 
 			// Calculate box size using the percentage of price range
 			if(percentOfPriceRange > 0.0)
 			{
-				// Set default box size
-				boxSize = 1.0;
+                // Set default box size
 
-				// Calculate box size as percentage of price difference
-				if(minPrice == maxPrice)
+                // Calculate box size as percentage of price difference
+                if (minPrice == maxPrice)
 				{
 					boxSize = 1.0;
 				}
@@ -430,15 +425,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 string attrValue = series[CustomPropertyName.ReversalAmount].Trim();
 
-                double amount;
-                bool parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out amount);
+                bool parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double amount);
                 if (parseSucceed)
                 {
                     reversalAmount = amount;
                 }
                 else
                 {
-                    throw (new InvalidOperationException(SR.ExceptionPointAndFigureReversalAmountInvalidFormat));
+                    throw new InvalidOperationException(SR.ExceptionPointAndFigureReversalAmountInvalidFormat);
                 }
             }
 
@@ -464,12 +458,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				catch
 				{
-                    throw (new InvalidOperationException(SR.ExceptionPointAndFigureUsedYValueHighInvalidFormat));
+                    throw new InvalidOperationException(SR.ExceptionPointAndFigureUsedYValueHighInvalidFormat);
 				}
 
 				if(yValueHighIndex >= series.YValuesPerPoint)
 				{
-                    throw (new InvalidOperationException(SR.ExceptionPointAndFigureUsedYValueHighOutOfRange));
+                    throw new InvalidOperationException(SR.ExceptionPointAndFigureUsedYValueHighOutOfRange);
 				}
 			}
 			int	yValueLowIndex = 1;
@@ -481,12 +475,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				catch
 				{
-                    throw (new InvalidOperationException(SR.ExceptionPointAndFigureUsedYValueLowInvalidFormat));
+                    throw new InvalidOperationException(SR.ExceptionPointAndFigureUsedYValueLowInvalidFormat);
 				}
 
 				if(yValueLowIndex >= series.YValuesPerPoint)
 				{
-                    throw (new InvalidOperationException(SR.ExceptionPointAndFigureUsedYValueLowOutOfrange));
+                    throw new InvalidOperationException(SR.ExceptionPointAndFigureUsedYValueLowOutOfrange);
 				}
 			}
 
@@ -502,16 +496,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				catch
 				{
-                    throw (new InvalidOperationException(SR.ExceptionPointAndFigureUpBrickColorInvalidFormat));
+                    throw new InvalidOperationException(SR.ExceptionPointAndFigureUpBrickColorInvalidFormat);
 				}
 			}
 
-			// Get price range
-			double	priceHigh, priceLow;
-			GetPriceRange(originalData, yValueHighIndex, yValueLowIndex, out priceHigh, out priceLow);
+            // Get price range
+            GetPriceRange(originalData, yValueHighIndex, yValueLowIndex, out double priceHigh, out double priceLow);
 
-			// Calculate box size
-			double	boxSize = GetBoxSize(series, priceHigh, priceLow);
+            // Calculate box size
+            double	boxSize = GetBoxSize(series, priceHigh, priceLow);
 
 			// Calculate reversal amount
 			double	reversalAmount = GetReversalAmount(series);
@@ -674,7 +667,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				if(series.Name.StartsWith("POINTANDFIGURE_ORIGINAL_DATA_", StringComparison.Ordinal))
 				{
 					// Get original series
-					Series	pointAndFigureSeries = chart.Series[series.Name.Substring(29)];
+					Series	pointAndFigureSeries = chart.Series[series.Name[29..]];
 
 					// Check if proportional symbol custom attribute is set
 					bool	proportionalSymbols = true;

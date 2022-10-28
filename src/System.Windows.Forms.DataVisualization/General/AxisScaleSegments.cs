@@ -90,7 +90,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsPositionInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsPositionInvalid);
 				}
 				this._position = value;
 			}
@@ -114,7 +114,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsSizeInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsSizeInvalid);
 					}
 				this._size = value;
 			}
@@ -138,7 +138,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsSpacingInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsSpacingInvalid);
 				}
 				this._spacing = value;
 			}
@@ -446,14 +446,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Dispose break line paths
 			breakLinePathTop.Dispose();
-			breakLinePathTop = null;
-			if(breakLinePathBottom != null)
+            if (breakLinePathBottom != null)
 			{
 				breakLinePathBottom.Dispose();
-				breakLinePathBottom = null;
-			}
+            }
 
-		}
+        }
 
 		/// <summary>
 		/// Get fill brush used to fill axis break lines spacing.
@@ -463,9 +461,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private Brush GetChartFillBrush(ChartGraphics graph)
 		{
 			Chart chart = this.axis.ChartArea.Common.Chart;
-			Brush brush = null;
-
-			if( chart.BackGradientStyle == GradientStyle.None )
+            Brush brush;
+            if ( chart.BackGradientStyle == GradientStyle.None )
 			{
 				brush = new SolidBrush(chart.BackColor);
 			}
@@ -502,107 +499,107 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			if(this.axis.ScaleBreakStyle.BreakLineStyle == BreakLineStyle.Wave)
 			{
-				PointF[] points = null;
-				int pointNumber = 0;
-				if( this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left )
-				{
-					float startX = breakLinePosition.X;
-					float endX = breakLinePosition.Right;
-					float y = (top) ? breakLinePosition.Y : breakLinePosition.Bottom;
-					pointNumber = ((int)(endX - startX) / 40) * 2 ;
-					if(pointNumber < 2)
-					{
-						pointNumber = 2;
-					}
-					float step = (endX - startX) / pointNumber;
-					points = new PointF[pointNumber + 1];
-					for(int pointIndex = 1; pointIndex < pointNumber + 1; pointIndex++)
-					{
-						points[pointIndex] = new PointF(
-							startX + pointIndex * step, 
-							y + ((pointIndex%2 == 0) ? -2f : 2f) );
-					}
-					
-					points[0] = new PointF(startX, y);
-					points[points.Length - 1] = new PointF(endX, y);
-				}
-				else
-				{
-					float startY = breakLinePosition.Y;
-					float endY = breakLinePosition.Bottom;
-					float x = (top) ? breakLinePosition.X : breakLinePosition.Right;
-					pointNumber = ((int)(endY - startY) / 40) * 2 ;
-					if(pointNumber < 2)
-					{
-						pointNumber = 2;
-					}
-					float step = (endY - startY) / pointNumber;
-					points = new PointF[pointNumber + 1];
-					for(int pointIndex = 1; pointIndex < pointNumber + 1; pointIndex++)
-					{
-						points[pointIndex] = new PointF(
-							x + ((pointIndex%2 == 0) ? -2f : 2f),
-							startY + pointIndex * step);
-					}
-					
-					points[0] = new PointF(x, startY);
-					points[points.Length - 1] = new PointF(x, endY);
-				}
+                PointF[] points;
+                int pointNumber;
+                if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
+                {
+                    float startX = breakLinePosition.X;
+                    float endX = breakLinePosition.Right;
+                    float y = top ? breakLinePosition.Y : breakLinePosition.Bottom;
+                    pointNumber = (int)(endX - startX) / 40 * 2;
+                    if (pointNumber < 2)
+                    {
+                        pointNumber = 2;
+                    }
+                    float step = (endX - startX) / pointNumber;
+                    points = new PointF[pointNumber + 1];
+                    for (int pointIndex = 1; pointIndex < pointNumber + 1; pointIndex++)
+                    {
+                        points[pointIndex] = new PointF(
+                            startX + pointIndex * step,
+                            y + ((pointIndex % 2 == 0) ? -2f : 2f));
+                    }
 
-				path.AddCurve(points, 0, pointNumber, 0.8f);
+                    points[0] = new PointF(startX, y);
+                    points[points.Length - 1] = new PointF(endX, y);
+                }
+                else
+                {
+                    float startY = breakLinePosition.Y;
+                    float endY = breakLinePosition.Bottom;
+                    float x = top ? breakLinePosition.X : breakLinePosition.Right;
+                    pointNumber = (int)(endY - startY) / 40 * 2;
+                    if (pointNumber < 2)
+                    {
+                        pointNumber = 2;
+                    }
+                    float step = (endY - startY) / pointNumber;
+                    points = new PointF[pointNumber + 1];
+                    for (int pointIndex = 1; pointIndex < pointNumber + 1; pointIndex++)
+                    {
+                        points[pointIndex] = new PointF(
+                            x + ((pointIndex % 2 == 0) ? -2f : 2f),
+                            startY + pointIndex * step);
+                    }
+
+                    points[0] = new PointF(x, startY);
+                    points[points.Length - 1] = new PointF(x, endY);
+                }
+
+                path.AddCurve(points, 0, pointNumber, 0.8f);
 			}
 			else if(this.axis.ScaleBreakStyle.BreakLineStyle == BreakLineStyle.Ragged)
 			{
-				PointF[] points = null;
-				Random rand = new Random(435657);
-				if( this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left )
-				{
-					float startX = breakLinePosition.X;
-					float endX = breakLinePosition.Right;
-					float y = (top) ? breakLinePosition.Y : breakLinePosition.Bottom;
-					float step = 10f;
-					int pointNumber = (int)((endX - startX) / step);
-					if(pointNumber < 2)
-					{
-						pointNumber = 2;
-					}
-					points = new PointF[pointNumber];
-					
-					for(int pointIndex = 1; pointIndex < pointNumber - 1; pointIndex++)
-					{
-						points[pointIndex] = new PointF(
-							startX + pointIndex * step, 
-							y + rand.Next(-3, 3) );
-					}
-					
-					points[0] = new PointF(startX, y);
-					points[points.Length - 1] = new PointF(endX, y);
-				}
-				else
-				{
-					float startY = breakLinePosition.Y;
-					float endY = breakLinePosition.Bottom;
-					float x = (top) ? breakLinePosition.X : breakLinePosition.Right;
-					float step = 10f;
-					int pointNumber = (int)((endY - startY) / step);
-					if(pointNumber < 2)
-					{
-						pointNumber = 2;
-					}
-					points = new PointF[pointNumber];
-					
-					for(int pointIndex = 1; pointIndex < pointNumber - 1; pointIndex++)
-					{
-						points[pointIndex] = new PointF(
-							x + rand.Next(-3, 3),
-							startY + pointIndex * step );
-					}
-					
-					points[0] = new PointF(x, startY);
-					points[points.Length - 1] = new PointF(x, endY);
-				}
+                Random rand = new Random(435657);
+                PointF[] points;
+                if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
+                {
+                    float startX = breakLinePosition.X;
+                    float endX = breakLinePosition.Right;
+                    float y = top ? breakLinePosition.Y : breakLinePosition.Bottom;
+                    float step = 10f;
+                    int pointNumber = (int)((endX - startX) / step);
+                    if (pointNumber < 2)
+                    {
+                        pointNumber = 2;
+                    }
+                    points = new PointF[pointNumber];
 
-				path.AddLines(points);
+                    for (int pointIndex = 1; pointIndex < pointNumber - 1; pointIndex++)
+                    {
+                        points[pointIndex] = new PointF(
+                            startX + pointIndex * step,
+                            y + rand.Next(-3, 3));
+                    }
+
+                    points[0] = new PointF(startX, y);
+                    points[points.Length - 1] = new PointF(endX, y);
+                }
+                else
+                {
+                    float startY = breakLinePosition.Y;
+                    float endY = breakLinePosition.Bottom;
+                    float x = top ? breakLinePosition.X : breakLinePosition.Right;
+                    float step = 10f;
+                    int pointNumber = (int)((endY - startY) / step);
+                    if (pointNumber < 2)
+                    {
+                        pointNumber = 2;
+                    }
+                    points = new PointF[pointNumber];
+
+                    for (int pointIndex = 1; pointIndex < pointNumber - 1; pointIndex++)
+                    {
+                        points[pointIndex] = new PointF(
+                            x + rand.Next(-3, 3),
+                            startY + pointIndex * step);
+                    }
+
+                    points[0] = new PointF(x, startY);
+                    points[points.Length - 1] = new PointF(x, endY);
+                }
+
+                path.AddLines(points);
 			}
 			else
 			{

@@ -317,7 +317,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Check that we have at least 4 Y values
                 if (ser.YValuesPerPoint < 4)
                 {
-                    throw (new ArgumentException(SR.ExceptionChartTypeRequiresYValues("StockChart", "4")));
+                    throw new ArgumentException(SR.ExceptionChartTypeRequiresYValues("StockChart", "4"));
                 }
 
                 // Set active horizontal/vertical axis
@@ -325,10 +325,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 VAxis = area.GetAxis(AxisName.Y, ser.YAxisType, ser.YSubAxisName);
 
                 // Get interval between points
-                double interval = (indexedSeries) ? 1 : area.GetPointsInterval(HAxis.IsLogarithmic, HAxis.logarithmBase);
+                double interval = indexedSeries ? 1 : area.GetPointsInterval(HAxis.IsLogarithmic, HAxis.logarithmBase);
 
                 // Calculates the width of the candles.
-                float width = (float)(ser.GetPointWidth(graph, HAxis, interval, 0.8));
+                float width = (float)ser.GetPointWidth(graph, HAxis, interval, 0.8);
 
                 // Call Back Paint event
                 if (!selection)
@@ -1122,7 +1122,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Check that we have at least 4 Y values
                 if (ser.YValuesPerPoint < 4)
                 {
-                    throw (new ArgumentException(SR.ExceptionChartTypeRequiresYValues("StockChart", "4")));
+                    throw new ArgumentException(SR.ExceptionChartTypeRequiresYValues("StockChart", "4"));
                 }
 
                 // Set active horizontal/vertical axis
@@ -1130,10 +1130,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 VAxis = area.GetAxis(AxisName.Y, ser.YAxisType, ser.YSubAxisName);
 
                 // Get interval between points
-                double interval = (indexedSeries) ? 1 : area.GetPointsInterval(HAxis.IsLogarithmic, HAxis.logarithmBase);
+                double interval = indexedSeries ? 1 : area.GetPointsInterval(HAxis.IsLogarithmic, HAxis.logarithmBase);
 
                 // Calculates the width of the candles.
-                float width = (float)(ser.GetPointWidth(graph, HAxis, interval, 0.8));
+                float width = (float)ser.GetPointWidth(graph, HAxis, interval, 0.8);
 
                 // Call Back Paint event
                 if (!selection)
@@ -1144,8 +1144,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 //************************************************************
                 //** Get series depth and Z position
                 //************************************************************
-                float seriesDepth, seriesZPosition;
-                area.GetSeriesZPositionAndDepth(ser, out seriesDepth, out seriesZPosition);
+                area.GetSeriesZPositionAndDepth(ser, out float seriesDepth, out float seriesZPosition);
 
                 //************************************************************
                 //** Series data points loop
@@ -1815,7 +1814,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
 
                 // Check for min/max X values
-                double xValue = (indexedSeries) ? index : point.XValue;
+                double xValue = indexedSeries ? index : point.XValue;
                 xValue = hAxis.GetLogValue(xValue);
                 if (xValue > hAxis.ViewMaximum || xValue < hAxis.ViewMinimum)
                 {
@@ -1864,8 +1863,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 if (area.Area3DStyle.Enable3D)
                 {
                     // Get series depth and Z position
-                    float seriesDepth, seriesZPosition;
-                    area.GetSeriesZPositionAndDepth(series, out seriesDepth, out seriesZPosition);
+                    area.GetSeriesZPositionAndDepth(series, out float seriesDepth, out float seriesZPosition);
 
                     Point3D[] marker3DPosition = new Point3D[1];
                     marker3DPosition[0] = new Point3D(

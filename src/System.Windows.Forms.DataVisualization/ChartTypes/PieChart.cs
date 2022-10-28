@@ -263,20 +263,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			double threshold = 0.0;
             if (series.IsCustomPropertySet(CustomPropertyName.CollectedThreshold))
             {
-                double t;
-                bool parseSucceed = double.TryParse(series[CustomPropertyName.CollectedThreshold], NumberStyles.Any, CultureInfo.InvariantCulture, out t);
+                bool parseSucceed = double.TryParse(series[CustomPropertyName.CollectedThreshold], NumberStyles.Any, CultureInfo.InvariantCulture, out double t);
                 if (parseSucceed)
                 {
                     threshold = t;
                 }
                 else
                 {
-                    throw (new InvalidOperationException(SR.ExceptionDoughnutCollectedThresholdInvalidFormat));
+                    throw new InvalidOperationException(SR.ExceptionDoughnutCollectedThresholdInvalidFormat);
                 }
 
                 if (threshold < 0.0)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionDoughnutThresholdInvalid));
+                    throw new InvalidOperationException(SR.ExceptionDoughnutThresholdInvalid);
                 }
             }
 
@@ -287,7 +286,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				Chart	chart = series.Chart;
 				if(chart == null)
 				{
-                    throw (new InvalidOperationException(SR.ExceptionDoughnutNullReference));
+                    throw new InvalidOperationException(SR.ExceptionDoughnutNullReference);
 				}
 
 				// Create a temp series which will hold original series data points
@@ -331,7 +330,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 					else
 					{
-                        throw (new InvalidOperationException(SR.ExceptionDoughnutCollectedThresholdUsePercentInvalid));
+                        throw new InvalidOperationException(SR.ExceptionDoughnutCollectedThresholdUsePercentInvalid);
 					}
 				}
 
@@ -340,7 +339,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				{
 					if(threshold > 100.0)
 					{
-                        throw (new InvalidOperationException(SR.ExceptionDoughnutCollectedThresholdInvalidRange));
+                        throw new InvalidOperationException(SR.ExceptionDoughnutCollectedThresholdInvalidRange);
 					}
 
 					threshold = total * threshold / 100.0;
@@ -407,7 +406,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						}
 						catch
 						{
-                            throw (new InvalidOperationException(SR.ExceptionDoughnutCollectedColorInvalidFormat));
+                            throw new InvalidOperationException(SR.ExceptionDoughnutCollectedColorInvalidFormat);
 						}
 					}
 
@@ -456,11 +455,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				Chart	chart = series.Chart;
 				if(chart == null)
 				{
-                    throw (new InvalidOperationException(SR.ExceptionDoughnutNullReference));
+                    throw new InvalidOperationException(SR.ExceptionDoughnutNullReference);
 				}
 
 				// Get original Renko series
-				Series	pieSeries = chart.Series[series.Name.Substring(18)];
+				Series	pieSeries = chart.Series[series.Name[18..]];
 
 				// Copy data back to original Pie series
 				pieSeries.Points.Clear();
@@ -503,7 +502,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						if(!common.ChartPicture.SuppressExceptions)
 						{
 							// Pie/Doughnut chart can not be combined with other chart type
-                            throw (new InvalidOperationException(SR.ExceptionChartCanNotCombine( this.Name )));
+                            throw new InvalidOperationException(SR.ExceptionChartCanNotCombine( this.Name ));
 						}
 					}
 				}
@@ -599,7 +598,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 				// Validation
 				if( minimumSize < 0.1 || minimumSize > 0.7 )
-                    throw (new ArgumentException(SR.ExceptionPieMinimumRelativePieSizeInvalid));
+                    throw new ArgumentException(SR.ExceptionPieMinimumRelativePieSizeInvalid);
 			
 			}
 
@@ -612,7 +611,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// </summary>
 		private void SizeCorrection( ChartGraphics graph, CommonElements common, ChartArea area )
 		{
-			float correction = (this._labelsOverlap) ? this._sizeCorrection : 0.95F;
+			float correction = this._labelsOverlap ? this._sizeCorrection : 0.95F;
 			_sliceExploded = false;
 
 			// Estimate Labels
@@ -655,9 +654,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="labels">Pie labels</param>
 		private void ProcessChartType( bool selection, ChartGraphics graph, CommonElements common, ChartArea area, bool shadow, LabelsMode labels )
 		{
-			float startAngle = 0;			// Angle in degrees measured clockwise from the x-axis to the first side of the pie section. 
-			string	explodedAttrib = "";	// Exploded attribute
-			bool exploded;					// Exploded pie slice
+			float startAngle = 0;           // Angle in degrees measured clockwise from the x-axis to the first side of the pie section. 
+            bool exploded;					// Exploded pie slice
 			float midAngle;					// Angle between Start Angle and End Angle
 						
 			// Data series collection
@@ -681,8 +679,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			{
                 if (dataSeries[typeSeries[0]].IsCustomPropertySet(CustomPropertyName.PieStartAngle))
                 {
-                    float angle;
-                    bool parseSucceed = float.TryParse(dataSeries[typeSeries[0]][CustomPropertyName.PieStartAngle], NumberStyles.Any, CultureInfo.InvariantCulture, out angle);
+                    bool parseSucceed = float.TryParse(dataSeries[typeSeries[0]][CustomPropertyName.PieStartAngle], NumberStyles.Any, CultureInfo.InvariantCulture, out float angle);
                     if (parseSucceed)
                     {
                         startAngle = angle;
@@ -690,7 +687,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                     if (!parseSucceed || startAngle > 360f || startAngle < 0f)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionCustomAttributeAngleOutOfRange("PieStartAngle")));
+                        throw new InvalidOperationException(SR.ExceptionCustomAttributeAngleOutOfRange("PieStartAngle"));
                     }
                 }
 			}
@@ -725,7 +722,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 				// Validation
 				if( doughnutRadius < 0f || doughnutRadius > 99f )
-                    throw (new ArgumentException(SR.ExceptionPieRadiusInvalid));
+                    throw new ArgumentException(SR.ExceptionPieRadiusInvalid);
 			
 			}
 
@@ -802,8 +799,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				exploded = false;
 				if(point.IsCustomPropertySet(CustomPropertyName.Exploded))
 				{
-					explodedAttrib = point[CustomPropertyName.Exploded];
-					if(string.Equals(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase))
+                    string explodedAttrib = point[CustomPropertyName.Exploded];
+                    if (string.Equals(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase))
 						exploded = true;
 					else
 						exploded = false;
@@ -819,7 +816,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     try
                     {
                         pieLineColor = (Color)colorConverter.ConvertFromString(
-                            (point.IsCustomPropertySet(CustomPropertyName.PieLineColor)) ? point[CustomPropertyName.PieLineColor] : dataSeries[typeSeries[0]][CustomPropertyName.PieLineColor]);
+                            point.IsCustomPropertySet(CustomPropertyName.PieLineColor) ? point[CustomPropertyName.PieLineColor] : dataSeries[typeSeries[0]][CustomPropertyName.PieLineColor]);
                         failed = false;
                     }
                     catch (ArgumentException)
@@ -834,7 +831,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     if (failed)
                     {
                         pieLineColor = (Color)colorConverter.ConvertFromInvariantString(
-    (point.IsCustomPropertySet(CustomPropertyName.PieLineColor)) ? point[CustomPropertyName.PieLineColor] : dataSeries[typeSeries[0]][CustomPropertyName.PieLineColor]);
+    point.IsCustomPropertySet(CustomPropertyName.PieLineColor) ? point[CustomPropertyName.PieLineColor] : dataSeries[typeSeries[0]][CustomPropertyName.PieLineColor]);
                     }
 				}
  
@@ -1006,8 +1003,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				midAngle = startAngle + sweepAngle / 2;
 
 				// Find first line position
-				point.positionRel.X = (float)Math.Cos( (midAngle) * Math.PI / 180 ) * rectangle.Width * expShift / 2 + middlePoint.X;
-				point.positionRel.Y = (float)Math.Sin( (midAngle) * Math.PI / 180 ) * rectangle.Height * expShift / 2 + middlePoint.Y;
+				point.positionRel.X = (float)Math.Cos( midAngle * Math.PI / 180 ) * rectangle.Width * expShift / 2 + middlePoint.X;
+				point.positionRel.Y = (float)Math.Sin( midAngle * Math.PI / 180 ) * rectangle.Height * expShift / 2 + middlePoint.Y;
 
 				// Increase point index and sweep angle
 				pointIndx++;
@@ -1195,7 +1192,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     bool parseSucceed = float.TryParse(point["InsideLabelOffset"], NumberStyles.Any, CultureInfo.InvariantCulture, out positionRatio);
 					if(!parseSucceed || positionRatio < 0f || positionRatio > 100f)
 					{
-						throw(new InvalidOperationException(SR.ExceptionCustomAttributeIsNotInRange0to100("InsideLabelOffset")));
+						throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotInRange0to100("InsideLabelOffset"));
 					}
 					positionRatio = 4f / (1f + positionRatio / 100f);
 				}
@@ -1282,11 +1279,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				float midAngle = startAngle + sweepAngle / 2;
 
 				// Find first line position
-				float x1 = (float)Math.Cos( (midAngle) * Math.PI / 180 ) * relativeSize.Width * expShift / 2 + middlePoint.X;
-				float y1 = (float)Math.Sin( (midAngle) * Math.PI / 180 ) * relativeSize.Height * expShift / 2 + middlePoint.Y;
+				float x1 = (float)Math.Cos( midAngle * Math.PI / 180 ) * relativeSize.Width * expShift / 2 + middlePoint.X;
+				float y1 = (float)Math.Sin( midAngle * Math.PI / 180 ) * relativeSize.Height * expShift / 2 + middlePoint.Y;
 
-				float x2 = (float)Math.Cos( (midAngle) * Math.PI / 180 ) * relativeSize.Width * shift * expShift + middlePoint.X;
-				float y2 = (float)Math.Sin( (midAngle) * Math.PI / 180 ) * relativeSize.Height * shift * expShift + middlePoint.Y;
+				float x2 = (float)Math.Cos( midAngle * Math.PI / 180 ) * relativeSize.Width * shift * expShift + middlePoint.X;
+				float y2 = (float)Math.Sin( midAngle * Math.PI / 180 ) * relativeSize.Height * shift * expShift + middlePoint.Y;
 
 				if( pieLineColor == Color.Empty )
 				{
@@ -1306,7 +1303,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     format.LineAlignment = StringAlignment.Center;
 
                     // Find second line position
-                    float y3 = (float)Math.Sin((midAngle) * Math.PI / 180) * relativeSize.Height * shift * expShift + middlePoint.Y;
+                    float y3 = (float)Math.Sin(midAngle * Math.PI / 180) * relativeSize.Height * shift * expShift + middlePoint.Y;
                     float x3;
                     float x3Overlap;
 
@@ -1317,7 +1314,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     {
                         format.Alignment = StringAlignment.Far;
                         x3Overlap = -relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
-                        x3 = (float)Math.Cos((midAngle) * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
+                        x3 = (float)Math.Cos(midAngle * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
 
                         if (overlapTest)
                         {
@@ -1334,7 +1331,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         format.Alignment = StringAlignment.Near;
 
                         x3Overlap = relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
-                        x3 = (float)Math.Cos((midAngle) * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
+                        x3 = (float)Math.Cos(midAngle * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
 
                         if (overlapTest)
                         {
@@ -1688,16 +1685,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 
 				// Find second line position
-				float y3 = (float)Math.Sin( (midAngle) * Math.PI / 180 ) * relativeSize.Height * shift * expShift + middlePoint.Y;
+				float y3 = (float)Math.Sin( midAngle * Math.PI / 180 ) * relativeSize.Height * shift * expShift + middlePoint.Y;
 				float x3;
 
 				if( midAngle > 90 && midAngle < 270 )
 				{
-					x3 = (float)Math.Cos( (midAngle) * Math.PI / 180 ) * relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
+					x3 = (float)Math.Cos( midAngle * Math.PI / 180 ) * relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
 				}
 				else
 				{
-					x3 = (float)Math.Cos( (midAngle) * Math.PI / 180 ) * relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
+					x3 = (float)Math.Cos( midAngle * Math.PI / 180 ) * relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
 				}
 
 				// Get label text
@@ -2030,7 +2027,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 			}
 
-			return ( (!leftResult || !rigthResult) ? true : false );
+			return  !leftResult || !rigthResult ;
 		}
 
 		/// <summary>
@@ -2134,7 +2131,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			//Find how much intervals are out of area. Out of area could be positive value only.
-			double outOfArea = ( endOfIntervals[ endOfIntervals.Length - 1 ] - endArea ) + ( startArea - startOfIntervals[ 0 ] );
+			double outOfArea =  endOfIntervals[ endOfIntervals.Length - 1 ] - endArea  + ( startArea - startOfIntervals[ 0 ] );
 			if( outOfArea <= 0 )
 			{
 				// This algorithm shifts all intervals for the same 
@@ -2178,7 +2175,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Reduce space
-				double shift = ( startOfIntervals[ intervalIndex + 1 ] -  endOfIntervals[ intervalIndex ] ) - ( startOfIntervals[ intervalIndex + 1 ] -  endOfIntervals[ intervalIndex ] ) * reduction;
+				double shift =  startOfIntervals[ intervalIndex + 1 ] -  endOfIntervals[ intervalIndex ]  - ( startOfIntervals[ intervalIndex + 1 ] -  endOfIntervals[ intervalIndex ] ) * reduction;
 				for( int reductionIndex = intervalIndex + 1; reductionIndex < startOfIntervals.Length; reductionIndex++ )
 				{
 					startOfIntervals[ reductionIndex ] -= shift;
@@ -2343,9 +2340,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			ChartArea area, 
 			float pieWidth )
 		{
-			string	explodedAttrib = "";					// Exploded attribute
-			bool exploded;									// Exploded pie slice
-			float midAngle;									// Angle between Start Angle and End Angle
+            bool exploded;                                  // Exploded pie slice
+            float midAngle;									// Angle between Start Angle and End Angle
 
 					
 			// Data series collection
@@ -2362,8 +2358,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Get first pie starting angle
             if (dataSeries[typeSeries[0]].IsCustomPropertySet(CustomPropertyName.PieStartAngle))
             {
-                int angle;
-                bool parseSucceed = int.TryParse(dataSeries[typeSeries[0]][CustomPropertyName.PieStartAngle], NumberStyles.Any, CultureInfo.InvariantCulture, out angle);
+                bool parseSucceed = int.TryParse(dataSeries[typeSeries[0]][CustomPropertyName.PieStartAngle], NumberStyles.Any, CultureInfo.InvariantCulture, out int angle);
 
                 if (parseSucceed)
                 {
@@ -2377,7 +2372,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                 if (!parseSucceed || area.Area3DStyle.Rotation > 180 || area.Area3DStyle.Rotation < -180)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeAngleOutOfRange("PieStartAngle")));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeAngleOutOfRange("PieStartAngle"));
                 }
             }
 						
@@ -2399,27 +2394,28 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 			// Is exploded if only one is exploded
 			bool isExploded = false;
-			foreach( DataPoint point in dataSeries[typeSeries[0]].Points )
-			{
-				if(point.IsCustomPropertySet(CustomPropertyName.Exploded))
-				{
-					explodedAttrib = point[CustomPropertyName.Exploded];
-					if(string.Equals(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase))
-					{
-						isExploded = true;
-					}
-				}
-			}
+            string explodedAttrib;
+            foreach (DataPoint point in dataSeries[typeSeries[0]].Points)
+            {
+                if (point.IsCustomPropertySet(CustomPropertyName.Exploded))
+                {
+                    explodedAttrib = point[CustomPropertyName.Exploded];
+                    if (string.Equals(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase))
+                    {
+                        isExploded = true;
+                    }
+                }
+            }
 
-			// Take radius attribute
-			float	doughnutRadius = 60f;
+            // Take radius attribute
+            float	doughnutRadius = 60f;
 			if(dataSeries[typeSeries[0]].IsCustomPropertySet(CustomPropertyName.DoughnutRadius))
 			{
 				doughnutRadius = CommonElements.ParseFloat(dataSeries[typeSeries[0]][CustomPropertyName.DoughnutRadius] );
 
 				// Validation
 				if( doughnutRadius < 0f || doughnutRadius > 99f )
-                    throw (new ArgumentException(SR.ExceptionPieRadiusInvalid));
+                    throw new ArgumentException(SR.ExceptionPieRadiusInvalid);
 			
 			}
 
@@ -2431,28 +2427,24 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 				// Validation
 				if( labelLineSize < 30f || labelLineSize > 200f )
-                    throw (new ArgumentException(SR.ExceptionPie3DLabelLineSizeInvalid));
+                    throw new ArgumentException(SR.ExceptionPie3DLabelLineSizeInvalid);
 			
 			}
 			labelLineSize = labelLineSize * 0.1F / 100F;
-	
-			//************************************************************
-			//** Data point loop
-			//************************************************************
-			float [] startAngleList;
-			float [] sweepAngleList;
-			int [] pointIndexList;
 
-			// This method is introduced to check colors of palette. For 
-			// pie chart the first pie slice and the second pie slice can 
-			// not have same color because they are connected.
-			CheckPaleteColors( dataSeries[typeSeries[0]].Points );
-	
-			bool sameBackFront;
-			DataPoint [] points = PointOrder( dataSeries[typeSeries[0]], area, out startAngleList, out sweepAngleList, out pointIndexList, out sameBackFront );
+            //************************************************************
+            //** Data point loop
+            //************************************************************
 
-			// There are no points or all points are empty.
-			if( points == null )
+            // This method is introduced to check colors of palette. For 
+            // pie chart the first pie slice and the second pie slice can 
+            // not have same color because they are connected.
+            CheckPaleteColors(dataSeries[typeSeries[0]].Points);
+
+            DataPoint[] points = PointOrder(dataSeries[typeSeries[0]], area, out float[] startAngleList, out float[] sweepAngleList, out int[] pointIndexList, out bool sameBackFront);
+
+            // There are no points or all points are empty.
+            if ( points == null )
 			{
 				return;
 			}
@@ -5108,7 +5100,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Find where are more empty spaces – on the top or on the bottom.
-				bool moreEmptyUp = numEmptyUp > numEmptyDown ? true : false;
+				bool moreEmptyUp = numEmptyUp > numEmptyDown;
 
 				// Find average number of empty spaces for top and bottom.
 				int numMove = ( numEmptyUp + numEmptyDown ) / 2;
@@ -5586,10 +5578,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <returns></returns>
         private String GetPointLabel(DataPoint point)
         {
-            String pointLabel = String.Empty;  
-			
+            string pointLabel;
+
             // If There is no Label take axis Label
-			if( point.Label.Length == 0 )
+            if ( point.Label.Length == 0 )
             {
                 pointLabel = point.AxisLabel;
                 // remove axis label if is set the CustomPropertyName.PieAutoAxisLabels and is set to false

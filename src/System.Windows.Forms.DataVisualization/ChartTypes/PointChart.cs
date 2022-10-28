@@ -342,7 +342,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					//************************************************************
 
 					// Check for min/max X values
-					double xValue = (indexedSeries) ? index : point.XValue;
+					double xValue = indexedSeries ? index : point.XValue;
 					xValue = HAxis.GetLogValue(xValue);
 					if(xValue > horizontalViewMax || xValue < horizontalViewMin)
 					{
@@ -636,7 +636,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Draw data point value label
 			// ****************************
 			if((!point.IsEmpty && (ser.IsValueShownAsLabel || pointShowLabelAsValue || pointLabel.Length > 0)) ||
-				(pointShowLabelAsValue || pointLabel.Length > 0))
+				pointShowLabelAsValue || pointLabel.Length > 0)
 			{
 				// Label text format
                 using (StringFormat format = new StringFormat())
@@ -728,7 +728,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         }
                         else
                         {
-                            throw (new ArgumentException(SR.ExceptionCustomAttributeValueInvalid(attrib, "LabelStyle")));
+                            throw new ArgumentException(SR.ExceptionCustomAttributeValueInvalid(attrib, "LabelStyle"));
                         }
                     }
 
@@ -1011,10 +1011,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			ChartArea area, 
 			Series seriesToDraw )
 		{
-			
-			// Get list of series to draw
-			List<string> typeSeries = null;
-			if( (area.Area3DStyle.IsClustered && this.SideBySideSeries) ||
+
+            // Get list of series to draw
+            List<string> typeSeries;
+            if ( (area.Area3DStyle.IsClustered && this.SideBySideSeries) ||
 				this.Stacked)
 			{
 				// Draw all series of the same chart type
@@ -1096,7 +1096,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Check for min/max X values
-			double xValue = (pointEx.indexedSeries) ? pointEx.index : point.XValue;
+			double xValue = pointEx.indexedSeries ? pointEx.index : point.XValue;
 			xValue = HAxis.GetLogValue(xValue);
 			if(xValue > HAxis.ViewMaximum || xValue < HAxis.ViewMinimum)
 			{
@@ -1154,7 +1154,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			//************************************************************
 			// Get projection coordinates
 			Point3D[]	marker3DPosition = new Point3D[1];
-			marker3DPosition[0] = new Point3D(markerPosition.X, markerPosition.Y, (float)(pointEx.zPosition + ((this.middleMarker) ? pointEx.depth/2f : pointEx.depth)));
+			marker3DPosition[0] = new Point3D(markerPosition.X, markerPosition.Y, (float)(pointEx.zPosition + (this.middleMarker ? pointEx.depth/2f : pointEx.depth)));
 
 			// Transform coordinates of text size
 			area.matrix3D.TransformPoints(marker3DPosition);
@@ -1186,7 +1186,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Draw the marker
 					rectPath = graph.DrawMarker3D(area.matrix3D, 
 						area.Area3DStyle.LightStyle,
-						pointEx.zPosition + ((this.middleMarker) ? pointEx.depth/2f : pointEx.depth),
+						pointEx.zPosition + (this.middleMarker ? pointEx.depth/2f : pointEx.depth),
 						markerPosition, 
 						(pointMarkerStyle == MarkerStyle.None) ? MarkerStyle.Circle : pointMarkerStyle,
 						(int)markerSize.Height,
@@ -1460,7 +1460,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Check required Y values number
             if (point.YValues.Length <= yValueIndex)
             {
-                throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
+                throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
             }
             
             // Check empty point
@@ -1637,7 +1637,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Check for min/max X values
-				double xValue = (indexedSeries) ? index : point.XValue;
+				double xValue = indexedSeries ? index : point.XValue;
 				xValue = hAxis.GetLogValue(xValue);
 				if(xValue > hAxis.ViewMaximum || xValue < hAxis.ViewMinimum)
 				{
@@ -1702,15 +1702,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Transform marker position in 3D space
 				if(area.Area3DStyle.Enable3D)
 				{
-					// Get series depth and Z position
-					float seriesDepth, seriesZPosition;
-					area.GetSeriesZPositionAndDepth(series, out seriesDepth, out seriesZPosition);
+                    // Get series depth and Z position
+                    area.GetSeriesZPositionAndDepth(series, out float seriesDepth, out float seriesZPosition);
 
-					Point3D[]	marker3DPosition = new Point3D[1];
+                    Point3D[]	marker3DPosition = new Point3D[1];
 					marker3DPosition[0] = new Point3D(
 						markerPosition.X, 
 						markerPosition.Y, 
-						(float)(seriesZPosition + ((this.middleMarker) ? seriesDepth/2f : seriesDepth)));
+						(float)(seriesZPosition + (this.middleMarker ? seriesDepth/2f : seriesDepth)));
 
 					// Transform coordinates
 					area.matrix3D.TransformPoints(marker3DPosition);

@@ -59,7 +59,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		{
 			if(container == null)
 			{
-				throw(new ArgumentNullException(SR.ExceptionImageLoaderInvalidServiceContainer));
+				throw new ArgumentNullException(SR.ExceptionImageLoaderInvalidServiceContainer);
 			}
             _serviceContainer = container;
 		}
@@ -76,7 +76,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			{
 				return this;
 			}
-			throw (new ArgumentException( SR.ExceptionImageLoaderUnsupportedType( serviceType.ToString())));
+			throw new ArgumentException( SR.ExceptionImageLoaderUnsupportedType( serviceType.ToString()));
 		}
 
 		/// <summary>
@@ -160,10 +160,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     int columnIndex = imageURL.IndexOf("::", StringComparison.Ordinal);
                     if (columnIndex > 0)
                     {
-                        string resourceRootName = imageURL.Substring(0, columnIndex);
-                        string resourceName = imageURL.Substring(columnIndex + 2);
+                        string resourceRootName = imageURL[..columnIndex];
+                        string resourceName = imageURL[(columnIndex + 2)..];
                         System.Resources.ResourceManager resourceManager = new System.Resources.ResourceManager(resourceRootName, Assembly.GetExecutingAssembly());
-                        image = (System.Drawing.Image)(resourceManager.GetObject(resourceName));
+                        image = (System.Drawing.Image)resourceManager.GetObject(resourceName);
                     }
                     else if (Assembly.GetEntryAssembly() != null)
                     {
@@ -171,10 +171,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                         columnIndex = imageURL.IndexOf(':');
                         if (columnIndex > 0)
                         {
-                            string resourceRootName = imageURL.Substring(0, columnIndex);
-                            string resourceName = imageURL.Substring(columnIndex + 1);
+                            string resourceRootName = imageURL[..columnIndex];
+                            string resourceName = imageURL[(columnIndex + 1)..];
                             System.Resources.ResourceManager resourceManager = new System.Resources.ResourceManager(resourceRootName, Assembly.GetEntryAssembly());
-                            image = (Image)(resourceManager.GetObject(resourceName));
+                            image = (Image)resourceManager.GetObject(resourceName);
                         }
                         else
                         {
@@ -187,7 +187,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                                     System.Resources.ResourceManager resourceManager = new System.Resources.ResourceManager(type);
                                     try
                                     {
-                                        image = (Image)(resourceManager.GetObject(imageURL));
+                                        image = (Image)resourceManager.GetObject(imageURL);
                                     }
                                     catch (ArgumentNullException)
                                     {
@@ -255,7 +255,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             // Error loading image
 			if(image == null)
 			{
-				throw(new ArgumentException( SR.ExceptionImageLoaderIncorrectImageLocation( imageURL ) ) );
+				throw new ArgumentException( SR.ExceptionImageLoaderIncorrectImageLocation( imageURL ) ) ;
             }
 
 			// Save new image in cache

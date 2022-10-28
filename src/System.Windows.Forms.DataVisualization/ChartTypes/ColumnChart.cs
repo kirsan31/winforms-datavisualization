@@ -268,7 +268,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 					else
 					{
-                        throw (new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid));
+                        throw new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid);
 					}
 				}
 			}
@@ -357,7 +357,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				foreach( DataPoint point in ser.Points )
 				{
 					// Change Y value if Column is out of plot area
-					double	yValue = vAxis.GetLogValue( GetYValue(common, area, ser, point, index, (useTwoValues) ? 1 : 0) );
+					double	yValue = vAxis.GetLogValue( GetYValue(common, area, ser, point, index, useTwoValues ? 1 : 0) );
 					
 					if( yValue > verticalViewMax )
 					{
@@ -441,7 +441,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						// Set the Column rectangle
 						rectSize.X = (float)(xPosition - width/2);
-						rectSize.Width = (float)(width);
+						rectSize.Width = (float)width;
 
 
 						// The top side of rectangle has always 
@@ -477,7 +477,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						if( !labels )
 						{
 							// Check if column is completly out of the data scaleView
-							double	xValue = (indexedSeries) ? index : point.XValue;
+							double	xValue = indexedSeries ? index : point.XValue;
 							xValue = hAxis.GetLogValue(xValue);
 							if(xValue < horizontalViewMin || xValue > horizontalViewMax )
 							{
@@ -635,52 +635,52 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			
 			// Get pixel size
 			SizeF	pixelRelSize = graph.GetRelativeSize(new SizeF(1.1f, 1.1f));
+            bool currentDrawSeriesSideBySide = this.drawSeriesSideBySide;
 
-			// Get list of series to draw
-			List<string> typeSeries = null;
-			bool	currentDrawSeriesSideBySide = this.drawSeriesSideBySide;
-			if( (area.Area3DStyle.IsClustered && this.SideBySideSeries) ||
-				this.Stacked)
-			{
-				// Draw all series of the same chart type
-				typeSeries = area.GetSeriesFromChartType(Name);
+            // Get list of series to draw
+            List<string> typeSeries;
+            if ((area.Area3DStyle.IsClustered && this.SideBySideSeries) ||
+                this.Stacked)
+            {
+                // Draw all series of the same chart type
+                typeSeries = area.GetSeriesFromChartType(Name);
 
-				// Check if series should be drawn side by side
-				foreach(string seriesName in typeSeries)
-				{
-					if(common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
-					{
-						string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-						if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
-						{
-							currentDrawSeriesSideBySide = false;
-						}
-						else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
-						{
-							currentDrawSeriesSideBySide = true;
-						}
-						else if(string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
-						{
-							// Do nothing
-						}
-						else
-						{
-                            throw (new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid));
-						}
-					}
-				}
-			}
-			else
-			{
-				// Draw just one chart series
-				typeSeries = new List<string>();
-				typeSeries.Add(seriesToDraw.Name);
-			}
+                // Check if series should be drawn side by side
+                foreach (string seriesName in typeSeries)
+                {
+                    if (common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+                    {
+                        string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
+                        if (string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
+                        {
+                            currentDrawSeriesSideBySide = false;
+                        }
+                        else if (string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
+                        {
+                            currentDrawSeriesSideBySide = true;
+                        }
+                        else if (string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
+                        {
+                            // Do nothing
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Draw just one chart series
+                typeSeries = new List<string>();
+                typeSeries.Add(seriesToDraw.Name);
+            }
 
-			//************************************************************
-			//** Get order of data points drawing
-			//************************************************************
-			ArrayList	dataPointDrawingOrder = area.GetDataPointDrawingOrder(typeSeries, this, selection, coordinates, null, this.YValueIndex, currentDrawSeriesSideBySide);
+            //************************************************************
+            //** Get order of data points drawing
+            //************************************************************
+            ArrayList	dataPointDrawingOrder = area.GetDataPointDrawingOrder(typeSeries, this, selection, coordinates, null, this.YValueIndex, currentDrawSeriesSideBySide);
 
 			//************************************************************
 			//** Loop through all data poins
@@ -702,7 +702,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Change Y value if Column is out of plot area
 				float	topDarkening = 0f;
 				float	bottomDarkening = 0f;
-				double	yValue = GetYValue(common, area, ser, pointEx.dataPoint, pointEx.index - 1, (useTwoValues) ? 1 : 0);
+				double	yValue = GetYValue(common, area, ser, pointEx.dataPoint, pointEx.index - 1, useTwoValues ? 1 : 0);
 				yValue = vAxis.GetLogValue(yValue);
 				if( yValue > vAxis.ViewMaximum )
 				{
@@ -718,9 +718,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Recalculates Height position and zero position of Columns
 				double	height = vAxis.GetLinearPosition( yValue );
 
-				// Set start position for a column
-				double	columnStartPosition = 0;
-				if(useTwoValues)
+                // Set start position for a column
+                double columnStartPosition;
+                if (useTwoValues)
 				{
 					// Point Y value (first) is used to determine the column starting position
 					double yValueStart = vAxis.GetLogValue( GetYValue(common, area, ser, point, pointEx.index - 1, 0 ) );
@@ -769,7 +769,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				{
 					// Set the Column rectangle
 					rectSize.X = (float)(pointEx.xPosition - pointEx.width/2);
-					rectSize.Width = (float)(pointEx.width);
+					rectSize.Width = (float)pointEx.width;
 
 					// The top side of rectangle has always 
 					// smaller value than a bottom value
@@ -793,14 +793,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					continue;
 				}
 
-				//************************************************************
-				//** Painting mode
-				//************************************************************
-				// Path projection of 3D rect.
-				GraphicsPath rectPath = null;
-
-				// Check if column is completly out of the data scaleView
-				double	xValue = (pointEx.indexedSeries) ? pointEx.index : point.XValue;
+                // Check if column is completly out of the data scaleView
+                double xValue = pointEx.indexedSeries ? pointEx.index : point.XValue;
 				xValue = hAxis.GetLogValue(xValue);
 				if(xValue < hAxis.ViewMinimum || xValue > hAxis.ViewMaximum )
 				{
@@ -843,24 +837,28 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Start Svg Selection mode
 					graph.StartHotRegion( point );
 
-					rectPath = graph.Fill3DRectangle(
-						rectSize,
-						pointEx.zPosition,
-						pointEx.depth,
-						area.matrix3D,
-						area.Area3DStyle.LightStyle,
-						point.Color, 
-						topDarkening,
-						bottomDarkening,
-						point.BorderColor, 
-						point.BorderWidth, 
-						point.BorderDashStyle, 
-						barDrawingStyle,
-						true,
-						drawingOperationType);
+                    //************************************************************
+                    //** Painting mode
+                    //************************************************************
+                    // Path projection of 3D rect.
+                    GraphicsPath rectPath = graph.Fill3DRectangle(
+        rectSize,
+        pointEx.zPosition,
+        pointEx.depth,
+        area.matrix3D,
+        area.Area3DStyle.LightStyle,
+        point.Color,
+        topDarkening,
+        bottomDarkening,
+        point.BorderColor,
+        point.BorderWidth,
+        point.BorderDashStyle,
+        barDrawingStyle,
+        true,
+        drawingOperationType);
 
-					// End Svg Selection mode
-					graph.EndHotRegion( );
+                    // End Svg Selection mode
+                    graph.EndHotRegion( );
 
 					//************************************************************
 					// Hot Regions mode used for image maps, tool tips and 
@@ -1291,7 +1289,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Check required Y values number
 			if(point.YValues.Length < this.YValuesPerPoint)
 			{
-				throw(new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name,this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
+				throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name,this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
 			}
 
 			// Label text format

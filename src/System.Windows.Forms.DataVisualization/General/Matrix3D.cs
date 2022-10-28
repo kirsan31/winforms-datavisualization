@@ -176,7 +176,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>True if matrix was initialized.</returns>
 		public bool IsInitialized()
 		{
-			return (this._mainMatrix != null);
+			return this._mainMatrix != null;
 		}
 
 		/// <summary>

@@ -185,32 +185,28 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 throw new InvalidOperationException(SR.ExceptionForecastingNotEnoughDataPoints(degree.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 
             // Forecasting period
-            int period;
-            if (parameterList.Length < 2 || 
-                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out period))
+            if (parameterList.Length < 2 ||
+                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out int period))
             {
                 period = inputValues[0].Length / 2;
             }
 
             // Approximation error
-            bool approximationError;
-            if (parameterList.Length < 3 || 
-                !bool.TryParse(parameterList[2], out approximationError))
+            if (parameterList.Length < 3 ||
+                !bool.TryParse(parameterList[2], out bool approximationError))
             {
                 approximationError = true;
             }
 
             // Forecasting error
-            bool forecastingError;
-            if (parameterList.Length < 4 || 
-                !bool.TryParse(parameterList[3], out forecastingError))
+            if (parameterList.Length < 4 ||
+                !bool.TryParse(parameterList[3], out bool forecastingError))
             {
                 forecastingError = true;
             }
 
-            double[][] tempOut;
             // Find regresion
-            Regression(regressionType, inputValues, out tempOut, degree, period);
+            Regression(regressionType, inputValues, out double[][] tempOut, degree, period);
 
             // If error disabled get out from procedure
             if (!forecastingError && !approximationError)
@@ -220,7 +216,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             }
 
             double[][] inputErrorEst = new double[2][];
-            double[][] outputErrorEst;
             inputErrorEst[0] = new double[inputValues[0].Length / 2];
             inputErrorEst[1] = new double[inputValues[0].Length / 2];
 
@@ -230,7 +225,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 inputErrorEst[1][index] = inputValues[1][index];
             }
 
-            Regression(regressionType, inputErrorEst, out outputErrorEst, degree, inputValues[0].Length / 2);
+            Regression(regressionType, inputErrorEst, out double[][] outputErrorEst, degree, inputValues[0].Length / 2);
 
             // Find the average for forecasting error
             double error = 0;
@@ -240,7 +235,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             }
             error /= inputValues[0].Length - inputValues[0].Length / 2;
             error = Math.Sqrt(error);
-            error /= (inputValues[0].Length / 4);
+            error /= inputValues[0].Length / 4;
 
             // Find the standard deviation
             double dev = 0;
@@ -391,12 +386,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			double [] coefficients = new double [polynomialDegree];
 			int size = inputValues[0].Length;
 			double minimumX = double.MaxValue;
-			double interval = 1.0;
 
-			// Find Interval for X values
-			interval = Math.Abs( inputValues[0][0] - inputValues[0][inputValues[0].Length - 1] ) / ( inputValues[0].Length - 1 );
-			
-			if( interval <= 0 )
+            // Find Interval for X values
+            double interval = Math.Abs(inputValues[0][0] - inputValues[0][inputValues[0].Length - 1]) / (inputValues[0].Length - 1);
+
+            if ( interval <= 0 )
 				interval = 1;
 
 			if( regressionType != RegressionType.Logarithmic )
@@ -439,7 +433,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 					mainDeterminant[i][k] = 0;
 					for( int j = 0; j < inputValues[0].Length; j++ )
 					{
-						mainDeterminant[i][k] += Math.Pow(inputValues[0][j], (i + k));
+						mainDeterminant[i][k] += Math.Pow(inputValues[0][j], i + k);
 					}
 				}
 			}

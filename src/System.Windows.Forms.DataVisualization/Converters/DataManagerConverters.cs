@@ -283,15 +283,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>Standard values collection.</returns>
 		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 		{
-			ChartTypeRegistry	registry = null;
-			ArrayList values = new ArrayList();
+            ArrayList values = new ArrayList();
 
             Chart chart = ConverterHelper.GetChartFromContext(context);
             if (chart!=null)
 			{
-				// Get chart type registry service
-				registry = (ChartTypeRegistry)chart.GetService(typeof(ChartTypeRegistry));
-				if(registry != null)
+                // Get chart type registry service
+                ChartTypeRegistry registry = (ChartTypeRegistry)chart.GetService(typeof(ChartTypeRegistry));
+                if (registry != null)
 				{
 					// Enumerate all chart types names
 					foreach(Object obj in registry.registeredChartTypes.Keys)
@@ -304,7 +303,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 				else
 				{
-                    throw (new InvalidOperationException(SR.ExceptionEditorChartTypeRegistryServiceInaccessible));
+                    throw new InvalidOperationException(SR.ExceptionEditorChartTypeRegistryServiceInaccessible);
 				}
 			}
 
@@ -376,7 +375,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 				else
 				{
-                    throw (new InvalidOperationException(SR.ExceptionEditorChartTypeRegistryServiceInObjectInaccessible(context.Instance.GetType().ToString())));
+                    throw new InvalidOperationException(SR.ExceptionEditorChartTypeRegistryServiceInObjectInaccessible(context.Instance.GetType().ToString()));
 				}
 			}
 
@@ -475,8 +474,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Try to convert from date-time string format
                     if (convertFromDate)
                     {
-                        DateTime valueAsDate;
-                        if (DateTime.TryParse(values[index], CultureInfo.InvariantCulture, DateTimeStyles.None, out valueAsDate))
+                        if (DateTime.TryParse(values[index], CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime valueAsDate))
                         {
                             result = valueAsDate;
                         }

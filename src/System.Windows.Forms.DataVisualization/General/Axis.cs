@@ -393,13 +393,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // and represent consisten object name in all locales.
             switch (axisName)
             {
-                case (AxisName.X):
+                case AxisName.X:
                     return "X axis";
-                case (AxisName.Y):
+                case AxisName.Y:
                     return "Y (Value) axis";
-                case (AxisName.X2):
+                case AxisName.X2:
                     return "Secondary X axis";
-                case (AxisName.Y2):
+                case AxisName.Y2:
                     return "Secondary Y (Value) axis";
             }
             return null;
@@ -770,7 +770,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Font size cannot be less than 5
                 if (value < 5)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionAxisLabelsAutoFitMinFontSizeValueInvalid));
+                    throw new InvalidOperationException(SR.ExceptionAxisLabelsAutoFitMinFontSizeValueInvalid);
                 }
 
                 this.labelAutoFitMinFontSize = value;
@@ -801,7 +801,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Font size cannot be less than 5
                 if (value < 5)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionAxisLabelsAutoFitMaxFontSizeInvalid));
+                    throw new InvalidOperationException(SR.ExceptionAxisLabelsAutoFitMaxFontSizeInvalid);
                 }
 
                 this.labelAutoFitMaxFontSize = value;
@@ -1000,7 +1000,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisWidthIsNegative));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisWidthIsNegative);
                 }
                 _lineWidth = value;
                 this.Invalidate();
@@ -1070,7 +1070,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0f || value > 100f)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionValueMustBeInRange(nameof(MaximumAutoSize), "0", "100")));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionValueMustBeInRange(nameof(MaximumAutoSize), "0", "100"));
                 }
                 this._maximumAutoSize = value;
                 this.Invalidate();
@@ -2119,8 +2119,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 // Transform center of title coordinates and calculate axis angle
-                bool isOnEdge = false;
-                float zPosition = this.GetMarksZPosition(out isOnEdge);
+                float zPosition = this.GetMarksZPosition(out bool isOnEdge);
                 Point3D[] rotationCenterPoints = null;
                 float angleAxis = 0;
                 if (this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom)
@@ -2370,7 +2369,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 else
                 {
-                    Draw3DAxisLine(graph, first, second, (this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom), backElements);
+                    Draw3DAxisLine(graph, first, second, this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom, backElements);
                 }
             }
 
@@ -2472,8 +2471,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // If we are dealing with the 3D - transform the rectangle
                 if (ChartArea.Area3DStyle.Enable3D && !ChartArea.chartAreaIsCurcular)
                 {
-                    Boolean axisOnEdge = false;
-                    float zPositon = GetMarksZPosition(out axisOnEdge);
+                    float zPositon = GetMarksZPosition(out bool axisOnEdge);
 
                     // Convert points to 3D
                     Point3D[] points3D = new Point3D[points.Length];
@@ -2723,9 +2721,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="graph">Reference to the Chart Graphics object</param>
         internal void PaintGrids(ChartGraphics graph)
         {
-            object obj;
 
-            PaintGrids(graph, out obj);
+            PaintGrids(graph, out object obj);
 
         }
 
@@ -2769,8 +2766,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="drawLinesOnly">Indicates if Lines or Stripes should be drawn.</param>
         internal void PaintStrips(ChartGraphics graph, bool drawLinesOnly)
         {
-            object obj;
-            PaintStrips(graph, false, 0, 0, out obj, drawLinesOnly);
+            PaintStrips(graph, false, 0, 0, out object obj, drawLinesOnly);
         }
 
         /// <summary>
@@ -2884,7 +2880,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // If isInterlaced strips color is not set - use darker color of the area
                         if (ChartArea.BackColor == Color.Empty)
                         {
-                            stripLine.BackColor = (ChartArea.Area3DStyle.Enable3D) ? Color.DarkGray : Color.LightGray;
+                            stripLine.BackColor = ChartArea.Area3DStyle.Enable3D ? Color.DarkGray : Color.LightGray;
                         }
                         else if (ChartArea.BackColor == Color.Transparent)
                         {
@@ -3165,7 +3161,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 float maxTitlesize = 0;
                 if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
                 {
-                    maxTitlesize = (plotArea.Height / 100F) * (Axis.maxAxisTitleSize / axesNumber);
+                    maxTitlesize = plotArea.Height / 100F * (Axis.maxAxisTitleSize / axesNumber);
                     if (this.IsTextVertical)
                     {
                         this.titleSize = Math.Min(titleStringSize.Width, maxTitlesize);
@@ -3180,7 +3176,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     titleStringSize = chartGraph.GetAbsoluteSize(titleStringSize);
                     titleStringSize = chartGraph.GetRelativeSize(new SizeF(titleStringSize.Height, titleStringSize.Width));
-                    maxTitlesize = (plotArea.Width / 100F) * (Axis.maxAxisTitleSize / axesNumber);
+                    maxTitlesize = plotArea.Width / 100F * (Axis.maxAxisTitleSize / axesNumber);
                     if (this.IsTextVertical)
                     {
                         this.titleSize = Math.Min(titleStringSize.Width, maxTitlesize);
@@ -3306,13 +3302,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
             {
                 this.markSize += borderSize.Height / 2f;
-                this.markSize = Math.Min(this.markSize, (plotArea.Height / 100F) * (Axis.maxAxisMarkSize / axesNumber));
+                this.markSize = Math.Min(this.markSize, plotArea.Height / 100F * (Axis.maxAxisMarkSize / axesNumber));
             }
             // If axis is vertical
             else
             {
                 this.markSize += borderSize.Width / 2f;
-                this.markSize = Math.Min(this.markSize, (plotArea.Width / 100F) * (Axis.maxAxisMarkSize / axesNumber));
+                this.markSize = Math.Min(this.markSize, plotArea.Width / 100F * (Axis.maxAxisMarkSize / axesNumber));
             }
 
             // Add axis scroll bar size (if it's visible)
@@ -3361,7 +3357,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (arrowSize > (this.markSize + this.scrollBarSize + this.titleSize))
             {
                 this.markSize = Math.Max(this.markSize, arrowSize - (this.markSize + this.scrollBarSize + this.titleSize));
-                this.markSize = Math.Min(this.markSize, (plotArea.Width / 100F) * (Axis.maxAxisMarkSize / axesNumber));
+                this.markSize = Math.Min(this.markSize, plotArea.Width / 100F * (Axis.maxAxisMarkSize / axesNumber));
             }
 
             //*********************************************************
@@ -3446,7 +3442,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // Reset angle and stagged flag used in the auto-fitting algorithm
                 this.autoLabelAngle = this.LabelStyle.Angle;
-                this.autoLabelOffset = (this.LabelStyle.IsStaggered) ? 1 : 0;
+                this.autoLabelOffset = this.LabelStyle.IsStaggered ? 1 : 0;
 
                 // Adjust interval
                 this.AdjustIntervalToFitLabels(chartGraph, autoPlotPosition, false);
@@ -3652,7 +3648,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             if ((this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep30) == LabelAutoFitStyles.LabelsAngleStep30)
                             {
                                 // Increase angle by 45 degrees in 2D and 45 in 3D
-                                autoLabelAngle += (ChartArea.Area3DStyle.Enable3D) ? 45 : 30;
+                                autoLabelAngle += ChartArea.Area3DStyle.Enable3D ? 45 : 30;
                             }
                             else if ((this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep45) == LabelAutoFitStyles.LabelsAngleStep45)
                             {
@@ -3739,10 +3735,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 //******************************************************
                 //** Calculate axis second labels row size
                 //******************************************************
-                this.labelSize = (maxAxisElementsSize) - this.markSize - this.scrollBarSize - this.titleSize;
+                this.labelSize = maxAxisElementsSize - this.markSize - this.scrollBarSize - this.titleSize;
                 if (this.labelSize > 0)
                 {
-                    this.groupingLabelSizes = GetRequiredGroupLabelSize(chartGraph, (maxLabelSize / 100F) * maxAxisLabelRow2Size);
+                    this.groupingLabelSizes = GetRequiredGroupLabelSize(chartGraph, maxLabelSize / 100F * maxAxisLabelRow2Size);
                     this.totlaGroupingLabelsSize = GetGroupLablesToatalSize();
                 }
 
@@ -3756,13 +3752,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
                     {
                         this.labelSize = elementSpacing + GetRequiredLabelSize(chartGraph,
-                            (maxLabelSize / 100F) * (maxAxisElementsSize - this.markSize - this.scrollBarSize - this.titleSize), out this.unRotatedLabelSize);
+                            maxLabelSize / 100F * (maxAxisElementsSize - this.markSize - this.scrollBarSize - this.titleSize), out this.unRotatedLabelSize);
                     }
                     // If axis is horizontal
                     else
                     {
                         this.labelSize = elementSpacing + GetRequiredLabelSize(chartGraph,
-                            (maxLabelSize / 100F) * (maxAxisElementsSize - this.markSize - this.scrollBarSize - this.titleSize), out this.unRotatedLabelSize);
+                            maxLabelSize / 100F * (maxAxisElementsSize - this.markSize - this.scrollBarSize - this.titleSize), out this.unRotatedLabelSize);
                     }
 
                     if (!this.LabelStyle.Enabled)
@@ -3875,8 +3871,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         autoPlotPosition,
                         true,
                         false,
-                        (this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? false : true,
-                        (this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? true : false,
+                        this.AxisPosition != AxisPosition.Left && this.AxisPosition != AxisPosition.Right,
+                        this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right,
                         labelPositions);
 
                     // If labels fit check if any of the label positions overlap
@@ -4040,7 +4036,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #if DEBUG
                 if (iterationNumber >= 999)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionAxisDynamicIntervalCalculationFailed));
+                    throw new InvalidOperationException(SR.ExceptionAxisDynamicIntervalCalculationFailed);
                 }
 #endif // DEBUG
 
@@ -4052,15 +4048,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     autoPlotPosition,
                     true,
                     false,
-                    (this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? false : true,
-                    (this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? true : false,
+                    this.AxisPosition != AxisPosition.Left && this.AxisPosition != AxisPosition.Right,
+                    this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right,
                     null);
 
                 // Check if we need to increase or reduce number of labels
                 if (firstIteration)
                 {
                     firstIteration = false;
-                    increaseNumberOfLabels = (fitDone) ? true : false;
+                    increaseNumberOfLabels = fitDone;
 
                     // Check if we can decrease the interva;
                     if (onlyIncreaseInterval && increaseNumberOfLabels)
@@ -4201,7 +4197,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #if DEBUG
                     if (iterationIndex >= 99)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionAxisIntervalDecreasingFailed));
+                        throw new InvalidOperationException(SR.ExceptionAxisIntervalDecreasingFailed);
                     }
 #endif // DEBUG
 
@@ -4324,7 +4320,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #if DEBUG
                     if (iterationIndex >= 99)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionAxisIntervalIncreasingFailed));
+                        throw new InvalidOperationException(SR.ExceptionAxisIntervalIncreasingFailed);
                     }
 #endif // DEBUG
 
@@ -4446,7 +4442,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Try to find a space and replace it with a new line
                 string newText = ((string[])labelTextRows[longestLabelIndex])[longestLabelRowIndex];
-                for (index = 0; index < (newText.Length) / 2 - 1; index++)
+                for (index = 0; index < newText.Length / 2 - 1; index++)
                 {
                     if (newText[newText.Length / 2 - index] == ' ')
                     {
@@ -4637,7 +4633,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     plotAreaRadius += spacing;
 
                     // Calculate angle on the side of the label
-                    float leftSideAngle = (float)(Math.Atan((textSize.Width / 2f) / plotAreaRadius) * 180f / Math.PI);
+                    float leftSideAngle = (float)(Math.Atan(textSize.Width / 2f / plotAreaRadius) * 180f / Math.PI);
                     float rightSideAngle = axis.AxisPosition + leftSideAngle;
                     leftSideAngle = axis.AxisPosition - leftSideAngle;
 
@@ -4803,7 +4799,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 if (this.autoLabelOffset < 0)
                 {
-                    this.autoLabelOffset = (this.LabelStyle.IsStaggered) ? 1 : 0;
+                    this.autoLabelOffset = this.LabelStyle.IsStaggered ? 1 : 0;
                 }
 
                 // Check labels fit
@@ -4813,8 +4809,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     autoPlotPosition,
                     true,
                     true,
-                    (this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? false : true,
-                    (this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? true : false,
+                    this.AxisPosition != AxisPosition.Left && this.AxisPosition != AxisPosition.Right,
+                    this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right,
                     null);
 
                 // If there is a problem fitting labels try to reduce number of labels by
@@ -5063,13 +5059,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 double toPosition = this.GetLinearPosition(label.ToPosition);
                                 if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
                                 {
-                                    rect.Height = (maxLabelSize / 100F) * maxAxisLabelRow2Size / groupLabelLevelCount;
+                                    rect.Height = maxLabelSize / 100F * maxAxisLabelRow2Size / groupLabelLevelCount;
                                     rect.X = (float)Math.Min(fromPosition, toPosition);
                                     rect.Width = (float)Math.Max(fromPosition, toPosition) - rect.X;
                                 }
                                 else
                                 {
-                                    rect.Width = (maxLabelSize / 100F) * maxAxisLabelRow2Size / groupLabelLevelCount;
+                                    rect.Width = maxLabelSize / 100F * maxAxisLabelRow2Size / groupLabelLevelCount;
                                     rect.Y = (float)Math.Min(fromPosition, toPosition);
                                     rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
                                 }
@@ -5183,12 +5179,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                         if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
                         {
-                            rect.Width = (maxLabelSize / 100F) *
+                            rect.Width = maxLabelSize / 100F *
                                 (maxElementSize - this.totlaGroupingLabelsSize - otherElementsSize - elementSpacing);
                         }
                         else
                         {
-                            rect.Width = (maxLabelSize / 100F) *
+                            rect.Width = maxLabelSize / 100F *
                                 (maxElementSize - this.totlaGroupingLabelsSize - otherElementsSize - elementSpacing);
                         }
 
@@ -5228,7 +5224,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         SizeF axisLabelSize = chartGraph.MeasureStringRel(
                             label.Text.Replace("\\n", "\n") + "W",
                             autoLabelFont,
-                            (secondPass) ? rect.Size : ChartArea.Position.ToRectangleF().Size,
+                            secondPass ? rect.Size : ChartArea.Position.ToRectangleF().Size,
                             format);
 
                         // Width and height maybe zeros if rect is too small to fit the text and
@@ -5242,7 +5238,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             axisLabelSize = chartGraph.MeasureStringRel(
                                 label.Text.Replace("\\n", "\n"),
                                 autoLabelFont,
-                                (secondPass) ? rect.Size : ChartArea.Position.ToRectangleF().Size,
+                                secondPass ? rect.Size : ChartArea.Position.ToRectangleF().Size,
                                 format);
                             format.FormatFlags |= StringFormatFlags.LineLimit;
                         }
@@ -5289,19 +5285,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                             if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
                             {
-                                width = (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
-                                width += (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
+                                width = (float)Math.Cos(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Height;
+                                width += (float)Math.Sin(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Width;
 
-                                height = (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
-                                height += (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
+                                height = (float)Math.Sin(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Height;
+                                height += (float)Math.Cos(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Width;
                             }
                             else
                             {
-                                width = (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
-                                width += (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
+                                width = (float)Math.Cos(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Width;
+                                width += (float)Math.Sin(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Height;
 
-                                height = (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
-                                height += (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
+                                height = (float)Math.Sin(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Width;
+                                height += (float)Math.Cos(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Height;
                             }
                         }
 
@@ -5520,9 +5516,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (angle != 0)
                         {
                             width = (float)Math.Cos((90 - Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
-                            width += (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
+                            width += (float)Math.Cos(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Height;
 
-                            height = (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
+                            height = (float)Math.Sin(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Height;
                             height += (float)Math.Sin((90 - Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
                         }
 
@@ -5971,11 +5967,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (arrowOrientation == ArrowOrientation.Top || arrowOrientation == ArrowOrientation.Bottom)
             {
                 size = _lineWidth;
-                sizeOpposite = (double)(_lineWidth) * Common.Width / Common.Height;
+                sizeOpposite = (double)_lineWidth * Common.Width / Common.Height;
             }
             else
             {
-                size = (double)(_lineWidth) * Common.Width / Common.Height;
+                size = (double)_lineWidth * Common.Width / Common.Height;
                 sizeOpposite = _lineWidth;
             }
 
@@ -6173,8 +6169,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal double GetAxisProjectionAngle()
         {
             // Get Z position
-            bool axisOnEdge;
-            float zPosition = GetMarksZPosition(out axisOnEdge);
+            float zPosition = GetMarksZPosition(out bool axisOnEdge);
 
             // Get axis position
             float axisPosition = (float)GetAxisPosition();
@@ -6202,7 +6197,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             axisPoints[1].Y = (float)Math.Round(axisPoints[1].Y, 4);
 
             // Calculate angle
-            double angle = 0.0;
+            double angle;
             if (this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom)
             {
                 angle = Math.Atan((axisPoints[1].Y - axisPoints[0].Y) / (axisPoints[1].X - axisPoints[0].X));
@@ -6213,7 +6208,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Conver to degrees
-            return (angle * 180.0) / Math.PI;
+            return angle * 180.0 / Math.PI;
         }
 
         #endregion

@@ -278,7 +278,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     else
                     {
                         // Unsupported step type
-                        throw (new ArgumentException(SR.ExceptionAxisLabelsIntervalTypeUnsupported(intervalType.ToString())));
+                        throw new ArgumentException(SR.ExceptionAxisLabelsIntervalTypeUnsupported(intervalType.ToString()));
                     }
                     if (labelEnd > toX)
                     {
@@ -776,7 +776,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-                    throw (new InvalidOperationException(SR.ExceptionAxisLabelRowIndexIsNegative));
+                    throw new InvalidOperationException(SR.ExceptionAxisLabelRowIndexIsNegative);
 				}
 
 				this._labelRowIndex = value;
@@ -1485,7 +1485,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Unknown label row value
                     else
                     {
-                        throw (new InvalidOperationException(SR.ExceptionAxisLabelIndexIsNegative));
+                        throw new InvalidOperationException(SR.ExceptionAxisLabelIndexIsNegative);
                     }
 
                     // Set label From and To coordinates
@@ -1736,8 +1736,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 //*****************************************************************
                 //** Set the labels Z position
                 //*****************************************************************
-                bool axisOnEdge;
-                float labelsZPosition = _axis.GetMarksZPosition(out axisOnEdge);
+                float labelsZPosition = _axis.GetMarksZPosition(out bool axisOnEdge);
 
                 // Adjust Z position for the "bent" tick marks
                 bool adjustForWallWidth = false;
@@ -1776,7 +1775,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 //*****************************************************************
                 //** Check if labels should be drawn as back or front element.
                 //*****************************************************************
-                bool labelsInsidePlotArea = (this._axis.GetIsMarksNextToAxis() && !axisOnEdge);
+                bool labelsInsidePlotArea = this._axis.GetIsMarksNextToAxis() && !axisOnEdge;
                 if (backElements == labelsInsidePlotArea)
                 {
                     // Skip drawing
@@ -2006,7 +2005,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             // Unknown label row value
                         else
                         {
-                            throw (new InvalidOperationException(SR.ExceptionAxisLabelRowIndexMustBe1Or2));
+                            throw new InvalidOperationException(SR.ExceptionAxisLabelRowIndexMustBe1Or2);
                         }
 
                         //********************************************************************
@@ -2549,7 +2548,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < -90 || value > 90)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisLabelFontAngleInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisLabelFontAngleInvalid);
 				}
 				
 				// Turn of label offset if angle is not 0, 90 or -90

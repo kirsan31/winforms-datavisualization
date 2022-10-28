@@ -667,20 +667,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
                 points,
                 secondPoint.index - 1,
-                (this.multiSeries) ? secondPoint : null,
+                this.multiSeries ? secondPoint : null,
                 ref pointArrayIndex);
-
-
-            //****************************************************************
-            //** Switch first and second points.
-            //****************************************************************
-            bool reversed = false;
             if (firstPoint.index > secondPoint.index)
             {
                 DataPoint3D tempPoint = firstPoint;
                 firstPoint = secondPoint;
                 secondPoint = tempPoint;
-                reversed = true;
             }
 
 
@@ -693,18 +686,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 pointArrayIndex = pointIndex;
                 if (pointIndex != (centerPointIndex + 1))
                 {
-                    firstPoint = ChartGraphics.FindPointByIndex(points, secondPoint.index - 1, (this.multiSeries) ? secondPoint : null, ref pointArrayIndex);
+                    firstPoint = ChartGraphics.FindPointByIndex(points, secondPoint.index - 1, this.multiSeries ? secondPoint : null, ref pointArrayIndex);
                 }
                 else
                 {
                     if (!area.ReverseSeriesOrder)
                     {
-                        secondPoint = ChartGraphics.FindPointByIndex(points, firstPoint.index + 1, (this.multiSeries) ? secondPoint : null, ref pointArrayIndex);
+                        secondPoint = ChartGraphics.FindPointByIndex(points, firstPoint.index + 1, this.multiSeries ? secondPoint : null, ref pointArrayIndex);
                     }
                     else
                     {
                         firstPoint = secondPoint;
-                        secondPoint = ChartGraphics.FindPointByIndex(points, secondPoint.index - 1, (this.multiSeries) ? secondPoint : null, ref pointArrayIndex);
+                        secondPoint = ChartGraphics.FindPointByIndex(points, secondPoint.index - 1, this.multiSeries ? secondPoint : null, ref pointArrayIndex);
                     }
                 }
             }
@@ -717,9 +710,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 
             //****************************************************************
+            //** Switch first and second points.
+            //****************************************************************
+            //****************************************************************
             //** Check if reversed drawing order required
             //****************************************************************
-            reversed = false;
+            bool reversed = false;
             int indexOffset = 1;
             while ((pointIndex + indexOffset) < points.Count)
             {
@@ -749,7 +745,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                 // Reversed array of points if needed
                 PointF[] splinePoints = null;
-                reversed = (pointIndex < pointArrayIndex);
+                reversed = pointIndex < pointArrayIndex;
                 if (reversed)
                 {
                     splineSurfacePath.Reverse();
@@ -921,7 +917,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //****************************************************************
             //** Adjust point visual properties.
             //****************************************************************
-            Color color = (useBorderColor) ? pointAttr.dataPoint.BorderColor : pointAttr.dataPoint.Color;
+            Color color = useBorderColor ? pointAttr.dataPoint.BorderColor : pointAttr.dataPoint.Color;
             ChartDashStyle dashStyle = pointAttr.dataPoint.BorderDashStyle;
             if (pointAttr.dataPoint.IsEmpty && pointAttr.dataPoint.Color == Color.Empty)
             {
@@ -958,8 +954,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 upSideDown = true;
 
                 // Switch visibility between Top & Bottom surfaces
-                bool topVisible = ((visibleSurfaces & SurfaceNames.Top) == SurfaceNames.Top);
-                bool bottomVisible = ((visibleSurfaces & SurfaceNames.Bottom) == SurfaceNames.Bottom);
+                bool topVisible = (visibleSurfaces & SurfaceNames.Top) == SurfaceNames.Top;
+                bool bottomVisible = (visibleSurfaces & SurfaceNames.Bottom) == SurfaceNames.Bottom;
                 visibleSurfaces ^= SurfaceNames.Bottom;
                 visibleSurfaces ^= SurfaceNames.Top;
                 if (topVisible)
@@ -986,7 +982,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //****************************************************************
             //** Calculate position of top/bootom points.
             //****************************************************************
-            PointF thirdPoint, fourthPoint;
             GetBottomPointsPosition(
                 Common,
                 area,
@@ -995,8 +990,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 ref secondPoint,
                 thirdPointPosition,
                 fourthPointPosition,
-                out thirdPoint,
-                out fourthPoint);
+                out PointF thirdPoint,
+                out PointF fourthPoint);
 
             // Check if point's position provided as parameter
             if (!float.IsNaN(thirdPointPosition.Y))
@@ -1229,7 +1224,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     GraphicsPath surfacePath = null;
                     switch (currentSurface)
                     {
-                        case (SurfaceNames.Top):
+                        case SurfaceNames.Top:
                             {
                                 // Darken colors
                                 Color topColor = (topDarkening == 0f) ? surfaceColor : ChartGraphics.GetGradientColor(surfaceColor, Color.Black, topDarkening);
@@ -1245,7 +1240,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                                 break;
                             }
-                        case (SurfaceNames.Bottom):
+                        case SurfaceNames.Bottom:
                             {
                                 // Calculate coordinates
                                 DataPoint3D dp1 = new DataPoint3D();
@@ -1275,7 +1270,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 break;
                             }
 
-                        case (SurfaceNames.Left):
+                        case SurfaceNames.Left:
                             {
                                 if (surfaceSegmentType == LineSegmentType.Single ||
                                     (!area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.First) ||
@@ -1306,7 +1301,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 }
                                 break;
                             }
-                        case (SurfaceNames.Right):
+                        case SurfaceNames.Right:
                             {
                                 if (surfaceSegmentType == LineSegmentType.Single ||
                                     (!area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.Last) ||
@@ -1338,7 +1333,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                                 break;
                             }
-                        case (SurfaceNames.Back):
+                        case SurfaceNames.Back:
                             {
                                 // Calculate coordinates
                                 DataPoint3D dp1 = new DataPoint3D();
@@ -1374,7 +1369,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 #pragma warning restore CA2000 // Dispose objects before losing scope
                                 break;
                             }
-                        case (SurfaceNames.Front):
+                        case SurfaceNames.Front:
                             {
                                 // Calculate coordinates
                                 DataPoint3D dp1 = new DataPoint3D();

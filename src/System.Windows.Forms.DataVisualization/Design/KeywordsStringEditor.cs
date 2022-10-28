@@ -238,7 +238,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             // 
             // buttonOk
             // 
-            this._buttonOk.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+            this._buttonOk.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             this._buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._buttonOk.Location = new System.Drawing.Point(305, 9);
             this._buttonOk.Name = "_buttonOk";
@@ -249,7 +249,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             // 
             // buttonCancel
             // 
-            this._buttonCancel.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+            this._buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.Location = new System.Drawing.Point(401, 9);
             this._buttonCancel.Name = "_buttonCancel";
@@ -511,8 +511,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 int newSelectionPosition = this._selectedKeywordStart;
 
                 // Remove keyword
-                string newText = _richTextBox.Text.Substring(0, this._selectedKeywordStart);
-                newText += _richTextBox.Text.Substring(this._selectedKeywordStart + this._selectedKeywordLength);
+                string newText = _richTextBox.Text[..this._selectedKeywordStart];
+                newText += _richTextBox.Text[(this._selectedKeywordStart + this._selectedKeywordLength)..];
                 _richTextBox.Text = newText;
 
                 // Restore cursor (selection) position
@@ -548,11 +548,10 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// <returns>Input text formatted as RTF.</returns>
         private string GetRtfText(string originalText)
         {
-            // Initialize empty string
-            string resultRtf = string.Empty;
 
+            // Initialize empty string
             // Start with RTF header and font table
-            resultRtf = @"{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Microsoft Sans Serif;}}\r\n";
+            string resultRtf = @"{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Microsoft Sans Serif;}}\r\n";
 
             // Add color table
             resultRtf += @"{\colortbl ;\red0\green0\blue255;}\r\n";
@@ -670,11 +669,11 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                             }
 
                             // Check if cursor currently located inside the keyword
-                            bool isKeywordSelected = (selectionStart > (startIndex) &&
-                                selectionStart <= (startIndex + keywordLength));
+                            bool isKeywordSelected = selectionStart > startIndex &&
+                                selectionStart <= (startIndex + keywordLength);
 
                             // Show Keyword with different color
-                            string tempText = resultText.Substring(0, startIndex);
+                            string tempText = resultText[..startIndex];
                             string formattedKeyword = string.Empty;
                             formattedKeyword += @"\cf1";
                             if (isKeywordSelected)
@@ -699,7 +698,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                             }
                             formattedKeyword += @"\ul0 ";
                             tempText += formattedKeyword;
-                            tempText += resultText.Substring(startIndex + keywordLength);
+                            tempText += resultText[(startIndex + keywordLength)..];
                             resultText = tempText;
 
                             // Adjust selection position

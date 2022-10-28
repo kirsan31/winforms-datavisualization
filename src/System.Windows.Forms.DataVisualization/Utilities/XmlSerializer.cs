@@ -386,7 +386,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 						else
 						{
 							// Reset objects of the list
-							foreach(object listObject in ((IList)pi.GetValue(objectToReset, null)))
+							foreach(object listObject in (IList)pi.GetValue(objectToReset, null))
 							{
 								ResetObjectProperties(listObject, objectToReset, this.GetObjectName(listObject));
 							}
@@ -520,11 +520,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			if(charIndex >= 0)
 			{
 				// Read value
-				string val = fontString.Substring(charIndex + 13);
+				string val = fontString[(charIndex + 13)..];
                 int commaIndex = val.IndexOf(",", StringComparison.Ordinal);
 				if(commaIndex >= 0)
 				{
-					val = val.Substring(0, commaIndex);
+					val = val[..commaIndex];
 				}
 
 				gdiCharSet = (byte)Int32.Parse(val, System.Globalization.CultureInfo.InvariantCulture);
@@ -532,7 +532,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 				// Truncate standard data string
 				if(standardData.Length > charIndex)
 				{
-					standardData = standardData.Substring(0, charIndex);
+					standardData = standardData[..charIndex];
 				}
 			}
             charIndex = fontString.IndexOf(", GdiVerticalFont", StringComparison.Ordinal);
@@ -543,7 +543,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 				// Truncate standard data string
 				if(standardData.Length > charIndex)
 				{
-					standardData = standardData.Substring(0, charIndex);
+					standardData = standardData[..charIndex];
 				}
 			}
 
@@ -671,8 +671,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
 			// Read tags and BASE64 encoded data
 			textReader.Read();
-			int bytesRead = 0;
-			while((bytesRead = textReader.ReadBase64(buffer, 0, 1000)) > 0)
+            int bytesRead;
+            while ((bytesRead = textReader.ReadBase64(buffer, 0, 1000)) > 0)
 			{
 				imageStream.Write(buffer, 0, bytesRead);
 			}
@@ -699,7 +699,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		internal string GetObjectName(object obj)
 		{
             string name = obj.GetType().ToString();
-			return name.Substring(name.LastIndexOf('.') + 1);
+			return name[(name.LastIndexOf('.') + 1)..];
 		}
 
         /// <summary>
@@ -723,12 +723,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			reusedObject = false;
 			PropertyInfo pi = list.GetType().GetProperty("Item", itemType, new Type[] {typeof(string)} );
             MethodInfo mi = list.GetType().GetMethod("IndexOf", new Type[] { typeof(String) });
-			ConstructorInfo ci = null;
-			if(pi != null)
-			{
-				// Try to get object by name using the indexer
-				if(itemName != null && itemName.Length > 0)
-				{
+            if (pi != null)
+            {
+                // Try to get object by name using the indexer
+                if (itemName != null && itemName.Length > 0)
+                {
                     bool itemChecked = false;
                     if (mi != null)
                     {
@@ -767,7 +766,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     }
                     if (!itemChecked)
                     {
-                        object objByName = null;
+                        object objByName;
                         try
                         {
                             objByName = pi.GetValue(list, new object[] { itemName });
@@ -801,10 +800,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                             return objByName;
                         }
                     }
-					itemName = null;
-				}
+                    itemName = null;
+                }
 
-			}
+            }
+            ConstructorInfo ci;
             // Get the constructor of the type returned by indexer
             if (itemType != null)
             {
@@ -816,7 +816,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             }
             if (ci == null)
             {
-                throw (new InvalidOperationException(SR.ExceptionChartSerializerDefaultConstructorUndefined(pi.PropertyType.ToString())));
+                throw new InvalidOperationException(SR.ExceptionChartSerializerDefaultConstructorUndefined(pi.PropertyType.ToString()));
             }
             return ci.Invoke(null);
 		}
@@ -907,23 +907,23 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			bool	serializable = true;
 			if(_serializableContent.Length > 0 || _nonSerializableContent.Length > 0)
 			{
-				int		serialzableClassFitType = 0;	// 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
-				int		serialzablePropertyFitType = 0;	// 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
+                // 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
+                // 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
                 string ownerClassName = GetObjectName(parent);
 
-				// Check if property in this class is part of the serializable content
-				serializable = IsPropertyInList(GetSerializableContentList(), ownerClassName, propertyName, out serialzableClassFitType, out serialzablePropertyFitType);
+                // Check if property in this class is part of the serializable content
+                serializable = IsPropertyInList(GetSerializableContentList(), ownerClassName, propertyName, out int serialzableClassFitType, out int serialzablePropertyFitType);
 
 				// Check if property in this class is part of the NON serializable content
 				if(serializable)
 				{
-					int		nonSerialzableClassFitType = 0;	// 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
-					int		nonSerialzablePropertyFitType = 0;	// 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
-					bool	nonSerializable = IsPropertyInList(GetNonSerializableContentList(), ownerClassName, propertyName, out nonSerialzableClassFitType, out nonSerialzablePropertyFitType);
+                    // 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
+                    // 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
+                    bool nonSerializable = IsPropertyInList(GetNonSerializableContentList(), ownerClassName, propertyName, out int nonSerialzableClassFitType, out int nonSerialzablePropertyFitType);
 
-					// If property was found in non serializable content list - check the type priority
-					// Priority order: Exact match, 'Back*' mask match, '*' all mask match
-					if(nonSerializable)
+                    // If property was found in non serializable content list - check the type priority
+                    // Priority order: Exact match, 'Back*' mask match, '*' all mask match
+                    if (nonSerializable)
 					{
 						// Check priority
 						if((nonSerialzableClassFitType + nonSerialzablePropertyFitType) > 
@@ -958,9 +958,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 				// Loop through all items in the list using step 2
 				for(int itemIndex = 0; itemIndex < contentList.Count; itemIndex += 2)
 				{
-					// Initialize result values
-					classFitType = 0;
-					propertyFitType = 0;
+                    // Initialize result values
+                    propertyFitType = 0;
 
 					// Check if object class and property name match the mask
 					if(NameMatchMask((ItemInfo)contentList[itemIndex], className, out classFitType))
@@ -1000,7 +999,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			{
 				if(itemInfo.name.Length <= objectName.Length)
 				{
-					if(objectName.Substring(0, itemInfo.name.Length) == itemInfo.name)
+					if(objectName[..itemInfo.name.Length] == itemInfo.name)
 					{
 						type = 2;
 						return true;
@@ -1194,23 +1193,23 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 					int pointIndex = item.IndexOf('.');
 					if(pointIndex == -1)
 					{
-                        throw (new ArgumentException(SR.ExceptionChartSerializerContentStringFormatInvalid));
+                        throw new ArgumentException(SR.ExceptionChartSerializerContentStringFormatInvalid);
 					}
-					classInfo.name = item.Substring(0, pointIndex).Trim();
-					propertyInfo.name = item.Substring(pointIndex + 1).Trim();
+					classInfo.name = item[..pointIndex].Trim();
+					propertyInfo.name = item[(pointIndex + 1)..].Trim();
 					if(classInfo.name.Length == 0)
 					{
-                        throw (new ArgumentException(SR.ExceptionChartSerializerClassNameUndefined));
+                        throw new ArgumentException(SR.ExceptionChartSerializerClassNameUndefined);
 					}
 					if(propertyInfo.name.Length == 0)
 					{
-                        throw (new ArgumentException(SR.ExceptionChartSerializerPropertyNameUndefined));
+                        throw new ArgumentException(SR.ExceptionChartSerializerPropertyNameUndefined);
 					}
 
 					// Make sure property name do not have point character
 					if(propertyInfo.name.IndexOf('.') != -1)
 					{
-                        throw (new ArgumentException(SR.ExceptionChartSerializerContentStringFormatInvalid));
+                        throw new ArgumentException(SR.ExceptionChartSerializerContentStringFormatInvalid);
 					}
 
 					// Check for wildcards in names
@@ -1334,15 +1333,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			// Check input parameters
 			if(objectToSerialize == null)
 			{
-				throw(new ArgumentNullException(nameof(objectToSerialize)));
+				throw new ArgumentNullException(nameof(objectToSerialize));
 			}
 			if(writer == null)
 			{
-				throw(new ArgumentNullException(nameof(writer)));
+				throw new ArgumentNullException(nameof(writer));
 			}
 			if(stream == null && textWriter == null && xmlWriter == null && writerStr == null)
 			{
-                throw (new ArgumentException(SR.ExceptionChartSerializerWriterObjectInvalid, nameof(writer)));
+                throw new ArgumentException(SR.ExceptionChartSerializerWriterObjectInvalid, nameof(writer));
 			}
 
 			// Create XML document
@@ -1591,7 +1590,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             {
                 if (entry.Key is int)
                 {
-                    CommonCustomProperties propertyType = (CommonCustomProperties)((int)entry.Key);
+                    CommonCustomProperties propertyType = (CommonCustomProperties)(int)entry.Key;
                     String properyName = propertyType.ToString();
                     if (IsSerializableContent(properyName, objectToSerialize))
                     {
@@ -1875,15 +1874,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			// Check input parameters
 			if(objectToDeserialize == null)
 			{
-				throw(new ArgumentNullException(nameof(objectToDeserialize)));
+				throw new ArgumentNullException(nameof(objectToDeserialize));
 			}
 			if(reader == null)
 			{
-				throw(new ArgumentNullException(nameof(reader)));
+				throw new ArgumentNullException(nameof(reader));
 			}
 			if(stream == null && textReader == null && xmlReader == null && readerStr == null)
 			{
-                throw (new ArgumentException(SR.ExceptionChartSerializerReaderObjectInvalid, nameof(reader)));
+                throw new ArgumentException(SR.ExceptionChartSerializerReaderObjectInvalid, nameof(reader));
 			}
 
 			// Create XML document
@@ -2084,7 +2083,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                         }
                         else if (!IsUnknownAttributeIgnored)
                         {
-                            throw (new InvalidOperationException(SR.ExceptionChartSerializerPropertyNameUnknown(childNode.Name, objectToDeserialize.GetType().ToString())));
+                            throw new InvalidOperationException(SR.ExceptionChartSerializerPropertyNameUnknown(childNode.Name, objectToDeserialize.GetType().ToString()));
                         }
                     }
                 }
@@ -2149,7 +2148,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			}
 			else if(!IsUnknownAttributeIgnored)
 			{
-				throw(new InvalidOperationException(SR.ExceptionChartSerializerPropertyNameUnknown( attrName,obj.GetType().ToString())));
+				throw new InvalidOperationException(SR.ExceptionChartSerializerPropertyNameUnknown( attrName,obj.GetType().ToString()));
 			}
 		}
 
@@ -2173,11 +2172,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             // Check input parameters
             if (objectToSerialize == null)
             {
-                throw (new ArgumentNullException(nameof(objectToSerialize)));
+                throw new ArgumentNullException(nameof(objectToSerialize));
             }
             if (destination == null)
             {
-                throw (new ArgumentNullException(nameof(destination)));
+                throw new ArgumentNullException(nameof(destination));
             }
 
             string destinationStr = destination as string;
@@ -2201,7 +2200,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 return;
             }
 
-            throw (new ArgumentException(SR.ExceptionChartSerializerDestinationObjectInvalid, nameof(destination)));
+            throw new ArgumentException(SR.ExceptionChartSerializerDestinationObjectInvalid, nameof(destination));
         }
 
 		/// <summary>
@@ -2450,7 +2449,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             {
                 if (entry.Key is int)
                 {
-                    CommonCustomProperties propertyType = (CommonCustomProperties)((int)entry.Key);
+                    CommonCustomProperties propertyType = (CommonCustomProperties)(int)entry.Key;
                     String properyName = propertyType.ToString();
                     if (IsSerializableContent(properyName, objectToSerialize))
                     {
@@ -2608,27 +2607,27 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			
 			if(obj is bool)
 			{
-				writer.Write(((bool)obj));
+				writer.Write((bool)obj);
 			}
 			else if(obj is double)
 			{
-				writer.Write(((double)obj));
+				writer.Write((double)obj);
 			}
 			else if(obj is string)
 			{
-				writer.Write(((string)obj));
+				writer.Write((string)obj);
 			}
 			else if(obj is int)
 			{
-				writer.Write(((int)obj));
+				writer.Write((int)obj);
 			}
 			else if(obj is long)
 			{
-				writer.Write(((long)obj));
+				writer.Write((long)obj);
 			}
 			else if(obj is float)
 			{
-				writer.Write(((float)obj));
+				writer.Write((float)obj);
 			}
 			else if(obj.GetType().IsEnum)
 			{
@@ -2726,7 +2725,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
 			else
 			{
-                throw (new InvalidOperationException(SR.ExceptionChartSerializerBinaryTypeUnsupported(obj.GetType().ToString())));
+                throw new InvalidOperationException(SR.ExceptionChartSerializerBinaryTypeUnsupported(obj.GetType().ToString()));
 			}
 		}
 
@@ -2750,7 +2749,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 						{
 							if( SerializerBase.GetStringHashCode(name1) == SerializerBase.GetStringHashCode(name2) )
 							{
-                                throw (new InvalidOperationException(SR.ExceptionChartSerializerBinaryHashCodeDuplicate(name1,name2)));
+                                throw new InvalidOperationException(SR.ExceptionChartSerializerBinaryHashCodeDuplicate(name1,name2));
 							}
 						}
 					}
@@ -2772,11 +2771,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             // Check input parameters
             if (objectToDeserialize == null)
             {
-                throw (new ArgumentNullException(nameof(objectToDeserialize)));
+                throw new ArgumentNullException(nameof(objectToDeserialize));
             }
             if (source == null)
             {
-                throw (new ArgumentNullException(nameof(source)));
+                throw new ArgumentNullException(nameof(source));
             }
 
             string sourceStr = source as string;
@@ -2799,7 +2798,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 return;
             }
 
-            throw (new ArgumentException(SR.ExceptionChartSerializerSourceObjectInvalid, nameof(source)));
+            throw new ArgumentException(SR.ExceptionChartSerializerSourceObjectInvalid, nameof(source));
         }
 
 		/// <summary>
@@ -2835,24 +2834,24 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			// Check input parameters
 			if(objectToDeserialize == null)
 			{
-				throw(new ArgumentNullException(nameof(objectToDeserialize)));
+				throw new ArgumentNullException(nameof(objectToDeserialize));
 			}
 			if(reader == null)
 			{
-				throw(new ArgumentNullException(nameof(reader)));
+				throw new ArgumentNullException(nameof(reader));
 			}
 
 			// Binary deserializer do not support IsUnknownAttributeIgnored property
 			if(base.IsUnknownAttributeIgnored)
 			{
-                throw (new InvalidOperationException(SR.ExceptionChartSerializerBinaryIgnoreUnknownAttributesUnsupported));
+                throw new InvalidOperationException(SR.ExceptionChartSerializerBinaryIgnoreUnknownAttributesUnsupported);
 			}
 
 			// Read 15 characters of file header
 			char[]	header = reader.ReadChars(15);
 			if(header[0] != 'D' || header[1] != 'C' || header[2] != 'B' || header[3] != 'F')
 			{
-                throw (new InvalidOperationException(SR.ExceptionChartSerializerBinaryFromatInvalid));
+                throw new InvalidOperationException(SR.ExceptionChartSerializerBinaryFromatInvalid);
 			}
 
 			// Get ID of the root object
@@ -2896,16 +2895,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
 			if(list != null)
 			{
-				// Loop through all list items
-				Int16 typeHash = 0;
                 PropertyInfo listItemPI = objectToDeserialize.GetType().GetProperty("Item", new Type[] { typeof(int) });
+                // Loop through all list items
+                short typeHash;
                 while ((typeHash = this.ReadHashID(reader)) != 0)
-				{
-					// Get collection item type from hashed type name
-					string	typeName = String.Empty;
-					if(listItemPI != null)
-					{
-                        if ((SerializerBase.GetStringHashCode(listItemPI.PropertyType.Name)) == typeHash)
+                {
+                    // Get collection item type from hashed type name
+                    string typeName = String.Empty;
+                    if (listItemPI != null)
+                    {
+                        if (SerializerBase.GetStringHashCode(listItemPI.PropertyType.Name) == typeHash)
                         {
                             typeName = listItemPI.PropertyType.Name;
                         }
@@ -2923,7 +2922,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                                 {
                                     if (type.IsSubclassOf(listItemPI.PropertyType))
                                     {
-                                        if ((SerializerBase.GetStringHashCode(type.Name)) == typeHash)
+                                        if (SerializerBase.GetStringHashCode(type.Name) == typeHash)
                                         {
                                             typeName = type.Name;
                                             break;
@@ -2932,16 +2931,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                                 }
                             }
                         }
-					}
-		
-					// Create new item object
-					string itemName = null;
-					bool	reusedObject = false;
-					object listItem = GetListNewItem(list, typeName, ref itemName, ref reusedObject);
+                    }
+
+                    // Create new item object
+                    string itemName = null;
+                    bool reusedObject = false;
+                    object listItem = GetListNewItem(list, typeName, ref itemName, ref reusedObject);
 
 
-					// Deserialize list item object
-					int itemSetProperties = DeserializeObject(listItem, objectToDeserialize, "", reader, skipElement);
+                    // Deserialize list item object
+                    int itemSetProperties = DeserializeObject(listItem, objectToDeserialize, "", reader, skipElement);
 
                     // Add item object into the list
                     if (!skipElement && (itemSetProperties > 0 || reusedObject))
@@ -2950,10 +2949,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     }
                     // TD: here was removed a code which doesn't work but cause heavy workload: GetListNewItem removes the reusedObject from the list.
                     // Add properties set for collection item
-					setPropertiesNumber += itemSetProperties;
-				}
+                    setPropertiesNumber += itemSetProperties;
+                }
 
-				return setPropertiesNumber;
+                return setPropertiesNumber;
 			}	
 
 			// Get list of object's properties
@@ -2962,9 +2961,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			{
 				return setPropertiesNumber;
 			}
-            
-			// Get property information by reading the ID
-			PropertyInfo pi = null;
+
+            // Get property information by reading the ID
+            PropertyInfo pi;
             while ( (pi = ReadPropertyInfo(objectToDeserialize, parent, properties, reader)) != null)
 			{
 				// Read simple properties
@@ -2989,7 +2988,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 					}
 					else if(!IsUnknownAttributeIgnored)
 					{
-						throw(new InvalidOperationException(SR.ExceptionChartSerializerPropertyNameUnknown( pi.Name,objectToDeserialize.GetType().ToString())));
+						throw new InvalidOperationException(SR.ExceptionChartSerializerPropertyNameUnknown( pi.Name,objectToDeserialize.GetType().ToString()));
 					}
 				}
 			}
@@ -3128,7 +3127,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
 				else
 				{
-					throw(new InvalidOperationException(SR.ExceptionChartSerializerBinaryTypeUnsupported( obj.GetType().ToString() )));
+					throw new InvalidOperationException(SR.ExceptionChartSerializerBinaryTypeUnsupported( obj.GetType().ToString() ));
 				}
 
 
@@ -3176,7 +3175,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 				// Check collection
                 if (pi.CanRead && pi.PropertyType.GetInterface("ICollection", true) != null)
 				{
-					if((SerializerBase.GetStringHashCode(pi.Name)) == propertyID)
+					if(SerializerBase.GetStringHashCode(pi.Name) == propertyID)
 					{
 						return pi;
 					}
@@ -3191,7 +3190,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 						continue;
 					}
 
-					if((SerializerBase.GetStringHashCode(pi.Name)) == propertyID)
+					if(SerializerBase.GetStringHashCode(pi.Name) == propertyID)
 					{
 						return pi;
 					}
@@ -3199,7 +3198,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			}
 
 			// Property was not found
-            throw (new InvalidOperationException(SR.ExceptionChartSerializerPropertyNotFound));
+            throw new InvalidOperationException(SR.ExceptionChartSerializerPropertyNotFound);
 		}
 
 		#endregion

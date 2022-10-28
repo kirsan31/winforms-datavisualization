@@ -280,10 +280,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="inputSeries">Comma separated input data series names and optional X and Y values names.</param>
         /// <param name="outputSeries">Comma separated output data series names and optional X and Y values names.</param>
         internal void Formula(string formulaName, string parameters, string inputSeries, string outputSeries)
-        {            
+        {
             // Array of series
-            Series[] inSeries;
-            Series[] outSeries;
 
             // Commented out as InsertEmptyDataPoints is currently commented out.
             // This field is not used anywhere else, but we might need it if we uncomment all the disabled code parts in this method. (krisztb 4/29/08)
@@ -291,25 +289,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //bool statisticalFormulas = false;
 
             // Array of Y value indexes
-            int[] inValueIndexes;
-            int[] outValueIndexes;
 
             // Matrix with double values ( used in formula modules )
-            double[][] inValues;
             double[][] inNoEmptyValues;
             double[][] outValues = null;
             string[][] outLabels = null;
 
             // Array with parameters
-            string[] parameterList;
 
             // Split comma separated parameter list in the array of strings.
-            SplitParameters(parameters, out parameterList);
+            SplitParameters(parameters, out string[] parameterList);
 
             // Split comma separated series and Y values list in the array of 
             // Series and indexes to Y values.
-            ConvertToArrays(inputSeries, out inSeries, out inValueIndexes, true);
-            ConvertToArrays(outputSeries, out outSeries, out outValueIndexes, false);
+            ConvertToArrays(inputSeries, out Series[] inSeries, out int[] inValueIndexes, true);
+            ConvertToArrays(outputSeries, out Series[] outSeries, out int[] outValueIndexes, false);
 
             // Create indexes if all x values are 0
             //ConvertZeroXToIndex( ref inSeries );
@@ -325,7 +319,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // This method will convert array of Series and array of Y value 
             // indexes to matrix of double values.
-            GetDoubleArray(inSeries, inValueIndexes, out inValues);
+            GetDoubleArray(inSeries, inValueIndexes, out double[][] inValues);
 
             // Remove columns with empty values from matrix
             if (!DifferentNumberOfSeries(inValues))
@@ -337,11 +331,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 inNoEmptyValues = inValues;
             }
 
-            // Call a formula from formula modules
-            string moduleName = null;
             for (int module = 0; module < Common.FormulaRegistry.Count; module++)
             {
-                moduleName = Common.FormulaRegistry.GetModuleName(module);
+                // Call a formula from formula modules
+                string moduleName = Common.FormulaRegistry.GetModuleName(module);
                 Common.FormulaRegistry.GetFormulaModule(moduleName).Formula(formulaName, inNoEmptyValues, out outValues, parameterList, _extraParameters, out outLabels);
 
                 // Commented out as InsertEmptyDataPoints is currently commented out (see next block).
@@ -581,7 +574,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // There must be at least one and no more than two result strings
                 if (parts.Length < 1 && parts.Length > 2)
                 {
-                    throw (new ArgumentException(SR.ExceptionFormulaDataFormatInvalid(str)));
+                    throw new ArgumentException(SR.ExceptionFormulaDataFormatInvalid(str));
                 }
 
                 // Initialize value index as first Y value (default)
@@ -607,13 +600,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                             catch (System.Exception)
                             {
-                                throw (new ArgumentException(SR.ExceptionFormulaDataFormatInvalid(str)));
+                                throw new ArgumentException(SR.ExceptionFormulaDataFormatInvalid(str));
                             }
                         }
                     }
                     else
                     {
-                        throw (new ArgumentException(SR.ExceptionFormulaDataSeriesNameNotFound(str)));
+                        throw new ArgumentException(SR.ExceptionFormulaDataSeriesNameNotFound(str));
                     }
                 }
 
@@ -635,7 +628,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         seiesArray[index] = Common.DataManager.Series[parts[0]];
                     }
                     else
-                        throw (new ArgumentException(SR.ExceptionFormulaDataSeriesNameNotFoundInCollection(str)));
+                        throw new ArgumentException(SR.ExceptionFormulaDataSeriesNameNotFoundInCollection(str));
                 }
                 index++;
             }
@@ -780,17 +773,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (outputSeries == null)
                 throw new ArgumentNullException(nameof(outputSeries));
 
-            Series[] inSeries;
-            Series[] outSeries;
-            int[] inValueIndexes;
-            int[] outValueIndexes;
-            double[][] inValues;
             double[][] outValues;
 
             // Convert string with information about series and Y values 
             // to array of series and indexes to Y values.
-            ConvertToArrays(inputSeries, out inSeries, out inValueIndexes, true);
-            ConvertToArrays(outputSeries, out outSeries, out outValueIndexes, false);
+            ConvertToArrays(inputSeries, out Series[] inSeries, out int[] inValueIndexes, true);
+            ConvertToArrays(outputSeries, out Series[] outSeries, out int[] outValueIndexes, false);
 
             // The number of input and output series are different.
             if (inSeries.Length != outSeries.Length)
@@ -826,7 +814,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Covert Series X and Y values to arrays of doubles
-            GetDoubleArray(inSeries, inValueIndexes, out inValues, true);
+            GetDoubleArray(inSeries, inValueIndexes, out double[][] inValues, true);
 
             outValues = new double[inValues.Length][];
 
@@ -878,10 +866,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Allocate memory
             output = new double[input.Length][];
-            int seriesIndex = 0;
-
             int numberOfRows = 0;
 
+            int seriesIndex;
             // Set Nan for all data points with same index in input array
             // Data point loop
             for (int pointIndex = 0; pointIndex < input[0].Length; pointIndex++)

@@ -504,12 +504,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				return;
 			}
 
-			// Get annotation position in relative coordinates
-			PointF firstPoint = PointF.Empty;
-			PointF anchorPoint = PointF.Empty;
-			SizeF size = SizeF.Empty;
-			GetRelativePosition(out firstPoint, out size, out anchorPoint);
-			PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+
+            // Get annotation position in relative coordinates
+            GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
+            PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 			// Create selection rectangle
 			RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
@@ -751,14 +749,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			if(_graphicsPath.PointCount > 0)
 			{
-				// Get current annotation position in relative coordinates
-				PointF firstPoint = PointF.Empty;
-				PointF anchorPoint = PointF.Empty;
-				SizeF size = SizeF.Empty;
-				GetRelativePosition(out firstPoint, out size, out anchorPoint);
+                // Get current annotation position in relative coordinates
+                GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
 
-				// Get path boundary and convert it to relative coordinates
-				RectangleF pathBoundary = _graphicsPath.GetBounds();
+                // Get path boundary and convert it to relative coordinates
+                RectangleF pathBoundary = _graphicsPath.GetBounds();
 				pathBoundary.X *= size.Width / 100f;
 				pathBoundary.Y *= size.Height / 100f;
 				pathBoundary.X += firstPoint.X;
@@ -794,14 +789,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				return;
 			}
 
-			// Get annotation position in relative coordinates
-			PointF firstPoint = PointF.Empty;
-			PointF anchorPoint = PointF.Empty;
-			SizeF size = SizeF.Empty;
-			GetRelativePosition(out firstPoint, out size, out anchorPoint);
 
-			// Remember path before moving operation
-			if(userInput == true && startMovePathRel == null)
+            // Get annotation position in relative coordinates
+            GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
+
+            // Remember path before moving operation
+            if (userInput == true && startMovePathRel == null)
 			{
 				this.startMovePathRel = (GraphicsPath)_graphicsPath.Clone();
 				this.startMovePositionRel = new RectangleF(firstPoint, size);
@@ -820,7 +813,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Get path points and adjust position of one of them
 			if(_graphicsPath.PointCount > 0)
 			{
-				GraphicsPath pathToMove = (userInput) ? startMovePathRel : _graphicsPath;
+				GraphicsPath pathToMove = userInput ? startMovePathRel : _graphicsPath;
 				PointF[] pathPoints = pathToMove.PathPoints;
 				byte[] pathTypes = pathToMove.PathTypes;
 

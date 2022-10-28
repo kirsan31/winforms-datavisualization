@@ -475,28 +475,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private void Draw3DStrip(ChartGraphics graph, RectangleF rect, bool horizontal )
 		{
 			ChartArea	area = this.Axis.ChartArea;
-			GraphicsPath path = null;
-			DrawingOperationTypes operationType = DrawingOperationTypes.DrawElement;
+            DrawingOperationTypes operationType = DrawingOperationTypes.DrawElement;
 
 			if( this.Axis.Common.ProcessModeRegions )
 			{
 				operationType |= DrawingOperationTypes.CalcElementPath;
 			}
 
-			// Draw strip on the back/front wall
-			path = graph.Fill3DRectangle(
-				rect, 
-                area.IsMainSceneWallOnFront() ? area.areaSceneDepth : 0f, 
-                0, 
-                area.matrix3D, 
+            // Draw strip on the back/front wall
+            GraphicsPath path = graph.Fill3DRectangle(
+                rect,
+                area.IsMainSceneWallOnFront() ? area.areaSceneDepth : 0f,
+                0,
+                area.matrix3D,
                 area.Area3DStyle.LightStyle,
-				this.BackColor, 
-                this.BorderColor, 
-				this.BorderWidth, 
-                this.BorderDashStyle, 
-				operationType );
+                BackColor,
+                BorderColor,
+                BorderWidth,
+                BorderDashStyle,
+                operationType);
 
-			if( this.Axis.Common.ProcessModeRegions )
+            if ( this.Axis.Common.ProcessModeRegions )
 			{
 				this.Axis.Common.HotRegionsList.AddHotRegion( graph, path, false, this.ToolTip, null, null, null, this, ChartElementType.StripLines );
 			}
@@ -610,13 +609,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int angle = 0;
                     switch (this.TextOrientation)
                     {
-                        case (TextOrientation.Rotated90):
+                        case TextOrientation.Rotated90:
                             angle = 90;
                             break;
-                        case (TextOrientation.Rotated270):
+                        case TextOrientation.Rotated270:
                             angle = 270;
                             break;
-                        case (TextOrientation.Auto):
+                        case TextOrientation.Auto:
                             if (this.Axis.AxisPosition == AxisPosition.Bottom || this.Axis.AxisPosition == AxisPosition.Top)
                             {
                                 angle = 270;
@@ -891,7 +890,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-                    throw (new ArgumentException(SR.ExceptionStripLineWidthIsNegative, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionStripLineWidthIsNegative, nameof(value));
 				}
 				_stripWidth = value;
 				this.Invalidate(); 

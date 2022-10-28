@@ -110,10 +110,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <returns>Y value of the point.</returns>
         override public double GetYValue(CommonElements common, ChartArea area, Series series, DataPoint point, int pointIndex, int yValueIndex)
         {
-            // Array of Y totals for individual series index in the current stacked group
-            double[] currentGroupTotalPerPoint = null;
-
-
             string currentStackedGroupName = HundredPercentStackedColumnChart.GetSeriesStackGroupName(series);
             if (this._stackedGroupsTotalPerPoint == null)
             {
@@ -148,8 +144,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
             }
 
+            // Array of Y totals for individual series index in the current stacked group
             // Find array of total Y values based on the current stacked group name
-            currentGroupTotalPerPoint = (double[])this._stackedGroupsTotalPerPoint[currentStackedGroupName];
+            double[] currentGroupTotalPerPoint = (double[])_stackedGroupsTotalPerPoint[currentStackedGroupName];
 
 
             if (!area.Area3DStyle.Enable3D)
@@ -167,7 +164,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     return 0.0;
                 }
-                return (point.YValues[0] / currentGroupTotalPerPoint[pointIndex]) * 100.0;
+                return point.YValues[0] / currentGroupTotalPerPoint[pointIndex] * 100.0;
             }
 
             // Get point Height if pointIndex == -1
@@ -222,7 +219,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         }
                         else
                         {
-                            yValue = (ser.Points[pointIndex].YValues[0] / currentGroupTotalPerPoint[pointIndex]) * 100.0;
+                            yValue = ser.Points[pointIndex].YValues[0] / currentGroupTotalPerPoint[pointIndex] * 100.0;
                         }
                     }
                     else
@@ -233,7 +230,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         }
                         else
                         {
-                            yValue = (ser.Points[pointIndex].YValues[0] / currentGroupTotalPerPoint[pointIndex]) * 100.0;
+                            yValue = ser.Points[pointIndex].YValues[0] / currentGroupTotalPerPoint[pointIndex] * 100.0;
                         }
                         if (yValue >= 0.0 && !double.IsNaN(prevPosY))
                         {
@@ -665,9 +662,8 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                                  ser.XValueType == ChartValueType.DateTimeOffset))
                             {
                                 // Check if interval is the same
-                                bool sameInterval = false;
                                 List<string> typeSeries = area.GetSeriesFromChartType(Name);
-                                area.GetPointsInterval(typeSeries, vAxis.IsLogarithmic, vAxis.logarithmBase, true, out sameInterval);
+                                area.GetPointsInterval(typeSeries, vAxis.IsLogarithmic, vAxis.logarithmBase, true, out bool sameInterval);
 
                                 // Special case when there is only one data point and date scale is used.
                                 if (!double.IsNaN(vAxis.majorGrid.GetInterval()) && vAxis.majorGrid.GetIntervalType() != DateTimeIntervalType.NotSet)
@@ -779,7 +775,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         {
                             // Set the bar rectangle
                             rectSize.Y = (float)(xPosition - width / 2);
-                            rectSize.Height = (float)(width);
+                            rectSize.Height = (float)width;
 
                             // The left side of rectangle has always 
                             // smaller value than a right value
@@ -872,7 +868,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                                         ser.ShadowColor,
                                         shadowOffset,
                                         PenAlignment.Inset,
-                                        (shadow) ? BarDrawingStyle.Default : ChartGraphics.GetBarDrawingStyle(point),
+                                        shadow ? BarDrawingStyle.Default : ChartGraphics.GetBarDrawingStyle(point),
                                         false);
 
                                     // End Svg Selection mode
@@ -965,7 +961,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     int index = stackGroupName.IndexOf("__", StringComparison.Ordinal);
                     if (index >= 0)
                     {
-                        stackGroupName = stackGroupName.Substring(index + 2);
+                        stackGroupName = stackGroupName[(index + 2)..];
                     }
                     if (stackGroupName.Length > 0)
                     {
@@ -1326,12 +1322,10 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
             Series seriesToDraw)
         {
 
+
             // Get list of series to draw
-            List<string> typeSeries = null;
-
-
             // Get all series names that belong the same cluster
-            typeSeries = area.GetClusterSeriesNames(seriesToDraw.Name);
+            List<string> typeSeries = area.GetClusterSeriesNames(seriesToDraw.Name);
 
 
             //************************************************************
@@ -1518,7 +1512,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     double zero = hAxis.GetLinearPosition(barZeroValue);
 
                     // Set x position
-                    double xValue = (pointEx.indexedSeries) ? pointEx.index : point.XValue;
+                    double xValue = pointEx.indexedSeries ? pointEx.index : point.XValue;
                     xValue = vAxis.GetLogValue(xValue);
 
 
@@ -1528,7 +1522,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     {
                         // Set the bar rectangle
                         rectSize.Y = (float)(pointEx.xPosition - pointEx.width / 2);
-                        rectSize.Height = (float)(pointEx.width);
+                        rectSize.Height = (float)pointEx.width;
 
                         // The left side of rectangle has always 
                         // smaller value than a right value
@@ -1560,8 +1554,6 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     {
                         continue;
                     }
-
-                    GraphicsPath rectPath = null;
 
                     // Check if column is completly out of the data scaleView
                     if (xValue < vAxis.ViewMinimum ||
@@ -1609,7 +1601,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     graph.StartHotRegion(point);
 
                     // Draw the Bar rectangle
-                    rectPath = graph.Fill3DRectangle(
+                    GraphicsPath rectPath = graph.Fill3DRectangle(
                         rectSize,
                         pointEx.zPosition,
                         pointEx.depth,
@@ -1681,7 +1673,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     double height = pointEx.yPosition; ;
 
                     // Set x position
-                    double xValue = (pointEx.indexedSeries) ? pointEx.index : point.XValue;
+                    double xValue = pointEx.indexedSeries ? pointEx.index : point.XValue;
 
                     // Set Start position for a bar
                     double barZeroValue = yValue - GetYValue(common, area, ser, pointEx.dataPoint, pointEx.index - 1, -1);
@@ -1693,7 +1685,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     {
                         // Set the bar rectangle
                         rectSize.Y = (float)(pointEx.xPosition - pointEx.width / 2);
-                        rectSize.Height = (float)(pointEx.width);
+                        rectSize.Height = (float)pointEx.width;
 
                         // The left side of rectangle has always 
                         // smaller value than a right value

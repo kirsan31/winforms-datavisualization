@@ -416,23 +416,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			// Increse the brush rectangle by 1 pixel to ensure the fit
 			rectangle.Inflate(1f, 1f);
+            float angle = 0;
 
-			Brush gradientBrush = null;
-			float angle = 0;
 
-			// Function which create gradient brush fires exception if 
-			// rectangle size is zero.
-			if( rectangle.Height == 0 || rectangle.Width == 0 )
-			{
-				gradientBrush = new SolidBrush( Color.Black );
-				return gradientBrush;
-			}
+            Brush gradientBrush;
+            // Function which create gradient brush fires exception if 
+            // rectangle size is zero.
+            if (rectangle.Height == 0 || rectangle.Width == 0)
+            {
+                gradientBrush = new SolidBrush(Color.Black);
+                return gradientBrush;
+            }
 
-			// *******************************************
-			// Linear Gradient
-			// *******************************************
-			// Check linear type .
-			if( type == GradientStyle.LeftRight || type == GradientStyle.VerticalCenter )
+            // *******************************************
+            // Linear Gradient
+            // *******************************************
+            // Check linear type .
+            if ( type == GradientStyle.LeftRight || type == GradientStyle.VerticalCenter )
 			{
 				angle = 0;
 			}
@@ -762,10 +762,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Draw marker depending on style
                     switch (markerStyle)
                     {
-                        case (MarkerStyle.Star4):
-                        case (MarkerStyle.Star5):
-                        case (MarkerStyle.Star6):
-                        case (MarkerStyle.Star10):
+                        case MarkerStyle.Star4:
+                        case MarkerStyle.Star5:
+                        case MarkerStyle.Star6:
+                        case MarkerStyle.Star10:
                             {
                                 // Set number of corners
                                 int cornerNumber = 4;
@@ -806,7 +806,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 pen.Dispose();
                                 break;
                             }
-                        case (MarkerStyle.Circle):
+                        case MarkerStyle.Circle:
                             {
                                 // Draw marker shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
@@ -863,7 +863,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 pen.Dispose();
                                 break;
                             }
-                        case (MarkerStyle.Square):
+                        case MarkerStyle.Square:
                             {
                                 // Draw marker shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
@@ -877,7 +877,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 pen.Dispose();
                                 break;
                             }
-                        case (MarkerStyle.Cross):
+                        case MarkerStyle.Cross:
                             {
                                 // Calculate cross line width and size
                                 float crossLineWidth = (float)Math.Ceiling(markerSize / 4F);
@@ -924,8 +924,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     // Create translation matrix
                                     using Matrix translateMatrix = this.Transform;
                                     translateMatrix.Translate(
-                                        (softShadows) ? shadowSize + 1 : shadowSize,
-                                        (softShadows) ? shadowSize + 1 : shadowSize);
+                                        softShadows ? shadowSize + 1 : shadowSize,
+                                        softShadows ? shadowSize + 1 : shadowSize);
                                     using Matrix oldMatrix = this.Transform;
                                     this.Transform = translateMatrix;
 
@@ -988,7 +988,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                                 break;
                             }
-                        case (MarkerStyle.Diamond):
+                        case MarkerStyle.Diamond:
                             {
                                 PointF[] points = new PointF[4];
                                 points[0].X = rect.X;
@@ -1004,8 +1004,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
                                     using Matrix translateMatrix = this.Transform;
-                                    translateMatrix.Translate((softShadows) ? 0 : shadowSize,
-                                        (softShadows) ? 0 : shadowSize);
+                                    translateMatrix.Translate(softShadows ? 0 : shadowSize,
+                                        softShadows ? 0 : shadowSize);
                                     using Matrix oldMatrix = this.Transform;
                                     this.Transform = translateMatrix;
 
@@ -1045,7 +1045,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 pen.Dispose();
                                 break;
                             }
-                        case (MarkerStyle.Triangle):
+                        case MarkerStyle.Triangle:
                             {
                                 PointF[] points = new PointF[3];
                                 points[0].X = rect.X;
@@ -1059,8 +1059,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
                                     using Matrix translateMatrix = this.Transform;
-                                    translateMatrix.Translate((softShadows) ? shadowSize - 1 : shadowSize,
-                                        (softShadows) ? shadowSize + 1 : shadowSize);
+                                    translateMatrix.Translate(softShadows ? shadowSize - 1 : shadowSize,
+                                        softShadows ? shadowSize + 1 : shadowSize);
                                     using Matrix oldMatrix = this.Transform;
                                     this.Transform = translateMatrix;
 
@@ -1113,7 +1113,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                         default:
                             {
-                                throw (new InvalidOperationException(SR.ExceptionGraphicsMarkerStyleUnknown));
+                                throw new InvalidOperationException(SR.ExceptionGraphicsMarkerStyleUnknown);
                             }
                     }
                 }
@@ -1485,9 +1485,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				RectangleF backPositionAbs = this.Round(this.GetAbsoluteRectangle(backPosition));
 
-				// Get rotation point
-				PointF rotationPoint = PointF.Empty;
-				if(textPosition.IsEmpty)
+                // Get rotation point
+                PointF rotationPoint;
+                if (textPosition.IsEmpty)
 				{
 					rotationPoint = new PointF(backPositionAbs.X + backPositionAbs.Width/2f, backPositionAbs.Y + backPositionAbs.Height/2f);
 				}
@@ -1987,7 +1987,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     // Adjust label rectangle so it will not overlap the plotting area
                     offsetY = (float)Math.Sin((90 - angle) / 180F * Math.PI) * labelRect.Height / 2F;
-                    offsetX = (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * labelRect.Height / 2F;
+                    offsetX = (float)Math.Sin(Math.Abs(angle) / 180F * Math.PI) * labelRect.Height / 2F;
 
                     if (axis.AxisPosition == AxisPosition.Left)
                     {
@@ -2387,7 +2387,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Create pen
 			Pen	markPen = new Pen(
-				(markColor.IsEmpty) ? axis.MajorTickMark.LineColor : markColor, 
+				markColor.IsEmpty ? axis.MajorTickMark.LineColor : markColor, 
 				axis.MajorTickMark.LineWidth);
 
 			// Set pen style
@@ -2569,7 +2569,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 				// Create pen
 				Pen	markPen = new Pen(
-					(markColor.IsEmpty) ? axis.MajorTickMark.LineColor : markColor, 
+					markColor.IsEmpty ? axis.MajorTickMark.LineColor : markColor, 
 					axis.MajorTickMark.LineWidth);
 
 				// Set pen style
@@ -2827,7 +2827,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								ChartImageWrapMode.Scaled, 
 								Color.Empty,
 								ChartImageAlignmentStyle.Center,
-								(isVertical) ? GradientStyle.LeftRight : GradientStyle.TopBottom, 
+								isVertical ? GradientStyle.LeftRight : GradientStyle.TopBottom, 
 								Color.FromArgb(120, Color.White),
 								Color.Empty, 
 								0, 
@@ -2854,7 +2854,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								ChartImageWrapMode.Scaled, 
 								Color.Empty,
 								ChartImageAlignmentStyle.Center,
-								(isVertical) ? GradientStyle.LeftRight : GradientStyle.TopBottom, 
+								isVertical ? GradientStyle.LeftRight : GradientStyle.TopBottom, 
 								Color.FromArgb(150, Color.Black),
 								Color.Empty, 
 								0, 
@@ -2947,14 +2947,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						{
 							this.FillRectangleAbs( 
 								gradientRect, 
-								(isVertical) ? Color.FromArgb(120, Color.White) : Color.Transparent, 
+								isVertical ? Color.FromArgb(120, Color.White) : Color.Transparent, 
 								ChartHatchStyle.None, 
 								string.Empty, 
 								ChartImageWrapMode.Scaled, 
 								Color.Empty,
 								ChartImageAlignmentStyle.Center,
-								(isVertical) ? GradientStyle.TopBottom : GradientStyle.LeftRight, 
-								(isVertical) ? Color.Transparent : Color.FromArgb(120, Color.White), 
+								isVertical ? GradientStyle.TopBottom : GradientStyle.LeftRight, 
+								isVertical ? Color.Transparent : Color.FromArgb(120, Color.White), 
 								Color.Empty, 
 								0, 
 								ChartDashStyle.NotSet, 
@@ -2981,7 +2981,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								ChartImageWrapMode.Scaled, 
 								Color.Empty,
 								ChartImageAlignmentStyle.Center,
-								(isVertical) ? GradientStyle.TopBottom : GradientStyle.LeftRight, 
+								isVertical ? GradientStyle.TopBottom : GradientStyle.LeftRight, 
 								(!isVertical) ? Color.Transparent : Color.FromArgb(80, Color.Black), 
 								Color.Empty, 
 								0, 
@@ -2993,7 +2993,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					else if(barDrawingStyle == BarDrawingStyle.Wedge)
 					{
 						// Calculate wedge size to fit the rectangle
-						float size = (isVertical) ? rect.Width / 2f : rect.Height / 2f;
+						float size = isVertical ? rect.Width / 2f : rect.Height / 2f;
 						if(isVertical && 2f * size > rect.Height)
 						{
 							size = rect.Height/2f;
@@ -3828,51 +3828,50 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			PointF			firstPoint = new PointF(position.X + position.Width/2f, position.Y);
 			PointF			centerPoint = new PointF(position.X + position.Width/2f, position.Y + position.Height/2f);
-			float			sectorSize = 0f;
-			GraphicsPath	path = new GraphicsPath();
-			PointF			prevPoint = PointF.Empty;
-			float			curentSector = 0f;
+            GraphicsPath path = new GraphicsPath();
+            PointF			prevPoint = PointF.Empty;
+            float sectorSize;
+            // Get sector size
+            if (polygonSectorsNumber <= 2)
+            {
+                // Circle sector size
+                sectorSize = 1f;
+            }
+            else
+            {
+                // Polygon sector size
+                sectorSize = 360f / polygonSectorsNumber;
+            }
 
-			// Get sector size
-			if(polygonSectorsNumber <= 2)
-			{
-				// Circle sector size
-				sectorSize = 1f;
-			}
-			else
-			{
-				// Polygon sector size
-				sectorSize = 360f / polygonSectorsNumber;
-			}
+            Matrix matrix = null;
 
-			Matrix matrix = null;
+            float curentSector;
+            // Loop throug all sectors
+            for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
+            {
+                // Create matrix
+                if (matrix is null)
+                    matrix = new Matrix();
+                else
+                    matrix.Reset();
 
-			// Loop throug all sectors
-			for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
-			{
-				// Create matrix
-				if (matrix is null)
-					matrix = new Matrix();
-				else
-					matrix.Reset();
+                matrix.RotateAt(curentSector, centerPoint);
 
-				matrix.RotateAt(curentSector, centerPoint);
+                // Get point and rotate it
+                PointF[] points = new PointF[] { firstPoint };
+                matrix.TransformPoints(points);
 
-				// Get point and rotate it
-				PointF[]	points = new PointF[] { firstPoint };
-				matrix.TransformPoints(points);
+                // Add point into the path
+                if (!prevPoint.IsEmpty)
+                {
+                    path.AddLine(prevPoint, points[0]);
+                }
 
-				// Add point into the path
-				if(!prevPoint.IsEmpty)
-				{
-					path.AddLine(prevPoint, points[0]);
-				}
+                // Remember last point
+                prevPoint = points[0];
+            }
 
-				// Remember last point
-				prevPoint = points[0];
-			}
-
-			matrix?.Dispose();
+            matrix?.Dispose();
 			path.CloseAllFigures();
 			return path;
 		}
@@ -3887,7 +3886,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="circle3D">Indicates that circle should be 3D..</param>
 		internal void DrawCircleAbs(Pen pen, Brush brush, RectangleF position, int polygonSectorsNumber, bool circle3D)
 		{
-			bool	fill3DCircle = (circle3D && brush != null);
+			bool	fill3DCircle = circle3D && brush != null;
 
 			// Draw 2D circle
 			if(polygonSectorsNumber <= 2 && !fill3DCircle)
@@ -3907,10 +3906,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				PointF			firstPoint = new PointF(position.X + position.Width/2f, position.Y);
 				PointF			centerPoint = new PointF(position.X + position.Width/2f, position.Y + position.Height/2f);
-				float			sectorSize = 0f;
-				PointF			prevPoint = PointF.Empty;
-				float			curentSector = 0f;
-
+                PointF prevPoint = PointF.Empty;
                 using (GraphicsPath path = new GraphicsPath())
                 {
                     // Remember current smoothing mode
@@ -3920,6 +3916,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         this.SmoothingMode = SmoothingMode.None;
                     }
 
+                    float sectorSize;
                     // Get sector size
                     if (polygonSectorsNumber <= 2)
                     {
@@ -3932,18 +3929,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         sectorSize = 360f / polygonSectorsNumber;
                     }
 
-					Matrix matrix = null;
+                    Matrix matrix = null;
 
-					// Loop through all sectors
-					for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
+                    float curentSector;
+                    // Loop through all sectors
+                    for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
                     {
-						// Create matrix
-						if (matrix is null)
-							matrix = new Matrix();
-						else
-							matrix.Reset();
+                        // Create matrix
+                        if (matrix is null)
+                            matrix = new Matrix();
+                        else
+                            matrix.Reset();
 
-						matrix.RotateAt(curentSector, centerPoint);
+                        matrix.RotateAt(curentSector, centerPoint);
 
                         // Get point and rotate it
                         PointF[] points = new PointF[] { firstPoint };
@@ -3971,8 +3969,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         prevPoint = points[0];
                     }
 
-					matrix?.Dispose();
-					path.CloseAllFigures();
+                    matrix?.Dispose();
+                    path.CloseAllFigures();
 
                     // Fill last segment for the 3D look
                     if (!prevPoint.IsEmpty && fill3DCircle)
@@ -4001,8 +3999,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         this.DrawPath(pen, path);
                     }
-                }				
-			}
+                }
+            }
 		}
 
         /// <summary>
@@ -4924,7 +4922,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}					
 				else
 				{
-					throw( new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid( styleName, "PieDrawingStyle")));
+					throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid( styleName, "PieDrawingStyle"));
 				}
 			}
 			return pieDrawingStyle;
@@ -4970,8 +4968,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			PieDrawingStyle pieDrawingStyle
 			)
 		{
-			Pen borderPen = null;	// Pen
-			Brush fillBrush;		// Brush
+            Brush fillBrush;		// Brush
 
 			// Get absolute rectangle
 			RectangleF absRect = GetAbsoluteRectangle( rect );
@@ -5019,11 +5016,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				fillBrush = new SolidBrush( backColor );
 			}
 
-			// Create border Pen
-			borderPen = new Pen( borderColor, borderWidth );
-			
-			// Set a border line style
-			borderPen.DashStyle = GetPenStyle( borderDashStyle );
+            // Create border Pen
+            Pen borderPen = new Pen(borderColor, borderWidth);
+
+            // Set a border line style
+            borderPen.DashStyle = GetPenStyle( borderDashStyle );
 
 			// Use rounded line joins
 			borderPen.LineJoin = LineJoin.Round;
@@ -5165,7 +5162,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				float shadowSize = minSize/10f;
 				if(doughnutRadius > 0f)
 				{
-					shadowSize = (minSize * doughnutRadius / 100f) / 8f;
+					shadowSize = minSize * doughnutRadius / 100f / 8f;
 				}
 
 				// Create brush path
@@ -5525,7 +5522,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 				else
 				{
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(styleName, "DrawingStyle")));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(styleName, "DrawingStyle"));
 				}
 			}
 			return barDrawingStyle;

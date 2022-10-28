@@ -339,7 +339,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// All series attached to this chart area must have Radar chart type
 				if(String.Compare( ser.ChartTypeName, this.Name, true, System.Globalization.CultureInfo.CurrentCulture ) != 0 )
 				{
-					throw(new InvalidOperationException(SR.ExceptionChartTypeCanNotCombine(ser.ChartTypeName, this.Name)));
+					throw new InvalidOperationException(SR.ExceptionChartTypeCanNotCombine(ser.ChartTypeName, this.Name));
 				}
 
 				//************************************************************
@@ -1007,7 +1007,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Draw data point value label
 			// ****************************
 			if((!point.IsEmpty && (ser.IsValueShownAsLabel || pointShowLabelAsValue || pointLabel.Length > 0)) ||
-				(pointShowLabelAsValue || pointLabel.Length > 0))
+				pointShowLabelAsValue || pointLabel.Length > 0)
 			{
 				// Label text format
                 using (StringFormat format = new StringFormat())
@@ -1097,7 +1097,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         }
                         else
                         {
-                            throw (new ArgumentException(SR.ExceptionCustomAttributeValueInvalid(attrib, "LabelStyle")));
+                            throw new ArgumentException(SR.ExceptionCustomAttributeValueInvalid(attrib, "LabelStyle"));
                         }
                     }
 
@@ -1311,7 +1311,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				ser.IsCustomPropertySet(CustomPropertyName.RadarDrawingStyle))
 			{
 				string	attributeValue = 
-					(point.IsCustomPropertySet(CustomPropertyName.RadarDrawingStyle)) ? 
+					point.IsCustomPropertySet(CustomPropertyName.RadarDrawingStyle) ? 
 					point[CustomPropertyName.RadarDrawingStyle] : 
 					ser[CustomPropertyName.RadarDrawingStyle];
 				if(string.Equals(attributeValue, "Area", StringComparison.OrdinalIgnoreCase))
@@ -1328,7 +1328,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				else
 				{
-					throw(new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attributeValue, "RadarDrawingStyle")));
+					throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attributeValue, "RadarDrawingStyle"));
 				}
 			}
 			return drawingStyle;

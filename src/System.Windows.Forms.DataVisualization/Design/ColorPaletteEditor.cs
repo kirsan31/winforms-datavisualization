@@ -58,7 +58,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 }
                 int colorStep = paletteColors.Length / numberOfcolors;
                 RectangleF rect = e.Bounds;
-                rect.Width = e.Bounds.Width / (float)(numberOfcolors);
+                rect.Width = e.Bounds.Width / (float)numberOfcolors;
                 for (int i = 0; i < numberOfcolors; i++)
                 {
                     if (i == numberOfcolors - 1)
@@ -68,7 +68,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                     using var br = new SolidBrush(paletteColors[i * colorStep]);
                     e.Graphics.FillRectangle(br, rect);
                     rect.X = rect.Right;
-                    rect.Width = (e.Bounds.Width / (float)(numberOfcolors));
+                    rect.Width = e.Bounds.Width / (float)numberOfcolors;
                 }
             }
         }

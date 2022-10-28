@@ -349,7 +349,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						}
 						else
 						{
-                            throw (new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid));
+                            throw new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid);
 						}
 					}
 				}
@@ -438,7 +438,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Check required Y values number
 						if(point.YValues.Length < this.YValuesPerPoint)
 						{
-							throw(new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture) )));
+							throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture) ));
 						}
 
 						// Reset pre-calculated point position
@@ -446,7 +446,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 						// Get Y value and make sure it fits the chart area.
 						// If chart type uses 2 Y values (RangeBar) use second Y value for size.
-						double	yValue = hAxis.GetLogValue( GetYValue(common, area, ser, point, pointIndex, (useTwoValues) ? 1 : 0) );
+						double	yValue = hAxis.GetLogValue( GetYValue(common, area, ser, point, pointIndex, useTwoValues ? 1 : 0) );
 
 						bool yValueOutside = false;
 						bool yValueStartOutside = true;
@@ -525,7 +525,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						{
 							// Set the bar rectangle
 							rectSize.Y = (float)(xPosition - width/2);
-							rectSize.Height = (float)(width);
+							rectSize.Height = (float)width;
 
 							// The left side of rectangle has always 
 							// smaller value than a right value
@@ -558,7 +558,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							if( !point.IsEmpty && !labels)
 							{
 								// Check if column is completly out of the data scaleView
-								double	xValue = (indexedSeries) ? pointIndex + 1 : point.XValue;
+								double	xValue = indexedSeries ? pointIndex + 1 : point.XValue;
 								xValue = vAxis.GetLogValue(xValue);
 								if(xValue < vertViewMin || xValue > vertViewMax )
 								{
@@ -1127,7 +1127,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Check required Y values number
                 if (point.YValues.Length <= yValueIndex)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
+                    throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
                 }
 
                 if (point.IsEmpty || double.IsNaN(point.YValues[yValueIndex]))
@@ -1284,56 +1284,50 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 				// Get pixel size
 				SizeF	pixelRelSize = graph.GetRelativeSize(new SizeF(1.1f, 1.1f));
+            bool currentDrawSeriesSideBySide = this.drawSeriesSideBySide;
+            List<string> typeSeries;
+            if ((area.Area3DStyle.IsClustered && this.SideBySideSeries) ||
+                this.Stacked)
+            {
+                // Draw all series of the same chart type
+                typeSeries = area.GetSeriesFromChartType(Name);
 
+                // Check if series should be drawn side by side
+                foreach (string seriesName in typeSeries)
+                {
+                    if (common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+                    {
+                        string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
+                        if (string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
+                        {
+                            currentDrawSeriesSideBySide = false;
+                        }
+                        else if (string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
+                        {
+                            currentDrawSeriesSideBySide = true;
+                        }
+                        else if (string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
+                        {
+                            // Do nothing
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Draw just one chart series
+                typeSeries = new List<string>();
+                typeSeries.Add(seriesToDraw.Name);
+            }
 
-				//************************************************************
-				//** Get list of series to draw
-				//************************************************************
-				double	xValue = 0; 
-				List<string> typeSeries = null;
-				bool	currentDrawSeriesSideBySide = this.drawSeriesSideBySide;
-				if( (area.Area3DStyle.IsClustered && this.SideBySideSeries) ||
-					this.Stacked)
-				{
-					// Draw all series of the same chart type
-					typeSeries = area.GetSeriesFromChartType(Name);
-
-					// Check if series should be drawn side by side
-					foreach(string seriesName in typeSeries)
-					{
-						if(common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
-						{
-							string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-							if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
-							{
-								currentDrawSeriesSideBySide = false;
-							}
-							else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
-							{
-								currentDrawSeriesSideBySide = true;
-							}
-							else if(string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
-							{
-								// Do nothing
-							}
-							else
-							{
-                                throw (new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid));
-							}
-						}
-					}
-				}
-				else
-				{
-					// Draw just one chart series
-					typeSeries = new List<string>();
-					typeSeries.Add(seriesToDraw.Name);
-				}
-
-				//************************************************************
-				//** Get order of data points drawing
-				//************************************************************
-				ArrayList	dataPointDrawingOrder = area.GetDataPointDrawingOrder(
+            //************************************************************
+            //** Get order of data points drawing
+            //************************************************************
+            ArrayList	dataPointDrawingOrder = area.GetDataPointDrawingOrder(
 					typeSeries, 
 					this, 
 					selection, 
@@ -1346,236 +1340,242 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				//** Loop through all data poins
 				//************************************************************
 				bool	drawLabels = false;
-				foreach(object obj in dataPointDrawingOrder)
-				{
-					// Get point & series
-					DataPoint3D	pointEx = (DataPoint3D) obj;
-					DataPoint	point = pointEx.dataPoint;
-					Series		ser = point.series;
-
-					// Check required Y values number
-					if(point.YValues.Length < this.YValuesPerPoint)
-					{
-						throw(new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
-					}
-
-					// Reset pre-calculated point position
-					point.positionRel = new PointF(float.NaN, float.NaN);
-
-					// Set active vertical/horizontal axis
-					Axis	vAxis = area.GetAxis(AxisName.X, ser.XAxisType, ser.XSubAxisName);
-					Axis	hAxis = area.GetAxis(AxisName.Y, ser.YAxisType, ser.YSubAxisName);
-
-					// Get point bar drawing style
-					BarDrawingStyle	barDrawingStyle = ChartGraphics.GetBarDrawingStyle(point);
-
-					// Get Y value and make sure it fits the chart area.
-					// If chart type uses 2 Y values (RangeBar) use second Y value for size.
-					float	rightDarkening = 0f;
-					float	leftDarkening = 0f;
-					double	yValue = hAxis.GetLogValue( GetYValue(common, area, ser, pointEx.dataPoint, pointEx.index - 1, (useTwoValues) ? 1 : 0) );
-					if( yValue > hAxis.ViewMaximum )
-					{
-						rightDarkening = 0.5f;
-						yValue = hAxis.ViewMaximum;
-					}
-					else if( yValue < hAxis.ViewMinimum )
-					{
-						rightDarkening = 0.5f;
-						yValue = hAxis.ViewMinimum;
-					}
-
-					// Calculate the bar size
-					double	barSize = hAxis.GetLinearPosition( yValue );
-
-					// Set start position for a bar
-					double	barStartPosition = 0;
-					if(useTwoValues)
-					{
-						// Point Y value (first) is used to determine the bar starting position
-						double yValueStart = hAxis.GetLogValue( GetYValue(common, area, ser, pointEx.dataPoint, pointEx.index - 1, 0 ) );
-						if( yValueStart > hAxis.ViewMaximum )
-						{
-							leftDarkening = 0.5f;
-							yValueStart = hAxis.ViewMaximum;
-						}
-						else if( yValueStart < hAxis.ViewMinimum )
-						{
-							leftDarkening = 0.5f;
-							yValueStart = hAxis.ViewMinimum;
-						}
-
-						barStartPosition = hAxis.GetLinearPosition(yValueStart);
-					}
-					else
-					{
-						// Bar starts on the vertical axis
-						barStartPosition = hAxis.GetPosition(hAxis.Crossing);
-					}
-
-					// Calculate X position of the Bar
-					double	xPosition = pointEx.xPosition;
-
-					// Make sure that points with small values are still visible
-					if( barSize < barStartPosition && 
-						(barStartPosition - barSize) <  pixelRelSize.Width)
-					{
-						barSize = barStartPosition - pixelRelSize.Width;
-					}
-					if( barSize > barStartPosition && 
-						(barSize - barStartPosition) <  pixelRelSize.Width)
-					{
-						barSize = barStartPosition + pixelRelSize.Width;
-					}
-
-					// Set rectangle coordinates of the bar
-					RectangleF rectSize = RectangleF.Empty; 
-					try
-					{
-						// Set the bar rectangle
-						rectSize.Y = (float)(xPosition - pointEx.width/2);
-						rectSize.Height = (float)(pointEx.width);
-
-						// The left side of rectangle has always 
-						// smaller value than a right value
-						if( barStartPosition < barSize )
-						{
-							rectSize.X = (float)barStartPosition;
-							rectSize.Width = (float)barSize - rectSize.X;
-						}
-						else
-						{
-							float temp = rightDarkening;
-							rightDarkening = leftDarkening;
-							leftDarkening = temp;
-
-							rectSize.X = (float)barSize;
-							rectSize.Width = (float)barStartPosition - rectSize.X;
-						}
-					}
-					catch(OverflowException)
-					{
-						continue;
-					}
-
-					// Remeber pre-calculated point position
-					point.positionRel = new PointF(rectSize.Right, (float)xPosition);
 
 
-					//************************************************************
-					//** Painting mode
-					//************************************************************
-					GraphicsPath	rectPath = null;
-					
-					// if data point is not empty
-					if( !point.IsEmpty )
-					{
-						// Check if column is completly out of the data scaleView
-						xValue = (pointEx.indexedSeries) ? pointEx.index : point.XValue;
-						xValue = vAxis.GetLogValue(xValue);
-						if(xValue < vAxis.ViewMinimum || xValue > vAxis.ViewMaximum )
-						{
-							continue;
-						}
+            //************************************************************
+            //** Get list of series to draw
+            //************************************************************
+            double xValue;
+            foreach (object obj in dataPointDrawingOrder)
+            {
+                // Get point & series
+                DataPoint3D pointEx = (DataPoint3D)obj;
+                DataPoint point = pointEx.dataPoint;
+                Series ser = point.series;
 
-						// Check if column is partialy in the data scaleView
-						bool	clipRegionSet = false;
-						if(rectSize.Bottom <= area.PlotAreaPosition.Y || rectSize.Y >= area.PlotAreaPosition.Bottom)
-						{
-							continue;
-						}
-						if(rectSize.Y < area.PlotAreaPosition.Y)
-						{
-							rectSize.Height -= area.PlotAreaPosition.Y - rectSize.Y;
-							rectSize.Y = area.PlotAreaPosition.Y;
-						}
-						if(rectSize.Bottom > area.PlotAreaPosition.Bottom)
-						{
-							rectSize.Height -= rectSize.Bottom - area.PlotAreaPosition.Bottom;
-						}
-						if(rectSize.Height < 0)
-						{
-							rectSize.Height = 0;
-						}
-						if(rectSize.Height == 0f || rectSize.Width == 0f)
-						{
-							continue;
-						}
+                // Check required Y values number
+                if (point.YValues.Length < this.YValuesPerPoint)
+                {
+                    throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
+                }
 
-						// Detect if we need to get graphical path of drawn object
-						DrawingOperationTypes	drawingOperationType = DrawingOperationTypes.DrawElement;
-				
-						if( common.ProcessModeRegions )
-						{
-							drawingOperationType |= DrawingOperationTypes.CalcElementPath;
-						}
+                // Reset pre-calculated point position
+                point.positionRel = new PointF(float.NaN, float.NaN);
 
-						// Start Svg Selection mode
-						graph.StartHotRegion( point );
+                // Set active vertical/horizontal axis
+                Axis vAxis = area.GetAxis(AxisName.X, ser.XAxisType, ser.XSubAxisName);
+                Axis hAxis = area.GetAxis(AxisName.Y, ser.YAxisType, ser.YSubAxisName);
+
+                // Get point bar drawing style
+                BarDrawingStyle barDrawingStyle = ChartGraphics.GetBarDrawingStyle(point);
+
+                // Get Y value and make sure it fits the chart area.
+                // If chart type uses 2 Y values (RangeBar) use second Y value for size.
+                float rightDarkening = 0f;
+                float leftDarkening = 0f;
+                double yValue = hAxis.GetLogValue(GetYValue(common, area, ser, pointEx.dataPoint, pointEx.index - 1, useTwoValues ? 1 : 0));
+                if (yValue > hAxis.ViewMaximum)
+                {
+                    rightDarkening = 0.5f;
+                    yValue = hAxis.ViewMaximum;
+                }
+                else if (yValue < hAxis.ViewMinimum)
+                {
+                    rightDarkening = 0.5f;
+                    yValue = hAxis.ViewMinimum;
+                }
+
+                // Calculate the bar size
+                double barSize = hAxis.GetLinearPosition(yValue);
+
+                // Set start position for a bar
+                double barStartPosition = 0;
+                if (useTwoValues)
+                {
+                    // Point Y value (first) is used to determine the bar starting position
+                    double yValueStart = hAxis.GetLogValue(GetYValue(common, area, ser, pointEx.dataPoint, pointEx.index - 1, 0));
+                    if (yValueStart > hAxis.ViewMaximum)
+                    {
+                        leftDarkening = 0.5f;
+                        yValueStart = hAxis.ViewMaximum;
+                    }
+                    else if (yValueStart < hAxis.ViewMinimum)
+                    {
+                        leftDarkening = 0.5f;
+                        yValueStart = hAxis.ViewMinimum;
+                    }
+
+                    barStartPosition = hAxis.GetLinearPosition(yValueStart);
+                }
+                else
+                {
+                    // Bar starts on the vertical axis
+                    barStartPosition = hAxis.GetPosition(hAxis.Crossing);
+                }
+
+                // Calculate X position of the Bar
+                double xPosition = pointEx.xPosition;
+
+                // Make sure that points with small values are still visible
+                if (barSize < barStartPosition &&
+                    (barStartPosition - barSize) < pixelRelSize.Width)
+                {
+                    barSize = barStartPosition - pixelRelSize.Width;
+                }
+                if (barSize > barStartPosition &&
+                    (barSize - barStartPosition) < pixelRelSize.Width)
+                {
+                    barSize = barStartPosition + pixelRelSize.Width;
+                }
+
+                // Set rectangle coordinates of the bar
+                RectangleF rectSize = RectangleF.Empty;
+                try
+                {
+                    // Set the bar rectangle
+                    rectSize.Y = (float)(xPosition - pointEx.width / 2);
+                    rectSize.Height = (float)pointEx.width;
+
+                    // The left side of rectangle has always 
+                    // smaller value than a right value
+                    if (barStartPosition < barSize)
+                    {
+                        rectSize.X = (float)barStartPosition;
+                        rectSize.Width = (float)barSize - rectSize.X;
+                    }
+                    else
+                    {
+                        float temp = rightDarkening;
+                        rightDarkening = leftDarkening;
+                        leftDarkening = temp;
+
+                        rectSize.X = (float)barSize;
+                        rectSize.Width = (float)barStartPosition - rectSize.X;
+                    }
+                }
+                catch (OverflowException)
+                {
+                    continue;
+                }
+
+                // Remeber pre-calculated point position
+                point.positionRel = new PointF(rectSize.Right, (float)xPosition);
+
+
+                //************************************************************
+                //** Painting mode
+                //************************************************************
+                GraphicsPath rectPath = null;
+
+                // if data point is not empty
+                if (!point.IsEmpty)
+                {
+                    // Check if column is completly out of the data scaleView
+                    xValue = pointEx.indexedSeries ? pointEx.index : point.XValue;
+                    xValue = vAxis.GetLogValue(xValue);
+                    if (xValue < vAxis.ViewMinimum || xValue > vAxis.ViewMaximum)
+                    {
+                        continue;
+                    }
+
+                    // Check if column is partialy in the data scaleView
+                    bool clipRegionSet = false;
+                    if (rectSize.Bottom <= area.PlotAreaPosition.Y || rectSize.Y >= area.PlotAreaPosition.Bottom)
+                    {
+                        continue;
+                    }
+                    if (rectSize.Y < area.PlotAreaPosition.Y)
+                    {
+                        rectSize.Height -= area.PlotAreaPosition.Y - rectSize.Y;
+                        rectSize.Y = area.PlotAreaPosition.Y;
+                    }
+                    if (rectSize.Bottom > area.PlotAreaPosition.Bottom)
+                    {
+                        rectSize.Height -= rectSize.Bottom - area.PlotAreaPosition.Bottom;
+                    }
+                    if (rectSize.Height < 0)
+                    {
+                        rectSize.Height = 0;
+                    }
+                    if (rectSize.Height == 0f || rectSize.Width == 0f)
+                    {
+                        continue;
+                    }
+
+                    // Detect if we need to get graphical path of drawn object
+                    DrawingOperationTypes drawingOperationType = DrawingOperationTypes.DrawElement;
+
+                    if (common.ProcessModeRegions)
+                    {
+                        drawingOperationType |= DrawingOperationTypes.CalcElementPath;
+                    }
+
+                    // Start Svg Selection mode
+                    graph.StartHotRegion(point);
 
                     // Draw the bar rectangle
 #pragma warning disable CA2000 // Dispose objects before losing scope
-                    rectPath = graph.Fill3DRectangle( 
-							rectSize, 
-							pointEx.zPosition,
-							pointEx.depth,
-							area.matrix3D,
-							area.Area3DStyle.LightStyle,
-							point.Color, 
-							rightDarkening,
-							leftDarkening,
-							point.BorderColor, 
-							point.BorderWidth, 
-							point.BorderDashStyle, 
-							barDrawingStyle,
-							false,
-							drawingOperationType );
+                    rectPath = graph.Fill3DRectangle(
+                            rectSize,
+                            pointEx.zPosition,
+                            pointEx.depth,
+                            area.matrix3D,
+                            area.Area3DStyle.LightStyle,
+                            point.Color,
+                            rightDarkening,
+                            leftDarkening,
+                            point.BorderColor,
+                            point.BorderWidth,
+                            point.BorderDashStyle,
+                            barDrawingStyle,
+                            false,
+                            drawingOperationType);
 #pragma warning restore CA2000 // Dispose objects before losing scope
 
                     // End Svg Selection mode
-                    graph.EndHotRegion( );
+                    graph.EndHotRegion();
 
-						// Reset Clip Region
-						if(clipRegionSet)
-						{
-							graph.ResetClip();
-						}
-					}
-
-					// Draw 3D markers
-					DrawMarkers3D( area, graph, common, rectSize, pointEx, ser, barStartPosition, barSize );
-
-					// Check if labels should be drawn (in additional points loop)
-					if( point.IsValueShownAsLabel || point.Label.Length > 0 )
-					{
-						drawLabels = true;
-					}
-
-					//************************************************************
-					// Hot Regions mode used for image maps, tool tips and 
-					// hit test function
-					//************************************************************
-					if( common.ProcessModeRegions )
-					{
-						common.HotRegionsList.AddHotRegion(
-							rectPath,
-							false,
-							graph,
-							point,
-							ser.Name,
-							pointEx.index - 1 );
-					}
-                    if (rectPath != null)
+                    // Reset Clip Region
+                    if (clipRegionSet)
                     {
-                        rectPath.Dispose();
+                        graph.ResetClip();
                     }
-				}
+                }
+
+                // Draw 3D markers
+                DrawMarkers3D(area, graph, common, rectSize, pointEx, ser, barStartPosition, barSize);
+
+                // Check if labels should be drawn (in additional points loop)
+                if (point.IsValueShownAsLabel || point.Label.Length > 0)
+                {
+                    drawLabels = true;
+                }
+
+                //************************************************************
+                // Hot Regions mode used for image maps, tool tips and 
+                // hit test function
+                //************************************************************
+                if (common.ProcessModeRegions)
+                {
+                    common.HotRegionsList.AddHotRegion(
+                        rectPath,
+                        false,
+                        graph,
+                        point,
+                        ser.Name,
+                        pointEx.index - 1);
+                }
+                if (rectPath != null)
+                {
+                    rectPath.Dispose();
+                }
+            }
 
 
-				//************************************************************
-				//** Loop through all data poins and draw labels
-				//************************************************************
-				if(drawLabels)
+            //************************************************************
+            //** Loop through all data poins and draw labels
+            //************************************************************
+            if (drawLabels)
 				{
 					foreach(object obj in dataPointDrawingOrder)
 					{
@@ -1590,7 +1590,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 						// Get Y value and make sure it fits the chart area.
 						// If chart type uses 2 Y values (RangeBar) use second Y value for size.
-						double	yValue = hAxis.GetLogValue( GetYValue(common, area, ser, pointEx.dataPoint, pointEx.index - 1, (useTwoValues) ? 1 : 0) );
+						double	yValue = hAxis.GetLogValue( GetYValue(common, area, ser, pointEx.dataPoint, pointEx.index - 1, useTwoValues ? 1 : 0) );
 						if( yValue > hAxis.ViewMaximum )
 						{
 							yValue = hAxis.ViewMaximum;
@@ -1635,7 +1635,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						{
 							// Set the bar rectangle
 							rectSize.Y = (float)(xPosition - pointEx.width/2);
-							rectSize.Height = (float)(pointEx.width);
+							rectSize.Height = (float)pointEx.width;
 
 							// The left side of rectangle has always 
 							// smaller value than a right value
@@ -1663,7 +1663,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						if( !point.IsEmpty )
 						{
 							// Check if column is completly out of the data scaleView
-							xValue = (pointEx.indexedSeries) ? pointEx.index : point.XValue;
+							xValue = pointEx.indexedSeries ? pointEx.index : point.XValue;
 							xValue = vAxis.GetLogValue(xValue);
 							if(xValue < vAxis.ViewMinimum || xValue > vAxis.ViewMaximum )
 							{
@@ -1758,7 +1758,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							markerPosition, 
 							point.MarkerStyle,
                             BarChart.GetAdjustedPixelSize(point.MarkerSize, graph), 
-							(point.MarkerColor.IsEmpty) ? point.series.Color : point.MarkerColor, 
+							point.MarkerColor.IsEmpty ? point.series.Color : point.MarkerColor, 
 							point.MarkerBorderColor, 
 							point.MarkerBorderWidth,
 							point.MarkerImage, 
@@ -2311,7 +2311,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 			}
 
-			return (_selection) ? - result : result;
+			return _selection ? - result : result;
         }
 
     #endregion // Methods

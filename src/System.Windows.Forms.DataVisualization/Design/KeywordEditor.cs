@@ -145,7 +145,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._groupBoxKeywords.SuspendLayout();
             this._groupBoxDescription.SuspendLayout();
             this._groupBoxFormat.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._numericUpDownYValue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)this._numericUpDownYValue).BeginInit();
             this.SuspendLayout();
             // 
             // groupBoxKeywords
@@ -358,7 +358,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._groupBoxKeywords.ResumeLayout(false);
             this._groupBoxDescription.ResumeLayout(false);
             this._groupBoxFormat.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this._numericUpDownYValue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)this._numericUpDownYValue).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -425,7 +425,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                                     this.Keyword[keywordLength] == 'Y')
                                 {
                                     ++keywordLength;
-                                    if (this.Keyword.Length > (keywordLength) &&
+                                    if (this.Keyword.Length > keywordLength &&
                                         char.IsDigit(this.Keyword[keywordLength]))
                                     {
                                         int yValueIndex = int.Parse(this.Keyword.Substring(keywordLength, 1), CultureInfo.InvariantCulture);
@@ -499,7 +499,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                                             // Get precision
                                             if (this._comboBoxFormat.SelectedIndex != 8 && format.Length > 0)
                                             {
-                                                this._textBoxPrecision.Text = format.Substring(1);
+                                                this._textBoxPrecision.Text = format[1..];
                                             }
                                         }
                                         else
@@ -535,15 +535,15 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         private void comboBoxFormat_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Format disabled
-            _labelCustomFormat.Enabled = (this._comboBoxFormat.SelectedIndex > 0);
-            _textBoxCustomFormat.Enabled = (this._comboBoxFormat.SelectedIndex > 0);
-            _labelPrecision.Enabled = (this._comboBoxFormat.SelectedIndex > 0);
-            _textBoxPrecision.Enabled = (this._comboBoxFormat.SelectedIndex > 0);
-            _labelSample.Enabled = (this._comboBoxFormat.SelectedIndex > 0);
-            _textBoxSample.Enabled = (this._comboBoxFormat.SelectedIndex > 0);
+            _labelCustomFormat.Enabled = this._comboBoxFormat.SelectedIndex > 0;
+            _textBoxCustomFormat.Enabled = this._comboBoxFormat.SelectedIndex > 0;
+            _labelPrecision.Enabled = this._comboBoxFormat.SelectedIndex > 0;
+            _textBoxPrecision.Enabled = this._comboBoxFormat.SelectedIndex > 0;
+            _labelSample.Enabled = this._comboBoxFormat.SelectedIndex > 0;
+            _textBoxSample.Enabled = this._comboBoxFormat.SelectedIndex > 0;
 
             // Hide show form control depending on the format selection
-            bool customFormat = ((string)_comboBoxFormat.SelectedItem == "Custom");
+            bool customFormat = (string)_comboBoxFormat.SelectedItem == "Custom";
             _labelCustomFormat.Visible = customFormat;
             _textBoxCustomFormat.Visible = customFormat;
             _labelPrecision.Visible = !customFormat;

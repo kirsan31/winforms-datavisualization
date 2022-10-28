@@ -230,7 +230,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
 				points, 
 				secondPoint.index - 1, 
-				(this.multiSeries) ? secondPoint : null, 
+				this.multiSeries ? secondPoint : null, 
 				ref pointArrayIndex);
 
 			// Fint point with line properties
@@ -245,7 +245,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Adjust point visual properties 
-			Color			color = (useBorderColor) ? pointAttr.dataPoint.BorderColor : pointAttr.dataPoint.Color;
+			Color			color = useBorderColor ? pointAttr.dataPoint.BorderColor : pointAttr.dataPoint.Color;
 			ChartDashStyle	dashStyle = pointAttr.dataPoint.BorderDashStyle;
 			if( pointAttr.dataPoint.IsEmpty && pointAttr.dataPoint.Color == Color.Empty)
 			{
@@ -295,7 +295,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
 					firstPoint, middlePoint, 
 					points, pointIndex, 0f, operationType, LineSegmentType.First, 
-					(this.showPointLines) ? true : false, false,
+					this.showPointLines, false,
                     area.ReverseSeriesOrder,
 					this.multiSeries, 0, true);
 
@@ -313,7 +313,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
 					middlePoint, secondPoint, 
 					points, pointIndex, 0f, operationType, LineSegmentType.Last, 
-					(this.showPointLines) ? true : false, false,
+					this.showPointLines, false,
                     area.ReverseSeriesOrder,
 					this.multiSeries, 0, true);
 
@@ -333,7 +333,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
 					middlePoint, secondPoint, 
 					points, pointIndex, 0f, operationType, LineSegmentType.Last, 
-					(this.showPointLines) ? true : false, false,
+					this.showPointLines, false,
                     area.ReverseSeriesOrder,
 					this.multiSeries, 0, true);
 
@@ -351,7 +351,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
 					firstPoint, middlePoint, 
 					points, pointIndex, 0f, operationType, LineSegmentType.First, 
-					(this.showPointLines) ? true : false, false,
+					this.showPointLines, false,
                     area.ReverseSeriesOrder,
 					this.multiSeries, 0, true);
 

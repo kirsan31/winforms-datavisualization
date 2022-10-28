@@ -473,7 +473,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (name == null)
             {
-                throw (new ArgumentNullException(SR.ExceptionDataSeriesNameIsEmpty));
+                throw new ArgumentNullException(SR.ExceptionDataSeriesNameIsEmpty);
             }
 
             InitProperties(name, 0);
@@ -491,11 +491,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (name == null)
             {
-                throw (new ArgumentNullException(nameof(name), SR.ExceptionDataSeriesNameIsEmpty));
+                throw new ArgumentNullException(nameof(name), SR.ExceptionDataSeriesNameIsEmpty);
             }
             if (YValuesPerPoint < 1)
             {
-                throw (new ArgumentOutOfRangeException(nameof(yValues), SR.ExceptionDataSeriesYValuesPerPointIsZero));
+                throw new ArgumentOutOfRangeException(nameof(yValues), SR.ExceptionDataSeriesYValuesPerPointIsZero);
             }
 
             InitProperties(name, yValues);
@@ -584,16 +584,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 catch
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PixelPointDepth")));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PixelPointDepth"));
                 }
 
                 if (pointDepth <= 0)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointDepth")));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointDepth"));
                 }
                 if (pointDepth > CustomPropertyRegistry.MaxValueOfPixelAttribute)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointDepth", (0).ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture))));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointDepth", 0.ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture)));
                 }
 
                 SizeF relativeSize = graph.GetRelativeSize(new SizeF((float)pointDepth, (float)pointDepth));
@@ -614,16 +614,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 catch
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PixelPointGapDepth")));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PixelPointGapDepth"));
                 }
 
                 if (pointGapDepth <= 0)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointGapDepth")));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointGapDepth"));
                 }
                 if (pointGapDepth > CustomPropertyRegistry.MaxValueOfPixelAttribute)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointGapDepth", (0).ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture))));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointGapDepth", 0.ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture)));
                 }
 
                 SizeF relativeSize = graph.GetRelativeSize(new SizeF((float)pointGapDepth, (float)pointGapDepth));
@@ -653,7 +653,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             double defaultWidth)
         {
             double pointPercentageWidth = defaultWidth;
-            double pointWidth = 0.0;
 
             // Check if series provide custom value for point width in percentage of interval
             string strWidth = this[CustomPropertyName.PointWidth];
@@ -663,7 +662,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Get column width in relative and pixel coordinates
-            pointWidth = axis.GetPixelInterval(interval * pointPercentageWidth);
+            double pointWidth = axis.GetPixelInterval(interval * pointPercentageWidth);
             SizeF pointSize = graph.GetAbsoluteSize(new SizeF((float)pointWidth, (float)pointWidth));
             double pixelPointWidth = pointSize.Width;
             if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
@@ -677,22 +676,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string attribValue = this[CustomPropertyName.MinPixelPointWidth];
             if (attribValue != null)
             {
-                double minPixelPointWidth = 0.0;
+                double minPixelPointWidth;
                 try
                 {
                     minPixelPointWidth = CommonElements.ParseDouble(attribValue);
                 }
                 catch
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("MinPixelPointWidth")));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("MinPixelPointWidth"));
                 }
                 if (minPixelPointWidth <= 0.0)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("MinPixelPointWidth")));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("MinPixelPointWidth"));
                 }
                 if (minPixelPointWidth > CustomPropertyRegistry.MaxValueOfPixelAttribute)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("MinPixelPointWidth", (0).ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture))));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("MinPixelPointWidth", 0.ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture)));
                 }
 
                 if (pixelPointWidth < minPixelPointWidth)
@@ -706,18 +705,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
             attribValue = this[CustomPropertyName.MaxPixelPointWidth];
             if (attribValue != null)
             {
-                double maxPixelPointWidth = 0.0;
+                double maxPixelPointWidth;
                 try
                 {
                     maxPixelPointWidth = CommonElements.ParseDouble(attribValue);
                 }
                 catch
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("MaxPixelPointWidth")));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("MaxPixelPointWidth"));
                 }
                 if (maxPixelPointWidth <= 0)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("MaxPixelPointWidth")));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("MaxPixelPointWidth"));
                 }
 
                 if (pixelPointWidth > maxPixelPointWidth)
@@ -732,22 +731,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (attribValue != null)
             {
                 usePixelWidth = true;
-                pixelPointWidth = 0.0;
                 try
                 {
                     pixelPointWidth = CommonElements.ParseDouble(attribValue);
                 }
                 catch
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PixelPointWidth")));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PixelPointWidth"));
                 }
                 if (pixelPointWidth <= 0)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointWidth")));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointWidth"));
                 }
                 if (pixelPointWidth > CustomPropertyRegistry.MaxValueOfPixelAttribute)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointWidth", (0).ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture))));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointWidth", 0.ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture)));
                 }
             }
 
@@ -876,7 +874,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Unsupported parameter type
-            throw (new ArgumentException(SR.ExceptionDataSeriesPointTypeUnsupported(type.ToString())));
+            throw new ArgumentException(SR.ExceptionDataSeriesPointTypeUnsupported(type.ToString()));
 
         }
 
@@ -1006,7 +1004,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check if series has enough Y values
             if (yValueIndex >= this.YValuesPerPoint)
             {
-                throw (new InvalidOperationException(SR.ExceptionDataSeriesYValueIndexNotExists(yValueIndex.ToString(CultureInfo.InvariantCulture), this.Name)));
+                throw new InvalidOperationException(SR.ExceptionDataSeriesYValueIndexNotExists(yValueIndex.ToString(CultureInfo.InvariantCulture), this.Name));
             }
 
             // Calculate total
@@ -1145,7 +1143,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string defaultFormat)
         {
             string result = strOriginal;
-            int keyIndex = -1;
+            int keyIndex;
             while ((keyIndex = result.IndexOf(keyword, StringComparison.Ordinal)) != -1)
             {
                 int keyEndIndex = keyIndex + keyword.Length;
@@ -1167,10 +1165,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int formatEnd = result.IndexOf('}', keyEndIndex);
                     if (formatEnd == -1)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionDataSeriesKeywordFormatInvalid(result)));
+                        throw new InvalidOperationException(SR.ExceptionDataSeriesKeywordFormatInvalid(result));
                     }
 
-                    format = result.Substring(keyEndIndex, formatEnd - keyEndIndex).Trim('{', '}');
+                    format = result[keyEndIndex..formatEnd].Trim('{', '}');
                     keyEndIndex = formatEnd + 1;
                 }
 
@@ -1182,7 +1180,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 double keywordValue = 0.0;
                 switch (formulaType)
                 {
-                    case (SeriesValuesFormulaType.Average):
+                    case SeriesValuesFormulaType.Average:
                         {
                             if (this.Points.Count > 0)
                             {
@@ -1190,7 +1188,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                             break;
                         }
-                    case (SeriesValuesFormulaType.First):
+                    case SeriesValuesFormulaType.First:
                         {
                             if (this.Points.Count > 0)
                             {
@@ -1198,7 +1196,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                             break;
                         }
-                    case (SeriesValuesFormulaType.Last):
+                    case SeriesValuesFormulaType.Last:
                         {
                             if (this.Points.Count > 0)
                             {
@@ -1206,7 +1204,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                             break;
                         }
-                    case (SeriesValuesFormulaType.Maximum):
+                    case SeriesValuesFormulaType.Maximum:
                         {
                             if (this.Points.Count > 0)
                             {
@@ -1218,7 +1216,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                             break;
                         }
-                    case (SeriesValuesFormulaType.Minimum):
+                    case SeriesValuesFormulaType.Minimum:
                         {
                             if (this.Points.Count > 0)
                             {
@@ -1230,7 +1228,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                             break;
                         }
-                    case (SeriesValuesFormulaType.Total):
+                    case SeriesValuesFormulaType.Total:
                         {
                             keywordValue = totalValue;
                             break;
@@ -1274,10 +1272,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int formatEnd = result.IndexOf('}', keyEndIndex);
                     if (formatEnd == -1)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionDataSeriesKeywordFormatInvalid(result)));
+                        throw new InvalidOperationException(SR.ExceptionDataSeriesKeywordFormatInvalid(result));
                     }
 
-                    format = result.Substring(keyEndIndex, formatEnd - keyEndIndex).Trim('{', '}');
+                    format = result[keyEndIndex..formatEnd].Trim('{', '}');
                     keyEndIndex = formatEnd + 1;
                 }
 
@@ -1358,8 +1356,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (dp.IsCustomPropertySet("OriginalPointIndex"))
                 {
-                    int index = -1;
-                    if (Int32.TryParse(dp["OriginalPointIndex"], NumberStyles.Integer, CultureInfo.InvariantCulture, out index))
+                    if (Int32.TryParse(dp["OriginalPointIndex"], NumberStyles.Integer, CultureInfo.InvariantCulture, out int index))
                     {
                         if (index > -1 && index < toSeries.Points.Count)
                         {
@@ -1925,7 +1922,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Check if argument is in range
                 if (value < 1 || value > 32)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionDataSeriesYValueNumberInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionDataSeriesYValueNumberInvalid);
                 }
 
                 _checkPointsNumber = true;
@@ -2035,7 +2032,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value <= 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarkerStepNegativeValue, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionMarkerStepNegativeValue, nameof(value));
                 }
                 _markersStep = value;
                 this.Invalidate(true, false);

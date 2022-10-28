@@ -328,33 +328,33 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		{
 			switch(palette)
 			{
-				case(ChartColorPalette.None):
+				case ChartColorPalette.None:
 				{
-                    throw (new ArgumentException(SR.ExceptionPaletteIsEmpty));
+                    throw new ArgumentException(SR.ExceptionPaletteIsEmpty);
 				}
-				case(ChartColorPalette.Bright):
+				case ChartColorPalette.Bright:
 					return _colorsDefault;
-				case(ChartColorPalette.Grayscale):
+				case ChartColorPalette.Grayscale:
                     return _colorsGrayScale;
-				case(ChartColorPalette.Excel):
+				case ChartColorPalette.Excel:
 					return _colorsExcel;
-				case(ChartColorPalette.Pastel):
+				case ChartColorPalette.Pastel:
 					return _colorsPastel;
-				case(ChartColorPalette.Light):
+				case ChartColorPalette.Light:
 					return _colorsLight;
-				case(ChartColorPalette.EarthTones):
+				case ChartColorPalette.EarthTones:
 					return _colorsEarth;
-				case(ChartColorPalette.SemiTransparent):
+				case ChartColorPalette.SemiTransparent:
 					return _colorsSemiTransparent;
-				case(ChartColorPalette.Berry):
+				case ChartColorPalette.Berry:
 					return _colorsBerry;
-				case(ChartColorPalette.Chocolate):
+				case ChartColorPalette.Chocolate:
 					return _colorsChocolate;
-				case(ChartColorPalette.Fire):
+				case ChartColorPalette.Fire:
 					return _colorsFire;
-				case(ChartColorPalette.SeaGreen):
+				case ChartColorPalette.SeaGreen:
 					return _colorsSeaGreen;
-				case(ChartColorPalette.BrightPastel):
+				case ChartColorPalette.BrightPastel:
                     return _colorsBrightPastel;
 			}
 			return null;

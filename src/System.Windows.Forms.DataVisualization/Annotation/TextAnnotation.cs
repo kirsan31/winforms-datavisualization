@@ -366,12 +366,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </param>
         override internal void Paint(Chart chart, ChartGraphics graphics)
 		{
-			// Get annotation position in relative coordinates
-			PointF firstPoint = PointF.Empty;
-			PointF anchorPoint = PointF.Empty;
-			SizeF size = SizeF.Empty;
-			GetRelativePosition(out firstPoint, out size, out anchorPoint);
-			PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+            // Get annotation position in relative coordinates
+            GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
+            PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 			// Create selection rectangle
 			RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
@@ -454,12 +451,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			RectangleF	textActualPosition = RectangleF.Empty;
 
-			//***************************************************************
-			//** Adjust text position uing text spacing
-			//***************************************************************
-			bool annotationRelative = false;
-			RectangleF	textSpacing = GetTextSpacing(out annotationRelative);
-			float spacingScaleX = 1f;
+            //***************************************************************
+            //** Adjust text position uing text spacing
+            //***************************************************************
+            RectangleF textSpacing = GetTextSpacing(out bool annotationRelative);
+            float spacingScaleX = 1f;
 			float spacingScaleY = 1f;
 			if(annotationRelative)
 			{
@@ -783,7 +779,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				_editTextBox.Multiline = this.IsMultiline;
 				_editTextBox.Font = this.Font;
 				_editTextBox.BorderStyle = BorderStyle.FixedSingle;
-				_editTextBox.BackColor = Color.FromArgb(255, (this.BackColor.IsEmpty) ? Color.White : this.BackColor);
+				_editTextBox.BackColor = Color.FromArgb(255, this.BackColor.IsEmpty ? Color.White : this.BackColor);
 				_editTextBox.ForeColor = Color.FromArgb(255, this.ForeColor);
 
 				// Calculate text position in relative coordinates
@@ -902,10 +898,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Convert to relative coordinates
 				contentSize = GetGraphics().GetRelativeSize(contentSize);
 
-				// Add spacing
-				bool annotationRelative;
-				RectangleF	textSpacing = GetTextSpacing(out annotationRelative);
-				float spacingScaleX = 1f;
+                // Add spacing
+                RectangleF textSpacing = GetTextSpacing(out bool annotationRelative);
+                float spacingScaleX = 1f;
 				float spacingScaleY = 1f;
 				if(annotationRelative)
 				{

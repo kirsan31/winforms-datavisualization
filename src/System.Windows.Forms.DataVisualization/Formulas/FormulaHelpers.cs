@@ -1500,15 +1500,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             }
             else if (seriesFieldId.StartsWith("Y", StringComparison.Ordinal))
             {
-                int id;
-                if (int.TryParse(seriesFieldId.AsSpan(1), out id))
+                if (int.TryParse(seriesFieldId.AsSpan(1), out int id))
                     if (id - 1 < seriesFields.Count)
                     {
                         seriesField = seriesFields[id - 1];
                     }
                     else
                     {
-                        throw (new ArgumentException(SR.ExceptionFormulaYIndexInvalid, seriesFieldId));
+                        throw new ArgumentException(SR.ExceptionFormulaYIndexInvalid, seriesFieldId);
                     }
             }
             else
@@ -1590,15 +1589,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             }
             else if (seriesFieldId.StartsWith("Y", StringComparison.Ordinal))
             {
-                int seriesFieldIndex;
-                if (int.TryParse(seriesFieldId.AsSpan(1), out seriesFieldIndex))
+                if (int.TryParse(seriesFieldId.AsSpan(1), out int seriesFieldIndex))
                     if (seriesFieldIndex < seriesFields.Count)
                     {
                         seriesField = seriesFields[seriesFieldIndex - 1];
                     }
                     else
                     {
-                        throw (new ArgumentException(SR.ExceptionFormulaYIndexInvalid, seriesFieldId));
+                        throw new ArgumentException(SR.ExceptionFormulaYIndexInvalid, seriesFieldId);
                     }
             }
             else

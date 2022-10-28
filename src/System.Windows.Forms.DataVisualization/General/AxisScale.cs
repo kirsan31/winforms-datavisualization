@@ -705,7 +705,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 2.0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleLogarithmBaseInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleLogarithmBaseInvalid);
                 }
 
                 logarithmBase = value;
@@ -937,13 +937,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (validateInput &&
                 (position < 0 || position > 100))
             {
-                throw (new ArgumentException(SR.ExceptionAxisScalePositionInvalid, nameof(position)));
+                throw new ArgumentException(SR.ExceptionAxisScalePositionInvalid, nameof(position));
             }
 
             // Check if plot area position was already calculated
             if (PlotAreaPosition == null)
             {
-                throw (new InvalidOperationException(SR.ExceptionAxisScalePositionToValueCallFailed));
+                throw new InvalidOperationException(SR.ExceptionAxisScalePositionToValueCallFailed);
             }
 
             // Convert chart picture position to plotting position
@@ -1074,8 +1074,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     pointWidthSize = 0.8;
                 }
 
-                margin = (pointWidthSize / 2) * 100;
-                offset = (margin) / 100;
+                margin = pointWidthSize / 2 * 100;
+                offset = margin / 100;
                 double contraOffset = (100 - margin) / 100;
 
                 if (this._intervalsStore.Count == 0)
@@ -1204,7 +1204,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // If the interval is zero return error
             if (diff == 0.0)
             {
-                throw (new ArgumentOutOfRangeException(nameof(diff), SR.ExceptionAxisScaleIntervalIsZero));
+                throw new ArgumentOutOfRangeException(nameof(diff), SR.ExceptionAxisScaleIntervalIsZero);
             }
 
             // If the real interval is > 1.0
@@ -1216,7 +1216,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 temp = temp / 10.0;
                 if (step > 1000)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionAxisScaleMinimumMaximumInvalid));
+                    throw new InvalidOperationException(SR.ExceptionAxisScaleMinimumMaximumInvalid);
                 }
             }
 
@@ -1234,11 +1234,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 temp = temp * 10.0;
                 if (step < -1000)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionAxisScaleMinimumMaximumInvalid));
+                    throw new InvalidOperationException(SR.ExceptionAxisScaleMinimumMaximumInvalid);
                 }
             }
 
-            double power = (this.IsLogarithmic) ? this.logarithmBase : 10.0;
+            double power = this.IsLogarithmic ? this.logarithmBase : 10.0;
             double tempDiff = diff / Math.Pow(power, step);
 
             if (tempDiff < 3)
@@ -1480,7 +1480,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // If the interval is zero return error
             if (years <= 1.0)
             {
-                throw (new ArgumentOutOfRangeException(nameof(years), SR.ExceptionAxisScaleIntervalIsLessThen1Year));
+                throw new ArgumentOutOfRangeException(nameof(years), SR.ExceptionAxisScaleIntervalIsLessThen1Year);
             }
 
             if (years < 5)
@@ -1512,10 +1512,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Date-time type or Auto.</returns>
         internal ChartValueType GetDateTimeType()
         {
-            List<string> list = null;
-
             ChartValueType dateType = ChartValueType.Auto;
 
+            List<string> list;
             // Check if Value type is date from first series in the axis
             if (axisType == AxisName.X)
             {
@@ -1726,8 +1725,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Relative position.</returns>
         internal double GetLinearPosition(double axisValue)
         {
-            bool circularArea = (ChartArea == null || !ChartArea.chartAreaIsCurcular) ?
-                false : true;
+            bool circularArea = ChartArea != null && ChartArea.chartAreaIsCurcular;
 
             // Check if some value calculation is optimized
             if (!this.optimizedGetPosition)
@@ -1771,9 +1769,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 AxisScaleSegment scaleSegment = this.ScaleSegments.FindScaleSegmentForAxisValue(axisValue);
                 if (scaleSegment != null)
                 {
-                    double segmentSize = 0.0;
-                    double segmentPosition = 0.0;
-                    scaleSegment.GetScalePositionAndSize(paintChartAreaSize, out segmentPosition, out segmentSize);
+                    scaleSegment.GetScalePositionAndSize(paintChartAreaSize, out double segmentPosition, out double segmentSize);
 
                     // Make sure value do not exceed max possible
                     if (!this.ScaleSegments.AllowOutOfScaleValues)
@@ -1790,7 +1786,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     double segmentScaleRange = scaleSegment.ScaleMaximum - scaleSegment.ScaleMinimum;
 
-                    position = (segmentSize / segmentScaleRange) * (axisValue - scaleSegment.ScaleMinimum);
+                    position = segmentSize / segmentScaleRange * (axisValue - scaleSegment.ScaleMinimum);
                     position += segmentPosition;
                 }
             }
@@ -1872,7 +1868,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Set intervals for grids, tick marks and labels
             if (axisInterval <= 0.0)
             {
-                throw (new InvalidOperationException(SR.ExceptionAxisScaleAutoIntervalInvalid));
+                throw new InvalidOperationException(SR.ExceptionAxisScaleAutoIntervalInvalid);
             }
             else
             {
@@ -1919,7 +1915,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (!this.Common.ChartPicture.SuppressExceptions)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionAxisScaleMinimumValueIsGreaterThenMaximumDataPoint));
+                    throw new InvalidOperationException(SR.ExceptionAxisScaleMinimumValueIsGreaterThenMaximumDataPoint);
                 }
                 else
                 {
@@ -1954,7 +1950,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Set intervals for grids, tick marks and labels
             if (axisInterval <= 0.0)
             {
-                throw (new InvalidOperationException(SR.ExceptionAxisScaleAutoIntervalInvalid));
+                throw new InvalidOperationException(SR.ExceptionAxisScaleAutoIntervalInvalid);
             }
             else
             {
@@ -2012,9 +2008,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (minimumValue <= 0.0 || maximumValue <= 0.0 || crossingValue <= 0.0)
             {
                 if (minimumValue <= 0.0)
-                    throw (new ArgumentOutOfRangeException(nameof(minimumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues));
+                    throw new ArgumentOutOfRangeException(nameof(minimumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues);
                 if (maximumValue <= 0.0)
-                    throw (new ArgumentOutOfRangeException(nameof(maximumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues));
+                    throw new ArgumentOutOfRangeException(nameof(maximumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues);
             }
 
             // Change crossing to linear scale
@@ -2210,7 +2206,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Can not find interval. Minimum and maximum are same
 
                     max = min + 1;
-                    diff = 0.2;
                     axisInterval = 0.2;
                 }
                 else
@@ -2247,8 +2242,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 bool maxIsZero = false;
                 if (ChartArea.hundredPercent)
                 {
-                    minIsZero = (minimumValue == 0.0);
-                    maxIsZero = (maximumValue == 0.0);
+                    minIsZero = minimumValue == 0.0;
+                    maxIsZero = maximumValue == 0.0;
                 }
 
                 // Round min/max values

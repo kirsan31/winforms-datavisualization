@@ -239,14 +239,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Get 3D series depth and Z position
                 if (this.chartArea3DEnabled)
                 {
-                    float seriesDepth;
-                    area.GetSeriesZPositionAndDepth(series, out seriesDepth, out seriesZCoordinate);
+                    area.GetSeriesZPositionAndDepth(series, out float seriesDepth, out seriesZCoordinate);
                     this.seriesZCoordinate += seriesDepth / 2.0f;
                 }
 
                 // Set active horizontal/vertical axis
-                Axis hAxis = area.GetAxis(AxisName.X, series.XAxisType, (area.Area3DStyle.Enable3D) ? string.Empty : series.XSubAxisName);
-                Axis vAxis = area.GetAxis(AxisName.Y, series.YAxisType, (area.Area3DStyle.Enable3D) ? string.Empty : series.YSubAxisName);
+                Axis hAxis = area.GetAxis(AxisName.X, series.XAxisType, area.Area3DStyle.Enable3D ? string.Empty : series.XSubAxisName);
+                Axis vAxis = area.GetAxis(AxisName.Y, series.YAxisType, area.Area3DStyle.Enable3D ? string.Empty : series.YSubAxisName);
                 double hAxisMin = hAxis.ViewMinimum;
                 double hAxisMax = hAxis.ViewMaximum;
                 double vAxisMin = vAxis.ViewMinimum;
@@ -258,8 +257,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     string attrValue = series[CustomPropertyName.PermittedPixelError];
 
-                    float pixelError;
-                    bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.CurrentCulture, out pixelError);
+                    bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.CurrentCulture, out float pixelError);
 
                     if (parseSucceed)
                     {
@@ -267,13 +265,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
                     else
                     {
-                        throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PermittedPixelError")));
+                        throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PermittedPixelError"));
                     }
 
                     // "PermittedPixelError" attribute value should be in range from zero to 1
                     if (permittedPixelError < 0f || permittedPixelError > 1f)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotInRange0to1("PermittedPixelError")));
+                        throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotInRange0to1("PermittedPixelError"));
                     }
                 }
 
@@ -321,7 +319,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 foreach (DataPoint point in series.Points)
                 {
                     // Get point X and Y values
-                    xValue = (indexedSeries) ? index + 1 : point.XValue;
+                    xValue = indexedSeries ? index + 1 : point.XValue;
                     xValue = hAxis.GetLogValue(xValue);
                     yValue = vAxis.GetLogValue(point.YValues[0]);
                     currentPointIsEmpty = point.IsEmpty;
@@ -446,8 +444,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     if (verticalLineDetected)
                     {
                         // Convert Y coordinates to pixels
-                        yValueRangeMin = (vAxis.GetLinearPosition(yValueRangeMin) * yPixelConverter);
-                        yValueRangeMax = (vAxis.GetLinearPosition(yValueRangeMax) * yPixelConverter);
+                        yValueRangeMin = vAxis.GetLinearPosition(yValueRangeMin) * yPixelConverter;
+                        yValueRangeMax = vAxis.GetLinearPosition(yValueRangeMax) * yPixelConverter;
 
                         // Draw accumulated vertical line
                         DrawLine(
@@ -456,7 +454,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             pointRangeMin,
                             pointRangeMax,
                             index,
-                            (prevPointIsEmpty) ? emptyLinePen : linePen,
+                            prevPointIsEmpty ? emptyLinePen : linePen,
                             prevPoint.X,
                             (float)yValueRangeMin,
                             prevPoint.X,
@@ -479,7 +477,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             pointRangeMin,
                             pointRangeMax,
                             index,
-                            (currentPointIsEmpty) ? emptyLinePen : linePen,
+                            currentPointIsEmpty ? emptyLinePen : linePen,
                             prevPoint.X,
                             prevPoint.Y,
                             currentPoint.X,
@@ -509,8 +507,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
 
                     // Convert Y coordinates to pixels
-                    yValueRangeMin = (vAxis.GetLinearPosition(yValueRangeMin) * yPixelConverter);
-                    yValueRangeMax = (vAxis.GetLinearPosition(yValueRangeMax) * yPixelConverter);
+                    yValueRangeMin = vAxis.GetLinearPosition(yValueRangeMin) * yPixelConverter;
+                    yValueRangeMax = vAxis.GetLinearPosition(yValueRangeMax) * yPixelConverter;
 
                     // Draw accumulated vertical line
                     DrawLine(
@@ -519,7 +517,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         pointRangeMin,
                         pointRangeMax,
                         index - 1,
-                        (prevPointIsEmpty) ? emptyLinePen : linePen,
+                        prevPointIsEmpty ? emptyLinePen : linePen,
                         prevPoint.X,
                         (float)yValueRangeMin,
                         prevPoint.X,

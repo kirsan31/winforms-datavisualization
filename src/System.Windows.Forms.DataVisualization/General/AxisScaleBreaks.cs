@@ -196,7 +196,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 1 || value > 5)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksNumberInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksNumberInvalid);
 				}
 				this._maximumNumberOfBreaks = value;
 				this.Invalidate();
@@ -222,7 +222,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 10 || value > 90)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksCollapsibleSpaceInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksCollapsibleSpaceInvalid);
 				}
 				this._minimumNumberOfEmptySegments = value;
 				this.Invalidate();
@@ -290,7 +290,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 10)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksSpacingInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksSpacingInvalid);
 				}
 				this._segmentSpacing = value;
 				this.Invalidate();
@@ -338,7 +338,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 1.0 || value > 10)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksLineWidthInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksLineWidthInvalid);
 				}
 				this._breakLineWidth = value;
 				this.Invalidate();
@@ -526,7 +526,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					foreach(AxisScaleSegment axisScaleSegment in axisSegments)
 					{
 						// Check if segment scale should start from zero
-						bool startFromZero = (index == startFromZeroSegmentIndex) ? true : false;
+						bool startFromZero = index == startFromZeroSegmentIndex;
 
 						// Calculate interval and round scale
 						double minimum = axisScaleSegment.ScaleMinimum;
@@ -670,9 +670,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				currentPosition += axisSegments[index].Size;
 			}
 
-			// Make sure we do not exceed the 100% axis length
-			double totalHeight = 0.0;
-			do
+            // Make sure we do not exceed the 100% axis length
+            double totalHeight;
+            do
 			{
 				// Calculate total height
 				totalHeight = 0.0;
@@ -720,19 +720,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Clear axis segments collection
 			axisSegments.Clear();
 
-			// Get statistics for the series attached to the axis
-			double minYValue = 0.0;
-			double maxYValue = 0.0;
-			double segmentSize = 0.0;
-			double[] segmentMaxValue = null;
-			double[] segmentMinValue = null;
+            // Get statistics for the series attached to the axis
             int[] segmentPointNumber = GetSeriesDataStatistics(
-				this._totalNumberOfSegments, 
-				out minYValue, 
-				out maxYValue, 
-				out segmentSize, 
-				out segmentMaxValue, 
-				out segmentMinValue);
+                this._totalNumberOfSegments,
+                out double minYValue,
+                out double maxYValue,
+                out double segmentSize,
+                out double[] segmentMaxValue,
+                out double[] segmentMinValue);
             if (segmentPointNumber == null)
             {
                 return;
@@ -765,16 +760,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				doneFlag = true;
 
-				// Get longest sequence of segments with no points
-				int startSegment = 0; 
-				int numberOfSegments = 0;
-				this.GetLargestSequenseOfSegmentsWithNoPoints(
-					segmentPointNumber, 
-					out startSegment, 
-					out numberOfSegments);
+                // Get longest sequence of segments with no points
+                this.GetLargestSequenseOfSegmentsWithNoPoints(
+                    segmentPointNumber,
+                    out int startSegment,
+                    out int numberOfSegments);
 
-				// Adjust minimum empty segments  number depending on current segments
-				int minEmptySegments = (int)(this._minimumNumberOfEmptySegments * (100.0 / dataRangePercent));
+                // Adjust minimum empty segments  number depending on current segments
+                int minEmptySegments = (int)(this._minimumNumberOfEmptySegments * (100.0 / dataRangePercent));
 				if(axisSegments.Count > 0 && numberOfSegments > 0)
 				{
 					// Find the segment which contain newly found empty segments sequence
@@ -924,10 +917,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Get all series associated with the axis
 			ArrayList axisSeries = AxisScaleBreakStyle.GetAxisSeries(this.axis);
 
-			// Get range of Y values from axis series
-			minYValue = 0.0;
-			maxYValue = 0.0;
-			axis.Common.DataManager.GetMinMaxYValue(axisSeries, out minYValue, out maxYValue);
+            // Get range of Y values from axis series
+            axis.Common.DataManager.GetMinMaxYValue(axisSeries, out minYValue, out maxYValue);
             
             int numberOfPoints = 0;
             foreach (Series series in axisSeries)

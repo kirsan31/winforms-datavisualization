@@ -316,7 +316,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Two Y values required
 			if(point.YValues.Length < 2)
 			{
-				throw(new InvalidOperationException( SR.ExceptionChartTypeRequiresYValues( this.Name, "2" )));
+				throw new InvalidOperationException( SR.ExceptionChartTypeRequiresYValues( this.Name, "2" ));
 			}
 
 			// Start drawing from the second point
@@ -455,8 +455,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Check if bottom line is partialy in the data scaleView
 			if(!clipRegionSet)
 			{
-				double	xValue = (indexedSeries) ? pointIndex + 1 : series.Points[pointIndex].XValue;
-				double	xPrevValue = (indexedSeries) ? pointIndex : series.Points[pointIndex - 1].XValue;
+				double	xValue = indexedSeries ? pointIndex + 1 : series.Points[pointIndex].XValue;
+				double	xPrevValue = indexedSeries ? pointIndex : series.Points[pointIndex - 1].XValue;
 				if(xPrevValue < hAxisMin || xPrevValue > hAxisMax || 
 					xValue > hAxisMax || xValue < hAxisMin ||
 					series.Points[pointIndex-1].YValues[1] < vAxisMin || series.Points[pointIndex-1].YValues[1] > vAxisMax ||
@@ -767,7 +767,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
 				points, 
 				secondPoint.index - 1, 
-				(this.multiSeries) ? secondPoint : null, 
+				this.multiSeries ? secondPoint : null, 
 				ref pointArrayIndex);
 
 			//****************************************************************
@@ -792,18 +792,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				pointArrayIndex = pointIndex;
 				if( pointIndex != (centerPointIndex + 1))
 				{
-					firstPoint = ChartGraphics.FindPointByIndex(points, secondPoint.index - 1, (this.multiSeries) ? secondPoint : null, ref pointArrayIndex);
+					firstPoint = ChartGraphics.FindPointByIndex(points, secondPoint.index - 1, this.multiSeries ? secondPoint : null, ref pointArrayIndex);
 				}
 				else
 				{
                     if (!area.ReverseSeriesOrder)
 					{
-						secondPoint = ChartGraphics.FindPointByIndex(points, firstPoint.index + 1, (this.multiSeries) ? secondPoint : null, ref pointArrayIndex);
+						secondPoint = ChartGraphics.FindPointByIndex(points, firstPoint.index + 1, this.multiSeries ? secondPoint : null, ref pointArrayIndex);
 					}
 					else
 					{
 						firstPoint = secondPoint;
-						secondPoint = ChartGraphics.FindPointByIndex(points, secondPoint.index - 1, (this.multiSeries) ? secondPoint : null, ref pointArrayIndex);
+						secondPoint = ChartGraphics.FindPointByIndex(points, secondPoint.index - 1, this.multiSeries ? secondPoint : null, ref pointArrayIndex);
 					}
 				}
 			}
@@ -896,7 +896,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			//****************************************************************
 			//** Adjust point visual properties.
 			//****************************************************************
-			Color			color = (useBorderColor) ? pointAttr.dataPoint.BorderColor : pointAttr.dataPoint.Color;
+			Color			color = useBorderColor ? pointAttr.dataPoint.BorderColor : pointAttr.dataPoint.Color;
 			ChartDashStyle	dashStyle = pointAttr.dataPoint.BorderDashStyle;
 			if( pointAttr.dataPoint.IsEmpty && pointAttr.dataPoint.Color == Color.Empty)
 			{
@@ -913,21 +913,20 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			float	axisPosition = (float)VAxis.GetPosition(this.VAxis.Crossing);
 
 
-			//****************************************************************
-			//** Calculate position of top/bootom points.
-			//****************************************************************
-			PointF	thirdPoint, fourthPoint; 
-			GetBottomPointsPosition(
-				Common, 
-				area, 
-				axisPosition, 
-				ref firstPoint, 
-				ref secondPoint, 
-				out thirdPoint, 
-				out fourthPoint);
+            //****************************************************************
+            //** Calculate position of top/bootom points.
+            //****************************************************************
+            GetBottomPointsPosition(
+                Common,
+                area,
+                axisPosition,
+                ref firstPoint,
+                ref secondPoint,
+                out PointF thirdPoint,
+                out PointF fourthPoint);
 
-			// Check if point's position provided as parameter
-			if(!float.IsNaN(thirdPointPosition.Y))
+            // Check if point's position provided as parameter
+            if (!float.IsNaN(thirdPointPosition.Y))
 			{
 				thirdPoint.Y = thirdPointPosition.Y;
 			}
@@ -949,7 +948,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// This feature is not supported in 3D SplineRange chart type
 				if(tension != 0f)
 				{
-                    throw (new InvalidOperationException(SR.Exception3DSplineY1ValueIsLessThenY2));
+                    throw new InvalidOperationException(SR.Exception3DSplineY1ValueIsLessThenY2);
 				}
 
 				// Find intersection point
@@ -1076,8 +1075,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				upSideDown = true;
 
 				// Switch visibility between Top & Bottom surfaces
-				bool topVisible = ( (visibleSurfaces & SurfaceNames.Top) == SurfaceNames.Top );
-				bool bottomVisible = ( (visibleSurfaces & SurfaceNames.Bottom) == SurfaceNames.Bottom );
+				bool topVisible =  (visibleSurfaces & SurfaceNames.Top) == SurfaceNames.Top ;
+				bool bottomVisible =  (visibleSurfaces & SurfaceNames.Bottom) == SurfaceNames.Bottom ;
 				visibleSurfaces ^= SurfaceNames.Bottom;
 				visibleSurfaces ^= SurfaceNames.Top;
 				if(topVisible)
@@ -1230,7 +1229,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 								surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
 								firstPoint, secondPoint,  points, pointIndex,
 								tension, operationType, LineSegmentType.Middle,
-                                (this.showPointLines) ? true : false, false, area.ReverseSeriesOrder, this.multiSeries, 0, true);
+                                this.showPointLines, false, area.ReverseSeriesOrder, this.multiSeries, 0, true);
 							break;
 
 						case SurfaceNames.Bottom:
@@ -1252,7 +1251,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 								surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
 								dp1, dp2, points, pointIndex,
 								tension, operationType, LineSegmentType.Middle,
-                                (this.showPointLines) ? true : false, false, area.ReverseSeriesOrder, this.multiSeries, 1, true);
+                                this.showPointLines, false, area.ReverseSeriesOrder, this.multiSeries, 1, true);
 							break;
 						}
 						case SurfaceNames.Left:
@@ -1324,7 +1323,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 								surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, 
 								firstPoint, secondPoint, dp2, dp1, points, 
 								tension, operationType, lineSegmentType, 
-								(this.showPointLines) ? true : false);
+								this.showPointLines);
 
 							break;
 						}
@@ -1382,7 +1381,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 								surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, 
 								firstPoint, secondPoint, dp2, dp1, points, 
 								tension, operationType, lineSegmentType, 
-								(this.showPointLines) ? true : false);
+								this.showPointLines);
 								
 							break;
 						}
@@ -1477,17 +1476,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 
-			//***********************************************************************
-			//** Check Bottom surface visibility
-			//***********************************************************************
+            //***********************************************************************
+            //** Check Bottom surface visibility
+            //***********************************************************************
 
-			// Get bottom surface points
-			PointF	thirdPoint, fourthPoint; 
-			GetBottomPointsPosition(area.Common, area, 0, ref firstPoint, ref secondPoint, out thirdPoint, out fourthPoint);
+            // Get bottom surface points
+            GetBottomPointsPosition(area.Common, area, 0, ref firstPoint, ref secondPoint, out PointF thirdPoint, out PointF fourthPoint);
 
 
-			// If Bottom surface visibility in bounding rectangle - do not gurantee angled linde visibility
-			if( (visibleSurfaces & SurfaceNames.Bottom) == SurfaceNames.Bottom)
+            // If Bottom surface visibility in bounding rectangle - do not gurantee angled linde visibility
+            if ( (visibleSurfaces & SurfaceNames.Bottom) == SurfaceNames.Bottom)
 			{
 				visibleSurfaces ^= SurfaceNames.Bottom;
 			}
@@ -1631,7 +1629,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Create graphics path for selection
-			bool	drawElements = ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement);
+			bool	drawElements = (operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement;
 			GraphicsPath resultPath = new GraphicsPath();
 
 			//**********************************************************************

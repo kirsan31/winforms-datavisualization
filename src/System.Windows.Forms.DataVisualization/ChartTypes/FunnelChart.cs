@@ -443,7 +443,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 			// Check if series shadow should be drawn separatly
 			bool	drawShadowSeparatly = true;
-			bool	drawSegmentShadow = (this.Area.Area3DStyle.Enable3D) ? false : true;
+			bool	drawSegmentShadow = !this.Area.Area3DStyle.Enable3D;
 
 			// Process all funnel segments shadows
 			Series series = this.GetDataSeries();
@@ -506,91 +506,91 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			out float startWidth, 
 			out float endWidth)
 		{
-			PointF	pointPositionAbs = PointF.Empty;
 
-			// Get plotting area position in pixels
-			RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition);
+            // Get plotting area position in pixels
+            RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition);
 
-			// Calculate total height of plotting area minus reserved space for the gaps
-			float plotAreaHeightAbs = plotAreaPositionAbs.Height - 
-				this.funnelSegmentGap * (this.pointNumber - ((ShouldDrawFirstPoint()) ? 1 : 2) );
+            // Calculate total height of plotting area minus reserved space for the gaps
+            float plotAreaHeightAbs = plotAreaPositionAbs.Height - 
+				this.funnelSegmentGap * (this.pointNumber - (ShouldDrawFirstPoint() ? 1 : 2) );
 			if(plotAreaHeightAbs < 0f)
 			{
 				plotAreaHeightAbs = 0f;
 			}
 
-			if( this._funnelStyle == FunnelStyle.YIsWidth )
-			{
-				// Check if X values are provided
-				if(this._xValueTotal == 0.0)
-				{
-					// Calculate segment height in pixels by deviding 
-					// plotting area height by number of points.
-					height = plotAreaHeightAbs / (this.pointNumber - 1);
-				}
-				else
-				{
-					// Calculate segment height as a part of total Y values in series
-					height = (float)(plotAreaHeightAbs * (GetXValue(series.Points[pointIndex]) / this._xValueTotal));
-				}
+            PointF pointPositionAbs;
+            if (this._funnelStyle == FunnelStyle.YIsWidth)
+            {
+                // Check if X values are provided
+                if (this._xValueTotal == 0.0)
+                {
+                    // Calculate segment height in pixels by deviding 
+                    // plotting area height by number of points.
+                    height = plotAreaHeightAbs / (this.pointNumber - 1);
+                }
+                else
+                {
+                    // Calculate segment height as a part of total Y values in series
+                    height = (float)(plotAreaHeightAbs * (GetXValue(series.Points[pointIndex]) / this._xValueTotal));
+                }
 
-				// Check for minimum segment height
-				height = CheckMinHeight(height);
+                // Check for minimum segment height
+                height = CheckMinHeight(height);
 
-				// Calculate start and end width of the segment based on Y value
-				// of previous and current data point.
-				startWidth = (float)(plotAreaPositionAbs.Width * (GetYValue(series.Points[pointIndex-1], pointIndex-1) / this._yValueMax));
-				endWidth = (float)(plotAreaPositionAbs.Width * (GetYValue(series.Points[pointIndex], pointIndex) / this._yValueMax));
+                // Calculate start and end width of the segment based on Y value
+                // of previous and current data point.
+                startWidth = (float)(plotAreaPositionAbs.Width * (GetYValue(series.Points[pointIndex - 1], pointIndex - 1) / this._yValueMax));
+                endWidth = (float)(plotAreaPositionAbs.Width * (GetYValue(series.Points[pointIndex], pointIndex) / this._yValueMax));
 
-				// Set point position for annotation anchoring
-				pointPositionAbs  = new PointF(
-					plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f, 
-					location + height);
-			}
-			else if( this._funnelStyle == FunnelStyle.YIsHeight )
-			{
-				// Calculate segment height as a part of total Y values in series
-				height = (float)(plotAreaHeightAbs * (GetYValue(series.Points[pointIndex], pointIndex) / this.yValueTotal));
+                // Set point position for annotation anchoring
+                pointPositionAbs = new PointF(
+                    plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f,
+                    location + height);
+            }
+            else if (this._funnelStyle == FunnelStyle.YIsHeight)
+            {
+                // Calculate segment height as a part of total Y values in series
+                height = (float)(plotAreaHeightAbs * (GetYValue(series.Points[pointIndex], pointIndex) / this.yValueTotal));
 
-				// Check for minimum segment height
-				height = CheckMinHeight(height);
+                // Check for minimum segment height
+                height = CheckMinHeight(height);
 
-				// Get intersection point of the horizontal line at the start of the segment
-				// with the left pre-defined wall of the funnel.
-				PointF startIntersection = ChartGraphics.GetLinesIntersection(
-					plotAreaPositionAbs.X, location, 
-					plotAreaPositionAbs.Right, location, 
-					plotAreaPositionAbs.X, plotAreaPositionAbs.Y, 
-					plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f - this._funnelNeckSize.Width / 2f, 
-					plotAreaPositionAbs.Bottom - this._funnelNeckSize.Height );
+                // Get intersection point of the horizontal line at the start of the segment
+                // with the left pre-defined wall of the funnel.
+                PointF startIntersection = ChartGraphics.GetLinesIntersection(
+                    plotAreaPositionAbs.X, location,
+                    plotAreaPositionAbs.Right, location,
+                    plotAreaPositionAbs.X, plotAreaPositionAbs.Y,
+                    plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f - this._funnelNeckSize.Width / 2f,
+                    plotAreaPositionAbs.Bottom - this._funnelNeckSize.Height);
 
-				// Get intersection point of the horizontal line at the end of the segment
-				// with the left pre-defined wall of the funnel.
-				PointF endIntersection = ChartGraphics.GetLinesIntersection(
-					plotAreaPositionAbs.X, location + height, 
-					plotAreaPositionAbs.Right, location + height, 
-					plotAreaPositionAbs.X, plotAreaPositionAbs.Y, 
-					plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f - this._funnelNeckSize.Width / 2f, 
-					plotAreaPositionAbs.Bottom - this._funnelNeckSize.Height );
+                // Get intersection point of the horizontal line at the end of the segment
+                // with the left pre-defined wall of the funnel.
+                PointF endIntersection = ChartGraphics.GetLinesIntersection(
+                    plotAreaPositionAbs.X, location + height,
+                    plotAreaPositionAbs.Right, location + height,
+                    plotAreaPositionAbs.X, plotAreaPositionAbs.Y,
+                    plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f - this._funnelNeckSize.Width / 2f,
+                    plotAreaPositionAbs.Bottom - this._funnelNeckSize.Height);
 
-				// Get segment start and end width
-				startWidth = (float)( plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f - 
-					startIntersection.X) * 2f;
-				endWidth = (float)( plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f - 
-					endIntersection.X) * 2f;
+                // Get segment start and end width
+                startWidth = (float)(plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f -
+                    startIntersection.X) * 2f;
+                endWidth = (float)(plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f -
+                    endIntersection.X) * 2f;
 
-				// Set point position for annotation anchoring
-				pointPositionAbs  = new PointF(
-					plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f, 
-					location + height / 2f);
-			}
-			else
-			{
-                throw (new InvalidOperationException(SR.ExceptionFunnelStyleUnknown(this._funnelStyle.ToString())));
-			}
+                // Set point position for annotation anchoring
+                pointPositionAbs = new PointF(
+                    plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f,
+                    location + height / 2f);
+            }
+            else
+            {
+                throw new InvalidOperationException(SR.ExceptionFunnelStyleUnknown(this._funnelStyle.ToString()));
+            }
 
-			// Set pre-calculated point position
-			series.Points[pointIndex].positionRel = Graph.GetRelativePoint(pointPositionAbs);
+            // Set pre-calculated point position
+            series.Points[pointIndex].positionRel = Graph.GetRelativePoint(pointPositionAbs);
 		}
 
 		/// <summary>
@@ -602,7 +602,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <returns>True if first point in the series should be drawn.</returns>
 		protected virtual bool ShouldDrawFirstPoint()
 		{
-			return ( this._funnelStyle == FunnelStyle.YIsHeight || this.isPyramid);
+			return  this._funnelStyle == FunnelStyle.YIsHeight || this.isPyramid;
 		}
 
 		/// <summary>
@@ -654,8 +654,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Get 3D rotation angle
-			float	topRotationHeight = (float)( (startWidth / 2f) * Math.Sin(this._rotation3D / 180F * Math.PI) );
-			float	bottomRotationHeight = (float)( (endWidth / 2f) * Math.Sin(this._rotation3D / 180F * Math.PI) );
+			float	topRotationHeight = (float)( startWidth / 2f * Math.Sin(this._rotation3D / 180F * Math.PI) );
+			float	bottomRotationHeight = (float)( endWidth / 2f * Math.Sin(this._rotation3D / 180F * Math.PI) );
 
 			// Get plotting area position in pixels
 			RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition);
@@ -701,19 +701,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Fill graphics path
 				this.Graph.DrawPathAbs(
 					segmentPath,
-					(drawSegment) ? lightColor : Color.Transparent,
+					drawSegment ? lightColor : Color.Transparent,
 					point.BackHatchStyle,
 					point.BackImage,
 					point.BackImageWrapMode,
 					point.BackImageTransparentColor,
 					point.BackImageAlignment,
 					point.BackGradientStyle,
-					(drawSegment) ? point.BackSecondaryColor : Color.Transparent,
-					(drawSegment) ? point.BorderColor : Color.Transparent,
+					drawSegment ? point.BackSecondaryColor : Color.Transparent,
+					drawSegment ? point.BorderColor : Color.Transparent,
 					point.BorderWidth,
 					point.BorderDashStyle,
 					PenAlignment.Center,
-					(drawSegmentShadow) ? point.series.ShadowOffset : 0,
+					drawSegmentShadow ? point.series.ShadowOffset : 0,
 					point.series.ShadowColor);
 			}
 
@@ -765,19 +765,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// Fill graphics path
 				this.Graph.DrawPathAbs(
 					segmentPath,
-					(drawSegment) ? darkColor : Color.Transparent,
+					drawSegment ? darkColor : Color.Transparent,
 					point.BackHatchStyle,
 					point.BackImage,
 					point.BackImageWrapMode,
 					point.BackImageTransparentColor,
 					point.BackImageAlignment,
 					point.BackGradientStyle,
-					(drawSegment) ? point.BackSecondaryColor : Color.Transparent,
-					(drawSegment) ? point.BorderColor : Color.Transparent,
+					drawSegment ? point.BackSecondaryColor : Color.Transparent,
+					drawSegment ? point.BorderColor : Color.Transparent,
 					point.BorderWidth,
 					point.BorderDashStyle,
 					PenAlignment.Center,
-					(drawSegmentShadow) ? point.series.ShadowOffset : 0,
+					drawSegmentShadow ? point.series.ShadowOffset : 0,
 					point.series.ShadowColor);
 			}
 
@@ -814,19 +814,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Fill graphics path
 						this.Graph.DrawPathAbs(
 							topCurve,
-							(drawSegment) ? ChartGraphics.GetGradientColor( point.Color, Color.Black, 0.4 ) : Color.Transparent,
+							drawSegment ? ChartGraphics.GetGradientColor( point.Color, Color.Black, 0.4 ) : Color.Transparent,
 							point.BackHatchStyle,
 							point.BackImage,
 							point.BackImageWrapMode,
 							point.BackImageTransparentColor,
 							point.BackImageAlignment,
 							point.BackGradientStyle,
-							(drawSegment) ? point.BackSecondaryColor : Color.Transparent,
-							(drawSegment) ? point.BorderColor : Color.Transparent,
+							drawSegment ? point.BackSecondaryColor : Color.Transparent,
+							drawSegment ? point.BorderColor : Color.Transparent,
 							point.BorderWidth,
 							point.BorderDashStyle,
 							PenAlignment.Center,
-							(drawSegmentShadow) ? point.series.ShadowOffset : 0,
+							drawSegmentShadow ? point.series.ShadowOffset : 0,
 							point.series.ShadowColor);
 					}
 
@@ -864,19 +864,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Fill graphics path
 						this.Graph.DrawPathAbs(
 							topCurve,
-							(drawSegment) ? ChartGraphics.GetGradientColor( point.Color, Color.Black, 0.4 ) : Color.Transparent,
+							drawSegment ? ChartGraphics.GetGradientColor( point.Color, Color.Black, 0.4 ) : Color.Transparent,
 							point.BackHatchStyle,
 							point.BackImage,
 							point.BackImageWrapMode,
 							point.BackImageTransparentColor,
 							point.BackImageAlignment,
 							point.BackGradientStyle,
-							(drawSegment) ? point.BackSecondaryColor : Color.Transparent,
-							(drawSegment) ? point.BorderColor : Color.Transparent,
+							drawSegment ? point.BackSecondaryColor : Color.Transparent,
+							drawSegment ? point.BorderColor : Color.Transparent,
 							point.BorderWidth,
 							point.BorderDashStyle,
 							PenAlignment.Center,
-							(drawSegmentShadow) ? point.series.ShadowOffset : 0,
+							drawSegmentShadow ? point.series.ShadowOffset : 0,
 							point.series.ShadowColor);
 					}
 
@@ -925,28 +925,26 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			bool drawSegment,
 			bool drawSegmentShadow)
 		{
-			PointF	leftSideLinePoint = PointF.Empty;
-			PointF	rightSideLinePoint = PointF.Empty;
 
-			// Check if square 3D segment should be drawn
-			if(this.Area.Area3DStyle.Enable3D && !round3DShape)
-			{
-				DrawFunnel3DSquareSegment(
-					point,
-					pointIndex,
-					startWidth, 
-					endWidth,
-					location,
-					height,
-					nothingOnTop,
-					nothingOnBottom,
-					drawSegment,
-					drawSegmentShadow);
-				return;
-			}
+            // Check if square 3D segment should be drawn
+            if (this.Area.Area3DStyle.Enable3D && !round3DShape)
+            {
+                DrawFunnel3DSquareSegment(
+                    point,
+                    pointIndex,
+                    startWidth,
+                    endWidth,
+                    location,
+                    height,
+                    nothingOnTop,
+                    nothingOnBottom,
+                    drawSegment,
+                    drawSegmentShadow);
+                return;
+            }
 
-			// Increase the height of the segment to make sure there is no gaps between segments 
-			if(!nothingOnBottom)
+            // Increase the height of the segment to make sure there is no gaps between segments 
+            if (!nothingOnBottom)
 			{
 				height += 0.3f;
 			}
@@ -968,8 +966,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 			// Get 3D rotation angle
 			float	tension = 0.8f;
-			float	topRotationHeight = (float)( (startWidth / 2f) * Math.Sin(this._rotation3D / 180F * Math.PI) );
-			float	bottomRotationHeight = (float)( (endWidth / 2f) * Math.Sin(this._rotation3D / 180F * Math.PI) );
+			float	topRotationHeight = (float)( startWidth / 2f * Math.Sin(this._rotation3D / 180F * Math.PI) );
+			float	bottomRotationHeight = (float)( endWidth / 2f * Math.Sin(this._rotation3D / 180F * Math.PI) );
 
 			// Get plotting area position in pixels
 			RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition);
@@ -983,40 +981,42 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Create segment path
 			using GraphicsPath segmentPath = new GraphicsPath();
 
-			// Add top line
-			if(startWidth > 0f)
-			{
-				if(this.Area.Area3DStyle.Enable3D)
-				{
-					PointF[] sidePoints = new PointF[4];
-					sidePoints[0] = new PointF(xCenterPointAbs + startWidth / 2f, location);
-					sidePoints[1] = new PointF(xCenterPointAbs, location + topRotationHeight);
-					sidePoints[2] = new PointF(xCenterPointAbs - startWidth / 2f, location);
-					sidePoints[3] = new PointF(xCenterPointAbs, location - topRotationHeight);
-					using GraphicsPath topCurve = new GraphicsPath();
-					topCurve.AddClosedCurve(sidePoints, tension);
-					topCurve.Flatten();
-					topCurve.Reverse();
+            PointF leftSideLinePoint;
+            PointF rightSideLinePoint;
+            // Add top line
+            if (startWidth > 0f)
+            {
+                if (this.Area.Area3DStyle.Enable3D)
+                {
+                    PointF[] sidePoints = new PointF[4];
+                    sidePoints[0] = new PointF(xCenterPointAbs + startWidth / 2f, location);
+                    sidePoints[1] = new PointF(xCenterPointAbs, location + topRotationHeight);
+                    sidePoints[2] = new PointF(xCenterPointAbs - startWidth / 2f, location);
+                    sidePoints[3] = new PointF(xCenterPointAbs, location - topRotationHeight);
+                    using GraphicsPath topCurve = new GraphicsPath();
+                    topCurve.AddClosedCurve(sidePoints, tension);
+                    topCurve.Flatten();
+                    topCurve.Reverse();
 
-					Graph.AddEllipseSegment(
-						segmentPath,
-						topCurve,
-						null,
-						true,
-						0f,
-						out leftSideLinePoint,
-						out rightSideLinePoint);
-				}
-				else
-				{
-					segmentPath.AddLine(						
-						xCenterPointAbs - startWidth / 2f, location,
-						xCenterPointAbs + startWidth / 2f, location);
-				}
-			}
+                    Graph.AddEllipseSegment(
+                        segmentPath,
+                        topCurve,
+                        null,
+                        true,
+                        0f,
+                        out leftSideLinePoint,
+                        out rightSideLinePoint);
+                }
+                else
+                {
+                    segmentPath.AddLine(
+                        xCenterPointAbs - startWidth / 2f, location,
+                        xCenterPointAbs + startWidth / 2f, location);
+                }
+            }
 
-			// Add right line
-			if( this._funnelStyle == FunnelStyle.YIsHeight &&
+            // Add right line
+            if ( this._funnelStyle == FunnelStyle.YIsHeight &&
 				!this.isPyramid &&
 				startWidth > this._funnelNeckSize.Width &&
 				endWidth <= this._funnelNeckSize.Width)
@@ -1190,19 +1190,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Fill graphics path
 					this.Graph.DrawPathAbs(
 						segmentPath,
-						(drawSegment) ? point.Color : Color.Transparent,
+						drawSegment ? point.Color : Color.Transparent,
 						point.BackHatchStyle,
 						point.BackImage,
 						point.BackImageWrapMode,
 						point.BackImageTransparentColor,
 						point.BackImageAlignment,
 						point.BackGradientStyle,
-						(drawSegment) ? point.BackSecondaryColor : Color.Transparent,
-						(drawSegment) ? point.BorderColor : Color.Transparent,
+						drawSegment ? point.BackSecondaryColor : Color.Transparent,
+						drawSegment ? point.BorderColor : Color.Transparent,
 						point.BorderWidth,
 						point.BorderDashStyle,
 						PenAlignment.Center,
-						(drawSegmentShadow) ? point.series.ShadowOffset : 0,
+						drawSegmentShadow ? point.series.ShadowOffset : 0,
 						point.series.ShadowColor);
 				}
 			}
@@ -1238,19 +1238,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Fill graphics path
 						this.Graph.DrawPathAbs(
 							topCurve,
-							(drawSegment) ? ChartGraphics.GetGradientColor( point.Color, Color.Black, 0.4 ) : Color.Transparent,
+							drawSegment ? ChartGraphics.GetGradientColor( point.Color, Color.Black, 0.4 ) : Color.Transparent,
 							point.BackHatchStyle,
 							point.BackImage,
 							point.BackImageWrapMode,
 							point.BackImageTransparentColor,
 							point.BackImageAlignment,
 							point.BackGradientStyle,
-							(drawSegment) ? point.BackSecondaryColor : Color.Transparent,
-							(drawSegment) ? point.BorderColor : Color.Transparent,
+							drawSegment ? point.BackSecondaryColor : Color.Transparent,
+							drawSegment ? point.BorderColor : Color.Transparent,
 							point.BorderWidth,
 							point.BorderDashStyle,
 							PenAlignment.Center,
-							(drawSegmentShadow) ? point.series.ShadowOffset : 0,
+							drawSegmentShadow ? point.series.ShadowOffset : 0,
 							point.series.ShadowColor);
 					}
 
@@ -1286,19 +1286,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Fill graphics path
 						this.Graph.DrawPathAbs(
 							topCurve,
-							(drawSegment) ? ChartGraphics.GetGradientColor( point.Color, Color.Black, 0.4 ) : Color.Transparent,
+							drawSegment ? ChartGraphics.GetGradientColor( point.Color, Color.Black, 0.4 ) : Color.Transparent,
 							point.BackHatchStyle,
 							point.BackImage,
 							point.BackImageWrapMode,
 							point.BackImageTransparentColor,
 							point.BackImageAlignment,
 							point.BackGradientStyle,
-							(drawSegment) ? point.BackSecondaryColor : Color.Transparent,
-							(drawSegment) ? point.BorderColor : Color.Transparent,
+							drawSegment ? point.BackSecondaryColor : Color.Transparent,
+							drawSegment ? point.BorderColor : Color.Transparent,
 							point.BorderWidth,
 							point.BorderDashStyle,
 							PenAlignment.Center,
-							(drawSegmentShadow) ? point.series.ShadowOffset : 0,
+							drawSegmentShadow ? point.series.ShadowOffset : 0,
 							point.series.ShadowColor);
 					}
 
@@ -1339,7 +1339,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				this._funnelStyle = GetFunnelStyle(series);
 
 				// Check if round or square base is used in 3D chart
-				this.round3DShape = (GetFunnel3DDrawingStyle(series) == Funnel3DDrawingStyle.CircularBase);
+				this.round3DShape = GetFunnel3DDrawingStyle(series) == Funnel3DDrawingStyle.CircularBase;
 
 				// Get funnel points gap
 				this.funnelSegmentGap = GetFunnelPointGap(series);
@@ -1361,20 +1361,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Check if first data point should be drawn
 					if( pointIndex > 0 || ShouldDrawFirstPoint() )
 					{
-						// Get height and width of each data point segment
-						float startWidth = 0f;
-						float endWidth = 0f;
-						float height = 0f;
-						GetPointWidthAndHeight(
-							series, 
-							pointIndex, 
-							currentLocation,
-							out height, 
-							out startWidth, 
-							out endWidth);
+                        // Get height and width of each data point segment
+                        GetPointWidthAndHeight(
+                            series,
+                            pointIndex,
+                            currentLocation,
+                            out float height,
+                            out float startWidth,
+                            out float endWidth);
 
-						// Check visibility of previous and next points
-						bool nothingOnTop = false;
+                        // Check visibility of previous and next points
+                        bool nothingOnTop = false;
 						bool nothingOnBottom = false;
 						if(this.funnelSegmentGap > 0)
 						{
@@ -1443,7 +1440,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						info.PointIndex = pointIndex;
 						info.StartWidth = startWidth;
 						info.EndWidth = endWidth;
-						info.Location = (this.isPyramid) ? currentLocation - height : currentLocation;
+						info.Location = this.isPyramid ? currentLocation - height : currentLocation;
 						info.Height = height;
 						info.NothingOnTop = nothingOnTop;
 						info.NothingOnBottom = nothingOnBottom;
@@ -1765,7 +1762,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			{
 				// Get assosiated funnel segment information
 				bool	lastLabel = false;
-				int pointIndex = labelInfo.PointIndex + ((ShouldDrawFirstPoint()) ? 0 : 1);
+				int pointIndex = labelInfo.PointIndex + (ShouldDrawFirstPoint() ? 0 : 1);
 				if(pointIndex > this.segmentList.Count && !ShouldDrawFirstPoint() )
 				{
 					// Use last point index if first point is not drawn
@@ -1821,7 +1818,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							}
 							
 							// Get Y position
-							labelInfo.Position.Y = (segmentInfo.Location + segmentInfo.Height / 2f) - 
+							labelInfo.Position.Y = segmentInfo.Location + segmentInfo.Height / 2f - 
 								labelInfo.Size.Height / 2f;
 
 							// Get X position
@@ -1936,7 +1933,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 									// Set callout line coordinates
 									labelInfo.CalloutPoint1.X = plotAreaCenterXAbs + 
-										( (lastLabel) ? segmentInfo.EndWidth : segmentInfo.StartWidth) / 2f;
+										( lastLabel ? segmentInfo.EndWidth : segmentInfo.StartWidth) / 2f;
 									labelInfo.CalloutPoint2.X = labelInfo.Position.X;
 
 								}
@@ -1948,7 +1945,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 									// Set callout line coordinates
 									labelInfo.CalloutPoint1.X = plotAreaCenterXAbs -
-										( (lastLabel) ? segmentInfo.EndWidth : segmentInfo.StartWidth) / 2f;
+										( lastLabel ? segmentInfo.EndWidth : segmentInfo.StartWidth) / 2f;
 									labelInfo.CalloutPoint2.X = labelInfo.Position.Right;
 								}
 
@@ -1973,7 +1970,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						labelInfo.Position.X = plotAreaCenterXAbs - labelInfo.Size.Width / 2f;
 						if( this._funnelStyle == FunnelStyle.YIsHeight )
 						{
-							labelInfo.Position.Y = (segmentInfo.Location + segmentInfo.Height / 2f) - 
+							labelInfo.Position.Y = segmentInfo.Location + segmentInfo.Height / 2f - 
 								labelInfo.Size.Height / 2f;
 							if(labelInfo.VerticalAlignment == FunnelLabelVerticalAlignment.Top)
 							{
@@ -2006,7 +2003,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Adjust label Y position in 3D
 						if(this.Area.Area3DStyle.Enable3D)
 						{
-							labelInfo.Position.Y += (float)( ( (segmentInfo.EndWidth + segmentInfo.StartWidth) / 4f) * Math.Sin(this._rotation3D / 180F * Math.PI) );
+							labelInfo.Position.Y += (float)(  (segmentInfo.EndWidth + segmentInfo.StartWidth) / 4f * Math.Sin(this._rotation3D / 180F * Math.PI) );
 						}
 					}
 				
@@ -2016,7 +2013,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					int interation = 0;
 					while( IsLabelsOverlap(labelInfo) && interation < 1000)
 					{
-						float	shiftSize = (this.isPyramid) ? -3f : 3f;
+						float	shiftSize = this.isPyramid ? -3f : 3f;
 
 						// Move label down
 						labelInfo.Position.Y += shiftSize;
@@ -2094,7 +2091,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				catch
 				{
-					throw(new InvalidOperationException( SR.ExceptionCustomAttributeValueInvalid(labelStyle.ToString(), this.funnelLabelStyleAttributeName) ) );
+					throw new InvalidOperationException( SR.ExceptionCustomAttributeValueInvalid(labelStyle.ToString(), this.funnelLabelStyleAttributeName) ) ;
 				}
 			}
 			return labelStyle;
@@ -2146,7 +2143,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		private RectangleF GetPlotAreaPosition()
 		{
 			// Get plotting area rectangle position
-			RectangleF	plotAreaPosition = ( Area.InnerPlotPosition.Auto ) ? 
+			RectangleF	plotAreaPosition =  Area.InnerPlotPosition.Auto  ? 
 				Area.Position.ToRectangleF() : Area.PlotAreaPosition.ToRectangleF();
 
 			// NOTE: Fixes issue #4085
@@ -2182,8 +2179,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Get top and bottom spacing
-				float	topSpacing = (float)Math.Abs( (plotAreaPositionAbs.Width/ 2f) * Math.Sin(this._rotation3D / 180F * Math.PI) );
-				float	bottomSpacing = (float)Math.Abs( (plotAreaPositionAbs.Width/ 2f) * Math.Sin(this._rotation3D / 180F * Math.PI) );
+				float	topSpacing = (float)Math.Abs( plotAreaPositionAbs.Width/ 2f * Math.Sin(this._rotation3D / 180F * Math.PI) );
+				float	bottomSpacing = (float)Math.Abs( plotAreaPositionAbs.Width/ 2f * Math.Sin(this._rotation3D / 180F * Math.PI) );
 
 				// Adjust position
 				if(this.isPyramid)
@@ -2242,8 +2239,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 // Convert string to the point gap size
 
-                float pointHeight;
-                bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out pointHeight);
+                bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out float pointHeight);
                 if (parseSucceed)
                 {
                     this._funnelMinPointHeight = pointHeight;
@@ -2251,7 +2247,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                 if (!parseSucceed || this._funnelMinPointHeight < 0f || this._funnelMinPointHeight > 100f)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionFunnelMinimumPointHeightAttributeInvalid));
+                    throw new InvalidOperationException(SR.ExceptionFunnelMinimumPointHeightAttributeInvalid);
                 }
 
                 // Check if specified value is too big
@@ -2279,8 +2275,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 // Convert string to the point gap size
 
-                int a;
-                bool parseSucceed = int.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out a);
+                bool parseSucceed = int.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out int a);
                 if (parseSucceed)
                 {
                     angle = a;
@@ -2289,7 +2284,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Validate attribute value
                 if (!parseSucceed || angle < -10 || angle > 10)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionFunnelAngleRangeInvalid));
+                    throw new InvalidOperationException(SR.ExceptionFunnelAngleRangeInvalid);
                 }
             }
 
@@ -2334,7 +2329,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 					catch(ArgumentException)
 					{
-						throw(new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid( attrValue, "CalloutLineColor") ) );
+						throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid( attrValue, "CalloutLineColor") ) ;
 					}
 				}
 				
@@ -2358,8 +2353,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 // Convert string to the point gap size
 
-                float w;
-                bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out w);
+                bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out float w);
                 if (parseSucceed)
                 {
                     neckSize.Width = w;
@@ -2368,7 +2362,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Validate attribute value
                 if (!parseSucceed || neckSize.Width < 0 || neckSize.Width > 100)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionFunnelNeckWidthInvalid));
+                    throw new InvalidOperationException(SR.ExceptionFunnelNeckWidthInvalid);
                 }
             }
 
@@ -2377,8 +2371,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             if (attrValue != null && attrValue.Length > 0)
             {
                 // Convert string to the point gap size
-                float h;
-                bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out h);
+                bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out float h);
                 if (parseSucceed)
                 {
                     neckSize.Height = h;
@@ -2387,7 +2380,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                 if (!parseSucceed || neckSize.Height < 0 || neckSize.Height > 100)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionFunnelNeckHeightInvalid));
+                    throw new InvalidOperationException(SR.ExceptionFunnelNeckHeightInvalid);
                 }
             }
 
@@ -2420,19 +2413,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 // Convert string to the point gap size
 
-                float gs;
-                bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out gs);
+                bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out float gs);
                 if (parseSucceed)
                 {
                     gapSize = gs;
                 }
                 else
                 {
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelPointGapAttributeName)));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelPointGapAttributeName));
                 }
 
                 // Make sure the total gap size for all points do not exceed the total height of the plotting area
-                float maxGapSize = this.PlotAreaPosition.Height / (this.pointNumber - ((ShouldDrawFirstPoint()) ? 1 : 2));
+                float maxGapSize = this.PlotAreaPosition.Height / (this.pointNumber - (ShouldDrawFirstPoint() ? 1 : 2));
                 if (gapSize > maxGapSize)
                 {
                     gapSize = maxGapSize;
@@ -2471,7 +2463,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 					catch
 					{
-						throw(new InvalidOperationException( SR.ExceptionCustomAttributeValueInvalid( attrValue, "FunnelStyle") ) );
+						throw new InvalidOperationException( SR.ExceptionCustomAttributeValueInvalid( attrValue, "FunnelStyle") ) ;
 					}
 				}
 			}
@@ -2498,7 +2490,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				catch
 				{
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelOutsideLabelPlacementAttributeName )));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelOutsideLabelPlacementAttributeName ));
 				}
 			}
 			return placement;
@@ -2524,7 +2516,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				catch
 				{
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelInsideLabelAlignmentAttributeName)));
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelInsideLabelAlignmentAttributeName));
 				}
 			}
 			return alignment;
@@ -2537,7 +2529,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         private Funnel3DDrawingStyle GetFunnel3DDrawingStyle(DataPointCustomProperties properties)
 		{
 			// Set default funnel drawing style
-			Funnel3DDrawingStyle drawingStyle = (this.isPyramid) ? 
+			Funnel3DDrawingStyle drawingStyle = this.isPyramid ? 
 				Funnel3DDrawingStyle.SquareBase : Funnel3DDrawingStyle.CircularBase;
 
 			// Get string value of the custom attribute
@@ -2551,7 +2543,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				catch
 				{
-                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, funnel3DDrawingStyleAttributeName) ) );
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, funnel3DDrawingStyleAttributeName) ) ;
 				}
 			}
 
@@ -2598,7 +2590,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 					// Calculate the base
 					double triangleHeight = 100.0;
-					double triangleBase = (2* triangleArea) / triangleHeight;
+					double triangleBase = 2* triangleArea / triangleHeight;
  
 					// Calculate the base to height ratio
 					double baseRatio = triangleBase / triangleHeight;
@@ -2610,7 +2602,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						double yValue = GetYValue(series.Points[loop], loop);
 						sumArea += yValue;
-						percentages[loop] = Math.Sqrt((2 * sumArea) / baseRatio);
+						percentages[loop] = Math.Sqrt(2 * sumArea / baseRatio);
 					}
 					this._valuePercentages = percentages;
 				}
@@ -2665,7 +2657,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						else if(!this.Common.ChartPicture.SuppressExceptions)
 						{
 							// Funnel chart can not be combined with other chart type
-                            throw (new InvalidOperationException(SR.ExceptionFunnelCanNotCombine));
+                            throw new InvalidOperationException(SR.ExceptionFunnelCanNotCombine);
 						}
 					}
 				}
@@ -2700,7 +2692,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 					catch
 					{
-                        throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue,"PyramidValueType") ) );
+                        throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue,"PyramidValueType") ) ;
 					}
 				}
 			}
@@ -2881,14 +2873,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			out float startWidth, 
 			out float endWidth)
 		{
-			PointF	pointPositionAbs = PointF.Empty;
 
-			// Get plotting area position in pixels
-			RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition);
+            // Get plotting area position in pixels
+            RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition);
 
 			// Calculate total height of plotting area minus reserved space for the gaps
 			float plotAreaHeightAbs = plotAreaPositionAbs.Height - 
-				this.funnelSegmentGap * (this.pointNumber - ((ShouldDrawFirstPoint()) ? 1 : 2) );
+				this.funnelSegmentGap * (this.pointNumber - (ShouldDrawFirstPoint() ? 1 : 2) );
 			if(plotAreaHeightAbs < 0f)
 			{
 				plotAreaHeightAbs = 0f;
@@ -2930,13 +2921,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			endWidth = (float)Math.Abs( plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f - 
 				endIntersection.X) * 2f;
 
-			// Set point position for annotation anchoring
-			pointPositionAbs  = new PointF(
-				plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f, 
-				location - height / 2f);
+            // Set point position for annotation anchoring
+            PointF pointPositionAbs = new PointF(
+                plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f,
+                location - height / 2f);
 
-			// Set pre-calculated point position
-			series.Points[pointIndex].positionRel = Graph.GetRelativePoint(pointPositionAbs);
+            // Set pre-calculated point position
+            series.Points[pointIndex].positionRel = Graph.GetRelativePoint(pointPositionAbs);
 		}
 
 		#endregion // Methods

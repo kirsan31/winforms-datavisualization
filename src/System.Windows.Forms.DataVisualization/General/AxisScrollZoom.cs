@@ -321,10 +321,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             get
             {
-                return (
+                return 
                     !double.IsNaN(this.Size) &&
                     this.Size != 0.0 &&
-                    !double.IsNaN(this.Position));
+                    !double.IsNaN(this.Position);
             }
         }
 
@@ -632,38 +632,38 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			double	newPosition = this._position;
 			switch(scrollType)
 			{
-				case(ScrollType.SmallIncrement):
-                    newPosition += ((axis.IsReversed) ? -1 : 1) * ChartHelper.GetIntervalSize(this._position, this.GetScrollingLineSize(), this.GetScrollingLineSizeType());
+				case ScrollType.SmallIncrement:
+                    newPosition += (axis.IsReversed ? -1 : 1) * ChartHelper.GetIntervalSize(this._position, this.GetScrollingLineSize(), this.GetScrollingLineSizeType());
 					break;
-				case(ScrollType.SmallDecrement):
-                    newPosition -= ((axis.IsReversed) ? -1 : 1) * ChartHelper.GetIntervalSize(this._position, this.GetScrollingLineSize(), this.GetScrollingLineSizeType());
+				case ScrollType.SmallDecrement:
+                    newPosition -= (axis.IsReversed ? -1 : 1) * ChartHelper.GetIntervalSize(this._position, this.GetScrollingLineSize(), this.GetScrollingLineSizeType());
 					break;
-				case(ScrollType.LargeIncrement):
-                    newPosition += ((axis.IsReversed) ? -1 : 1) * ChartHelper.GetIntervalSize(this._position, this.Size, this.SizeType);
+				case ScrollType.LargeIncrement:
+                    newPosition += (axis.IsReversed ? -1 : 1) * ChartHelper.GetIntervalSize(this._position, this.Size, this.SizeType);
 					break;
-				case(ScrollType.LargeDecrement):
-                    newPosition -= ((axis.IsReversed) ? -1 : 1) * ChartHelper.GetIntervalSize(this._position, this.Size, this.SizeType);
+				case ScrollType.LargeDecrement:
+                    newPosition -= (axis.IsReversed ? -1 : 1) * ChartHelper.GetIntervalSize(this._position, this.Size, this.SizeType);
 					break;
-				case(ScrollType.First):
+				case ScrollType.First:
 					if(!axis.IsReversed)
 					{
-						newPosition = (axis.minimum + axis.marginView);
+						newPosition = axis.minimum + axis.marginView;
 					}
 					else
 					{
-						newPosition = (axis.maximum - axis.marginView);
+						newPosition = axis.maximum - axis.marginView;
 					}
 					break;
-				case(ScrollType.Last):
+				case ScrollType.Last:
 				{
                     double viewSize = ChartHelper.GetIntervalSize(newPosition, this.Size, this.SizeType);
 					if(!axis.IsReversed)
 					{
-						newPosition = (axis.maximum - axis.marginView - viewSize);
+						newPosition = axis.maximum - axis.marginView - viewSize;
 					}
 					else
 					{
-						newPosition = (axis.minimum + axis.marginView + viewSize);
+						newPosition = axis.minimum + axis.marginView + viewSize;
 					}
 					break;
 				}
@@ -704,11 +704,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Validate new scaleView position
 			if(newPosition < (axis.minimum + axis.marginView))
 			{
-				newPosition = (axis.minimum + axis.marginView);
+				newPosition = axis.minimum + axis.marginView;
 			}
 			else if(newPosition > (axis.maximum - axis.marginView - viewSize))
 			{
-				newPosition = (axis.maximum - axis.marginView - viewSize);
+				newPosition = axis.maximum - axis.marginView - viewSize;
 			}
 
             // Fire scaleView position changing events
@@ -879,7 +879,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Check parameters
 			if(numberOfViews < 0)
 			{
-                throw (new ArgumentOutOfRangeException(nameof(numberOfViews), SR.ExceptionScrollBarZoomResetsNumberInvalid));
+                throw new ArgumentOutOfRangeException(nameof(numberOfViews), SR.ExceptionScrollBarZoomResetsNumberInvalid);
 			}
 			// Check if storage was created
 			if(dataViewStates != null && dataViewStates.Count >= 3)
@@ -1017,7 +1017,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Make sure that current line size is even with minimum value
 					if(!double.IsNaN(this.SmallScrollMinSize) && this.SmallScrollMinSize != 0.0)
 					{
-						double rounder = (Math.Round(newSize / this.SmallScrollMinSize));
+						double rounder = Math.Round(newSize / this.SmallScrollMinSize);
 						if(rounder < 0)
 						{
 							rounder = 1;
@@ -1111,9 +1111,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(viewSizeType == DateTimeIntervalType.Auto || viewSizeType == DateTimeIntervalType.Number)
 				{
-					viewSize -= (axis.minimum + axis.marginView) - viewPosition;
+					viewSize -= axis.minimum + axis.marginView - viewPosition;
 				}
-				viewPosition = (axis.minimum + axis.marginView);
+				viewPosition = axis.minimum + axis.marginView;
 			}
 			else if(viewPosition > (axis.maximum - axis.marginView))
 			{
@@ -1121,7 +1121,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					viewSize -= viewPosition - (axis.maximum - axis.marginView);
 				}
-				viewPosition = (axis.maximum - axis.marginView);
+				viewPosition = axis.maximum - axis.marginView;
 			}
 
             //****************************************************************
@@ -1135,7 +1135,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 minViewSize = ChartHelper.GetIntervalSize(viewPosition, this.MinSize, this.MinSizeType);
 				if(newViewSize < minViewSize)
 				{
-					viewSize = (double.IsNaN(this.MinSize)) ? 1 : this.MinSize;
+					viewSize = double.IsNaN(this.MinSize) ? 1 : this.MinSize;
 					viewSizeType = this.MinSizeType;
                     newViewSize = ChartHelper.GetIntervalSize(viewPosition, viewSize, viewSizeType);
 				}
@@ -1205,7 +1205,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 					else
 					{
-						viewPosition = (axis.maximum - axis.marginView) - minViewSize;
+						viewPosition = axis.maximum - axis.marginView - minViewSize;
 						break;
 					}
 
@@ -1218,14 +1218,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						viewSizeType = currentSizeType;
 
 						// Adjust the start position
-						viewPosition = (axis.maximum - axis.marginView) - minViewSize;
+						viewPosition = axis.maximum - axis.marginView - minViewSize;
 						break;
 					}
 				}
 				else
 				{
 					// Adjust the start position
-					viewPosition = (axis.maximum - axis.marginView) - newViewSize;
+					viewPosition = axis.maximum - axis.marginView - newViewSize;
 					break;
 				}
 			}
@@ -1605,10 +1605,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>Converted object.</returns>
 		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
-			object	result = null;
-			bool	convertFromDate = false;
+            bool convertFromDate = false;
 
-			// If converting from string value
+            // If converting from string value
             string crossingValue = value as string;
 			if (crossingValue != null)
 			{
@@ -1655,7 +1654,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 			}
 
-			// Try to convert from double string
+            object result;
+            // Try to convert from double string
             try
             {
                 result = base.ConvertFrom(context, culture, value);
@@ -1669,11 +1669,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 result = null;
             }
 
-			// Try to convert from date/time string
+            // Try to convert from date/time string
             if (crossingValue != null && (convertFromDate || result == null))
             {
-                DateTime valueAsDate;
-                bool parseSucceed = DateTime.TryParse(crossingValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out valueAsDate);
+                bool parseSucceed = DateTime.TryParse(crossingValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime valueAsDate);
 
                 if (parseSucceed)
                 {

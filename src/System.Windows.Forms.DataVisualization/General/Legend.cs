@@ -512,7 +512,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this._legendItemsTruncated = false;
 
             // Check if legend items fit into the legend area
-            bool autoFitDone = (this._horizontalSpaceLeft >= 0 && this._verticalSpaceLeft >= 0);
+            bool autoFitDone = this._horizontalSpaceLeft >= 0 && this._verticalSpaceLeft >= 0;
 
             // Calculate total number of items fit and make sure we fit all of them
             this._numberOfLegendItemsToProcess = this.legendItems.Count;
@@ -564,7 +564,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             out this._horizontalSpaceLeft,
                             out this._verticalSpaceLeft);
 
-                        autoFitDone = (this._horizontalSpaceLeft >= 0 && this._verticalSpaceLeft >= 0);
+                        autoFitDone = this._horizontalSpaceLeft >= 0 && this._verticalSpaceLeft >= 0;
 
                         // Calculate total number of items fit and make sure we fit all of them
                         itemsFit = 0;
@@ -584,14 +584,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (this._numberOfLegendItemsToProcess > 2)
                         {
                             // Handle case of 1 column that do not fit horizontally
-                            if (this._itemColumns == 1 && (this._horizontalSpaceLeft < 0 && this._verticalSpaceLeft >= 0))
+                            if (this._itemColumns == 1 && this._horizontalSpaceLeft < 0 && this._verticalSpaceLeft >= 0)
                             {
                                 autoFitDone = true;
                                 this._numberOfLegendItemsToProcess =
                                     Math.Min(this._numberOfLegendItemsToProcess, this._numberOfRowsPerColumn[0]);
                             }
                             // Handle case of 1 row that do not fit vertically
-                            else if (this.GetMaximumNumberOfRows() == 1 && (this._verticalSpaceLeft < 0 && this._horizontalSpaceLeft >= 0))
+                            else if (this.GetMaximumNumberOfRows() == 1 && this._verticalSpaceLeft < 0 && this._horizontalSpaceLeft >= 0)
                             {
                                 autoFitDone = true;
                                 this._numberOfLegendItemsToProcess =
@@ -928,10 +928,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this._autoFitFontSizeAdjustment = 0;
 
                     this.autofitFont = this.Font;
-                    int vertSpaceLeft = 0;
-                    int horizSpaceLeft = 0;
                     bool reduceFont = this.IsTextAutoFit;
-                    bool autoFit = false;
+                    int vertSpaceLeft;
+                    int horizSpaceLeft;
+                    bool autoFit;
                     do
                     {
                         // Get number of columns and rows that we can fit in the legend
@@ -950,7 +950,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             itemsFit += this._numberOfRowsPerColumn[index];
                         }
-                        autoFit = (horizSpaceLeft >= 0 && vertSpaceLeft >= 0 && itemsFit >= this.legendItems.Count);
+                        autoFit = horizSpaceLeft >= 0 && vertSpaceLeft >= 0 && itemsFit >= this.legendItems.Count;
 
                         // Check if items fit
                         if (reduceFont && !autoFit)
@@ -990,11 +990,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     //***********************************************************
                     //** Calculate legend size
                     //***********************************************************
-                    optimalSize.Width = (legenItemsMaxSize.Width - horizSpaceLeft);
+                    optimalSize.Width = legenItemsMaxSize.Width - horizSpaceLeft;
                     optimalSize.Width = Math.Max(optimalSize.Width, titleSize.Width);
                     optimalSize.Width += 2 * (this._offset.Width + this.GetBorderSize());
 
-                    optimalSize.Height = (legenItemsMaxSize.Height - vertSpaceLeft) + titleSize.Height + highestHeader.Height;
+                    optimalSize.Height = legenItemsMaxSize.Height - vertSpaceLeft + titleSize.Height + highestHeader.Height;
                     optimalSize.Height += 2 * (this._offset.Height + this.GetBorderSize());
 
                     // Adjust legend items area height by size required to show
@@ -1054,11 +1054,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // 'maximumLegendAutoSize' is used instead.
                 if (this.Docking == Docking.Top || this.Docking == Docking.Bottom)
                 {
-                    maxSize.Height = (maxSize.Height / 100F) * this._maximumLegendAutoSize;
+                    maxSize.Height = maxSize.Height / 100F * this._maximumLegendAutoSize;
                 }
                 else
                 {
-                    maxSize.Width = (maxSize.Width / 100F) * this._maximumLegendAutoSize;
+                    maxSize.Width = maxSize.Width / 100F * this._maximumLegendAutoSize;
                 }
             }
 
@@ -1175,16 +1175,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             out int[] numberOfRowsPerColumn,
             out int columnNumber)
         {
-            int horSpaceLeft = 0;
-            int vertSpaceLeft = 0;
             this.GetNumberOfRowsAndColumns(
                 chartGraph,
                 legendSize,
                 numberOfItemsToCheck,
                 out numberOfRowsPerColumn,
                 out columnNumber,
-                out horSpaceLeft,
-                out vertSpaceLeft);
+                out int horSpaceLeft,
+                out int vertSpaceLeft);
         }
 
         /// <summary>
@@ -1209,8 +1207,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Initialize output parameters
             numberOfRowsPerColumn = null;
             columnNumber = 1;
-            horSpaceLeft = 0;
-            vertSpaceLeft = 0;
 
             // If number of items to check is nor set use total number of items in the collection
             if (numberOfItemsToCheck < 0)
@@ -1249,7 +1245,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     // Iterate from second item trying to add them and check if their fit
                     bool exitLoop = false;
-                    int legendItemIndex = 1;
+                    int legendItemIndex;
                     for (legendItemIndex = 1; !exitLoop && legendItemIndex < numberOfItemsToCheck; legendItemIndex++)
                     {
                         // Try to increase number of rows in the current column
@@ -1421,7 +1417,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     // Iterate from second item trying to add them and check if they fit
                     bool exitLoop = false;
-                    int legendItemIndex = 1;
+                    int legendItemIndex;
                     for (legendItemIndex = 1; !exitLoop && legendItemIndex < numberOfItemsToCheck; legendItemIndex++)
                     {
                         // Try to increase number of columns
@@ -1671,8 +1667,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool fitFlag = true;
 
             // Initialize output values
-            horizontalSpaceLeft = 0;
-            verticalSpaceLeft = 0;
 
             // Use current legend item count if number of items to check is not specified
             if (numberOfItemsToCheck < 0)
@@ -2036,7 +2030,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (this.Common.ChartPicture.Legends.IndexOf(series.Legend) < 0)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionLegendReferencedInSeriesNotFound(series.Name, series.Legend)));
+                    throw new InvalidOperationException(SR.ExceptionLegendReferencedInSeriesNotFound(series.Name, series.Legend));
                 }
             }
 
@@ -2476,7 +2470,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Calculate dots step (no more than 10 pixel)
                 int markerCount = 3;
-                int step = (this._legendItemsAreaPosition.Width / 3) / markerCount;
+                int step = this._legendItemsAreaPosition.Width / 3 / markerCount;
                 step = Math.Min(step, 10);
 
                 // Calculate start point
@@ -2797,7 +2791,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Font size cannot be less than 5
                 if (value < 5)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionLegendAutoFitMinFontSizeInvalid));
+                    throw new InvalidOperationException(SR.ExceptionLegendAutoFitMinFontSizeInvalid);
                 }
 
                 this._autoFitMinFontSize = value;
@@ -2827,7 +2821,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0f || value > 100f)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendMaximumAutoSizeInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendMaximumAutoSizeInvalid);
                 }
                 this._maximumLegendAutoSize = value;
                 this.Invalidate(false);
@@ -2996,7 +2990,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     if (value < 0)
                     {
-                        throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendColumnSpacingInvalid));
+                        throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendColumnSpacingInvalid);
                     }
                     this._itemColumnSpacing = value;
                     this.Invalidate(false);
@@ -3101,7 +3095,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendBorderWidthIsNegative));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendBorderWidthIsNegative);
                 }
                 _borderWidth = value;
                 this.Invalidate(false);
@@ -3541,7 +3535,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     if (value < 0)
                     {
-                        throw (new ArgumentException(SR.ExceptionTextThresholdIsNegative, nameof(value)));
+                        throw new ArgumentException(SR.ExceptionTextThresholdIsNegative, nameof(value));
                     }
                     this._textWrapThreshold = value;
                     this.Invalidate(false);
@@ -4010,12 +4004,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     // Fill title background
                                     if (fillRect.Right > legendPosition.Right)
                                     {
-                                        fillRect.Width -= (legendPosition.Right - fillRect.Right);
+                                        fillRect.Width -= legendPosition.Right - fillRect.Right;
                                     }
                                     if (fillRect.X < legendPosition.X)
                                     {
                                         fillRect.X += legendPosition.X - fillRect.X;
-                                        fillRect.Width -= (legendPosition.X - fillRect.X);
+                                        fillRect.Width -= legendPosition.X - fillRect.X;
                                     }
                                     fillRect.Intersect(legendPosition);
                                     chartGraph.FillRectangleRel(
@@ -4223,8 +4217,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Separator size in relative coordinates.</returns>
         internal Size GetSeparatorSize(LegendSeparatorStyle separatorType)
         {
-            Size size = Size.Empty;
-
+            Size size;
             if (separatorType == LegendSeparatorStyle.None)
             {
                 size = Size.Empty;
@@ -4259,7 +4252,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else
             {
-                throw (new InvalidOperationException(SR.ExceptionLegendSeparatorTypeUnknown(separatorType.ToString())));
+                throw new InvalidOperationException(SR.ExceptionLegendSeparatorTypeUnknown(separatorType.ToString()));
             }
 
             // For the vertical part of the separator always add additiobal spacing
@@ -4784,7 +4777,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (Common != null && Common.ChartPicture != null)
             {
                 // Get elemets spacing
-                float areaSpacing = Math.Min((chartAreasRectangle.Height / 100F) * elementSpacing, (chartAreasRectangle.Width / 100F) * elementSpacing);
+                float areaSpacing = Math.Min(chartAreasRectangle.Height / 100F * elementSpacing, chartAreasRectangle.Width / 100F * elementSpacing);
 
                 // Loop through all legends
                 foreach (Legend legend in this)
@@ -4792,7 +4785,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Check if all chart area names are valid
                     if (legend.DockedToChartArea != Constants.NotSetValue && this.Chart.ChartAreas.IndexOf(legend.DockedToChartArea) < 0)
                     {
-                        throw (new ArgumentException(SR.ExceptionLegendDockedChartAreaIsMissing(legend.DockedToChartArea)));
+                        throw new ArgumentException(SR.ExceptionLegendDockedChartAreaIsMissing(legend.DockedToChartArea));
                     }
 
                     // Process only legends docked to specified area
@@ -4869,7 +4862,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                         catch
                         {
-                            throw (new ArgumentException(SR.ExceptionLegendDockedChartAreaIsMissing(legend.DockedToChartArea)));
+                            throw new ArgumentException(SR.ExceptionLegendDockedChartAreaIsMissing(legend.DockedToChartArea));
                         }
                     }
                 }
@@ -4886,7 +4879,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         RectangleF legendPlottingRectangle = area.PlotAreaPosition.ToRectangleF();
 
                         // Get elemets spacing
-                        float areaSpacing = Math.Min((legendPlottingRectangle.Height / 100F) * elementSpacing, (legendPlottingRectangle.Width / 100F) * elementSpacing);
+                        float areaSpacing = Math.Min(legendPlottingRectangle.Height / 100F * elementSpacing, legendPlottingRectangle.Width / 100F * elementSpacing);
 
                         // Loop through all legends
                         foreach (Legend legend in this)
@@ -5423,7 +5416,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value != Color.Empty && (value.A != 255 || value == Color.Transparent))
                 {
-                    throw (new ArgumentException(SR.ExceptionBackSecondaryColorIsTransparent));
+                    throw new ArgumentException(SR.ExceptionBackSecondaryColorIsTransparent);
                 }
 
                 backSecondaryColor = value;
@@ -5451,7 +5444,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsZero));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsZero);
                 }
                 borderWidth = value;
                 this.Invalidate(false);
@@ -5500,7 +5493,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendMarkerBorderWidthIsNegative));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendMarkerBorderWidthIsNegative);
                 }
                 this._markerBorderWidth = value;
                 this.Invalidate(false);
@@ -5981,7 +5974,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (Common != null)
                 dpi = Common.graph.Graphics.DpiX;
 
-            int maxBorderWidth = (int)Math.Round((2 * dpi) / 96);
+            int maxBorderWidth = (int)Math.Round(2 * dpi / 96);
 
             if (this._markerBorderWidth > maxBorderWidth)
             {

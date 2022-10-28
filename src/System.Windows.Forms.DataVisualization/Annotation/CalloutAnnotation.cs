@@ -601,12 +601,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </param>
 		override internal void Paint(Chart chart, ChartGraphics graphics)
 		{
-			// Get annotation position in relative coordinates
-			PointF firstPoint = PointF.Empty;
-			PointF anchorPoint = PointF.Empty;
-			SizeF size = SizeF.Empty;
-			GetRelativePosition(out firstPoint, out size, out anchorPoint);
-			PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+            // Get annotation position in relative coordinates
+            GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
+            PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 			// Create selection rectangle
 			RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
@@ -639,46 +636,46 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				switch(this._calloutStyle)
 				{
-					case(CalloutStyle.SimpleLine):
+					case CalloutStyle.SimpleLine:
 						hotRegionPathAbs = DrawRectangleLineCallout(
 							graphics,
 							rectanglePosition,
 							anchorPoint,
 							false);
 						break;
-					case(CalloutStyle.Borderline):
+					case CalloutStyle.Borderline:
 						hotRegionPathAbs = DrawRectangleLineCallout(
 							graphics,
 							rectanglePosition,
 							anchorPoint,
 							true);
 						break;
-					case(CalloutStyle.Perspective):
+					case CalloutStyle.Perspective:
 						hotRegionPathAbs = DrawPerspectiveCallout(
 							graphics,
 							rectanglePosition,
 							anchorPoint);
 						break;
-					case(CalloutStyle.Cloud):
+					case CalloutStyle.Cloud:
 						hotRegionPathAbs = DrawCloudCallout(
 							graphics,
 							rectanglePosition,
 							anchorPoint);
 						break;
-					case(CalloutStyle.Rectangle):
+					case CalloutStyle.Rectangle:
 						hotRegionPathAbs = DrawRectangleCallout(
 							graphics,
 							rectanglePosition,
 							anchorPoint);
 						break;
-					case(CalloutStyle.Ellipse):
+					case CalloutStyle.Ellipse:
 						hotRegionPathAbs = DrawRoundedRectCallout(
 							graphics,
 							rectanglePosition,
 							anchorPoint,
 							true);
 						break;
-					case(CalloutStyle.RoundedRectangle):
+					case CalloutStyle.RoundedRectangle:
 						hotRegionPathAbs = DrawRoundedRectCallout(
 							graphics,
 							rectanglePosition,
@@ -1076,8 +1073,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					float dxAbs = anchorPointAbs.X - cloudCenterAbs.X;
 					float dyAbs = anchorPointAbs.Y - cloudCenterAbs.Y;
 
-					PointF point = PointF.Empty;
-					if(anchorPoint.Y < rectanglePosition.Y)
+                    PointF point;
+                    if (anchorPoint.Y < rectanglePosition.Y)
 					{
 						point = GetIntersectionY(cloudCenterAbs, anchorPointAbs, rectanglePositionAbs.Y);
 						if(point.X < rectanglePositionAbs.X)
@@ -1257,7 +1254,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if(!rectanglePosition.Contains(anchorPoint.X, anchorPoint.Y))
 				{
 					Color[] perspectivePathColors = new Color[2];
-					Color color = (this.BackColor.IsEmpty) ? Color.White : this.BackColor;
+					Color color = this.BackColor.IsEmpty ? Color.White : this.BackColor;
 					perspectivePathColors[0] = graphics.GetBrightGradientColor(color, 0.6);
 					perspectivePathColors[1] = graphics.GetBrightGradientColor(color, 0.8);
 					GraphicsPath[] perspectivePaths = new GraphicsPath[2];
@@ -1806,7 +1803,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 			else
 			{
-                throw (new InvalidOperationException(SR.ExceptionAnnotationPathAddLineAsSegmentsInvalid));
+                throw new InvalidOperationException(SR.ExceptionAnnotationPathAddLineAsSegmentsInvalid);
 			}
 		}
 		/// <summary>

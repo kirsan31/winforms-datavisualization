@@ -53,7 +53,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 				}
 
 				// Error - throw exception
-				throw( new ArgumentException( SR.ExceptionFormulaModuleNameIsNotUnique( name ) ) );
+				throw new ArgumentException( SR.ExceptionFormulaModuleNameIsNotUnique( name ) ) ;
 			}
 
 			// Add Module Name
@@ -72,7 +72,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			}
 			if(!found)
 			{
-				throw( new ArgumentException( SR.ExceptionFormulaModuleHasNoInterface));
+				throw new ArgumentException( SR.ExceptionFormulaModuleHasNoInterface);
 			}
 
 			// Add formula module to the hash table
@@ -91,7 +91,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			{
 				return this;
 			}
-			throw (new ArgumentException( SR.ExceptionFormulaModuleRegistryUnsupportedType( serviceType.ToString())));
+			throw new ArgumentException( SR.ExceptionFormulaModuleRegistryUnsupportedType( serviceType.ToString()));
 		}
 
 		/// <summary>
@@ -104,7 +104,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			// First check if formula module with specified name registered
 			if(!registeredModules.Contains(name))
 			{
-				throw( new ArgumentException( SR.ExceptionFormulaModuleNameUnknown( name ) ) );
+				throw new ArgumentException( SR.ExceptionFormulaModuleNameUnknown( name ) ) ;
 			}
 
 			// Check if the formula module object is already created

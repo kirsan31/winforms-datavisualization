@@ -116,7 +116,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			{
 				return this;
 			}
-            throw (new ArgumentException(SR.ExceptionChartTypeRegistryUnsupportedType( serviceType.ToString() ) ) );
+            throw new ArgumentException(SR.ExceptionChartTypeRegistryUnsupportedType( serviceType.ToString() ) ) ;
 		}
 
 		#endregion
@@ -140,7 +140,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Error - throw exception
-				throw( new ArgumentException( SR.ExceptionChartTypeNameIsNotUnique( name ) ) );
+				throw new ArgumentException( SR.ExceptionChartTypeNameIsNotUnique( name ) ) ;
 			}
 
 			// Make sure that specified class support IChartType interface
@@ -156,7 +156,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 			if(!found)
 			{
-                throw (new ArgumentException(SR.ExceptionChartTypeHasNoInterface ));
+                throw new ArgumentException(SR.ExceptionChartTypeHasNoInterface );
 			}
 
 			// Add chart type to the hash table
@@ -183,7 +183,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// First check if chart type with specified name registered
 			if(!registeredChartTypes.Contains(name))
 			{
-				throw( new ArgumentException( SR.ExceptionChartTypeUnknown( name ) ) );
+				throw new ArgumentException( SR.ExceptionChartTypeUnknown( name ) ) ;
 			}
 
 			// Check if the chart type object is already created

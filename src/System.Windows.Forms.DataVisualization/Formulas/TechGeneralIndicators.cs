@@ -132,16 +132,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			
 			// Different number of x and y values
 			CheckNumOfValues( inputValues, 3 );
-						
-			// Period
-			int period;
-            if (parameterList.Length < 1 || 
-                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out period))
+
+            // Period
+            if (parameterList.Length < 1 ||
+                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int period))
             {
                 period = 14;
             }
 
-			if( period <= 0 )
+            if ( period <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
 
 			// The distance from today's high to today's low
@@ -228,7 +227,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 				MidPointMove = ( inputValues[1][index] + inputValues[2][index] ) / 2 - ( inputValues[1][index - 1] + inputValues[2][index - 1] ) / 2;
 
 				// The Box Ratio determines the ratio between height and width of the Equivolume box:    
-				BoxRattio = ( inputValues[3][index] ) / (( inputValues[1][index] - inputValues[2][index] ) );
+				BoxRattio =  inputValues[3][index]  / ( inputValues[1][index] - inputValues[2][index] ) ;
 
 				// Ease of Movement is then calculated as:
 				outputValues[1][index - 1] = MidPointMove / BoxRattio;
@@ -264,43 +263,39 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			
 			// Different number of x and y values
 			CheckNumOfValues( inputValues, 2 );
-			
-			// Period
-			int period;
-            if (parameterList.Length < 1 || 
-                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out period))
+
+            // Period
+            if (parameterList.Length < 1 ||
+                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int period))
             {
                 period = 25;
             }
 
-			if( period <= 0 )
+            if ( period <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
 
-			// Average Period
-			int averagePeriod;
-            if (parameterList.Length < 2 || 
-                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out averagePeriod))
+            // Average Period
+            if (parameterList.Length < 2 ||
+                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out int averagePeriod))
             {
                 averagePeriod = 9;
             }
 
-			if( period <= 0 )
+            if ( period <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodAverageParameterIsNegative);
 						
 			double [] highLow = new double [inputValues[0].Length];
-			double [] average;
-			double [] secondAverage;
 
-			for( int index = 0; index < inputValues[0].Length; index++ )
-			{
-				highLow[index] = inputValues[1][index] - inputValues[2][index];
-			}
+            for (int index = 0; index < inputValues[0].Length; index++)
+            {
+                highLow[index] = inputValues[1][index] - inputValues[2][index];
+            }
 
-			// Find exponential moving average
-			ExponentialMovingAverage( highLow, out average, averagePeriod, false );
+            // Find exponential moving average
+            ExponentialMovingAverage( highLow, out double[] average, averagePeriod, false );
 
 			// Find exponential moving average of exponential moving average
-			ExponentialMovingAverage( average, out secondAverage, averagePeriod, false );
+			ExponentialMovingAverage( average, out double[] secondAverage, averagePeriod, false );
 
 			outputValues = new double [2][];
 
@@ -309,14 +304,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 
 			// Mass Index
 			int outIndex = 0;
-			double sum = 0;
-			for( int index = 2 * averagePeriod - 3 + period; index < inputValues[0].Length; index++ )
+            for ( int index = 2 * averagePeriod - 3 + period; index < inputValues[0].Length; index++ )
 			{
 				// Set X values
 				outputValues[0][outIndex] = inputValues[0][index];
 
-				sum = 0;
-				for( int indexSum = index - period + 1; indexSum <= index; indexSum++ )
+                double sum = 0;
+                for ( int indexSum = index - period + 1; indexSum <= index; indexSum++ )
 				{
 					sum += average[indexSum - averagePeriod + 1] / secondAverage[indexSum - 2 * averagePeriod + 2];
 				}
@@ -403,16 +397,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			
 			// Different number of x and y values
 			CheckNumOfValues( inputValues, 1 );
-			
-			// Period
-			int period;
-            if (parameterList.Length < 1 || 
-                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out period))
+
+            // Period
+            if (parameterList.Length < 1 ||
+                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int period))
             {
                 period = 10;
             }
 
-			if( period <= 0 )
+            if ( period <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
 
 			outputValues = new double [2][];
@@ -459,16 +452,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			
 			// Different number of x and y values
 			CheckNumOfValues( inputValues, 1 );
-			
-			// Period
-			int period;
-            if (parameterList.Length < 1 || 
-                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out period))
+
+            // Period
+            if (parameterList.Length < 1 ||
+                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int period))
             {
                 period = 10;
             }
 
-			if( period <= 0 )
+            if ( period <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
 			
 			double [] upward = new double[inputValues[0].Length-1];
@@ -543,30 +535,29 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			
 			// Different number of x and y values
 			CheckNumOfValues( inputValues, 1 );
-						
-			// Period
-			int period;
-            if (parameterList.Length < 1 || 
-                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out period))
+
+            // Period
+            if (parameterList.Length < 1 ||
+                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int period))
             {
                 period = 12;
             }
 
-			if( period <= 0 )
+            if ( period <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
-			
-			double [] exp1; // Exponential Moving average of input values
-			double [] exp2; // Exponential Moving average of exp1
-			double [] exp3; // Exponential Moving average of exp2
+
+            // Exponential Moving average of input values
+            // Exponential Moving average of exp1
+            // Exponential Moving average of exp2
+
+            // Find exponential moving average
+            ExponentialMovingAverage(inputValues[1], out double[] exp1, period, false);
+
+            // Find exponential moving average
+            ExponentialMovingAverage( exp1, out double[] exp2, period, false );
 
 			// Find exponential moving average
-			ExponentialMovingAverage( inputValues[1], out exp1, period, false );
-
-			// Find exponential moving average
-			ExponentialMovingAverage( exp1, out exp2, period, false );
-
-			// Find exponential moving average
-			ExponentialMovingAverage( exp2, out exp3, period, false );
+			ExponentialMovingAverage( exp2, out double[] exp3, period, false );
 
 			outputValues = new double [2][];
 
@@ -621,40 +612,38 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			
 			// Different number of x and y values
 			CheckNumOfValues( inputValues, 1 );
-									
-			// Short Period
-			int shortPeriod;
-            if (parameterList.Length < 1 || 
-                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out shortPeriod))
+
+            // Short Period
+            if (parameterList.Length < 1 ||
+                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int shortPeriod))
             {
                 shortPeriod = 12;
             }
 
-			if( shortPeriod <= 0 )
+            if ( shortPeriod <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodShortParameterIsNegative);
 
-			// Int64 Period
-			int longPeriod;
-            if (parameterList.Length < 2 || 
-                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out longPeriod))
+            // Int64 Period
+            if (parameterList.Length < 2 ||
+                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out int longPeriod))
             {
                 longPeriod = 26;
             }
 
-			if( longPeriod <= 0 )
+            if ( longPeriod <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodLongParameterIsNegative);
 
 			if( longPeriod <= shortPeriod )
                 throw new InvalidOperationException(SR.ExceptionIndicatorsLongPeriodLessThenShortPeriod);
-			
-			double [] longAverage; // Int64 Average
-			double [] shortAverage; // Short Average
-			
-			// Find Int64 exponential moving average
-			ExponentialMovingAverage( inputValues[1], out longAverage, longPeriod, false );
 
-			// Find Short exponential moving average
-			ExponentialMovingAverage( inputValues[1], out shortAverage, shortPeriod, false );
+            // Int64 Average
+            // Short Average
+
+            // Find Int64 exponential moving average
+            ExponentialMovingAverage(inputValues[1], out double[] longAverage, longPeriod, false);
+
+            // Find Short exponential moving average
+            ExponentialMovingAverage( inputValues[1], out double[] shortAverage, shortPeriod, false );
 			
 			outputValues = new double [2][];
 
@@ -711,16 +700,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			
 			// Different number of x and y values
 			CheckNumOfValues( inputValues, 3 );
-									
-			// Period
-			int period;
-            if (parameterList.Length < 1 || 
-                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out period))
+
+            // Period
+            if (parameterList.Length < 1 ||
+                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int period))
             {
                 period = 10;
             }
 
-			if( period <= 0 )
+            if ( period <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
 
 			// Typical Price
@@ -732,25 +720,22 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 				typicalPrice[index] = ( inputValues[1][index] + inputValues[2][index] + inputValues[3][index] ) / 3.0;
 			}
 
-			// Moving Average
-			double [] movingAverage;
-						
-			// Simple Moving Average of the Typical Price 
-			MovingAverage( typicalPrice, out movingAverage, period, false );
+            // Moving Average
 
-			// Calculate today's Mean Deviation. First, calculate the absolute value 
-			// of the difference between today's SMATP and the typical price for each 
-			// of the past 20 days. Add all of these absolute values together and 
-			// divide by 20 to find the Mean Deviation. 
+            // Simple Moving Average of the Typical Price 
+            MovingAverage(typicalPrice, out double[] movingAverage, period, false);
 
-			// Mean Deviation
-			double [] meanDeviation = new double[movingAverage.Length];
+            // Calculate today's Mean Deviation. First, calculate the absolute value 
+            // of the difference between today's SMATP and the typical price for each 
+            // of the past 20 days. Add all of these absolute values together and 
+            // divide by 20 to find the Mean Deviation. 
 
-			double sum =0;
-			for( int index = 0; index < movingAverage.Length; index++ )
+            // Mean Deviation
+            double [] meanDeviation = new double[movingAverage.Length];
+            for ( int index = 0; index < movingAverage.Length; index++ )
 			{
-				sum = 0;
-				for( int indexSum = index; indexSum < index + period; indexSum++ )
+                double sum = 0;
+                for ( int indexSum = index; indexSum < index + period; indexSum++ )
 				{
 					sum += Math.Abs( movingAverage[index] - typicalPrice[indexSum] );
 				}

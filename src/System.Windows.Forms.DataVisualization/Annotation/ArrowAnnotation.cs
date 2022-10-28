@@ -144,11 +144,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value <= 0)
 				{
-					throw(new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationArrowSizeIsZero));
+					throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationArrowSizeIsZero);
 				}
 				if(value > 100)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationArrowSizeMustBeLessThen100));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationArrowSizeMustBeLessThen100);
 				}
 				_arrowSize = value;
 				Invalidate();
@@ -272,12 +272,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </param>
         override internal void Paint(Chart chart, ChartGraphics graphics)
 		{
-			// Get annotation position in relative coordinates
-			PointF firstPoint = PointF.Empty;
-			PointF anchorPoint = PointF.Empty;
-			SizeF size = SizeF.Empty;
-			GetRelativePosition(out firstPoint, out size, out anchorPoint);
-			PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+            // Get annotation position in relative coordinates
+            GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
+            PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 			// Create selection rectangle
 			RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
@@ -300,7 +297,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     graphics.DrawPathAbs(
                         arrowPathAbs,
-                        (this.BackColor.IsEmpty) ? Color.White : this.BackColor,
+                        this.BackColor.IsEmpty ? Color.White : this.BackColor,
                         this.BackHatchStyle,
                         String.Empty,
                         ChartImageWrapMode.Scaled,
@@ -360,53 +357,53 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Create unrotated graphics path for the arrow started at the annotation location
 			// and going to the right for the length of the rotated arrow.
 			GraphicsPath path = new GraphicsPath();
+            float pointerRatio = 2.1f;
 
-			PointF[]	points = null;
-			float		pointerRatio = 2.1f;
-			if(this.ArrowStyle == ArrowStyle.Simple)
-			{
-				points = new PointF[] {
-										  firstPoint,
-										  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
-										  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
-										  new PointF(firstPoint.X + arrowLength, firstPoint.Y - this.ArrowSize),
-										  new PointF(firstPoint.X + arrowLength, firstPoint.Y + this.ArrowSize),
-										  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
-										  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) };
-			}
-			else if(this.ArrowStyle == ArrowStyle.DoubleArrow)
-			{
-				points = new PointF[] {
-										  firstPoint,
-										  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
-										  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
-										  new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
-										  new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
-										  new PointF(firstPoint.X + arrowLength, firstPoint.Y),
-										  new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio),
-										  new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
-										  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
-										  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) };
-			}
-			else if(this.ArrowStyle == ArrowStyle.Tailed)
-			{
-				float		tailRatio = 2.1f;
-				points = new PointF[] {
-										  firstPoint,
-										  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
-										  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
-										  new PointF(firstPoint.X + arrowLength, firstPoint.Y - this.ArrowSize*tailRatio),
-										  new PointF(firstPoint.X + arrowLength - this.ArrowSize*tailRatio, firstPoint.Y),
-										  new PointF(firstPoint.X + arrowLength, firstPoint.Y + this.ArrowSize*tailRatio),
-										  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
-										  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) };
-			}
-			else
-			{
-                throw (new InvalidOperationException(SR.ExceptionAnnotationArrowStyleUnknown));
-			}
+            PointF[] points;
+            if (this.ArrowStyle == ArrowStyle.Simple)
+            {
+                points = new PointF[] {
+                                          firstPoint,
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
+                                          new PointF(firstPoint.X + arrowLength, firstPoint.Y - this.ArrowSize),
+                                          new PointF(firstPoint.X + arrowLength, firstPoint.Y + this.ArrowSize),
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) };
+            }
+            else if (this.ArrowStyle == ArrowStyle.DoubleArrow)
+            {
+                points = new PointF[] {
+                                          firstPoint,
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
+                                          new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
+                                          new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
+                                          new PointF(firstPoint.X + arrowLength, firstPoint.Y),
+                                          new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio),
+                                          new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) };
+            }
+            else if (this.ArrowStyle == ArrowStyle.Tailed)
+            {
+                float tailRatio = 2.1f;
+                points = new PointF[] {
+                                          firstPoint,
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
+                                          new PointF(firstPoint.X + arrowLength, firstPoint.Y - this.ArrowSize*tailRatio),
+                                          new PointF(firstPoint.X + arrowLength - this.ArrowSize*tailRatio, firstPoint.Y),
+                                          new PointF(firstPoint.X + arrowLength, firstPoint.Y + this.ArrowSize*tailRatio),
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) };
+            }
+            else
+            {
+                throw new InvalidOperationException(SR.ExceptionAnnotationArrowStyleUnknown);
+            }
 
-			path.AddLines(points);
+            path.AddLines(points);
 			path.CloseAllFigures();
 
 			// Calculate arrow angle

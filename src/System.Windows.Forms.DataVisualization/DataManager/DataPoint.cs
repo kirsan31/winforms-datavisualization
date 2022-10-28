@@ -139,17 +139,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     sortBy.StartsWith("Y", StringComparison.Ordinal) &&
                     char.IsDigit(sortBy[1]))
             {
-                _sortingValueIndex = int.Parse(sortBy.Substring(1), System.Globalization.CultureInfo.InvariantCulture) - 1;
+                _sortingValueIndex = int.Parse(sortBy[1..], System.Globalization.CultureInfo.InvariantCulture) - 1;
             }
             else
             {
-                throw (new ArgumentException(SR.ExceptionDataPointConverterInvalidSorting, nameof(sortBy)));
+                throw new ArgumentException(SR.ExceptionDataPointConverterInvalidSorting, nameof(sortBy));
             }
 
             // Check if data series support as many Y values as required
             if (_sortingValueIndex > 0 && _sortingValueIndex >= series.YValuesPerPoint)
             {
-                throw (new ArgumentException(SR.ExceptionDataPointConverterUnavailableSorting(sortBy, series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)), nameof(sortBy)));
+                throw new ArgumentException(SR.ExceptionDataPointConverterUnavailableSorting(sortBy, series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)), nameof(sortBy));
             }
 
             this._sortingOrder = sortOrder;
@@ -169,7 +169,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </returns>
         public int Compare(DataPoint x, DataPoint y)
         {
-            int result = -1;
+            int result;
 
             // Compare X value
             if (_sortingValueIndex == -1)
@@ -305,21 +305,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int equalSignIndex = otherAttributeNames[index].IndexOf('=');
                     if (equalSignIndex > 0)
                     {
-                        otherFieldNames[index] = otherAttributeNames[index].Substring(equalSignIndex + 1);
-                        otherAttributeNames[index] = otherAttributeNames[index].Substring(0, equalSignIndex);
+                        otherFieldNames[index] = otherAttributeNames[index][(equalSignIndex + 1)..];
+                        otherAttributeNames[index] = otherAttributeNames[index][..equalSignIndex];
                     }
                     else
                     {
-                        throw (new ArgumentException(SR.ExceptionParameterFormatInvalid, nameof(otherFields)));
+                        throw new ArgumentException(SR.ExceptionParameterFormatInvalid, nameof(otherFields));
                     }
 
                     // Check if format string was specified
                     int bracketIndex = otherFieldNames[index].IndexOf('{');
                     if (bracketIndex > 0 && otherFieldNames[index][otherFieldNames[index].Length - 1] == '}')
                     {
-                        otherValueFormat[index] = otherFieldNames[index].Substring(bracketIndex + 1);
+                        otherValueFormat[index] = otherFieldNames[index][(bracketIndex + 1)..];
                         otherValueFormat[index] = otherValueFormat[index].Trim('{', '}');
-                        otherFieldNames[index] = otherFieldNames[index].Substring(0, bracketIndex);
+                        otherFieldNames[index] = otherFieldNames[index][..bracketIndex];
                     }
 
                     // Trim and replace new line character
@@ -347,7 +347,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (dataSource == null)
                 throw new ArgumentNullException(nameof(dataSource), SR.ExceptionDataPointInsertionNoDataSource);
             if (dataSource is string)
-                throw (new ArgumentException(SR.ExceptionDataBindSeriesToString, nameof(dataSource)));
+                throw new ArgumentException(SR.ExceptionDataBindSeriesToString, nameof(dataSource));
             if (yFields == null)
                 throw new ArgumentNullException(nameof(yFields));
 
@@ -359,7 +359,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             if (yFieldNames.GetLength(0) > series.YValuesPerPoint)
-                throw (new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
+                throw new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 
             // Convert other fields/properties names to two arrays of names
             string[] otherAttributeNames = null;
@@ -551,14 +551,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (yValues[i] is string)
                 {
-                    throw (new ArgumentException(SR.ExceptionDataBindYValuesToString, nameof(yValues)));
+                    throw new ArgumentException(SR.ExceptionDataBindYValuesToString, nameof(yValues));
                 }
             }
 
             // Check if number of Y values do not out of range
             if (yValues.GetLength(0) > series.YValuesPerPoint)
             {
-                throw (new ArgumentOutOfRangeException(nameof(yValues), SR.ExceptionDataPointYValuesBindingCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
+                throw new ArgumentOutOfRangeException(nameof(yValues), SR.ExceptionDataPointYValuesBindingCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
             }
 
             // Remove all existing data points
@@ -572,7 +572,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Double check that a string object is not provided for data binding
                 if (xValue is string)
                 {
-                    throw (new ArgumentException(SR.ExceptionDataBindXValuesToString, nameof(xValue)));
+                    throw new ArgumentException(SR.ExceptionDataBindXValuesToString, nameof(xValue));
                 }
 
                 // Get and reset Y values enumerators
@@ -594,7 +594,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Add data points
             bool xValueExsist = false;
-            bool yValueExsist = true;
             object[] yValuesObj = new object[series.YValuesPerPoint];
             object xValueObj = null;
             bool autoDetectType = true;
@@ -602,6 +601,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             SuspendUpdates();
             try
             {
+                bool yValueExsist;
                 do
                 {
                     // Move to the next objects in the enumerations
@@ -618,7 +618,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         xValueExsist = xEnumerator.MoveNext();
                         if (yValueExsist && !xValueExsist)
                         {
-                            throw (new ArgumentOutOfRangeException(nameof(xValue), SR.ExceptionDataPointInsertionXValuesQtyIsLessYValues));
+                            throw new ArgumentOutOfRangeException(nameof(xValue), SR.ExceptionDataPointInsertionXValuesQtyIsLessYValues);
                         }
                     }
 
@@ -795,7 +795,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             xValueExsist = xEnumerator.MoveNext();
                             if (yValueExsist && !xValueExsist)
                             {
-                                throw (new ArgumentOutOfRangeException(nameof(xValue), SR.ExceptionDataPointInsertionXValuesQtyIsLessYValues));
+                                throw new ArgumentOutOfRangeException(nameof(xValue), SR.ExceptionDataPointInsertionXValuesQtyIsLessYValues);
                             }
                         }
                         else
@@ -1118,7 +1118,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (fieldName != null && fieldName.Length > 0)
                 {
                     // Check if specified column exist
-                    bool failed = true;
+                    bool failed;
                     if (dataRow.Table.Columns.Contains(fieldName))
                     {
                         result = dataRow[fieldName];
@@ -1137,7 +1137,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     if (failed)
                     {
-                        throw (new ArgumentException(SR.ExceptionColumnNameNotFound(fieldName)));
+                        throw new ArgumentException(SR.ExceptionColumnNameNotFound(fieldName));
                     }
                 }
                 else
@@ -1155,7 +1155,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (fieldName != null && fieldName.Length > 0)
                 {
                     // Check if specified column exist
-                    bool failed = true;
+                    bool failed;
                     if (dataRowView.DataView.Table.Columns.Contains(fieldName))
                     {
                         result = dataRowView[fieldName];
@@ -1173,7 +1173,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     if (failed)
                     {
-                        throw (new ArgumentException(SR.ExceptionColumnNameNotFound(fieldName)));
+                        throw new ArgumentException(SR.ExceptionColumnNameNotFound(fieldName));
                     }
                 }
                 else
@@ -1229,7 +1229,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     if (failed)
                     {
-                        throw (new ArgumentException(SR.ExceptionColumnNameNotFound(fieldName)));
+                        throw new ArgumentException(SR.ExceptionColumnNameNotFound(fieldName));
                     }
 
                 }
@@ -1349,7 +1349,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     if (failed)
                     {
-                        throw (new ArgumentException(SR.ExceptionColumnNameNotFound(field)));
+                        throw new ArgumentException(SR.ExceptionColumnNameNotFound(field));
                     }
 
                 }
@@ -1389,7 +1389,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     if (failed)
                     {
-                        throw (new ArgumentException(SR.ExceptionColumnNameNotFound(field)));
+                        throw new ArgumentException(SR.ExceptionColumnNameNotFound(field));
                     }
 
                 }
@@ -1405,7 +1405,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (field != null && field.Length > 0)
                 {
                     bool failed = true;
-                    int columnIndex = 0;
+                    int columnIndex;
                     if (!char.IsNumber(field, 0))
                     {
                         columnIndex = ((DbDataRecord)enumerator.Current).GetOrdinal(field);
@@ -1426,7 +1426,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     if (failed)
                     {
-                        throw (new ArgumentException(SR.ExceptionColumnNameNotFound(field)));
+                        throw new ArgumentException(SR.ExceptionColumnNameNotFound(field));
                     }
 
                 }
@@ -1860,8 +1860,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string stringValue = obj as string;
             if (stringValue == null)
             {
-                double doubleObj = double.NaN;
                 ChartValueType valueType = ChartValueType.Auto;
+                double doubleObj;
                 if (obj is DateTime)
                 {
                     doubleObj = ((DateTime)obj).ToOADate();
@@ -1952,11 +1952,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else if (value is float)
             {
-                return (double)((float)value);
+                return (double)(float)value;
             }
             else if (value is decimal)
             {
-                return (double)((decimal)value);
+                return (double)(decimal)value;
             }
             else if (value is int)
             {
@@ -2095,7 +2095,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Check number of parameters. Should be more than 0 and 
             if (yValue.Length == 0 || (base.series != null && yValue.Length > base.series.YValuesPerPoint))
-                throw (new ArgumentOutOfRangeException(nameof(yValue), SR.ExceptionDataPointYValuesSettingCountMismatch(base.series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
+                throw new ArgumentOutOfRangeException(nameof(yValue), SR.ExceptionDataPointYValuesSettingCountMismatch(base.series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 
             // Check if there is a Null Y value
             for (int i = 0; i < yValue.Length; i++)
@@ -2146,7 +2146,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     else
                     {
-                        throw (new ArgumentException(SR.ExceptionDataPointYValueStringFormat));
+                        throw new ArgumentException(SR.ExceptionDataPointYValueStringFormat);
                     }
                 }
 
@@ -2316,24 +2316,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 else
                 {
-                    int yIndex = 0;
+                    int yIndex;
                     try
                     {
-                        yIndex = int.Parse(valueName.Substring(1), System.Globalization.CultureInfo.InvariantCulture) - 1;
+                        yIndex = int.Parse(valueName[1..], System.Globalization.CultureInfo.InvariantCulture) - 1;
                     }
                     catch (System.Exception)
                     {
-                        throw (new ArgumentException(SR.ExceptionDataPointValueNameInvalid, nameof(valueName)));
+                        throw new ArgumentException(SR.ExceptionDataPointValueNameInvalid, nameof(valueName));
                     }
 
                     if (yIndex < 0)
                     {
-                        throw (new ArgumentException(SR.ExceptionDataPointValueNameYIndexIsNotPositive, nameof(valueName)));
+                        throw new ArgumentException(SR.ExceptionDataPointValueNameYIndexIsNotPositive, nameof(valueName));
                     }
 
                     if (yIndex >= this.YValues.Length)
                     {
-                        throw (new ArgumentException(SR.ExceptionDataPointValueNameYIndexOutOfRange, nameof(valueName)));
+                        throw new ArgumentException(SR.ExceptionDataPointValueNameYIndexOutOfRange, nameof(valueName));
                     }
 
                     return this.YValues[yIndex];
@@ -2341,7 +2341,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else
             {
-                throw (new ArgumentException(SR.ExceptionDataPointValueNameInvalid, nameof(valueName)));
+                throw new ArgumentException(SR.ExceptionDataPointValueNameInvalid, nameof(valueName));
             }
         }
 
@@ -2389,7 +2389,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     ChartElementType.DataPoint,
                     result,
                     KeywordName.Percent,
-                    this.YValues[0] / (this.series.GetTotalYValue()),
+                    this.YValues[0] / this.series.GetTotalYValue(),
                     ChartValueType.Double,
                     "P");
 
@@ -2507,11 +2507,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal static string ReplaceCustomPropertyKeyword(string originalString, DataPointCustomProperties properties)
         {
             string result = originalString;
-            int keyStartIndex = -1;
+            int keyStartIndex;
             while ((keyStartIndex = result.IndexOf(KeywordName.CustomProperty, StringComparison.Ordinal)) >= 0)
             {
                 string attributeValue = string.Empty;
-                string attributeName = string.Empty;
 
                 // Forward to the end of the keyword
                 int keyEndIndex = keyStartIndex + KeywordName.CustomProperty.Length;
@@ -2527,7 +2526,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     if (closingBracketIndex >= keyEndIndex)
                     {
                         keyEndIndex = closingBracketIndex + 1;
-                        attributeName = result.Substring(attributeNameStartIndex, keyEndIndex - attributeNameStartIndex - 1);
+                        string attributeName = result.Substring(attributeNameStartIndex, keyEndIndex - attributeNameStartIndex - 1);
 
                         // Get attribute value
                         if (properties.IsCustomPropertySet(attributeName))
@@ -2792,7 +2791,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (name == null)
             {
-                throw (new ArgumentNullException(SR.ExceptionAttributeNameIsEmpty));
+                throw new ArgumentNullException(SR.ExceptionAttributeNameIsEmpty);
             }
 
             // Check if trying to delete the common attribute
@@ -2818,7 +2817,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check if trying to delete the common attribute from the series
             if (!this.pointCustomProperties)
             {
-                throw (new ArgumentException(SR.ExceptionAttributeUnableToDelete));
+                throw new ArgumentException(SR.ExceptionAttributeUnableToDelete);
             }
 
             // Remove attribute
@@ -3101,7 +3100,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 // we can't throw IndexOutOfRangeException here, it is reserved
                 // by the CLR.
-                throw (new InvalidOperationException());
+                throw new InvalidOperationException();
             }
         }
 
@@ -3550,7 +3549,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive);
                 }
                 if (this.pointCustomProperties)
                     SetAttributeObject(CommonCustomProperties.BorderWidth, value);
@@ -4062,7 +4061,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < -90 || value > 90)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAngleRangeInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAngleRangeInvalid);
                 }
                 if (this.pointCustomProperties)
                     SetAttributeObject(CommonCustomProperties.LabelAngle, value);
@@ -4431,7 +4430,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive);
                 }
                 if (this.pointCustomProperties)
                     SetAttributeObject(CommonCustomProperties.MarkerBorderWidth, value);
@@ -4560,7 +4559,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Check format
                         if (values.Length != 2)
                         {
-                            throw (new FormatException(SR.ExceptionAttributeInvalidFormat));
+                            throw new FormatException(SR.ExceptionAttributeInvalidFormat);
                         }
 
                         // Check for empty name or value
@@ -4568,7 +4567,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         values[1] = values[1].Trim();
                         if (values[0].Length == 0)
                         {
-                            throw (new FormatException(SR.ExceptionAttributeInvalidFormat));
+                            throw new FormatException(SR.ExceptionAttributeInvalidFormat);
                         }
 
                         // Check if value already defined
@@ -4579,7 +4578,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             {
                                 if (string.Equals(existingAttributeNameStr, values[0], StringComparison.OrdinalIgnoreCase))
                                 {
-                                    throw (new FormatException(SR.ExceptionAttributeNameIsNotUnique(values[0])));
+                                    throw new FormatException(SR.ExceptionAttributeNameIsNotUnique(values[0]));
                                 }
                             }
                         }
@@ -5013,7 +5012,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLabelBorderIsNotPositive));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLabelBorderIsNotPositive);
                 }
                 if (this.pointCustomProperties)
                     SetAttributeObject(CommonCustomProperties.LabelBorderWidth, value);
@@ -6095,7 +6094,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Check format
                     if (values.Length != 2)
                     {
-                        throw (new FormatException(SR.ExceptionAttributeInvalidFormat));
+                        throw new FormatException(SR.ExceptionAttributeInvalidFormat);
                     }
 
                     // Check for empty name or value
@@ -6103,7 +6102,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     values[1] = values[1].Trim();
                     if (values[0].Length == 0)
                     {
-                        throw (new FormatException(SR.ExceptionAttributeInvalidFormat));
+                        throw new FormatException(SR.ExceptionAttributeInvalidFormat);
                     }
 
                     // Check if attribute is registered or user defined
