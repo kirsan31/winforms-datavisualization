@@ -14,158 +14,143 @@ using System.Drawing.Design;
 using System.Reflection;
 using System.Windows.Forms.DataVisualization.Charting;
 
-namespace System.Windows.Forms.Design.DataVisualization.Charting
+namespace System.Windows.Forms.Design.DataVisualization.Charting;
+
+
+/// <summary>
+/// AxisName editor for the gradient type.
+/// Paints a rectangle with gradient sample.
+/// </summary>
+internal class GradientEditor : UITypeEditor, IDisposable
 {
+	#region Editor method and properties
 
+	private ChartGraphics _chartGraph;
+	private bool _disposed;
 
-    /// <summary>
-    /// AxisName editor for the gradient type.
-    /// Paints a rectangle with gradient sample.
-    /// </summary>
-    internal class GradientEditor : UITypeEditor, IDisposable
+	/// <summary>
+	/// Override this function to support palette colors drawing
+	/// </summary>
+	/// <param name="context">Descriptor context.</param>
+	/// <returns>Can paint values.</returns>
+	public override bool GetPaintValueSupported(ITypeDescriptorContext context)
 	{
-		#region Editor method and properties
+		return true;
+	}
 
-		ChartGraphics	_chartGraph;
-        private bool _disposed;
-
-		/// <summary>
-		/// Override this function to support palette colors drawing
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <returns>Can paint values.</returns>
-		public override bool GetPaintValueSupported(ITypeDescriptorContext context)
+	/// <summary>
+	/// Override this function to support palette colors drawing
+	/// </summary>
+	/// <param name="e">Paint value event arguments.</param>
+	public override void PaintValue(PaintValueEventArgs e)
+	{
+		if (e.Value is GradientStyle)
 		{
-			return true;
-		}
+			// Create chart graphics object
+			_chartGraph ??= new ChartGraphics(null);
+			_chartGraph.Graphics = e.Graphics;
 
-		/// <summary>
-		/// Override this function to support palette colors drawing
-		/// </summary>
-		/// <param name="e">Paint value event arguments.</param>
-		public override void PaintValue(PaintValueEventArgs e)
-		{
-			if(e.Value is GradientStyle)
+			// Try to get original color from the object
+			Color color1 = Color.Black;
+			Color color2 = Color.White;
+			if (e.Context != null && e.Context.Instance != null)
 			{
-				// Create chart graphics object
-				if(_chartGraph == null)
+				// Get color properties using reflection
+				PropertyInfo propertyInfo = e.Context.Instance.GetType().GetProperty("BackColor");
+				if (propertyInfo != null)
 				{
-					_chartGraph = new ChartGraphics(null);
+					color1 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
 				}
-				_chartGraph.Graphics = e.Graphics;
-
-				// Try to get original color from the object
-				Color	color1 = Color.Black;
-				Color	color2 = Color.White;
-				if(e.Context != null && e.Context.Instance != null)
+				else
 				{
-					// Get color properties using reflection
-					PropertyInfo	propertyInfo = e.Context.Instance.GetType().GetProperty("BackColor");
-					if(propertyInfo != null)
+					propertyInfo = e.Context.Instance.GetType().GetProperty("BackColor");
+					if (propertyInfo != null)
 					{
 						color1 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
 					}
 					else
 					{
-						propertyInfo = e.Context.Instance.GetType().GetProperty("BackColor");
-						if(propertyInfo != null)
+						// If object do not have "BackColor" property try using "Color" property 
+						propertyInfo = e.Context.Instance.GetType().GetProperty("Color");
+						if (propertyInfo != null)
 						{
 							color1 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
 						}
-						else
-						{
-							// If object do not have "BackColor" property try using "Color" property 
-							propertyInfo = e.Context.Instance.GetType().GetProperty("Color");
-							if(propertyInfo != null)
-							{
-								color1 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
-							}
-						}
 					}
-					
+				}
+
+				propertyInfo = e.Context.Instance.GetType().GetProperty("BackSecondaryColor");
+				if (propertyInfo != null)
+				{
+					color2 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
+				}
+				else
+				{
 					propertyInfo = e.Context.Instance.GetType().GetProperty("BackSecondaryColor");
-					if(propertyInfo != null)
+					if (propertyInfo != null)
 					{
 						color2 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
 					}
-					else
-					{
-						propertyInfo = e.Context.Instance.GetType().GetProperty("BackSecondaryColor");
-						if(propertyInfo != null)
-						{
-							color2 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
-						}
-					}
-
 				}
 
-				// Check if colors are valid
-				if(color1 == Color.Empty)
-				{
-					color1 = Color.Black;
-				}
-				if(color2 == Color.Empty)
-				{
-					color2 = Color.White;
-				}
-				if(color1 == color2)
-				{
-					color2 = Color.FromArgb(color1.B, color1.R, color1.G);
-				}
+			}
+
+			// Check if colors are valid
+			if (color1 == Color.Empty)
+			{
+				color1 = Color.Black;
+			}
+
+			if (color2 == Color.Empty)
+			{
+				color2 = Color.White;
+			}
+
+			if (color1 == color2)
+			{
+				color2 = Color.FromArgb(color1.B, color1.R, color1.G);
+			}
 
 
-				// Draw gradient sample
-				if((GradientStyle)e.Value != GradientStyle.None)
-				{
-					Brush brush = _chartGraph.GetGradientBrush( e.Bounds, color1, color2, (GradientStyle)e.Value);
-					e.Graphics.FillRectangle( brush, e.Bounds);
+			// Draw gradient sample
+			if ((GradientStyle)e.Value != GradientStyle.None)
+			{
+				Brush brush = _chartGraph.GetGradientBrush(e.Bounds, color1, color2, (GradientStyle)e.Value);
+				e.Graphics.FillRectangle(brush, e.Bounds);
 
-					brush.Dispose();
-				}
+				brush.Dispose();
 			}
 		}
-	
-		#endregion
+	}
 
-        #region IDisposable Members
+	#endregion
 
-        /// <summary>
-        /// Finalizer for the GradientEditor, disposes any remaining
-        /// resources if it has not already been disposed.
-        /// </summary>
-        ~GradientEditor()
-        {
-            Dispose(false);
-        }
+	#region IDisposable Members
 
-        /// <summary>
-        /// Disposes resources used by this object.
-        /// </summary>
-        /// <param name="disposing">Whether this method was called form Dispose() or the finalizer.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    _chartGraph.Dispose();
-                }
+	/// <summary>
+	/// Disposes resources used by this object.
+	/// </summary>
+	/// <param name="disposing">Whether this method was called form Dispose() or the finalizer.</param>
+	protected virtual void Dispose(bool disposing)
+	{
+		if (_disposed)
+			return;
 
-                _disposed = true;
-            }
-        }
+		if (disposing)
+			_chartGraph?.Dispose();
 
-        /// <summary>
-        /// Disposes all resources used by this object.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+		_disposed = true;
+	}
 
-        #endregion
-    }
+	/// <summary>
+	/// Disposes all resources used by this object.
+	/// </summary>
+	public void Dispose()
+	{
+		Dispose(true);
+	}
 
-
+	#endregion
 }
+
+
