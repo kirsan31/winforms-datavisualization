@@ -244,12 +244,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     gradientPath.AddPath(areaBottomPath, true);
 
                     // Create brush
-                    using (Brush areaGradientBrush = graph.GetGradientBrush(gradientPath.GetBounds(), this._series.Color, this._series.BackSecondaryColor, this._series.BackGradientStyle))
-                    {
-                        // Fill area with gradient
-                        graph.FillPath(areaGradientBrush, gradientPath);
-                        gradientFill = false;
-                    }
+                    using Brush areaGradientBrush = graph.GetGradientBrush(gradientPath.GetBounds(), this._series.Color, this._series.BackSecondaryColor, this._series.BackGradientStyle);
+                    // Fill area with gradient
+                    graph.FillPath(areaGradientBrush, gradientPath);
+                    gradientFill = false;
                 }
 
 				// Reset clip region
@@ -400,45 +398,43 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// has to be respected.
 			if( graph.ActiveRenderingType == RenderingType.Svg )
 			{
-                using (GraphicsPath pathReverse = new GraphicsPath())
+                using GraphicsPath pathReverse = new GraphicsPath();
+                // Add curve to the new graphics path
+                if (this.lineTension == 0)
                 {
-                    // Add curve to the new graphics path
-                    if (this.lineTension == 0)
-                    {
-                        path.AddLine(lowPoints[pointIndex - 1], lowPoints[pointIndex]);
-                    }
-                    else
-                    {
-                        pathReverse.AddCurve(lowPoints, pointIndex - 1, 1, this.lineTension);
-
-                        // Convert to polygon
-                        pathReverse.Flatten();
-
-                        // Reversed points order in the aray
-                        PointF[] pointsReversed = pathReverse.PathPoints;
-                        PointF[] pointF = new PointF[pointsReversed.Length];
-                        int pntIndex = pointsReversed.Length - 1;
-                        foreach (PointF pp in pointsReversed)
-                        {
-                            pointF[pntIndex] = pp;
-                            pntIndex--;
-                        }
-
-                        // Path can not have polygon width two points
-                        if (pointF.Length == 2)
-                        {
-                            PointF[] newPointF = new PointF[3];
-                            newPointF[0] = pointF[0];
-                            newPointF[1] = pointF[1];
-                            newPointF[2] = pointF[1];
-                            pointF = newPointF;
-                        }
-
-                        // Add Polygon to the path
-                        path.AddPolygon(pointF);
-                    }
+                    path.AddLine(lowPoints[pointIndex - 1], lowPoints[pointIndex]);
                 }
-			}
+                else
+                {
+                    pathReverse.AddCurve(lowPoints, pointIndex - 1, 1, this.lineTension);
+
+                    // Convert to polygon
+                    pathReverse.Flatten();
+
+                    // Reversed points order in the aray
+                    PointF[] pointsReversed = pathReverse.PathPoints;
+                    PointF[] pointF = new PointF[pointsReversed.Length];
+                    int pntIndex = pointsReversed.Length - 1;
+                    foreach (PointF pp in pointsReversed)
+                    {
+                        pointF[pntIndex] = pp;
+                        pntIndex--;
+                    }
+
+                    // Path can not have polygon width two points
+                    if (pointF.Length == 2)
+                    {
+                        PointF[] newPointF = new PointF[3];
+                        newPointF[0] = pointF[0];
+                        newPointF[1] = pointF[1];
+                        newPointF[2] = pointF[1];
+                        pointF = newPointF;
+                    }
+
+                    // Add Polygon to the path
+                    path.AddPolygon(pointF);
+                }
+            }
 			else
 			{
 				if(this.lineTension == 0)
@@ -480,51 +476,49 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					graph.Transform = translateMatrix;
 
 					using Region shadowRegion = new Region(path);
-                    using (Brush shadowBrush = new SolidBrush((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb(point.Color.A / 2, series.ShadowColor)))
+                    using Brush shadowBrush = new SolidBrush((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb(point.Color.A / 2, series.ShadowColor));
+                    Region clipRegion = null;
+                    if (!graph.IsClipEmpty && !graph.Clip.IsInfinite(graph.Graphics))
                     {
-                        Region clipRegion = null;
-                        if (!graph.IsClipEmpty && !graph.Clip.IsInfinite(graph.Graphics))
+                        clipRegion = graph.Clip;
+                        clipRegion.Translate(series.ShadowOffset + 1, series.ShadowOffset + 1);
+                        graph.Clip = clipRegion;
+
+                    }
+
+                    // Fill region
+                    graph.FillRegion(shadowBrush, shadowRegion);
+
+                    // Draw leftmost and rightmost vertical lines
+                    using (Pen areaLinePen = new Pen(shadowBrush, 1))
+                    {
+                        if (pointIndex == 0)
                         {
-                            clipRegion = graph.Clip;
-                            clipRegion.Translate(series.ShadowOffset + 1, series.ShadowOffset + 1);
-                            graph.Clip = clipRegion;
-
+                            graph.DrawLine(areaLinePen, highPoint1.X, lowPoint1.Y, highPoint1.X, highPoint1.Y);
                         }
-
-                        // Fill region
-                        graph.FillRegion(shadowBrush, shadowRegion);
-
-                        // Draw leftmost and rightmost vertical lines
-                        using (Pen areaLinePen = new Pen(shadowBrush, 1))
+                        if (pointIndex == series.Points.Count - 1)
                         {
-                            if (pointIndex == 0)
-                            {
-                                graph.DrawLine(areaLinePen, highPoint1.X, lowPoint1.Y, highPoint1.X, highPoint1.Y);
-                            }
-                            if (pointIndex == series.Points.Count - 1)
-                            {
-                                graph.DrawLine(areaLinePen, highPoint2.X, highPoint2.Y, highPoint2.X, lowPoint2.Y);
-                            }
+                            graph.DrawLine(areaLinePen, highPoint2.X, highPoint2.Y, highPoint2.X, lowPoint2.Y);
                         }
+                    }
 
-                        // Restore graphics parameters
-                        graph.Transform = oldMatrix;
+                    // Restore graphics parameters
+                    graph.Transform = oldMatrix;
 
-                        // Draw high and low line shadows
-                        this.drawShadowOnly = true;
-                        base.DrawLine(graph, common, point, series, points, pointIndex, tension);
-                        this.YValueIndex = 1;
-                        base.DrawLine(graph, common, point, series, lowPoints, pointIndex, tension);
-                        this.YValueIndex = 0;
-                        this.drawShadowOnly = false;
+                    // Draw high and low line shadows
+                    this.drawShadowOnly = true;
+                    base.DrawLine(graph, common, point, series, points, pointIndex, tension);
+                    this.YValueIndex = 1;
+                    base.DrawLine(graph, common, point, series, lowPoints, pointIndex, tension);
+                    this.YValueIndex = 0;
+                    this.drawShadowOnly = false;
 
-                        // Restore clip region
-                        if (clipRegion != null)
-                        {
-                            clipRegion = graph.Clip;
-                            clipRegion.Translate(-(series.ShadowOffset + 1), -(series.ShadowOffset + 1));
-                            graph.Clip = clipRegion;
-                        }
+                    // Restore clip region
+                    if (clipRegion != null)
+                    {
+                        clipRegion = graph.Clip;
+                        clipRegion.Translate(-(series.ShadowOffset + 1), -(series.ShadowOffset + 1));
+                        graph.Clip = clipRegion;
                     }
                 }
             }

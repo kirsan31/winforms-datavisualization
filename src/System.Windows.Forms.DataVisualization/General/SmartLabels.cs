@@ -882,10 +882,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Fill callout box around the label
                 if (smartLabelStyle.CalloutBackColor != Color.Transparent)
                 {
-                    using (Brush calloutBrush = new SolidBrush(smartLabelStyle.CalloutBackColor))
-                    {
-                        graph.FillRectangle(calloutBrush, labelRectAbs);
-                    }
+                    using Brush calloutBrush = new SolidBrush(smartLabelStyle.CalloutBackColor);
+                    graph.FillRectangle(calloutBrush, labelRectAbs);
                 }
 
                 // Draw box border
@@ -1019,44 +1017,42 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (area.chartAreaIsCurcular)
                 {
-                    using (GraphicsPath areaPath = new GraphicsPath())
-                    {
-                        // Add circular shape of the area into the graphics path
-                        areaPath.AddEllipse(area.PlotAreaPosition.ToRectangleF());
+                    using GraphicsPath areaPath = new GraphicsPath();
+                    // Add circular shape of the area into the graphics path
+                    areaPath.AddEllipse(area.PlotAreaPosition.ToRectangleF());
 
-                        if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.Partial)
+                    if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.Partial)
+                    {
+                        PointF centerPos = new PointF(
+                            labelPosition.X + labelPosition.Width / 2f,
+                            labelPosition.Y + labelPosition.Height / 2f);
+                        if (!areaPath.IsVisible(centerPos))
                         {
-                            PointF centerPos = new PointF(
-                                labelPosition.X + labelPosition.Width / 2f,
-                                labelPosition.Y + labelPosition.Height / 2f);
-                            if (!areaPath.IsVisible(centerPos))
-                            {
-                                // DEBUG: Mark collided labels
+                            // DEBUG: Mark collided labels
 #if DEBUG
-                                if (graph != null && common.Chart.ShowDebugMarkings)
-                                {
-                                    graph.Graphics.DrawRectangle(Pens.Cyan, Rectangle.Round(graph.GetAbsoluteRectangle(labelPosition)));
-                                }
-#endif
-                                collisionDetected = true;
+                            if (graph != null && common.Chart.ShowDebugMarkings)
+                            {
+                                graph.Graphics.DrawRectangle(Pens.Cyan, Rectangle.Round(graph.GetAbsoluteRectangle(labelPosition)));
                             }
+#endif
+                            collisionDetected = true;
                         }
-                        else if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.No)
+                    }
+                    else if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.No)
+                    {
+                        if (!areaPath.IsVisible(labelPosition.Location) ||
+                            !areaPath.IsVisible(new PointF(labelPosition.Right, labelPosition.Y)) ||
+                            !areaPath.IsVisible(new PointF(labelPosition.Right, labelPosition.Bottom)) ||
+                            !areaPath.IsVisible(new PointF(labelPosition.X, labelPosition.Bottom)))
                         {
-                            if (!areaPath.IsVisible(labelPosition.Location) ||
-                                !areaPath.IsVisible(new PointF(labelPosition.Right, labelPosition.Y)) ||
-                                !areaPath.IsVisible(new PointF(labelPosition.Right, labelPosition.Bottom)) ||
-                                !areaPath.IsVisible(new PointF(labelPosition.X, labelPosition.Bottom)))
-                            {
-                                // DEBUG: Mark collided labels
+                            // DEBUG: Mark collided labels
 #if DEBUG
-                                if (graph != null && common.Chart.ShowDebugMarkings)
-                                {
-                                    graph.Graphics.DrawRectangle(Pens.Cyan, Rectangle.Round(graph.GetAbsoluteRectangle(labelPosition)));
-                                }
-#endif
-                                collisionDetected = true;
+                            if (graph != null && common.Chart.ShowDebugMarkings)
+                            {
+                                graph.Graphics.DrawRectangle(Pens.Cyan, Rectangle.Round(graph.GetAbsoluteRectangle(labelPosition)));
                             }
+#endif
+                            collisionDetected = true;
                         }
                     }
                 }

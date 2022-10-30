@@ -2,11 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Image annotation classes.
 //
-
 
 using System.ComponentModel;
 using System.Drawing;
@@ -21,122 +19,121 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <b>ImageAnnotation</b> is a class that represents an image annotation.
     /// </summary>
     [
-		SRDescription("DescriptionAttributeImageAnnotation_ImageAnnotation"),
-	]
+        SRDescription("DescriptionAttributeImageAnnotation_ImageAnnotation"),
+    ]
     public class ImageAnnotation : Annotation
-	{
-		#region Fields
+    {
+        #region Fields
 
-		// Annotation image name
-		private		string					_imageName = String.Empty;
+        // Annotation image name
+        private string _imageName = String.Empty;
 
-		// Image wrapping mode
-		private		ChartImageWrapMode		_imageWrapMode = ChartImageWrapMode.Scaled;
+        // Image wrapping mode
+        private ChartImageWrapMode _imageWrapMode = ChartImageWrapMode.Scaled;
 
-		// Image transparent color
-		private		Color					_imageTransparentColor = Color.Empty;
+        // Image transparent color
+        private Color _imageTransparentColor = Color.Empty;
 
-		#endregion
+        #endregion Fields
 
-		#region Construction and Initialization
+        #region Construction and Initialization
 
-		/// <summary>
-		/// Default public constructor.
-		/// </summary>
-		public ImageAnnotation() 
+        /// <summary>
+        /// Default public constructor.
+        /// </summary>
+        public ImageAnnotation()
             : base()
-		{
-		}
+        {
+        }
 
-		#endregion
+        #endregion Construction and Initialization
 
-		#region Properties
+        #region Properties
 
-		#region Image properties
+        #region Image properties
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the name of an annotation's image. 
-		/// <seealso cref="ImageTransparentColor"/>
-		/// </summary>
-		/// <value>
-		/// A string value representing the name of an annotation's image.
-		/// </value>
-		/// <remarks>
-		/// The name can be a file name, URL for the web control or a name from 
-		/// the <see cref="NamedImagesCollection"/> class.	
-		/// </remarks>
-		[
-		SRCategory("CategoryAttributeImage"),
-		Bindable(true),
-		DefaultValue(""),
+        /// <seealso cref="ImageTransparentColor"/>
+        /// </summary>
+        /// <value>
+        /// A string value representing the name of an annotation's image.
+        /// </value>
+        /// <remarks>
+        /// The name can be a file name, URL for the web control or a name from 
+        /// the <see cref="NamedImagesCollection"/> class.	
+        /// </remarks>
+        [
+        SRCategory("CategoryAttributeImage"),
+        Bindable(true),
+        DefaultValue(""),
         Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
         SRDescription("DescriptionAttributeImageAnnotation_Image"),
-		]
-		public virtual string Image
-		{
-			get
-			{
-				return _imageName;
-			}
-			set
-			{
-				_imageName = value;
-				this.Invalidate();
-			}
-		}
+        ]
+        public virtual string Image
+        {
+            get
+            {
+                return _imageName;
+            }
+            set
+            {
+                _imageName = value;
+                this.Invalidate();
+            }
+        }
 
-
-		/// <summary>
-		/// Gets or sets the drawing mode of the image.
-		/// </summary>
-		/// <value>
-		/// A <see cref="ChartImageWrapMode"/> value that defines the drawing mode of the image. 
-		/// </value>
-		[
-		SRCategory("CategoryAttributeImage"),
-		Bindable(true),
-		DefaultValue(ChartImageWrapMode.Scaled),
+        /// <summary>
+        /// Gets or sets the drawing mode of the image.
+        /// </summary>
+        /// <value>
+        /// A <see cref="ChartImageWrapMode"/> value that defines the drawing mode of the image. 
+        /// </value>
+        [
+        SRCategory("CategoryAttributeImage"),
+        Bindable(true),
+        DefaultValue(ChartImageWrapMode.Scaled),
         SRDescription("DescriptionAttributeImageWrapMode"),
-		]
-		public ChartImageWrapMode ImageWrapMode
-		{
-			get
-			{
-				return _imageWrapMode;
-			}
-			set
-			{
-				_imageWrapMode = value;
-				this.Invalidate();
-			}
-		}
+        ]
+        public ChartImageWrapMode ImageWrapMode
+        {
+            get
+            {
+                return _imageWrapMode;
+            }
+            set
+            {
+                _imageWrapMode = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets a color which will be replaced with a transparent color while drawing the image.
-		/// </summary>
-		/// <value>
+        /// <summary>
+        /// Gets or sets a color which will be replaced with a transparent color while drawing the image.
+        /// </summary>
+        /// <value>
         /// A <see cref="Color"/> value which will be replaced with a transparent color while drawing the image.
-		/// </value>
-		[
-		SRCategory("CategoryAttributeImage"),
-		Bindable(true),
-		DefaultValue(typeof(Color), ""),
+        /// </value>
+        [
+        SRCategory("CategoryAttributeImage"),
+        Bindable(true),
+        DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
         public Color ImageTransparentColor
-		{
-			get
-			{
-				return _imageTransparentColor;
-			}
-			set
-			{
-				_imageTransparentColor = value;
-				this.Invalidate();
-			}
-		}
+        {
+            get
+            {
+                return _imageTransparentColor;
+            }
+            set
+            {
+                _imageTransparentColor = value;
+                this.Invalidate();
+            }
+        }
 
         /// <summary>
         /// Gets or sets an annotation's content alignment.
@@ -150,22 +147,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// a non-scaled image inside an <see cref="ImageAnnotation"/> object.
         /// </remarks>
 		[
-		SRCategory("CategoryAttributeImage"),
-		DefaultValue(typeof(ContentAlignment), "MiddleCenter"),
-		SRDescription("DescriptionAttributeImageAnnotation_Alignment"),
-		]
-		override public ContentAlignment Alignment
-		{
-			get
-			{
-				return base.Alignment;
-			}
-			set
-			{
-				base.Alignment = value;
-				Invalidate();
-			}
-		}
+        SRCategory("CategoryAttributeImage"),
+        DefaultValue(typeof(ContentAlignment), "MiddleCenter"),
+        SRDescription("DescriptionAttributeImageAnnotation_Alignment"),
+        ]
+        public override ContentAlignment Alignment
+        {
+            get
+            {
+                return base.Alignment;
+            }
+            set
+            {
+                base.Alignment = value;
+                Invalidate();
+            }
+        }
 
         /// <summary>
         /// Gets or sets an annotation's text style.
@@ -189,9 +186,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-		#endregion // Image properties
+        #endregion Image properties
 
-		#region Other
+        #region Other
 
         /// <summary>
         /// Gets or sets an annotation's type name.
@@ -203,451 +200,446 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// This property is for internal use and is hidden at design and run time.
         /// </para>
         /// </remarks>
-		[
-		SRCategory("CategoryAttributeMisc"),
-		Bindable(true),
-		Browsable(false),
-		EditorBrowsableAttribute(EditorBrowsableState.Never),
-		DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-		SerializationVisibilityAttribute(SerializationVisibility.Hidden),
-		SRDescription("DescriptionAttributeAnnotationType"),
-		]
-		public override string AnnotationType
-		{
-			get
-			{
-				return "Image";
-			}
-		}
+        [
+        SRCategory("CategoryAttributeMisc"),
+        Bindable(true),
+        Browsable(false),
+        EditorBrowsableAttribute(EditorBrowsableState.Never),
+        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
+        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        SRDescription("DescriptionAttributeAnnotationType"),
+        ]
+        public override string AnnotationType
+        {
+            get
+            {
+                return "Image";
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets annotation selection points style.
-		/// </summary>
-		/// <value>
-		/// A <see cref="SelectionPointsStyle"/> value that represents annotation
-		/// selection style.
-		/// </value>
-		/// <remarks>
+        /// <summary>
+        /// Gets or sets annotation selection points style.
+        /// </summary>
+        /// <value>
+        /// A <see cref="SelectionPointsStyle"/> value that represents annotation
+        /// selection style.
+        /// </value>
+        /// <remarks>
         /// This property is for internal use and is hidden at design and run time.
-		/// </remarks>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(SelectionPointsStyle.Rectangle),
-		ParenthesizePropertyNameAttribute(true),
-		Browsable(false),
-		EditorBrowsableAttribute(EditorBrowsableState.Never),
-		DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-		SerializationVisibilityAttribute(SerializationVisibility.Hidden),
-		SRDescription("DescriptionAttributeSelectionPointsStyle"),
-		]
-		override internal SelectionPointsStyle SelectionPointsStyle
-		{
-			get
-			{
-				return SelectionPointsStyle.Rectangle;
-			}
-		}
+        /// </remarks>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(SelectionPointsStyle.Rectangle),
+        ParenthesizePropertyNameAttribute(true),
+        Browsable(false),
+        EditorBrowsableAttribute(EditorBrowsableState.Never),
+        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
+        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        SRDescription("DescriptionAttributeSelectionPointsStyle"),
+        ]
+        internal override SelectionPointsStyle SelectionPointsStyle
+        {
+            get
+            {
+                return SelectionPointsStyle.Rectangle;
+            }
+        }
 
-		#endregion
+        #endregion Other
 
-		#region Non Applicable Annotation Appearance Attributes (set as Non-Browsable)
+        #region Non Applicable Annotation Appearance Attributes (set as Non-Browsable)
 
-		/// <summary>
-		/// Not applicable to this type of annotation.
-		/// <seealso cref="Font"/>
-		/// </summary>
-		/// <value>
-		/// A <see cref="Color"/> value.
-		/// </value>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Browsable(false),
-		DefaultValue(typeof(Color), "Black"),
+        /// <summary>
+        /// Not applicable to this type of annotation.
+        /// <seealso cref="Font"/>
+        /// </summary>
+        /// <value>
+        /// A <see cref="Color"/> value.
+        /// </value>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Browsable(false),
+        DefaultValue(typeof(Color), "Black"),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
-        override public Color ForeColor
-		{
-			get
-			{
-				return base.ForeColor;
-			}
-			set
-			{
-				base.ForeColor = value;
-			}
-		}
+        public override Color ForeColor
+        {
+            get
+            {
+                return base.ForeColor;
+            }
+            set
+            {
+                base.ForeColor = value;
+            }
+        }
 
-		/// <summary>
-		/// Not applicable to this type of annotation.
-		/// </summary>
-		/// <value>
-		/// A <see cref="Font"/> object.
-		/// </value>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Browsable(false),
-		DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
-		]
-		override public Font Font
-		{
-			get
-			{
-				return base.Font;
-			}
-			set
-			{
-				base.Font = value;
-			}
-		}
+        /// <summary>
+        /// Not applicable to this type of annotation.
+        /// </summary>
+        /// <value>
+        /// A <see cref="Font"/> object.
+        /// </value>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Browsable(false),
+        DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
+        ]
+        public override Font Font
+        {
+            get
+            {
+                return base.Font;
+            }
+            set
+            {
+                base.Font = value;
+            }
+        }
 
         /// <summary>
         /// Not applicable to this annotation type.
         /// </summary>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		Browsable(false),
-		DefaultValue(typeof(Color), ""),
-		NotifyParentPropertyAttribute(true),
+        SRCategory("CategoryAttributeAppearance"),
+        Browsable(false),
+        DefaultValue(typeof(Color), ""),
+        NotifyParentPropertyAttribute(true),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
-        override public Color BackColor
-		{
-			get
-			{
-				return base.BackColor;
-			}
-			set
-			{
-				base.BackColor = value;
-			}
-		}
+        public override Color BackColor
+        {
+            get
+            {
+                return base.BackColor;
+            }
+            set
+            {
+                base.BackColor = value;
+            }
+        }
 
         /// <summary>
         /// Not applicable to this annotation type.
         /// </summary>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		Browsable(false),
-		DefaultValue(ChartHatchStyle.None),
-		NotifyParentPropertyAttribute(true),
+        SRCategory("CategoryAttributeAppearance"),
+        Browsable(false),
+        DefaultValue(ChartHatchStyle.None),
+        NotifyParentPropertyAttribute(true),
         Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
         ]
-        override public ChartHatchStyle BackHatchStyle
-		{
-			get
-			{
-				return base.BackHatchStyle;
-			}
-			set
-			{
-				base.BackHatchStyle = value;
-			}
-		}
+        public override ChartHatchStyle BackHatchStyle
+        {
+            get
+            {
+                return base.BackHatchStyle;
+            }
+            set
+            {
+                base.BackHatchStyle = value;
+            }
+        }
 
         /// <summary>
         /// Not applicable to this annotation type.
         /// </summary>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		Browsable(false),
-		DefaultValue(GradientStyle.None),
-		NotifyParentPropertyAttribute(true),
+        SRCategory("CategoryAttributeAppearance"),
+        Browsable(false),
+        DefaultValue(GradientStyle.None),
+        NotifyParentPropertyAttribute(true),
         Editor(typeof(GradientEditor), typeof(UITypeEditor))
         ]
-        override public GradientStyle BackGradientStyle
-		{
-			get
-			{
-				return base.BackGradientStyle;
-			}
-			set
-			{
-				base.BackGradientStyle = value;
-			}
-		}
+        public override GradientStyle BackGradientStyle
+        {
+            get
+            {
+                return base.BackGradientStyle;
+            }
+            set
+            {
+                base.BackGradientStyle = value;
+            }
+        }
 
         /// <summary>
         /// Not applicable to this annotation type.
         /// </summary>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		Browsable(false),
-		DefaultValue(typeof(Color), ""),
-		NotifyParentPropertyAttribute(true),
+        SRCategory("CategoryAttributeAppearance"),
+        Browsable(false),
+        DefaultValue(typeof(Color), ""),
+        NotifyParentPropertyAttribute(true),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
-        override public Color BackSecondaryColor
-		{
-			get
-			{
-				return base.BackSecondaryColor;
-			}
-			set
-			{
-				base.BackSecondaryColor = value;
-			}
-		}
+        public override Color BackSecondaryColor
+        {
+            get
+            {
+                return base.BackSecondaryColor;
+            }
+            set
+            {
+                base.BackSecondaryColor = value;
+            }
+        }
 
         /// <summary>
         /// Not applicable to this annotation type.
         /// </summary>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		Browsable(false),
-		DefaultValue(typeof(Color), "Black"),
+        SRCategory("CategoryAttributeAppearance"),
+        Browsable(false),
+        DefaultValue(typeof(Color), "Black"),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
-        override public Color LineColor
-		{
-			get
-			{
-				return base.LineColor;
-			}
-			set
-			{
-				base.LineColor = value;
-			}
-		}
+        public override Color LineColor
+        {
+            get
+            {
+                return base.LineColor;
+            }
+            set
+            {
+                base.LineColor = value;
+            }
+        }
 
         /// <summary>
         /// Not applicable to this annotation type.
         /// </summary>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(1),
-		Browsable(false),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(1),
+        Browsable(false),
         SRDescription("DescriptionAttributeLineWidth"),
-		]
-		override public int LineWidth
-		{
-			get
-			{
-				return base.LineWidth;
-			}
-			set
-			{
-				base.LineWidth = value;
-			}
-		}
+        ]
+        public override int LineWidth
+        {
+            get
+            {
+                return base.LineWidth;
+            }
+            set
+            {
+                base.LineWidth = value;
+            }
+        }
 
         /// <summary>
         /// Not applicable to this annotation type.
         /// </summary>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		Browsable(false),
-		DefaultValue(ChartDashStyle.Solid),
+        SRCategory("CategoryAttributeAppearance"),
+        Browsable(false),
+        DefaultValue(ChartDashStyle.Solid),
         SRDescription("DescriptionAttributeLineDashStyle"),
-		]
-		override public ChartDashStyle LineDashStyle
-		{
-			get
-			{
-				return base.LineDashStyle;
-			}
-			set
-			{
-				base.LineDashStyle = value;
-			}
-		}
+        ]
+        public override ChartDashStyle LineDashStyle
+        {
+            get
+            {
+                return base.LineDashStyle;
+            }
+            set
+            {
+                base.LineDashStyle = value;
+            }
+        }
 
+        #endregion Non Applicable Annotation Appearance Attributes (set as Non-Browsable)
 
-		#endregion
+        #endregion Properties
 
-		#endregion
+        #region Methods
 
-		#region Methods
+        #region Painting
 
-		#region Painting
-
-		/// <summary>
-		/// Paints the annotation object on the specified graphics.
-		/// </summary>
-		/// <param name="graphics">
-		/// A <see cref="ChartGraphics"/> object, used to paint the annotation object.
-		/// </param>
-		/// <param name="chart">
-		/// Reference to the <see cref="Chart"/> owner control.
-		/// </param>
-        override internal void Paint(Chart chart, ChartGraphics graphics)
-		{
+        /// <summary>
+        /// Paints the annotation object on the specified graphics.
+        /// </summary>
+        /// <param name="graphics">
+        /// A <see cref="ChartGraphics"/> object, used to paint the annotation object.
+        /// </param>
+        /// <param name="chart">
+        /// Reference to the <see cref="Chart"/> owner control.
+        /// </param>
+        internal override void Paint(Chart chart, ChartGraphics graphics)
+        {
             // Get annotation position in relative coordinates
             GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
-            PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+            PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
-			// Create selection rectangle
-			RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
+            // Create selection rectangle
+            RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
 
-			// Get position
-			RectangleF	rectanglePosition = new RectangleF(selectionRect.Location, selectionRect.Size);
-			if(rectanglePosition.Width < 0)
-			{
-				rectanglePosition.X = rectanglePosition.Right;
-				rectanglePosition.Width = -rectanglePosition.Width;
-			}
-			if(rectanglePosition.Height < 0)
-			{
-				rectanglePosition.Y = rectanglePosition.Bottom;
-				rectanglePosition.Height = -rectanglePosition.Height;
-			}
+            // Get position
+            RectangleF rectanglePosition = new RectangleF(selectionRect.Location, selectionRect.Size);
+            if (rectanglePosition.Width < 0)
+            {
+                rectanglePosition.X = rectanglePosition.Right;
+                rectanglePosition.Width = -rectanglePosition.Width;
+            }
+            if (rectanglePosition.Height < 0)
+            {
+                rectanglePosition.Y = rectanglePosition.Bottom;
+                rectanglePosition.Height = -rectanglePosition.Height;
+            }
 
-			// Check if position is valid
-			if( float.IsNaN(rectanglePosition.X) || 
-				float.IsNaN(rectanglePosition.Y) || 
-				float.IsNaN(rectanglePosition.Right) || 
-				float.IsNaN(rectanglePosition.Bottom) )
-			{
-				return;
-			}
+            // Check if position is valid
+            if (float.IsNaN(rectanglePosition.X) ||
+                float.IsNaN(rectanglePosition.Y) ||
+                float.IsNaN(rectanglePosition.Right) ||
+                float.IsNaN(rectanglePosition.Bottom))
+            {
+                return;
+            }
 
-			if(this.Common.ProcessModePaint)
-			{
-				// Draw "empty" image at design time
-				if(this._imageName.Length == 0 && this.Chart.IsDesignMode() )
-				{
-					graphics.FillRectangleRel(
-						rectanglePosition,
-						this.BackColor,
-						this.BackHatchStyle,
-						this._imageName,
-						this._imageWrapMode,
-						this._imageTransparentColor,
-						GetImageAlignment(this.Alignment),
-						this.BackGradientStyle,
-						this.BackSecondaryColor,
-						this.LineColor,
-						this.LineWidth,
-						this.LineDashStyle,
-						this.ShadowColor,
-						this.ShadowOffset,
-						PenAlignment.Center);
+            if (this.Common.ProcessModePaint)
+            {
+                // Draw "empty" image at design time
+                if (this._imageName.Length == 0 && this.Chart.IsDesignMode())
+                {
+                    graphics.FillRectangleRel(
+                        rectanglePosition,
+                        this.BackColor,
+                        this.BackHatchStyle,
+                        this._imageName,
+                        this._imageWrapMode,
+                        this._imageTransparentColor,
+                        GetImageAlignment(this.Alignment),
+                        this.BackGradientStyle,
+                        this.BackSecondaryColor,
+                        this.LineColor,
+                        this.LineWidth,
+                        this.LineDashStyle,
+                        this.ShadowColor,
+                        this.ShadowOffset,
+                        PenAlignment.Center);
 
-					// Draw text
-					using( Brush textBrush = new SolidBrush(this.ForeColor) )
-					{
-                        using (StringFormat format = StringFormat.GenericTypographic)
+                    // Draw text
+                    using Brush textBrush = new SolidBrush(this.ForeColor);
+                    using StringFormat format = StringFormat.GenericTypographic;
+                    format.Alignment = StringAlignment.Center;
+                    format.LineAlignment = StringAlignment.Center;
+                    format.FormatFlags = StringFormatFlags.LineLimit;
+                    format.Trimming = StringTrimming.EllipsisCharacter;
+                    graphics.DrawStringRel(
+                        "(no image)",
+                        this.Font,
+                        textBrush,
+                        rectanglePosition,
+                        format);
+                }
+                else
+                {
+                    // Draw image
+                    graphics.FillRectangleRel(
+                        rectanglePosition,
+                        Color.Transparent,
+                        this.BackHatchStyle,
+                        this._imageName,
+                        this._imageWrapMode,
+                        this._imageTransparentColor,
+                        GetImageAlignment(this.Alignment),
+                        this.BackGradientStyle,
+                        Color.Transparent,
+                        Color.Transparent,
+                        0,
+                        this.LineDashStyle,
+                        this.ShadowColor,
+                        this.ShadowOffset,
+                        PenAlignment.Center);
+                }
+            }
+
+            if (this.Common.ProcessModeRegions)
+            {
+                // Add hot region
+                this.Common.HotRegionsList.AddHotRegion(
+                    rectanglePosition,
+                    ReplaceKeywords(this.ToolTip),
+                    String.Empty,
+                    String.Empty,
+                    String.Empty,
+                    this,
+                    ChartElementType.Annotation,
+                    String.Empty);
+            }
+
+            // Paint selection handles
+            PaintSelectionHandles(graphics, selectionRect, null);
+        }
+
+        /// <summary>
+        /// Coverts ContentAlignment enumeration to ChartImageAlignmentStyle enumeration.
+        /// </summary>
+        /// <param name="alignment">Content alignment.</param>
+        /// <returns>Image content alignment.</returns>
+        private ChartImageAlignmentStyle GetImageAlignment(ContentAlignment alignment)
+        {
+            if (alignment == ContentAlignment.TopLeft)
+            {
+                return ChartImageAlignmentStyle.TopLeft;
+            }
+            else if (alignment == ContentAlignment.TopCenter)
+            {
+                return ChartImageAlignmentStyle.Top;
+            }
+            else if (alignment == ContentAlignment.TopRight)
+            {
+                return ChartImageAlignmentStyle.TopRight;
+            }
+            else if (alignment == ContentAlignment.MiddleRight)
+            {
+                return ChartImageAlignmentStyle.Right;
+            }
+            else if (alignment == ContentAlignment.BottomRight)
+            {
+                return ChartImageAlignmentStyle.BottomRight;
+            }
+            else if (alignment == ContentAlignment.BottomCenter)
+            {
+                return ChartImageAlignmentStyle.Bottom;
+            }
+            else if (alignment == ContentAlignment.BottomLeft)
+            {
+                return ChartImageAlignmentStyle.BottomLeft;
+            }
+            else if (alignment == ContentAlignment.MiddleLeft)
+            {
+                return ChartImageAlignmentStyle.Left;
+            }
+            return ChartImageAlignmentStyle.Center;
+        }
+
+        #endregion Painting
+
+        #region Content Size
+
+        /// <summary>
+        /// Gets text annotation content size based on the text and font.
+        /// </summary>
+        /// <returns>Annotation content position.</returns>
+        internal override RectangleF GetContentPosition()
+        {
+            // Check image size
+            if (this.Image.Length > 0)
+            {
+                // Try loading image and getting its size
+                try
+                {
+                    if (this.Chart != null)
+                    {
+                        ImageLoader imageLoader = this.Common.ImageLoader;
+
+                        if (imageLoader != null)
                         {
-                            format.Alignment = StringAlignment.Center;
-                            format.LineAlignment = StringAlignment.Center;
-                            format.FormatFlags = StringFormatFlags.LineLimit;
-                            format.Trimming = StringTrimming.EllipsisCharacter;
-                            graphics.DrawStringRel(
-                                "(no image)",
-                                this.Font,
-                                textBrush,
-                                rectanglePosition,
-                                format);
-                        }
-					}
-				}
-				else
-				{
-					// Draw image
-					graphics.FillRectangleRel(
-						rectanglePosition,
-						Color.Transparent,
-						this.BackHatchStyle,
-						this._imageName,
-						this._imageWrapMode,
-						this._imageTransparentColor,
-						GetImageAlignment(this.Alignment),
-						this.BackGradientStyle,
-						Color.Transparent,
-						Color.Transparent,
-						0,
-						this.LineDashStyle,
-						this.ShadowColor,
-						this.ShadowOffset,
-						PenAlignment.Center);
-				}
-			}
-
-			if(this.Common.ProcessModeRegions)
-			{
-				// Add hot region
-				this.Common.HotRegionsList.AddHotRegion(
-					rectanglePosition,
-					ReplaceKeywords(this.ToolTip),
-					String.Empty,
-					String.Empty,
-					String.Empty,
-					this,
-					ChartElementType.Annotation,
-					String.Empty);
-			}
-
-			// Paint selection handles
-			PaintSelectionHandles(graphics, selectionRect, null);
-		}
-
-		/// <summary>
-		/// Coverts ContentAlignment enumeration to ChartImageAlignmentStyle enumeration.
-		/// </summary>
-		/// <param name="alignment">Content alignment.</param>
-		/// <returns>Image content alignment.</returns>
-		private ChartImageAlignmentStyle GetImageAlignment(ContentAlignment alignment)
-		{
-			if(alignment == ContentAlignment.TopLeft)
-			{
-				return ChartImageAlignmentStyle.TopLeft;
-			}
-			else if(alignment == ContentAlignment.TopCenter)
-			{
-				return ChartImageAlignmentStyle.Top;
-			}
-			else if(alignment == ContentAlignment.TopRight)
-			{
-				return ChartImageAlignmentStyle.TopRight;
-			}
-			else if(alignment == ContentAlignment.MiddleRight)
-			{
-				return ChartImageAlignmentStyle.Right;
-			}
-			else if(alignment == ContentAlignment.BottomRight)
-			{
-				return ChartImageAlignmentStyle.BottomRight;
-			}
-			else if(alignment == ContentAlignment.BottomCenter)
-			{
-				return ChartImageAlignmentStyle.Bottom;
-			}
-			else if(alignment == ContentAlignment.BottomLeft)
-			{
-				return ChartImageAlignmentStyle.BottomLeft;
-			}
-			else if(alignment == ContentAlignment.MiddleLeft)
-			{
-				return ChartImageAlignmentStyle.Left;
-			}
-			return ChartImageAlignmentStyle.Center;
-		}
-
-		#endregion // Painting
-
-		#region Content Size
-
-		/// <summary>
-		/// Gets text annotation content size based on the text and font.
-		/// </summary>
-		/// <returns>Annotation content position.</returns>
-		override internal RectangleF GetContentPosition()
-		{
-			// Check image size
-			if(this.Image.Length > 0)
-			{
-				// Try loading image and getting its size
-				try
-				{
-					if(this.Chart != null)
-					{
-						ImageLoader imageLoader = this.Common.ImageLoader;
-						
-                        if(imageLoader != null)
-						{
                             ChartGraphics chartGraphics = this.GetGraphics();
 
                             if (chartGraphics != null)
@@ -660,20 +652,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     return new RectangleF(float.NaN, float.NaN, imageSize.Width, imageSize.Height);
                                 }
                             }
-						}
-					}
-				}
-				catch(ArgumentException)
-				{
-					// ArgumentException is thrown by LoadImage in certain situations when it can't load the image
-				}
-			}
+                        }
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    // ArgumentException is thrown by LoadImage in certain situations when it can't load the image
+                }
+            }
 
-			return new RectangleF(float.NaN, float.NaN, float.NaN, float.NaN);
-		}
+            return new RectangleF(float.NaN, float.NaN, float.NaN, float.NaN);
+        }
 
-		#endregion
+        #endregion Content Size
 
-		#endregion
-	}
+        #endregion Methods
+    }
 }

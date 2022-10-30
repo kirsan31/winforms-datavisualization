@@ -178,7 +178,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 			foreach(object checkedItem in this.CheckedItems)
 			{
 				Int32	currentValueInt32 = (Int32)Enum.Parse(this._editType, (string)checkedItem);
-				editValueInt32 = editValueInt32 | currentValueInt32;
+				editValueInt32 |= currentValueInt32;
 			}
 
 			// Return enumeration value

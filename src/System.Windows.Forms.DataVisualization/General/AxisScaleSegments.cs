@@ -322,127 +322,117 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Get bottom line graphics path
 				breakLinePathBottom = this.GetBreakLinePath(breakPosition, false);
 
-				// Clear plotting area background
-				using(GraphicsPath fillPath = new GraphicsPath())
-				{
-					// Create fill path out of top and bottom break lines
-					fillPath.AddPath(breakLinePathTop, true);
-					fillPath.Reverse();
-					fillPath.AddPath(breakLinePathBottom, true);
-					fillPath.CloseAllFigures();
+                // Clear plotting area background
+                using GraphicsPath fillPath = new GraphicsPath();
+                // Create fill path out of top and bottom break lines
+                fillPath.AddPath(breakLinePathTop, true);
+                fillPath.Reverse();
+                fillPath.AddPath(breakLinePathBottom, true);
+                fillPath.CloseAllFigures();
 
-					// Use chart back color to fill the area
-					using(Brush fillBrush = this.GetChartFillBrush(graph))
-					{
-						graph.FillPath(fillBrush, fillPath);
+                // Use chart back color to fill the area
+                using Brush fillBrush = this.GetChartFillBrush(graph);
+                graph.FillPath(fillBrush, fillPath);
 
-						// Check if shadow exsits in chart area
-						if( this.axis.ChartArea.ShadowOffset != 0 && !this.axis.ChartArea.ShadowColor.IsEmpty)
-						{
-							// Clear shadow
-							RectangleF shadowPartRect = breakPosition;
-							if( this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left )
-							{
-								shadowPartRect.Y += this.axis.ChartArea.ShadowOffset;
-								shadowPartRect.Height -= this.axis.ChartArea.ShadowOffset;
-								shadowPartRect.X = shadowPartRect.Right - 1;
-								shadowPartRect.Width = this.axis.ChartArea.ShadowOffset + 2;
-							}
-							else
-							{
-								shadowPartRect.X += this.axis.ChartArea.ShadowOffset;
-								shadowPartRect.Width -= this.axis.ChartArea.ShadowOffset;
-								shadowPartRect.Y = shadowPartRect.Bottom - 1;
-								shadowPartRect.Height = this.axis.ChartArea.ShadowOffset + 2;
-							}
-							graph.FillRectangle(fillBrush, shadowPartRect);
+                // Check if shadow exsits in chart area
+                if (this.axis.ChartArea.ShadowOffset != 0 && !this.axis.ChartArea.ShadowColor.IsEmpty)
+                {
+                    // Clear shadow
+                    RectangleF shadowPartRect = breakPosition;
+                    if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
+                    {
+                        shadowPartRect.Y += this.axis.ChartArea.ShadowOffset;
+                        shadowPartRect.Height -= this.axis.ChartArea.ShadowOffset;
+                        shadowPartRect.X = shadowPartRect.Right - 1;
+                        shadowPartRect.Width = this.axis.ChartArea.ShadowOffset + 2;
+                    }
+                    else
+                    {
+                        shadowPartRect.X += this.axis.ChartArea.ShadowOffset;
+                        shadowPartRect.Width -= this.axis.ChartArea.ShadowOffset;
+                        shadowPartRect.Y = shadowPartRect.Bottom - 1;
+                        shadowPartRect.Height = this.axis.ChartArea.ShadowOffset + 2;
+                    }
+                    graph.FillRectangle(fillBrush, shadowPartRect);
 
-							// Draw new shadow
-							using(GraphicsPath shadowPath = new GraphicsPath())
-							{
-								shadowPath.AddPath(breakLinePathTop, false);
+                    // Draw new shadow
+                    using GraphicsPath shadowPath = new GraphicsPath();
+                    shadowPath.AddPath(breakLinePathTop, false);
 
-								// Define maximum size
-								float size = this.axis.ChartArea.ShadowOffset;
-								if( this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left )
-								{
-									size = Math.Min(size, breakPosition.Height);
-								}
-								else
-								{
-									size = Math.Min(size, breakPosition.Width);
-								}
+                    // Define maximum size
+                    float size = this.axis.ChartArea.ShadowOffset;
+                    if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
+                    {
+                        size = Math.Min(size, breakPosition.Height);
+                    }
+                    else
+                    {
+                        size = Math.Min(size, breakPosition.Width);
+                    }
 
-								// Define step to increase transperancy
-								int transparencyStep = (int)(this.axis.ChartArea.ShadowColor.A / size);
+                    // Define step to increase transperancy
+                    int transparencyStep = (int)(this.axis.ChartArea.ShadowColor.A / size);
 
-								// Set clip region to achieve spacing of the shadow
-								// Start with the plotting rectangle position
-								RectangleF clipRegion = graph.GetAbsoluteRectangle(this.axis.PlotAreaPosition.ToRectangleF());
-								if( this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left )
-								{
-									clipRegion.X += this.axis.ChartArea.ShadowOffset;
-									clipRegion.Width += this.axis.ChartArea.ShadowOffset;
-								}
-								else
-								{
-									clipRegion.Y += this.axis.ChartArea.ShadowOffset;
-									clipRegion.Height += this.axis.ChartArea.ShadowOffset;
-								}
-								graph.SetClip(graph.GetRelativeRectangle(clipRegion));
+                    // Set clip region to achieve spacing of the shadow
+                    // Start with the plotting rectangle position
+                    RectangleF clipRegion = graph.GetAbsoluteRectangle(this.axis.PlotAreaPosition.ToRectangleF());
+                    if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
+                    {
+                        clipRegion.X += this.axis.ChartArea.ShadowOffset;
+                        clipRegion.Width += this.axis.ChartArea.ShadowOffset;
+                    }
+                    else
+                    {
+                        clipRegion.Y += this.axis.ChartArea.ShadowOffset;
+                        clipRegion.Height += this.axis.ChartArea.ShadowOffset;
+                    }
+                    graph.SetClip(graph.GetRelativeRectangle(clipRegion));
 
-								// Draw several lines to form shadow
-								for(int index = 0; index < size; index ++)
-								{
-									using(Matrix newMatrix = new Matrix())
-									{
-										// Shift top break line by 1 pixel
-										if( this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left )
-										{
-											newMatrix.Translate(0f, 1f);
-										}
-										else
-										{
-											newMatrix.Translate(1f, 0f);
-										}
-										shadowPath.Transform(newMatrix);
-									}
+                    // Draw several lines to form shadow
+                    for (int index = 0; index < size; index++)
+                    {
+                        using (Matrix newMatrix = new Matrix())
+                        {
+                            // Shift top break line by 1 pixel
+                            if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
+                            {
+                                newMatrix.Translate(0f, 1f);
+                            }
+                            else
+                            {
+                                newMatrix.Translate(1f, 0f);
+                            }
+                            shadowPath.Transform(newMatrix);
+                        }
 
-									// Get line color
-									Color color = Color.FromArgb(
-										this.axis.ChartArea.ShadowColor.A - transparencyStep * index, 
-										this.axis.ChartArea.ShadowColor);
+                        // Get line color
+                        Color color = Color.FromArgb(
+                            this.axis.ChartArea.ShadowColor.A - transparencyStep * index,
+                            this.axis.ChartArea.ShadowColor);
 
-									using(Pen shadowPen = new Pen(color, 1))
-									{
-										// Draw shadow
-										graph.DrawPath(shadowPen, shadowPath);
-									}
-								}
+                        using Pen shadowPen = new Pen(color, 1);
+                        // Draw shadow
+                        graph.DrawPath(shadowPen, shadowPath);
+                    }
 
-								graph.ResetClip();
-							}
-						}
-					}
-				}
-			}
+                    graph.ResetClip();
+                }
+            }
 
 			// Draw Separator Line(s)
 			if(this.axis.ScaleBreakStyle.BreakLineStyle != BreakLineStyle.None)
 			{
-				using(Pen pen = new Pen(this.axis.ScaleBreakStyle.LineColor, this.axis.ScaleBreakStyle.LineWidth))
-				{
-					// Set line style
-					pen.DashStyle = graph.GetPenStyle(this.axis.ScaleBreakStyle.LineDashStyle);
+                using Pen pen = new Pen(this.axis.ScaleBreakStyle.LineColor, this.axis.ScaleBreakStyle.LineWidth);
+                // Set line style
+                pen.DashStyle = graph.GetPenStyle(this.axis.ScaleBreakStyle.LineDashStyle);
 
-					// Draw break lines
-					graph.DrawPath(pen, breakLinePathTop);
-					if(breakPosition.Width > 0f && breakPosition.Height > 0f)
-					{
-						graph.DrawPath(pen, breakLinePathBottom);
-					}
-				}
-			}
+                // Draw break lines
+                graph.DrawPath(pen, breakLinePathTop);
+                if (breakPosition.Width > 0f && breakPosition.Height > 0f)
+                {
+                    graph.DrawPath(pen, breakLinePathBottom);
+                }
+            }
 
 			// Dispose break line paths
 			breakLinePathTop.Dispose();

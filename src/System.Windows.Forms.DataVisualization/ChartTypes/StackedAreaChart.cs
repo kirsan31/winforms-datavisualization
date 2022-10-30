@@ -738,11 +738,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         gradientPath.AddPath(areaBottomPath, true);
 
                         // Create brush
-                        using (Brush areaBrush = graph.GetGradientBrush(gradientPath.GetBounds(), this.Series.Color, this.Series.BackSecondaryColor, this.Series.BackGradientStyle))
-                        {
-                            // Fill area with gradient
-                            graph.FillPath(areaBrush, gradientPath);
-                        }
+                        using Brush areaBrush = graph.GetGradientBrush(gradientPath.GetBounds(), this.Series.Color, this.Series.BackSecondaryColor, this.Series.BackGradientStyle);
+                        // Fill area with gradient
+                        graph.FillPath(areaBrush, gradientPath);
                     }
 
                     areaPath.Dispose();
@@ -957,89 +955,87 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         if (!point.IsEmpty && (ser.IsValueShownAsLabel || point.IsValueShownAsLabel || point.Label.Length > 0))
                         {
                             // Label text format
-                            using (StringFormat format = new StringFormat())
+                            using StringFormat format = new StringFormat();
+                            format.Alignment = StringAlignment.Center;
+                            format.LineAlignment = StringAlignment.Center;
+
+                            // Get label text
+                            string text;
+                            if (point.Label.Length == 0)
                             {
-                                format.Alignment = StringAlignment.Center;
-                                format.LineAlignment = StringAlignment.Center;
-
-                                // Get label text
-                                string text;
-                                if (point.Label.Length == 0)
+                                double pointLabelValue = GetYValue(common, area, ser, point, index, 0);
+                                // Round Y values for 100% stacked area
+                                if (this.hundredPercentStacked && point.LabelFormat.Length == 0)
                                 {
-                                    double pointLabelValue = GetYValue(common, area, ser, point, index, 0);
-                                    // Round Y values for 100% stacked area
-                                    if (this.hundredPercentStacked && point.LabelFormat.Length == 0)
-                                    {
-                                        pointLabelValue = Math.Round(pointLabelValue, 2);
-                                    }
-                                    text = ValueConverter.FormatValue(
-                                        ser.Chart,
-                                        point,
-                                        point.Tag,
-                                        pointLabelValue,
-                                        point.LabelFormat,
-                                        ser.YValueType,
-                                        ChartElementType.DataPoint);
+                                    pointLabelValue = Math.Round(pointLabelValue, 2);
                                 }
-                                else
-                                {
-                                    text = point.ReplaceKeywords(point.Label);
-                                }
+                                text = ValueConverter.FormatValue(
+                                    ser.Chart,
+                                    point,
+                                    point.Tag,
+                                    pointLabelValue,
+                                    point.LabelFormat,
+                                    ser.YValueType,
+                                    ChartElementType.DataPoint);
+                            }
+                            else
+                            {
+                                text = point.ReplaceKeywords(point.Label);
+                            }
 
-                                // Disable the clip region
-                                Region oldClipRegion = graph.Clip;
-                                graph.Clip = new Region();
+                            // Disable the clip region
+                            Region oldClipRegion = graph.Clip;
+                            graph.Clip = new Region();
 
-                                // Draw label
-                                PointF labelPosition = PointF.Empty;
-                                labelPosition.X = secondPoint.X;
-                                labelPosition.Y = secondPoint.Y - (secondPoint.Y - prevYValue2) / 2f;
-                                labelPosition = graph.GetRelativePoint(labelPosition);
+                            // Draw label
+                            PointF labelPosition = PointF.Empty;
+                            labelPosition.X = secondPoint.X;
+                            labelPosition.Y = secondPoint.Y - (secondPoint.Y - prevYValue2) / 2f;
+                            labelPosition = graph.GetRelativePoint(labelPosition);
 
-                                // Measure string
-                                using var sf = StringFormat.GenericTypographic;
-                                SizeF sizeFont = graph.GetRelativeSize(
-                                    graph.MeasureString(
+                            // Measure string
+                            using var sf = StringFormat.GenericTypographic;
+                            SizeF sizeFont = graph.GetRelativeSize(
+                                graph.MeasureString(
+                                text,
+                                point.Font,
+                                new SizeF(1000f, 1000f),
+                                sf));
+
+                            // Get label background position
+                            RectangleF labelBackPosition = RectangleF.Empty;
+                            SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
+                            sizeLabel.Height += sizeFont.Height / 8;
+                            sizeLabel.Width += sizeLabel.Width / text.Length;
+                            labelBackPosition = new RectangleF(
+                                labelPosition.X - sizeLabel.Width / 2,
+                                labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
+                                sizeLabel.Width,
+                                sizeLabel.Height);
+
+                            // Draw label text
+                            using (Brush brush = new SolidBrush(point.LabelForeColor))
+                            {
+                                graph.DrawPointLabelStringRel(
+                                    common,
                                     text,
                                     point.Font,
-                                    new SizeF(1000f, 1000f),
-                                    sf));
-
-                                // Get label background position
-                                RectangleF labelBackPosition = RectangleF.Empty;
-                                SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-                                sizeLabel.Height += sizeFont.Height / 8;
-                                sizeLabel.Width += sizeLabel.Width / text.Length;
-                                labelBackPosition = new RectangleF(
-                                    labelPosition.X - sizeLabel.Width / 2,
-                                    labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
-                                    sizeLabel.Width,
-                                    sizeLabel.Height);
-
-                                // Draw label text
-                                using (Brush brush = new SolidBrush(point.LabelForeColor))
-                                {
-                                    graph.DrawPointLabelStringRel(
-                                        common,
-                                        text,
-                                        point.Font,
-                                        brush,
-                                        labelPosition,
-                                        format,
-                                        point.LabelAngle,
-                                        labelBackPosition,
-                                        point.LabelBackColor,
-                                        point.LabelBorderColor,
-                                        point.LabelBorderWidth,
-                                        point.LabelBorderDashStyle,
-                                        ser,
-                                        point,
-                                        index);
-                                }
-
-                                // Restore old clip region
-                                graph.Clip = oldClipRegion;
+                                    brush,
+                                    labelPosition,
+                                    format,
+                                    point.LabelAngle,
+                                    labelBackPosition,
+                                    point.LabelBackColor,
+                                    point.LabelBorderColor,
+                                    point.LabelBorderWidth,
+                                    point.LabelBorderDashStyle,
+                                    ser,
+                                    point,
+                                    index);
                             }
+
+                            // Restore old clip region
+                            graph.Clip = oldClipRegion;
                         }
 
 
@@ -1444,82 +1440,78 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 pointShowLabelAsValue || pointLabel.Length > 0)
             {
                 // Label text format
-                using (StringFormat format = new StringFormat())
+                using StringFormat format = new StringFormat();
+                format.Alignment = StringAlignment.Center;
+                format.LineAlignment = StringAlignment.Center;
+
+                // Get label text
+                string text;
+                if (pointLabel.Length == 0)
                 {
-                    format.Alignment = StringAlignment.Center;
-                    format.LineAlignment = StringAlignment.Center;
-
-                    // Get label text
-                    string text;
-                    if (pointLabel.Length == 0)
+                    // Round Y values for 100% stacked area
+                    double pointLabelValue = pointEx.dataPoint.YValues[(labelYValueIndex == -1) ? YValueIndex : labelYValueIndex];
+                    if (this.hundredPercentStacked && pointEx.dataPoint.LabelFormat.Length == 0)
                     {
-                        // Round Y values for 100% stacked area
-                        double pointLabelValue = pointEx.dataPoint.YValues[(labelYValueIndex == -1) ? YValueIndex : labelYValueIndex];
-                        if (this.hundredPercentStacked && pointEx.dataPoint.LabelFormat.Length == 0)
-                        {
-                            pointLabelValue = Math.Round(pointLabelValue, 2);
-                        }
-
-                        text = ValueConverter.FormatValue(
-                            pointEx.dataPoint.series.Chart,
-                            pointEx.dataPoint,
-                            pointEx.dataPoint.Tag,
-                            pointLabelValue,
-                            pointEx.dataPoint.LabelFormat,
-                            pointEx.dataPoint.series.YValueType,
-                            ChartElementType.DataPoint);
-                    }
-                    else
-                    {
-                        text = pointEx.dataPoint.ReplaceKeywords(pointLabel);
+                        pointLabelValue = Math.Round(pointLabelValue, 2);
                     }
 
-                    // Get label position
-                    Point3D[] points = new Point3D[1];
-                    points[0] = new Point3D((float)pointEx.xPosition, (float)(pointEx.yPosition + pointEx.height) / 2f, positionZ + depth);
-                    area.matrix3D.TransformPoints(points);
-
-                    // Measure string
-                    using var sf = StringFormat.GenericTypographic;
-                    SizeF sizeFont = graph.GetRelativeSize(
-                        graph.MeasureString(
-                        text,
-                        pointEx.dataPoint.Font,
-                        new SizeF(1000f, 1000f),
-                        sf));
-
-                    // Get label background position
-                    RectangleF labelBackPosition = RectangleF.Empty;
-                    SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-                    sizeLabel.Height += sizeFont.Height / 8;
-                    sizeLabel.Width += sizeLabel.Width / text.Length;
-                    labelBackPosition = new RectangleF(
-                        points[0].PointF.X - sizeLabel.Width / 2,
-                        points[0].PointF.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
-                        sizeLabel.Width,
-                        sizeLabel.Height);
-
-                    // Draw label text
-                    using (Brush brush = new SolidBrush(pointEx.dataPoint.LabelForeColor))
-                    {
-                        graph.DrawPointLabelStringRel(
-                            common,
-                            text,
-                            pointEx.dataPoint.Font,
-                            brush,
-                            points[0].PointF,
-                            format,
-                            pointEx.dataPoint.LabelAngle,
-                            labelBackPosition,
-                            pointEx.dataPoint.LabelBackColor,
-                            pointEx.dataPoint.LabelBorderColor,
-                            pointEx.dataPoint.LabelBorderWidth,
-                            pointEx.dataPoint.LabelBorderDashStyle,
-                            pointEx.dataPoint.series,
-                            pointEx.dataPoint,
-                            pointEx.index - 1);
-                    }
+                    text = ValueConverter.FormatValue(
+                        pointEx.dataPoint.series.Chart,
+                        pointEx.dataPoint,
+                        pointEx.dataPoint.Tag,
+                        pointLabelValue,
+                        pointEx.dataPoint.LabelFormat,
+                        pointEx.dataPoint.series.YValueType,
+                        ChartElementType.DataPoint);
                 }
+                else
+                {
+                    text = pointEx.dataPoint.ReplaceKeywords(pointLabel);
+                }
+
+                // Get label position
+                Point3D[] points = new Point3D[1];
+                points[0] = new Point3D((float)pointEx.xPosition, (float)(pointEx.yPosition + pointEx.height) / 2f, positionZ + depth);
+                area.matrix3D.TransformPoints(points);
+
+                // Measure string
+                using var sf = StringFormat.GenericTypographic;
+                SizeF sizeFont = graph.GetRelativeSize(
+                    graph.MeasureString(
+                    text,
+                    pointEx.dataPoint.Font,
+                    new SizeF(1000f, 1000f),
+                    sf));
+
+                // Get label background position
+                RectangleF labelBackPosition = RectangleF.Empty;
+                SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
+                sizeLabel.Height += sizeFont.Height / 8;
+                sizeLabel.Width += sizeLabel.Width / text.Length;
+                labelBackPosition = new RectangleF(
+                    points[0].PointF.X - sizeLabel.Width / 2,
+                    points[0].PointF.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
+                    sizeLabel.Width,
+                    sizeLabel.Height);
+
+                // Draw label text
+                using Brush brush = new SolidBrush(pointEx.dataPoint.LabelForeColor);
+                graph.DrawPointLabelStringRel(
+                    common,
+                    text,
+                    pointEx.dataPoint.Font,
+                    brush,
+                    points[0].PointF,
+                    format,
+                    pointEx.dataPoint.LabelAngle,
+                    labelBackPosition,
+                    pointEx.dataPoint.LabelBackColor,
+                    pointEx.dataPoint.LabelBorderColor,
+                    pointEx.dataPoint.LabelBorderWidth,
+                    pointEx.dataPoint.LabelBorderDashStyle,
+                    pointEx.dataPoint.series,
+                    pointEx.dataPoint,
+                    pointEx.index - 1);
             }
         }
 

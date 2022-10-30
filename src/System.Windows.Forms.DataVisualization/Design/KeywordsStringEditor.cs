@@ -368,7 +368,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 {
                     // Insert keyword at the end of curently selected keyword 
                     // and separate them with space
-                    this._richTextBox.SelectionStart = this._richTextBox.SelectionStart + this._richTextBox.SelectionLength;
+                    this._richTextBox.SelectionStart += this._richTextBox.SelectionLength;
                     this._richTextBox.SelectionLength = 0;
                     this._richTextBox.SelectedText = " " + keywordEditor.Keyword;
                 }
@@ -489,7 +489,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 {
                     e.Handled = true;
                     _richTextBox.SelectedText = "{}";
-                    _richTextBox.SelectionStart = _richTextBox.SelectionStart - 1;
+                    _richTextBox.SelectionStart--;
                 }
             }
         }

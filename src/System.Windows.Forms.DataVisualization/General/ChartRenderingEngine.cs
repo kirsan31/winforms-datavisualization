@@ -283,15 +283,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			if (IsRightToLeft || (!IsTextClipped && (format.FormatFlags & StringFormatFlags.NoClip) != StringFormatFlags.NoClip))
 			{
-				using (StringFormat fmt = (StringFormat)format.Clone())
-				{
-					if (IsRightToLeft)
-						fmt.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
-					if (!IsTextClipped && (fmt.FormatFlags & StringFormatFlags.NoClip) != StringFormatFlags.NoClip)
-						fmt.FormatFlags |= StringFormatFlags.NoClip;
-					RenderingObject.DrawString(s, font, brush, layoutRectangle, fmt);
-				}
-			}
+                using StringFormat fmt = (StringFormat)format.Clone();
+                if (IsRightToLeft)
+                    fmt.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
+                if (!IsTextClipped && (fmt.FormatFlags & StringFormatFlags.NoClip) != StringFormatFlags.NoClip)
+                    fmt.FormatFlags |= StringFormatFlags.NoClip;
+                RenderingObject.DrawString(s, font, brush, layoutRectangle, fmt);
+            }
 			else
 				RenderingObject.DrawString(s, font, brush, layoutRectangle, format);
 		}
@@ -314,19 +312,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             if (IsRightToLeft)
             {
-                using (StringFormat fmt = (StringFormat)format.Clone())
+                using StringFormat fmt = (StringFormat)format.Clone();
+                fmt.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
+                if (fmt.Alignment == StringAlignment.Far)
                 {
-                    fmt.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
-                    if (fmt.Alignment == StringAlignment.Far)
-                    {
-                        fmt.Alignment = StringAlignment.Near;
-                    }
-                    else if (fmt.Alignment == StringAlignment.Near)
-                    {
-                        fmt.Alignment = StringAlignment.Far;
-                    }
-                    RenderingObject.DrawString(s, font, brush, point, fmt);
+                    fmt.Alignment = StringAlignment.Near;
                 }
+                else if (fmt.Alignment == StringAlignment.Near)
+                {
+                    fmt.Alignment = StringAlignment.Far;
+                }
+                RenderingObject.DrawString(s, font, brush, point, fmt);
             }
             else 
                 RenderingObject.DrawString(s, font, brush, point, format);

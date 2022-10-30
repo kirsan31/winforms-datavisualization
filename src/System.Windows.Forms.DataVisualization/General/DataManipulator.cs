@@ -632,7 +632,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Add offset to the start position
             if (intervalOffset != 0)
             {
-                fromX = fromX + ChartHelper.GetIntervalSize(fromX, intervalOffset, ConvertIntervalType(intervalOffsetType), null, 0, DateTimeIntervalType.Number, true, false);
+                fromX += ChartHelper.GetIntervalSize(fromX, intervalOffset, ConvertIntervalType(intervalOffsetType), null, 0, DateTimeIntervalType.Number, true, false);
             }
 
 

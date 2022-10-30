@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	DataFormula class provides properties and methods, 
 //				which prepare series data for technical analyses 
@@ -10,8 +9,6 @@
 //				output data to be displayed as a chart.
 //
 
-
-using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms.DataVisualization.Charting.Formulas;
 
 namespace System.Windows.Forms.DataVisualization.Charting
@@ -47,7 +44,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// exponential moving average and a 10-day exponential moving average 
         /// applied to the Accumulation Distribution.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Chaikin")]
         ChaikinOscillator,
 
         /// <summary>
@@ -58,7 +54,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Detrended Price Oscillator.  It attempts to remove trend from prices. 
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Detrended")]
         DetrendedPriceOscillator,
 
         /// <summary>
@@ -192,7 +187,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// The Volatility Chaikins indicator measures the difference between High and Low prices, 
         /// and is used to indicate tops or bottoms of the market.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Chaikins")]
         VolatilityChaikins,
 
         /// <summary>
@@ -220,7 +214,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         WilliamsR
     }
 
-    #endregion  // Financial Formula Name enumeration
+    #endregion Financial Formula Name enumeration
 
     /// <summary>
     /// The DataFormula class provides properties and methods, which prepare series 
@@ -238,7 +232,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         //***********************************************************
         private bool _isEmptyPointIgnored = true;
 
-        private string[] _extraParameters;
+        private readonly string[] _extraParameters;
 
         /// <summary>
         /// All X values are zero.
@@ -248,15 +242,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Utility class for Statistical formulas
         /// </summary>
-        private StatisticFormula _statistics;
+        private readonly StatisticFormula _statistics;
 
         /// <summary>
         /// Reference to the Common elements
         /// </summary>
         internal CommonElements Common;
 
-
-        #endregion
+        #endregion Data Formulas fields
 
         #region Data Formulas methods
 
@@ -281,21 +274,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="outputSeries">Comma separated output data series names and optional X and Y values names.</param>
         internal void Formula(string formulaName, string parameters, string inputSeries, string outputSeries)
         {
-            // Array of series
-
             // Commented out as InsertEmptyDataPoints is currently commented out.
             // This field is not used anywhere else, but we might need it if we uncomment all the disabled code parts in this method. (krisztb 4/29/08)
             // True if formulas are statistical
             //bool statisticalFormulas = false;
 
-            // Array of Y value indexes
-
             // Matrix with double values ( used in formula modules )
             double[][] inNoEmptyValues;
             double[][] outValues = null;
             string[][] outLabels = null;
-
-            // Array with parameters
 
             // Split comma separated parameter list in the array of strings.
             SplitParameters(parameters, out string[] parameterList);
@@ -382,7 +369,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     if (series.Points.Count > 0)
                     {
                         // get the last xValue: the formula processing is 
-                        double topXValue = series.Points[series.Points.Count - 1].XValue;
+                        double topXValue = series.Points[^1].XValue;
                         this.Common.Chart.DataManipulator.InsertEmptyPoints(1, IntervalType.Number, 0, IntervalType.Number, 1, topXValue, series);
                         foreach (DataPoint point in series.Points)
                         {
@@ -450,7 +437,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 seriesIndex++;
             }
         }
-
 
         /// <summary>
         /// This method will set series X and Y values from matrix of 
@@ -570,7 +556,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 string[] parts = str.Split(':');
 
-
                 // There must be at least one and no more than two result strings
                 if (parts.Length < 1 && parts.Length > 2)
                 {
@@ -633,7 +618,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 index++;
             }
         }
-
 
         /// <summary>
         /// Returns Jagged Arrays of doubles from array of series. 
@@ -703,7 +687,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Check X values input alignment
                 CheckXValuesAlignment(inputSeries);
             }
-
 
             // Data point index
             int indexPoint = 0;
@@ -851,7 +834,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             SetDoubleArray(outSeries, outValueIndexes, outValues, null);
         }
 
-
         /// <summary>
         /// This method will first copy input matrix to output matrix 
         /// then will remove columns, which have 
@@ -918,7 +900,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /*
 		/// <summary>
 		/// This method will compare a input matrix with empty data 
@@ -932,8 +913,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
          */
         //private void InsertEmptyDataPoints( double [][] input, double [][] inputWithoutEmpty, out double [][] output )
         //{
-
-
         // *** NOTE ***
         //
         //
@@ -943,8 +922,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // --magreer 4/21/08
         //
         // ************
-
-
 
         //output = inputWithoutEmpty;
         //return;
@@ -1030,7 +1007,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         */
         //}
 
-
         /// <summary>
         /// This method splits a string with comma separated 
         /// parameters to the array of strings with parameters.
@@ -1046,7 +1022,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 parameterList[i] = parameterList[i].Trim();
             }
-
         }
 
         /// <summary>
@@ -1091,24 +1066,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Check X values.
                         if (series[seriesIndex].Points[pointIndex].XValue != series[seriesIndex + 1].Points[pointIndex].XValue)
                             throw new ArgumentException(SR.ExceptionFormulaDataSeriesAreNotAlignedDifferentXValues(series[seriesIndex].Name, series[seriesIndex + 1].Name));
-
                     }
                 }
             }
         }
 
-
-        #endregion
+        #endregion Data Formulas methods
 
         #region Data Formulas Financial methods
+
         /// <summary>
         /// This method calls a method from a formula module with 
         /// specified name.
         /// </summary>
         /// <param name="formulaName">Formula Name</param>
         /// <param name="inputSeries">Input series</param>
-        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-        public void FinancialFormula(FinancialFormula formulaName, Series inputSeries)        
+        public void FinancialFormula(FinancialFormula formulaName, Series inputSeries)
         {
             FinancialFormula(formulaName, inputSeries, inputSeries);
         }
@@ -1120,12 +1093,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="formulaName">Formula Name</param>
         /// <param name="inputSeries">Input series</param>
         /// <param name="outputSeries">Output series</param>
-        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public void FinancialFormula(FinancialFormula formulaName, Series inputSeries, Series outputSeries)
         {
             FinancialFormula(formulaName, "", inputSeries, outputSeries);
         }
-
 
         /// <summary>
         /// This method calls a method from a formula module with 
@@ -1135,7 +1106,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="parameters">Formula parameters</param>
         /// <param name="inputSeries">Input series</param>
         /// <param name="outputSeries">Output series</param>
-        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public void FinancialFormula(FinancialFormula formulaName, string parameters, Series inputSeries, Series outputSeries)
         {
             if (inputSeries == null)
@@ -1145,19 +1115,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
             FinancialFormula(formulaName, parameters, inputSeries.Name, outputSeries.Name);
         }
 
-
         /// <summary>
         /// This method calls a method from a formula module with 
         /// specified name.
         /// </summary>
         /// <param name="formulaName">Formula Name</param>
         /// <param name="inputSeries">Comma separated list of input series names and optional X and Y values names.</param>
-        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public void FinancialFormula(FinancialFormula formulaName, string inputSeries)
         {
             FinancialFormula(formulaName, inputSeries, inputSeries);
         }
-
 
         /// <summary>
         /// This method calls a method from a formula module with 
@@ -1166,7 +1133,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="formulaName">Formula Name</param>
         /// <param name="inputSeries">Comma separated list of input series names and optional X and Y values names.</param>
         /// <param name="outputSeries">Comma separated list of output series names and optional X and Y values names.</param>
-        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public void FinancialFormula(FinancialFormula formulaName, string inputSeries, string outputSeries)
         {
             FinancialFormula(formulaName, "", inputSeries, outputSeries);
@@ -1195,7 +1161,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 parameters = formulaInfo.SaveParametersToString();
             }
-            else 
+            else
             {
                 formulaInfo.CheckParameterString(parameters);
             }
@@ -1209,7 +1175,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             Formula(formulaName.ToString(), parameters, inputSeries, outputSeries);
         }
-        #endregion
+
+        #endregion Data Formulas Financial methods
 
         #region Data Formulas properties
 
@@ -1229,8 +1196,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _isEmptyPointIgnored = value;
             }
         }
-
-
 
         /// <summary>
         /// Gets or sets a flag which indicates whether 
@@ -1262,10 +1227,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
-        #endregion
+        #endregion Data Formulas properties
     }
-
-
-
 }

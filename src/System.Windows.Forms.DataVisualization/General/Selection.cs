@@ -2495,7 +2495,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     else
                     {   // 3D
                         PointF[] points = rgn.Path.PathPoints;
-                        for (int i = 0; i < points.Length - 3; i = i + 4)
+                        for (int i = 0; i < points.Length - 3; i += 4)
                         {   //Each gridline has a corresponding set of 4 points in the path
                             //One of  the ends of a gridline is in the middle the line between points #0 and #3
                             //Another ends of a gridline is in the middle the line between points #1 and #2

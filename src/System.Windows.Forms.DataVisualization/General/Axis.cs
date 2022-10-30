@@ -1558,7 +1558,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         axisPosition = ChartArea.PlotAreaPosition.Y;
                     }
-                    axisPosition = axisPosition - ChartArea.PlotAreaPosition.Y;
+                    axisPosition -= ChartArea.PlotAreaPosition.Y;
                 }
                 else if (this.AxisPosition == AxisPosition.Right)
                 {
@@ -1574,7 +1574,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         axisPosition = ChartArea.PlotAreaPosition.X;
                     }
-                    axisPosition = axisPosition - ChartArea.PlotAreaPosition.X;
+                    axisPosition -= ChartArea.PlotAreaPosition.X;
                 }
 
                 //******************************************************
@@ -1727,16 +1727,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #endif // DEBUG
 
                     // Draw title
-                    using (Brush brush = new SolidBrush(this.TitleForeColor))
-                    {
-                        graph.DrawStringRel(
-                            axisTitle.Replace("\\n", "\n"),
-                            this.TitleFont,
-                            brush,
-                            _titlePosition,
-                            format,
-                            this.GetTextOrientation());
-                    }
+                    using Brush brush = new SolidBrush(this.TitleForeColor);
+                    graph.DrawStringRel(
+                        axisTitle.Replace("\\n", "\n"),
+                        this.TitleFont,
+                        brush,
+                        _titlePosition,
+                        format,
+                        this.GetTextOrientation());
                 }
 
                 // Process selection regions
@@ -1873,26 +1871,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Process selection regions
             if (this.Common.ProcessModeRegions)
             {
-                using (GraphicsPath path = new GraphicsPath())
+                using GraphicsPath path = new GraphicsPath();
+                path.AddLine(centerPoint, endPoint);
+                path.Transform(newMatrix);
+                try
                 {
-                    path.AddLine(centerPoint, endPoint);
-                    path.Transform(newMatrix);
-                    try
-                    {
-                        using (Pen pen = new Pen(Color.Black, width + 2))
-                        {
-                            path.Widen(pen);
-                            this.Common.HotRegionsList.AddHotRegion(path, false, ChartElementType.Gridlines, obj);
-                        }
-                    }
-                    catch (OutOfMemoryException)
-                    {
-                        // GraphicsPath.Widen incorrectly throws OutOfMemoryException
-                        // catching here and reacting by not widening
-                    }
-                    catch (ArgumentException)
-                    {
-                    }
+                    using Pen pen = new Pen(Color.Black, width + 2);
+                    path.Widen(pen);
+                    this.Common.HotRegionsList.AddHotRegion(path, false, ChartElementType.Gridlines, obj);
+                }
+                catch (OutOfMemoryException)
+                {
+                    // GraphicsPath.Widen incorrectly throws OutOfMemoryException
+                    // catching here and reacting by not widening
+                }
+                catch (ArgumentException)
+                {
                 }
             }
 
@@ -2021,226 +2015,222 @@ namespace System.Windows.Forms.DataVisualization.Charting
             int angle = 0;
 
             // Set title alignment
-            using (StringFormat format = new StringFormat())
+            using StringFormat format = new StringFormat();
+            format.Alignment = this.TitleAlignment;
+            format.Trimming = StringTrimming.EllipsisCharacter;
+            format.FormatFlags |= StringFormatFlags.LineLimit;
+
+            // Measure title size for non-centered aligment
+            SizeF realTitleSize = graph.MeasureString(axisTitle.Replace("\\n", "\n"), this.TitleFont, new SizeF(10000f, 10000f), format, this.GetTextOrientation());
+            SizeF axisTitleSize = SizeF.Empty;
+            if (format.Alignment != StringAlignment.Center)
             {
-                format.Alignment = this.TitleAlignment;
-                format.Trimming = StringTrimming.EllipsisCharacter;
-                format.FormatFlags |= StringFormatFlags.LineLimit;
-
-                // Measure title size for non-centered aligment
-                SizeF realTitleSize = graph.MeasureString(axisTitle.Replace("\\n", "\n"), this.TitleFont, new SizeF(10000f, 10000f), format, this.GetTextOrientation());
-                SizeF axisTitleSize = SizeF.Empty;
-                if (format.Alignment != StringAlignment.Center)
+                axisTitleSize = realTitleSize;
+                if (this.IsTextVertical)
                 {
-                    axisTitleSize = realTitleSize;
-                    if (this.IsTextVertical)
-                    {
-                        // Switch height and width for vertical axis
-                        float tempValue = axisTitleSize.Height;
-                        axisTitleSize.Height = axisTitleSize.Width;
-                        axisTitleSize.Width = tempValue;
-                    }
-
-                    // Get relative size
-                    axisTitleSize = graph.GetRelativeSize(axisTitleSize);
-
-                    // Change format aligment for the reversed mode
-                    if (ChartArea.ReverseSeriesOrder)
-                    {
-                        if (format.Alignment == StringAlignment.Near)
-                        {
-                            format.Alignment = StringAlignment.Far;
-                        }
-                        else
-                        {
-                            format.Alignment = StringAlignment.Near;
-                        }
-                    }
+                    // Switch height and width for vertical axis
+                    float tempValue = axisTitleSize.Height;
+                    axisTitleSize.Height = axisTitleSize.Width;
+                    axisTitleSize.Width = tempValue;
                 }
 
-                // Set text rotation angle based on the text orientation
-                if (this.GetTextOrientation() == TextOrientation.Rotated90)
-                {
-                    angle = 90;
-                }
-                else if (this.GetTextOrientation() == TextOrientation.Rotated270)
-                {
-                    angle = -90;
-                }
+                // Get relative size
+                axisTitleSize = graph.GetRelativeSize(axisTitleSize);
 
-                // Calculate title center point on the axis 
-                if (this.AxisPosition == AxisPosition.Left)
+                // Change format aligment for the reversed mode
+                if (ChartArea.ReverseSeriesOrder)
                 {
-                    rotationCenter = new PointF(ChartArea.PlotAreaPosition.X, ChartArea.PlotAreaPosition.Y + ChartArea.PlotAreaPosition.Height / 2f);
                     if (format.Alignment == StringAlignment.Near)
                     {
-                        rotationCenter.Y = ChartArea.PlotAreaPosition.Bottom - axisTitleSize.Height / 2f;
+                        format.Alignment = StringAlignment.Far;
                     }
-                    else if (format.Alignment == StringAlignment.Far)
+                    else
                     {
-                        rotationCenter.Y = ChartArea.PlotAreaPosition.Y + axisTitleSize.Height / 2f;
+                        format.Alignment = StringAlignment.Near;
                     }
                 }
-                else if (this.AxisPosition == AxisPosition.Right)
-                {
-                    rotationCenter = new PointF(ChartArea.PlotAreaPosition.Right, ChartArea.PlotAreaPosition.Y + ChartArea.PlotAreaPosition.Height / 2f);
-                    if (format.Alignment == StringAlignment.Near)
-                    {
-                        rotationCenter.Y = ChartArea.PlotAreaPosition.Bottom - axisTitleSize.Height / 2f;
-                    }
-                    else if (format.Alignment == StringAlignment.Far)
-                    {
-                        rotationCenter.Y = ChartArea.PlotAreaPosition.Y + axisTitleSize.Height / 2f;
-                    }
-                }
-                else if (this.AxisPosition == AxisPosition.Top)
-                {
-                    rotationCenter = new PointF(ChartArea.PlotAreaPosition.X + ChartArea.PlotAreaPosition.Width / 2f, ChartArea.PlotAreaPosition.Y);
-                    if (format.Alignment == StringAlignment.Near)
-                    {
-                        rotationCenter.X = ChartArea.PlotAreaPosition.X + axisTitleSize.Width / 2f;
-                    }
-                    else if (format.Alignment == StringAlignment.Far)
-                    {
-                        rotationCenter.X = ChartArea.PlotAreaPosition.Right - axisTitleSize.Width / 2f;
-                    }
-                }
-                else if (this.AxisPosition == AxisPosition.Bottom)
-                {
-                    rotationCenter = new PointF(ChartArea.PlotAreaPosition.X + ChartArea.PlotAreaPosition.Width / 2f, ChartArea.PlotAreaPosition.Bottom);
-                    if (format.Alignment == StringAlignment.Near)
-                    {
-                        rotationCenter.X = ChartArea.PlotAreaPosition.X + axisTitleSize.Width / 2f;
-                    }
-                    else if (format.Alignment == StringAlignment.Far)
-                    {
-                        rotationCenter.X = ChartArea.PlotAreaPosition.Right - axisTitleSize.Width / 2f;
-                    }
-                }
+            }
 
-                // Transform center of title coordinates and calculate axis angle
-                float zPosition = this.GetMarksZPosition(out bool isOnEdge);
-                Point3D[] rotationCenterPoints = null;
-                float angleAxis = 0;
-                if (this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom)
+            // Set text rotation angle based on the text orientation
+            if (this.GetTextOrientation() == TextOrientation.Rotated90)
+            {
+                angle = 90;
+            }
+            else if (this.GetTextOrientation() == TextOrientation.Rotated270)
+            {
+                angle = -90;
+            }
+
+            // Calculate title center point on the axis 
+            if (this.AxisPosition == AxisPosition.Left)
+            {
+                rotationCenter = new PointF(ChartArea.PlotAreaPosition.X, ChartArea.PlotAreaPosition.Y + ChartArea.PlotAreaPosition.Height / 2f);
+                if (format.Alignment == StringAlignment.Near)
                 {
-                    rotationCenterPoints = new Point3D[] {
+                    rotationCenter.Y = ChartArea.PlotAreaPosition.Bottom - axisTitleSize.Height / 2f;
+                }
+                else if (format.Alignment == StringAlignment.Far)
+                {
+                    rotationCenter.Y = ChartArea.PlotAreaPosition.Y + axisTitleSize.Height / 2f;
+                }
+            }
+            else if (this.AxisPosition == AxisPosition.Right)
+            {
+                rotationCenter = new PointF(ChartArea.PlotAreaPosition.Right, ChartArea.PlotAreaPosition.Y + ChartArea.PlotAreaPosition.Height / 2f);
+                if (format.Alignment == StringAlignment.Near)
+                {
+                    rotationCenter.Y = ChartArea.PlotAreaPosition.Bottom - axisTitleSize.Height / 2f;
+                }
+                else if (format.Alignment == StringAlignment.Far)
+                {
+                    rotationCenter.Y = ChartArea.PlotAreaPosition.Y + axisTitleSize.Height / 2f;
+                }
+            }
+            else if (this.AxisPosition == AxisPosition.Top)
+            {
+                rotationCenter = new PointF(ChartArea.PlotAreaPosition.X + ChartArea.PlotAreaPosition.Width / 2f, ChartArea.PlotAreaPosition.Y);
+                if (format.Alignment == StringAlignment.Near)
+                {
+                    rotationCenter.X = ChartArea.PlotAreaPosition.X + axisTitleSize.Width / 2f;
+                }
+                else if (format.Alignment == StringAlignment.Far)
+                {
+                    rotationCenter.X = ChartArea.PlotAreaPosition.Right - axisTitleSize.Width / 2f;
+                }
+            }
+            else if (this.AxisPosition == AxisPosition.Bottom)
+            {
+                rotationCenter = new PointF(ChartArea.PlotAreaPosition.X + ChartArea.PlotAreaPosition.Width / 2f, ChartArea.PlotAreaPosition.Bottom);
+                if (format.Alignment == StringAlignment.Near)
+                {
+                    rotationCenter.X = ChartArea.PlotAreaPosition.X + axisTitleSize.Width / 2f;
+                }
+                else if (format.Alignment == StringAlignment.Far)
+                {
+                    rotationCenter.X = ChartArea.PlotAreaPosition.Right - axisTitleSize.Width / 2f;
+                }
+            }
+
+            // Transform center of title coordinates and calculate axis angle
+            float zPosition = this.GetMarksZPosition(out bool isOnEdge);
+            Point3D[] rotationCenterPoints = null;
+            float angleAxis = 0;
+            if (this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom)
+            {
+                rotationCenterPoints = new Point3D[] {
                     new Point3D(rotationCenter.X, rotationCenter.Y, zPosition),
                     new Point3D(rotationCenter.X - 20f, rotationCenter.Y, zPosition) };
 
-                    // Transform coordinates of text rotation point
-                    ChartArea.matrix3D.TransformPoints(rotationCenterPoints);
-                    rotationCenter = rotationCenterPoints[0].PointF;
+                // Transform coordinates of text rotation point
+                ChartArea.matrix3D.TransformPoints(rotationCenterPoints);
+                rotationCenter = rotationCenterPoints[0].PointF;
 
-                    // Get absolute coordinates 
-                    rotationCenterPoints[0].PointF = graph.GetAbsolutePoint(rotationCenterPoints[0].PointF);
-                    rotationCenterPoints[1].PointF = graph.GetAbsolutePoint(rotationCenterPoints[1].PointF);
+                // Get absolute coordinates 
+                rotationCenterPoints[0].PointF = graph.GetAbsolutePoint(rotationCenterPoints[0].PointF);
+                rotationCenterPoints[1].PointF = graph.GetAbsolutePoint(rotationCenterPoints[1].PointF);
 
-                    // Calculate X axis angle
-                    angleAxis = (float)Math.Atan(
-                        (rotationCenterPoints[1].Y - rotationCenterPoints[0].Y) /
-                        (rotationCenterPoints[1].X - rotationCenterPoints[0].X));
-                }
-                else
-                {
-                    rotationCenterPoints = new Point3D[] {
+                // Calculate X axis angle
+                angleAxis = (float)Math.Atan(
+                    (rotationCenterPoints[1].Y - rotationCenterPoints[0].Y) /
+                    (rotationCenterPoints[1].X - rotationCenterPoints[0].X));
+            }
+            else
+            {
+                rotationCenterPoints = new Point3D[] {
                     new Point3D(rotationCenter.X, rotationCenter.Y, zPosition),
                     new Point3D(rotationCenter.X, rotationCenter.Y - 20f, zPosition) };
 
-                    // Transform coordinates of text rotation point
-                    ChartArea.matrix3D.TransformPoints(rotationCenterPoints);
-                    rotationCenter = rotationCenterPoints[0].PointF;
+                // Transform coordinates of text rotation point
+                ChartArea.matrix3D.TransformPoints(rotationCenterPoints);
+                rotationCenter = rotationCenterPoints[0].PointF;
 
-                    // Get absolute coordinates 
-                    rotationCenterPoints[0].PointF = graph.GetAbsolutePoint(rotationCenterPoints[0].PointF);
-                    rotationCenterPoints[1].PointF = graph.GetAbsolutePoint(rotationCenterPoints[1].PointF);
+                // Get absolute coordinates 
+                rotationCenterPoints[0].PointF = graph.GetAbsolutePoint(rotationCenterPoints[0].PointF);
+                rotationCenterPoints[1].PointF = graph.GetAbsolutePoint(rotationCenterPoints[1].PointF);
 
-                    // Calculate Y axis angle
-                    if (rotationCenterPoints[1].Y != rotationCenterPoints[0].Y)
-                    {
-                        angleAxis = -(float)Math.Atan(
-                            (rotationCenterPoints[1].X - rotationCenterPoints[0].X) /
-                            (rotationCenterPoints[1].Y - rotationCenterPoints[0].Y));
-                    }
-                }
-                angle += (int)Math.Round(angleAxis * 180f / (float)Math.PI);
-
-
-                // Calculate title center offset from the axis line
-                float offset = this.labelSize + this.markSize + this.titleSize / 2f;
-                float dX = 0f, dY = 0f;
-
-
-                // Adjust center of title with labels, marker and title size
-                if (this.AxisPosition == AxisPosition.Left)
+                // Calculate Y axis angle
+                if (rotationCenterPoints[1].Y != rotationCenterPoints[0].Y)
                 {
-                    dX = (float)(offset * Math.Cos(angleAxis));
-                    rotationCenter.X -= dX;
+                    angleAxis = -(float)Math.Atan(
+                        (rotationCenterPoints[1].X - rotationCenterPoints[0].X) /
+                        (rotationCenterPoints[1].Y - rotationCenterPoints[0].Y));
                 }
-                else if (this.AxisPosition == AxisPosition.Right)
+            }
+            angle += (int)Math.Round(angleAxis * 180f / (float)Math.PI);
+
+
+            // Calculate title center offset from the axis line
+            float offset = this.labelSize + this.markSize + this.titleSize / 2f;
+            float dX = 0f, dY = 0f;
+
+
+            // Adjust center of title with labels, marker and title size
+            if (this.AxisPosition == AxisPosition.Left)
+            {
+                dX = (float)(offset * Math.Cos(angleAxis));
+                rotationCenter.X -= dX;
+            }
+            else if (this.AxisPosition == AxisPosition.Right)
+            {
+                dX = (float)(offset * Math.Cos(angleAxis));
+                rotationCenter.X += dX;
+            }
+            else if (this.AxisPosition == AxisPosition.Top)
+            {
+                dY = (float)(offset * Math.Cos(angleAxis));
+                dX = (float)(offset * Math.Sin(angleAxis));
+                rotationCenter.Y -= dY;
+                if (dY > 0)
                 {
-                    dX = (float)(offset * Math.Cos(angleAxis));
                     rotationCenter.X += dX;
                 }
-                else if (this.AxisPosition == AxisPosition.Top)
+                else
                 {
-                    dY = (float)(offset * Math.Cos(angleAxis));
-                    dX = (float)(offset * Math.Sin(angleAxis));
-                    rotationCenter.Y -= dY;
-                    if (dY > 0)
-                    {
-                        rotationCenter.X += dX;
-                    }
-                    else
-                    {
-                        rotationCenter.X -= dX;
-                    }
+                    rotationCenter.X -= dX;
                 }
-                else if (this.AxisPosition == AxisPosition.Bottom)
+            }
+            else if (this.AxisPosition == AxisPosition.Bottom)
+            {
+                dY = (float)(offset * Math.Cos(angleAxis));
+                dX = (float)(offset * Math.Sin(angleAxis));
+                rotationCenter.Y += dY;
+                if (dY > 0)
                 {
-                    dY = (float)(offset * Math.Cos(angleAxis));
-                    dX = (float)(offset * Math.Sin(angleAxis));
-                    rotationCenter.Y += dY;
-                    if (dY > 0)
-                    {
-                        rotationCenter.X -= dX;
-                    }
-                    else
-                    {
-                        rotationCenter.X += dX;
-                    }
+                    rotationCenter.X -= dX;
                 }
+                else
+                {
+                    rotationCenter.X += dX;
+                }
+            }
 
-                // Always align text in the center
-                format.LineAlignment = StringAlignment.Center;
-                format.Alignment = StringAlignment.Center;
-                // SQL VSTS Fix #259954, Dev10: 591135 Windows 7 crashes on empty transformation.
-                if (rotationCenter.IsEmpty || float.IsNaN(rotationCenter.X) || float.IsNaN(rotationCenter.Y))
-                {
-                    return;
-                }
+            // Always align text in the center
+            format.LineAlignment = StringAlignment.Center;
+            format.Alignment = StringAlignment.Center;
+            // SQL VSTS Fix #259954, Dev10: 591135 Windows 7 crashes on empty transformation.
+            if (rotationCenter.IsEmpty || float.IsNaN(rotationCenter.X) || float.IsNaN(rotationCenter.Y))
+            {
+                return;
+            }
 
-                // Draw 3D title
-                using (Brush brush = new SolidBrush(this.TitleForeColor))
-                {
-                    graph.DrawStringRel(
-                        axisTitle.Replace("\\n", "\n"),
-                        this.TitleFont,
-                        brush,
-                        rotationCenter,
-                        format,
-                        angle,
-                        this.GetTextOrientation());
-                }
+            // Draw 3D title
+            using (Brush brush = new SolidBrush(this.TitleForeColor))
+            {
+                graph.DrawStringRel(
+                    axisTitle.Replace("\\n", "\n"),
+                    this.TitleFont,
+                    brush,
+                    rotationCenter,
+                    format,
+                    angle,
+                    this.GetTextOrientation());
+            }
 
-                // Add hot region
-                if (Common.ProcessModeRegions)
-                {
-                    using (GraphicsPath hotPath = graph.GetTranformedTextRectPath(rotationCenter, realTitleSize, angle))
-                    {
-                        this.Common.HotRegionsList.AddHotRegion(hotPath, false, ChartElementType.AxisTitle, this);
-                    }
-                }
+            // Add hot region
+            if (Common.ProcessModeRegions)
+            {
+                using GraphicsPath hotPath = graph.GetTranformedTextRectPath(rotationCenter, realTitleSize, angle);
+                this.Common.HotRegionsList.AddHotRegion(hotPath, false, ChartElementType.AxisTitle, this);
             }
         }
 
@@ -2404,112 +2394,110 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="graph">The chart graphics instance.</param>
         private void DrawAxisLineHotRegion(ChartGraphics graph)
         {
-            using (GraphicsPath path = new GraphicsPath())
+            using GraphicsPath path = new GraphicsPath();
+            // Find the topLeft(first) and bottomRight(second) points of the hotregion rectangle
+            PointF first = PointF.Empty;
+            PointF second = PointF.Empty;
+            float axisPosition = (float)GetAxisPosition();
+
+            switch (this.AxisPosition)
             {
-                // Find the topLeft(first) and bottomRight(second) points of the hotregion rectangle
-                PointF first = PointF.Empty;
-                PointF second = PointF.Empty;
-                float axisPosition = (float)GetAxisPosition();
+                case AxisPosition.Left:
+                    first.X = axisPosition - (labelSize + markSize);
+                    first.Y = PlotAreaPosition.Y;
+                    second.X = axisPosition;
+                    second.Y = PlotAreaPosition.Bottom;
+                    break;
 
-                switch (this.AxisPosition)
-                {
-                    case AxisPosition.Left:
-                        first.X = axisPosition - (labelSize + markSize);
-                        first.Y = PlotAreaPosition.Y;
-                        second.X = axisPosition;
-                        second.Y = PlotAreaPosition.Bottom;
-                        break;
+                case AxisPosition.Right:
+                    first.X = axisPosition;
+                    first.Y = PlotAreaPosition.Y;
+                    second.X = axisPosition + labelSize + markSize;
+                    second.Y = PlotAreaPosition.Bottom;
+                    break;
 
-                    case AxisPosition.Right:
-                        first.X = axisPosition;
-                        first.Y = PlotAreaPosition.Y;
-                        second.X = axisPosition + labelSize + markSize;
-                        second.Y = PlotAreaPosition.Bottom;
-                        break;
+                case AxisPosition.Bottom:
+                    first.X = PlotAreaPosition.X;
+                    first.Y = axisPosition;
+                    second.X = PlotAreaPosition.Right;
+                    second.Y = axisPosition + labelSize + markSize;
+                    break;
 
-                    case AxisPosition.Bottom:
-                        first.X = PlotAreaPosition.X;
-                        first.Y = axisPosition;
-                        second.X = PlotAreaPosition.Right;
-                        second.Y = axisPosition + labelSize + markSize;
-                        break;
+                case AxisPosition.Top:
+                    first.X = PlotAreaPosition.X;
+                    first.Y = axisPosition - (labelSize + markSize);
+                    second.X = PlotAreaPosition.Right;
+                    second.Y = axisPosition;
+                    break;
+            }
 
-                    case AxisPosition.Top:
-                        first.X = PlotAreaPosition.X;
-                        first.Y = axisPosition - (labelSize + markSize);
-                        second.X = PlotAreaPosition.Right;
-                        second.Y = axisPosition;
-                        break;
-                }
+            // Update axis line position for circular area
+            if (ChartArea.chartAreaIsCurcular)
+            {
+                second.Y = PlotAreaPosition.Y + PlotAreaPosition.Height / 2f;
+            }
 
-                // Update axis line position for circular area
-                if (ChartArea.chartAreaIsCurcular)
-                {
-                    second.Y = PlotAreaPosition.Y + PlotAreaPosition.Height / 2f;
-                }
+            // Create rectangle and inflate it
+            RectangleF rect = new RectangleF(first.X, first.Y, second.X - first.X, second.Y - first.Y);
+            SizeF size = graph.GetRelativeSize(new SizeF(3, 3));
 
-                // Create rectangle and inflate it
-                RectangleF rect = new RectangleF(first.X, first.Y, second.X - first.X, second.Y - first.Y);
-                SizeF size = graph.GetRelativeSize(new SizeF(3, 3));
+            if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
+            {
+                rect.Inflate(2, size.Height);
+            }
+            else
+            {
+                rect.Inflate(size.Width, 2);
+            }
 
-                if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
-                {
-                    rect.Inflate(2, size.Height);
-                }
-                else
-                {
-                    rect.Inflate(size.Width, 2);
-                }
-
-                // Get the rectangle points
-                PointF[] points = new PointF[] {
+            // Get the rectangle points
+            PointF[] points = new PointF[] {
                     new PointF(rect.Left, rect.Top),
                     new PointF(rect.Right, rect.Top),
                     new PointF(rect.Right, rect.Bottom),
                     new PointF(rect.Left, rect.Bottom)};
 
-                // If we are dealing with the 3D - transform the rectangle
-                if (ChartArea.Area3DStyle.Enable3D && !ChartArea.chartAreaIsCurcular)
-                {
-                    float zPositon = GetMarksZPosition(out bool axisOnEdge);
+            // If we are dealing with the 3D - transform the rectangle
+            if (ChartArea.Area3DStyle.Enable3D && !ChartArea.chartAreaIsCurcular)
+            {
+                float zPositon = GetMarksZPosition(out bool axisOnEdge);
 
-                    // Convert points to 3D
-                    Point3D[] points3D = new Point3D[points.Length];
-                    for (int i = 0; i < points.Length; i++)
-                    {
-                        points3D[i] = new Point3D(points[i].X, points[i].Y, zPositon);
-                    }
-
-                    // Transform
-                    ChartArea.matrix3D.TransformPoints(points3D);
-
-                    // Convert to 2D
-                    for (int i = 0; i < points3D.Length; i++)
-                    {
-                        points[i] = points3D[i].PointF;
-                    }
-                }
-
-                // Transform points to absolute cooordinates
+                // Convert points to 3D
+                Point3D[] points3D = new Point3D[points.Length];
                 for (int i = 0; i < points.Length; i++)
                 {
-                    points[i] = graph.GetAbsolutePoint(points[i]);
+                    points3D[i] = new Point3D(points[i].X, points[i].Y, zPositon);
                 }
 
-                // Add the points to the path
-                path.AddPolygon(points);
+                // Transform
+                ChartArea.matrix3D.TransformPoints(points3D);
 
-                Common.HotRegionsList.AddHotRegion(
-                    graph,
-                    path,
-                    false,
-                    this._toolTip,
-                    string.Empty,
-                    string.Empty,
-                    string.Empty,
-                    this,
-                    ChartElementType.Axis);
+                // Convert to 2D
+                for (int i = 0; i < points3D.Length; i++)
+                {
+                    points[i] = points3D[i].PointF;
+                }
             }
+
+            // Transform points to absolute cooordinates
+            for (int i = 0; i < points.Length; i++)
+            {
+                points[i] = graph.GetAbsolutePoint(points[i]);
+            }
+
+            // Add the points to the path
+            path.AddPolygon(points);
+
+            Common.HotRegionsList.AddHotRegion(
+                graph,
+                path,
+                false,
+                this._toolTip,
+                string.Empty,
+                string.Empty,
+                string.Empty,
+                this,
+                ChartElementType.Axis);
         }
 
 

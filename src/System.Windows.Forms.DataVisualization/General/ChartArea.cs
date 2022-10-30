@@ -1465,7 +1465,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         axisPosition = plottingRect.Y;
                     }
-                    axisPosition = axisPosition - plottingRect.Top;
+                    axisPosition -= plottingRect.Top;
                 }
                 else if (axis.AxisPosition == AxisPosition.Right)
                 {
@@ -1481,7 +1481,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         axisPosition = plottingRect.X;
                     }
-                    axisPosition = axisPosition - plottingRect.Left;
+                    axisPosition -= plottingRect.Left;
                 }
 
                 //******************************************************

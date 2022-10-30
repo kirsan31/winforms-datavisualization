@@ -948,7 +948,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Convert chart picture position to plotting position
             if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
-                position = position - PlotAreaPosition.X;
+                position -= PlotAreaPosition.X;
             else
                 position = PlotAreaPosition.Bottom - position;
 
@@ -1213,7 +1213,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             while (temp > 1.0)
             {
                 step++;
-                temp = temp / 10.0;
+                temp /= 10.0;
                 if (step > 1000)
                 {
                     throw new InvalidOperationException(SR.ExceptionAxisScaleMinimumMaximumInvalid);
@@ -1231,7 +1231,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             while (temp < 1.0)
             {
                 step--;
-                temp = temp * 10.0;
+                temp *= 10.0;
                 if (step < -1000)
                 {
                     throw new InvalidOperationException(SR.ExceptionAxisScaleMinimumMaximumInvalid);
@@ -2182,7 +2182,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 ChartArea.Area3DStyle.Enable3D &&
                 !ChartArea.chartAreaIsCurcular)
             {
-                diff = diff / this.interval3DCorrection;
+                diff /= this.interval3DCorrection;
 
                 // Do not change minimum and maximum with 3D correction.
                 if (max - min < diff)

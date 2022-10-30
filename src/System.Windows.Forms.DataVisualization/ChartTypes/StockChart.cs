@@ -815,41 +815,37 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Draw open-close marks as triangals
             else if (style == StockOpenCloseMarkStyle.Triangle)
             {
-                using (GraphicsPath path = new GraphicsPath())
+                using GraphicsPath path = new GraphicsPath();
+                PointF point1 = graph.GetAbsolutePoint(new PointF(xPosition, open));
+                PointF point2 = graph.GetAbsolutePoint(new PointF(xPosition - width / 2f, open + height / 2f));
+                PointF point3 = graph.GetAbsolutePoint(new PointF(xPosition - width / 2f, open - height / 2f));
+
+                using Brush brush = new SolidBrush(point.Color);
+                // Draw Open mark line
+                if (showOpen)
                 {
-                    PointF point1 = graph.GetAbsolutePoint(new PointF(xPosition, open));
-                    PointF point2 = graph.GetAbsolutePoint(new PointF(xPosition - width / 2f, open + height / 2f));
-                    PointF point3 = graph.GetAbsolutePoint(new PointF(xPosition - width / 2f, open - height / 2f));
-
-                    using (Brush brush = new SolidBrush(point.Color))
+                    if (openY <= VAxis.ViewMaximum && openY >= VAxis.ViewMinimum)
                     {
-                        // Draw Open mark line
-                        if (showOpen)
-                        {
-                            if (openY <= VAxis.ViewMaximum && openY >= VAxis.ViewMinimum)
-                            {
-                                path.AddLine(point2, point1);
-                                path.AddLine(point1, point3);
-                                path.AddLine(point3, point3);
-                                graph.FillPath(brush, path);
-                            }
-                        }
+                        path.AddLine(point2, point1);
+                        path.AddLine(point1, point3);
+                        path.AddLine(point3, point3);
+                        graph.FillPath(brush, path);
+                    }
+                }
 
-                        // Draw close mark line
-                        if (showClose)
-                        {
-                            if (closeY <= VAxis.ViewMaximum && closeY >= VAxis.ViewMinimum)
-                            {
-                                path.Reset();
-                                point1 = graph.GetAbsolutePoint(new PointF(xPosition, close));
-                                point2 = graph.GetAbsolutePoint(new PointF(xPosition + width / 2f, close + height / 2f));
-                                point3 = graph.GetAbsolutePoint(new PointF(xPosition + width / 2f, close - height / 2f));
-                                path.AddLine(point2, point1);
-                                path.AddLine(point1, point3);
-                                path.AddLine(point3, point3);
-                                graph.FillPath(brush, path);
-                            }
-                        }
+                // Draw close mark line
+                if (showClose)
+                {
+                    if (closeY <= VAxis.ViewMaximum && closeY >= VAxis.ViewMinimum)
+                    {
+                        path.Reset();
+                        point1 = graph.GetAbsolutePoint(new PointF(xPosition, close));
+                        point2 = graph.GetAbsolutePoint(new PointF(xPosition + width / 2f, close + height / 2f));
+                        point3 = graph.GetAbsolutePoint(new PointF(xPosition + width / 2f, close - height / 2f));
+                        path.AddLine(point2, point1);
+                        path.AddLine(point1, point3);
+                        path.AddLine(point3, point3);
+                        graph.FillPath(brush, path);
                     }
                 }
 
@@ -912,164 +908,160 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             if (ser.IsValueShownAsLabel || point.IsValueShownAsLabel || point.Label.Length > 0)
             {
                 // Label text format
-                using (StringFormat format = new StringFormat())
+                using StringFormat format = new StringFormat();
+                format.Alignment = StringAlignment.Near;
+                format.LineAlignment = StringAlignment.Center;
+                if (point.LabelAngle == 0)
                 {
-                    format.Alignment = StringAlignment.Near;
-                    format.LineAlignment = StringAlignment.Center;
-                    if (point.LabelAngle == 0)
+                    format.Alignment = StringAlignment.Center;
+                    format.LineAlignment = StringAlignment.Far;
+                }
+
+                // Get label text
+                string text;
+                if (point.Label.Length == 0)
+                {
+                    // Check what value to show (High, Low, Open, Close)
+                    int valueIndex = 3;
+                    string valueType = "";
+                    if (point.IsCustomPropertySet(CustomPropertyName.LabelValueType))
                     {
-                        format.Alignment = StringAlignment.Center;
-                        format.LineAlignment = StringAlignment.Far;
+                        valueType = point[CustomPropertyName.LabelValueType];
+                    }
+                    else if (ser.IsCustomPropertySet(CustomPropertyName.LabelValueType))
+                    {
+                        valueType = ser[CustomPropertyName.LabelValueType];
                     }
 
-                    // Get label text
-                    string text;
-                    if (point.Label.Length == 0)
+                    if (string.Equals(valueType, "High", StringComparison.OrdinalIgnoreCase))
                     {
-                        // Check what value to show (High, Low, Open, Close)
-                        int valueIndex = 3;
-                        string valueType = "";
-                        if (point.IsCustomPropertySet(CustomPropertyName.LabelValueType))
-                        {
-                            valueType = point[CustomPropertyName.LabelValueType];
-                        }
-                        else if (ser.IsCustomPropertySet(CustomPropertyName.LabelValueType))
-                        {
-                            valueType = ser[CustomPropertyName.LabelValueType];
-                        }
-
-                        if (string.Equals(valueType, "High", StringComparison.OrdinalIgnoreCase))
-                        {
-                            valueIndex = 0;
-                        }
-                        else if (string.Equals(valueType, "Low", StringComparison.OrdinalIgnoreCase))
-                        {
-                            valueIndex = 1;
-                        }
-                        else if (string.Equals(valueType, "Open", StringComparison.OrdinalIgnoreCase))
-                        {
-                            valueIndex = 2;
-                        }
-
-                        text = ValueConverter.FormatValue(
-                            ser.Chart,
-                            point,
-                            point.Tag,
-                            point.YValues[valueIndex],
-                            point.LabelFormat,
-                            ser.YValueType,
-                            ChartElementType.DataPoint);
+                        valueIndex = 0;
                     }
-                    else
+                    else if (string.Equals(valueType, "Low", StringComparison.OrdinalIgnoreCase))
                     {
-                        text = point.ReplaceKeywords(point.Label);
+                        valueIndex = 1;
+                    }
+                    else if (string.Equals(valueType, "Open", StringComparison.OrdinalIgnoreCase))
+                    {
+                        valueIndex = 2;
                     }
 
-                    // Get text angle
-                    int textAngle = point.LabelAngle;
+                    text = ValueConverter.FormatValue(
+                        ser.Chart,
+                        point,
+                        point.Tag,
+                        point.YValues[valueIndex],
+                        point.LabelFormat,
+                        ser.YValueType,
+                        ChartElementType.DataPoint);
+                }
+                else
+                {
+                    text = point.ReplaceKeywords(point.Label);
+                }
 
-                    // Check if text contains white space only
-                    if (text.Trim().Length != 0)
+                // Get text angle
+                int textAngle = point.LabelAngle;
+
+                // Check if text contains white space only
+                if (text.Trim().Length != 0)
+                {
+                    SizeF sizeFont = SizeF.Empty;
+
+
+                    // Check if Smart Labels are enabled
+                    if (ser.SmartLabelStyle.Enabled)
                     {
-                        SizeF sizeFont = SizeF.Empty;
-
-
-                        // Check if Smart Labels are enabled
-                        if (ser.SmartLabelStyle.Enabled)
+                        // Get marker size
+                        SizeF markerSize = SizeF.Empty;
+                        markerSize.Width = point.MarkerSize;
+                        markerSize.Height = point.MarkerSize;
+                        if (graph != null && graph.Graphics != null)
                         {
-                            // Get marker size
-                            SizeF markerSize = SizeF.Empty;
-                            markerSize.Width = point.MarkerSize;
-                            markerSize.Height = point.MarkerSize;
-                            if (graph != null && graph.Graphics != null)
+                            // Marker size is in pixels and we do the mapping for higher DPIs
+                            markerSize.Width = point.MarkerSize * graph.Graphics.DpiX / 96;
+                            markerSize.Height = point.MarkerSize * graph.Graphics.DpiY / 96;
+                        }
+
+                        if (point.MarkerImage.Length > 0)
+                            common.ImageLoader.GetAdjustedImageSize(point.MarkerImage, graph.Graphics, ref markerSize);
+
+                        // Get point label style attribute
+                        markerSize = graph.GetRelativeSize(markerSize);
+                        using var sf = StringFormat.GenericTypographic;
+                        sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
+
+                        // Adjust label position using SmartLabelStyle algorithm
+                        position = area.smartLabels.AdjustSmartLabelPosition(
+                            common,
+                            graph,
+                            area,
+                            ser.SmartLabelStyle,
+                            position,
+                            sizeFont,
+                            format,
+                            position,
+                            markerSize,
+                            LabelAlignmentStyles.Top);
+
+                        // Smart labels always use 0 degrees text angle
+                        textAngle = 0;
+
+                    }
+
+
+
+                    // Draw label
+                    if (!position.IsEmpty)
+                    {
+                        RectangleF labelBackPosition = RectangleF.Empty;
+
+                        if (!point.LabelBackColor.IsEmpty ||
+                            point.LabelBorderWidth > 0 ||
+                            !point.LabelBorderColor.IsEmpty)
+                        {
+                            // Get text size
+                            if (sizeFont.IsEmpty)
                             {
-                                // Marker size is in pixels and we do the mapping for higher DPIs
-                                markerSize.Width = point.MarkerSize * graph.Graphics.DpiX / 96;
-                                markerSize.Height = point.MarkerSize * graph.Graphics.DpiY / 96;
+                                using var sf = StringFormat.GenericTypographic;
+                                sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
                             }
 
-                            if (point.MarkerImage.Length > 0)
-                                common.ImageLoader.GetAdjustedImageSize(point.MarkerImage, graph.Graphics, ref markerSize);
+                            // Adjust label y coordinate
+                            position.Y -= sizeFont.Height / 8;
 
-                            // Get point label style attribute
-                            markerSize = graph.GetRelativeSize(markerSize);
-                            using var sf = StringFormat.GenericTypographic;
-                            sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
-
-                            // Adjust label position using SmartLabelStyle algorithm
-                            position = area.smartLabels.AdjustSmartLabelPosition(
-                                common,
+                            // Get label background position
+                            SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
+                            sizeLabel.Height += sizeFont.Height / 8;
+                            sizeLabel.Width += sizeLabel.Width / text.Length;
+                            labelBackPosition = PointChart.GetLabelPosition(
                                 graph,
-                                area,
-                                ser.SmartLabelStyle,
                                 position,
-                                sizeFont,
+                                sizeLabel,
                                 format,
-                                position,
-                                markerSize,
-                                LabelAlignmentStyles.Top);
-
-                            // Smart labels always use 0 degrees text angle
-                            textAngle = 0;
-
+                                true);
                         }
 
 
+                        // Draw label text
+                        using Brush brush = new SolidBrush(point.LabelForeColor);
+                        graph.DrawPointLabelStringRel(
+                            common,
+                            text,
+                            point.Font,
+                            brush,
+                            position,
+                            format,
+                            textAngle,
+                            labelBackPosition,
 
-                        // Draw label
-                        if (!position.IsEmpty)
-                        {
-                            RectangleF labelBackPosition = RectangleF.Empty;
-
-                            if (!point.LabelBackColor.IsEmpty ||
-                                point.LabelBorderWidth > 0 ||
-                                !point.LabelBorderColor.IsEmpty)
-                            {
-                                // Get text size
-                                if (sizeFont.IsEmpty)
-                                {
-                                    using var sf = StringFormat.GenericTypographic;
-                                    sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
-                                }
-
-                                // Adjust label y coordinate
-                                position.Y -= sizeFont.Height / 8;
-
-                                // Get label background position
-                                SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-                                sizeLabel.Height += sizeFont.Height / 8;
-                                sizeLabel.Width += sizeLabel.Width / text.Length;
-                                labelBackPosition = PointChart.GetLabelPosition(
-                                    graph,
-                                    position,
-                                    sizeLabel,
-                                    format,
-                                    true);
-                            }
-
-
-                            // Draw label text
-                            using (Brush brush = new SolidBrush(point.LabelForeColor))
-                            {
-                                graph.DrawPointLabelStringRel(
-                                    common,
-                                    text,
-                                    point.Font,
-                                    brush,
-                                    position,
-                                    format,
-                                    textAngle,
-                                    labelBackPosition,
-
-                                    point.LabelBackColor,
-                                    point.LabelBorderColor,
-                                    point.LabelBorderWidth,
-                                    point.LabelBorderDashStyle,
-                                    ser,
-                                    point,
-                                    pointIndex - 1);
-                            }
-                        }
+                            point.LabelBackColor,
+                            point.LabelBorderColor,
+                            point.LabelBorderWidth,
+                            point.LabelBorderDashStyle,
+                            ser,
+                            point,
+                            pointIndex - 1);
                     }
                 }
             }
@@ -1645,53 +1637,49 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Draw open-close marks as triangals
             else if (style == StockOpenCloseMarkStyle.Triangle)
             {
-                using (GraphicsPath path = new GraphicsPath())
+                using GraphicsPath path = new GraphicsPath();
+
+                // Translate coordinates
+                Point3D[] points = new Point3D[3];
+                points[0] = new Point3D(xPosition, open, zPosition + depth / 2f);
+                points[1] = new Point3D(xPosition - width / 2f, open + height / 2f, zPosition + depth / 2f);
+                points[2] = new Point3D(xPosition - width / 2f, open - height / 2f, zPosition + depth / 2f);
+                area.matrix3D.TransformPoints(points);
+                points[0].PointF = graph.GetAbsolutePoint(points[0].PointF);
+                points[1].PointF = graph.GetAbsolutePoint(points[1].PointF);
+                points[2].PointF = graph.GetAbsolutePoint(points[2].PointF);
+
+                using Brush brush = new SolidBrush(point.Color);
+                // Draw Open mark line
+                if (showOpen)
                 {
-
-                    // Translate coordinates
-                    Point3D[] points = new Point3D[3];
-                    points[0] = new Point3D(xPosition, open, zPosition + depth / 2f);
-                    points[1] = new Point3D(xPosition - width / 2f, open + height / 2f, zPosition + depth / 2f);
-                    points[2] = new Point3D(xPosition - width / 2f, open - height / 2f, zPosition + depth / 2f);
-                    area.matrix3D.TransformPoints(points);
-                    points[0].PointF = graph.GetAbsolutePoint(points[0].PointF);
-                    points[1].PointF = graph.GetAbsolutePoint(points[1].PointF);
-                    points[2].PointF = graph.GetAbsolutePoint(points[2].PointF);
-
-                    using (Brush brush = new SolidBrush(point.Color))
+                    if (openY <= VAxis.ViewMaximum && openY >= VAxis.ViewMinimum)
                     {
-                        // Draw Open mark line
-                        if (showOpen)
-                        {
-                            if (openY <= VAxis.ViewMaximum && openY >= VAxis.ViewMinimum)
-                            {
-                                path.AddLine(points[1].PointF, points[0].PointF);
-                                path.AddLine(points[0].PointF, points[2].PointF);
-                                path.AddLine(points[2].PointF, points[2].PointF);
-                                graph.FillPath(brush, path);
-                            }
-                        }
+                        path.AddLine(points[1].PointF, points[0].PointF);
+                        path.AddLine(points[0].PointF, points[2].PointF);
+                        path.AddLine(points[2].PointF, points[2].PointF);
+                        graph.FillPath(brush, path);
+                    }
+                }
 
-                        // Draw close mark line
-                        if (showClose)
-                        {
-                            if (closeY <= VAxis.ViewMaximum && closeY >= VAxis.ViewMinimum)
-                            {
-                                points[0] = new Point3D(xPosition, close, zPosition + depth / 2f);
-                                points[1] = new Point3D(xPosition + width / 2f, close + height / 2f, zPosition + depth / 2f);
-                                points[2] = new Point3D(xPosition + width / 2f, close - height / 2f, zPosition + depth / 2f);
-                                area.matrix3D.TransformPoints(points);
-                                points[0].PointF = graph.GetAbsolutePoint(points[0].PointF);
-                                points[1].PointF = graph.GetAbsolutePoint(points[1].PointF);
-                                points[2].PointF = graph.GetAbsolutePoint(points[2].PointF);
+                // Draw close mark line
+                if (showClose)
+                {
+                    if (closeY <= VAxis.ViewMaximum && closeY >= VAxis.ViewMinimum)
+                    {
+                        points[0] = new Point3D(xPosition, close, zPosition + depth / 2f);
+                        points[1] = new Point3D(xPosition + width / 2f, close + height / 2f, zPosition + depth / 2f);
+                        points[2] = new Point3D(xPosition + width / 2f, close - height / 2f, zPosition + depth / 2f);
+                        area.matrix3D.TransformPoints(points);
+                        points[0].PointF = graph.GetAbsolutePoint(points[0].PointF);
+                        points[1].PointF = graph.GetAbsolutePoint(points[1].PointF);
+                        points[2].PointF = graph.GetAbsolutePoint(points[2].PointF);
 
-                                path.Reset();
-                                path.AddLine(points[1].PointF, points[0].PointF);
-                                path.AddLine(points[0].PointF, points[2].PointF);
-                                path.AddLine(points[2].PointF, points[2].PointF);
-                                graph.FillPath(brush, path);
-                            }
-                        }
+                        path.Reset();
+                        path.AddLine(points[1].PointF, points[0].PointF);
+                        path.AddLine(points[0].PointF, points[2].PointF);
+                        path.AddLine(points[2].PointF, points[2].PointF);
+                        graph.FillPath(brush, path);
                     }
                 }
             }

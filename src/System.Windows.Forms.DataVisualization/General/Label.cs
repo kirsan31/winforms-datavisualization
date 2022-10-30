@@ -876,193 +876,189 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="graph">Reference to the Chart Graphics object.</param>
 		internal void PaintCircular( ChartGraphics graph )
 		{
-			// Label string drawing format			
-            using (StringFormat format = new StringFormat())
+            // Label string drawing format			
+            using StringFormat format = new StringFormat();
+            format.FormatFlags |= StringFormatFlags.LineLimit;
+            format.Trimming = StringTrimming.EllipsisCharacter;
+
+            // Labels are disabled for this axis
+            if (!_axis.LabelStyle.Enabled)
+                return;
+
+            // Draw text with anti-aliasing
+            /*
+            if( (graph.AntiAliasing & AntiAliasing.Text) == AntiAliasing.Text )
             {
-                format.FormatFlags |= StringFormatFlags.LineLimit;
-                format.Trimming = StringTrimming.EllipsisCharacter;
+                graph.TextRenderingHint = TextRenderingHint.AntiAlias;
+            }
+            else
+            {
+                graph.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
+            }
+            */
 
-                // Labels are disabled for this axis
-                if (!_axis.LabelStyle.Enabled)
-                    return;
+            // Gets axis labels style
+            CircularAxisLabelsStyle labelsStyle = this._axis.ChartArea.GetCircularAxisLabelsStyle();
 
-                // Draw text with anti-aliasing
-                /*
-                if( (graph.AntiAliasing & AntiAliasing.Text) == AntiAliasing.Text )
+            // Get list of circular axes with labels
+            ArrayList circularAxes = this._axis.ChartArea.GetCircularAxisList();
+
+            // Draw each axis label
+            int index = 0;
+            foreach (CircularChartAreaAxis circAxis in circularAxes)
+            {
+                if (circAxis.Title.Length > 0)
                 {
-                    graph.TextRenderingHint = TextRenderingHint.AntiAlias;
-                }
-                else
-                {
-                    graph.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
-                }
-                */
+                    //******************************************************************
+                    //** Calculate label position corner position
+                    //******************************************************************
+                    PointF labelRelativePosition = new PointF(
+                        this._axis.ChartArea.circularCenter.X,
+                        this._axis.ChartArea.PlotAreaPosition.Y);
 
-                // Gets axis labels style
-                CircularAxisLabelsStyle labelsStyle = this._axis.ChartArea.GetCircularAxisLabelsStyle();
+                    // Adjust labels Y position
+                    labelRelativePosition.Y -= _axis.markSize + Axis.elementSpacing;
 
-                // Get list of circular axes with labels
-                ArrayList circularAxes = this._axis.ChartArea.GetCircularAxisList();
+                    // Convert to absolute
+                    PointF[] labelPosition = new PointF[] { graph.GetAbsolutePoint(labelRelativePosition) };
 
-                // Draw each axis label
-                int index = 0;
-                foreach (CircularChartAreaAxis circAxis in circularAxes)
-                {
-                    if (circAxis.Title.Length > 0)
+                    // Get label rotation angle
+                    float labelAngle = circAxis.AxisPosition;
+                    ICircularChartType chartType = this._axis.ChartArea.GetCircularChartType();
+                    if (chartType != null && chartType.XAxisCrossingSupported())
                     {
-                        //******************************************************************
-                        //** Calculate label position corner position
-                        //******************************************************************
-                        PointF labelRelativePosition = new PointF(
-                            this._axis.ChartArea.circularCenter.X,
-                            this._axis.ChartArea.PlotAreaPosition.Y);
-
-                        // Adjust labels Y position
-                        labelRelativePosition.Y -= _axis.markSize + Axis.elementSpacing;
-
-                        // Convert to absolute
-                        PointF[] labelPosition = new PointF[] { graph.GetAbsolutePoint(labelRelativePosition) };
-
-                        // Get label rotation angle
-                        float labelAngle = circAxis.AxisPosition;
-                        ICircularChartType chartType = this._axis.ChartArea.GetCircularChartType();
-                        if (chartType != null && chartType.XAxisCrossingSupported())
+                        if (!double.IsNaN(this._axis.ChartArea.AxisX.Crossing))
                         {
-                            if (!double.IsNaN(this._axis.ChartArea.AxisX.Crossing))
-                            {
-                                labelAngle += (float)this._axis.ChartArea.AxisX.Crossing;
-                            }
+                            labelAngle += (float)this._axis.ChartArea.AxisX.Crossing;
                         }
+                    }
 
-                        // Make sure angle is presented as a positive number
-                        while (labelAngle < 0)
-                        {
-                            labelAngle = 360f + labelAngle;
-                        }
+                    // Make sure angle is presented as a positive number
+                    while (labelAngle < 0)
+                    {
+                        labelAngle = 360f + labelAngle;
+                    }
 
-                        // Set graphics rotation matrix
-                        using Matrix newMatrix = new Matrix();
-                        newMatrix.RotateAt(labelAngle, graph.GetAbsolutePoint(this._axis.ChartArea.circularCenter));
-                        newMatrix.TransformPoints(labelPosition);
+                    // Set graphics rotation matrix
+                    using Matrix newMatrix = new Matrix();
+                    newMatrix.RotateAt(labelAngle, graph.GetAbsolutePoint(this._axis.ChartArea.circularCenter));
+                    newMatrix.TransformPoints(labelPosition);
 
-                        // Set text alignment
-                        format.LineAlignment = StringAlignment.Center;
-                        format.Alignment = StringAlignment.Near;
-                        if (labelsStyle != CircularAxisLabelsStyle.Radial)
-                        {
-                            if (labelAngle < 5f || labelAngle > 355f)
-                            {
-                                format.Alignment = StringAlignment.Center;
-                                format.LineAlignment = StringAlignment.Far;
-                            }
-                            if (labelAngle < 185f && labelAngle > 175f)
-                            {
-                                format.Alignment = StringAlignment.Center;
-                                format.LineAlignment = StringAlignment.Near;
-                            }
-                            if (labelAngle > 185f && labelAngle < 355f)
-                            {
-                                format.Alignment = StringAlignment.Far;
-                            }
-                        }
-                        else
-                        {
-                            if (labelAngle > 180f)
-                            {
-                                format.Alignment = StringAlignment.Far;
-                            }
-                        }
-
-
-                        // Set text rotation angle
-                        float textAngle = labelAngle;
-                        if (labelsStyle == CircularAxisLabelsStyle.Radial)
-                        {
-                            if (labelAngle > 180)
-                            {
-                                textAngle += 90f;
-                            }
-                            else
-                            {
-                                textAngle -= 90f;
-                            }
-                        }
-                        else if (labelsStyle == CircularAxisLabelsStyle.Circular)
+                    // Set text alignment
+                    format.LineAlignment = StringAlignment.Center;
+                    format.Alignment = StringAlignment.Near;
+                    if (labelsStyle != CircularAxisLabelsStyle.Radial)
+                    {
+                        if (labelAngle < 5f || labelAngle > 355f)
                         {
                             format.Alignment = StringAlignment.Center;
                             format.LineAlignment = StringAlignment.Far;
                         }
-
-                        Matrix oldMatrix = null;
-                        if (labelsStyle == CircularAxisLabelsStyle.Radial || labelsStyle == CircularAxisLabelsStyle.Circular)
+                        if (labelAngle < 185f && labelAngle > 175f)
                         {
-                            // Set text rotation matrix
-                            oldMatrix = graph.Transform;
-                            using Matrix textRotationMatrix = oldMatrix.Clone();
-                            textRotationMatrix.RotateAt(textAngle, labelPosition[0]);
-                            graph.Transform = textRotationMatrix;
+                            format.Alignment = StringAlignment.Center;
+                            format.LineAlignment = StringAlignment.Near;
                         }
-
-                        // Get axis title (label) color
-                        Color labelColor = _foreColor;
-                        if (!circAxis.TitleForeColor.IsEmpty)
+                        if (labelAngle > 185f && labelAngle < 355f)
                         {
-                            labelColor = circAxis.TitleForeColor;
+                            format.Alignment = StringAlignment.Far;
                         }
-
-                        // Draw label
-                        using (Brush brush = new SolidBrush(labelColor))
+                    }
+                    else
+                    {
+                        if (labelAngle > 180f)
                         {
-                            graph.DrawString(
-                                circAxis.Title.Replace("\\n", "\n"),
-                                (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont,
-                                brush,
-                                labelPosition[0],
-                                format);
+                            format.Alignment = StringAlignment.Far;
                         }
+                    }
 
-                        // Process selection region 
-                        if (this._axis.Common.ProcessModeRegions)
+
+                    // Set text rotation angle
+                    float textAngle = labelAngle;
+                    if (labelsStyle == CircularAxisLabelsStyle.Radial)
+                    {
+                        if (labelAngle > 180)
                         {
-                            SizeF size = graph.MeasureString(circAxis.Title.Replace("\\n", "\n"), (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont);
-                            RectangleF labelRect = GetLabelPosition(
-                                labelPosition[0],
-                                size,
-                                format);
-                            PointF[] points = new PointF[]
-                            {
+                            textAngle += 90f;
+                        }
+                        else
+                        {
+                            textAngle -= 90f;
+                        }
+                    }
+                    else if (labelsStyle == CircularAxisLabelsStyle.Circular)
+                    {
+                        format.Alignment = StringAlignment.Center;
+                        format.LineAlignment = StringAlignment.Far;
+                    }
+
+                    Matrix oldMatrix = null;
+                    if (labelsStyle == CircularAxisLabelsStyle.Radial || labelsStyle == CircularAxisLabelsStyle.Circular)
+                    {
+                        // Set text rotation matrix
+                        oldMatrix = graph.Transform;
+                        using Matrix textRotationMatrix = oldMatrix.Clone();
+                        textRotationMatrix.RotateAt(textAngle, labelPosition[0]);
+                        graph.Transform = textRotationMatrix;
+                    }
+
+                    // Get axis title (label) color
+                    Color labelColor = _foreColor;
+                    if (!circAxis.TitleForeColor.IsEmpty)
+                    {
+                        labelColor = circAxis.TitleForeColor;
+                    }
+
+                    // Draw label
+                    using (Brush brush = new SolidBrush(labelColor))
+                    {
+                        graph.DrawString(
+                            circAxis.Title.Replace("\\n", "\n"),
+                            (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont,
+                            brush,
+                            labelPosition[0],
+                            format);
+                    }
+
+                    // Process selection region 
+                    if (this._axis.Common.ProcessModeRegions)
+                    {
+                        SizeF size = graph.MeasureString(circAxis.Title.Replace("\\n", "\n"), (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont);
+                        RectangleF labelRect = GetLabelPosition(
+                            labelPosition[0],
+                            size,
+                            format);
+                        PointF[] points = new PointF[]
+                        {
                                 labelRect.Location,
                                 new PointF(labelRect.Right, labelRect.Y),
                                 new PointF(labelRect.Right, labelRect.Bottom),
                                 new PointF(labelRect.X, labelRect.Bottom)
-                            };
+                        };
 
-                            using (GraphicsPath path = new GraphicsPath())
-                            {
-                                path.AddPolygon(points);
-                                path.CloseAllFigures();
-                                using var mt = graph.Transform;
-                                path.Transform(mt);
-                                this._axis.Common.HotRegionsList.AddHotRegion(
-                                    path,
-                                    false,
-                                    ChartElementType.AxisLabels,
-                                    circAxis.Title);
-                            }
-                        }
-
-                        // Restore graphics
-                        if (labelsStyle == CircularAxisLabelsStyle.Radial || labelsStyle == CircularAxisLabelsStyle.Circular)
-                        {
-                            graph.Transform = oldMatrix;
-                            oldMatrix.Dispose();
-                        }
+                        using GraphicsPath path = new GraphicsPath();
+                        path.AddPolygon(points);
+                        path.CloseAllFigures();
+                        using var mt = graph.Transform;
+                        path.Transform(mt);
+                        this._axis.Common.HotRegionsList.AddHotRegion(
+                            path,
+                            false,
+                            ChartElementType.AxisLabels,
+                            circAxis.Title);
                     }
 
-                    ++index;
+                    // Restore graphics
+                    if (labelsStyle == CircularAxisLabelsStyle.Radial || labelsStyle == CircularAxisLabelsStyle.Circular)
+                    {
+                        graph.Transform = oldMatrix;
+                        oldMatrix.Dispose();
+                    }
                 }
+
+                ++index;
             }
-		}
+        }
 
 		/// <summary>
 		/// Gets rectangle position of the label.
@@ -1117,443 +1113,441 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="backElements">Back elements of the axis should be drawn in 3D scene.</param>
 		internal void Paint( ChartGraphics graph, bool backElements )
 		{
-			// Label string drawing format			
-            using (StringFormat format = new StringFormat())
+            // Label string drawing format			
+            using StringFormat format = new StringFormat();
+            format.FormatFlags |= StringFormatFlags.LineLimit;
+            format.Trimming = StringTrimming.EllipsisCharacter;
+
+            // Labels are disabled for this axis
+            if (!_axis.LabelStyle.Enabled)
+                return;
+            // deliant fix-> VSTS #157848, #143286 - drawing custom label in empty axis
+            if (Double.IsNaN(_axis.ViewMinimum) || Double.IsNaN(_axis.ViewMaximum))
+                return;
+
+
+            // Draw labels in 3D space
+            if (this._axis.ChartArea.Area3DStyle.Enable3D && !this._axis.ChartArea.chartAreaIsCurcular)
             {
-                format.FormatFlags |= StringFormatFlags.LineLimit;
-                format.Trimming = StringTrimming.EllipsisCharacter;
+                this.Paint3D(graph, backElements);
+                return;
+            }
 
-                // Labels are disabled for this axis
-                if (!_axis.LabelStyle.Enabled)
-                    return;
-                // deliant fix-> VSTS #157848, #143286 - drawing custom label in empty axis
-                if (Double.IsNaN(_axis.ViewMinimum) || Double.IsNaN(_axis.ViewMaximum))
-                    return;
+            // Initialize all labels position rectangle
+            RectangleF rectLabels = _axis.ChartArea.Position.ToRectangleF();
+            float labelSize = _axis.labelSize;
 
+            if (_axis.AxisPosition == AxisPosition.Left)
+            {
+                rectLabels.Width = labelSize;
+                if (_axis.GetIsMarksNextToAxis())
+                    rectLabels.X = (float)_axis.GetAxisPosition();
+                else
+                    rectLabels.X = _axis.PlotAreaPosition.X;
 
-                // Draw labels in 3D space
-                if (this._axis.ChartArea.Area3DStyle.Enable3D && !this._axis.ChartArea.chartAreaIsCurcular)
-                {
-                    this.Paint3D(graph, backElements);
-                    return;
-                }
+                rectLabels.X -= labelSize + _axis.markSize;
 
-                // Initialize all labels position rectangle
-                RectangleF rectLabels = _axis.ChartArea.Position.ToRectangleF();
-                float labelSize = _axis.labelSize;
+                // Set label text alignment
+                format.Alignment = StringAlignment.Far;
+                format.LineAlignment = StringAlignment.Center;
+            }
+            else if (_axis.AxisPosition == AxisPosition.Right)
+            {
+                rectLabels.Width = labelSize;
+                if (_axis.GetIsMarksNextToAxis())
+                    rectLabels.X = (float)_axis.GetAxisPosition();
+                else
+                    rectLabels.X = _axis.PlotAreaPosition.Right;
+                rectLabels.X += _axis.markSize;
 
+                // Set label text alignment
+                format.Alignment = StringAlignment.Near;
+                format.LineAlignment = StringAlignment.Center;
+            }
+            else if (_axis.AxisPosition == AxisPosition.Top)
+            {
+                rectLabels.Height = labelSize;
+                if (_axis.GetIsMarksNextToAxis())
+                    rectLabels.Y = (float)_axis.GetAxisPosition();
+                else
+                    rectLabels.Y = _axis.PlotAreaPosition.Y;
+                rectLabels.Y -= labelSize + _axis.markSize;
+
+                // Set label text alignment
+                format.Alignment = StringAlignment.Center;
+                format.LineAlignment = StringAlignment.Far;
+            }
+            else if (_axis.AxisPosition == AxisPosition.Bottom)
+            {
+                rectLabels.Height = labelSize;
+                if (_axis.GetIsMarksNextToAxis())
+                    rectLabels.Y = (float)_axis.GetAxisPosition();
+                else
+                    rectLabels.Y = _axis.PlotAreaPosition.Bottom;
+                rectLabels.Y += _axis.markSize;
+
+                // Set label text alignment
+                format.Alignment = StringAlignment.Center;
+                format.LineAlignment = StringAlignment.Near;
+            }
+
+            // Calculate bounding rectangle
+            RectangleF boundaryRect = rectLabels;
+            if (boundaryRect != RectangleF.Empty && _axis.totlaGroupingLabelsSize > 0)
+            {
                 if (_axis.AxisPosition == AxisPosition.Left)
                 {
-                    rectLabels.Width = labelSize;
-                    if (_axis.GetIsMarksNextToAxis())
-                        rectLabels.X = (float)_axis.GetAxisPosition();
-                    else
-                        rectLabels.X = _axis.PlotAreaPosition.X;
-
-                    rectLabels.X -= labelSize + _axis.markSize;
-
-                    // Set label text alignment
-                    format.Alignment = StringAlignment.Far;
-                    format.LineAlignment = StringAlignment.Center;
+                    boundaryRect.X += _axis.totlaGroupingLabelsSize;
+                    boundaryRect.Width -= _axis.totlaGroupingLabelsSize;
                 }
                 else if (_axis.AxisPosition == AxisPosition.Right)
                 {
-                    rectLabels.Width = labelSize;
-                    if (_axis.GetIsMarksNextToAxis())
-                        rectLabels.X = (float)_axis.GetAxisPosition();
-                    else
-                        rectLabels.X = _axis.PlotAreaPosition.Right;
-                    rectLabels.X += _axis.markSize;
-
-                    // Set label text alignment
-                    format.Alignment = StringAlignment.Near;
-                    format.LineAlignment = StringAlignment.Center;
+                    boundaryRect.Width -= _axis.totlaGroupingLabelsSize;
                 }
                 else if (_axis.AxisPosition == AxisPosition.Top)
                 {
-                    rectLabels.Height = labelSize;
-                    if (_axis.GetIsMarksNextToAxis())
-                        rectLabels.Y = (float)_axis.GetAxisPosition();
-                    else
-                        rectLabels.Y = _axis.PlotAreaPosition.Y;
-                    rectLabels.Y -= labelSize + _axis.markSize;
-
-                    // Set label text alignment
-                    format.Alignment = StringAlignment.Center;
-                    format.LineAlignment = StringAlignment.Far;
+                    boundaryRect.Y += _axis.totlaGroupingLabelsSize;
+                    boundaryRect.Height -= _axis.totlaGroupingLabelsSize;
                 }
                 else if (_axis.AxisPosition == AxisPosition.Bottom)
                 {
-                    rectLabels.Height = labelSize;
-                    if (_axis.GetIsMarksNextToAxis())
-                        rectLabels.Y = (float)_axis.GetAxisPosition();
-                    else
-                        rectLabels.Y = _axis.PlotAreaPosition.Bottom;
-                    rectLabels.Y += _axis.markSize;
-
-                    // Set label text alignment
-                    format.Alignment = StringAlignment.Center;
-                    format.LineAlignment = StringAlignment.Near;
+                    boundaryRect.Height -= _axis.totlaGroupingLabelsSize;
                 }
+            }
 
-                // Calculate bounding rectangle
-                RectangleF boundaryRect = rectLabels;
-                if (boundaryRect != RectangleF.Empty && _axis.totlaGroupingLabelsSize > 0)
+            // Check if the AJAX zooming and scrolling mode is enabled.
+            // Labels are drawn slightly different in this case.
+            bool ajaxScrollingEnabled = false;
+            bool firstFrame = true;
+            bool lastFrame = true;
+
+            // Draw all labels from the collection
+            int labelIndex = 0;
+            foreach (CustomLabel label in this._axis.CustomLabels)
+            {
+                bool truncatedLeft = false;
+                bool truncatedRight = false;
+                double labelFrom = label.FromPosition;
+                double labelTo = label.ToPosition;
+                bool useRelativeCoordiantes = false;
+                double labelFromRelative = double.NaN;
+                double labelToRelative = double.NaN;
+
+                // Skip if label middle point is outside current scaleView
+                if (label.RowIndex == 0)
                 {
-                    if (_axis.AxisPosition == AxisPosition.Left)
-                    {
-                        boundaryRect.X += _axis.totlaGroupingLabelsSize;
-                        boundaryRect.Width -= _axis.totlaGroupingLabelsSize;
-                    }
-                    else if (_axis.AxisPosition == AxisPosition.Right)
-                    {
-                        boundaryRect.Width -= _axis.totlaGroupingLabelsSize;
-                    }
-                    else if (_axis.AxisPosition == AxisPosition.Top)
-                    {
-                        boundaryRect.Y += _axis.totlaGroupingLabelsSize;
-                        boundaryRect.Height -= _axis.totlaGroupingLabelsSize;
-                    }
-                    else if (_axis.AxisPosition == AxisPosition.Bottom)
-                    {
-                        boundaryRect.Height -= _axis.totlaGroupingLabelsSize;
-                    }
-                }
+                    double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
+                    decimal viewMin = (decimal)_axis.ViewMinimum;
+                    decimal viewMax = (decimal)_axis.ViewMaximum;
 
-                // Check if the AJAX zooming and scrolling mode is enabled.
-                // Labels are drawn slightly different in this case.
-                bool ajaxScrollingEnabled = false;
-                bool firstFrame = true;
-                bool lastFrame = true;
-
-                // Draw all labels from the collection
-                int labelIndex = 0;
-                foreach (CustomLabel label in this._axis.CustomLabels)
-                {
-                    bool truncatedLeft = false;
-                    bool truncatedRight = false;
-                    double labelFrom = label.FromPosition;
-                    double labelTo = label.ToPosition;
-                    bool useRelativeCoordiantes = false;
-                    double labelFromRelative = double.NaN;
-                    double labelToRelative = double.NaN;
-
-                    // Skip if label middle point is outside current scaleView
-                    if (label.RowIndex == 0)
+                    if (ajaxScrollingEnabled)
                     {
-                        double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
-                        decimal viewMin = (decimal)_axis.ViewMinimum;
-                        decimal viewMax = (decimal)_axis.ViewMaximum;
-
-                        if (ajaxScrollingEnabled)
+                        // Skip very first and last labels if they are partialy outside the scaleView
+                        if (firstFrame)
                         {
-                            // Skip very first and last labels if they are partialy outside the scaleView
-                            if (firstFrame)
-                            {
-                                if ((decimal)label.FromPosition < (decimal)_axis.Minimum)
-                                {
-                                    continue;
-                                }
-                            }
-                            if (lastFrame)
-                            {
-                                if ((decimal)label.ToPosition > (decimal)_axis.Maximum)
-                                {
-                                    continue;
-                                }
-                            }
-
-                            // Skip label only if it is compleltly out of the scaleView
-                            if ((decimal)label.ToPosition < viewMin ||
-                                (decimal)label.FromPosition > viewMax)
+                            if ((decimal)label.FromPosition < (decimal)_axis.Minimum)
                             {
                                 continue;
                             }
-
-                            // RecalculateAxesScale label index starting from the first frame.
-                            // Index is used to determine position of the offset labels
-                            if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
-                            {
-                                // Reset index
-                                labelIndex = 0;
-
-                                // Get first series attached to this axis
-                                Series axisSeries = null;
-                                if (_axis.axisType == AxisName.X || _axis.axisType == AxisName.X2)
-                                {
-                                    List<string> seriesArray = _axis.ChartArea.GetXAxesSeries((_axis.axisType == AxisName.X) ? AxisType.Primary : AxisType.Secondary, _axis.SubAxisName);
-                                    if (seriesArray.Count > 0)
-                                    {
-                                        axisSeries = _axis.Common.DataManager.Series[seriesArray[0]];
-                                        if (axisSeries != null && !axisSeries.IsXValueIndexed)
-                                        {
-                                            axisSeries = null;
-                                        }
-                                    }
-                                }
-
-                                // Set start position and iterate through label positions
-                                // NOTE: Labels offset should not be taken in the account
-                                double currentPosition = _axis.Minimum;
-                                while (currentPosition < _axis.Maximum)
-                                {
-                                    if (currentPosition >= middlePoint)
-                                    {
-                                        break;
-                                    }
-
-                                    currentPosition += ChartHelper.GetIntervalSize(currentPosition, _axis.LabelStyle.GetInterval(), _axis.LabelStyle.GetIntervalType(),
-                                        axisSeries, 0.0, DateTimeIntervalType.Number, true);
-                                    ++labelIndex;
-                                }
-
-                            }
                         }
-                        else
+                        if (lastFrame)
                         {
-                            // Skip label if label middle point is not in the scaleView
-                            if ((decimal)middlePoint < viewMin ||
-                                (decimal)middlePoint > viewMax)
+                            if ((decimal)label.ToPosition > (decimal)_axis.Maximum)
                             {
                                 continue;
                             }
                         }
 
-
-
-                        // Make sure label To and From coordinates are processed by one scale segment based 
-                        // on the label middle point position.
-                        if (_axis.ScaleSegments.Count > 0)
-                        {
-                            AxisScaleSegment scaleSegment = _axis.ScaleSegments.FindScaleSegmentForAxisValue(middlePoint);
-                            _axis.ScaleSegments.AllowOutOfScaleValues = true;
-                            _axis.ScaleSegments.EnforceSegment(scaleSegment);
-                        }
-
-
-
-                        // Use center point instead of the To/From if label takes all scaleView
-                        // This is done to avoid issues with labels drawing with high 
-                        // zooming levels.
-                        if ((decimal)label.FromPosition < viewMin &&
-                            (decimal)label.ToPosition > viewMax)
-                        {
-                            // Indicates that chart relative coordinates should be used instead of axis values
-                            useRelativeCoordiantes = true;
-
-                            // Calculate label From/To in relative coordinates using 
-                            // label middle point and 100% width.
-                            labelFromRelative = _axis.GetLinearPosition(middlePoint) - 50.0;
-                            labelToRelative = labelFromRelative + 100.0;
-                        }
-                    }
-                    else
-                    {
-                        // Skip labels completly outside the scaleView
-                        if (label.ToPosition <= _axis.ViewMinimum || label.FromPosition >= _axis.ViewMaximum)
+                        // Skip label only if it is compleltly out of the scaleView
+                        if ((decimal)label.ToPosition < viewMin ||
+                            (decimal)label.FromPosition > viewMax)
                         {
                             continue;
                         }
 
-                        // Check if label is partially visible.
-                        if (!ajaxScrollingEnabled &&
-                            _axis.ScaleView.IsZoomed)
+                        // RecalculateAxesScale label index starting from the first frame.
+                        // Index is used to determine position of the offset labels
+                        if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
                         {
-                            if (label.FromPosition < _axis.ViewMinimum)
-                            {
-                                truncatedLeft = true;
-                                labelFrom = _axis.ViewMinimum;
-                            }
-                            if (label.ToPosition > _axis.ViewMaximum)
-                            {
-                                truncatedRight = true;
-                                labelTo = _axis.ViewMaximum;
-                            }
-                        }
-                    }
+                            // Reset index
+                            labelIndex = 0;
 
-                    // Calculate single label position
-                    RectangleF rect = rectLabels;
-
-                    // Label is in the first row
-                    if (label.RowIndex == 0)
-                    {
-                        if (_axis.AxisPosition == AxisPosition.Left)
-                        {
-                            rect.X = rectLabels.Right - _axis.unRotatedLabelSize;
-                            rect.Width = _axis.unRotatedLabelSize;
-
-                            // Adjust label rectangle if offset labels are used
-                            if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
+                            // Get first series attached to this axis
+                            Series axisSeries = null;
+                            if (_axis.axisType == AxisName.X || _axis.axisType == AxisName.X2)
                             {
-                                rect.Width /= 2F;
-                                if (labelIndex % 2 != 0F)
+                                List<string> seriesArray = _axis.ChartArea.GetXAxesSeries((_axis.axisType == AxisName.X) ? AxisType.Primary : AxisType.Secondary, _axis.SubAxisName);
+                                if (seriesArray.Count > 0)
                                 {
-                                    rect.X += rect.Width;
+                                    axisSeries = _axis.Common.DataManager.Series[seriesArray[0]];
+                                    if (axisSeries != null && !axisSeries.IsXValueIndexed)
+                                    {
+                                        axisSeries = null;
+                                    }
                                 }
                             }
-                        }
-                        else if (_axis.AxisPosition == AxisPosition.Right)
-                        {
-                            rect.Width = _axis.unRotatedLabelSize;
 
-                            // Adjust label rectangle if offset labels are used
-                            if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
+                            // Set start position and iterate through label positions
+                            // NOTE: Labels offset should not be taken in the account
+                            double currentPosition = _axis.Minimum;
+                            while (currentPosition < _axis.Maximum)
                             {
-                                rect.Width /= 2F;
-                                if (labelIndex % 2 != 0F)
+                                if (currentPosition >= middlePoint)
                                 {
-                                    rect.X += rect.Width;
+                                    break;
                                 }
+
+                                currentPosition += ChartHelper.GetIntervalSize(currentPosition, _axis.LabelStyle.GetInterval(), _axis.LabelStyle.GetIntervalType(),
+                                    axisSeries, 0.0, DateTimeIntervalType.Number, true);
+                                ++labelIndex;
                             }
-                        }
-                        else if (_axis.AxisPosition == AxisPosition.Top)
-                        {
-                            rect.Y = rectLabels.Bottom - _axis.unRotatedLabelSize;
-                            rect.Height = _axis.unRotatedLabelSize;
 
-                            // Adjust label rectangle if offset labels are used
-                            if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
-                            {
-                                rect.Height /= 2F;
-                                if (labelIndex % 2 != 0F)
-                                {
-                                    rect.Y += rect.Height;
-                                }
-                            }
-                        }
-                        else if (_axis.AxisPosition == AxisPosition.Bottom)
-                        {
-                            rect.Height = _axis.unRotatedLabelSize;
-
-                            // Adjust label rectangle if offset labels are used
-                            if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
-                            {
-                                rect.Height /= 2F;
-                                if (labelIndex % 2 != 0F)
-                                {
-                                    rect.Y += rect.Height;
-                                }
-                            }
-                        }
-
-                        // Increase label index
-                        ++labelIndex;
-                    }
-
-                    // Label is in the second row
-                    else if (label.RowIndex > 0)
-                    {
-                        if (_axis.AxisPosition == AxisPosition.Left)
-                        {
-                            rect.X += _axis.totlaGroupingLabelsSizeAdjustment;
-                            for (int index = _axis.groupingLabelSizes.Length; index > label.RowIndex; index--)
-                            {
-                                rect.X += _axis.groupingLabelSizes[index - 1];
-                            }
-                            rect.Width = _axis.groupingLabelSizes[label.RowIndex - 1];
-                        }
-                        else if (_axis.AxisPosition == AxisPosition.Right)
-                        {
-                            rect.X = rect.Right - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment;// + Axis.elementSpacing * 0.25f;
-                            for (int index = 1; index < label.RowIndex; index++)
-                            {
-                                rect.X += _axis.groupingLabelSizes[index - 1];
-                            }
-                            rect.Width = _axis.groupingLabelSizes[label.RowIndex - 1];
-                        }
-                        else if (_axis.AxisPosition == AxisPosition.Top)
-                        {
-                            rect.Y += _axis.totlaGroupingLabelsSizeAdjustment;
-                            for (int index = _axis.groupingLabelSizes.Length; index > label.RowIndex; index--)
-                            {
-                                rect.Y += _axis.groupingLabelSizes[index - 1];
-                            }
-                            rect.Height = _axis.groupingLabelSizes[label.RowIndex - 1];
-                        }
-                        if (_axis.AxisPosition == AxisPosition.Bottom)
-                        {
-                            rect.Y = rect.Bottom - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment;
-                            for (int index = 1; index < label.RowIndex; index++)
-                            {
-                                rect.Y += _axis.groupingLabelSizes[index - 1];
-                            }
-                            rect.Height = _axis.groupingLabelSizes[label.RowIndex - 1];
-                        }
-                    }
-
-                    // Unknown label row value
-                    else
-                    {
-                        throw new InvalidOperationException(SR.ExceptionAxisLabelIndexIsNegative);
-                    }
-
-                    // Set label From and To coordinates
-                    double fromPosition = _axis.GetLinearPosition(labelFrom);
-                    double toPosition = _axis.GetLinearPosition(labelTo);
-                    if (useRelativeCoordiantes)
-                    {
-                        useRelativeCoordiantes = false;
-                        fromPosition = labelFromRelative;
-                        toPosition = labelToRelative;
-                    }
-
-                    if (_axis.AxisPosition == AxisPosition.Top || _axis.AxisPosition == AxisPosition.Bottom)
-                    {
-                        rect.X = (float)Math.Min(fromPosition, toPosition);
-                        rect.Width = (float)Math.Max(fromPosition, toPosition) - rect.X;
-
-                        // Adjust label To/From position if offset labels are used
-                        if (label.RowIndex == 0 &&
-                            ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1)))
-                        {
-                            rect.X -= rect.Width / 2F;
-                            rect.Width *= 2F;
                         }
                     }
                     else
                     {
-                        rect.Y = (float)Math.Min(fromPosition, toPosition);
-                        rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
-
-                        // Adjust label To/From position if offset labels are used
-                        if (label.RowIndex == 0 &&
-                            ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1)))
+                        // Skip label if label middle point is not in the scaleView
+                        if ((decimal)middlePoint < viewMin ||
+                            (decimal)middlePoint > viewMax)
                         {
-                            rect.Y -= rect.Height / 2F;
-                            rect.Height *= 2F;
+                            continue;
                         }
                     }
 
-                    // Draw label
-#pragma warning disable CA2000 // Dispose objects before losing scope. Bug in analyzer!
-                    using (Brush brush = new SolidBrush(label.ForeColor.IsEmpty ? _foreColor : label.ForeColor))
-#pragma warning restore CA2000 // Dispose objects before losing scope
+
+
+                    // Make sure label To and From coordinates are processed by one scale segment based 
+                    // on the label middle point position.
+                    if (_axis.ScaleSegments.Count > 0)
                     {
-                        graph.DrawLabelStringRel(_axis,
-                            label.RowIndex,
-                            label.LabelMark,
-                            label.MarkColor,
-                            label.Text,
-                            label.Image,
-                            label.ImageTransparentColor,
-                            (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont,
-                            brush,
-                            rect,
-                            format,
-                            (_axis.autoLabelAngle < -90) ? angle : _axis.autoLabelAngle,
-                            (!this.TruncatedLabels || label.RowIndex > 0) ? RectangleF.Empty : boundaryRect,
-                            label,
-                            truncatedLeft,
-                            truncatedRight);
+                        AxisScaleSegment scaleSegment = _axis.ScaleSegments.FindScaleSegmentForAxisValue(middlePoint);
+                        _axis.ScaleSegments.AllowOutOfScaleValues = true;
+                        _axis.ScaleSegments.EnforceSegment(scaleSegment);
                     }
 
-                    // Clear scale segment enforcement
-                    _axis.ScaleSegments.EnforceSegment(null);
-                    _axis.ScaleSegments.AllowOutOfScaleValues = false;
+
+
+                    // Use center point instead of the To/From if label takes all scaleView
+                    // This is done to avoid issues with labels drawing with high 
+                    // zooming levels.
+                    if ((decimal)label.FromPosition < viewMin &&
+                        (decimal)label.ToPosition > viewMax)
+                    {
+                        // Indicates that chart relative coordinates should be used instead of axis values
+                        useRelativeCoordiantes = true;
+
+                        // Calculate label From/To in relative coordinates using 
+                        // label middle point and 100% width.
+                        labelFromRelative = _axis.GetLinearPosition(middlePoint) - 50.0;
+                        labelToRelative = labelFromRelative + 100.0;
+                    }
                 }
+                else
+                {
+                    // Skip labels completly outside the scaleView
+                    if (label.ToPosition <= _axis.ViewMinimum || label.FromPosition >= _axis.ViewMaximum)
+                    {
+                        continue;
+                    }
+
+                    // Check if label is partially visible.
+                    if (!ajaxScrollingEnabled &&
+                        _axis.ScaleView.IsZoomed)
+                    {
+                        if (label.FromPosition < _axis.ViewMinimum)
+                        {
+                            truncatedLeft = true;
+                            labelFrom = _axis.ViewMinimum;
+                        }
+                        if (label.ToPosition > _axis.ViewMaximum)
+                        {
+                            truncatedRight = true;
+                            labelTo = _axis.ViewMaximum;
+                        }
+                    }
+                }
+
+                // Calculate single label position
+                RectangleF rect = rectLabels;
+
+                // Label is in the first row
+                if (label.RowIndex == 0)
+                {
+                    if (_axis.AxisPosition == AxisPosition.Left)
+                    {
+                        rect.X = rectLabels.Right - _axis.unRotatedLabelSize;
+                        rect.Width = _axis.unRotatedLabelSize;
+
+                        // Adjust label rectangle if offset labels are used
+                        if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
+                        {
+                            rect.Width /= 2F;
+                            if (labelIndex % 2 != 0F)
+                            {
+                                rect.X += rect.Width;
+                            }
+                        }
+                    }
+                    else if (_axis.AxisPosition == AxisPosition.Right)
+                    {
+                        rect.Width = _axis.unRotatedLabelSize;
+
+                        // Adjust label rectangle if offset labels are used
+                        if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
+                        {
+                            rect.Width /= 2F;
+                            if (labelIndex % 2 != 0F)
+                            {
+                                rect.X += rect.Width;
+                            }
+                        }
+                    }
+                    else if (_axis.AxisPosition == AxisPosition.Top)
+                    {
+                        rect.Y = rectLabels.Bottom - _axis.unRotatedLabelSize;
+                        rect.Height = _axis.unRotatedLabelSize;
+
+                        // Adjust label rectangle if offset labels are used
+                        if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
+                        {
+                            rect.Height /= 2F;
+                            if (labelIndex % 2 != 0F)
+                            {
+                                rect.Y += rect.Height;
+                            }
+                        }
+                    }
+                    else if (_axis.AxisPosition == AxisPosition.Bottom)
+                    {
+                        rect.Height = _axis.unRotatedLabelSize;
+
+                        // Adjust label rectangle if offset labels are used
+                        if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
+                        {
+                            rect.Height /= 2F;
+                            if (labelIndex % 2 != 0F)
+                            {
+                                rect.Y += rect.Height;
+                            }
+                        }
+                    }
+
+                    // Increase label index
+                    ++labelIndex;
+                }
+
+                // Label is in the second row
+                else if (label.RowIndex > 0)
+                {
+                    if (_axis.AxisPosition == AxisPosition.Left)
+                    {
+                        rect.X += _axis.totlaGroupingLabelsSizeAdjustment;
+                        for (int index = _axis.groupingLabelSizes.Length; index > label.RowIndex; index--)
+                        {
+                            rect.X += _axis.groupingLabelSizes[index - 1];
+                        }
+                        rect.Width = _axis.groupingLabelSizes[label.RowIndex - 1];
+                    }
+                    else if (_axis.AxisPosition == AxisPosition.Right)
+                    {
+                        rect.X = rect.Right - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment;// + Axis.elementSpacing * 0.25f;
+                        for (int index = 1; index < label.RowIndex; index++)
+                        {
+                            rect.X += _axis.groupingLabelSizes[index - 1];
+                        }
+                        rect.Width = _axis.groupingLabelSizes[label.RowIndex - 1];
+                    }
+                    else if (_axis.AxisPosition == AxisPosition.Top)
+                    {
+                        rect.Y += _axis.totlaGroupingLabelsSizeAdjustment;
+                        for (int index = _axis.groupingLabelSizes.Length; index > label.RowIndex; index--)
+                        {
+                            rect.Y += _axis.groupingLabelSizes[index - 1];
+                        }
+                        rect.Height = _axis.groupingLabelSizes[label.RowIndex - 1];
+                    }
+                    if (_axis.AxisPosition == AxisPosition.Bottom)
+                    {
+                        rect.Y = rect.Bottom - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment;
+                        for (int index = 1; index < label.RowIndex; index++)
+                        {
+                            rect.Y += _axis.groupingLabelSizes[index - 1];
+                        }
+                        rect.Height = _axis.groupingLabelSizes[label.RowIndex - 1];
+                    }
+                }
+
+                // Unknown label row value
+                else
+                {
+                    throw new InvalidOperationException(SR.ExceptionAxisLabelIndexIsNegative);
+                }
+
+                // Set label From and To coordinates
+                double fromPosition = _axis.GetLinearPosition(labelFrom);
+                double toPosition = _axis.GetLinearPosition(labelTo);
+                if (useRelativeCoordiantes)
+                {
+                    useRelativeCoordiantes = false;
+                    fromPosition = labelFromRelative;
+                    toPosition = labelToRelative;
+                }
+
+                if (_axis.AxisPosition == AxisPosition.Top || _axis.AxisPosition == AxisPosition.Bottom)
+                {
+                    rect.X = (float)Math.Min(fromPosition, toPosition);
+                    rect.Width = (float)Math.Max(fromPosition, toPosition) - rect.X;
+
+                    // Adjust label To/From position if offset labels are used
+                    if (label.RowIndex == 0 &&
+                        ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1)))
+                    {
+                        rect.X -= rect.Width / 2F;
+                        rect.Width *= 2F;
+                    }
+                }
+                else
+                {
+                    rect.Y = (float)Math.Min(fromPosition, toPosition);
+                    rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
+
+                    // Adjust label To/From position if offset labels are used
+                    if (label.RowIndex == 0 &&
+                        ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1)))
+                    {
+                        rect.Y -= rect.Height / 2F;
+                        rect.Height *= 2F;
+                    }
+                }
+
+                // Draw label
+#pragma warning disable CA2000 // Dispose objects before losing scope. Bug in analyzer!
+                using (Brush brush = new SolidBrush(label.ForeColor.IsEmpty ? _foreColor : label.ForeColor))
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                {
+                    graph.DrawLabelStringRel(_axis,
+                        label.RowIndex,
+                        label.LabelMark,
+                        label.MarkColor,
+                        label.Text,
+                        label.Image,
+                        label.ImageTransparentColor,
+                        (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont,
+                        brush,
+                        rect,
+                        format,
+                        (_axis.autoLabelAngle < -90) ? angle : _axis.autoLabelAngle,
+                        (!this.TruncatedLabels || label.RowIndex > 0) ? RectangleF.Empty : boundaryRect,
+                        label,
+                        truncatedLeft,
+                        truncatedRight);
+                }
+
+                // Clear scale segment enforcement
+                _axis.ScaleSegments.EnforceSegment(null);
+                _axis.ScaleSegments.AllowOutOfScaleValues = false;
             }
-		}
+        }
 
 		#endregion
 
@@ -1720,562 +1714,560 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="backElements">Back elements of the axis should be drawn in 3D scene.</param>
 		internal void Paint3D( ChartGraphics graph, bool backElements )
 		{
-			// Label string drawing format			
-            using (StringFormat format = new StringFormat())
+            // Label string drawing format			
+            using StringFormat format = new StringFormat();
+            format.Trimming = StringTrimming.EllipsisCharacter;
+
+            // Calculate single pixel size in relative coordinates
+            SizeF pixelSize = graph.GetRelativeSize(new SizeF(1f, 1f));
+
+            //********************************************************************
+            //** Determine the side of the plotting area to draw the labels on.
+            //********************************************************************
+            AxisPosition labelsPosition = GetLabelsPosition(_axis);
+
+            //*****************************************************************
+            //** Set the labels Z position
+            //*****************************************************************
+            float labelsZPosition = _axis.GetMarksZPosition(out bool axisOnEdge);
+
+            // Adjust Z position for the "bent" tick marks
+            bool adjustForWallWidth = false;
+            if (this._axis.AxisPosition == AxisPosition.Top &&
+                !this._axis.ChartArea.ShouldDrawOnSurface(SurfaceNames.Top, backElements, false))
             {
-                format.Trimming = StringTrimming.EllipsisCharacter;
+                adjustForWallWidth = true;
+            }
+            if (this._axis.AxisPosition == AxisPosition.Left &&
+                !this._axis.ChartArea.ShouldDrawOnSurface(SurfaceNames.Left, backElements, false))
+            {
+                adjustForWallWidth = true;
+            }
+            if (this._axis.AxisPosition == AxisPosition.Right &&
+                !this._axis.ChartArea.ShouldDrawOnSurface(SurfaceNames.Right, backElements, false))
+            {
+                adjustForWallWidth = true;
+            }
 
-                // Calculate single pixel size in relative coordinates
-                SizeF pixelSize = graph.GetRelativeSize(new SizeF(1f, 1f));
-
-                //********************************************************************
-                //** Determine the side of the plotting area to draw the labels on.
-                //********************************************************************
-                AxisPosition labelsPosition = GetLabelsPosition(_axis);
-
-                //*****************************************************************
-                //** Set the labels Z position
-                //*****************************************************************
-                float labelsZPosition = _axis.GetMarksZPosition(out bool axisOnEdge);
-
-                // Adjust Z position for the "bent" tick marks
-                bool adjustForWallWidth = false;
-                if (this._axis.AxisPosition == AxisPosition.Top &&
-                    !this._axis.ChartArea.ShouldDrawOnSurface(SurfaceNames.Top, backElements, false))
+            if (adjustForWallWidth && this._axis.ChartArea.Area3DStyle.WallWidth > 0)
+            {
+                if (this._axis.MajorTickMark.TickMarkStyle == TickMarkStyle.InsideArea)
                 {
-                    adjustForWallWidth = true;
+                    labelsZPosition -= this._axis.ChartArea.areaSceneWallWidth.Width;
                 }
-                if (this._axis.AxisPosition == AxisPosition.Left &&
-                    !this._axis.ChartArea.ShouldDrawOnSurface(SurfaceNames.Left, backElements, false))
+                else if (this._axis.MajorTickMark.TickMarkStyle == TickMarkStyle.OutsideArea)
                 {
-                    adjustForWallWidth = true;
+                    labelsZPosition -= this._axis.MajorTickMark.Size + this._axis.ChartArea.areaSceneWallWidth.Width;
                 }
-                if (this._axis.AxisPosition == AxisPosition.Right &&
-                    !this._axis.ChartArea.ShouldDrawOnSurface(SurfaceNames.Right, backElements, false))
+                else if (this._axis.MajorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis)
                 {
-                    adjustForWallWidth = true;
+                    labelsZPosition -= this._axis.MajorTickMark.Size / 2f + this._axis.ChartArea.areaSceneWallWidth.Width;
                 }
+            }
 
-                if (adjustForWallWidth && this._axis.ChartArea.Area3DStyle.WallWidth > 0)
-                {
-                    if (this._axis.MajorTickMark.TickMarkStyle == TickMarkStyle.InsideArea)
-                    {
-                        labelsZPosition -= this._axis.ChartArea.areaSceneWallWidth.Width;
-                    }
-                    else if (this._axis.MajorTickMark.TickMarkStyle == TickMarkStyle.OutsideArea)
-                    {
-                        labelsZPosition -= this._axis.MajorTickMark.Size + this._axis.ChartArea.areaSceneWallWidth.Width;
-                    }
-                    else if (this._axis.MajorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis)
-                    {
-                        labelsZPosition -= this._axis.MajorTickMark.Size / 2f + this._axis.ChartArea.areaSceneWallWidth.Width;
-                    }
-                }
+            //*****************************************************************
+            //** Check if labels should be drawn as back or front element.
+            //*****************************************************************
+            bool labelsInsidePlotArea = this._axis.GetIsMarksNextToAxis() && !axisOnEdge;
+            if (backElements == labelsInsidePlotArea)
+            {
+                // Skip drawing
+                return;
+            }
 
-                //*****************************************************************
-                //** Check if labels should be drawn as back or front element.
-                //*****************************************************************
-                bool labelsInsidePlotArea = this._axis.GetIsMarksNextToAxis() && !axisOnEdge;
-                if (backElements == labelsInsidePlotArea)
-                {
-                    // Skip drawing
-                    return;
-                }
+            //********************************************************************
+            //** Initialize all labels position rectangle
+            //********************************************************************
+            RectangleF rectLabels = this.GetAllLabelsRect(this._axis.ChartArea, this._axis.AxisPosition, format);
 
+            //********************************************************************
+            //** Calculate bounding rectangle used to truncate labels on the
+            //** chart area boundary if TruncatedLabels property is set to true.
+            //********************************************************************
+            RectangleF boundaryRect = rectLabels;
+            if (boundaryRect != RectangleF.Empty && _axis.totlaGroupingLabelsSize > 0)
+            {
+                if (this._axis.AxisPosition == AxisPosition.Left)
+                {
+                    boundaryRect.X += _axis.totlaGroupingLabelsSize;
+                    boundaryRect.Width -= _axis.totlaGroupingLabelsSize;
+                }
+                else if (this._axis.AxisPosition == AxisPosition.Right)
+                {
+                    boundaryRect.Width -= _axis.totlaGroupingLabelsSize;
+                }
+                else if (this._axis.AxisPosition == AxisPosition.Top)
+                {
+                    boundaryRect.Y += _axis.totlaGroupingLabelsSize;
+                    boundaryRect.Height -= _axis.totlaGroupingLabelsSize;
+                }
+                else if (this._axis.AxisPosition == AxisPosition.Bottom)
+                {
+                    boundaryRect.Height -= _axis.totlaGroupingLabelsSize;
+                }
+            }
+
+            // Pre-calculated height of the first labels row
+            float firstLabelsRowHeight = -1f;
+
+            // For 3D axis labels the first row of labels 
+            // has to be drawn after all other rows because 
+            // of hot regions.
+            for (int selectionRow = 0; selectionRow <= this._axis.GetGroupLabelLevelCount(); selectionRow++)
+            {
                 //********************************************************************
-                //** Initialize all labels position rectangle
+                //** Draw all labels from the collection
                 //********************************************************************
-                RectangleF rectLabels = this.GetAllLabelsRect(this._axis.ChartArea, this._axis.AxisPosition, format);
-
-                //********************************************************************
-                //** Calculate bounding rectangle used to truncate labels on the
-                //** chart area boundary if TruncatedLabels property is set to true.
-                //********************************************************************
-                RectangleF boundaryRect = rectLabels;
-                if (boundaryRect != RectangleF.Empty && _axis.totlaGroupingLabelsSize > 0)
+                int labelIndex = 0;
+                foreach (CustomLabel label in this._axis.CustomLabels)
                 {
-                    if (this._axis.AxisPosition == AxisPosition.Left)
-                    {
-                        boundaryRect.X += _axis.totlaGroupingLabelsSize;
-                        boundaryRect.Width -= _axis.totlaGroupingLabelsSize;
-                    }
-                    else if (this._axis.AxisPosition == AxisPosition.Right)
-                    {
-                        boundaryRect.Width -= _axis.totlaGroupingLabelsSize;
-                    }
-                    else if (this._axis.AxisPosition == AxisPosition.Top)
-                    {
-                        boundaryRect.Y += _axis.totlaGroupingLabelsSize;
-                        boundaryRect.Height -= _axis.totlaGroupingLabelsSize;
-                    }
-                    else if (this._axis.AxisPosition == AxisPosition.Bottom)
-                    {
-                        boundaryRect.Height -= _axis.totlaGroupingLabelsSize;
-                    }
-                }
+                    bool truncatedLeft = false;
+                    bool truncatedRight = false;
+                    double labelFrom = label.FromPosition;
+                    double labelTo = label.ToPosition;
 
-                // Pre-calculated height of the first labels row
-                float firstLabelsRowHeight = -1f;
-
-                // For 3D axis labels the first row of labels 
-                // has to be drawn after all other rows because 
-                // of hot regions.
-                for (int selectionRow = 0; selectionRow <= this._axis.GetGroupLabelLevelCount(); selectionRow++)
-                {
-                    //********************************************************************
-                    //** Draw all labels from the collection
-                    //********************************************************************
-                    int labelIndex = 0;
-                    foreach (CustomLabel label in this._axis.CustomLabels)
+                    if (label.RowIndex != selectionRow)
                     {
-                        bool truncatedLeft = false;
-                        bool truncatedRight = false;
-                        double labelFrom = label.FromPosition;
-                        double labelTo = label.ToPosition;
+                        continue;
+                    }
 
-                        if (label.RowIndex != selectionRow)
+                    // Skip if label middle point is outside current scaleView
+                    if (label.RowIndex == 0)
+                    {
+                        double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
+                        if ((decimal)middlePoint < (decimal)_axis.ViewMinimum ||
+                            (decimal)middlePoint > (decimal)_axis.ViewMaximum)
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        // Skip labels completly outside the scaleView
+                        if (label.ToPosition <= _axis.ViewMinimum || label.FromPosition >= _axis.ViewMaximum)
                         {
                             continue;
                         }
 
-                        // Skip if label middle point is outside current scaleView
-                        if (label.RowIndex == 0)
+                        // Check if label is partially visible
+                        if (_axis.ScaleView.IsZoomed)
                         {
-                            double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
-                            if ((decimal)middlePoint < (decimal)_axis.ViewMinimum ||
-                                (decimal)middlePoint > (decimal)_axis.ViewMaximum)
+                            if (label.FromPosition < _axis.ViewMinimum)
                             {
-                                continue;
+                                truncatedLeft = true;
+                                labelFrom = _axis.ViewMinimum;
+                            }
+                            if (label.ToPosition > _axis.ViewMaximum)
+                            {
+                                truncatedRight = true;
+                                labelTo = _axis.ViewMaximum;
                             }
                         }
-                        else
-                        {
-                            // Skip labels completly outside the scaleView
-                            if (label.ToPosition <= _axis.ViewMinimum || label.FromPosition >= _axis.ViewMaximum)
-                            {
-                                continue;
-                            }
-
-                            // Check if label is partially visible
-                            if (_axis.ScaleView.IsZoomed)
-                            {
-                                if (label.FromPosition < _axis.ViewMinimum)
-                                {
-                                    truncatedLeft = true;
-                                    labelFrom = _axis.ViewMinimum;
-                                }
-                                if (label.ToPosition > _axis.ViewMaximum)
-                                {
-                                    truncatedRight = true;
-                                    labelTo = _axis.ViewMaximum;
-                                }
-                            }
-                        }
+                    }
 
 
-                        // Calculate single label position
-                        RectangleF rect = rectLabels;
+                    // Calculate single label position
+                    RectangleF rect = rectLabels;
 
-                        // Label is in the first row
-                        if (label.RowIndex == 0)
-                        {
-                            if (this._axis.AxisPosition == AxisPosition.Left)
-                            {
-                                if (!this._axis.GetIsMarksNextToAxis())
-                                {
-                                    rect.X = rectLabels.Right - _axis.unRotatedLabelSize;
-                                    rect.Width = _axis.unRotatedLabelSize;
-                                }
-
-                                // Adjust label rectangle if offset labels are used
-                                if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
-                                {
-                                    rect.Width /= 2F;
-                                    if (labelIndex % 2 != 0F)
-                                    {
-                                        rect.X += rect.Width;
-                                    }
-                                }
-                            }
-                            else if (this._axis.AxisPosition == AxisPosition.Right)
-                            {
-                                if (!this._axis.GetIsMarksNextToAxis())
-                                {
-                                    rect.Width = _axis.unRotatedLabelSize;
-                                }
-
-                                // Adjust label rectangle if offset labels are used
-                                if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
-                                {
-                                    rect.Width /= 2F;
-                                    if (labelIndex % 2 != 0F)
-                                    {
-                                        rect.X += rect.Width;
-                                    }
-                                }
-                            }
-                            else if (this._axis.AxisPosition == AxisPosition.Top)
-                            {
-                                if (!this._axis.GetIsMarksNextToAxis())
-                                {
-                                    rect.Y = rectLabels.Bottom - _axis.unRotatedLabelSize;
-                                    rect.Height = _axis.unRotatedLabelSize;
-                                }
-
-                                // Adjust label rectangle if offset labels are used
-                                if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
-                                {
-                                    rect.Height /= 2F;
-                                    if (labelIndex % 2 != 0F)
-                                    {
-                                        rect.Y += rect.Height;
-                                    }
-                                }
-                            }
-                            else if (this._axis.AxisPosition == AxisPosition.Bottom)
-                            {
-                                if (!this._axis.GetIsMarksNextToAxis())
-                                {
-                                    rect.Height = _axis.unRotatedLabelSize;
-                                }
-
-                                // Adjust label rectangle if offset labels are used
-                                if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
-                                {
-                                    rect.Height /= 2F;
-                                    if (labelIndex % 2 != 0F)
-                                    {
-                                        rect.Y += rect.Height;
-                                    }
-                                }
-                            }
-
-                            // Increase label index
-                            ++labelIndex;
-                        }
-
-                            // Label is in the second row
-                        else if (label.RowIndex > 0)
-                        {
-                            // Hide grouping labels (where index of row > 0) when they are displayed 
-                            // not on the same side as their axis. Fixes MS issue #64.
-                            if (labelsPosition != this._axis.AxisPosition)
-                            {
-                                continue;
-                            }
-
-                            if (_axis.AxisPosition == AxisPosition.Left)
-                            {
-                                rect.X += _axis.totlaGroupingLabelsSizeAdjustment;
-                                for (int index = _axis.groupingLabelSizes.Length; index > label.RowIndex; index--)
-                                {
-                                    rect.X += _axis.groupingLabelSizes[index - 1];
-                                }
-                                rect.Width = _axis.groupingLabelSizes[label.RowIndex - 1];
-                            }
-                            else if (_axis.AxisPosition == AxisPosition.Right)
-                            {
-                                rect.X = rect.Right - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment;// + Axis.elementSpacing * 0.25f;
-                                for (int index = 1; index < label.RowIndex; index++)
-                                {
-                                    rect.X += _axis.groupingLabelSizes[index - 1];
-                                }
-                                rect.Width = _axis.groupingLabelSizes[label.RowIndex - 1];
-                            }
-                            else if (_axis.AxisPosition == AxisPosition.Top)
-                            {
-                                rect.Y += _axis.totlaGroupingLabelsSizeAdjustment;
-                                for (int index = _axis.groupingLabelSizes.Length; index > label.RowIndex; index--)
-                                {
-                                    rect.Y += _axis.groupingLabelSizes[index - 1];
-                                }
-                                rect.Height = _axis.groupingLabelSizes[label.RowIndex - 1];
-                            }
-                            if (_axis.AxisPosition == AxisPosition.Bottom)
-                            {
-                                rect.Y = rect.Bottom - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment;
-                                for (int index = 1; index < label.RowIndex; index++)
-                                {
-                                    rect.Y += _axis.groupingLabelSizes[index - 1];
-                                }
-                                rect.Height = _axis.groupingLabelSizes[label.RowIndex - 1];
-                            }
-                        }
-
-                            // Unknown label row value
-                        else
-                        {
-                            throw new InvalidOperationException(SR.ExceptionAxisLabelRowIndexMustBe1Or2);
-                        }
-
-                        //********************************************************************
-                        //** Set label From and To coordinates.
-                        //********************************************************************
-                        double fromPosition = _axis.GetLinearPosition(labelFrom);
-                        double toPosition = _axis.GetLinearPosition(labelTo);
-                        if (this._axis.AxisPosition == AxisPosition.Top || this._axis.AxisPosition == AxisPosition.Bottom)
-                        {
-                            rect.X = (float)Math.Min(fromPosition, toPosition);
-                            rect.Width = (float)Math.Max(fromPosition, toPosition) - rect.X;
-                            if (rect.Width < pixelSize.Width)
-                            {
-                                rect.Width = pixelSize.Width;
-                            }
-
-                            // Adjust label To/From position if offset labels are used
-                            if (label.RowIndex == 0 &&
-                                ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1)))
-                            {
-                                rect.X -= rect.Width / 2F;
-                                rect.Width *= 2F;
-                            }
-                        }
-                        else
-                        {
-                            rect.Y = (float)Math.Min(fromPosition, toPosition);
-                            rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
-                            if (rect.Height < pixelSize.Height)
-                            {
-                                rect.Height = pixelSize.Height;
-                            }
-
-                            // Adjust label To/From position if offset labels are used
-                            if (label.RowIndex == 0 &&
-                                ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1)))
-                            {
-                                rect.Y -= rect.Height / 2F;
-                                rect.Height *= 2F;
-                            }
-                        }
-
-                        // Save original rect
-                        RectangleF initialRect = new RectangleF(rect.Location, rect.Size);
-
-                        //********************************************************************
-                        //** Transform and adjust label rectangle coordinates in 3D space.
-                        //********************************************************************
-                        Point3D[] rectPoints = new Point3D[3];
+                    // Label is in the first row
+                    if (label.RowIndex == 0)
+                    {
                         if (this._axis.AxisPosition == AxisPosition.Left)
                         {
-                            rectPoints[0] = new Point3D(rect.Right, rect.Y, labelsZPosition);
-                            rectPoints[1] = new Point3D(rect.Right, rect.Y + rect.Height / 2f, labelsZPosition);
-                            rectPoints[2] = new Point3D(rect.Right, rect.Bottom, labelsZPosition);
-                            this._axis.ChartArea.matrix3D.TransformPoints(rectPoints);
-                            rect.Y = rectPoints[0].Y;
-                            rect.Height = rectPoints[2].Y - rect.Y;
-                            rect.Width = rectPoints[1].X - rect.X;
+                            if (!this._axis.GetIsMarksNextToAxis())
+                            {
+                                rect.X = rectLabels.Right - _axis.unRotatedLabelSize;
+                                rect.Width = _axis.unRotatedLabelSize;
+                            }
+
+                            // Adjust label rectangle if offset labels are used
+                            if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
+                            {
+                                rect.Width /= 2F;
+                                if (labelIndex % 2 != 0F)
+                                {
+                                    rect.X += rect.Width;
+                                }
+                            }
                         }
                         else if (this._axis.AxisPosition == AxisPosition.Right)
                         {
-                            rectPoints[0] = new Point3D(rect.X, rect.Y, labelsZPosition);
-                            rectPoints[1] = new Point3D(rect.X, rect.Y + rect.Height / 2f, labelsZPosition);
-                            rectPoints[2] = new Point3D(rect.X, rect.Bottom, labelsZPosition);
-                            this._axis.ChartArea.matrix3D.TransformPoints(rectPoints);
-                            rect.Y = rectPoints[0].Y;
-                            rect.Height = rectPoints[2].Y - rect.Y;
-                            rect.Width = rect.Right - rectPoints[1].X;
-                            rect.X = rectPoints[1].X;
+                            if (!this._axis.GetIsMarksNextToAxis())
+                            {
+                                rect.Width = _axis.unRotatedLabelSize;
+                            }
+
+                            // Adjust label rectangle if offset labels are used
+                            if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
+                            {
+                                rect.Width /= 2F;
+                                if (labelIndex % 2 != 0F)
+                                {
+                                    rect.X += rect.Width;
+                                }
+                            }
                         }
                         else if (this._axis.AxisPosition == AxisPosition.Top)
                         {
-                            // Transform 3 points of the rectangle
-                            rectPoints[0] = new Point3D(rect.X, rect.Bottom, labelsZPosition);
-                            rectPoints[1] = new Point3D(rect.X + rect.Width / 2f, rect.Bottom, labelsZPosition);
-                            rectPoints[2] = new Point3D(rect.Right, rect.Bottom, labelsZPosition);
-                            this._axis.ChartArea.matrix3D.TransformPoints(rectPoints);
+                            if (!this._axis.GetIsMarksNextToAxis())
+                            {
+                                rect.Y = rectLabels.Bottom - _axis.unRotatedLabelSize;
+                                rect.Height = _axis.unRotatedLabelSize;
+                            }
 
-                            if (labelsPosition == AxisPosition.Top)
+                            // Adjust label rectangle if offset labels are used
+                            if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
                             {
-                                rect.X = rectPoints[0].X;
-                                rect.Width = rectPoints[2].X - rect.X;
-                                rect.Height = rectPoints[1].Y - rect.Y;
-                            }
-                            else if (labelsPosition == AxisPosition.Right)
-                            {
-                                RectangleF rightLabelsRect = this.GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
-                                rect.Y = rectPoints[0].Y;
-                                rect.Height = rectPoints[2].Y - rect.Y;
-                                rect.X = rectPoints[1].X;
-                                rect.Width = rightLabelsRect.Right - rect.X;
-                            }
-                            else if (labelsPosition == AxisPosition.Left)
-                            {
-                                RectangleF rightLabelsRect = this.GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
-                                rect.Y = rectPoints[2].Y;
-                                rect.Height = rectPoints[0].Y - rect.Y;
-                                rect.X = rightLabelsRect.X;
-                                rect.Width = rectPoints[1].X - rightLabelsRect.X;
+                                rect.Height /= 2F;
+                                if (labelIndex % 2 != 0F)
+                                {
+                                    rect.Y += rect.Height;
+                                }
                             }
                         }
                         else if (this._axis.AxisPosition == AxisPosition.Bottom)
                         {
-                            // Transform 3 points of the rectangle
-                            rectPoints[0] = new Point3D(rect.X, rect.Y, labelsZPosition);
-                            rectPoints[1] = new Point3D(rect.X + rect.Width / 2f, rect.Y, labelsZPosition);
-                            rectPoints[2] = new Point3D(rect.Right, rect.Y, labelsZPosition);
-                            this._axis.ChartArea.matrix3D.TransformPoints(rectPoints);
-
-                            if (labelsPosition == AxisPosition.Bottom)
+                            if (!this._axis.GetIsMarksNextToAxis())
                             {
-                                rect.X = rectPoints[0].X;
-                                rect.Width = rectPoints[2].X - rect.X;
-                                rect.Height = rect.Bottom - rectPoints[1].Y;
-                                rect.Y = rectPoints[1].Y;
+                                rect.Height = _axis.unRotatedLabelSize;
                             }
-                            else if (labelsPosition == AxisPosition.Right)
-                            {
-                                RectangleF rightLabelsRect = this.GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
-                                rect.Y = rectPoints[2].Y;
-                                rect.Height = rectPoints[0].Y - rect.Y;
-                                rect.X = rectPoints[1].X;
-                                rect.Width = rightLabelsRect.Right - rect.X;
 
-                                // Adjust label rect by shifting it down by quarter of the tick size
-                                if (this._axis.autoLabelAngle == 0)
-                                {
-                                    rect.Y += this._axis.markSize / 4f;
-                                }
-                            }
-                            else if (labelsPosition == AxisPosition.Left)
+                            // Adjust label rectangle if offset labels are used
+                            if ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1))
                             {
-                                RectangleF rightLabelsRect = this.GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
-                                rect.Y = rectPoints[0].Y;
-                                rect.Height = rectPoints[2].Y - rect.Y;
-                                rect.X = rightLabelsRect.X;
-                                rect.Width = rectPoints[1].X - rightLabelsRect.X;
-
-                                // Adjust label rect by shifting it down by quarter of the tick size
-                                if (this._axis.autoLabelAngle == 0)
+                                rect.Height /= 2F;
+                                if (labelIndex % 2 != 0F)
                                 {
-                                    rect.Y += this._axis.markSize / 4f;
+                                    rect.Y += rect.Height;
                                 }
                             }
                         }
 
-                        // Find axis with same position
-                        Axis labelsAxis = null;
-                        foreach (Axis curAxis in this._axis.ChartArea.Axes)
-                        {
-                            if (curAxis.AxisPosition == labelsPosition)
-                            {
-                                labelsAxis = curAxis;
-                                break;
-                            }
-                        }
+                        // Increase label index
+                        ++labelIndex;
+                    }
 
-                        //********************************************************************
-                        //** Adjust font angles for Top and Bottom axis
-                        //********************************************************************
-                        int labelsFontAngle = (_axis.autoLabelAngle < -90) ? angle : _axis.autoLabelAngle;
+                    // Label is in the second row
+                    else if (label.RowIndex > 0)
+                    {
+                        // Hide grouping labels (where index of row > 0) when they are displayed 
+                        // not on the same side as their axis. Fixes MS issue #64.
                         if (labelsPosition != this._axis.AxisPosition)
                         {
-                            if ((this._axis.AxisPosition == AxisPosition.Top || this._axis.AxisPosition == AxisPosition.Bottom) &&
-                                (labelsFontAngle == 90 || labelsFontAngle == -90))
-                            {
-                                labelsFontAngle = 0;
-                            }
-                            else if (this._axis.AxisPosition == AxisPosition.Bottom)
-                            {
-                                if (labelsPosition == AxisPosition.Left && labelsFontAngle > 0)
-                                {
-                                    labelsFontAngle = -labelsFontAngle;
-                                }
-                                else if (labelsPosition == AxisPosition.Right && labelsFontAngle < 0)
-                                {
-                                    labelsFontAngle = -labelsFontAngle;
-                                }
-                            }
-                            else if (this._axis.AxisPosition == AxisPosition.Top)
-                            {
-                                if (labelsPosition == AxisPosition.Left && labelsFontAngle < 0)
-                                {
-                                    labelsFontAngle = -labelsFontAngle;
-                                }
-                                else if (labelsPosition == AxisPosition.Right && labelsFontAngle > 0)
-                                {
-                                    labelsFontAngle = -labelsFontAngle;
-                                }
-                            }
+                            continue;
                         }
 
-                        //********************************************************************
-                        //** NOTE: Code below improves chart labels readability in scenarios 
-                        //** described in MS issue #65.
-                        //**
-                        //** Prevent labels in the first row from overlapping the grouping
-                        //** labels in the rows below. The solution only apply to the limited 
-                        //** use cases defined by the condition below.
-                        //********************************************************************
-                        StringFormatFlags oldFormatFlags = format.FormatFlags; 
-
-                        if (label.RowIndex == 0 &&
-                            labelsFontAngle == 0 &&
-                            _axis.groupingLabelSizes != null &&
-                            _axis.groupingLabelSizes.Length > 0 &&
-                            this._axis.AxisPosition == AxisPosition.Bottom &&
-                            labelsPosition == AxisPosition.Bottom &&
-                            !((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1)))
+                        if (_axis.AxisPosition == AxisPosition.Left)
                         {
-                            if (firstLabelsRowHeight == -1f)
+                            rect.X += _axis.totlaGroupingLabelsSizeAdjustment;
+                            for (int index = _axis.groupingLabelSizes.Length; index > label.RowIndex; index--)
                             {
-                                // Calculate first labels row max height
-                                Point3D[] labelPositionPoints = new Point3D[1];
-                                labelPositionPoints[0] = new Point3D(initialRect.X, initialRect.Bottom - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment, labelsZPosition);
-                                this._axis.ChartArea.matrix3D.TransformPoints(labelPositionPoints);
-
-                                float height = labelPositionPoints[0].Y - rect.Y;
-
-                                firstLabelsRowHeight = (height > 0f) ? height : rect.Height;
+                                rect.X += _axis.groupingLabelSizes[index - 1];
                             }
-
-                            // Resuse pre-calculated first labels row height
-                            rect.Height = firstLabelsRowHeight;
-
-                            // Change current string format to prevent strings to go out of the 
-                            // specified bounding rectangle
-                            if ((format.FormatFlags & StringFormatFlags.LineLimit) == 0)
+                            rect.Width = _axis.groupingLabelSizes[label.RowIndex - 1];
+                        }
+                        else if (_axis.AxisPosition == AxisPosition.Right)
+                        {
+                            rect.X = rect.Right - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment;// + Axis.elementSpacing * 0.25f;
+                            for (int index = 1; index < label.RowIndex; index++)
                             {
-                                format.FormatFlags |= StringFormatFlags.LineLimit;
+                                rect.X += _axis.groupingLabelSizes[index - 1];
                             }
+                            rect.Width = _axis.groupingLabelSizes[label.RowIndex - 1];
+                        }
+                        else if (_axis.AxisPosition == AxisPosition.Top)
+                        {
+                            rect.Y += _axis.totlaGroupingLabelsSizeAdjustment;
+                            for (int index = _axis.groupingLabelSizes.Length; index > label.RowIndex; index--)
+                            {
+                                rect.Y += _axis.groupingLabelSizes[index - 1];
+                            }
+                            rect.Height = _axis.groupingLabelSizes[label.RowIndex - 1];
+                        }
+                        if (_axis.AxisPosition == AxisPosition.Bottom)
+                        {
+                            rect.Y = rect.Bottom - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment;
+                            for (int index = 1; index < label.RowIndex; index++)
+                            {
+                                rect.Y += _axis.groupingLabelSizes[index - 1];
+                            }
+                            rect.Height = _axis.groupingLabelSizes[label.RowIndex - 1];
+                        }
+                    }
+
+                    // Unknown label row value
+                    else
+                    {
+                        throw new InvalidOperationException(SR.ExceptionAxisLabelRowIndexMustBe1Or2);
+                    }
+
+                    //********************************************************************
+                    //** Set label From and To coordinates.
+                    //********************************************************************
+                    double fromPosition = _axis.GetLinearPosition(labelFrom);
+                    double toPosition = _axis.GetLinearPosition(labelTo);
+                    if (this._axis.AxisPosition == AxisPosition.Top || this._axis.AxisPosition == AxisPosition.Bottom)
+                    {
+                        rect.X = (float)Math.Min(fromPosition, toPosition);
+                        rect.Width = (float)Math.Max(fromPosition, toPosition) - rect.X;
+                        if (rect.Width < pixelSize.Width)
+                        {
+                            rect.Width = pixelSize.Width;
                         }
 
+                        // Adjust label To/From position if offset labels are used
+                        if (label.RowIndex == 0 &&
+                            ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1)))
+                        {
+                            rect.X -= rect.Width / 2F;
+                            rect.Width *= 2F;
+                        }
+                    }
+                    else
+                    {
+                        rect.Y = (float)Math.Min(fromPosition, toPosition);
+                        rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
+                        if (rect.Height < pixelSize.Height)
+                        {
+                            rect.Height = pixelSize.Height;
+                        }
 
-                        //********************************************************************
-                        //** Draw label text.
-                        //********************************************************************
+                        // Adjust label To/From position if offset labels are used
+                        if (label.RowIndex == 0 &&
+                            ((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1)))
+                        {
+                            rect.Y -= rect.Height / 2F;
+                            rect.Height *= 2F;
+                        }
+                    }
+
+                    // Save original rect
+                    RectangleF initialRect = new RectangleF(rect.Location, rect.Size);
+
+                    //********************************************************************
+                    //** Transform and adjust label rectangle coordinates in 3D space.
+                    //********************************************************************
+                    Point3D[] rectPoints = new Point3D[3];
+                    if (this._axis.AxisPosition == AxisPosition.Left)
+                    {
+                        rectPoints[0] = new Point3D(rect.Right, rect.Y, labelsZPosition);
+                        rectPoints[1] = new Point3D(rect.Right, rect.Y + rect.Height / 2f, labelsZPosition);
+                        rectPoints[2] = new Point3D(rect.Right, rect.Bottom, labelsZPosition);
+                        this._axis.ChartArea.matrix3D.TransformPoints(rectPoints);
+                        rect.Y = rectPoints[0].Y;
+                        rect.Height = rectPoints[2].Y - rect.Y;
+                        rect.Width = rectPoints[1].X - rect.X;
+                    }
+                    else if (this._axis.AxisPosition == AxisPosition.Right)
+                    {
+                        rectPoints[0] = new Point3D(rect.X, rect.Y, labelsZPosition);
+                        rectPoints[1] = new Point3D(rect.X, rect.Y + rect.Height / 2f, labelsZPosition);
+                        rectPoints[2] = new Point3D(rect.X, rect.Bottom, labelsZPosition);
+                        this._axis.ChartArea.matrix3D.TransformPoints(rectPoints);
+                        rect.Y = rectPoints[0].Y;
+                        rect.Height = rectPoints[2].Y - rect.Y;
+                        rect.Width = rect.Right - rectPoints[1].X;
+                        rect.X = rectPoints[1].X;
+                    }
+                    else if (this._axis.AxisPosition == AxisPosition.Top)
+                    {
+                        // Transform 3 points of the rectangle
+                        rectPoints[0] = new Point3D(rect.X, rect.Bottom, labelsZPosition);
+                        rectPoints[1] = new Point3D(rect.X + rect.Width / 2f, rect.Bottom, labelsZPosition);
+                        rectPoints[2] = new Point3D(rect.Right, rect.Bottom, labelsZPosition);
+                        this._axis.ChartArea.matrix3D.TransformPoints(rectPoints);
+
+                        if (labelsPosition == AxisPosition.Top)
+                        {
+                            rect.X = rectPoints[0].X;
+                            rect.Width = rectPoints[2].X - rect.X;
+                            rect.Height = rectPoints[1].Y - rect.Y;
+                        }
+                        else if (labelsPosition == AxisPosition.Right)
+                        {
+                            RectangleF rightLabelsRect = this.GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
+                            rect.Y = rectPoints[0].Y;
+                            rect.Height = rectPoints[2].Y - rect.Y;
+                            rect.X = rectPoints[1].X;
+                            rect.Width = rightLabelsRect.Right - rect.X;
+                        }
+                        else if (labelsPosition == AxisPosition.Left)
+                        {
+                            RectangleF rightLabelsRect = this.GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
+                            rect.Y = rectPoints[2].Y;
+                            rect.Height = rectPoints[0].Y - rect.Y;
+                            rect.X = rightLabelsRect.X;
+                            rect.Width = rectPoints[1].X - rightLabelsRect.X;
+                        }
+                    }
+                    else if (this._axis.AxisPosition == AxisPosition.Bottom)
+                    {
+                        // Transform 3 points of the rectangle
+                        rectPoints[0] = new Point3D(rect.X, rect.Y, labelsZPosition);
+                        rectPoints[1] = new Point3D(rect.X + rect.Width / 2f, rect.Y, labelsZPosition);
+                        rectPoints[2] = new Point3D(rect.Right, rect.Y, labelsZPosition);
+                        this._axis.ChartArea.matrix3D.TransformPoints(rectPoints);
+
+                        if (labelsPosition == AxisPosition.Bottom)
+                        {
+                            rect.X = rectPoints[0].X;
+                            rect.Width = rectPoints[2].X - rect.X;
+                            rect.Height = rect.Bottom - rectPoints[1].Y;
+                            rect.Y = rectPoints[1].Y;
+                        }
+                        else if (labelsPosition == AxisPosition.Right)
+                        {
+                            RectangleF rightLabelsRect = this.GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
+                            rect.Y = rectPoints[2].Y;
+                            rect.Height = rectPoints[0].Y - rect.Y;
+                            rect.X = rectPoints[1].X;
+                            rect.Width = rightLabelsRect.Right - rect.X;
+
+                            // Adjust label rect by shifting it down by quarter of the tick size
+                            if (this._axis.autoLabelAngle == 0)
+                            {
+                                rect.Y += this._axis.markSize / 4f;
+                            }
+                        }
+                        else if (labelsPosition == AxisPosition.Left)
+                        {
+                            RectangleF rightLabelsRect = this.GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
+                            rect.Y = rectPoints[0].Y;
+                            rect.Height = rectPoints[2].Y - rect.Y;
+                            rect.X = rightLabelsRect.X;
+                            rect.Width = rectPoints[1].X - rightLabelsRect.X;
+
+                            // Adjust label rect by shifting it down by quarter of the tick size
+                            if (this._axis.autoLabelAngle == 0)
+                            {
+                                rect.Y += this._axis.markSize / 4f;
+                            }
+                        }
+                    }
+
+                    // Find axis with same position
+                    Axis labelsAxis = null;
+                    foreach (Axis curAxis in this._axis.ChartArea.Axes)
+                    {
+                        if (curAxis.AxisPosition == labelsPosition)
+                        {
+                            labelsAxis = curAxis;
+                            break;
+                        }
+                    }
+
+                    //********************************************************************
+                    //** Adjust font angles for Top and Bottom axis
+                    //********************************************************************
+                    int labelsFontAngle = (_axis.autoLabelAngle < -90) ? angle : _axis.autoLabelAngle;
+                    if (labelsPosition != this._axis.AxisPosition)
+                    {
+                        if ((this._axis.AxisPosition == AxisPosition.Top || this._axis.AxisPosition == AxisPosition.Bottom) &&
+                            (labelsFontAngle == 90 || labelsFontAngle == -90))
+                        {
+                            labelsFontAngle = 0;
+                        }
+                        else if (this._axis.AxisPosition == AxisPosition.Bottom)
+                        {
+                            if (labelsPosition == AxisPosition.Left && labelsFontAngle > 0)
+                            {
+                                labelsFontAngle = -labelsFontAngle;
+                            }
+                            else if (labelsPosition == AxisPosition.Right && labelsFontAngle < 0)
+                            {
+                                labelsFontAngle = -labelsFontAngle;
+                            }
+                        }
+                        else if (this._axis.AxisPosition == AxisPosition.Top)
+                        {
+                            if (labelsPosition == AxisPosition.Left && labelsFontAngle < 0)
+                            {
+                                labelsFontAngle = -labelsFontAngle;
+                            }
+                            else if (labelsPosition == AxisPosition.Right && labelsFontAngle > 0)
+                            {
+                                labelsFontAngle = -labelsFontAngle;
+                            }
+                        }
+                    }
+
+                    //********************************************************************
+                    //** NOTE: Code below improves chart labels readability in scenarios 
+                    //** described in MS issue #65.
+                    //**
+                    //** Prevent labels in the first row from overlapping the grouping
+                    //** labels in the rows below. The solution only apply to the limited 
+                    //** use cases defined by the condition below.
+                    //********************************************************************
+                    StringFormatFlags oldFormatFlags = format.FormatFlags;
+
+                    if (label.RowIndex == 0 &&
+                        labelsFontAngle == 0 &&
+                        _axis.groupingLabelSizes != null &&
+                        _axis.groupingLabelSizes.Length > 0 &&
+                        this._axis.AxisPosition == AxisPosition.Bottom &&
+                        labelsPosition == AxisPosition.Bottom &&
+                        !((this._axis.autoLabelOffset == -1) ? this.IsStaggered : (this._axis.autoLabelOffset == 1)))
+                    {
+                        if (firstLabelsRowHeight == -1f)
+                        {
+                            // Calculate first labels row max height
+                            Point3D[] labelPositionPoints = new Point3D[1];
+                            labelPositionPoints[0] = new Point3D(initialRect.X, initialRect.Bottom - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment, labelsZPosition);
+                            this._axis.ChartArea.matrix3D.TransformPoints(labelPositionPoints);
+
+                            float height = labelPositionPoints[0].Y - rect.Y;
+
+                            firstLabelsRowHeight = (height > 0f) ? height : rect.Height;
+                        }
+
+                        // Resuse pre-calculated first labels row height
+                        rect.Height = firstLabelsRowHeight;
+
+                        // Change current string format to prevent strings to go out of the 
+                        // specified bounding rectangle
+                        if ((format.FormatFlags & StringFormatFlags.LineLimit) == 0)
+                        {
+                            format.FormatFlags |= StringFormatFlags.LineLimit;
+                        }
+                    }
+
+
+                    //********************************************************************
+                    //** Draw label text.
+                    //********************************************************************
 
 #pragma warning disable CA2000 // Dispose objects before losing scope. Bug in analyzer!
-                        using (Brush brush = new SolidBrush(label.ForeColor.IsEmpty ? _foreColor : label.ForeColor))
+                    using (Brush brush = new SolidBrush(label.ForeColor.IsEmpty ? _foreColor : label.ForeColor))
 #pragma warning restore CA2000 // Dispose objects before losing scope
-                        {
-                            graph.DrawLabelStringRel(
-                                labelsAxis,
-                                label.RowIndex,
-                                label.LabelMark,
-                                label.MarkColor,
-                                label.Text,
-                                label.Image,
-                                label.ImageTransparentColor,
-                                (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont,
-                                brush,
-                                rect,
-                                format,
-                                labelsFontAngle,
-                                (!this.TruncatedLabels || label.RowIndex > 0) ? RectangleF.Empty : boundaryRect,
-                                label,
-                                truncatedLeft,
-                                truncatedRight);
-                        }
+                    {
+                        graph.DrawLabelStringRel(
+                            labelsAxis,
+                            label.RowIndex,
+                            label.LabelMark,
+                            label.MarkColor,
+                            label.Text,
+                            label.Image,
+                            label.ImageTransparentColor,
+                            (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont,
+                            brush,
+                            rect,
+                            format,
+                            labelsFontAngle,
+                            (!this.TruncatedLabels || label.RowIndex > 0) ? RectangleF.Empty : boundaryRect,
+                            label,
+                            truncatedLeft,
+                            truncatedRight);
+                    }
 
-                        // Restore old string format that was temporary modified
-                        if (format.FormatFlags != oldFormatFlags)
-                        {
-                            format.FormatFlags = oldFormatFlags;
-                        }
+                    // Restore old string format that was temporary modified
+                    if (format.FormatFlags != oldFormatFlags)
+                    {
+                        format.FormatFlags = oldFormatFlags;
                     }
                 }
             }
-		}
+        }
 
 		#endregion
 

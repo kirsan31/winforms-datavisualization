@@ -2,14 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Provide 2D/3D drawing and hit testing functionality 
 //              for the Area and SplineArea charts. Spline chart 
 //              type is used as a base for the Area and SplineArea
 //              charts.
 //
-
 
 using System.Collections;
 using System.Drawing;
@@ -34,25 +32,27 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             base.lineTension = 0.5f;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IChartType interface implementation
 
         /// <summary>
         /// Chart type name
         /// </summary>
-        public override string Name { get { return ChartTypeNames.SplineArea; } }
+        public override string Name
+        { get { return ChartTypeNames.SplineArea; } }
 
         /// <summary>
         /// Gets chart type image.
         /// </summary>
         /// <param name="registry">Chart types registry object.</param>
         /// <returns>Chart type image.</returns>
-        override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+        public override System.Drawing.Image GetImage(ChartTypeRegistry registry)
         {
             return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
         }
-        #endregion
+
+        #endregion IChartType interface implementation
 
         #region Default tension method
 
@@ -60,7 +60,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// Gets default line tension. For spline charts it's always 0.5.
         /// </summary>
         /// <returns>Line tension.</returns>
-        override protected float GetDefaultTension()
+        protected override float GetDefaultTension()
         {
             return 0.5f;
         }
@@ -74,7 +74,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return true;
         }
 
-        #endregion
+        #endregion Default tension method
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         protected PointF axisPos = PointF.Empty;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -129,7 +129,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             axisPos = PointF.Empty;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Default tension method
 
@@ -137,26 +137,28 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// Gets default line tension.
         /// </summary>
         /// <returns>Line tension.</returns>
-        override protected float GetDefaultTension()
+        protected override float GetDefaultTension()
         {
             return 0f;
         }
 
-        #endregion
+        #endregion Default tension method
 
         #region IChartType interface implementation
 
         /// <summary>
         /// Chart type name
         /// </summary>
-        public override string Name { get { return ChartTypeNames.Area; } }
+        public override string Name
+        { get { return ChartTypeNames.Area; } }
 
         /// <summary>
         /// If the crossing value is auto Crossing value should be 
         /// automatically set to zero for some chart 
         /// types (Bar, column, area etc.)
         /// </summary>
-        public override bool ZeroCrossing { get { return true; } }
+        public override bool ZeroCrossing
+        { get { return true; } }
 
         /// <summary>
         /// How to draw series/points in legend:
@@ -164,7 +166,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         /// <param name="series">Legend item series.</param>
         /// <returns>Legend item style.</returns>
-        override public LegendImageStyle GetLegendImageStyle(Series series)
+        public override LegendImageStyle GetLegendImageStyle(Series series)
         {
             return LegendImageStyle.Rectangle;
         }
@@ -174,12 +176,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         /// <param name="registry">Chart types registry object.</param>
         /// <returns>Chart type image.</returns>
-        override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+        public override System.Drawing.Image GetImage(ChartTypeRegistry registry)
         {
             return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
         }
 
-        #endregion
+        #endregion IChartType interface implementation
 
         #region Painting and Selection methods
 
@@ -213,7 +215,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 FillLastSeriesGradient(graph);
             }
-
         }
 
         /// <summary>
@@ -226,7 +227,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="points">Array of oints coordinates.</param>
         /// <param name="pointIndex">Index of point to draw.</param>
         /// <param name="tension">Line tension</param>
-        override protected void DrawLine(
+        protected override void DrawLine(
             ChartGraphics graph,
             CommonElements common,
             DataPoint point,
@@ -318,46 +319,42 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 if (pointColor != Color.Empty && pointColor != Color.Transparent)
                 {
                     using Region shadowRegion = new Region(path);
-                    using (Brush shadowBrush = new SolidBrush((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb(pointColor.A / 2, series.ShadowColor)))
+                    using Brush shadowBrush = new SolidBrush((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb(pointColor.A / 2, series.ShadowColor));
+                    // Set offset transformation
+                    GraphicsState graphicsState = graph.Save();
+                    Region clipRegion = null;
+                    Region clipRegionOld = null;
+                    if (!graph.IsClipEmpty && !graph.Clip.IsInfinite(graph.Graphics))
                     {
-                        // Set offset transformation
-                        GraphicsState graphicsState = graph.Save();
-                        Region clipRegion = null;
-                        Region clipRegionOld = null;
-                        if (!graph.IsClipEmpty && !graph.Clip.IsInfinite(graph.Graphics))
-                        {
-                            clipRegionOld = graph.Clip.Clone();
-                            clipRegion = graph.Clip;
-                            clipRegion.Translate(series.ShadowOffset, series.ShadowOffset);
-                            graph.Clip = clipRegion;
-                        }
-                        graph.TranslateTransform(series.ShadowOffset, series.ShadowOffset);
+                        clipRegionOld = graph.Clip.Clone();
+                        clipRegion = graph.Clip;
+                        clipRegion.Translate(series.ShadowOffset, series.ShadowOffset);
+                        graph.Clip = clipRegion;
+                    }
+                    graph.TranslateTransform(series.ShadowOffset, series.ShadowOffset);
 
-                        // Draw top and bottom lines
-                        if (graph.SmoothingMode != SmoothingMode.None)
+                    // Draw top and bottom lines
+                    if (graph.SmoothingMode != SmoothingMode.None)
+                    {
+                        using Pen areaLinePen = new Pen(shadowBrush, 1);
+                        if (this.lineTension == 0)
                         {
-                            using (Pen areaLinePen = new Pen(shadowBrush, 1))
-                            {
-                                if (this.lineTension == 0)
-                                {
-                                    graph.DrawLine(areaLinePen, points[pointIndex - 1], points[pointIndex]);
-                                }
-                                else
-                                {
-                                    graph.DrawCurve(areaLinePen, points, pointIndex - 1, 1, this.lineTension);
-                                }
-                            }
+                            graph.DrawLine(areaLinePen, points[pointIndex - 1], points[pointIndex]);
                         }
-
-                        // Fill shadow region
-                        graph.FillRegion(shadowBrush, shadowRegion);
-
-                        // Restore transformation matrix
-                        graph.Restore(graphicsState);
-                        if (clipRegion != null && clipRegionOld != null)
+                        else
                         {
-                            graph.Clip = clipRegionOld;
+                            graph.DrawCurve(areaLinePen, points, pointIndex - 1, 1, this.lineTension);
                         }
+                    }
+
+                    // Fill shadow region
+                    graph.FillRegion(shadowBrush, shadowRegion);
+
+                    // Restore transformation matrix
+                    graph.Restore(graphicsState);
+                    if (clipRegion != null && clipRegionOld != null)
+                    {
+                        graph.Clip = clipRegionOld;
                     }
                 }
             }
@@ -403,11 +400,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     // End Svg Selection mode
                     graph.EndHotRegion();
                 }
-
             }
 
-            if (areaBrush != null)
-                areaBrush.Dispose();
+            areaBrush?.Dispose();
 
             // Add first line
             if (areaPath == null)
@@ -501,7 +496,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     try
                     {
-
                         mapAreaPath.Dispose();
                         // Reset path
                         mapAreaPath = new GraphicsPath();
@@ -550,7 +544,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         point,
                         series.Name,
                         pointIndex);
-
                 }
                 mapAreaPath.Dispose();
             }
@@ -563,10 +556,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         private void FillLastSeriesGradient(ChartGraphics graph)
         {
             // Add last line in the path
-            if (areaPath != null)
-            {
-                areaPath.AddLine(areaPath.GetLastPoint().X, areaPath.GetLastPoint().Y, areaPath.GetLastPoint().X, axisPos.Y);
-            }
+            areaPath?.AddLine(areaPath.GetLastPoint().X, areaPath.GetLastPoint().Y, areaPath.GetLastPoint().X, axisPos.Y);
 
             // Fill whole area with gradient
             if (gradientFill && areaPath != null)
@@ -601,7 +591,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return false;
         }
 
-        #endregion
+        #endregion Painting and Selection methods
 
         #region 3D painting and selection methods
 
@@ -676,7 +666,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 secondPoint = tempPoint;
             }
 
-
             // Points can be drawn from sides to the center.
             // In this case can't use index in the list to find first point.
             // Use point series and real point index to find the first point.
@@ -707,7 +696,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 return resultPath;
             }
-
 
             //****************************************************************
             //** Switch first and second points.
@@ -933,7 +921,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //****************************************************************
             float axisPosition = (float)Math.Round(VAxis.GetPosition(this.VAxis.Crossing), 3);
 
-
             //****************************************************************
             //** Detect visibility of the bounding rectangle.
             //****************************************************************
@@ -1070,7 +1057,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 return resultPath;
             }
-
 
             //****************************************************************
             //** Check if area points are on the different sides of the axis.
@@ -1276,7 +1262,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                     (!area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.First) ||
                                     (area.ReverseSeriesOrder && surfaceSegmentType == LineSegmentType.Last))
                                 {
-
                                     // Calculate coordinates
                                     DataPoint3D leftMostPoint = (firstPoint.xPosition <= secondPoint.xPosition) ? firstPoint : secondPoint;
                                     DataPoint3D dp1 = new DataPoint3D();
@@ -1297,7 +1282,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                         dp1, dp2, points, pointIndex,
                                         0f, operationType, LineSegmentType.Single, true, true, area.ReverseSeriesOrder, this.multiSeries, 0, true);
 #pragma warning restore CA2000 // Dispose objects before losing scope
-
                                 }
                                 break;
                             }
@@ -1328,7 +1312,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                         dp1, dp2, points, pointIndex,
                                         0f, operationType, LineSegmentType.Single, true, true, area.ReverseSeriesOrder, this.multiSeries, 0, true);
 #pragma warning restore CA2000 // Dispose objects before losing scope
-
                                 }
 
                                 break;
@@ -1359,7 +1342,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                         thinBorderSides = SurfaceNames.Right;
                                 }
 
-
                                 // Draw surface
 #pragma warning disable CA2000 // Dispose objects before losing scope
                                 surfacePath = graph.Draw3DPolygon(area, matrix, currentSurface, positionZ,
@@ -1378,11 +1360,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 dp1.xPosition = firstPoint.xPosition;
                                 dp1.yPosition = thirdPoint.Y;
 
-                                DataPoint3D dp2 = new DataPoint3D();
-                                dp2.index = secondPoint.index;
-                                dp2.dataPoint = secondPoint.dataPoint;
-                                dp2.xPosition = secondPoint.xPosition;
-                                dp2.yPosition = fourthPoint.Y;
+                                DataPoint3D dp2 = new DataPoint3D
+                                {
+                                    index = secondPoint.index,
+                                    dataPoint = secondPoint.dataPoint,
+                                    xPosition = secondPoint.xPosition,
+                                    yPosition = fourthPoint.Y
+                                };
 
                                 // Change segment type for the reversed series order
                                 if (area.ReverseSeriesOrder)
@@ -1443,7 +1427,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
             return resultPath;
         }
-
 
         /// <summary>
         /// Gets visibility of the top surface.
@@ -1568,7 +1551,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="selection">Selection indicator.</param>
         /// <param name="pointsArray">Points array list.</param>
         /// <returns>Number of loops (1 or 2).</returns>
-        override protected int GetPointLoopNumber(bool selection, ArrayList pointsArray)
+        protected override int GetPointLoopNumber(bool selection, ArrayList pointsArray)
         {
             // Always one loop for selection
             if (selection)
@@ -1593,9 +1576,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return loopNumber;
         }
 
-        #endregion
+        #endregion 3D painting and selection methods
 
         #region IDisposable overrides
+
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
@@ -1612,7 +1596,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
             base.Dispose(disposing);
         }
-        #endregion
 
+        #endregion IDisposable overrides
     }
 }

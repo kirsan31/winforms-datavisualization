@@ -854,120 +854,116 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             if (ser.IsValueShownAsLabel || point.IsValueShownAsLabel || point.Label.Length > 0)
             {
                 // Label text format
-                using (StringFormat format = new StringFormat())
+                using StringFormat format = new StringFormat();
+                format.Alignment = StringAlignment.Near;
+                format.LineAlignment = StringAlignment.Center;
+                if (point.LabelAngle == 0)
                 {
-                    format.Alignment = StringAlignment.Near;
-                    format.LineAlignment = StringAlignment.Center;
-                    if (point.LabelAngle == 0)
+                    format.Alignment = StringAlignment.Center;
+                    format.LineAlignment = StringAlignment.Far;
+                }
+
+                // Get label text
+                string text;
+                if (point.Label.Length == 0)
+                {
+                    text = ValueConverter.FormatValue(
+                        ser.Chart,
+                        point,
+                        point.Tag,
+                        point.YValues[0],
+                        point.LabelFormat,
+                        ser.YValueType,
+                        ChartElementType.DataPoint);
+                }
+                else
+                {
+                    text = point.ReplaceKeywords(point.Label);
+                }
+
+                // Adjust label positio to the marker size
+                SizeF markerSizes = new SizeF(0f, 0f);
+                if (point.MarkerStyle != MarkerStyle.None)
+                {
+                    markerSizes = graph.GetRelativeSize(new SizeF(point.MarkerSize, point.MarkerSize));
+                    position.Y -= markerSizes.Height / 2f;
+                }
+
+                // Get text angle
+                int textAngle = point.LabelAngle;
+
+                // Check if text contains white space only
+                if (text.Trim().Length != 0)
+                {
+                    SizeF sizeFont = SizeF.Empty;
+
+
+                    // Check if Smart Labels are enabled
+                    if (ser.SmartLabelStyle.Enabled)
                     {
-                        format.Alignment = StringAlignment.Center;
-                        format.LineAlignment = StringAlignment.Far;
+                        // Get text size
+                        using var sf = StringFormat.GenericTypographic;
+                        sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
+
+                        // Adjust label position using SmartLabelStyle algorithm
+                        position = area.smartLabels.AdjustSmartLabelPosition(
+                            common,
+                            graph,
+                            area,
+                            ser.SmartLabelStyle,
+                            position,
+                            sizeFont,
+                            format,
+                            position,
+                            markerSizes,
+                            LabelAlignmentStyles.Top);
+
+                        // Smart labels always use 0 degrees text angle
+                        textAngle = 0;
                     }
 
-                    // Get label text
-                    string text;
-                    if (point.Label.Length == 0)
+
+
+                    // Draw label
+                    if (!position.IsEmpty)
                     {
-                        text = ValueConverter.FormatValue(
-                            ser.Chart,
-                            point,
-                            point.Tag,
-                            point.YValues[0],
-                            point.LabelFormat,
-                            ser.YValueType,
-                            ChartElementType.DataPoint);
-                    }
-                    else
-                    {
-                        text = point.ReplaceKeywords(point.Label);
-                    }
-
-                    // Adjust label positio to the marker size
-                    SizeF markerSizes = new SizeF(0f, 0f);
-                    if (point.MarkerStyle != MarkerStyle.None)
-                    {
-                        markerSizes = graph.GetRelativeSize(new SizeF(point.MarkerSize, point.MarkerSize));
-                        position.Y -= markerSizes.Height / 2f;
-                    }
-
-                    // Get text angle
-                    int textAngle = point.LabelAngle;
-
-                    // Check if text contains white space only
-                    if (text.Trim().Length != 0)
-                    {
-                        SizeF sizeFont = SizeF.Empty;
-
-
-                        // Check if Smart Labels are enabled
-                        if (ser.SmartLabelStyle.Enabled)
+                        // Get text size
+                        if (sizeFont.IsEmpty)
                         {
-                            // Get text size
                             using var sf = StringFormat.GenericTypographic;
                             sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
-
-                            // Adjust label position using SmartLabelStyle algorithm
-                            position = area.smartLabels.AdjustSmartLabelPosition(
-                                common,
-                                graph,
-                                area,
-                                ser.SmartLabelStyle,
-                                position,
-                                sizeFont,
-                                format,
-                                position,
-                                markerSizes,
-                                LabelAlignmentStyles.Top);
-
-                            // Smart labels always use 0 degrees text angle
-                            textAngle = 0;
                         }
 
+                        // Get label background position
+                        RectangleF labelBackPosition = RectangleF.Empty;
+                        SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
+                        sizeLabel.Height += sizeFont.Height / 8;
+                        sizeLabel.Width += sizeLabel.Width / text.Length;
+                        labelBackPosition = PointChart.GetLabelPosition(
+                            graph,
+                            position,
+                            sizeLabel,
+                            format,
+                            true);
 
-
-                        // Draw label
-                        if (!position.IsEmpty)
-                        {
-                            // Get text size
-                            if (sizeFont.IsEmpty)
-                            {
-                                using var sf = StringFormat.GenericTypographic;
-                                sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
-                            }
-
-                            // Get label background position
-                            RectangleF labelBackPosition = RectangleF.Empty;
-                            SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-                            sizeLabel.Height += sizeFont.Height / 8;
-                            sizeLabel.Width += sizeLabel.Width / text.Length;
-                            labelBackPosition = PointChart.GetLabelPosition(
-                                graph,
-                                position,
-                                sizeLabel,
-                                format,
-                                true);
-
-                            // Draw label text
-                            using (Brush brush = new SolidBrush(point.LabelForeColor))
-                            {
-                                graph.DrawPointLabelStringRel(
-                                    common,
-                                    text,
-                                    point.Font,
-                                    brush,
-                                    position,
-                                    format,
-                                    textAngle,
-                                    labelBackPosition,
-                                    point.LabelBackColor,
-                                    point.LabelBorderColor,
-                                    point.LabelBorderWidth,
-                                    point.LabelBorderDashStyle,
-                                    ser,
-                                    point,
-                                    pointIndex - 1);
-                            }
-                        }
+                        // Draw label text
+                        using Brush brush = new SolidBrush(point.LabelForeColor);
+                        graph.DrawPointLabelStringRel(
+                            common,
+                            text,
+                            point.Font,
+                            brush,
+                            position,
+                            format,
+                            textAngle,
+                            labelBackPosition,
+                            point.LabelBackColor,
+                            point.LabelBorderColor,
+                            point.LabelBorderWidth,
+                            point.LabelBorderDashStyle,
+                            ser,
+                            point,
+                            pointIndex - 1);
                     }
                 }
             }

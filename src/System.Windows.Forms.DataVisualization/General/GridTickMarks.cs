@@ -454,17 +454,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (this.Axis.ChartArea.chartAreaIsCurcular)
                         {
                             RectangleF rect = new RectangleF(first.X - 0.5f, first.Y - 0.5f, Math.Abs(second.X - first.X) + 1, Math.Abs(second.Y - first.Y) + 1);
-                            using (GraphicsPath path = new GraphicsPath())
-                            {
-                                path.AddRectangle(graph.GetAbsoluteRectangle(rect));
-                                using var mt = graph.Transform;
-                                path.Transform(mt);
-                                this.Axis.Common.HotRegionsList.AddHotRegion(
-                                    path,
-                                    false,
-                                    ChartElementType.TickMarks,
-                                    this);
-                            }
+                            using GraphicsPath path = new GraphicsPath();
+                            path.AddRectangle(graph.GetAbsoluteRectangle(rect));
+                            using var mt = graph.Transform;
+                            path.Transform(mt);
+                            this.Axis.Common.HotRegionsList.AddHotRegion(
+                                path,
+                                false,
+                                ChartElementType.TickMarks,
+                                this);
                         }
                         else if (!this.Axis.ChartArea.Area3DStyle.Enable3D || this.Axis.ChartArea.chartAreaIsCurcular)
                         {
@@ -1431,24 +1429,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 				else if(!this._axis.ChartArea.chartAreaIsCurcular)
 				{
-                    using (GraphicsPath path = new GraphicsPath())
+                    using GraphicsPath path = new GraphicsPath();
+                    if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
                     {
-                        if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
-                        {
-                            path.AddLine(first.X, first.Y - 1, second.X, second.Y - 1);
-                            path.AddLine(second.X, second.Y + 1, first.X, first.Y + 1);
-                            path.CloseAllFigures();
-                        }
-                        else
-                        {
-                            path.AddLine(first.X - 1, first.Y, second.X - 1, second.Y);
-                            path.AddLine(second.X + 1, second.Y, first.X + 1, first.Y);
-                            path.CloseAllFigures();
-
-                        }
-                        common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
+                        path.AddLine(first.X, first.Y - 1, second.X, second.Y - 1);
+                        path.AddLine(second.X, second.Y + 1, first.X, first.Y + 1);
+                        path.CloseAllFigures();
                     }
-				}
+                    else
+                    {
+                        path.AddLine(first.X - 1, first.Y, second.X - 1, second.Y);
+                        path.AddLine(second.X + 1, second.Y, first.X + 1, first.Y);
+                        path.CloseAllFigures();
+
+                    }
+                    common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
+                }
 			}
 
 			if( common.ProcessModePaint )
@@ -1525,25 +1521,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						{
 							if( !this._axis.ChartArea.Area3DStyle.Enable3D || this._axis.ChartArea.chartAreaIsCurcular )
 							{
-                                using (GraphicsPath path = new GraphicsPath())
+                                using GraphicsPath path = new GraphicsPath();
+
+                                if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
                                 {
-
-                                    if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
-                                    {
-                                        path.AddLine(first.X, first.Y - 1, second.X, second.Y - 1);
-                                        path.AddLine(second.X, second.Y + 1, first.X, first.Y + 1);
-                                        path.CloseAllFigures();
-                                    }
-                                    else
-                                    {
-                                        path.AddLine(first.X - 1, first.Y, second.X - 1, second.Y);
-                                        path.AddLine(second.X + 1, second.Y, first.X + 1, first.Y);
-                                        path.CloseAllFigures();
-
-                                    }
-                                    common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
+                                    path.AddLine(first.X, first.Y - 1, second.X, second.Y - 1);
+                                    path.AddLine(second.X, second.Y + 1, first.X, first.Y + 1);
+                                    path.CloseAllFigures();
                                 }
-							}
+                                else
+                                {
+                                    path.AddLine(first.X - 1, first.Y, second.X - 1, second.Y);
+                                    path.AddLine(second.X + 1, second.Y, first.X + 1, first.Y);
+                                    path.CloseAllFigures();
+
+                                }
+                                common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
+                            }
 							else
 							{
 								graph.Draw3DGridLine(this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second,  _axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right , common, this );

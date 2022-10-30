@@ -542,46 +542,44 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 			if( common.ProcessModeRegions )
 			{
-				// Create grapics path object dor the curve
-                using (GraphicsPath path = new GraphicsPath())
+                // Create grapics path object dor the curve
+                using GraphicsPath path = new GraphicsPath();
+                try
                 {
-                    try
-                    {
-                        path.AddLine(point1, point2);
-                        path.AddLine(point2, point3);
-						using var pen = new Pen(point.Color, point.BorderWidth + 2);
+                    path.AddLine(point1, point2);
+                    path.AddLine(point2, point3);
+                    using var pen = new Pen(point.Color, point.BorderWidth + 2);
 
-						path.Widen(pen);
-                    }
-                    catch (OutOfMemoryException)
-                    {
-                        // GraphicsPath.Widen incorrectly throws OutOfMemoryException
-                        // catching here and reacting by not widening
-                    }
-                    catch (ArgumentException)
-                    {
-                    }
-
-                    // Allocate array of floats
-                    PointF pointNew = PointF.Empty;
-                    float[] coord = new float[path.PointCount * 2];
-                    PointF[] pathPoints = path.PathPoints;
-                    for (int i = 0; i < path.PointCount; i++)
-                    {
-                        pointNew = graph.GetRelativePoint(pathPoints[i]);
-                        coord[2 * i] = pointNew.X;
-                        coord[2 * i + 1] = pointNew.Y;
-                    }
-
-                    common.HotRegionsList.AddHotRegion(
-                        path,
-                        false,
-                        coord,
-                        point,
-                        series.Name,
-                        pointIndex);
+                    path.Widen(pen);
                 }
-			}
+                catch (OutOfMemoryException)
+                {
+                    // GraphicsPath.Widen incorrectly throws OutOfMemoryException
+                    // catching here and reacting by not widening
+                }
+                catch (ArgumentException)
+                {
+                }
+
+                // Allocate array of floats
+                PointF pointNew = PointF.Empty;
+                float[] coord = new float[path.PointCount * 2];
+                PointF[] pathPoints = path.PathPoints;
+                for (int i = 0; i < path.PointCount; i++)
+                {
+                    pointNew = graph.GetRelativePoint(pathPoints[i]);
+                    coord[2 * i] = pointNew.X;
+                    coord[2 * i + 1] = pointNew.Y;
+                }
+
+                common.HotRegionsList.AddHotRegion(
+                    path,
+                    false,
+                    coord,
+                    point,
+                    series.Name,
+                    pointIndex);
+            }
 
 		}
 		

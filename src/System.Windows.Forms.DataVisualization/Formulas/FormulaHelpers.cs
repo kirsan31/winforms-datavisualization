@@ -9,14 +9,15 @@ using System.Text;
 
 namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 {
-
     #region class FormulaHelper
+
     /// <summary>
     /// Formula helper is a static utility class implementing common formula related routines.
     /// </summary>
     internal static class FormulaHelper
     {
         #region Static
+
         /// <summary>
         /// Gets the formula info instance.
         /// </summary>
@@ -30,56 +31,78 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 //Price indicators
                 case FinancialFormula.MovingAverage:
                     return new MovingAverageFormulaInfo();
+
                 case FinancialFormula.ExponentialMovingAverage:
                     return new ExponentialMovingAverageFormulaInfo();
+
                 case FinancialFormula.WeightedMovingAverage:
                     return new WeightedMovingAverageFormulaInfo();
+
                 case FinancialFormula.TriangularMovingAverage:
                     return new TriangularMovingAverageFormulaInfo();
+
                 case FinancialFormula.TripleExponentialMovingAverage:
                     return new TripleExponentialMovingAverageFormulaInfo();
+
                 case FinancialFormula.BollingerBands:
                     return new BollingerBandsFormulaInfo();
+
                 case FinancialFormula.TypicalPrice:
                     return new TypicalPriceFormulaInfo();
+
                 case FinancialFormula.WeightedClose:
                     return new WeightedCloseFormulaInfo();
+
                 case FinancialFormula.MedianPrice:
                     return new MedianPriceFormulaInfo();
+
                 case FinancialFormula.Envelopes:
                     return new EnvelopesFormulaInfo();
+
                 case FinancialFormula.StandardDeviation:
                     return new StandardDeviationFormulaInfo();
 
                 // Oscilators
                 case FinancialFormula.ChaikinOscillator:
                     return new ChaikinOscillatorFormulaInfo();
+
                 case FinancialFormula.DetrendedPriceOscillator:
                     return new DetrendedPriceOscillatorFormulaInfo();
+
                 case FinancialFormula.VolatilityChaikins:
                     return new VolatilityChaikinsFormulaInfo();
+
                 case FinancialFormula.VolumeOscillator:
                     return new VolumeOscillatorFormulaInfo();
+
                 case FinancialFormula.StochasticIndicator:
                     return new StochasticIndicatorFormulaInfo();
+
                 case FinancialFormula.WilliamsR:
                     return new WilliamsRFormulaInfo();
 
                 // General technical indicators
                 case FinancialFormula.AverageTrueRange:
                     return new AverageTrueRangeFormulaInfo();
+
                 case FinancialFormula.EaseOfMovement:
                     return new EaseOfMovementFormulaInfo();
+
                 case FinancialFormula.MassIndex:
                     return new MassIndexFormulaInfo();
+
                 case FinancialFormula.Performance:
                     return new PerformanceFormulaInfo();
+
                 case FinancialFormula.RateOfChange:
                     return new RateOfChangeFormulaInfo();
+
                 case FinancialFormula.RelativeStrengthIndex:
                     return new RelativeStrengthIndexFormulaInfo();
+
                 case FinancialFormula.MovingAverageConvergenceDivergence:
                     return new MovingAverageConvergenceDivergenceFormulaInfo();
+
                 case FinancialFormula.CommodityChannelIndex:
                     return new CommodityChannelIndexFormulaInfo();
 
@@ -90,14 +113,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 // Volume Indicators
                 case FinancialFormula.MoneyFlow:
                     return new MoneyFlowFormulaInfo();
+
                 case FinancialFormula.PriceVolumeTrend:
                     return new PriceVolumeTrendFormulaInfo();
+
                 case FinancialFormula.OnBalanceVolume:
                     return new OnBalanceVolumeFormulaInfo();
+
                 case FinancialFormula.NegativeVolumeIndex:
                     return new NegativeVolumeIndexFormulaInfo();
+
                 case FinancialFormula.PositiveVolumeIndex:
                     return new PositiveVolumeIndexFormulaInfo();
+
                 case FinancialFormula.AccumulationDistribution:
                     return new AccumulationDistributionFormulaInfo();
 
@@ -117,28 +145,33 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             switch (chartType)
             {
                 case SeriesChartType.BoxPlot:
-                    return new DataField[] { 
-                        DataField.LowerWisker, DataField.UpperWisker, 
-                        DataField.LowerBox, DataField.UpperBox, 
+                    return new DataField[] {
+                        DataField.LowerWisker, DataField.UpperWisker,
+                        DataField.LowerBox, DataField.UpperBox,
                         DataField.Average, DataField.Median };
+
                 case SeriesChartType.Bubble:
-                    return new DataField[] { 
+                    return new DataField[] {
                         DataField.Bubble, DataField.BubbleSize };
+
                 case SeriesChartType.Candlestick:
                 case SeriesChartType.Stock:
-                    return new DataField[] { 
+                    return new DataField[] {
                         DataField.High, DataField.Low,
                         DataField.Open, DataField.Close };
+
                 case SeriesChartType.ErrorBar:
-                    return new DataField[] { 
-                        DataField.Center, 
+                    return new DataField[] {
+                        DataField.Center,
                         DataField.LowerError, DataField.UpperError};
+
                 case SeriesChartType.RangeBar:
                 case SeriesChartType.Range:
                 case SeriesChartType.RangeColumn:
                 case SeriesChartType.SplineRange:
-                    return new DataField[] { 
+                    return new DataField[] {
                         DataField.Top, DataField.Bottom };
+
                 default:
                     return new DataField[] { DataField.Y };
             }
@@ -156,6 +189,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 default:
                 case DataField.Y:
                     return SeriesChartType.Line;
+
                 case DataField.LowerWisker:
                 case DataField.UpperWisker:
                 case DataField.LowerBox:
@@ -163,18 +197,22 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 case DataField.Average:
                 case DataField.Median:
                     return SeriesChartType.BoxPlot;
+
                 case DataField.Bubble:
                 case DataField.BubbleSize:
                     return SeriesChartType.Bubble;
+
                 case DataField.High:
                 case DataField.Low:
                 case DataField.Open:
                 case DataField.Close:
                     return SeriesChartType.Stock;
+
                 case DataField.Center:
                 case DataField.LowerError:
                 case DataField.UpperError:
                     return SeriesChartType.ErrorBar;
+
                 case DataField.Top:
                 case DataField.Bottom:
                     return SeriesChartType.Range;
@@ -256,9 +294,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             }
         }
 
-        #endregion
+        #endregion Static
     }
-    #endregion
+
+    #endregion class FormulaHelper
 
     #region class FormulaInfo and inherited FormulaSpecific classes
 
@@ -268,41 +307,46 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     internal abstract class FormulaInfo
     {
         #region Fields
-        DataField[] _inputFields;
-        DataField[] _outputFields;
-        object[] _parameters;
-        #endregion
+
+        private readonly DataField[] _inputFields;
+        private readonly DataField[] _outputFields;
+        private readonly object[] _parameters;
+
+        #endregion Fields
 
         #region Properties
+
         /// <summary>
         /// Gets the input data fields of the formula.
         /// </summary>
         /// <value>The input fields.</value>
-        public DataField[] InputFields 
-        { 
-            get { return _inputFields; } 
+        public DataField[] InputFields
+        {
+            get { return _inputFields; }
         }
 
         /// <summary>
         /// Gets the output data fields of the formula.
         /// </summary>
         /// <value>The output fields.</value>
-        public DataField[] OutputFields 
-        { 
-            get { return _outputFields; } 
+        public DataField[] OutputFields
+        {
+            get { return _outputFields; }
         }
 
         /// <summary>
         /// Gets the parameters of the formula.
         /// </summary>
         /// <value>The parameters.</value>
-        public object[] Parameters 
-        { 
+        public object[] Parameters
+        {
             get { return _parameters; }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FormulaInfo"/> class.
         /// </summary>
@@ -315,9 +359,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             _outputFields = outputFields;
             _parameters = defaultParams;
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Methods
+
         /// <summary>
         /// Saves the formula parameters to a string.
         /// </summary>
@@ -405,7 +451,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 }
             }
         }
-        #endregion
+
+        #endregion Methods
     }
 
     /// <summary>
@@ -421,6 +468,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(2, false)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MovingAverageFormulaInfo"/> class.
         /// </summary>
@@ -448,6 +496,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(2, false)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ExponentialMovingAverageFormulaInfo"/> class.
         /// </summary>
@@ -475,6 +524,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(2, false)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WeightedMovingAverageFormulaInfo"/> class.
         /// </summary>
@@ -502,6 +552,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(2, false)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TriangularMovingAverageFormulaInfo"/> class.
         /// </summary>
@@ -529,6 +580,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(12)                           //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TripleExponentialMovingAverageFormulaInfo"/> class.
         /// </summary>
@@ -555,6 +607,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(3, 2, true)                                          //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BollingerBandsFormulaInfo"/> class.
         /// </summary>
@@ -621,7 +674,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
     }
 
-
     /// <summary>
     /// Envelopes FormulaInfo
     /// </summary>
@@ -635,6 +687,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(2, 10, true)                                          //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EnvelopesFormulaInfo"/> class.
         /// </summary>
@@ -650,7 +703,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
     }
 
-
     /// <summary>
     /// StandardDeviation FormulaInfo
     /// </summary>
@@ -664,6 +716,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(2, false)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="StandardDeviationFormulaInfo"/> class.
         /// </summary>
@@ -691,6 +744,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(3, 10, false)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ChaikinOscillatorFormulaInfo"/> class.
         /// </summary>
@@ -719,6 +773,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(2, false)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DetrendedPriceOscillatorFormulaInfo"/> class.
         /// </summary>
@@ -733,7 +788,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
     }
 
-
     /// <summary>
     /// VolatilityChaikins FormulaInfo
     /// </summary>
@@ -747,6 +801,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(10, 10)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VolatilityChaikinsFormulaInfo"/> class.
         /// </summary>
@@ -774,6 +829,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(5, 10, true)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VolumeOscillatorFormulaInfo"/> class.
         /// </summary>
@@ -802,6 +858,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(10, 10)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="StochasticIndicatorFormulaInfo"/> class.
         /// </summary>
@@ -829,6 +886,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(14)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WilliamsRFormulaInfo"/> class.
         /// </summary>
@@ -855,6 +913,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(14)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AverageTrueRangeFormulaInfo"/> class.
         /// </summary>
@@ -898,6 +957,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(25, 9)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MassIndexFormulaInfo"/> class.
         /// </summary>
@@ -942,6 +1002,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(10)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RateOfChangeFormulaInfo"/> class.
         /// </summary>
@@ -968,6 +1029,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(10)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RelativeStrengthIndexFormulaInfo"/> class.
         /// </summary>
@@ -994,6 +1056,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(12, 26)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MovingAverageConvergenceDivergenceFormulaInfo"/> class.
         /// </summary>
@@ -1021,6 +1084,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(10)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommodityChannelIndexFormulaInfo"/> class.
         /// </summary>
@@ -1040,7 +1104,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     internal class ForecastingFormulaInfo : FormulaInfo
     {
         //Fields
-        string _parameters;
+        private string _parameters;
 
         //Constructor
         /// <summary>
@@ -1050,6 +1114,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(TimeSeriesAndForecasting.RegressionType.Polynomial, 2, 0, true, true)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ForecastingFormulaInfo"/> class.
         /// </summary>
@@ -1131,6 +1196,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(2)                      //Defaults
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MoneyFlowFormulaInfo"/> class.
         /// </summary>
@@ -1191,6 +1257,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(double.NaN)
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NegativeVolumeIndexFormulaInfo"/> class.
         /// </summary>
@@ -1217,6 +1284,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             : this(double.NaN)
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PositiveVolumeIndexFormulaInfo"/> class.
         /// </summary>
@@ -1247,9 +1315,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
     }
 
-    #endregion
+    #endregion class FormulaInfo and inherited FormulaSpecific classes
 
     #region enum DataField
+
     /// <summary>
     /// Chart data fields
     /// </summary>
@@ -1275,29 +1344,35 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         Top,
         Bottom
     }
-    #endregion
+
+    #endregion enum DataField
 
     #region class SeriesFieldInfo
+
     /// <summary>
     /// SeriesFieldInfo class is a OO representation formula input/output data params ("Series1:Y2")
     /// </summary>
     internal class SeriesFieldInfo
     {
         #region Fields
-        private Series _series;
-        private string _seriesName;
-        private DataField _dataField;
-        #endregion
+
+        private readonly Series _series;
+        private readonly string _seriesName;
+        private readonly DataField _dataField;
+
+        #endregion Fields
 
         #region Properties
+
         /// <summary>
         /// Gets the series.
         /// </summary>
         /// <value>The series.</value>
-        public Series Series 
-        { 
+        public Series Series
+        {
             get { return _series; }
         }
+
         /// <summary>
         /// Gets the name of the series.
         /// </summary>
@@ -1306,17 +1381,20 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         {
             get { return _series != null ? _series.Name : _seriesName; }
         }
+
         /// <summary>
         /// Gets the data field.
         /// </summary>
         /// <value>The data field.</value>
-        public DataField DataField 
-        { 
+        public DataField DataField
+        {
             get { return _dataField; }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SeriesFieldInfo"/> class.
         /// </summary>
@@ -1327,6 +1405,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             _series = series;
             _dataField = dataField;
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SeriesFieldInfo"/> class.
         /// </summary>
@@ -1337,11 +1416,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             _seriesName = seriesName;
             _dataField = dataField;
         }
-        #endregion
+
+        #endregion Constructors
     }
-    #endregion
+
+    #endregion class SeriesFieldInfo
 
     #region class SeriesFieldList
+
     /// <summary>
     /// SeriesFieldInfo class is a OO representation formula input/output data params ("Series1:Y2,Series2.Y4")
     /// </summary>
@@ -1420,6 +1502,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                         case 1: //Only series name is specified: "Series1"
                             AddSeriesFieldInfo(result, series, unmappedFormulaFields);
                             break;
+
                         case 2: //Series and field names are provided: "Series1:Y3"
                             AddSeriesFieldInfo(result, series, unmappedFormulaFields, seriesFieldParts[1]);
                             break;
@@ -1432,6 +1515,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                         case 1: //Only series name is specified: "Series1"
                             AddSeriesFieldInfo(result, seriesName, unmappedFormulaFields);
                             break;
+
                         case 2: //Series and field names are provided: "Series1:Y3"
                             AddSeriesFieldInfo(result, seriesName, unmappedFormulaFields, seriesFieldParts[1]);
                             break;
@@ -1451,7 +1535,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         {
             List<DataField> seriesFields = new List<DataField>(FormulaHelper.GetDataFields(series.ChartType));
 
-            for (int i = 0; i < unmappedFormulaFields.Count && seriesFields.Count > 0; )
+            for (int i = 0; i < unmappedFormulaFields.Count && seriesFields.Count > 0;)
             {
                 DataField formulaField = unmappedFormulaFields[i];
                 DataField? seriesField = null;
@@ -1462,10 +1546,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                     seriesField = formulaField;
                 }
                 // Case 2. Try to map the formula field to the series field
-                if (seriesField == null)
-                {
-                    seriesField = FormulaHelper.MapFormulaDataField(series.ChartType, formulaField);
-                }
+                seriesField ??= FormulaHelper.MapFormulaDataField(series.ChartType, formulaField);
 
                 // If the seriesField is found - add it to the results
                 if (seriesField != null)
@@ -1480,6 +1561,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 }
             }
         }
+
         /// <summary>
         /// Adds the series field info.
         /// </summary>
@@ -1528,7 +1610,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             {
                 throw new ArgumentException(SR.ExceptionDataPointValueNameInvalid, seriesFieldId);
             }
-
         }
 
         /// <summary>
@@ -1542,7 +1623,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             SeriesChartType chartType = FormulaHelper.GetDefaultChartType(unmappedFormulaFields[0]);
             List<DataField> seriesFields = new List<DataField>(FormulaHelper.GetDataFields(chartType));
 
-            for (int i = 0; i < unmappedFormulaFields.Count && seriesFields.Count > 0; )
+            for (int i = 0; i < unmappedFormulaFields.Count && seriesFields.Count > 0;)
             {
                 DataField formulaField = unmappedFormulaFields[i];
                 DataField? seriesField = null;
@@ -1566,6 +1647,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 }
             }
         }
+
         /// <summary>
         /// Adds the series field info.
         /// </summary>
@@ -1621,7 +1703,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             }
         }
     }
-    #endregion
 
+    #endregion class SeriesFieldList
 }
-

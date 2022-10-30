@@ -1063,24 +1063,22 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					topCurve.Flatten();
 					topCurve.Reverse();
 
-                    using (GraphicsPath tmp = new GraphicsPath())
-                    {
-                        Graph.AddEllipseSegment(
-                            tmp,
-                            topCurve,
-                            null,
-                            true,
-                            0f,
-                            out leftSideLinePoint,
-                            out rightSideLinePoint);
+                    using GraphicsPath tmp = new GraphicsPath();
+                    Graph.AddEllipseSegment(
+                        tmp,
+                        topCurve,
+                        null,
+                        true,
+                        0f,
+                        out leftSideLinePoint,
+                        out rightSideLinePoint);
 
-                        tmp.Reverse();
-                        if (tmp.PointCount > 0)
-                        {
-                            segmentPath.AddPath(tmp, false);
-                        }
+                    tmp.Reverse();
+                    if (tmp.PointCount > 0)
+                    {
+                        segmentPath.AddPath(tmp, false);
                     }
-				}
+                }
 				else
 				{
 					segmentPath.AddLine(
@@ -1141,50 +1139,48 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						boundsRect.Height = 1f;
 					}
-					using( LinearGradientBrush brush = new LinearGradientBrush(
-							   boundsRect,
-							   lightColor, 
-							   darkColor,
-							   0f) )
-					{
-						// Set linear gradient brush interpolation colors
-						ColorBlend colorBlend = new ColorBlend(5);
-						colorBlend.Colors[0] = darkColor;
-						colorBlend.Colors[1] = darkColor;
-						colorBlend.Colors[2] = lightColor;
-						colorBlend.Colors[3] = darkColor;
-						colorBlend.Colors[4] = darkColor;
+                    using LinearGradientBrush brush = new LinearGradientBrush(
+                               boundsRect,
+                               lightColor,
+                               darkColor,
+                               0f);
+                    // Set linear gradient brush interpolation colors
+                    ColorBlend colorBlend = new ColorBlend(5);
+                    colorBlend.Colors[0] = darkColor;
+                    colorBlend.Colors[1] = darkColor;
+                    colorBlend.Colors[2] = lightColor;
+                    colorBlend.Colors[3] = darkColor;
+                    colorBlend.Colors[4] = darkColor;
 
-						colorBlend.Positions[0] = 0.0f;
-						colorBlend.Positions[1] = 0.0f;
-						colorBlend.Positions[2] = 0.5f;
-						colorBlend.Positions[3] = 1.0f;
-						colorBlend.Positions[4] = 1.0f;
+                    colorBlend.Positions[0] = 0.0f;
+                    colorBlend.Positions[1] = 0.0f;
+                    colorBlend.Positions[2] = 0.5f;
+                    colorBlend.Positions[3] = 1.0f;
+                    colorBlend.Positions[4] = 1.0f;
 
-						brush.InterpolationColors = colorBlend;
+                    brush.InterpolationColors = colorBlend;
 
-						// Fill path
-						this.Graph.Graphics.FillPath(brush, segmentPath);
+                    // Fill path
+                    this.Graph.Graphics.FillPath(brush, segmentPath);
 
-						// Draw path border
-						Pen pen = new Pen(point.BorderColor, point.BorderWidth);
-						pen.DashStyle = this.Graph.GetPenStyle( point.BorderDashStyle );
-						if(point.BorderWidth == 0 || 
-							point.BorderDashStyle == ChartDashStyle.NotSet || 
-							point.BorderColor == Color.Empty)
-						{
-							// Draw line of the darker color inside the cylinder
-							pen = new Pen(ChartGraphics.GetGradientColor( point.Color, Color.Black, 0.3 ), 1);
-							pen.Alignment = PenAlignment.Inset;
-						}
+                    // Draw path border
+                    Pen pen = new Pen(point.BorderColor, point.BorderWidth);
+                    pen.DashStyle = this.Graph.GetPenStyle(point.BorderDashStyle);
+                    if (point.BorderWidth == 0 ||
+                        point.BorderDashStyle == ChartDashStyle.NotSet ||
+                        point.BorderColor == Color.Empty)
+                    {
+                        // Draw line of the darker color inside the cylinder
+                        pen = new Pen(ChartGraphics.GetGradientColor(point.Color, Color.Black, 0.3), 1);
+                        pen.Alignment = PenAlignment.Inset;
+                    }
 
-						pen.StartCap = LineCap.Round;
-						pen.EndCap = LineCap.Round;
-						pen.LineJoin = LineJoin.Bevel;
-						this.Graph.DrawPath(pen, segmentPath );
-						pen.Dispose();
-					}
-				}
+                    pen.StartCap = LineCap.Round;
+                    pen.EndCap = LineCap.Round;
+                    pen.LineJoin = LineJoin.Bevel;
+                    this.Graph.DrawPath(pen, segmentPath);
+                    pen.Dispose();
+                }
 				else
 				{
 					// Fill graphics path
@@ -1533,39 +1529,37 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					labelBackPosition.Inflate(spacing.Width / 2f, spacing.Height / 8f);
 					labelBackPosition = this.Graph.GetRelativeRectangle(labelBackPosition);
 
-					// Center label in the middle of the background rectangle
-                    using (StringFormat format = new StringFormat())
+                    // Center label in the middle of the background rectangle
+                    using StringFormat format = new StringFormat();
+                    format.Alignment = StringAlignment.Center;
+                    format.LineAlignment = StringAlignment.Center;
+
+                    // Draw label text
+                    using (Brush brush = new SolidBrush(labelInfo.Point.LabelForeColor))
                     {
-                        format.Alignment = StringAlignment.Center;
-                        format.LineAlignment = StringAlignment.Center;
 
-                        // Draw label text
-                        using (Brush brush = new SolidBrush(labelInfo.Point.LabelForeColor))
-                        {
+                        this.Graph.DrawPointLabelStringRel(
+                            this.Common,
+                            labelInfo.Text,
+                            labelInfo.Point.Font,
+                            brush,
+                            labelBackPosition,
+                            format,
+                            labelInfo.Point.LabelAngle,
+                            labelBackPosition,
 
-                            this.Graph.DrawPointLabelStringRel(
-                                this.Common,
-                                labelInfo.Text,
-                                labelInfo.Point.Font,
-                                brush,
-                                labelBackPosition,
-                                format,
-                                labelInfo.Point.LabelAngle,
-                                labelBackPosition,
-
-                                labelInfo.Point.LabelBackColor,
-                                labelInfo.Point.LabelBorderColor,
-                                labelInfo.Point.LabelBorderWidth,
-                                labelInfo.Point.LabelBorderDashStyle,
-                                labelInfo.Point.series,
-                                labelInfo.Point,
-                                labelInfo.PointIndex);
-                        }
-
-                        // End Svg Selection mode
-                        this.Graph.EndHotRegion();
+                            labelInfo.Point.LabelBackColor,
+                            labelInfo.Point.LabelBorderColor,
+                            labelInfo.Point.LabelBorderWidth,
+                            labelInfo.Point.LabelBorderDashStyle,
+                            labelInfo.Point.series,
+                            labelInfo.Point,
+                            labelInfo.PointIndex);
                     }
-				}
+
+                    // End Svg Selection mode
+                    this.Graph.EndHotRegion();
+                }
 			}
 		}
 

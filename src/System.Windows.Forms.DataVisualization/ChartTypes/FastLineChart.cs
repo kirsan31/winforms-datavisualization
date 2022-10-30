@@ -598,49 +598,47 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             if (this.Common.ProcessModeRegions)
             {
                 // Create grapics path object for the line
-                using (GraphicsPath path = new GraphicsPath())
+                using GraphicsPath path = new GraphicsPath();
+                float width = pen.Width + 2;
+
+                if (Math.Abs(firstPointX - secondPointX) > Math.Abs(firstPointY - secondPointY))
                 {
-                    float width = pen.Width + 2;
+                    path.AddLine(firstPointX, firstPointY - width, secondPointX, secondPointY - width);
+                    path.AddLine(secondPointX, secondPointY + width, firstPointX, firstPointY + width);
+                    path.CloseAllFigures();
+                }
+                else
+                {
+                    path.AddLine(firstPointX - width, firstPointY, secondPointX - width, secondPointY);
+                    path.AddLine(secondPointX + width, secondPointY, firstPointX + width, firstPointY);
+                    path.CloseAllFigures();
+                }
 
-                    if (Math.Abs(firstPointX - secondPointX) > Math.Abs(firstPointY - secondPointY))
-                    {
-                        path.AddLine(firstPointX, firstPointY - width, secondPointX, secondPointY - width);
-                        path.AddLine(secondPointX, secondPointY + width, firstPointX, firstPointY + width);
-                        path.CloseAllFigures();
-                    }
-                    else
-                    {
-                        path.AddLine(firstPointX - width, firstPointY, secondPointX - width, secondPointY);
-                        path.AddLine(secondPointX + width, secondPointY, firstPointX + width, firstPointY);
-                        path.CloseAllFigures();
-                    }
+                // Calculate bounding rectangle
+                RectangleF pathBounds = path.GetBounds();
 
-                    // Calculate bounding rectangle
-                    RectangleF pathBounds = path.GetBounds();
-
-                    // If one side of the bounding rectangle is less than 2 pixels
-                    // use rectangle region shape to optimize used coordinates space
-                    if (pathBounds.Width <= 2.0 || pathBounds.Height <= 2.0)
-                    {
-                        // Add hot region path as rectangle
-                        pathBounds.Inflate(pen.Width, pen.Width);
-                        this.Common.HotRegionsList.AddHotRegion(
-                            Graph.GetRelativeRectangle(pathBounds),
-                            point,
-                            point.series.Name,
-                            pointIndex);
-                    }
-                    else
-                    {
-                        // Add hot region path as polygon
-                        this.Common.HotRegionsList.AddHotRegion(
-                            path,
-                            false,
-                            Graph,
-                            point,
-                            point.series.Name,
-                            pointIndex);
-                    }
+                // If one side of the bounding rectangle is less than 2 pixels
+                // use rectangle region shape to optimize used coordinates space
+                if (pathBounds.Width <= 2.0 || pathBounds.Height <= 2.0)
+                {
+                    // Add hot region path as rectangle
+                    pathBounds.Inflate(pen.Width, pen.Width);
+                    this.Common.HotRegionsList.AddHotRegion(
+                        Graph.GetRelativeRectangle(pathBounds),
+                        point,
+                        point.series.Name,
+                        pointIndex);
+                }
+                else
+                {
+                    // Add hot region path as polygon
+                    this.Common.HotRegionsList.AddHotRegion(
+                        path,
+                        false,
+                        Graph,
+                        point,
+                        point.series.Name,
+                        pointIndex);
                 }
             }
         }

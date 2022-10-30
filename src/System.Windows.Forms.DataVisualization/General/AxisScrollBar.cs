@@ -794,11 +794,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						points[2].Y = buttonAbsRect.Bottom - imageOffset;
 					}
 
-                    using (Brush brush = new SolidBrush(this._lineCurrentColor))
-                    {
+                        using Brush brush = new SolidBrush(this._lineCurrentColor);
                         graph.FillPolygon(brush, points);
-                    }
-					break;
+                        break;
 				}
 				case ScrollBarButtonType.SmallIncrement:
 				{
@@ -823,21 +821,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						points[2].Y = buttonAbsRect.Bottom - imageOffset;
 					}
 
-                    using (Brush brush = new SolidBrush(this._lineCurrentColor))
-                    {
+                        using Brush brush = new SolidBrush(this._lineCurrentColor);
                         graph.FillPolygon(brush, points);
-                    }
-					break;
+                        break;
 				}
 				case ScrollBarButtonType.ZoomReset:
-				{						
-					// Draw circule with a minus sign
-                    using (Pen pen = new Pen(this._lineCurrentColor, 1))
-                    {
+				{
+                        // Draw circule with a minus sign
+                        using Pen pen = new Pen(this._lineCurrentColor, 1);
                         graph.DrawEllipse(pen, buttonAbsRect.X + imageOffset - 0.5f, buttonAbsRect.Y + imageOffset - 0.5f, buttonAbsRect.Width - 2f * imageOffset, buttonAbsRect.Height - 2f * imageOffset);
                         graph.DrawLine(pen, buttonAbsRect.X + imageOffset + 1.5f, buttonAbsRect.Y + buttonAbsRect.Height / 2f - 0.5f, buttonAbsRect.Right - imageOffset - 2.5f, buttonAbsRect.Y + buttonAbsRect.Height / 2f - 0.5f);
-                    }
-					break;
+                        break;
 				}
 			}
 

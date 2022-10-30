@@ -1161,8 +1161,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				xValue += GetIntervalSize(xValue, intervalOffset, intervalOffsetType);
 				if(intervalOffset < 0)
 				{
-					xValue = xValue + GetIntervalSize(xValue, interval, type);
-					xEndValue = xEndValue + GetIntervalSize(xEndValue, interval, type);
+					xValue += GetIntervalSize(xValue, interval, type);
+					xEndValue += GetIntervalSize(xEndValue, interval, type);
 				}
 
 				// The first point in the series

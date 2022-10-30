@@ -837,104 +837,102 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			{
 				int width = pointBorderWidth + 2;
 
-				// Create grapics path object dor the curve
-                using (GraphicsPath path = new GraphicsPath())
-                {
+                // Create grapics path object dor the curve
+                using GraphicsPath path = new GraphicsPath();
 
-                    // If line tension is zero - it's a straight line
-                    if (this.lineTension == 0)
+                // If line tension is zero - it's a straight line
+                if (this.lineTension == 0)
+                {
+                    // Add half line segment prior to the data point
+                    if (pointIndex > 0)
                     {
-                        // Add half line segment prior to the data point
+                        PointF first = points[pointIndex - 1];
+                        PointF second = points[pointIndex];
+                        first.X = (first.X + second.X) / 2f;
+                        first.Y = (first.Y + second.Y) / 2f;
+
+                        if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
+                        {
+                            path.AddLine(first.X, first.Y - width, second.X, second.Y - width);
+                            path.AddLine(second.X, second.Y + width, first.X, first.Y + width);
+                            path.CloseAllFigures();
+                        }
+                        else
+                        {
+                            path.AddLine(first.X - width, first.Y, second.X - width, second.Y);
+                            path.AddLine(second.X + width, second.Y, first.X + width, first.Y);
+                            path.CloseAllFigures();
+
+                        }
+                    }
+
+                    // Add half line segment after the data point
+                    if (pointIndex + 1 < points.Length)
+                    {
+                        PointF first = points[pointIndex];
+                        PointF second = points[pointIndex + 1];
+                        second.X = (first.X + second.X) / 2f;
+                        second.Y = (first.Y + second.Y) / 2f;
+
+                        // Set a marker in the path to separate from the first line segment
                         if (pointIndex > 0)
                         {
-                            PointF first = points[pointIndex - 1];
-                            PointF second = points[pointIndex];
-                            first.X = (first.X + second.X) / 2f;
-                            first.Y = (first.Y + second.Y) / 2f;
-
-                            if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
-                            {
-                                path.AddLine(first.X, first.Y - width, second.X, second.Y - width);
-                                path.AddLine(second.X, second.Y + width, first.X, first.Y + width);
-                                path.CloseAllFigures();
-                            }
-                            else
-                            {
-                                path.AddLine(first.X - width, first.Y, second.X - width, second.Y);
-                                path.AddLine(second.X + width, second.Y, first.X + width, first.Y);
-                                path.CloseAllFigures();
-
-                            }
+                            path.SetMarkers();
                         }
 
-                        // Add half line segment after the data point
-                        if (pointIndex + 1 < points.Length)
+                        if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
                         {
-                            PointF first = points[pointIndex];
-                            PointF second = points[pointIndex + 1];
-                            second.X = (first.X + second.X) / 2f;
-                            second.Y = (first.Y + second.Y) / 2f;
-
-                            // Set a marker in the path to separate from the first line segment
-                            if (pointIndex > 0)
-                            {
-                                path.SetMarkers();
-                            }
-
-                            if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
-                            {
-                                path.AddLine(first.X, first.Y - width, second.X, second.Y - width);
-                                path.AddLine(second.X, second.Y + width, first.X, first.Y + width);
-                                path.CloseAllFigures();
-                            }
-                            else
-                            {
-                                path.AddLine(first.X - width, first.Y, second.X - width, second.Y);
-                                path.AddLine(second.X + width, second.Y, first.X + width, first.Y);
-                                path.CloseAllFigures();
-                            }
+                            path.AddLine(first.X, first.Y - width, second.X, second.Y - width);
+                            path.AddLine(second.X, second.Y + width, first.X, first.Y + width);
+                            path.CloseAllFigures();
                         }
-
-                    }
-                    else if (pointIndex > 0)
-                    {
-                        try
+                        else
                         {
-                            path.AddCurve(points, pointIndex - 1, 1, this.lineTension);
-							using var pen = new Pen(point.Color, pointBorderWidth + 2);
-							path.Widen(pen);
-                            path.Flatten();
-                        }
-                        catch (OutOfMemoryException)
-                        {
-                            // GraphicsPath.Widen incorrectly throws OutOfMemoryException
-                            // catching here and reacting by not widening
-                        }
-                        catch (ArgumentException)
-                        {
+                            path.AddLine(first.X - width, first.Y, second.X - width, second.Y);
+                            path.AddLine(second.X + width, second.Y, first.X + width, first.Y);
+                            path.CloseAllFigures();
                         }
                     }
 
-                    // Path is empty
-                    if (path.PointCount == 0)
-                    {
-                        return;
-                    }
-
-                    // Allocate array of floats
-                    PointF pointNew = PointF.Empty;
-                    float[] coord = new float[path.PointCount * 2];
-                    PointF[] pathPoints = path.PathPoints;
-                    for (int i = 0; i < path.PointCount; i++)
-                    {
-                        pointNew = graph.GetRelativePoint(pathPoints[i]);
-                        coord[2 * i] = pointNew.X;
-                        coord[2 * i + 1] = pointNew.Y;
-                    }
-
-                    common.HotRegionsList.AddHotRegion(path, false, coord, point, series.Name, pointIndex);
                 }
-			}
+                else if (pointIndex > 0)
+                {
+                    try
+                    {
+                        path.AddCurve(points, pointIndex - 1, 1, this.lineTension);
+                        using var pen = new Pen(point.Color, pointBorderWidth + 2);
+                        path.Widen(pen);
+                        path.Flatten();
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        // GraphicsPath.Widen incorrectly throws OutOfMemoryException
+                        // catching here and reacting by not widening
+                    }
+                    catch (ArgumentException)
+                    {
+                    }
+                }
+
+                // Path is empty
+                if (path.PointCount == 0)
+                {
+                    return;
+                }
+
+                // Allocate array of floats
+                PointF pointNew = PointF.Empty;
+                float[] coord = new float[path.PointCount * 2];
+                PointF[] pathPoints = path.PathPoints;
+                for (int i = 0; i < path.PointCount; i++)
+                {
+                    pointNew = graph.GetRelativePoint(pathPoints[i]);
+                    coord[2 * i] = pointNew.X;
+                    coord[2 * i + 1] = pointNew.Y;
+                }
+
+                common.HotRegionsList.AddHotRegion(path, false, coord, point, series.Name, pointIndex);
+            }
 		}
 
 

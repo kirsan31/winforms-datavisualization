@@ -1169,100 +1169,98 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 				}
 			}
-		
-		
-			//************************************************************
-			//** Draw LabelStyle
-			//************************************************************
 
-			// Label text format
-            using (StringFormat format = new StringFormat())
+
+            //************************************************************
+            //** Draw LabelStyle
+            //************************************************************
+
+            // Label text format
+            using StringFormat format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            format.LineAlignment = StringAlignment.Center;
+
+            // Disable the clip region
+            Region oldClipRegion = graph.Clip;
+            graph.Clip = new Region();
+
+            if (point.IsValueShownAsLabel || point.Label.Length > 0)
             {
-                format.Alignment = StringAlignment.Center;
-                format.LineAlignment = StringAlignment.Center;
-
-                // Disable the clip region
-                Region oldClipRegion = graph.Clip;
-                graph.Clip = new Region();
-
-                if (point.IsValueShownAsLabel || point.Label.Length > 0)
+                // Get label text
+                string text;
+                if (point.Label.Length == 0)
                 {
-                    // Get label text
-                    string text;
-                    if (point.Label.Length == 0)
-                    {
-                        // Round Y values for 100% stacked area
-                        double pointLabelValue = GetYValue(common, area, series, point, pointIndex, 0);
+                    // Round Y values for 100% stacked area
+                    double pointLabelValue = GetYValue(common, area, series, point, pointIndex, 0);
 
-                        text = ValueConverter.FormatValue(
-                            series.Chart,
-                            point,
-                            point.Tag,
-                            pointLabelValue,
-                            point.LabelFormat,
-                            series.YValueType,
-                            ChartElementType.DataPoint);
-                    }
-                    else
-                    {
-                        text = point.ReplaceKeywords(point.Label);
-                    }
-
-                    // Calculate label position
-                    PointF labelPosition = PointF.Empty;
-                    labelPosition.X = intersection.X + intersection.Width / 2f;
-                    labelPosition.Y = intersection.Y + intersection.Height / 2f;
-
-                    // Start Svg Selection mode
-                    graph.StartHotRegion(point, true);
-
-					// Get string size
-					using var sf = StringFormat.GenericTypographic;
-					SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
-
-                    // Get label background position
-                    RectangleF labelBackPosition = RectangleF.Empty;
-                    SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-                    sizeLabel.Width += sizeLabel.Width / text.Length;
-                    sizeLabel.Height += sizeFont.Height / 8;
-                    labelBackPosition = GetLabelPosition(
-                        graph,
-                        labelPosition,
-                        sizeLabel,
-                        format,
-                        true);
-
-                    // Draw label text
-                    using (Brush brush = new SolidBrush(point.LabelForeColor))
-                    {
-                        graph.DrawPointLabelStringRel(
-                            common,
-                            text,
-                            point.Font,
-                            brush,
-                            labelPosition,
-                            format,
-                            point.LabelAngle,
-                            labelBackPosition,
-                            point.LabelBackColor,
-                            point.LabelBorderColor,
-                            point.LabelBorderWidth,
-                            point.LabelBorderDashStyle,
-                            series,
-                            point,
-                            pointIndex - 1);
-                    }
-
-                    // End Svg Selection mode
-                    graph.EndHotRegion();
+                    text = ValueConverter.FormatValue(
+                        series.Chart,
+                        point,
+                        point.Tag,
+                        pointLabelValue,
+                        point.LabelFormat,
+                        series.YValueType,
+                        ChartElementType.DataPoint);
+                }
+                else
+                {
+                    text = point.ReplaceKeywords(point.Label);
                 }
 
-				// Restore old clip region
-				var clip = graph.Clip;
-				graph.Clip = oldClipRegion;
-				clip.Dispose();
+                // Calculate label position
+                PointF labelPosition = PointF.Empty;
+                labelPosition.X = intersection.X + intersection.Width / 2f;
+                labelPosition.Y = intersection.Y + intersection.Height / 2f;
+
+                // Start Svg Selection mode
+                graph.StartHotRegion(point, true);
+
+                // Get string size
+                using var sf = StringFormat.GenericTypographic;
+                SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
+
+                // Get label background position
+                RectangleF labelBackPosition = RectangleF.Empty;
+                SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
+                sizeLabel.Width += sizeLabel.Width / text.Length;
+                sizeLabel.Height += sizeFont.Height / 8;
+                labelBackPosition = GetLabelPosition(
+                    graph,
+                    labelPosition,
+                    sizeLabel,
+                    format,
+                    true);
+
+                // Draw label text
+                using (Brush brush = new SolidBrush(point.LabelForeColor))
+                {
+                    graph.DrawPointLabelStringRel(
+                        common,
+                        text,
+                        point.Font,
+                        brush,
+                        labelPosition,
+                        format,
+                        point.LabelAngle,
+                        labelBackPosition,
+                        point.LabelBackColor,
+                        point.LabelBorderColor,
+                        point.LabelBorderWidth,
+                        point.LabelBorderDashStyle,
+                        series,
+                        point,
+                        pointIndex - 1);
+                }
+
+                // End Svg Selection mode
+                graph.EndHotRegion();
             }
-		}
+
+            // Restore old clip region
+            var clip = graph.Clip;
+            graph.Clip = oldClipRegion;
+            clip.Dispose();
+        }
 
 		/// <summary>
 		/// Draws\Hit tests single 3D point.
@@ -1292,102 +1290,100 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name,this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
 			}
 
-			// Label text format
-            using (StringFormat format = new StringFormat())
+            // Label text format
+            using StringFormat format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            format.LineAlignment = StringAlignment.Center;
+
+            // Disable the clip region
+            Region oldClipRegion = graph.Clip;
+            graph.Clip = new Region();
+
+            if (point.IsValueShownAsLabel || point.Label.Length > 0)
             {
-                format.Alignment = StringAlignment.Center;
-                format.LineAlignment = StringAlignment.Center;
-
-                // Disable the clip region
-                Region oldClipRegion = graph.Clip;
-                graph.Clip = new Region();
-
-                if (point.IsValueShownAsLabel || point.Label.Length > 0)
+                // Get label text
+                string text;
+                if (point.Label.Length == 0)
                 {
-                    // Get label text
-                    string text;
-                    if (point.Label.Length == 0)
-                    {
-                        // Get Y value
-                        double pointLabelValue = GetYValue(common, area, pointEx.dataPoint.series, point, pointEx.index - 1, 0);
-                        text = ValueConverter.FormatValue(
-                            pointEx.dataPoint.series.Chart,
-                            point,
-                            point.Tag,
-                            pointLabelValue,
-                            point.LabelFormat,
-                            pointEx.dataPoint.series.YValueType,
-                            ChartElementType.DataPoint);
-                    }
-                    else
-                    {
-                        text = point.ReplaceKeywords(point.Label);
+                    // Get Y value
+                    double pointLabelValue = GetYValue(common, area, pointEx.dataPoint.series, point, pointEx.index - 1, 0);
+                    text = ValueConverter.FormatValue(
+                        pointEx.dataPoint.series.Chart,
+                        point,
+                        point.Tag,
+                        pointLabelValue,
+                        point.LabelFormat,
+                        pointEx.dataPoint.series.YValueType,
+                        ChartElementType.DataPoint);
+                }
+                else
+                {
+                    text = point.ReplaceKeywords(point.Label);
 
-                    }
-
-                    // Calculate label position
-                    PointF labelPosition = PointF.Empty;
-                    labelPosition.X = columnPosition.X + columnPosition.Width / 2f;
-                    labelPosition.Y = columnPosition.Y + columnPosition.Height / 2f;
-
-                    // Transform coordinates
-                    Point3D[] marker3DPosition = new Point3D[1];
-                    marker3DPosition[0] = new Point3D(labelPosition.X, labelPosition.Y, (float)(pointEx.zPosition + pointEx.depth));
-                    area.matrix3D.TransformPoints(marker3DPosition);
-
-                    labelPosition.X = marker3DPosition[0].X;
-                    labelPosition.Y = marker3DPosition[0].Y;
-
-                    // Start Svg Selection mode
-                    graph.StartHotRegion(point, true);
-
-					// Get string size
-					using var sf = StringFormat.GenericTypographic;
-					SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
-
-                    // Get label background position
-                    RectangleF labelBackPosition = RectangleF.Empty;
-                    SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-                    sizeLabel.Width += sizeLabel.Width / text.Length;
-                    sizeLabel.Height += sizeFont.Height / 8;
-                    labelBackPosition = GetLabelPosition(
-                        graph,
-                        labelPosition,
-                        sizeLabel,
-                        format,
-                        true);
-
-                    // Draw label text
-                    using (Brush brush = new SolidBrush(point.LabelForeColor))
-                    {
-                        graph.DrawPointLabelStringRel(
-                            common,
-                            text,
-                            point.Font,
-                            brush,
-                            labelPosition,
-                            format,
-                            point.LabelAngle,
-                            labelBackPosition,
-                            point.LabelBackColor,
-                            point.LabelBorderColor,
-                            point.LabelBorderWidth,
-                            point.LabelBorderDashStyle,
-                            point.series,
-                            point,
-                            pointIndex);
-                    }
-
-                    // End Svg Selection mode
-                    graph.EndHotRegion();
                 }
 
-				// Restore old clip region
-				var clip = graph.Clip;
-				graph.Clip = oldClipRegion;
-				clip?.Dispose();
-			}
-		}
+                // Calculate label position
+                PointF labelPosition = PointF.Empty;
+                labelPosition.X = columnPosition.X + columnPosition.Width / 2f;
+                labelPosition.Y = columnPosition.Y + columnPosition.Height / 2f;
+
+                // Transform coordinates
+                Point3D[] marker3DPosition = new Point3D[1];
+                marker3DPosition[0] = new Point3D(labelPosition.X, labelPosition.Y, (float)(pointEx.zPosition + pointEx.depth));
+                area.matrix3D.TransformPoints(marker3DPosition);
+
+                labelPosition.X = marker3DPosition[0].X;
+                labelPosition.Y = marker3DPosition[0].Y;
+
+                // Start Svg Selection mode
+                graph.StartHotRegion(point, true);
+
+                // Get string size
+                using var sf = StringFormat.GenericTypographic;
+                SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
+
+                // Get label background position
+                RectangleF labelBackPosition = RectangleF.Empty;
+                SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
+                sizeLabel.Width += sizeLabel.Width / text.Length;
+                sizeLabel.Height += sizeFont.Height / 8;
+                labelBackPosition = GetLabelPosition(
+                    graph,
+                    labelPosition,
+                    sizeLabel,
+                    format,
+                    true);
+
+                // Draw label text
+                using (Brush brush = new SolidBrush(point.LabelForeColor))
+                {
+                    graph.DrawPointLabelStringRel(
+                        common,
+                        text,
+                        point.Font,
+                        brush,
+                        labelPosition,
+                        format,
+                        point.LabelAngle,
+                        labelBackPosition,
+                        point.LabelBackColor,
+                        point.LabelBorderColor,
+                        point.LabelBorderWidth,
+                        point.LabelBorderDashStyle,
+                        point.series,
+                        point,
+                        pointIndex);
+                }
+
+                // End Svg Selection mode
+                graph.EndHotRegion();
+            }
+
+            // Restore old clip region
+            var clip = graph.Clip;
+            graph.Clip = oldClipRegion;
+            clip?.Dispose();
+        }
 
 		#endregion
 	}

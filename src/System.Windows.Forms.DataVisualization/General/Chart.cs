@@ -140,51 +140,42 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 throw new ArgumentNullException(nameof(imageStream));
 
             // Create temporary Graphics object for metafile
-            using (Bitmap bitmap = new Bitmap(this.Width, this.Height))
+            using Bitmap bitmap = new Bitmap(this.Width, this.Height);
+            using Graphics newGraphics = Graphics.FromImage(bitmap);
+            IntPtr hdc = IntPtr.Zero;
+            try
             {
-                using (Graphics newGraphics = Graphics.FromImage(bitmap))
+                hdc = newGraphics.GetHdc();
+
+                // Create metafile object to record.
+                using Metafile metaFile = new Metafile(
+                    imageStream,
+                    hdc,
+                    new Rectangle(0, 0, this.Width, this.Height),
+                    MetafileFrameUnit.Pixel,
+                    emfType);
+
+                // Create graphics object to record metaFile.
+                using Graphics metaGraphics = Graphics.FromImage(metaFile);
+
+                // Note: Fix for issue #3674. Some 3D borders shadows may be drawn outside 
+                // of image boundaries. This causes issues when generated EMF file 
+                // is placed in IE. Image looks shifted down and hot areas do not align.
+                if (this.BorderSkin.SkinStyle != BorderSkinStyle.None)
                 {
-                    IntPtr hdc = IntPtr.Zero;
-                    try
-                    {
-                        hdc = newGraphics.GetHdc();
+                    metaGraphics.Clip = new Region(new Rectangle(0, 0, this.Width, this.Height));
+                }
 
-                        // Create metafile object to record.
-                        using (Metafile metaFile = new Metafile(
-                            imageStream,
-                            hdc,
-                            new Rectangle(0, 0, this.Width, this.Height),
-                            MetafileFrameUnit.Pixel,
-                            emfType))
-                        {
-
-                            // Create graphics object to record metaFile.
-                            using (Graphics metaGraphics = Graphics.FromImage(metaFile))
-                            {
-
-                                // Note: Fix for issue #3674. Some 3D borders shadows may be drawn outside 
-                                // of image boundaries. This causes issues when generated EMF file 
-                                // is placed in IE. Image looks shifted down and hot areas do not align.
-                                if (this.BorderSkin.SkinStyle != BorderSkinStyle.None)
-                                {
-                                    metaGraphics.Clip = new Region(new Rectangle(0, 0, this.Width, this.Height));
-                                }
-
-                                // Draw chart in the metafile
-                                this.ChartGraph.IsMetafile = true;
-                                this.Paint(metaGraphics, false);
-                                this.ChartGraph.IsMetafile = false;
-
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        if (hdc != IntPtr.Zero)
-                        {
-                            newGraphics.ReleaseHdc(hdc);
-                        }
-                    }
+                // Draw chart in the metafile
+                this.ChartGraph.IsMetafile = true;
+                this.Paint(metaGraphics, false);
+                this.ChartGraph.IsMetafile = false;
+            }
+            finally
+            {
+                if (hdc != IntPtr.Zero)
+                {
+                    newGraphics.ReleaseHdc(hdc);
                 }
             }
         }

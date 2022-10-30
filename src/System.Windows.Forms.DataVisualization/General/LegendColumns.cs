@@ -1751,59 +1751,57 @@ namespace System.Windows.Forms.DataVisualization.Charting
             using (SolidBrush fontBrush = new SolidBrush(this.GetCellForeColor()))
             {
                 // Create cell text format
-                using (StringFormat format = StringFormat.GenericDefault)
+                using StringFormat format = StringFormat.GenericDefault;
+                format.FormatFlags = StringFormatFlags.LineLimit;
+                format.Trimming = StringTrimming.EllipsisCharacter;
+                format.Alignment = StringAlignment.Center;
+                if (this.Alignment == ContentAlignment.BottomLeft ||
+                    this.Alignment == ContentAlignment.MiddleLeft ||
+                    this.Alignment == ContentAlignment.TopLeft)
                 {
-                    format.FormatFlags = StringFormatFlags.LineLimit;
-                    format.Trimming = StringTrimming.EllipsisCharacter;
-                    format.Alignment = StringAlignment.Center;
-                    if (this.Alignment == ContentAlignment.BottomLeft ||
-                        this.Alignment == ContentAlignment.MiddleLeft ||
-                        this.Alignment == ContentAlignment.TopLeft)
-                    {
-                        format.Alignment = StringAlignment.Near;
-                    }
-                    else if (this.Alignment == ContentAlignment.BottomRight ||
-                        this.Alignment == ContentAlignment.MiddleRight ||
-                        this.Alignment == ContentAlignment.TopRight)
-                    {
-                        format.Alignment = StringAlignment.Far;
-                    }
-                    format.LineAlignment = StringAlignment.Center;
-                    if (this.Alignment == ContentAlignment.BottomCenter ||
-                        this.Alignment == ContentAlignment.BottomLeft ||
-                        this.Alignment == ContentAlignment.BottomRight)
-                    {
-                        format.LineAlignment = StringAlignment.Far;
-                    }
-                    else if (this.Alignment == ContentAlignment.TopCenter ||
-                        this.Alignment == ContentAlignment.TopLeft ||
-                        this.Alignment == ContentAlignment.TopRight)
-                    {
-                        format.LineAlignment = StringAlignment.Near;
-                    }
-
-                    // Measure string height out of one character
-                    SizeF charSize = chartGraph.MeasureStringAbs(this.GetCellText(), cellFont, new SizeF(10000f, 10000f), format);
-
-                    // If height of one characte is more than rectangle heigjt - remove LineLimit flag
-                    if (charSize.Height > this.cellPosition.Height && (format.FormatFlags & StringFormatFlags.LineLimit) != 0)
-                    {
-                        format.FormatFlags ^= StringFormatFlags.LineLimit;
-                    }
-
-                    else if (charSize.Height < this.cellPosition.Height && (format.FormatFlags & StringFormatFlags.LineLimit) == 0)
-                    {
-                        format.FormatFlags |= StringFormatFlags.LineLimit;
-                    }
-
-                    // Draw text
-                    chartGraph.DrawStringRel(
-                        this.GetCellText(),
-                        cellFont,
-                        fontBrush,
-                        chartGraph.GetRelativeRectangle(this.cellPosition),
-                        format);
+                    format.Alignment = StringAlignment.Near;
                 }
+                else if (this.Alignment == ContentAlignment.BottomRight ||
+                    this.Alignment == ContentAlignment.MiddleRight ||
+                    this.Alignment == ContentAlignment.TopRight)
+                {
+                    format.Alignment = StringAlignment.Far;
+                }
+                format.LineAlignment = StringAlignment.Center;
+                if (this.Alignment == ContentAlignment.BottomCenter ||
+                    this.Alignment == ContentAlignment.BottomLeft ||
+                    this.Alignment == ContentAlignment.BottomRight)
+                {
+                    format.LineAlignment = StringAlignment.Far;
+                }
+                else if (this.Alignment == ContentAlignment.TopCenter ||
+                    this.Alignment == ContentAlignment.TopLeft ||
+                    this.Alignment == ContentAlignment.TopRight)
+                {
+                    format.LineAlignment = StringAlignment.Near;
+                }
+
+                // Measure string height out of one character
+                SizeF charSize = chartGraph.MeasureStringAbs(this.GetCellText(), cellFont, new SizeF(10000f, 10000f), format);
+
+                // If height of one characte is more than rectangle heigjt - remove LineLimit flag
+                if (charSize.Height > this.cellPosition.Height && (format.FormatFlags & StringFormatFlags.LineLimit) != 0)
+                {
+                    format.FormatFlags ^= StringFormatFlags.LineLimit;
+                }
+
+                else if (charSize.Height < this.cellPosition.Height && (format.FormatFlags & StringFormatFlags.LineLimit) == 0)
+                {
+                    format.FormatFlags |= StringFormatFlags.LineLimit;
+                }
+
+                // Draw text
+                chartGraph.DrawStringRel(
+                    this.GetCellText(),
+                    cellFont,
+                    fontBrush,
+                    chartGraph.GetRelativeRectangle(this.cellPosition),
+                    format);
             }
 
             // End Svg Selection mode
