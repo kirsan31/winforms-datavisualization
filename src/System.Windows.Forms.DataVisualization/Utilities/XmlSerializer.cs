@@ -897,8 +897,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             bool serializable = true;
             if (_serializableContent.Length > 0 || _nonSerializableContent.Length > 0)
             {
-                // 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
                 string ownerClassName = GetObjectName(parent);
+
+                // For serialzableClassFitType and serialzablePropertyFitType
+                //  0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
 
                 // Check if property in this class is part of the serializable content
                 serializable = IsPropertyInList(GetSerializableContentList(), ownerClassName, propertyName, out int serialzableClassFitType, out int serialzablePropertyFitType);
@@ -906,7 +908,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 // Check if property in this class is part of the NON serializable content
                 if (serializable)
                 {
-                    // 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
+
+                    // For nonSerialzableClassFitType and nonSerialzablePropertyFitType
+                    //  0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
                     bool nonSerializable = IsPropertyInList(GetNonSerializableContentList(), ownerClassName, propertyName, out int nonSerialzableClassFitType, out int nonSerialzablePropertyFitType);
 
                     // If property was found in non serializable content list - check the type priority
