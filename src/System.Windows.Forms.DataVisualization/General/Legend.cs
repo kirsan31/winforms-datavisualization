@@ -1714,7 +1714,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     Size cellSize = legendCell.MeasureCell(
                         graph,
                         fontSizeReducedBy,
-this.autofitFont ?? this.Font,
+                        this.autofitFont ?? this.Font,
                         this.singleWCharacterSize);
 
                     // Check for column maximum/minimum cell width restrictions
