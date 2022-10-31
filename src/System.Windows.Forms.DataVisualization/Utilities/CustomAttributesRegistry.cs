@@ -404,7 +404,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			{
 				return this;
 			}
-            throw (new ArgumentException(SR.ExceptionCustomAttributesRegistryUnsupportedType( serviceType.ToString()) ));
+            throw new ArgumentException(SR.ExceptionCustomAttributesRegistryUnsupportedType( serviceType.ToString()) );
 		}
 
 		#endregion
@@ -419,32 +419,30 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// </summary>
 		private void RegisterProperties()
 		{
-			SeriesChartType[] chartTypes = null;
-			CustomPropertyInfo attrInfo = null;
 
             //***********************************************************************
-			//** DrawSideBySide properties
-			//***********************************************************************
-			chartTypes = new SeriesChartType[] { 
-													SeriesChartType.Bar,
-													SeriesChartType.Column,
+            //** DrawSideBySide properties
+            //***********************************************************************
+            SeriesChartType[] chartTypes = new SeriesChartType[] {
+                                                    SeriesChartType.Bar,
+                                                    SeriesChartType.Column,
 
-													SeriesChartType.RangeColumn,
-													SeriesChartType.BoxPlot,
-													SeriesChartType.RangeBar,
-													SeriesChartType.ErrorBar,
+                                                    SeriesChartType.RangeColumn,
+                                                    SeriesChartType.BoxPlot,
+                                                    SeriesChartType.RangeBar,
+                                                    SeriesChartType.ErrorBar,
 
-											   };
-			// "DrawSideBySide" attribute 
-			attrInfo = new CustomPropertyInfo(
-				CustomPropertyName.DrawSideBySide,
-				typeof(AxisEnabled),
-				"Auto",
+                                               };
+            // "DrawSideBySide" attribute 
+            CustomPropertyInfo attrInfo = new CustomPropertyInfo(
+                CustomPropertyName.DrawSideBySide,
+                typeof(AxisEnabled),
+                "Auto",
                 SR.DescriptionCustomAttributeDrawSideBySide,
-				chartTypes,
-				true,
-				false);
-			registeredCustomProperties.Add( attrInfo );
+                chartTypes,
+                true,
+                false);
+            registeredCustomProperties.Add( attrInfo );
 
             //***********************************************************************
             //** IsXAxisQuantitative properties

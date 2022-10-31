@@ -906,7 +906,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNegative));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNegative);
                 }
                 _borderWidth = value;
                 Invalidate();
@@ -1072,11 +1072,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Adjust Y angle
                     if (this.Area3DStyle.Rotation > 90)
                     {
-                        this.Area3DStyle.Rotation = (this.Area3DStyle.Rotation - 90) - 90;
+                        this.Area3DStyle.Rotation = this.Area3DStyle.Rotation - 90 - 90;
                     }
                     else if (this.Area3DStyle.Rotation < -90)
                     {
-                        this.Area3DStyle.Rotation = (this.Area3DStyle.Rotation + 90) + 90;
+                        this.Area3DStyle.Rotation = this.Area3DStyle.Rotation + 90 + 90;
                     }
                 }
             }
@@ -1317,10 +1317,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             RectangleF plottingRect = Position.ToRectangleF();
             if (!InnerPlotPosition.Auto)
             {
-                plottingRect.X += (Position.Width / 100F) * InnerPlotPosition.X;
-                plottingRect.Y += (Position.Height / 100F) * InnerPlotPosition.Y;
-                plottingRect.Width = (Position.Width / 100F) * InnerPlotPosition.Width;
-                plottingRect.Height = (Position.Height / 100F) * InnerPlotPosition.Height;
+                plottingRect.X += Position.Width / 100F * InnerPlotPosition.X;
+                plottingRect.Y += Position.Height / 100F * InnerPlotPosition.Y;
+                plottingRect.Width = Position.Width / 100F * InnerPlotPosition.Width;
+                plottingRect.Height = Position.Height / 100F * InnerPlotPosition.Height;
             }
 
             //******************************************************
@@ -1363,7 +1363,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //******************************************************
             //** Find same auto-fit font size
             //******************************************************
-            Axis[] axisArray = (this.switchValueAxes) ?
+            Axis[] axisArray = this.switchValueAxes ?
                 new Axis[] { this.AxisX, this.AxisX2, this.AxisY, this.AxisY2 } :
                 new Axis[] { this.AxisY, this.AxisY2, this.AxisX, this.AxisX2 };
             if (this.IsSameFontSizeForAllAxes)
@@ -1465,7 +1465,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         axisPosition = plottingRect.Y;
                     }
-                    axisPosition = axisPosition - plottingRect.Top;
+                    axisPosition -= plottingRect.Top;
                 }
                 else if (axis.AxisPosition == AxisPosition.Right)
                 {
@@ -1481,7 +1481,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         axisPosition = plottingRect.X;
                     }
-                    axisPosition = axisPosition - plottingRect.Left;
+                    axisPosition -= plottingRect.Left;
                 }
 
                 //******************************************************
@@ -1617,23 +1617,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (rectLabelSideSpacing.Y > 0 && rectLabelSideSpacing.Y > plottingRect.Y - Position.Y)
                 {
-                    float delta = (plottingRect.Y - Position.Y) - rectLabelSideSpacing.Y;
+                    float delta = plottingRect.Y - Position.Y - rectLabelSideSpacing.Y;
                     plottingRect.Y -= delta;
                     plottingRect.Height += delta;
                 }
                 if (rectLabelSideSpacing.X > 0 && rectLabelSideSpacing.X > plottingRect.X - Position.X)
                 {
-                    float delta = (plottingRect.X - Position.X) - rectLabelSideSpacing.X;
+                    float delta = plottingRect.X - Position.X - rectLabelSideSpacing.X;
                     plottingRect.X -= delta;
                     plottingRect.Width += delta;
                 }
                 if (rectLabelSideSpacing.Height > 0 && rectLabelSideSpacing.Height > Position.Bottom - plottingRect.Bottom)
                 {
-                    plottingRect.Height += (Position.Bottom - plottingRect.Bottom) - rectLabelSideSpacing.Height;
+                    plottingRect.Height += Position.Bottom - plottingRect.Bottom - rectLabelSideSpacing.Height;
                 }
                 if (rectLabelSideSpacing.Width > 0 && rectLabelSideSpacing.Width > Position.Right - plottingRect.Right)
                 {
-                    plottingRect.Width += (Position.Right - plottingRect.Right) - rectLabelSideSpacing.Width;
+                    plottingRect.Width += Position.Right - plottingRect.Right - rectLabelSideSpacing.Width;
                 }
             }
 
@@ -1872,8 +1872,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         BackImageAlignment,
                         BackGradientStyle,
                         BackSecondaryColor,
-                        (requireAxes) ? Color.Empty : BorderColor,
-                        (requireAxes) ? 0 : BorderWidth,
+                        requireAxes ? Color.Empty : BorderColor,
+                        requireAxes ? 0 : BorderWidth,
                         BorderDashStyle,
                         ShadowColor,
                         ShadowOffset,
@@ -1937,10 +1937,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 RectangleF plottingRect = Position.ToRectangleF();
                 if (!InnerPlotPosition.Auto)
                 {
-                    plottingRect.X += (Position.Width / 100F) * InnerPlotPosition.X;
-                    plottingRect.Y += (Position.Height / 100F) * InnerPlotPosition.Y;
-                    plottingRect.Width = (Position.Width / 100F) * InnerPlotPosition.Width;
-                    plottingRect.Height = (Position.Height / 100F) * InnerPlotPosition.Height;
+                    plottingRect.X += Position.Width / 100F * InnerPlotPosition.X;
+                    plottingRect.Y += Position.Height / 100F * InnerPlotPosition.Y;
+                    plottingRect.Width = Position.Width / 100F * InnerPlotPosition.Width;
+                    plottingRect.Height = Position.Height / 100F * InnerPlotPosition.Height;
                 }
 
                 PlotAreaPosition.FromRectangleF(plottingRect);
@@ -2018,13 +2018,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-            // Draw Axis Striplines (only when StripWidth > 0)
-            bool useScaleSegments = false;
             Axis[] axesArray = new Axis[] { axisY, axisY2, axisX, axisX2 };
+
+            // Draw Axis Striplines (only when StripWidth > 0)
+            bool useScaleSegments;
             foreach (Axis currentAxis in axesArray)
             {
 
-                useScaleSegments = (currentAxis.ScaleSegments.Count > 0);
+                useScaleSegments = currentAxis.ScaleSegments.Count > 0;
 
                 if (!useScaleSegments)
                 {
@@ -2049,7 +2050,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             foreach (Axis currentAxis in axesArray)
             {
 
-                useScaleSegments = (currentAxis.ScaleSegments.Count > 0);
+                useScaleSegments = currentAxis.ScaleSegments.Count > 0;
 
                 if (!useScaleSegments)
                 {
@@ -2074,7 +2075,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             foreach (Axis currentAxis in axesArray)
             {
 
-                useScaleSegments = (currentAxis.ScaleSegments.Count > 0);
+                useScaleSegments = currentAxis.ScaleSegments.Count > 0;
 
                 if (!useScaleSegments)
                 {
@@ -2101,7 +2102,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 foreach (Axis currentAxis in axesArray)
                 {
 
-                    useScaleSegments = (currentAxis.ScaleSegments.Count > 0);
+                    useScaleSegments = currentAxis.ScaleSegments.Count > 0;
 
                     if (!useScaleSegments)
                     {
@@ -2169,7 +2170,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             foreach (Axis currentAxis in axesArray)
             {
 
-                useScaleSegments = (currentAxis.ScaleSegments.Count > 0);
+                useScaleSegments = currentAxis.ScaleSegments.Count > 0;
 
                 if (!useScaleSegments)
                 {
@@ -2641,7 +2642,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
                                 else
                                 {
-                                    throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(series[CustomPropertyName.AreaDrawingStyle], "AreaDrawingStyle")));
+                                    throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(series[CustomPropertyName.AreaDrawingStyle], "AreaDrawingStyle"));
                                 }
                                 break;
                             }
@@ -2649,7 +2650,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
 
-                return (this._circularUsePolygons == 1);
+                return this._circularUsePolygons == 1;
             }
         }
 
@@ -2685,7 +2686,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     else
                     {
-                        throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(styleName, "CircularLabelsStyle")));
+                        throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(styleName, "CircularLabelsStyle"));
                     }
 
                 }

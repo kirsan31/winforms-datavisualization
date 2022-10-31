@@ -253,8 +253,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "System.Double.TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,System.Double@)")]
         internal static double ParseDouble(string stringToParse, bool throwException)
         {
-            Double result = 0.0;
-
+            double result;
             if (throwException)
             {
                 result = double.Parse(stringToParse, NumberStyles.Any, CultureInfo.InvariantCulture);
@@ -278,8 +277,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "System.Single.TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,System.Single@)")]
         internal static float ParseFloat(string stringToParse)
         {
-            float result = 0f;
-            bool parseSucceed = float.TryParse(stringToParse, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+            bool parseSucceed = float.TryParse(stringToParse, NumberStyles.Any, CultureInfo.InvariantCulture, out float result);
 
             if (!parseSucceed)
             {

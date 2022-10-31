@@ -46,7 +46,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         {
             if (container == null)
             {
-                throw (new ArgumentNullException(SR.ExceptionInvalidServiceContainer));
+                throw new ArgumentNullException(SR.ExceptionInvalidServiceContainer);
             }
             serviceContainer = container;
             Common = new CommonElements(container);
@@ -65,7 +65,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
             {
                 return this;
             }
-            throw (new ArgumentException(SR.ExceptionDataManagerUnsupportedType(serviceType.ToString())));
+            throw new ArgumentException(SR.ExceptionDataManagerUnsupportedType(serviceType.ToString()));
         }
 
         /// <summary>
@@ -856,13 +856,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         internal double GetMinUnsignedStackedYValue(int valueIndex, List<string> series)
         {
             double returnValue = double.MaxValue;
-            double minValue = double.MaxValue;
             double numberOfPoints = GetNumberOfPoints(series);
             for (int pointIndex = 0; pointIndex < numberOfPoints; pointIndex++)
             {
                 double stackedMin = 0;
                 double noStackedMin = 0;
-                minValue = double.MaxValue;
+                double minValue = double.MaxValue;
                 foreach (string seriesName in series)
                 {
                     if (this._series[seriesName].Points.Count > pointIndex)
@@ -971,13 +970,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
                     if (totalPerPoint != 0)
                     {
                         returnValue = Math.Max(returnValue,
-                            (positiveTotalPerPoint / totalPerPoint) * 100.0);
+                            positiveTotalPerPoint / totalPerPoint * 100.0);
                     }
                 }
             }
             catch (System.Exception)
             {
-                throw (new InvalidOperationException(SR.ExceptionDataManager100StackedSeriesPointsNumeberMismatch));
+                throw new InvalidOperationException(SR.ExceptionDataManager100StackedSeriesPointsNumeberMismatch);
             }
 
             return returnValue;
@@ -1032,13 +1031,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
                     if (totalPerPoint != 0)
                     {
                         returnValue = Math.Min(returnValue,
-                            (negativeTotalPerPoint / totalPerPoint) * 100.0);
+                            negativeTotalPerPoint / totalPerPoint * 100.0);
                     }
                 }
             }
             catch (System.Exception)
             {
-                throw (new InvalidOperationException(SR.ExceptionDataManager100StackedSeriesPointsNumeberMismatch));
+                throw new InvalidOperationException(SR.ExceptionDataManager100StackedSeriesPointsNumeberMismatch);
             }
 
             return returnValue;

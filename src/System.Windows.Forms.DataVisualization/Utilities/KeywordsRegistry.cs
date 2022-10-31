@@ -111,7 +111,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			{
 				return this;
 			}
-			throw (new ArgumentException( SR.ExceptionKeywordsRegistryUnsupportedType(serviceType.ToString())));
+			throw new ArgumentException( SR.ExceptionKeywordsRegistryUnsupportedType(serviceType.ToString()));
 		}
 
 		#endregion

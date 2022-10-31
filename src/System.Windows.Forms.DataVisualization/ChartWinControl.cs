@@ -568,15 +568,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             RectangleF rect = new RectangleF(3, 3, this.Width - 6, this.Height - 6);
 
             // Draw exception text
-            using (StringFormat format = new StringFormat())
-            {
-                format.Alignment = StringAlignment.Center;
-                format.LineAlignment = StringAlignment.Center;
-                using (Font font = new Font(FontCache.DefaultFamilyName, 8))
-                {
-                    graphics.DrawString(addMessage, font, Brushes.Black, rect, format);
-                }
-            }
+            using StringFormat format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            format.LineAlignment = StringAlignment.Center;
+            using Font font = new Font(FontCache.DefaultFamilyName, 8);
+            graphics.DrawString(addMessage, font, Brushes.Black, rect, format);
         }
 
         /// <summary>
@@ -1834,12 +1830,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int versionIndex = buildNumber.IndexOf("VERSION=", StringComparison.Ordinal);
                     if (versionIndex >= 0)
                     {
-                        buildNumber = buildNumber.Substring(versionIndex + 8);
+                        buildNumber = buildNumber[(versionIndex + 8)..];
                     }
                     versionIndex = buildNumber.IndexOf(",", StringComparison.Ordinal);
                     if (versionIndex >= 0)
                     {
-                        buildNumber = buildNumber.Substring(0, versionIndex);
+                        buildNumber = buildNumber[..versionIndex];
                     }
                 }
                 return buildNumber;
@@ -1933,7 +1929,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             foreach (Series series in this.Series)
             {
                 // Check if palette colors should be aplied to the points
-                bool applyToPoints = false;
+                bool applyToPoints;
                 if (series.Palette != ChartColorPalette.None)
                 {
                     applyToPoints = true;
@@ -2093,33 +2089,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             base.OnGotFocus(e);
 
-            using (Graphics g = Graphics.FromHwndInternal(Handle))
-            {
-                ControlPaint.DrawFocusRectangle(g, new Rectangle(1, 1, Size.Width - 2, Size.Height - 2));
-            }
+            using Graphics g = Graphics.FromHwndInternal(Handle);
+            ControlPaint.DrawFocusRectangle(g, new Rectangle(1, 1, Size.Width - 2, Size.Height - 2));
         }
 
         protected override void OnLostFocus(EventArgs e)
         {
             base.OnLostFocus(e);
 
-            using (Graphics g = Graphics.FromHwndInternal(Handle))
-            {
-                using (Brush b = new SolidBrush(BackColor))
-                {
-                    Rectangle topBorder = new Rectangle(1, 1, Size.Width - 2, 1);
-                    g.FillRectangle(b, topBorder);
+            using Graphics g = Graphics.FromHwndInternal(Handle);
+            using Brush b = new SolidBrush(BackColor);
+            Rectangle topBorder = new Rectangle(1, 1, Size.Width - 2, 1);
+            g.FillRectangle(b, topBorder);
 
-                    Rectangle rightBorder = new Rectangle(Size.Width - 2, 1, 1, Size.Height - 2);
-                    g.FillRectangle(b, rightBorder);
+            Rectangle rightBorder = new Rectangle(Size.Width - 2, 1, 1, Size.Height - 2);
+            g.FillRectangle(b, rightBorder);
 
-                    Rectangle bottomBorder = new Rectangle(1, Size.Height - 2, Size.Width - 2, 1);
-                    g.FillRectangle(b, bottomBorder);
+            Rectangle bottomBorder = new Rectangle(1, Size.Height - 2, Size.Width - 2, 1);
+            g.FillRectangle(b, bottomBorder);
 
-                    Rectangle leftBorder = new Rectangle(1, 1, 1, Size.Height - 2);
-                    g.FillRectangle(b, leftBorder);
-                }
-            }
+            Rectangle leftBorder = new Rectangle(1, 1, 1, Size.Height - 2);
+            g.FillRectangle(b, leftBorder);
         }
 
         #endregion

@@ -273,7 +273,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value == 0)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionSmartLabelsDirectionUndefined));
+                    throw new InvalidOperationException(SR.ExceptionSmartLabelsDirectionUndefined);
                 }
 
                 _movingDirection = value;
@@ -300,7 +300,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionSmartLabelsMinMovingDistanceIsNegative));
+                    throw new InvalidOperationException(SR.ExceptionSmartLabelsMinMovingDistanceIsNegative);
                 }
                 _minMovingDistance = value;
                 Invalidate();
@@ -326,7 +326,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionSmartLabelsMaxMovingDistanceIsNegative));
+                    throw new InvalidOperationException(SR.ExceptionSmartLabelsMaxMovingDistanceIsNegative);
                 }
                 _maxMovingDistance = value;
                 Invalidate();
@@ -637,10 +637,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check if SmartLabelStyle are enabled
             if (smartLabelStyle.Enabled)
             {
-                bool labelMovedAway = false;
 
                 // Add series markers positions to avoid their overlapping
-                bool rememberMarkersCount = (this.smartLabelsPositions.Count == 0);
+                bool rememberMarkersCount = this.smartLabelsPositions.Count == 0;
                 AddMarkersPosition(common, area);
                 if (rememberMarkersCount)
                 {
@@ -661,7 +660,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     checkCalloutLineOverlapping))
                 {
                     // Try to find a new position for the SmartLabelStyle
-                    labelMovedAway = FindNewPosition(
+                    bool labelMovedAway = FindNewPosition(
                         common,
                         graph,
                         area,
@@ -677,10 +676,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Draw label callout if label was moved away or 
                     // it's displayed in the corners of the marker
                     if (labelMovedAway ||
-                        (labelAlignment == LabelAlignmentStyles.BottomLeft ||
+                        labelAlignment == LabelAlignmentStyles.BottomLeft ||
                         labelAlignment == LabelAlignmentStyles.BottomRight ||
                         labelAlignment == LabelAlignmentStyles.TopLeft ||
-                        labelAlignment == LabelAlignmentStyles.TopRight))
+                        labelAlignment == LabelAlignmentStyles.TopRight)
                     {
                         if (!labelPosition.IsEmpty)
                         {
@@ -802,7 +801,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             checkCalloutLineOverlapping))
                         {
                             positionFound = true;
-                            labelMovedAway = (labelMovement == 0f) ? false : true;
+                            labelMovedAway = labelMovement != 0f;
                             break;
                         }
                     }
@@ -840,7 +839,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
 
-            return (labelMovedAway && positionFound) ? true : false;
+            return labelMovedAway && positionFound;
         }
 
         /// <summary>
@@ -883,10 +882,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Fill callout box around the label
                 if (smartLabelStyle.CalloutBackColor != Color.Transparent)
                 {
-                    using (Brush calloutBrush = new SolidBrush(smartLabelStyle.CalloutBackColor))
-                    {
-                        graph.FillRectangle(calloutBrush, labelRectAbs);
-                    }
+                    using Brush calloutBrush = new SolidBrush(smartLabelStyle.CalloutBackColor);
+                    graph.FillRectangle(calloutBrush, labelRectAbs);
                 }
 
                 // Draw box border
@@ -1020,44 +1017,42 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (area.chartAreaIsCurcular)
                 {
-                    using (GraphicsPath areaPath = new GraphicsPath())
-                    {
-                        // Add circular shape of the area into the graphics path
-                        areaPath.AddEllipse(area.PlotAreaPosition.ToRectangleF());
+                    using GraphicsPath areaPath = new GraphicsPath();
+                    // Add circular shape of the area into the graphics path
+                    areaPath.AddEllipse(area.PlotAreaPosition.ToRectangleF());
 
-                        if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.Partial)
+                    if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.Partial)
+                    {
+                        PointF centerPos = new PointF(
+                            labelPosition.X + labelPosition.Width / 2f,
+                            labelPosition.Y + labelPosition.Height / 2f);
+                        if (!areaPath.IsVisible(centerPos))
                         {
-                            PointF centerPos = new PointF(
-                                labelPosition.X + labelPosition.Width / 2f,
-                                labelPosition.Y + labelPosition.Height / 2f);
-                            if (!areaPath.IsVisible(centerPos))
-                            {
-                                // DEBUG: Mark collided labels
+                            // DEBUG: Mark collided labels
 #if DEBUG
-                                if (graph != null && common.Chart.ShowDebugMarkings)
-                                {
-                                    graph.Graphics.DrawRectangle(Pens.Cyan, Rectangle.Round(graph.GetAbsoluteRectangle(labelPosition)));
-                                }
-#endif
-                                collisionDetected = true;
+                            if (graph != null && common.Chart.ShowDebugMarkings)
+                            {
+                                graph.Graphics.DrawRectangle(Pens.Cyan, Rectangle.Round(graph.GetAbsoluteRectangle(labelPosition)));
                             }
+#endif
+                            collisionDetected = true;
                         }
-                        else if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.No)
+                    }
+                    else if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.No)
+                    {
+                        if (!areaPath.IsVisible(labelPosition.Location) ||
+                            !areaPath.IsVisible(new PointF(labelPosition.Right, labelPosition.Y)) ||
+                            !areaPath.IsVisible(new PointF(labelPosition.Right, labelPosition.Bottom)) ||
+                            !areaPath.IsVisible(new PointF(labelPosition.X, labelPosition.Bottom)))
                         {
-                            if (!areaPath.IsVisible(labelPosition.Location) ||
-                                !areaPath.IsVisible(new PointF(labelPosition.Right, labelPosition.Y)) ||
-                                !areaPath.IsVisible(new PointF(labelPosition.Right, labelPosition.Bottom)) ||
-                                !areaPath.IsVisible(new PointF(labelPosition.X, labelPosition.Bottom)))
-                            {
-                                // DEBUG: Mark collided labels
+                            // DEBUG: Mark collided labels
 #if DEBUG
-                                if (graph != null && common.Chart.ShowDebugMarkings)
-                                {
-                                    graph.Graphics.DrawRectangle(Pens.Cyan, Rectangle.Round(graph.GetAbsoluteRectangle(labelPosition)));
-                                }
-#endif
-                                collisionDetected = true;
+                            if (graph != null && common.Chart.ShowDebugMarkings)
+                            {
+                                graph.Graphics.DrawRectangle(Pens.Cyan, Rectangle.Round(graph.GetAbsoluteRectangle(labelPosition)));
                             }
+#endif
+                            collisionDetected = true;
                         }
                     }
                 }
@@ -1099,7 +1094,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Check if 1 collisuion is aceptable in case of cennter alignment
             bool allowOneCollision =
-                (labelAlignment == LabelAlignmentStyles.Center && !smartLabelStyle.IsMarkerOverlappingAllowed) ? true : false;
+                labelAlignment == LabelAlignmentStyles.Center && !smartLabelStyle.IsMarkerOverlappingAllowed;
             if (this.checkAllCollisions)
             {
                 allowOneCollision = false;
@@ -1574,7 +1569,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Check if 1 collisuion is aceptable in case of cennter alignment
             bool allowOneCollision =
-                (labelAlignment == LabelAlignmentStyles.Center && !smartLabelStyle.IsMarkerOverlappingAllowed) ? true : false;
+                labelAlignment == LabelAlignmentStyles.Center && !smartLabelStyle.IsMarkerOverlappingAllowed;
             if (this.checkAllCollisions)
             {
                 allowOneCollision = false;

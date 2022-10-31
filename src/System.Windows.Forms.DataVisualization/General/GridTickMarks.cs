@@ -327,68 +327,68 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			int	counter = 0;
 			int logStep = 1;
 			double oldCurrent = current;
-			double interval = 0;
             while (current <= Axis.ViewMaximum)
-			{
-				double logInterval = 0;
+            {
+                double logInterval = 0;
 
-				// Take an interval between gridlines. Interval 
-				// depends on interval type.
+                double interval;
+                // Take an interval between gridlines. Interval 
+                // depends on interval type.
                 if (this.majorGridTick || this.Axis.IsLogarithmic == false)
-				{
-					// Take an interval between tickmarks. Interval 
-					// depends on interval type.
+                {
+                    // Take an interval between tickmarks. Interval 
+                    // depends on interval type.
                     interval = ChartHelper.GetIntervalSize(current, this.GetInterval(), this.GetIntervalType(), axisSeries, this.GetIntervalOffset(), offsetType, true);
 
-				}
-				// Code for linear minor gridlines and tickmarks 
-				// if scale is logarithmic.
-				else
-				{
-					// This code is used only for logarithmic scale and minor tick marks or 
-					// gridlines which have linear minor scale in logarithmic major scale. 
-					// This code is used to find minimum value for the interval. For example 
-					// if logarithmic base is 2 and interval is between 4 and 8; current value 
-					// is 5.6; this method will return linearised value for 4. This code works 
-					// like Math.Floor for logarithmic scale.
-					double logMinimum = this.GetLogMinimum( current, axisSeries );
+                }
+                // Code for linear minor gridlines and tickmarks 
+                // if scale is logarithmic.
+                else
+                {
+                    // This code is used only for logarithmic scale and minor tick marks or 
+                    // gridlines which have linear minor scale in logarithmic major scale. 
+                    // This code is used to find minimum value for the interval. For example 
+                    // if logarithmic base is 2 and interval is between 4 and 8; current value 
+                    // is 5.6; this method will return linearised value for 4. This code works 
+                    // like Math.Floor for logarithmic scale.
+                    double logMinimum = this.GetLogMinimum(current, axisSeries);
 
-					if( oldCurrent != logMinimum )
-					{
-						oldCurrent = logMinimum;
-						logStep = 1;
-					}
-					
-					// Find interval for logarithmic linearised scale
+                    if (oldCurrent != logMinimum)
+                    {
+                        oldCurrent = logMinimum;
+                        logStep = 1;
+                    }
+
+                    // Find interval for logarithmic linearised scale
                     logInterval = Math.Log(1 + this.interval * logStep, Axis.logarithmBase);
 
-					current = oldCurrent;
+                    current = oldCurrent;
 
-					interval = logInterval;
-					
-					logStep++;
+                    interval = logInterval;
 
-					// Reset current position if major interval is passed.
-					if( this.GetLogMinimum( current + logInterval, axisSeries ) != logMinimum )
-					{
-						current += logInterval;
-						continue;
-					}
-				}
+                    logStep++;
 
-				// For indexed series do not draw the last tickmark
+                    // Reset current position if major interval is passed.
+                    if (this.GetLogMinimum(current + logInterval, axisSeries) != logMinimum)
+                    {
+                        current += logInterval;
+                        continue;
+                    }
+                }
+
+                // For indexed series do not draw the last tickmark
                 if (current == Axis.ViewMaximum && axisSeries != null)
-				{
-					current += interval;
-					
-					continue;
-				}
+                {
+                    current += interval;
 
-				// Check interval size
-				if( interval == 0 )
-				{
-                    throw (new InvalidOperationException(SR.ExceptionTickMarksIntervalIsZero));
-				}
+                    continue;
+                }
+
+                // Check interval size
+                if (interval == 0)
+                {
+                    throw new InvalidOperationException(SR.ExceptionTickMarksIntervalIsZero);
+                }
 
                 // Check if we do not exceed max number of elements
                 if (counter++ > ChartHelper.MaxNumOfGridlines)
@@ -396,114 +396,112 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     break;
                 }
 
-				// Do not draw the very first tick mark for circular chart area
+                // Do not draw the very first tick mark for circular chart area
                 if (this.Axis != null && this.Axis.ChartArea != null)
-				{
+                {
                     if (this.Axis.ChartArea.chartAreaIsCurcular &&
                         ((this.Axis.IsReversed == false && current == Axis.ViewMinimum) ||
                         (this.Axis.IsReversed == true && current == Axis.ViewMaximum)))
-					{
-						current += interval;
-												
-						continue;
-					}
-				}
+                    {
+                        current += interval;
+
+                        continue;
+                    }
+                }
 
                 if (!this.majorGridTick && this.Axis.IsLogarithmic)
-				{
-					current += logInterval;
+                {
+                    current += logInterval;
 
                     if (current > Axis.ViewMaximum)
-					{
-						break;
-					}
-				}
+                    {
+                        break;
+                    }
+                }
 
                 if ((decimal)current >= (decimal)Axis.ViewMinimum)
-				{
-					// Left tickmarks
+                {
+                    // Left tickmarks
                     if (Axis.AxisPosition == AxisPosition.Left)
-					{
+                    {
                         first.Y = (float)Axis.GetLinearPosition(current);
-						second.Y = first.Y;
-					}
+                        second.Y = first.Y;
+                    }
 
-					// Right tickmarks
+                    // Right tickmarks
                     else if (Axis.AxisPosition == AxisPosition.Right)
-					{
+                    {
                         first.Y = (float)Axis.GetLinearPosition(current);
-						second.Y = first.Y;
-					}
+                        second.Y = first.Y;
+                    }
 
-					// Top tickmarks
+                    // Top tickmarks
                     else if (Axis.AxisPosition == AxisPosition.Top)
-					{
+                    {
                         first.X = (float)Axis.GetLinearPosition(current);
-						second.X = first.X;
-					}
+                        second.X = first.X;
+                    }
 
-					// Bottom tickmarks
+                    // Bottom tickmarks
                     else if (Axis.AxisPosition == AxisPosition.Bottom)
-					{
+                    {
                         first.X = (float)Axis.GetLinearPosition(current);
-						second.X = first.X;
-					}
+                        second.X = first.X;
+                    }
 
                     if (Axis.Common.ProcessModeRegions)
-					{
+                    {
                         if (this.Axis.ChartArea.chartAreaIsCurcular)
-						{
-							RectangleF rect = new RectangleF( first.X - 0.5f, first.Y - 0.5f, Math.Abs( second.X - first.X ) + 1, Math.Abs( second.Y - first.Y ) + 1 );
-                            using (GraphicsPath path = new GraphicsPath())
-                            {
-                                path.AddRectangle(graph.GetAbsoluteRectangle(rect));
-								using var mt = graph.Transform;
-								path.Transform(mt);
-                                this.Axis.Common.HotRegionsList.AddHotRegion(
-                                    path,
-                                    false,
-                                    ChartElementType.TickMarks,
-                                    this);
-                            }
-						}
+                        {
+                            RectangleF rect = new RectangleF(first.X - 0.5f, first.Y - 0.5f, Math.Abs(second.X - first.X) + 1, Math.Abs(second.Y - first.Y) + 1);
+                            using GraphicsPath path = new GraphicsPath();
+                            path.AddRectangle(graph.GetAbsoluteRectangle(rect));
+                            using var mt = graph.Transform;
+                            path.Transform(mt);
+                            this.Axis.Common.HotRegionsList.AddHotRegion(
+                                path,
+                                false,
+                                ChartElementType.TickMarks,
+                                this);
+                        }
                         else if (!this.Axis.ChartArea.Area3DStyle.Enable3D || this.Axis.ChartArea.chartAreaIsCurcular)
-						{
-							RectangleF rect = new RectangleF( first.X - 0.5f, first.Y - 0.5f, Math.Abs( second.X - first.X ) + 1, Math.Abs( second.Y - first.Y ) + 1 );
+                        {
+                            RectangleF rect = new RectangleF(first.X - 0.5f, first.Y - 0.5f, Math.Abs(second.X - first.X) + 1, Math.Abs(second.Y - first.Y) + 1);
 
                             Axis.Common.HotRegionsList.AddHotRegion(rect, this, ChartElementType.TickMarks, true);
-						}
+                        }
                         else
                         {
                             if (!Axis.Common.ProcessModePaint) //if ProcessModePaint is true it will be called later
                                 Draw3DTickLine(graph, first, second, backElements);
                         }
 
-					}
+                    }
 
                     if (Axis.Common.ProcessModePaint)
-					{
-						// Draw grid line
+                    {
+                        // Draw grid line
                         if (!this.Axis.ChartArea.Area3DStyle.Enable3D || this.Axis.ChartArea.chartAreaIsCurcular)
-						{
-							graph.DrawLineRel( borderColor, borderWidth, borderDashStyle, first, second );
-						}
-						else
-						{
-							Draw3DTickLine(graph, first, second, backElements);
-						}
-					}
-				}
+                        {
+                            graph.DrawLineRel(borderColor, borderWidth, borderDashStyle, first, second);
+                        }
+                        else
+                        {
+                            Draw3DTickLine(graph, first, second, backElements);
+                        }
+                    }
+                }
 
-				// Move position
+                // Move position
                 if (this.majorGridTick || this.Axis.IsLogarithmic == false)
-				{
-					current += interval;
-				}
-			}
+                {
+                    current += interval;
+                }
+            }
 
-			// Used for auto interval for auto tick marks and 
-			// gridlines
-			if( !this.majorGridTick )
+            // Used for auto interval for auto tick marks and 
+            // gridlines
+            if ( !this.majorGridTick )
 			{
 				this.interval = oldInterval;
 				this.intervalType = oldIntervalType;
@@ -529,7 +527,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					offsetType, axisSeries, 0, DateTimeIntervalType.Number, true, false);
 			}
 
-			return viewMinimum + Math.Floor( ( current - viewMinimum ));
+			return viewMinimum + Math.Floor(  current - viewMinimum );
 		}
 
 		/// <summary>
@@ -743,18 +741,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		
 			ChartArea	area = this.Axis.ChartArea;
 
-			//*****************************************************************
-			//** Set the tick marks line depth
-			//*****************************************************************
-			bool	axisOnEdge;
-			float	wallZPosition = Axis.GetMarksZPosition(out axisOnEdge);
+            //*****************************************************************
+            //** Set the tick marks line depth
+            //*****************************************************************
+            float wallZPosition = Axis.GetMarksZPosition(out bool axisOnEdge);
 
-			//*****************************************************************
-			//** Check if tick mark should be drawn as back or front element
-			//*****************************************************************
+            //*****************************************************************
+            //** Check if tick mark should be drawn as back or front element
+            //*****************************************************************
 
-			// Check if axis tick marks are drawn inside plotting area
-			bool	tickMarksOnEdge = axisOnEdge;
+            // Check if axis tick marks are drawn inside plotting area
+            bool	tickMarksOnEdge = axisOnEdge;
 			if(tickMarksOnEdge &&
                 this.Axis.MajorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis ||
                 this.Axis.MajorTickMark.TickMarkStyle == TickMarkStyle.InsideArea ||
@@ -1292,7 +1289,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Check interval size
                     if (gridInterval == 0)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionTickMarksIntervalIsZero));
+                        throw new InvalidOperationException(SR.ExceptionTickMarksIntervalIsZero);
                     }
 
 					// Draw between min & max values only
@@ -1341,7 +1338,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Check interval size
                     if (logInterval == 0)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionTickMarksIntervalIsZero));
+                        throw new InvalidOperationException(SR.ExceptionTickMarksIntervalIsZero);
                     }
 
 					// Draw between min & max values only
@@ -1386,7 +1383,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					offsetType, axisSeries, 0, DateTimeIntervalType.Number, true, false);
 			}
 
-			return viewMinimum + Math.Floor( ( current - viewMinimum ));
+			return viewMinimum + Math.Floor(  current - viewMinimum );
 		}
 
 		/// <summary>
@@ -1428,28 +1425,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if( this._axis.ChartArea.Area3DStyle.Enable3D && !this._axis.ChartArea.chartAreaIsCurcular)
 				{
                     if(!common.ProcessModePaint) //if ProcessModePaint is true it will be called later
-				    	graph.Draw3DGridLine(this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second, ( _axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right ), common, this );
+				    	graph.Draw3DGridLine(this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second,  _axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right , common, this );
 				}
 				else if(!this._axis.ChartArea.chartAreaIsCurcular)
 				{
-                    using (GraphicsPath path = new GraphicsPath())
+                    using GraphicsPath path = new GraphicsPath();
+                    if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
                     {
-                        if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
-                        {
-                            path.AddLine(first.X, first.Y - 1, second.X, second.Y - 1);
-                            path.AddLine(second.X, second.Y + 1, first.X, first.Y + 1);
-                            path.CloseAllFigures();
-                        }
-                        else
-                        {
-                            path.AddLine(first.X - 1, first.Y, second.X - 1, second.Y);
-                            path.AddLine(second.X + 1, second.Y, first.X + 1, first.Y);
-                            path.CloseAllFigures();
-
-                        }
-                        common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
+                        path.AddLine(first.X, first.Y - 1, second.X, second.Y - 1);
+                        path.AddLine(second.X, second.Y + 1, first.X, first.Y + 1);
+                        path.CloseAllFigures();
                     }
-				}
+                    else
+                    {
+                        path.AddLine(first.X - 1, first.Y, second.X - 1, second.Y);
+                        path.AddLine(second.X + 1, second.Y, first.X + 1, first.Y);
+                        path.CloseAllFigures();
+
+                    }
+                    common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
+                }
 			}
 
 			if( common.ProcessModePaint )
@@ -1476,7 +1471,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 				else
 				{
-					graph.Draw3DGridLine( this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second, ( _axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right ), _axis.Common, this );
+					graph.Draw3DGridLine( this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second,  _axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right , _axis.Common, this );
 				}
 			}
 		}
@@ -1526,28 +1521,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						{
 							if( !this._axis.ChartArea.Area3DStyle.Enable3D || this._axis.ChartArea.chartAreaIsCurcular )
 							{
-                                using (GraphicsPath path = new GraphicsPath())
+                                using GraphicsPath path = new GraphicsPath();
+
+                                if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
                                 {
-
-                                    if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
-                                    {
-                                        path.AddLine(first.X, first.Y - 1, second.X, second.Y - 1);
-                                        path.AddLine(second.X, second.Y + 1, first.X, first.Y + 1);
-                                        path.CloseAllFigures();
-                                    }
-                                    else
-                                    {
-                                        path.AddLine(first.X - 1, first.Y, second.X - 1, second.Y);
-                                        path.AddLine(second.X + 1, second.Y, first.X + 1, first.Y);
-                                        path.CloseAllFigures();
-
-                                    }
-                                    common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
+                                    path.AddLine(first.X, first.Y - 1, second.X, second.Y - 1);
+                                    path.AddLine(second.X, second.Y + 1, first.X, first.Y + 1);
+                                    path.CloseAllFigures();
                                 }
-							}
+                                else
+                                {
+                                    path.AddLine(first.X - 1, first.Y, second.X - 1, second.Y);
+                                    path.AddLine(second.X + 1, second.Y, first.X + 1, first.Y);
+                                    path.CloseAllFigures();
+
+                                }
+                                common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
+                            }
 							else
 							{
-								graph.Draw3DGridLine(this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second, ( _axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right ), common, this );
+								graph.Draw3DGridLine(this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second,  _axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right , common, this );
 							}
 						}
 						
@@ -1559,7 +1552,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							}
 							else
 							{
-								graph.Draw3DGridLine(this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second, ( _axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right ), _axis.Common, this );
+								graph.Draw3DGridLine(this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second,  _axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right , _axis.Common, this );
 							}
 						}
 					}
@@ -1692,7 +1685,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Validation
                 if (value < 0.0)
-                    throw (new ArgumentException(SR.ExceptionTickMarksIntervalIsNegative, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionTickMarksIntervalIsNegative, nameof(value));
 
                 interval = value;
                 intervalChanged = true;

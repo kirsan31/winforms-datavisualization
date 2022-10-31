@@ -136,15 +136,15 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		private void FillList()
 		{
 			// Check if editable object is of type Enum
-			if(!(this._editType.IsEnum))
+			if(!this._editType.IsEnum)
 			{
-                throw (new ArgumentException(SR.ExceptionEditorUITypeEditorInapplicable));
+                throw new ArgumentException(SR.ExceptionEditorUITypeEditorInapplicable);
 			}
 
 			// Check underlying type
 			if(Enum.GetUnderlyingType(this._editType) != typeof(Int32))
 			{
-                throw (new ArgumentException(SR.ExceptionEditorUITypeEditorInt32ApplicableOnly));
+                throw new ArgumentException(SR.ExceptionEditorUITypeEditorInt32ApplicableOnly);
 			}
 
 			// Convert enumeration value to Int32
@@ -178,7 +178,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 			foreach(object checkedItem in this.CheckedItems)
 			{
 				Int32	currentValueInt32 = (Int32)Enum.Parse(this._editType, (string)checkedItem);
-				editValueInt32 = editValueInt32 | currentValueInt32;
+				editValueInt32 |= currentValueInt32;
 			}
 
 			// Return enumeration value

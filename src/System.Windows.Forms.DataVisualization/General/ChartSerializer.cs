@@ -114,7 +114,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			if(container == null)
 			{
-				throw(new ArgumentNullException(SR.ExceptionInvalidServiceContainer));
+				throw new ArgumentNullException(SR.ExceptionInvalidServiceContainer);
 			}
 			_serviceContainer = container;
 		}
@@ -130,7 +130,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				return this;
 			}
-			throw (new ArgumentException( SR.ExceptionChartSerializerUnsupportedType( serviceType.ToString())));
+			throw new ArgumentException( SR.ExceptionChartSerializerUnsupportedType( serviceType.ToString()));
 		}
 
 		#endregion
@@ -181,10 +181,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					_format = value;
 
-					// Create new serializer object
-					SerializerBase newSerializer = null;
-
-					if(_format == SerializationFormat.Binary)
+                    // Create new serializer object
+                    SerializerBase newSerializer;
+                    if (_format == SerializationFormat.Binary)
 					{
 						newSerializer = new BinaryFormatSerializer();
 					}
@@ -661,11 +660,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			switch(content)
 			{
-				case(SerializationContents .All):
+				case SerializationContents.All:
 					return "";
-				case(SerializationContents .Default):
+				case SerializationContents.Default:
 					return "";
-				case(SerializationContents .Data):
+				case SerializationContents.Data:
 					if(serializable)
 					{
 						return	
@@ -685,7 +684,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							"Series.YValueType";
 					}
 					return "";
-				case(SerializationContents .Appearance):
+				case SerializationContents.Appearance:
 					if(serializable)
 					{
 						return 
@@ -726,7 +725,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					return ""; 
 
 				default:
-                    throw (new InvalidOperationException(SR.ExceptionChartSerializerContentFlagUnsupported));
+                    throw new InvalidOperationException(SR.ExceptionChartSerializerContentFlagUnsupported);
 			}
 		}
 

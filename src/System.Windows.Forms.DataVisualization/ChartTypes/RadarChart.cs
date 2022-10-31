@@ -339,7 +339,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				// All series attached to this chart area must have Radar chart type
 				if(String.Compare( ser.ChartTypeName, this.Name, true, System.Globalization.CultureInfo.CurrentCulture ) != 0 )
 				{
-					throw(new InvalidOperationException(SR.ExceptionChartTypeCanNotCombine(ser.ChartTypeName, this.Name)));
+					throw new InvalidOperationException(SR.ExceptionChartTypeCanNotCombine(ser.ChartTypeName, this.Name));
 				}
 
 				//************************************************************
@@ -442,23 +442,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         if (areaColor != Color.Transparent && areaColor != Color.Empty && ser.ShadowOffset != 0)
                         {
                             // Create sector path
-                            using (GraphicsPath fillPath = new GraphicsPath())
-                            {
-                                fillPath.AddLine(graph.GetAbsolutePoint(area.circularCenter), dataPointPos[index]);
-                                fillPath.AddLine(dataPointPos[index], dataPointPos[secondPointIndex]);
-                                fillPath.AddLine(dataPointPos[secondPointIndex], graph.GetAbsolutePoint(area.circularCenter));
+                            using GraphicsPath fillPath = new GraphicsPath();
+                            fillPath.AddLine(graph.GetAbsolutePoint(area.circularCenter), dataPointPos[index]);
+                            fillPath.AddLine(dataPointPos[index], dataPointPos[secondPointIndex]);
+                            fillPath.AddLine(dataPointPos[secondPointIndex], graph.GetAbsolutePoint(area.circularCenter));
 
-                                // Shift shadow position
-                                using Matrix shadowMatrix = new Matrix();
-                                shadowMatrix.Translate(ser.ShadowOffset, ser.ShadowOffset);
-                                fillPath.Transform(shadowMatrix);
+                            // Shift shadow position
+                            using Matrix shadowMatrix = new Matrix();
+                            shadowMatrix.Translate(ser.ShadowOffset, ser.ShadowOffset);
+                            fillPath.Transform(shadowMatrix);
 
-                                // Fill shadow sector
-                                using (Brush brush = new SolidBrush(ser.ShadowColor))
-                                {
-                                    graph.FillPath(brush, fillPath);
-                                }
-                            }
+                            // Fill shadow sector
+                            using Brush brush = new SolidBrush(ser.ShadowColor);
+                            graph.FillPath(brush, fillPath);
                         }
 
 						// Increase index
@@ -571,7 +567,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 if (common.ProcessModePaint)
                                 {
                                     // Create fill brush
-                                    using (Brush brush = graph.CreateBrush(
+                                    using Brush brush = graph.CreateBrush(
                                         fillPath.GetBounds(),
                                         areaColor,
                                         pointAttributes.BackHatchStyle,
@@ -579,18 +575,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                         pointAttributes.BackImageWrapMode,
                                         pointAttributes.BackImageTransparentColor,
                                         pointAttributes.BackGradientStyle,
-                                        pointAttributes.BackSecondaryColor))
-                                    {
+                                        pointAttributes.BackSecondaryColor);
 
-                                        // Start Svg Selection mode
-                                        graph.StartHotRegion(point);
+                                    // Start Svg Selection mode
+                                    graph.StartHotRegion(point);
 
-                                        // Fill sector
-                                        graph.FillPath(brush, fillPath);
+                                    // Fill sector
+                                    graph.FillPath(brush, fillPath);
 
-                                        // End Svg Selection mode
-                                        graph.EndHotRegion();
-                                    }
+                                    // End Svg Selection mode
+                                    graph.EndHotRegion();
                                 }
                             }
 
@@ -1007,240 +1001,236 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Draw data point value label
 			// ****************************
 			if((!point.IsEmpty && (ser.IsValueShownAsLabel || pointShowLabelAsValue || pointLabel.Length > 0)) ||
-				(pointShowLabelAsValue || pointLabel.Length > 0))
+				pointShowLabelAsValue || pointLabel.Length > 0)
 			{
-				// Label text format
-                using (StringFormat format = new StringFormat())
-                {
-                    format.Alignment = StringAlignment.Near;
-                    format.LineAlignment = StringAlignment.Center;
+                // Label text format
+                using StringFormat format = new StringFormat();
+                format.Alignment = StringAlignment.Near;
+                format.LineAlignment = StringAlignment.Center;
 
-                    // Get label text
-                    string text;
-                    if (pointLabel.Length == 0)
+                // Get label text
+                string text;
+                if (pointLabel.Length == 0)
+                {
+                    text = ValueConverter.FormatValue(
+                        ser.Chart,
+                        point,
+                        point.Tag,
+                        point.YValues[0],
+                        point.LabelFormat,
+                        ser.YValueType,
+                        ChartElementType.DataPoint);
+                }
+                else
+                {
+                    text = point.ReplaceKeywords(pointLabel);
+                }
+
+                // Get point label style attribute
+                SizeF sizeMarker = new SizeF(markerSize, markerSize);
+                using var sf = StringFormat.GenericTypographic;
+                SizeF sizeFont = graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf);
+
+                // Increase label size when background is drawn
+                SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
+                sizeLabel.Height += sizeLabel.Height / 2;
+                sizeLabel.Width += sizeLabel.Width / text.Length;
+
+                // Get attribute from point or series
+                this._autoLabelPosition = true;
+                string attrib = point[CustomPropertyName.LabelStyle];
+                if (attrib == null || attrib.Length == 0)
+                {
+                    attrib = ser[CustomPropertyName.LabelStyle];
+                }
+                if (attrib != null && attrib.Length > 0)
+                {
+                    this._autoLabelPosition = false;
+
+                    // Get label position from attribute
+                    if (string.Equals(attrib, "Auto", StringComparison.OrdinalIgnoreCase))
                     {
-                        text = ValueConverter.FormatValue(
-                            ser.Chart,
-                            point,
-                            point.Tag,
-                            point.YValues[0],
-                            point.LabelFormat,
-                            ser.YValueType,
-                            ChartElementType.DataPoint);
+                        this._autoLabelPosition = true;
+                    }
+                    else if (string.Equals(attrib, "Center", StringComparison.OrdinalIgnoreCase))
+                    {
+                        this._labelPosition = LabelAlignmentStyles.Center;
+                    }
+                    else if (string.Equals(attrib, "Bottom", StringComparison.OrdinalIgnoreCase))
+                    {
+                        this._labelPosition = LabelAlignmentStyles.Bottom;
+                    }
+                    else if (string.Equals(attrib, "TopLeft", StringComparison.OrdinalIgnoreCase))
+                    {
+                        this._labelPosition = LabelAlignmentStyles.TopLeft;
+                    }
+                    else if (string.Equals(attrib, "TopRight", StringComparison.OrdinalIgnoreCase))
+                    {
+                        this._labelPosition = LabelAlignmentStyles.TopRight;
+                    }
+                    else if (string.Equals(attrib, "BottomLeft", StringComparison.OrdinalIgnoreCase))
+                    {
+                        this._labelPosition = LabelAlignmentStyles.BottomLeft;
+                    }
+                    else if (string.Equals(attrib, "BottomRight", StringComparison.OrdinalIgnoreCase))
+                    {
+                        this._labelPosition = LabelAlignmentStyles.BottomRight;
+                    }
+                    else if (string.Equals(attrib, "Left", StringComparison.OrdinalIgnoreCase))
+                    {
+                        this._labelPosition = LabelAlignmentStyles.Left;
+                    }
+                    else if (string.Equals(attrib, "Right", StringComparison.OrdinalIgnoreCase))
+                    {
+                        this._labelPosition = LabelAlignmentStyles.Right;
+                    }
+                    else if (string.Equals(attrib, "Top", StringComparison.OrdinalIgnoreCase))
+                    {
+                        this._labelPosition = LabelAlignmentStyles.Top;
                     }
                     else
                     {
-                        text = point.ReplaceKeywords(pointLabel);
-                    }
-
-                    // Get point label style attribute
-                    SizeF sizeMarker = new SizeF(markerSize, markerSize);
-					using var sf = StringFormat.GenericTypographic;
-					SizeF sizeFont = graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf);
-
-                    // Increase label size when background is drawn
-                    SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-                    sizeLabel.Height += sizeLabel.Height / 2;
-                    sizeLabel.Width += sizeLabel.Width / text.Length;
-
-                    // Get attribute from point or series
-                    this._autoLabelPosition = true;
-                    string attrib = point[CustomPropertyName.LabelStyle];
-                    if (attrib == null || attrib.Length == 0)
-                    {
-                        attrib = ser[CustomPropertyName.LabelStyle];
-                    }
-                    if (attrib != null && attrib.Length > 0)
-                    {
-                        this._autoLabelPosition = false;
-
-                        // Get label position from attribute
-                        if (string.Equals(attrib, "Auto", StringComparison.OrdinalIgnoreCase))
-                        {
-                            this._autoLabelPosition = true;
-                        }
-                        else if (string.Equals(attrib, "Center", StringComparison.OrdinalIgnoreCase))
-                        {
-                            this._labelPosition = LabelAlignmentStyles.Center;
-                        }
-                        else if (string.Equals(attrib, "Bottom", StringComparison.OrdinalIgnoreCase))
-                        {
-                            this._labelPosition = LabelAlignmentStyles.Bottom;
-                        }
-                        else if (string.Equals(attrib, "TopLeft", StringComparison.OrdinalIgnoreCase))
-                        {
-                            this._labelPosition = LabelAlignmentStyles.TopLeft;
-                        }
-                        else if (string.Equals(attrib, "TopRight", StringComparison.OrdinalIgnoreCase))
-                        {
-                            this._labelPosition = LabelAlignmentStyles.TopRight;
-                        }
-                        else if (string.Equals(attrib, "BottomLeft", StringComparison.OrdinalIgnoreCase))
-                        {
-                            this._labelPosition = LabelAlignmentStyles.BottomLeft;
-                        }
-                        else if (string.Equals(attrib, "BottomRight", StringComparison.OrdinalIgnoreCase))
-                        {
-                            this._labelPosition = LabelAlignmentStyles.BottomRight;
-                        }
-                        else if (string.Equals(attrib, "Left", StringComparison.OrdinalIgnoreCase))
-                        {
-                            this._labelPosition = LabelAlignmentStyles.Left;
-                        }
-                        else if (string.Equals(attrib, "Right", StringComparison.OrdinalIgnoreCase))
-                        {
-                            this._labelPosition = LabelAlignmentStyles.Right;
-                        }
-                        else if (string.Equals(attrib, "Top", StringComparison.OrdinalIgnoreCase))
-                        {
-                            this._labelPosition = LabelAlignmentStyles.Top;
-                        }
-                        else
-                        {
-                            throw (new ArgumentException(SR.ExceptionCustomAttributeValueInvalid(attrib, "LabelStyle")));
-                        }
-                    }
-
-                    // Try to get automatic label position
-                    if (this._autoLabelPosition)
-                    {
-                        this._labelPosition = GetAutoLabelPosition(area, ser, pointIndex);
-                    }
-
-                    // Calculate label position
-                    PointF position = new PointF(markerPosition.X, markerPosition.Y);
-                    switch (this._labelPosition)
-                    {
-                        case LabelAlignmentStyles.Center:
-                            format.Alignment = StringAlignment.Center;
-                            break;
-                        case LabelAlignmentStyles.Bottom:
-                            format.Alignment = StringAlignment.Center;
-                            position.Y += sizeMarker.Height / 1.75F;
-                            position.Y += sizeLabel.Height / 2F;
-                            break;
-                        case LabelAlignmentStyles.Top:
-                            format.Alignment = StringAlignment.Center;
-                            position.Y -= sizeMarker.Height / 1.75F;
-                            position.Y -= sizeLabel.Height / 2F;
-                            break;
-
-                        case LabelAlignmentStyles.Left:
-                            format.Alignment = StringAlignment.Far;
-                            position.X -= sizeMarker.Height / 1.75F;
-                            break;
-                        case LabelAlignmentStyles.TopLeft:
-                            format.Alignment = StringAlignment.Far;
-                            position.X -= sizeMarker.Height / 1.75F;
-                            position.Y -= sizeMarker.Height / 1.75F;
-                            position.Y -= sizeLabel.Height / 2F;
-                            break;
-                        case LabelAlignmentStyles.BottomLeft:
-                            format.Alignment = StringAlignment.Far;
-                            position.X -= sizeMarker.Height / 1.75F;
-                            position.Y += sizeMarker.Height / 1.75F;
-                            position.Y += sizeLabel.Height / 2F;
-                            break;
-                        case LabelAlignmentStyles.Right:
-                            //format.Alignment = StringAlignment.Near;
-                            position.X += sizeMarker.Height / 1.75F;
-                            break;
-                        case LabelAlignmentStyles.TopRight:
-                            //format.Alignment = StringAlignment.Near;
-                            position.X += sizeMarker.Height / 1.75F;
-                            position.Y -= sizeMarker.Height / 1.75F;
-                            position.Y -= sizeLabel.Height / 2F;
-                            break;
-                        case LabelAlignmentStyles.BottomRight:
-                            //format.Alignment = StringAlignment.Near;
-                            position.X += sizeMarker.Height / 1.75F;
-                            position.Y += sizeMarker.Height / 1.75F;
-                            position.Y += sizeLabel.Height / 2F;
-                            break;
-                    }
-
-                    // Get text angle
-                    int textAngle = point.LabelAngle;
-
-                    // Check if text contains white space only
-                    if (text.Trim().Length != 0)
-                    {
-
-
-                        // Check if Smart Labels are enabled
-                        if (ser.SmartLabelStyle.Enabled)
-                        {
-                            position = graph.GetRelativePoint(position);
-                            markerPosition = graph.GetRelativePoint(markerPosition);
-                            sizeFont = graph.GetRelativeSize(sizeFont);
-                            sizeMarker = graph.GetRelativeSize(sizeMarker);
-
-                            // Adjust label position using SmartLabelStyle algorithm
-                            position = area.smartLabels.AdjustSmartLabelPosition(
-                                common,
-                                graph,
-                                area,
-                                ser.SmartLabelStyle,
-                                position,
-                                sizeFont,
-                                format,
-                                markerPosition,
-                                sizeMarker,
-                                this._labelPosition);
-
-                            // Restore absolute coordinates
-                            if (!position.IsEmpty)
-                            {
-                                position = graph.GetAbsolutePoint(position);
-                            }
-                            sizeFont = graph.GetAbsoluteSize(sizeFont);
-
-                            // Smart labels always use 0 degrees text angle
-                            textAngle = 0;
-                        }
-
-
-                        // Draw label
-                        if (!position.IsEmpty)
-                        {
-                            position = graph.GetRelativePoint(position);
-
-                            // Get label background position
-                            RectangleF labelBackPosition = RectangleF.Empty;
-                            sizeLabel = graph.GetRelativeSize(sizeFont);
-                            sizeLabel.Height += sizeLabel.Height / 8;
-                            labelBackPosition = PointChart.GetLabelPosition(
-                                graph,
-                                position,
-                                sizeLabel,
-                                format,
-                                true);
-
-                            // Draw label text
-                            using (Brush brush = new SolidBrush(point.LabelForeColor))
-                            {
-                                graph.DrawPointLabelStringRel(
-                                    common,
-                                    text,
-                                    point.Font,
-                                    brush,
-                                    position,
-                                    format,
-                                    textAngle,
-                                    labelBackPosition,
-
-                                    point.LabelBackColor,
-                                    point.LabelBorderColor,
-                                    point.LabelBorderWidth,
-                                    point.LabelBorderDashStyle,
-                                    ser,
-                                    point,
-                                    pointIndex);
-                            }
-                        }
+                        throw new ArgumentException(SR.ExceptionCustomAttributeValueInvalid(attrib, "LabelStyle"));
                     }
                 }
-			}
+
+                // Try to get automatic label position
+                if (this._autoLabelPosition)
+                {
+                    this._labelPosition = GetAutoLabelPosition(area, ser, pointIndex);
+                }
+
+                // Calculate label position
+                PointF position = new PointF(markerPosition.X, markerPosition.Y);
+                switch (this._labelPosition)
+                {
+                    case LabelAlignmentStyles.Center:
+                        format.Alignment = StringAlignment.Center;
+                        break;
+                    case LabelAlignmentStyles.Bottom:
+                        format.Alignment = StringAlignment.Center;
+                        position.Y += sizeMarker.Height / 1.75F;
+                        position.Y += sizeLabel.Height / 2F;
+                        break;
+                    case LabelAlignmentStyles.Top:
+                        format.Alignment = StringAlignment.Center;
+                        position.Y -= sizeMarker.Height / 1.75F;
+                        position.Y -= sizeLabel.Height / 2F;
+                        break;
+
+                    case LabelAlignmentStyles.Left:
+                        format.Alignment = StringAlignment.Far;
+                        position.X -= sizeMarker.Height / 1.75F;
+                        break;
+                    case LabelAlignmentStyles.TopLeft:
+                        format.Alignment = StringAlignment.Far;
+                        position.X -= sizeMarker.Height / 1.75F;
+                        position.Y -= sizeMarker.Height / 1.75F;
+                        position.Y -= sizeLabel.Height / 2F;
+                        break;
+                    case LabelAlignmentStyles.BottomLeft:
+                        format.Alignment = StringAlignment.Far;
+                        position.X -= sizeMarker.Height / 1.75F;
+                        position.Y += sizeMarker.Height / 1.75F;
+                        position.Y += sizeLabel.Height / 2F;
+                        break;
+                    case LabelAlignmentStyles.Right:
+                        //format.Alignment = StringAlignment.Near;
+                        position.X += sizeMarker.Height / 1.75F;
+                        break;
+                    case LabelAlignmentStyles.TopRight:
+                        //format.Alignment = StringAlignment.Near;
+                        position.X += sizeMarker.Height / 1.75F;
+                        position.Y -= sizeMarker.Height / 1.75F;
+                        position.Y -= sizeLabel.Height / 2F;
+                        break;
+                    case LabelAlignmentStyles.BottomRight:
+                        //format.Alignment = StringAlignment.Near;
+                        position.X += sizeMarker.Height / 1.75F;
+                        position.Y += sizeMarker.Height / 1.75F;
+                        position.Y += sizeLabel.Height / 2F;
+                        break;
+                }
+
+                // Get text angle
+                int textAngle = point.LabelAngle;
+
+                // Check if text contains white space only
+                if (text.Trim().Length != 0)
+                {
+
+
+                    // Check if Smart Labels are enabled
+                    if (ser.SmartLabelStyle.Enabled)
+                    {
+                        position = graph.GetRelativePoint(position);
+                        markerPosition = graph.GetRelativePoint(markerPosition);
+                        sizeFont = graph.GetRelativeSize(sizeFont);
+                        sizeMarker = graph.GetRelativeSize(sizeMarker);
+
+                        // Adjust label position using SmartLabelStyle algorithm
+                        position = area.smartLabels.AdjustSmartLabelPosition(
+                            common,
+                            graph,
+                            area,
+                            ser.SmartLabelStyle,
+                            position,
+                            sizeFont,
+                            format,
+                            markerPosition,
+                            sizeMarker,
+                            this._labelPosition);
+
+                        // Restore absolute coordinates
+                        if (!position.IsEmpty)
+                        {
+                            position = graph.GetAbsolutePoint(position);
+                        }
+                        sizeFont = graph.GetAbsoluteSize(sizeFont);
+
+                        // Smart labels always use 0 degrees text angle
+                        textAngle = 0;
+                    }
+
+
+                    // Draw label
+                    if (!position.IsEmpty)
+                    {
+                        position = graph.GetRelativePoint(position);
+
+                        // Get label background position
+                        RectangleF labelBackPosition = RectangleF.Empty;
+                        sizeLabel = graph.GetRelativeSize(sizeFont);
+                        sizeLabel.Height += sizeLabel.Height / 8;
+                        labelBackPosition = PointChart.GetLabelPosition(
+                            graph,
+                            position,
+                            sizeLabel,
+                            format,
+                            true);
+
+                        // Draw label text
+                        using Brush brush = new SolidBrush(point.LabelForeColor);
+                        graph.DrawPointLabelStringRel(
+                            common,
+                            text,
+                            point.Font,
+                            brush,
+                            position,
+                            format,
+                            textAngle,
+                            labelBackPosition,
+
+                            point.LabelBackColor,
+                            point.LabelBorderColor,
+                            point.LabelBorderWidth,
+                            point.LabelBorderDashStyle,
+                            ser,
+                            point,
+                            pointIndex);
+                    }
+                }
+            }
 		}
 
 		/// <summary>
@@ -1311,7 +1301,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				ser.IsCustomPropertySet(CustomPropertyName.RadarDrawingStyle))
 			{
 				string	attributeValue = 
-					(point.IsCustomPropertySet(CustomPropertyName.RadarDrawingStyle)) ? 
+					point.IsCustomPropertySet(CustomPropertyName.RadarDrawingStyle) ? 
 					point[CustomPropertyName.RadarDrawingStyle] : 
 					ser[CustomPropertyName.RadarDrawingStyle];
 				if(string.Equals(attributeValue, "Area", StringComparison.OrdinalIgnoreCase))
@@ -1328,7 +1318,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				else
 				{
-					throw(new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attributeValue, "RadarDrawingStyle")));
+					throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attributeValue, "RadarDrawingStyle"));
 				}
 			}
 			return drawingStyle;

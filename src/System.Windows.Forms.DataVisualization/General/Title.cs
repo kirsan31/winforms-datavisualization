@@ -421,7 +421,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
                     if (value < -100 || value > 100)
                     {
-                        throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionValueMustBeInRange(nameof(DockingOffset), (-100).ToString(CultureInfo.CurrentCulture), (100).ToString(CultureInfo.CurrentCulture))));
+                        throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionValueMustBeInRange(nameof(DockingOffset), (-100).ToString(CultureInfo.CurrentCulture), 100.ToString(CultureInfo.CurrentCulture)));
                     }
 					_dockingOffset = value;
 					this.Invalidate(false);
@@ -621,7 +621,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionTitleBorderWidthIsNegative));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionTitleBorderWidthIsNegative);
 				}
 				_borderWidth = value;
 				this.Invalidate(false);
@@ -1197,13 +1197,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							this.Alignment == ContentAlignment.MiddleRight ||
 							this.Alignment == ContentAlignment.TopRight)
 						{
-							titlePosition.X = titlePosition.X - titlePosition.Width;
+							titlePosition.X -= titlePosition.Width;
 						}
 						else if(this.Alignment == ContentAlignment.BottomCenter ||
 							this.Alignment == ContentAlignment.MiddleCenter ||
 							this.Alignment == ContentAlignment.TopCenter)
 						{
-							titlePosition.X = titlePosition.X - titlePosition.Width/2f;
+							titlePosition.X -= titlePosition.Width/2f;
 						}
 					}
 					if(titlePosition.Height == 0)
@@ -1213,13 +1213,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							this.Alignment == ContentAlignment.BottomCenter ||
 							this.Alignment == ContentAlignment.BottomLeft)
 						{
-							titlePosition.Y = titlePosition.Y - titlePosition.Height;
+							titlePosition.Y -= titlePosition.Height;
 						}
 						else if(this.Alignment == ContentAlignment.MiddleCenter ||
 							this.Alignment == ContentAlignment.MiddleLeft ||
 							this.Alignment == ContentAlignment.MiddleRight)
 						{
-							titlePosition.Y = titlePosition.Y - titlePosition.Height/2f;
+							titlePosition.Y -= titlePosition.Height/2f;
 						}
 					}
 
@@ -1355,125 +1355,123 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				absPosition.Y += this.titleBorderSpacing / 2f;
 			}
 
-			//***************************************************************
-			//** Create string format
-			//***************************************************************
-            using (StringFormat format = new StringFormat())
+            //***************************************************************
+            //** Create string format
+            //***************************************************************
+            using StringFormat format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            format.LineAlignment = StringAlignment.Center;
+
+            if (this.Alignment == ContentAlignment.BottomCenter ||
+                this.Alignment == ContentAlignment.BottomLeft ||
+                this.Alignment == ContentAlignment.BottomRight)
             {
-                format.Alignment = StringAlignment.Center;
-                format.LineAlignment = StringAlignment.Center;
+                format.LineAlignment = StringAlignment.Far;
+            }
+            else if (this.Alignment == ContentAlignment.TopCenter ||
+                this.Alignment == ContentAlignment.TopLeft ||
+                this.Alignment == ContentAlignment.TopRight)
+            {
+                format.LineAlignment = StringAlignment.Near;
+            }
 
-                if (this.Alignment == ContentAlignment.BottomCenter ||
-                    this.Alignment == ContentAlignment.BottomLeft ||
-                    this.Alignment == ContentAlignment.BottomRight)
-                {
-                    format.LineAlignment = StringAlignment.Far;
-                }
-                else if (this.Alignment == ContentAlignment.TopCenter ||
-                    this.Alignment == ContentAlignment.TopLeft ||
-                    this.Alignment == ContentAlignment.TopRight)
-                {
-                    format.LineAlignment = StringAlignment.Near;
-                }
+            if (this.Alignment == ContentAlignment.BottomLeft ||
+                this.Alignment == ContentAlignment.MiddleLeft ||
+                this.Alignment == ContentAlignment.TopLeft)
+            {
+                format.Alignment = StringAlignment.Near;
+            }
+            else if (this.Alignment == ContentAlignment.BottomRight ||
+                this.Alignment == ContentAlignment.MiddleRight ||
+                this.Alignment == ContentAlignment.TopRight)
+            {
+                format.Alignment = StringAlignment.Far;
+            }
 
-                if (this.Alignment == ContentAlignment.BottomLeft ||
-                    this.Alignment == ContentAlignment.MiddleLeft ||
-                    this.Alignment == ContentAlignment.TopLeft)
-                {
-                    format.Alignment = StringAlignment.Near;
-                }
-                else if (this.Alignment == ContentAlignment.BottomRight ||
-                    this.Alignment == ContentAlignment.MiddleRight ||
-                    this.Alignment == ContentAlignment.TopRight)
-                {
-                    format.Alignment = StringAlignment.Far;
-                }
+            //***************************************************************
+            //** Draw text shadow for the default style when background is not drawn anf ShadowOffset is not null
+            //***************************************************************
+            Color textShadowColor = ChartGraphics.GetGradientColor(this.ForeColor, Color.Black, 0.8);
+            int textShadowOffset = 1;
+            TextStyle textStyle = this.TextStyle;
+            if ((textStyle == TextStyle.Default || textStyle == TextStyle.Shadow) &&
+                !this.BackGroundIsVisible &&
+                ShadowOffset != 0)
+            {
+                // Draw shadowed text
+                textStyle = TextStyle.Shadow;
+                textShadowColor = ShadowColor;
+                textShadowOffset = ShadowOffset;
+            }
 
-                //***************************************************************
-                //** Draw text shadow for the default style when background is not drawn anf ShadowOffset is not null
-                //***************************************************************
-                Color textShadowColor = ChartGraphics.GetGradientColor(this.ForeColor, Color.Black, 0.8);
-                int textShadowOffset = 1;
-                TextStyle textStyle = this.TextStyle;
-                if ((textStyle == TextStyle.Default || textStyle == TextStyle.Shadow) &&
-                    !this.BackGroundIsVisible &&
-                    ShadowOffset != 0)
+            if (textStyle == TextStyle.Shadow)
+            {
+                textShadowColor = (textShadowColor.A != 255) ? textShadowColor : Color.FromArgb(textShadowColor.A / 2, textShadowColor);
+            }
+
+            //***************************************************************
+            //** Replace new line characters
+            //***************************************************************
+            titleText = titleText.Replace("\\n", "\n");
+
+            //***************************************************************
+            //** Define text angle depending on the docking
+            //***************************************************************
+            Matrix oldTransform = null;
+            if (this.IsTextVertical)
+            {
+                if (this.GetTextOrientation() == TextOrientation.Rotated270)
                 {
-                    // Draw shadowed text
-                    textStyle = TextStyle.Shadow;
-                    textShadowColor = ShadowColor;
-                    textShadowOffset = ShadowOffset;
+                    // IMPORTANT !
+                    // Right to Left flag has to be used because of bug with .net with multi line vertical text. As soon as .net bug is fixed this flag HAS TO be removed. Bug number 1870.
+                    format.FormatFlags |= StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft;
+
+                    // Save old graphics transformation
+                    oldTransform = chartGraph.Transform;
+
+                    // Rotate tile 180 degrees at center
+                    PointF center = PointF.Empty;
+
+                    center.X = absPosition.X + absPosition.Width / 2F;
+                    center.Y = absPosition.Y + absPosition.Height / 2F;
+
+                    // Create and set new transformation matrix
+                    using Matrix newMatrix = chartGraph.Transform;
+                    newMatrix.RotateAt(180, center);
+                    chartGraph.Transform = newMatrix;
                 }
-                
-                if (textStyle == TextStyle.Shadow)
+                else if (this.GetTextOrientation() == TextOrientation.Rotated90)
                 {
-                    textShadowColor = (textShadowColor.A != 255) ? textShadowColor : Color.FromArgb(textShadowColor.A / 2, textShadowColor);
+                    // IMPORTANT !
+                    // Right to Left flag has to be used because of bug with .net with multi line vertical text. As soon as .net bug is fixed this flag HAS TO be removed. Bug number 1870.
+                    format.FormatFlags |= StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft;
                 }
+            }
+            try
+            {
+                chartGraph.IsTextClipped = !Position.Auto;
+                Title.DrawStringWithStyle(chartGraph, titleText, textStyle, this.Font, absPosition, this.ForeColor, textShadowColor, textShadowOffset, format, this.GetTextOrientation());
+            }
+            finally
+            {
+                chartGraph.IsTextClipped = false;
+            }
+            // Call Paint event
+            if (Common.ProcessModePaint)
+                Common.Chart.CallOnPostPaint(new ChartPaintEventArgs(this, chartGraph, Common, Position));
 
-                //***************************************************************
-                //** Replace new line characters
-                //***************************************************************
-                titleText = titleText.Replace("\\n", "\n");
+            //***************************************************************
+            //** Restore old transformation
+            //***************************************************************
+            if (oldTransform != null)
+            {
+                chartGraph.Transform = oldTransform;
+                oldTransform.Dispose();
+            }
 
-                //***************************************************************
-                //** Define text angle depending on the docking
-                //***************************************************************
-                Matrix oldTransform = null;
-                if (this.IsTextVertical)
-                {
-                    if (this.GetTextOrientation() == TextOrientation.Rotated270)
-                    {
-                        // IMPORTANT !
-                        // Right to Left flag has to be used because of bug with .net with multi line vertical text. As soon as .net bug is fixed this flag HAS TO be removed. Bug number 1870.
-                        format.FormatFlags |= StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft;
-
-                        // Save old graphics transformation
-                        oldTransform = chartGraph.Transform;
-
-                        // Rotate tile 180 degrees at center
-                        PointF center = PointF.Empty;
-
-                        center.X = absPosition.X + absPosition.Width / 2F;
-                        center.Y = absPosition.Y + absPosition.Height / 2F;
-
-                        // Create and set new transformation matrix
-                        using Matrix newMatrix = chartGraph.Transform;
-                        newMatrix.RotateAt(180, center);
-                        chartGraph.Transform = newMatrix;
-                    }
-                    else if (this.GetTextOrientation() == TextOrientation.Rotated90)
-                    {
-                        // IMPORTANT !
-                        // Right to Left flag has to be used because of bug with .net with multi line vertical text. As soon as .net bug is fixed this flag HAS TO be removed. Bug number 1870.
-                        format.FormatFlags |= StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft;
-                    }
-                }
-                try
-                {
-                    chartGraph.IsTextClipped = !Position.Auto;
-                    Title.DrawStringWithStyle(chartGraph, titleText, textStyle, this.Font, absPosition, this.ForeColor, textShadowColor, textShadowOffset, format, this.GetTextOrientation());
-                }
-                finally
-                {
-                    chartGraph.IsTextClipped = false;
-                }
-                // Call Paint event
-                if (Common.ProcessModePaint)
-                    Common.Chart.CallOnPostPaint(new ChartPaintEventArgs(this, chartGraph, Common, Position));
-            
-			    //***************************************************************
-			    //** Restore old transformation
-			    //***************************************************************
-			    if(oldTransform != null)
-			    {
-					chartGraph.Transform = oldTransform;
-					oldTransform.Dispose();
-				}
-
-                if (Common.ProcessModeRegions)
-                {
-                    Common.HotRegionsList.AddHotRegion(titlePosition, this.ToolTip, null, null, null, this, ChartElementType.Title, null);
-                }
+            if (Common.ProcessModeRegions)
+            {
+                Common.HotRegionsList.AddHotRegion(titlePosition, this.ToolTip, null, null, null, this, ChartElementType.Title, null);
             }
         }
 
@@ -1510,30 +1508,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (textStyle == TextStyle.Default)
                 {
-                    using (SolidBrush brush = new SolidBrush(foreColor))
-                    {
-                        chartGraph.DrawString(titleText, font, brush, absPosition, format, orientation);
-                    }
+                    using SolidBrush brush = new SolidBrush(foreColor);
+                    chartGraph.DrawString(titleText, font, brush, absPosition, format, orientation);
                 }
                 else if (textStyle == TextStyle.Frame)
                 {
-                    using (GraphicsPath graphicsPath = new GraphicsPath())
-                    {
-                        graphicsPath.AddString(
-                            titleText,
-                            font.FontFamily,
-                            (int)font.Style,
-                            font.Size * 1.3f,
-                            absPosition,
-                            format);
-                        graphicsPath.CloseAllFigures();
+                    using GraphicsPath graphicsPath = new GraphicsPath();
+                    graphicsPath.AddString(
+                        titleText,
+                        font.FontFamily,
+                        (int)font.Style,
+                        font.Size * 1.3f,
+                        absPosition,
+                        format);
+                    graphicsPath.CloseAllFigures();
 
 
-                        using (Pen pen = new Pen(foreColor, 1))
-                        {
-                            chartGraph.DrawPath(pen, graphicsPath);
-                        }
-                    }
+                    using Pen pen = new Pen(foreColor, 1);
+                    chartGraph.DrawPath(pen, graphicsPath);
                 }
                 else if (textStyle == TextStyle.Embed)
                 {
@@ -1850,7 +1842,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if(chartPicture != null)
 			{
 				// Get elemets spacing
-				float areaSpacing = Math.Min((chartAreasRectangle.Height/100F) * elementSpacing, (chartAreasRectangle.Width/100F) * elementSpacing);
+				float areaSpacing = Math.Min(chartAreasRectangle.Height/100F * elementSpacing, chartAreasRectangle.Width/100F * elementSpacing);
 
 				// Loop through all titles
 				foreach(Title title in chartPicture.Titles)
@@ -1864,7 +1856,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Check if all chart area names are valid
                     if (title.DockedToChartArea != Constants.NotSetValue && chartPicture.ChartAreas.IndexOf(title.DockedToChartArea)<0)
                     {
-                        throw (new ArgumentException(SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea)));
+                        throw new ArgumentException(SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea));
                     }
 
 					// Process only titles docked to specified area
@@ -1966,7 +1958,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						}
 						catch
 						{
-							throw(new ArgumentException( SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea) ) );
+							throw new ArgumentException( SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea) ) ;
 						}
 					}
 				}
@@ -1983,7 +1975,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						RectangleF titlePlottingRectangle = area.PlotAreaPosition.ToRectangleF();
 
 						// Get elemets spacing
-						float areaSpacing = Math.Min((titlePlottingRectangle.Height/100F) * elementSpacing, (titlePlottingRectangle.Width/100F) * elementSpacing);
+						float areaSpacing = Math.Min(titlePlottingRectangle.Height/100F * elementSpacing, titlePlottingRectangle.Width/100F * elementSpacing);
 
 						// Loop through all titles
 						foreach(Title title in chartPicture.Titles)

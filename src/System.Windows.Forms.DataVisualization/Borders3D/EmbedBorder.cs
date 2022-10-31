@@ -876,11 +876,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 			ChartDashStyle borderDashStyle)	
 		{
 			RectangleF absolute = graph.Round( rect );
-			RectangleF shadowRect = absolute;
 
-			// Calculate shadow colors (0.2 - 0.6)
-			float colorDarkeningIndex = 0.3f + (0.4f * (borderSkin.PageColor.R + borderSkin.PageColor.G + borderSkin.PageColor.B) / 765f);
-			Color	shadowColor = Color.FromArgb(
+            // Calculate shadow colors (0.2 - 0.6)
+            float colorDarkeningIndex = 0.3f + (0.4f * (borderSkin.PageColor.R + borderSkin.PageColor.G + borderSkin.PageColor.B) / 765f);
+            Color	shadowColor = Color.FromArgb(
 				(int)(backColor.R*colorDarkeningIndex), 
 				(int)(backColor.G*colorDarkeningIndex), 
 				(int)(backColor.B*colorDarkeningIndex));
@@ -908,19 +907,20 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
                 graph.FillRectangle(brush, rect);
             }
 
-			if(drawOutsideTopLeftShadow)
-			{
-				// Top/Left outside shadow
-				shadowRect = absolute;
-				shadowRect.X -= radius * 0.3f;
-				shadowRect.Y -= radius * 0.3f;
-				shadowRect.Width -= radius * .3f;
-				shadowRect.Height -= radius * .3f;
-				graph.DrawRoundedRectShadowAbs(shadowRect, cornerRadius, radius, Color.FromArgb(128, Color.Black), borderSkin.PageColor, outsideShadowRate);
-			}
+            RectangleF shadowRect;
+            if (drawOutsideTopLeftShadow)
+            {
+                // Top/Left outside shadow
+                shadowRect = absolute;
+                shadowRect.X -= radius * 0.3f;
+                shadowRect.Y -= radius * 0.3f;
+                shadowRect.Width -= radius * .3f;
+                shadowRect.Height -= radius * .3f;
+                graph.DrawRoundedRectShadowAbs(shadowRect, cornerRadius, radius, Color.FromArgb(128, Color.Black), borderSkin.PageColor, outsideShadowRate);
+            }
 
-			// Bottom/Right outside shadow
-			shadowRect = absolute;
+            // Bottom/Right outside shadow
+            shadowRect = absolute;
 			shadowRect.X += radius * 0.3f;
 			shadowRect.Y += radius * 0.3f;
 			shadowRect.Width -= radius * .3f;
@@ -1009,7 +1009,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 					cornerRadius,
 					radius,
 					Color.Transparent, 
-					Color.FromArgb(175, (sunken) ? Color.White : shadowColor), 
+					Color.FromArgb(175, sunken ? Color.White : shadowColor), 
 					1.0f);
 				graph.Clip = new Region();
 				innerShadowRegion.Dispose();
@@ -1045,7 +1045,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 				cornerRadius, 
 				radius, 
 				Color.Transparent, 
-				Color.FromArgb(175, (sunken) ? shadowColor : Color.White), 
+				Color.FromArgb(175, sunken ? shadowColor : Color.White), 
 				1.0f);
 			graph.Clip = new Region();
 			innerShadowRegion.Dispose();

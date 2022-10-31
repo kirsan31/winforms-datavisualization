@@ -854,12 +854,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if( (this.Common.ProcessModePaint && this.IsSelected) ||
 				this.Common.ProcessModeRegions )
 			{
-				// Get annotation position in relative coordinates
-				PointF firstPoint = PointF.Empty;
-				PointF anchorPoint = PointF.Empty;
-				SizeF size = SizeF.Empty;
-				GetRelativePosition(out firstPoint, out size, out anchorPoint);
-				PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+                // Get annotation position in relative coordinates
+                GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
+                PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 				// Create selection rectangle
 				RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));

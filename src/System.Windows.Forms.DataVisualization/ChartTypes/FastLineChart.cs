@@ -239,14 +239,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Get 3D series depth and Z position
                 if (this.chartArea3DEnabled)
                 {
-                    float seriesDepth;
-                    area.GetSeriesZPositionAndDepth(series, out seriesDepth, out seriesZCoordinate);
+                    area.GetSeriesZPositionAndDepth(series, out float seriesDepth, out seriesZCoordinate);
                     this.seriesZCoordinate += seriesDepth / 2.0f;
                 }
 
                 // Set active horizontal/vertical axis
-                Axis hAxis = area.GetAxis(AxisName.X, series.XAxisType, (area.Area3DStyle.Enable3D) ? string.Empty : series.XSubAxisName);
-                Axis vAxis = area.GetAxis(AxisName.Y, series.YAxisType, (area.Area3DStyle.Enable3D) ? string.Empty : series.YSubAxisName);
+                Axis hAxis = area.GetAxis(AxisName.X, series.XAxisType, area.Area3DStyle.Enable3D ? string.Empty : series.XSubAxisName);
+                Axis vAxis = area.GetAxis(AxisName.Y, series.YAxisType, area.Area3DStyle.Enable3D ? string.Empty : series.YSubAxisName);
                 double hAxisMin = hAxis.ViewMinimum;
                 double hAxisMax = hAxis.ViewMaximum;
                 double vAxisMin = vAxis.ViewMinimum;
@@ -258,8 +257,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     string attrValue = series[CustomPropertyName.PermittedPixelError];
 
-                    float pixelError;
-                    bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.CurrentCulture, out pixelError);
+                    bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.CurrentCulture, out float pixelError);
 
                     if (parseSucceed)
                     {
@@ -267,13 +265,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
                     else
                     {
-                        throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PermittedPixelError")));
+                        throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PermittedPixelError"));
                     }
 
                     // "PermittedPixelError" attribute value should be in range from zero to 1
                     if (permittedPixelError < 0f || permittedPixelError > 1f)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotInRange0to1("PermittedPixelError")));
+                        throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotInRange0to1("PermittedPixelError"));
                     }
                 }
 
@@ -321,7 +319,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 foreach (DataPoint point in series.Points)
                 {
                     // Get point X and Y values
-                    xValue = (indexedSeries) ? index + 1 : point.XValue;
+                    xValue = indexedSeries ? index + 1 : point.XValue;
                     xValue = hAxis.GetLogValue(xValue);
                     yValue = vAxis.GetLogValue(point.YValues[0]);
                     currentPointIsEmpty = point.IsEmpty;
@@ -446,8 +444,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     if (verticalLineDetected)
                     {
                         // Convert Y coordinates to pixels
-                        yValueRangeMin = (vAxis.GetLinearPosition(yValueRangeMin) * yPixelConverter);
-                        yValueRangeMax = (vAxis.GetLinearPosition(yValueRangeMax) * yPixelConverter);
+                        yValueRangeMin = vAxis.GetLinearPosition(yValueRangeMin) * yPixelConverter;
+                        yValueRangeMax = vAxis.GetLinearPosition(yValueRangeMax) * yPixelConverter;
 
                         // Draw accumulated vertical line
                         DrawLine(
@@ -456,7 +454,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             pointRangeMin,
                             pointRangeMax,
                             index,
-                            (prevPointIsEmpty) ? emptyLinePen : linePen,
+                            prevPointIsEmpty ? emptyLinePen : linePen,
                             prevPoint.X,
                             (float)yValueRangeMin,
                             prevPoint.X,
@@ -479,7 +477,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             pointRangeMin,
                             pointRangeMax,
                             index,
-                            (currentPointIsEmpty) ? emptyLinePen : linePen,
+                            currentPointIsEmpty ? emptyLinePen : linePen,
                             prevPoint.X,
                             prevPoint.Y,
                             currentPoint.X,
@@ -509,8 +507,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
 
                     // Convert Y coordinates to pixels
-                    yValueRangeMin = (vAxis.GetLinearPosition(yValueRangeMin) * yPixelConverter);
-                    yValueRangeMax = (vAxis.GetLinearPosition(yValueRangeMax) * yPixelConverter);
+                    yValueRangeMin = vAxis.GetLinearPosition(yValueRangeMin) * yPixelConverter;
+                    yValueRangeMax = vAxis.GetLinearPosition(yValueRangeMax) * yPixelConverter;
 
                     // Draw accumulated vertical line
                     DrawLine(
@@ -519,7 +517,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         pointRangeMin,
                         pointRangeMax,
                         index - 1,
-                        (prevPointIsEmpty) ? emptyLinePen : linePen,
+                        prevPointIsEmpty ? emptyLinePen : linePen,
                         prevPoint.X,
                         (float)yValueRangeMin,
                         prevPoint.X,
@@ -600,49 +598,47 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             if (this.Common.ProcessModeRegions)
             {
                 // Create grapics path object for the line
-                using (GraphicsPath path = new GraphicsPath())
+                using GraphicsPath path = new GraphicsPath();
+                float width = pen.Width + 2;
+
+                if (Math.Abs(firstPointX - secondPointX) > Math.Abs(firstPointY - secondPointY))
                 {
-                    float width = pen.Width + 2;
+                    path.AddLine(firstPointX, firstPointY - width, secondPointX, secondPointY - width);
+                    path.AddLine(secondPointX, secondPointY + width, firstPointX, firstPointY + width);
+                    path.CloseAllFigures();
+                }
+                else
+                {
+                    path.AddLine(firstPointX - width, firstPointY, secondPointX - width, secondPointY);
+                    path.AddLine(secondPointX + width, secondPointY, firstPointX + width, firstPointY);
+                    path.CloseAllFigures();
+                }
 
-                    if (Math.Abs(firstPointX - secondPointX) > Math.Abs(firstPointY - secondPointY))
-                    {
-                        path.AddLine(firstPointX, firstPointY - width, secondPointX, secondPointY - width);
-                        path.AddLine(secondPointX, secondPointY + width, firstPointX, firstPointY + width);
-                        path.CloseAllFigures();
-                    }
-                    else
-                    {
-                        path.AddLine(firstPointX - width, firstPointY, secondPointX - width, secondPointY);
-                        path.AddLine(secondPointX + width, secondPointY, firstPointX + width, firstPointY);
-                        path.CloseAllFigures();
-                    }
+                // Calculate bounding rectangle
+                RectangleF pathBounds = path.GetBounds();
 
-                    // Calculate bounding rectangle
-                    RectangleF pathBounds = path.GetBounds();
-
-                    // If one side of the bounding rectangle is less than 2 pixels
-                    // use rectangle region shape to optimize used coordinates space
-                    if (pathBounds.Width <= 2.0 || pathBounds.Height <= 2.0)
-                    {
-                        // Add hot region path as rectangle
-                        pathBounds.Inflate(pen.Width, pen.Width);
-                        this.Common.HotRegionsList.AddHotRegion(
-                            Graph.GetRelativeRectangle(pathBounds),
-                            point,
-                            point.series.Name,
-                            pointIndex);
-                    }
-                    else
-                    {
-                        // Add hot region path as polygon
-                        this.Common.HotRegionsList.AddHotRegion(
-                            path,
-                            false,
-                            Graph,
-                            point,
-                            point.series.Name,
-                            pointIndex);
-                    }
+                // If one side of the bounding rectangle is less than 2 pixels
+                // use rectangle region shape to optimize used coordinates space
+                if (pathBounds.Width <= 2.0 || pathBounds.Height <= 2.0)
+                {
+                    // Add hot region path as rectangle
+                    pathBounds.Inflate(pen.Width, pen.Width);
+                    this.Common.HotRegionsList.AddHotRegion(
+                        Graph.GetRelativeRectangle(pathBounds),
+                        point,
+                        point.series.Name,
+                        pointIndex);
+                }
+                else
+                {
+                    // Add hot region path as polygon
+                    this.Common.HotRegionsList.AddHotRegion(
+                        path,
+                        false,
+                        Graph,
+                        point,
+                        point.series.Name,
+                        pointIndex);
                 }
             }
         }

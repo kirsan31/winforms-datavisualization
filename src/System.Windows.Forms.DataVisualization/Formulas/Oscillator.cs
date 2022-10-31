@@ -62,23 +62,21 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			// Different number of x and y values
 			CheckNumOfValues( inputValues, 4 );
 
-			// Short Period for Exp moving average
-			int shortPeriod;
-            if (parameterList.Length < 1 || 
-                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out shortPeriod))
+            // Short Period for Exp moving average
+            if (parameterList.Length < 1 ||
+                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int shortPeriod))
             {
                 shortPeriod = 3;
             }
-			
-			// Int64 Period for Exp moving average
-			int longPeriod;
-            if (parameterList.Length < 2 || 
-                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out longPeriod))
+
+            // Int64 Period for Exp moving average
+            if (parameterList.Length < 2 ||
+                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out int longPeriod))
             {
                 longPeriod = 10;
             }
 
-			if( shortPeriod > longPeriod || longPeriod <= 0 || shortPeriod <= 0 )
+            if ( shortPeriod > longPeriod || longPeriod <= 0 || shortPeriod <= 0 )
 			{
                 throw new ArgumentException(SR.ExceptionOscillatorObjectInvalidPeriod);
 			}
@@ -93,17 +91,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			// Accumulation Distribution
 			volume.AccumulationDistribution( inputValues, out outputDistribution );
 
-			double [] ExpAvgDistribution;
 
-			// Exponential Moving average of Accumulation Distribution
-			ExponentialMovingAverage(outputDistribution[1],out ExpAvgDistribution,longPeriod,startFromFirst);
+            // Exponential Moving average of Accumulation Distribution
+            ExponentialMovingAverage(outputDistribution[1], out double[] ExpAvgDistribution, longPeriod, startFromFirst);
 
-			double [] ExpAvg;
 
-			// Exponential Moving average of close
-			ExponentialMovingAverage(outputDistribution[1],out ExpAvg,shortPeriod,startFromFirst);
+            // Exponential Moving average of close
+            ExponentialMovingAverage(outputDistribution[1], out double[] ExpAvg, shortPeriod, startFromFirst);
 
-			outputValues = new double [2][];
+            outputValues = new double [2][];
 
 			int period = Math.Min(ExpAvg.Length,ExpAvgDistribution.Length);
 
@@ -180,12 +176,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			if( period <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
 
-			double [] outputAverage;
 
-			// Moving Average
-			MovingAverage( inputValues[1], out outputAverage, period, false );
-			
-			outputValues = new double [2][];
+            // Moving Average
+            MovingAverage(inputValues[1], out double[] outputAverage, period, false);
+
+            outputValues = new double [2][];
 
 			outputValues[0] = new double [inputValues[0].Length - period*3/2];
 			outputValues[1] = new double [inputValues[1].Length - period*3/2];
@@ -243,41 +238,38 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			
 			// Different number of x and y values
 			CheckNumOfValues( inputValues, 2 );
-						
-			// Period
-			int period;
+
+            // Period
             if (parameterList.Length < 1 ||
-                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out period))
+                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int period))
             {
                 period = 10;
             }
 
-			if( period <= 0 )
+            if ( period <= 0 )
                 throw new InvalidOperationException(SR.ExceptionOscillatorNegativePeriodParameter);
 
-			// Signal Period for Exp moving average
-			int signalPeriod;
+            // Signal Period for Exp moving average
             if (parameterList.Length < 2 ||
-                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out signalPeriod))
+                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out int signalPeriod))
             {
                 signalPeriod = 10;
             }
 
-			if( signalPeriod <= 0 )
+            if ( signalPeriod <= 0 )
                 throw new InvalidOperationException(SR.ExceptionOscillatorNegativeSignalPeriod);
 
-			double [] outputAverage;
 
-			double [] hiLowInput = new double[inputValues[1].Length];
+            double[] hiLowInput = new double[inputValues[1].Length];
 
-			// Find Hi - Low
-			for( int index = 0; index < inputValues[1].Length; index++ )
+            // Find Hi - Low
+            for ( int index = 0; index < inputValues[1].Length; index++ )
 			{
 				hiLowInput[index] = inputValues[1][index] - inputValues[2][index];
 			}
             
 			// Exponential Moving Average
-			ExponentialMovingAverage( hiLowInput, out outputAverage, signalPeriod, false );
+			ExponentialMovingAverage( hiLowInput, out double[] outputAverage, signalPeriod, false );
 			
 			outputValues = new double [2][];
 
@@ -334,42 +326,37 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			
 			// Different number of x and y values
 			CheckNumOfValues( inputValues, 1 );
-						
-			// Short Period
-			int shortPeriod;
-            if (parameterList.Length < 1 || 
-                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out shortPeriod))
+
+            // Short Period
+            if (parameterList.Length < 1 ||
+                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int shortPeriod))
             {
                 shortPeriod = 5;
             }
 
-			// Int64 Period
-			int longPeriod;
-            if (parameterList.Length < 2 || 
-                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out longPeriod))
+            // Int64 Period
+            if (parameterList.Length < 2 ||
+                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out int longPeriod))
             {
                 longPeriod = 10;
             }
 
-			if( shortPeriod > longPeriod || longPeriod <= 0 || shortPeriod <= 0 )
+            if ( shortPeriod > longPeriod || longPeriod <= 0 || shortPeriod <= 0 )
                 throw new ArgumentException(SR.ExceptionOscillatorObjectInvalidPeriod);
 
-			// percentage
-			bool percentage;
-            if (parameterList.Length < 3 || 
-                !bool.TryParse(parameterList[2], out percentage))
+            // percentage
+            if (parameterList.Length < 3 ||
+                !bool.TryParse(parameterList[2], out bool percentage))
             {
                 percentage = true;
             }
-			
-			double [] shortAverage;
-			double [] longAverage;
 
-			// Find Short moving average
-			MovingAverage( inputValues[1], out shortAverage, shortPeriod, false );
 
-			// Find Int64 moving average
-			MovingAverage( inputValues[1], out longAverage, longPeriod, false );
+            // Find Short moving average
+            MovingAverage(inputValues[1], out double[] shortAverage, shortPeriod, false);
+
+            // Find Int64 moving average
+            MovingAverage( inputValues[1], out double[] longAverage, longPeriod, false );
 
 			outputValues = new double [2][];
 
@@ -442,27 +429,25 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			
 			// Different number of x and y values
 			CheckNumOfValues( inputValues, 3 );
-			
-			// PeriodD for moving average
-			int periodD;
-            if (parameterList.Length < 2 || 
-                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out periodD))
+
+            // PeriodD for moving average
+            if (parameterList.Length < 2 ||
+                !int.TryParse(parameterList[1], NumberStyles.Any, CultureInfo.InvariantCulture, out int periodD))
             {
                 periodD = 10;
             }
 
-			if( periodD <= 0 )
+            if ( periodD <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
 
-			// PeriodK for moving average
-			int periodK;
-            if (parameterList.Length < 1 || 
-                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out periodK))
+            // PeriodK for moving average
+            if (parameterList.Length < 1 ||
+                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int periodK))
             {
                 periodK = 10;
             }
 
-			if( periodK <= 0 )
+            if ( periodK <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
 
 			// Output arrays
@@ -553,16 +538,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			
 			// Different number of x and y values
 			CheckNumOfValues( inputValues, 3 );
-			
-			// PeriodD for moving average
-			int period;
-            if (parameterList.Length < 1 || 
-                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out period))
+
+            // PeriodD for moving average
+            if (parameterList.Length < 1 ||
+                !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int period))
             {
                 period = 14;
             }
 
-			if( period <= 0 )
+            if ( period <= 0 )
                 throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
 
 			// Output arrays

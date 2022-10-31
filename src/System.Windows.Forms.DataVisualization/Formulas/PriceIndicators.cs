@@ -401,7 +401,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 							sum += inputValues[1][pointSum];
 						}
 
-						movingAvr = sum / ( period );
+						movingAvr = sum /  period ;
 					}
 						// else use previos day exponential moving average
 					else
@@ -474,11 +474,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			// Find triangular period
 			double tempPeriod = (period + 1.0) / 2.0;
 			tempPeriod = Math.Round(tempPeriod);
-			double [] tempOut;
-			double [] tempIn = inputValues[1];
+            double[] tempIn = inputValues[1];
 
-			// Call moving averages first time
-			MovingAverage( tempIn, out tempOut, (int)tempPeriod, startFromFirst );
+            // Call moving averages first time
+            MovingAverage( tempIn, out double[] tempOut, (int)tempPeriod, startFromFirst );
 			// Call moving averages second time (Moving average of moving average)
 			MovingAverage( tempOut, out tempOut, (int)tempPeriod, startFromFirst );
 
@@ -493,7 +492,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			else
 			{
 				for( int index = 0; index < outputValues[1].Length; index++ )
-					outputValues[0][index] = inputValues[0][((int)(tempPeriod)-1) * 2 + index];
+					outputValues[0][index] = inputValues[0][((int)tempPeriod-1) * 2 + index];
 			}
 		}
 
@@ -735,7 +734,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 								
 					for( int pointSum = startSum; pointSum <= point; pointSum++ )
 					{
-						sum += ((inputValues[1][pointSum] - average[point])*(inputValues[1][pointSum] - average[point]));
+						sum += (inputValues[1][pointSum] - average[point])*(inputValues[1][pointSum] - average[point]);
 					}
 
 					outputValues[1][point] = average[point] + Math.Sqrt(sum / period) * deviation;
@@ -766,7 +765,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 									
 					for( int pointSum = point; pointSum < point + period; pointSum++ )
 					{
-						sum += ((inputValues[1][pointSum] - average[point])*(inputValues[1][pointSum] - average[point]));
+						sum += (inputValues[1][pointSum] - average[point])*(inputValues[1][pointSum] - average[point]);
 					}
 
 					outputValues[1][point] = average[point] + Math.Sqrt(sum / period) * deviation;
@@ -971,11 +970,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			if( inputValues[0].Length != inputValues[1].Length )
                 throw new ArgumentException(SR.ExceptionPriceIndicatorsSameXYNumber);
 
-			double [][] movingAverage;
 
-			MovingAverage( inputValues, out movingAverage, parameterList, extraParameterList );
+            MovingAverage(inputValues, out double[][] movingAverage, parameterList, extraParameterList);
 
-			outputValues = new double[3][];
+            outputValues = new double[3][];
 			outputValues[0] = new double[movingAverage[0].Length];
 			outputValues[1] = new double[movingAverage[0].Length];
 			outputValues[2] = new double[movingAverage[0].Length];

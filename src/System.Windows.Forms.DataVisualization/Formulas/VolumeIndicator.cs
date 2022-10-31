@@ -180,14 +180,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 				}
 			}
 
-			double PosMoney = 0;
-			double NegMoney = 0;
-			for( int index = period - 1; index < inputValues[1].Length; index++ )
+            for ( int index = period - 1; index < inputValues[1].Length; index++ )
 			{
-				PosMoney = 0;
-				NegMoney = 0;
-				// Find Money flow using period
-				for( int periodIndex = index - period + 1; periodIndex <= index; periodIndex++ )
+                double PosMoney = 0;
+                double NegMoney = 0;
+                // Find Money flow using period
+                for ( int periodIndex = index - period + 1; periodIndex <= index; periodIndex++ )
 				{
 					NegMoney += NegativeMoneyFlow[periodIndex];
 					PosMoney += PositiveMoneyFlow[periodIndex];
@@ -494,7 +492,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 				outputValues[0][index] = inputValues[0][index];
 
 				// Distribution  {(Close - Low) - (High - Close)} / (High - Low) * Volume
-				distribution[index] = ((inputValues[3][index] - inputValues[2][index])-(inputValues[1][index] - inputValues[3][index]))/(inputValues[1][index] - inputValues[2][index])*inputValues[4][index];
+				distribution[index] = (inputValues[3][index] - inputValues[2][index]-(inputValues[1][index] - inputValues[3][index]))/(inputValues[1][index] - inputValues[2][index])*inputValues[4][index];
 			}
 
 			// The Accumulation Distribution Index is calculated as a cumulative total of each day's reading

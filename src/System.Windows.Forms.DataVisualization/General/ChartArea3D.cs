@@ -288,7 +288,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 100)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPerspectiveInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPerspectiveInvalid);
 				}
 
                 _perspective = value;
@@ -327,7 +327,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < -90 || value > 90)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DInclinationInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DInclinationInvalid);
 				}
                 _inclination = value;
 
@@ -358,7 +358,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < -180 || value > 180)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DRotationInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DRotationInvalid);
 				}
                 _rotation = value;
 
@@ -389,7 +389,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 30)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DWallWidthInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DWallWidthInvalid);
 				}
 
                 _wallWidth = value;
@@ -420,7 +420,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 1000)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPointsDepthInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPointsDepthInvalid);
 				}
 
                 _pointDepth = value;
@@ -451,7 +451,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 1000)
 				{
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPointsGapInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPointsGapInvalid);
 				}
 
                 _pointGapDepth = value;
@@ -584,7 +584,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Convert Z coordinates from 0-100% to axis values
 			foreach(Point3D pt in points)
 			{
-				pt.Z = (pt.Z / 100f) * this.areaSceneDepth;
+				pt.Z = pt.Z / 100f * this.areaSceneDepth;
 			}
 
 			// Transform points
@@ -756,7 +756,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>True if bottom wall is visible.</returns>
 		internal bool IsBottomSceneWallVisible()
 		{
-			return (this.Area3DStyle.Inclination >= 0);
+			return this.Area3DStyle.Inclination >= 0;
 		}
 
         /// <summary>
@@ -777,7 +777,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>True if bottom wall is visible.</returns>
 		internal bool IsSideSceneWallOnLeft()
 		{
-			return (this.Area3DStyle.Rotation > 0);
+			return this.Area3DStyle.Rotation > 0;
 		}
 
 		#endregion
@@ -791,9 +791,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>The Z position of the specified series. Measured as a percentage of the chart area's depth.</returns>
 		public float GetSeriesZPosition(Series series)
 		{
-			float	positionZ, depth;
-			GetSeriesZPositionAndDepth(series, out depth, out positionZ);
-			return ((positionZ + depth/2f) / this.areaSceneDepth) * 100f;
+            GetSeriesZPositionAndDepth(series, out float depth, out float positionZ);
+            return (positionZ + depth/2f) / this.areaSceneDepth * 100f;
 		}
 
 		/// <summary>
@@ -803,9 +802,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>The depth of the specified series. Measured as a percentage of the chart area's depth.</returns>
 		public float GetSeriesDepth(Series series)
 		{
-			float	positionZ, depth;
-			GetSeriesZPositionAndDepth(series, out depth, out positionZ);
-			return (depth / this.areaSceneDepth) * 100f;
+            GetSeriesZPositionAndDepth(series, out float depth, out float positionZ);
+            return depth / this.areaSceneDepth * 100f;
 		}
 
 		/// <summary>
@@ -844,9 +842,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			double clusteredInterval = 1;
 			if(!indexedSeries)
 			{
-				bool sameInterval;
-				clusteredInterval = this.GetPointsInterval(this._series, xAxis.IsLogarithmic, xAxis.logarithmBase, false, out sameInterval, out smallestIntervalSeries);
-			}
+                clusteredInterval = this.GetPointsInterval(this._series, xAxis.IsLogarithmic, xAxis.logarithmBase, false, out bool sameInterval, out smallestIntervalSeries);
+            }
 
 			//***********************************************************
 			//** Check if "DrawSideBySide" attribute is set.
@@ -874,7 +871,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						}
 						else
 						{
-                            throw (new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid));
+                            throw new InvalidOperationException(SR.ExceptionAttributeDrawSideBySideInvalid);
 						}
 					}
 				}
@@ -929,9 +926,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Check series support stack groups
 				if(Common.ChartTypeRegistry.GetChartType(smallestIntervalSeries.ChartTypeName).SupportStackedGroups)
 				{
-					// Calculate how many stack groups exsist
-					seriesNumber = 0;
-					ArrayList stackGroupNames = new ArrayList();
+                    // Calculate how many stack groups exsist
+                    ArrayList stackGroupNames = new ArrayList();
 					foreach(string seriesName in this._series)
 					{
 						// Get series object from name
@@ -971,7 +967,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					0.8) / seriesNumber;
                 _pointsDepth *= this.Area3DStyle.PointDepth / 100.0;
 			}
-            _pointsGapDepth = (_pointsDepth * 0.8) * this.Area3DStyle.PointGapDepth / 100.0;
+            _pointsGapDepth = _pointsDepth * 0.8 * this.Area3DStyle.PointGapDepth / 100.0;
 
 			// Get point depth and gap from series
 			if(smallestIntervalSeries != null)
@@ -1151,7 +1147,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						// Check if series are drawn in reversed order
 						if(this._reverseSeriesOrder)
 						{
-							clusterIndex = (this.seriesClusters.Count - 1) - clusterIndex;
+							clusterIndex = this.seriesClusters.Count - 1 - clusterIndex;
 						}
 						return clusterIndex;
 					}
@@ -1235,10 +1231,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				
 				if(!area.InnerPlotPosition.Auto)
 				{
-					plottingRect.X += (area.Position.Width / 100F) * area.InnerPlotPosition.X;
-					plottingRect.Y += (area.Position.Height / 100F) * area.InnerPlotPosition.Y;
-					plottingRect.Width = (area.Position.Width / 100F) * area.InnerPlotPosition.Width;
-					plottingRect.Height = (area.Position.Height / 100F) * area.InnerPlotPosition.Height;
+					plottingRect.X += area.Position.Width / 100F * area.InnerPlotPosition.X;
+					plottingRect.Y += area.Position.Height / 100F * area.InnerPlotPosition.Y;
+					plottingRect.Width = area.Position.Width / 100F * area.InnerPlotPosition.Width;
+					plottingRect.Height = area.Position.Height / 100F * area.InnerPlotPosition.Height;
 				}
 
 			}
@@ -1410,7 +1406,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal bool ShouldDrawOnSurface(SurfaceNames surfaceName, bool backLayer, bool onEdge)
 		{
 			// Check if surface element should be drawn on the Back or Front layer.
-            bool isVisible = ((this._visibleSurfaces & surfaceName) == surfaceName);
+            bool isVisible = (this._visibleSurfaces & surfaceName) == surfaceName;
 
 			// Elements on the edge are drawn on the back layer
 			if(onEdge)
@@ -1418,7 +1414,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				return backLayer;
 			}
 
-			return (backLayer == (!isVisible) );
+			return backLayer == (!isVisible) ;
 		}
 
 		/// <summary>
@@ -1428,7 +1424,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>True if series points should be drawn in reversed order.</returns>
 		internal bool DrawPointsInReverseOrder()
 		{
-			return (this.Area3DStyle.Rotation <= 0);
+			return this.Area3DStyle.Rotation <= 0;
 		}
 
         /// <summary>
@@ -1452,7 +1448,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						result = true;
 					}
-					resultCoordinates = resultCoordinates | COPCoordinates.X;
+					resultCoordinates |= COPCoordinates.X;
 				}
 				if( (coord & COPCoordinates.Y) == COPCoordinates.Y )
 				{
@@ -1462,7 +1458,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						result = true;
 					}
-					resultCoordinates = resultCoordinates | COPCoordinates.Y;
+					resultCoordinates |= COPCoordinates.Y;
 				}
 				if( (coord & COPCoordinates.Z) == COPCoordinates.Z )
 				{
@@ -1472,7 +1468,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						result = true;
 					}
-					resultCoordinates = resultCoordinates | COPCoordinates.Z;
+					resultCoordinates |= COPCoordinates.Z;
 				}
 			}
 
@@ -1595,12 +1591,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							continue;
 						}
 
-						// Get series Z position
-						float seriesDepth, seriesZPosition;
-						this.GetSeriesZPositionAndDepth(seriesList[seriesIndex], out seriesDepth, out seriesZPosition);
+                        // Get series Z position
+                        this.GetSeriesZPositionAndDepth(seriesList[seriesIndex], out float seriesDepth, out float seriesZPosition);
 
-						// Check if series passes the Z coordinate of Center of Projection
-						if(seriesZPosition >= areaProjectionCenter.Z)
+                        // Check if series passes the Z coordinate of Center of Projection
+                        if (seriesZPosition >= areaProjectionCenter.Z)
 						{
 							// Reversed all series order staring from previous series
 							--seriesIndex;
@@ -1777,15 +1772,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 				// Get column width
 				double	width = ser.GetPointWidth(area.Common.graph, hAxis, interval, 0.8) / numOfSeries;
-					
-				// Get series depth and Z position
-				float seriesDepth, seriesZPosition;
-				this.GetSeriesZPositionAndDepth(ser, out seriesDepth, out seriesZPosition);
 
-				//************************************************************
-				//** Loop through all points in series
-				//************************************************************
-				int	index = 0;
+                // Get series depth and Z position
+                this.GetSeriesZPositionAndDepth(ser, out float seriesDepth, out float seriesZPosition);
+
+                //************************************************************
+                //** Loop through all points in series
+                //************************************************************
+                int	index = 0;
 				foreach( DataPoint point in ser.Points )
 				{
 					// Increase point index
@@ -1999,7 +1993,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 				}
 
-                return (_selection) ? -result : result;
+                return _selection ? -result : result;
 			}
 		}
 
@@ -2019,21 +2013,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			points[0] = new Point3D(this.PlotAreaPosition.X, this.PlotAreaPosition.Bottom, 0f);
 			points[1] = new Point3D(this.PlotAreaPosition.Right, this.PlotAreaPosition.Y, this.areaSceneDepth);
 
-			// Check if surfaces (points 1 & 2) has same orientation
-			bool	xSameOrientation, ySameOrientation, zSameOrientation;
-			CheckSurfaceOrientation(
-				coord,
-				points[0],
-				points[1],
-				out xSameOrientation, 
-				out ySameOrientation, 
-				out zSameOrientation);
+            // Check if surfaces (points 1 & 2) has same orientation
+            CheckSurfaceOrientation(
+                coord,
+                points[0],
+                points[1],
+                out bool xSameOrientation,
+                out bool ySameOrientation,
+                out bool zSameOrientation);
 
-			// If orientation of all surfaces is the same - no futher processing is required (COP is outside of plotting area)
-			Point3D		resultPoint = new Point3D(
-				(xSameOrientation) ? float.NaN : 0f,
-				(ySameOrientation) ? float.NaN : 0f,
-				(zSameOrientation) ? float.NaN : 0f);
+            // If orientation of all surfaces is the same - no futher processing is required (COP is outside of plotting area)
+            Point3D		resultPoint = new Point3D(
+				xSameOrientation ? float.NaN : 0f,
+				ySameOrientation ? float.NaN : 0f,
+				zSameOrientation ? float.NaN : 0f);
 			if( ( ((coord & COPCoordinates.X) != COPCoordinates.X) || xSameOrientation ) &&
 				( ((coord & COPCoordinates.Y) != COPCoordinates.Y) || ySameOrientation ) &&
 				( ((coord & COPCoordinates.Z) != COPCoordinates.Z) || zSameOrientation ) )
@@ -2066,9 +2059,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					out zSameOrientation);
 
 				// Calculate points 1 & 2 depending on surface orientation of the middle point
-				points[(xSameOrientation) ? 0 : 1].X = middlePoint.X;
-				points[(ySameOrientation) ? 0 : 1].Y = middlePoint.Y;
-				points[(zSameOrientation) ? 0 : 1].Z = middlePoint.Z;
+				points[xSameOrientation ? 0 : 1].X = middlePoint.X;
+				points[ySameOrientation ? 0 : 1].Y = middlePoint.Y;
+				points[zSameOrientation ? 0 : 1].Z = middlePoint.Z;
 
 				// Check if no more calculations required
 				doneFlag = true;
@@ -2142,7 +2135,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				surf2 = ChartGraphics.IsSurfaceVisible(pointsSurface[0], pointsSurface[1], pointsSurface[2]);
 
 				// Check if surfaces have same visibility
-				xSameOrientation = (surf1 == surf2);
+				xSameOrientation = surf1 == surf2;
 			}
 
 			// Check Y axis coordinates (top & bottom surfaces)
@@ -2163,7 +2156,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				surf2 = ChartGraphics.IsSurfaceVisible(pointsSurface[0], pointsSurface[1], pointsSurface[2]);
 
 				// Check if surfaces have same visibility
-				ySameOrientation = (surf1 == surf2);
+				ySameOrientation = surf1 == surf2;
 			}
 
 			// Check Y axis coordinates (front & back surfaces)
@@ -2184,7 +2177,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				surf2 = ChartGraphics.IsSurfaceVisible(pointsSurface[0], pointsSurface[1], pointsSurface[2]);
 
 				// Check if surfaces have same visibility
-				zSameOrientation = (surf1 == surf2);
+				zSameOrientation = surf1 == surf2;
 			}
 		}
 #endregion
