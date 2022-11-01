@@ -1162,8 +1162,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 numberOfItemsToCheck,
                 out numberOfRowsPerColumn,
                 out columnNumber,
-                out int horSpaceLeft,
-                out int vertSpaceLeft);
+                out _,
+                out _);
         }
 
         /// <summary>
@@ -1296,8 +1296,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         numberOfRowsPerColumn,
                                         out this._subColumnSizes,
                                         out this._cellHeights,
-                                        out horSpaceLeft,
-                                        out vertSpaceLeft);
+                                        out _,
+                                        out _);
                                 }
                             }
                             else
@@ -1371,17 +1371,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         this._numberOfRowsPerColumn[columnNumber - 1] += itemsToAdd;
 
                                         // Check if legend items fit into the legend area
-                                        bool _ = this.CheckLegendItemsFit(
-                                            chartGraph,
-                                            legendSize,
-                                            legendItemIndex + 1,
-                                            this._autoFitFontSizeAdjustment,
-                                            columnNumber,
-                                            numberOfRowsPerColumn,
-                                            out this._subColumnSizes,
-                                            out this._cellHeights,
-                                            out horSpaceLeft,
-                                            out vertSpaceLeft);
+                                        _ = this.CheckLegendItemsFit(
+                                           chartGraph,
+                                           legendSize,
+                                           legendItemIndex + 1,
+                                           this._autoFitFontSizeAdjustment,
+                                           columnNumber,
+                                           numberOfRowsPerColumn,
+                                           out this._subColumnSizes,
+                                           out this._cellHeights,
+                                           out _,
+                                           out _);
 
                                         // Try doing one more time
                                         done = false;
@@ -1495,7 +1495,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                             out this._subColumnSizes,
                                             out this._cellHeights,
                                             out horSpaceLeft,
-                                            out vertSpaceLeft);
+                                            out _);
 
                                         exitLoop = true;
                                         break;
@@ -1530,7 +1530,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         out this._subColumnSizes,
                                         out this._cellHeights,
                                         out horSpaceLeft,
-                                        out vertSpaceLeft);
+                                        out _);
                                 }
 
                                 // If there is more than 1 column and items do not fit
