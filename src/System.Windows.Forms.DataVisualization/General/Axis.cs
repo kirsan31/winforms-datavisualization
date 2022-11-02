@@ -2,36 +2,26 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
-//  Purpose:	Axis related properties and methods. Axis class gives 
-//				information to Common.Chart series about 
-//				position in the Common.Chart area and keeps all necessary 
+//  Purpose:	Axis related properties and methods. Axis class gives
+//				information to Common.Chart series about
+//				position in the Common.Chart area and keeps all necessary
 //				information about axes.
 //
 
-
-using System;
 using System.Collections;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
-using System.Drawing.Text;
 using System.Drawing.Drawing2D;
-using System.Diagnostics.CodeAnalysis;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.Windows.Forms.DataVisualization.Charting.Data;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.DataVisualization.Charting.Borders3D;
 using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
-    using Point = System.Drawing.Point;
+    using Point = Point;
 
     #region Axis name enumeration
 
@@ -45,30 +35,37 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// No auto-fitting.
         /// </summary>
         None = 0,
+
         /// <summary>
         /// Allow font size increasing.
         /// </summary>
         IncreaseFont = 1,
+
         /// <summary>
         /// Allow font size decreasing.
         /// </summary>
         DecreaseFont = 2,
+
         /// <summary>
         /// Allow using staggered labels.
         /// </summary>
         StaggeredLabels = 4,
+
         /// <summary>
         /// Allow changing labels angle using values of 0, 30, 60 and 90 degrees.
         /// </summary>
         LabelsAngleStep30 = 8,
+
         /// <summary>
         /// Allow changing labels angle using values of 0, 45, 90 degrees.
         /// </summary>
         LabelsAngleStep45 = 16,
+
         /// <summary>
         /// Allow changing labels angle using values of 0 and 90 degrees.
         /// </summary>
         LabelsAngleStep90 = 32,
+
         /// <summary>
         /// Allow replacing spaces with the new line character.
         /// </summary>
@@ -83,29 +80,29 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Primary X Axis.
         /// </summary>
+        X,
 
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "X")]
-        X = 0,
         /// <summary>
         /// Primary Y Axis.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Y")]
-        Y = 1,
+        Y,
+
         /// <summary>
         /// Secondary X Axis.
         /// </summary>
         X2 = 2,
+
         /// <summary>
         /// Secondary Y Axis.
         /// </summary>
         Y2 = 3
     }
 
-    #endregion
+    #endregion Axis name enumeration
 
     /// <summary>
-    /// The Axis class gives information to the Common.Chart series 
-    /// about positions in the Common.Chart area and keeps all of 
+    /// The Axis class gives information to the Common.Chart series
+    /// about positions in the Common.Chart area and keeps all of
     ///	the data about the axis.
     /// </summary>
     [
@@ -121,7 +118,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         internal ElementPosition PlotAreaPosition;
 
-        // This field synchronies Store and Reset temporary values
+        // This field synchronizes Store and Reset temporary values
         private bool _storeValuesEnabled = true;
 
         private FontCache _fontCache = new FontCache();
@@ -142,6 +139,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Size of the axis elements in percentage
         internal float titleSize;
+
         internal float labelSize;
         internal float labelNearOffset;
         internal float labelFarOffset;
@@ -151,6 +149,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal float totlaGroupingLabelsSize;
         internal float[] groupingLabelSizes;
         internal float totlaGroupingLabelsSizeAdjustment;
+
         private LabelAutoFitStyles _labelAutoFitStyle = LabelAutoFitStyles.DecreaseFont |
                                                             LabelAutoFitStyles.IncreaseFont |
                                                             LabelAutoFitStyles.LabelsAngleStep30 |
@@ -166,7 +165,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Labels auto fitting constants
         private float _aveLabelFontSize = 10F;
+
         private float _minLabelFontSize = 5F;
+
         // Determines maximum label size of the chart area.
         private float _maximumAutoSize = 75f;
 
@@ -182,7 +183,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Maximum size of the axis title in percentage
         private const float maxAxisTitleSize = 20F;
 
-        // Maximum size of the axis second row of labels in percentage 
+        // Maximum size of the axis second row of labels in percentage
         // of the total labels size
         private const float maxAxisLabelRow2Size = 45F;
 
@@ -195,17 +196,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Maximum cached value from data series.
         internal double maximumFromData = double.NaN;
 
-        // Flag, which tells to Set Data method to take, again values from 
+        // Flag, which tells to Set Data method to take, again values from
         // data source and not to use cached values.
         internal bool refreshMinMaxFromData = true;
 
-        // Flag, which tells to Set Data method to take, again values from 
+        // Flag, which tells to Set Data method to take, again values from
         // data source and not to use cached values.
         internal int numberOfPointsInAllSeries;
 
         // Original axis scaleView position
         private double _originalViewPosition = double.NaN;
-
 
         /// <summary>
         /// Indicates that isInterlaced strip lines will be displayed for the axis.
@@ -255,11 +255,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Axis HREF
         /// </summary>
-        private string _url = String.Empty;
+        private readonly string _url = String.Empty;
+
         private bool _disposedValue;
 
-
-        #endregion
+        #endregion Axis fields
 
         #region Axis constructor and initialization
 
@@ -289,86 +289,52 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="axisTypeName">Name of the axis type.</param>
         private void Initialize(AxisName axisTypeName)
         {
-            // DT: Axis could be already created. Don't recreate new labelstyle and other objects.
+            // DT: Axis could be already created. Don't recreate new LabelStyle and other objects.
             // Initialize axis labels
-            if (labelStyle == null)
-            {
-                labelStyle = new LabelStyle(this);
-            }
-            if (_customLabels == null)
-            {
-                _customLabels = new CustomLabelsCollection(this);
-            }
-            if (_scaleView == null)
-            {
-                // Create axis data scaleView object
-                _scaleView = new AxisScaleView(this);
-            }
-            if (scrollBar == null)
-            {
-                // Create axis croll bar class
-                scrollBar = new AxisScrollBar(this);
-            }
+            labelStyle ??= new LabelStyle(this);
+            _customLabels ??= new CustomLabelsCollection(this);
+            // Create axis data scaleView object
+            _scaleView ??= new AxisScaleView(this);
+            // Create axis scroll bar class
+            scrollBar ??= new AxisScrollBar(this);
 
             this.axisType = axisTypeName;
 
             // Create grid & tick marks objects
-            if (minorTickMark == null)
+            minorTickMark ??= new TickMark(this, false);
+            majorTickMark ??= new TickMark(this, true)
             {
-                minorTickMark = new TickMark(this, false);
-            }
-            if (majorTickMark == null)
+                Interval = double.NaN,
+                IntervalOffset = double.NaN,
+                IntervalType = DateTimeIntervalType.NotSet,
+                IntervalOffsetType = DateTimeIntervalType.NotSet
+            };
+            minorGrid ??= new Grid(this, false);
+            majorGrid ??= new Grid(this, true)
             {
-                majorTickMark = new TickMark(this, true);
-                majorTickMark.Interval = double.NaN;
-                majorTickMark.IntervalOffset = double.NaN;
-                majorTickMark.IntervalType = DateTimeIntervalType.NotSet;
-                majorTickMark.IntervalOffsetType = DateTimeIntervalType.NotSet;
-            }
-            if (minorGrid == null)
-            {
-                minorGrid = new Grid(this, false);
-            }
-            if (majorGrid == null)
-            {
-                majorGrid = new Grid(this, true);
-                majorGrid.Interval = double.NaN;
-                majorGrid.IntervalOffset = double.NaN;
-                majorGrid.IntervalType = DateTimeIntervalType.NotSet;
-                majorGrid.IntervalOffsetType = DateTimeIntervalType.NotSet;
-            }
-            if (this._stripLines == null)
-            {
-                this._stripLines = new StripLinesCollection(this);
-            }
+                Interval = double.NaN,
+                IntervalOffset = double.NaN,
+                IntervalType = DateTimeIntervalType.NotSet,
+                IntervalOffsetType = DateTimeIntervalType.NotSet
+            };
+            this._stripLines ??= new StripLinesCollection(this);
 
-            if (_titleFont == null)
-            {
-                _titleFont = _fontCache.DefaultFont;
-            }
+            _titleFont ??= _fontCache.DefaultFont;
 #if SUBAXES
 			if(this.subAxes == null)
 			{
 				this.subAxes = new SubAxisCollection(this);
 			}
-#endif 
-
+#endif
 
             // Initialize axis scroll bar class
             this.ScrollBar.Initialize();
 
-
             // Create collection of scale segments
-            if (this.scaleSegments == null)
-            {
-                this.scaleSegments = new AxisScaleSegmentCollection(this);
-            }
+            this.scaleSegments ??= new AxisScaleSegmentCollection(this);
 
             // Create scale break style
-            if (this.axisScaleBreakStyle == null)
-            {
-                this.axisScaleBreakStyle = new AxisScaleBreakStyle(this);
-            }
+            this.axisScaleBreakStyle ??= new AxisScaleBreakStyle(this);
         }
 
         /// <summary>
@@ -389,25 +355,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal static string GetName(AxisName axisName)
         {
             // Set axis name.
-            // NOTE: Strings below should neber be localized. Name properties in the chart are never localized 
-            // and represent consisten object name in all locales.
+            // NOTE: Strings below should never be localized. Name properties in the chart are never localized
+            // and represent consistent object name in all locales.
             switch (axisName)
             {
                 case AxisName.X:
                     return "X axis";
+
                 case AxisName.Y:
                     return "Y (Value) axis";
+
                 case AxisName.X2:
                     return "Secondary X axis";
+
                 case AxisName.Y2:
                     return "Secondary Y (Value) axis";
             }
             return null;
         }
 
-        #endregion
+        #endregion Axis constructor and initialization
 
-        #region Axis properies
+        #region Axis properties
 
         // Internal
         internal ChartArea ChartArea
@@ -423,7 +392,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(TextOrientation.Auto),
         SRDescription("DescriptionAttribute_TextOrientation"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         ]
         public TextOrientation TextOrientation
         {
@@ -441,7 +410,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Returns sub-axis name.
         /// </summary>
-        virtual internal string SubAxisName
+        internal virtual string SubAxisName
         {
             get
             {
@@ -471,7 +440,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRCategory("CategoryAttributeSubAxes"),
 		Bindable(true),
 		SRDescription("DescriptionAttributeSubAxes"),
-		DesignerSerializationVisibility(DesignerSerializationVisibility.Content), 
+		DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         Editor(Editors.ChartCollectionEditor.Editor, Editors.ChartCollectionEditor.Base)
 		]
 		virtual public SubAxisCollection SubAxes
@@ -492,7 +461,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(false),
         SRDescription("DescriptionAttributeInterlaced"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         ]
         public bool IsInterlaced
         {
@@ -515,7 +484,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeInterlacedColor"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
@@ -541,8 +510,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Browsable(false),
         DefaultValue(""),
         SRDescription("DescriptionAttributeAxis_Name"),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden)
         ]
         public override string Name
         {
@@ -565,10 +534,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Browsable(false),
         DefaultValue(""),
         SRDescription("DescriptionAttributeType"),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden)
         ]
-        virtual public AxisName AxisName
+        public virtual AxisName AxisName
         {
             get
             {
@@ -583,7 +552,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(AxisArrowStyle.None),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeArrows"),
         ]
         public AxisArrowStyle ArrowStyle
@@ -605,7 +574,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeGridTickMarks"),
         Bindable(true),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeMajorGrid"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         TypeConverter(typeof(NoNameExpandableObjectConverter))
@@ -641,7 +610,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeGridTickMarks"),
         Bindable(true),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeMinorGrid"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         TypeConverter(typeof(NoNameExpandableObjectConverter))
@@ -666,7 +635,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeGridTickMarks"),
         Bindable(true),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeMajorTickMark"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         TypeConverter(typeof(NoNameExpandableObjectConverter))
@@ -702,7 +671,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeGridTickMarks"),
         Bindable(true),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeMinorTickMark"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         TypeConverter(typeof(NoNameExpandableObjectConverter))
@@ -729,8 +698,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(true),
         SRDescription("DescriptionAttributeLabelsAutoFit"),
-        NotifyParentPropertyAttribute(true),
-        RefreshPropertiesAttribute(RefreshProperties.All)
+        NotifyParentProperty(true),
+        RefreshProperties(RefreshProperties.All)
         ]
         public bool IsLabelAutoFit
         {
@@ -745,10 +714,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
-
         /// <summary>
-        /// Gets or sets the minimum font size that can be used by 
+        /// Gets or sets the minimum font size that can be used by
         /// the label auto-fitting algorithm.
         /// </summary>
         [
@@ -756,8 +723,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(6),
         SRDescription("DescriptionAttributeLabelsAutoFitMinFontSize"),
-        NotifyParentPropertyAttribute(true),
-        RefreshPropertiesAttribute(RefreshProperties.All)
+        NotifyParentProperty(true),
+        RefreshProperties(RefreshProperties.All)
         ]
         public int LabelAutoFitMinFontSize
         {
@@ -779,7 +746,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the maximum font size that can be used by 
+        /// Gets or sets the maximum font size that can be used by
         /// the label auto-fitting algorithm.
         /// </summary>
         [
@@ -787,8 +754,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(10),
         SRDescription("DescriptionAttributeLabelsAutoFitMaxFontSize"),
-        NotifyParentPropertyAttribute(true),
-        RefreshPropertiesAttribute(RefreshProperties.All)
+        NotifyParentProperty(true),
+        RefreshProperties(RefreshProperties.All)
         ]
         public int LabelAutoFitMaxFontSize
         {
@@ -809,10 +776,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
-
         /// <summary>
-        /// Gets or sets the auto-fitting style used for the labels. 
+        /// Gets or sets the auto-fitting style used for the labels.
         /// IsLabelAutoFit must be set to true.
         /// </summary>
         [
@@ -820,7 +785,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(LabelAutoFitStyles.DecreaseFont | LabelAutoFitStyles.IncreaseFont | LabelAutoFitStyles.LabelsAngleStep30 | LabelAutoFitStyles.StaggeredLabels | LabelAutoFitStyles.WordWrap),
         SRDescription("DescriptionAttributeLabelsAutoFitStyle"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor))
         ]
         public LabelAutoFitStyles LabelAutoFitStyle
@@ -838,7 +803,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         /// <summary>
         /// Gets or sets a flag which indicates whether
-        /// tick marks and labels move with the axis when 
+        /// tick marks and labels move with the axis when
         /// the crossing value changes.
         /// </summary>
         [
@@ -846,9 +811,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(true),
         SRDescription("DescriptionAttributeMarksNextToAxis"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         ]
-        virtual public bool IsMarksNextToAxis
+        public virtual bool IsMarksNextToAxis
         {
             get
             {
@@ -869,7 +834,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(""),
         SRDescription("DescriptionAttributeTitle6"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         ]
         public string Title
         {
@@ -892,7 +857,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeTitleColor"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
@@ -917,7 +882,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(StringAlignment), "Center"),
         SRDescription("DescriptionAttributeTitleAlignment"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         ]
         public StringAlignment TitleAlignment
         {
@@ -940,7 +905,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
         SRDescription("DescriptionAttributeTitleFont"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         ]
         public Font TitleFont
         {
@@ -963,7 +928,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeLineColor"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
@@ -988,7 +953,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(1),
         SRDescription("DescriptionAttributeLineWidth"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         ]
         public int LineWidth
         {
@@ -1015,7 +980,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(ChartDashStyle.Solid),
         SRDescription("DescriptionAttributeLineDashStyle"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         ]
         public ChartDashStyle LineDashStyle
         {
@@ -1048,7 +1013,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Gets or sets the maximum size (in percentage) of the axis used in the automatic layout algorithm.
         /// </summary>
@@ -1076,12 +1040,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.Invalidate();
             }
         }
-        #endregion
+
+        #endregion Axis properties
 
         #region	IMapAreaAttributes Properties implementation
 
         /// <summary>
-        /// Tooltip of the axis.
+        /// ToolTip of the axis.
         /// </summary>
         [
         SRCategory("CategoryAttributeMapArea"),
@@ -1103,7 +1068,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion
 
-        #region Axis Interavl properies
+        #region Axis Interval properties
 
         /// <summary>
         /// Axis interval size.
@@ -1113,7 +1078,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(0.0),
         SRDescription("DescriptionAttributeInterval4"),
-        RefreshPropertiesAttribute(RefreshProperties.All),
+        RefreshProperties(RefreshProperties.All),
         TypeConverter(typeof(AxisIntervalValueConverter)),
         ]
         public double Interval
@@ -1153,7 +1118,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(0.0),
         SRDescription("DescriptionAttributeIntervalOffset6"),
-        RefreshPropertiesAttribute(RefreshProperties.All),
+        RefreshProperties(RefreshProperties.All),
         TypeConverter(typeof(AxisIntervalValueConverter))
         ]
         public double IntervalOffset
@@ -1186,7 +1151,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(DateTimeIntervalType.Auto),
         SRDescription("DescriptionAttributeIntervalType4"),
-        RefreshPropertiesAttribute(RefreshProperties.All)
+        RefreshProperties(RefreshProperties.All)
         ]
         public DateTimeIntervalType IntervalType
         {
@@ -1223,7 +1188,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(DateTimeIntervalType.Auto),
         SRDescription("DescriptionAttributeIntervalOffsetType4"),
-        RefreshPropertiesAttribute(RefreshProperties.All)
+        RefreshProperties(RefreshProperties.All)
         ]
         public DateTimeIntervalType IntervalOffsetType
         {
@@ -1313,7 +1278,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 #if SUBAXES
 			// Process all sub-axis
-			if(!ChartArea.Area3DStyle.Enable3D && 
+			if(!ChartArea.Area3DStyle.Enable3D &&
 				!ChartArea.chartAreaIsCurcular)
 			{
 				foreach(SubAxis subAxis in this.SubAxes)
@@ -1368,7 +1333,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             {
                                 drawLabels = false;
 
-                                // Save current font angle 
+                                // Save current font angle
                                 int currentAngle = labelStyle.Angle;
 
                                 // Set labels text angle
@@ -1384,10 +1349,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     }
                                 }
 
-                                // Draw labels 
+                                // Draw labels
                                 labelStyle.Paint(graph, false);
 
-                                // Restore font angle 
+                                // Restore font angle
                                 labelStyle.angle = currentAngle;
                             }
                         }
@@ -1410,7 +1375,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // If axis is disabled draw only Title
             if (enabled != false)
             {
-
                 // draw axis hot region
                 DrawAxisLineHotRegion(graph, false);
 
@@ -1426,7 +1390,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Paint Labels
                 labelStyle.Paint(graph, false);
 
-                // Scroll bar is supoorted only in 2D charts
+                // Scroll bar is supported only in 2D charts
                 if (ChartArea != null && ChartArea.Area3DStyle.Enable3D == false)
                 {
                     // Draw axis scroll bar
@@ -1451,8 +1415,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Reset temp axis offset for side-by-side charts like column
             this.ResetTempAxisOffset();
         }
-
-
 
         /// <summary>
         /// Paint Axis element when segmented axis scale feature is used.
@@ -1514,7 +1476,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 			}
 #endif // SUBAXES
-
         }
 
         /// <summary>
@@ -1593,8 +1554,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     format.Alignment = this.TitleAlignment;
                     format.Trimming = StringTrimming.EllipsisCharacter;
                     // VSTS #144398
-                    // We need to have the StringFormatFlags set to FitBlackBox as othwerwise axis titles using Fonts like 
-                    // "Algerian" or "Forte" are completly clipped (= not drawn) due to the fact that MeasureString returns 
+                    // We need to have the StringFormatFlags set to FitBlackBox as otherwise axis titles using Fonts like
+                    // "Algerian" or "Forte" are completely clipped (= not drawn) due to the fact that MeasureString returns
                     // a bounding rectangle that is too small.
                     format.FormatFlags |= StringFormatFlags.FitBlackBox;
 
@@ -1764,7 +1725,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         transformedTitlePosition.Y -= transformedTitlePosition.Height;
                     }
 
-                    // Add hot region 
+                    // Add hot region
                     this.Common.HotRegionsList.AddHotRegion(
                         transformedTitlePosition, this, ChartElementType.AxisTitle, false, false);
                 }
@@ -1779,7 +1740,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Helper method which sets 90 or -90 degrees transformation in the middle of the 
+        /// Helper method which sets 90 or -90 degrees transformation in the middle of the
         /// specified rectangle. It is used to draw title text rotated 90 or 270 degrees.
         /// </summary>
         /// <param name="graph">Chart graphics to apply transformation for.</param>
@@ -1803,7 +1764,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             return oldTransform;
         }
-
 
         /// <summary>
         /// Draws a radial line in circular Common.Chart area.
@@ -1949,7 +1909,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Draw circle
             if (ChartArea.CircularUsePolygons)
             {
-                // Draw eaqula sides polygon
+                // Draw equal sides polygon
                 graph.DrawCircleAbs(circlePen, null, rect, ChartArea.CircularSectorsNumber, false);
             }
             else
@@ -1993,7 +1953,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
             }
-
         }
 
         /// <summary>
@@ -2020,7 +1979,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             format.Trimming = StringTrimming.EllipsisCharacter;
             format.FormatFlags |= StringFormatFlags.LineLimit;
 
-            // Measure title size for non-centered aligment
+            // Measure title size for non-centered alignment
             SizeF realTitleSize = graph.MeasureString(axisTitle.Replace("\\n", "\n"), this.TitleFont, new SizeF(10000f, 10000f), format, this.GetTextOrientation());
             SizeF axisTitleSize = SizeF.Empty;
             if (format.Alignment != StringAlignment.Center)
@@ -2037,7 +1996,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Get relative size
                 axisTitleSize = graph.GetRelativeSize(axisTitleSize);
 
-                // Change format aligment for the reversed mode
+                // Change format alignment for the reversed mode
                 if (ChartArea.ReverseSeriesOrder)
                 {
                     if (format.Alignment == StringAlignment.Near)
@@ -2061,7 +2020,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 angle = -90;
             }
 
-            // Calculate title center point on the axis 
+            // Calculate title center point on the axis
             if (this.AxisPosition == AxisPosition.Left)
             {
                 rotationCenter = new PointF(ChartArea.PlotAreaPosition.X, ChartArea.PlotAreaPosition.Y + ChartArea.PlotAreaPosition.Height / 2f);
@@ -2125,7 +2084,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 ChartArea.matrix3D.TransformPoints(rotationCenterPoints);
                 rotationCenter = rotationCenterPoints[0].PointF;
 
-                // Get absolute coordinates 
+                // Get absolute coordinates
                 rotationCenterPoints[0].PointF = graph.GetAbsolutePoint(rotationCenterPoints[0].PointF);
                 rotationCenterPoints[1].PointF = graph.GetAbsolutePoint(rotationCenterPoints[1].PointF);
 
@@ -2144,7 +2103,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 ChartArea.matrix3D.TransformPoints(rotationCenterPoints);
                 rotationCenter = rotationCenterPoints[0].PointF;
 
-                // Get absolute coordinates 
+                // Get absolute coordinates
                 rotationCenterPoints[0].PointF = graph.GetAbsolutePoint(rotationCenterPoints[0].PointF);
                 rotationCenterPoints[1].PointF = graph.GetAbsolutePoint(rotationCenterPoints[1].PointF);
 
@@ -2158,11 +2117,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             angle += (int)Math.Round(angleAxis * 180f / (float)Math.PI);
 
-
             // Calculate title center offset from the axis line
             float offset = this.labelSize + this.markSize + this.titleSize / 2f;
             float dX = 0f, dY = 0f;
-
 
             // Adjust center of title with labels, marker and title size
             if (this.AxisPosition == AxisPosition.Left)
@@ -2249,7 +2206,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Set the position of axis
             switch (AxisPosition)
             {
-
                 case AxisPosition.Left:
 
                     first.X = (float)GetAxisPosition();
@@ -2301,7 +2257,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         arrowOrientation = ArrowOrientation.Right;
 
                     break;
-
             }
 
             // Update axis line position for circular area
@@ -2310,12 +2265,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 first.Y = PlotAreaPosition.Y + PlotAreaPosition.Height / 2f;
             }
 
-
             if (Common.ProcessModePaint)
             {
                 if (!ChartArea.Area3DStyle.Enable3D || ChartArea.chartAreaIsCurcular)
                 {
-
                     // Start Svg/Flash Selection mode
                     graph.StartHotRegion(this._url, _toolTip);
 
@@ -2325,23 +2278,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // End Svg/Flash Selection mode
                     graph.EndHotRegion();
 
-                    // Opposite axis. Arrow uses this axis to find 
-                    // a shift from Common.Chart area border. This shift 
+                    // Opposite axis. Arrow uses this axis to find
+                    // a shift from Common.Chart area border. This shift
                     // depend on Tick mark size.
                     switch (arrowOrientation)
                     {
                         case ArrowOrientation.Left:
                             opositeAxis = ChartArea.AxisX;
                             break;
+
                         case ArrowOrientation.Right:
                             opositeAxis = ChartArea.AxisX2;
                             break;
+
                         case ArrowOrientation.Top:
                             opositeAxis = ChartArea.AxisY2;
                             break;
+
                         case ArrowOrientation.Bottom:
                             opositeAxis = ChartArea.AxisY;
                             break;
+
                         default:
                             opositeAxis = ChartArea.AxisX;
                             break;
@@ -2362,9 +2319,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     Draw3DAxisLine(graph, first, second, this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom, backElements);
                 }
             }
-
         }
-
 
         /// <summary>
         /// Draws the axis line hot region.
@@ -2375,17 +2330,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (Common.ProcessModeRegions)
             {
-                //VSTS #229835: During the 3D rendering the axis is drawn twice: 
-                //1. In PrePaint() both axis and backelements (labels) are drawn.
-                //2. In Paint() the axis is redrawn without labels and as a result it creates a second hot region which covered the labels' hotregions. 
-                //In order to avoid this we have to suppress the hotregion drawing in the Paint using the backElements flag (it's false during the Paint)
+                //VSTS #229835: During the 3D rendering the axis is drawn twice:
+                //1. In PrePaint() both axis and backElements (labels) are drawn.
+                //2. In Paint() the axis is redrawn without labels and as a result it creates a second hot region which covered the labels' HotRegion.
+                //In order to avoid this we have to suppress the HotRegion drawing in the Paint using the backElements flag (it's false during the Paint)
                 //The circular charts and 2D charts are drawn only once in Paint() so we draw the hot regions.
                 if (backElements || !ChartArea.Area3DStyle.Enable3D || ChartArea.chartAreaIsCurcular)
                 {
                     DrawAxisLineHotRegion(graph);
                 }
             }
-
         }
 
         /// <summary>
@@ -2395,7 +2349,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private void DrawAxisLineHotRegion(ChartGraphics graph)
         {
             using GraphicsPath path = new GraphicsPath();
-            // Find the topLeft(first) and bottomRight(second) points of the hotregion rectangle
+            // Find the topLeft(first) and bottomRight(second) points of the HotRegion rectangle
             PointF first = PointF.Empty;
             PointF second = PointF.Empty;
             float axisPosition = (float)GetAxisPosition();
@@ -2479,7 +2433,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-            // Transform points to absolute cooordinates
+            // Transform points to absolute coordinates
             for (int i = 0; i < points.Length; i++)
             {
                 points[i] = graph.GetAbsolutePoint(points[i]);
@@ -2500,7 +2454,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 ChartElementType.Axis);
         }
 
-
         /// <summary>
         /// Draws axis line in 3D space.
         /// </summary>
@@ -2517,7 +2470,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool backElements
             )
         {
-            // Check if axis is positioned on the plot area adge
+            // Check if axis is positioned on the plot area edge
             bool onEdge = this.IsAxisOnAreaEdge;
 
             // Check if axis tick marks are drawn inside plotting area
@@ -2544,9 +2497,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check if the front/back wall is on the top drawing layer
             float zPositon = ChartArea.IsMainSceneWallOnFront() ? ChartArea.areaSceneDepth : 0f;
             SurfaceNames surfName = ChartArea.IsMainSceneWallOnFront() ? SurfaceNames.Front : SurfaceNames.Back;
-            if (ChartArea.ShouldDrawOnSurface(SurfaceNames.Back, backElements, tickMarksOnEdge))
+            if (ChartArea.ShouldDrawOnSurface(surfName, backElements, tickMarksOnEdge))
             {
-
                 // Start Svg Selection mode
                 graph.StartHotRegion(this._url, _toolTip);
 
@@ -2563,7 +2515,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // End Svg Selection mode
                 graph.EndHotRegion();
-
             }
 
             // Check if the back wall is on the top drawing layer
@@ -2577,7 +2528,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     (this.AxisPosition == AxisPosition.Left && ChartArea.IsSideSceneWallOnLeft()) ||
                     (this.AxisPosition == AxisPosition.Right && !ChartArea.IsSideSceneWallOnLeft()))
                 {
-
                     // Start Svg Selection mode
                     graph.StartHotRegion(this._url, _toolTip);
 
@@ -2593,7 +2543,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     // End Svg Selection mode
                     graph.EndHotRegion();
-
                 }
             }
 
@@ -2608,7 +2557,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     (this.AxisPosition == AxisPosition.Right && !ChartArea.IsSideSceneWallOnLeft()) ||
                     (this.AxisPosition == AxisPosition.Top && ChartArea.IsSideSceneWallOnLeft()))
                 {
-
                     // Start Svg Selection mode
                     graph.StartHotRegion(this._url, _toolTip);
 
@@ -2624,7 +2572,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     // End Svg Selection mode
                     graph.EndHotRegion();
-
                 }
             }
 
@@ -2640,7 +2587,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     (this.AxisPosition == AxisPosition.Top && !ChartArea.IsSideSceneWallOnLeft())
                     )
                 {
-
                     // Start Svg Selection mode
                     graph.StartHotRegion(this._url, _toolTip);
 
@@ -2656,10 +2602,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     // End Svg Selection mode
                     graph.EndHotRegion();
-
                 }
             }
-
         }
 
         /// <summary>
@@ -2709,13 +2653,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="graph">Reference to the Chart Graphics object</param>
         internal void PaintGrids(ChartGraphics graph)
         {
-
-            PaintGrids(graph, out object obj);
-
+            PaintGrids(graph, out _);
         }
 
         /// <summary>
-        /// Paint Axis Grid lines or 
+        /// Paint Axis Grid lines or
         /// hit test function for grid lines
         /// </summary>
         /// <param name="graph">Reference to the Chart Graphics object</param>
@@ -2726,7 +2668,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 #if SUBAXES
 			// Paint grids of sub-axis
-			if(!ChartArea.Area3DStyle.Enable3D && 
+			if(!ChartArea.Area3DStyle.Enable3D &&
 				!ChartArea.chartAreaIsCurcular)
 			{
 				foreach(SubAxis subAxis in this.SubAxes)
@@ -2754,11 +2696,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="drawLinesOnly">Indicates if Lines or Stripes should be drawn.</param>
         internal void PaintStrips(ChartGraphics graph, bool drawLinesOnly)
         {
-            PaintStrips(graph, false, 0, 0, out object obj, drawLinesOnly);
+            PaintStrips(graph, false, 0, 0, out _, drawLinesOnly);
         }
 
         /// <summary>
-        /// Paint Axis Strip lines or 
+        /// Paint Axis Strip lines or
         /// hit test function for Strip lines
         /// </summary>
         /// <param name="graph">Reference to the Chart Graphics object</param>
@@ -2767,9 +2709,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="y">Y coordinate</param>
         /// <param name="obj">Returns selected grid object</param>
         /// <param name="drawLinesOnly">Indicates if Lines or Stripes should be drawn.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "y"),
-        System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "x"),
-        System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "selectionMode")]
         internal void PaintStrips(ChartGraphics graph, bool selectionMode, int x, int y, out object obj, bool drawLinesOnly)
         {
             obj = null;
@@ -2804,7 +2743,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Remove isInterlaced strips which always is the first strip line
                 this.StripLines.RemoveAt(0);
             }
-
         }
 
         /// <summary>
@@ -2817,11 +2755,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.IsInterlaced)
             {
 #pragma warning disable CA2000 // Dispose objects before losing scope
-                StripLine stripLine = new StripLine();
+                StripLine stripLine = new StripLine
+                {
+                    interlaced = true,
+                    // VSTS fix of 164115 IsInterlaced StripLines with no border are rendered with black border, regression of VSTS 136763
+                    BorderColor = Color.Empty
+                };
 #pragma warning restore CA2000 // Dispose objects before losing scope
-                stripLine.interlaced = true;
-                // VSTS fix of 164115 IsInterlaced StripLines with no border are rendered with black border, regression of VSTS 136763
-                stripLine.BorderColor = Color.Empty;
 
                 // Get interval from grid lines, tick marks or labels
                 if (this.MajorGrid.Enabled && this.MajorGrid.GetInterval() != 0.0)
@@ -2858,7 +2798,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Insert item into the strips collection
                 if (addStrip)
                 {
-                    // Define stip color
+                    // Define strip color
                     if (this.InterlacedColor != Color.Empty)
                     {
                         stripLine.BackColor = this.InterlacedColor;
@@ -2900,8 +2840,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Axis parameters recalculation and resizing methods
 
         /// <summary>
-        /// This method will calculate the maximum and minimum values 
-        /// using interval on the X axis automatically. It will make a gap between 
+        /// This method will calculate the maximum and minimum values
+        /// using interval on the X axis automatically. It will make a gap between
         /// data points and border of the Common.Chart area.
         /// Note that this method can only be called for primary or secondary X axes.
         /// </summary>
@@ -2929,9 +2869,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method store Axis values as minimum, maximum, 
-        /// crossing, etc. Axis auto algorithm changes these 
-        /// values and they have to be set to default values 
+        /// This method store Axis values as minimum, maximum,
+        /// crossing, etc. Axis auto algorithm changes these
+        /// values and they have to be set to default values
         /// after painting.
         /// </summary>
         internal void StoreAxisValues()
@@ -2944,11 +2884,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             paintMode = true;
 
-            // This field synchronies the Storing and 
+            // This field synchronizes the Storing and
             // resetting of temporary values
             if (_storeValuesEnabled)
             {
-
                 tempMaximum = maximum;
                 tempMinimum = minimum;
                 tempCrossing = crossing;
@@ -2961,10 +2900,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 tempMinorGridInterval = minorGrid.interval;
                 tempMinorTickMarkInterval = minorTickMark.interval;
 
-
                 tempGridIntervalType = majorGrid.intervalType;
                 tempTickMarkIntervalType = majorTickMark.intervalType;
-
 
                 tempLabelInterval = labelStyle.interval;
                 tempLabelIntervalType = labelStyle.intervalType;
@@ -2972,7 +2909,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Remember original ScaleView Position
                 this._originalViewPosition = this.ScaleView.Position;
 
-                // This field synchronies the Storing and 
+                // This field synchronizes the Storing and
                 // resetting of temporary values
                 _storeValuesEnabled = false;
             }
@@ -2988,14 +2925,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 			}
 #endif // SUBAXES
-
         }
 
-
         /// <summary>
-        /// This method reset Axis values as minimum, maximum, 
-        /// crossing, etc. Axis auto algorithm changes these 
-        /// values and they have to be set to default values 
+        /// This method reset Axis values as minimum, maximum,
+        /// crossing, etc. Axis auto algorithm changes these
+        /// values and they have to be set to default values
         /// after painting.
         /// </summary>
         internal void ResetAxisValues()
@@ -3046,7 +2981,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #endif // SUBAXES
         }
 
-
         /// <summary>
         /// Reset auto calculated axis values
         /// </summary>
@@ -3065,7 +2999,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             minorGrid.interval = tempMinorGridInterval;
             minorTickMark.interval = tempMinorTickMarkInterval;
 
-
             labelStyle.interval = tempLabelInterval;
             majorGrid.intervalType = tempGridIntervalType;
             majorTickMark.intervalType = tempTickMarkIntervalType;
@@ -3080,7 +3013,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-            // This field synchronies the Storing and 
+            // This field synchronizes the Storing and
             // resetting of temporary values
             _storeValuesEnabled = true;
 
@@ -3095,7 +3028,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 			}
 #endif // SUBAXES
-
         }
 
         /// <summary>
@@ -3106,7 +3038,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="plotArea">Plotting area size.</param>
         /// <param name="axesNumber">Number of axis of the same orientation.</param>
         /// <param name="autoPlotPosition">Indicates that inner plot position is automatic.</param>
-        virtual internal void Resize(
+        internal virtual void Resize(
             ChartGraphics chartGraph,
             ElementPosition chartAreaPosition,
             RectangleF plotArea,
@@ -3144,7 +3076,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 using var sf = StringFormat.GenericTypographic;
                 SizeF titleStringSize = chartGraph.MeasureStringRel(this.Title.Replace("\\n", "\n"), this.TitleFont, new SizeF(10000f, 10000f), sf, this.GetTextOrientation());
 
-                // Switch Width & Heigth for vertical axes
+                // Switch Width & Height for vertical axes
                 // If axis is horizontal
                 float maxTitlesize = 0;
                 if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
@@ -3282,7 +3214,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             this.markSize += Math.Max(majorTickSize, minorTickSize);
 
-
             // Add axis line size
             SizeF borderSize = chartGraph.GetRelativeSize(new SizeF(this.LineWidth, this.LineWidth));
 
@@ -3314,8 +3245,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this.scrollBarSize = (float)this.ScrollBar.GetScrollBarRelativeSize();
                 }
             }
-
-
 
             //*********************************************************
             //** Adjust mark size using area scene wall width
@@ -3388,14 +3317,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     maxLabelSize = plotArea.Width * (_maximumAutoSize / 100f);
             }
 
-
-
             //******************************************************
-            //** First try to select the interval that will 
+            //** First try to select the interval that will
             //** generate best fit labels.
             //******************************************************
-
-
 
             // Make sure the variable interval mode is enabled and
             // no custom label interval used.
@@ -3404,7 +3329,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.IsVariableLabelCountModeEnabled())
             {
                 // Increase font by several points when height of the font is the most important
-                // dimension. Use original size whenwidth is the most important size.
+                // dimension. Use original size when width is the most important size.
                 float extraSize = 3f;
                 if ((this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) &&
                     (this.LabelStyle.Angle == 90 || this.LabelStyle.Angle == -90))
@@ -3436,10 +3361,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.AdjustIntervalToFitLabels(chartGraph, autoPlotPosition, false);
             }
 
-
-
             //******************************************************
-            //** Automatically calculate the best font size, angle 
+            //** Automatically calculate the best font size, angle
             //** and try to use offset labels.
             //******************************************************
             // Reset all automatic label properties
@@ -3467,7 +3390,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 size = Math.Max(this.LabelAutoFitMaxFontSize, this.LabelAutoFitMinFontSize);
                 _minLabelFontSize = Math.Min(this.LabelAutoFitMinFontSize, this.LabelAutoFitMaxFontSize);
                 _aveLabelFontSize = _minLabelFontSize + Math.Abs(size - _minLabelFontSize) / 2f;
-
 
                 // Check if common font size should be used
                 if (ChartArea.IsSameFontSizeForAllAxes)
@@ -3530,7 +3452,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 GraphicsUnit.Point);
                         }
 
-                        // Try to use offset labels (2D charts and non-circular arae only!!!)
+                        // Try to use offset labels (2D charts and non-circular area only!!!)
                         else if (!ChartArea.Area3DStyle.Enable3D &&
                             !ChartArea.chartAreaIsCurcular &&
                             originalLabels == null &&
@@ -3548,7 +3470,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             bool changed = false;
                             autoLabelOffset = 0;
 
-                            // Check if backup copy of the original lables was made
+                            // Check if backup copy of the original labels was made
                             if (originalLabels == null)
                             {
                                 // Copy current labels collection
@@ -3614,7 +3536,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                             autoLabelAngle = 0;
                                             noWordWrap = true;
                                         }
-
                                     }
                                     else
                                     {
@@ -3764,7 +3685,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 #if SUBAXES
 			// Calculate offsets for all sub axes
-			if(!ChartArea.Area3DStyle.Enable3D && 
+			if(!ChartArea.Area3DStyle.Enable3D &&
 				!ChartArea.chartAreaIsCurcular)
 			{
 				float currentOffset = this.markSize + this.labelSize + this.titleSize + this.scrollBarSize;
@@ -3820,12 +3741,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     removeLabels = false;
                     scaleSegment.RestoreAxisScaleAndInterval();
 
-                    // Remove last label of all segmenst except of the last
+                    // Remove last label of all segments except of the last
                     if (segmentIndex < this.ScaleSegments.Count - 1 &&
                         this.CustomLabels.Count > 0)
                     {
                         // Remove label and save it in the list
-                        removedLabels.Add(this.CustomLabels[this.CustomLabels.Count - 1]);
+                        removedLabels.Add(this.CustomLabels[^1]);
                         removedLabelsIndexes.Add(this.CustomLabels.Count - 1);
                         this.CustomLabels.RemoveAt(this.CustomLabels.Count - 1);
                     }
@@ -3833,7 +3754,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     ++segmentIndex;
                 }
 
-                // Check all previously removed last labels of each segment if there 
+                // Check all previously removed last labels of each segment if there
                 // is enough space to fit them
                 int reInsertedLabelsCount = 0;
                 int labelIndex = 0;
@@ -3850,7 +3771,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         this.CustomLabels.Add(label);
                     }
 
-                    // Check labels fit. Only horizontal or vertical fit is checked depending 
+                    // Check labels fit. Only horizontal or vertical fit is checked depending
                     // on the axis orientation.
                     ArrayList labelPositions = new ArrayList();
                     bool fitDone = CheckLabelsFit(
@@ -3880,7 +3801,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                     }
 
-                    // If labels do not fit or overlapp - remove completly
+                    // If labels do not fit or overlap - remove completely
                     if (!fitDone)
                     {
                         this.CustomLabels.RemoveAt(labelInsertIndex);
@@ -3916,7 +3837,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     return false;
                 }
-                // This feature is not supported if the axis doesn't have data range 
+                // This feature is not supported if the axis doesn't have data range
                 if (Double.IsNaN(this.minimum) || Double.IsNaN(this.maximum))
                 {
                     return false;
@@ -4007,7 +3928,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-
             // Iterate while interval is not found
             bool firstIteration = true;
             bool increaseNumberOfLabels = true;
@@ -4028,7 +3948,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 #endif // DEBUG
 
-                // Check labels fit. Only horizontal or vertical fit is checked depending 
+                // Check labels fit. Only horizontal or vertical fit is checked depending
                 // on the axis orientation.
                 bool fitDone = CheckLabelsFit(
                     chartGraph,
@@ -4046,7 +3966,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     firstIteration = false;
                     increaseNumberOfLabels = fitDone;
 
-                    // Check if we can decrease the interva;
+                    // Check if we can decrease the interval;
                     if (onlyIncreaseInterval && increaseNumberOfLabels)
                     {
                         intervalFound = true;
@@ -4090,7 +4010,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             this.CustomLabels.Add(label);
                         }
-
                     }
                 }
                 else
@@ -4272,8 +4191,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-
-            // Make sure interal is not less than min interval specified
+            // Make sure internal is not less than min interval specified
             if (!double.IsNaN(minInterval) && newInterval < minInterval)
             {
                 newInterval = 0.0;
@@ -4541,7 +4459,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             autoLabelFont.SizeInPoints - 1,
                             autoLabelFont.Style,
                             GraphicsUnit.Point);
-
                     }
 
                     // Failed to fit
@@ -4603,7 +4520,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (labelsStyle == CircularAxisLabelsStyle.Circular ||
                     labelsStyle == CircularAxisLabelsStyle.Radial)
                 {
-                    // Swith text size for the radial style
+                    // Switch text size for the radial style
                     if (labelsStyle == CircularAxisLabelsStyle.Radial)
                     {
                         float tempValue = textSize.Width;
@@ -4639,7 +4556,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Remember label side angle
                     prevLabelSideAngle = rightSideAngle - 1;
 
-
                     //*****************************************************************
                     //** Check if label is inside the Common.Chart area
                     //*****************************************************************
@@ -4666,7 +4582,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         labelsFit = false;
                         break;
                     }
-
                 }
 
                 //*****************************************************************
@@ -4729,7 +4644,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         break;
                     }
 
-                    // Set previous point position 
+                    // Set previous point position
                     prevLabelPosition = curLabelPosition;
                 }
             }
@@ -4751,7 +4666,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
 #if SUBAXES
 			// Process all sub-axis
-			if(!ChartArea.Area3DStyle.Enable3D && 
+			if(!ChartArea.Area3DStyle.Enable3D &&
 				!ChartArea.chartAreaIsCurcular)
 			{
 				foreach(SubAxis subAxis in this.SubAxes)
@@ -4761,13 +4676,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 #endif //SUBAXES
 
-
             //******************************************************
-            //** First try to select the interval that will 
+            //** First try to select the interval that will
             //** generate best fit labels.
             //******************************************************
-
-
 
             // Make sure the variable interval mode is enabled
             if (this.Enabled != AxisEnabled.False &&
@@ -4775,10 +4687,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.IsVariableLabelCountModeEnabled())
             {
                 // Set font for labels fitting
-                if (this.autoLabelFont == null)
-                {
-                    this.autoLabelFont = this.LabelStyle.Font;
-                }
+                this.autoLabelFont ??= this.LabelStyle.Font;
 
                 // Reset angle and stagged flag used in the auto-fitting algorithm
                 if (this.autoLabelAngle < 0)
@@ -4810,9 +4719,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-
-
-
             //******************************************************
             //** If labels auto-fit is on try reducing font size.
             //******************************************************
@@ -4824,10 +4730,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 bool fitDone = false;
 
-                if (autoLabelFont == null)
-                {
-                    autoLabelFont = this.LabelStyle.Font;
-                }
+                autoLabelFont ??= this.LabelStyle.Font;
 
                 // Loop while labels do not fit
                 float oldLabelSecondRowSize = totlaGroupingLabelsSize;
@@ -4897,7 +4800,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Check if axis is logarithmic
         /// </summary>
         /// <param name="yValue">Y value from data</param>
-        /// <returns>Corected Y value if axis is logarithmic</returns>
+        /// <returns>Corrected Y value if axis is logarithmic</returns>
         internal double GetLogValue(double yValue)
         {
             // Check if axis is logarithmic
@@ -4959,12 +4862,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             ArrayList labelPositions)
         {
             // Reset list of label positions
-            if (labelPositions != null)
-            {
-                labelPositions.Clear();
-            }
+            labelPositions?.Clear();
 
-            // Label string drawing format			
+            // Label string drawing format
             using (StringFormat format = new StringFormat())
             {
                 format.FormatFlags |= StringFormatFlags.LineLimit;
@@ -5012,11 +4912,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Loop through all grouping labels (all except first row)
                 this.totlaGroupingLabelsSize = 0;
 
-
                 // Get number of groups
                 int groupLabelLevelCount = GetGroupLabelLevelCount();
 
-                // Check ig grouping labels exist
+                // Check if grouping labels exist
                 if (groupLabelLevelCount > 0)
                 {
                     groupingLabelSizes = new float[groupLabelLevelCount];
@@ -5115,7 +5014,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         return false;
                     }
-
                 }
 
                 // Loop through all labels in the first row
@@ -5135,25 +5033,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     if (label.RowIndex == 0)
                     {
-
                         // Force which scale segment to use when calculating label position
                         if (labelPositions != null)
                         {
                             this.ScaleSegments.EnforceSegment(this.ScaleSegments.FindScaleSegmentForAxisValue((label.FromPosition + label.ToPosition) / 2.0));
                         }
 
-
                         // Set label From and To coordinates
                         double fromPosition = this.GetLinearPosition(label.FromPosition);
                         double toPosition = this.GetLinearPosition(label.ToPosition);
-
 
                         // Reset scale segment to use when calculating label position
                         if (labelPositions != null)
                         {
                             this.ScaleSegments.EnforceSegment(null);
                         }
-
 
                         // Calculate single label position
                         rect.X = this.PlotAreaPosition.X;
@@ -5216,7 +5110,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             format);
 
                         // Width and height maybe zeros if rect is too small to fit the text and
-                        // the LineLimit format flag is set. 
+                        // the LineLimit format flag is set.
                         if (label.Text.Length > 0 &&
                             (axisLabelSize.Width == 0f ||
                             axisLabelSize.Height == 0f))
@@ -5230,7 +5124,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 format);
                             format.FormatFlags |= StringFormatFlags.LineLimit;
                         }
-
 
                         // Add image size
                         if (label.Image.Length > 0)
@@ -5261,7 +5154,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             axisLabelSize.Width += spacerSize.Width;
                             axisLabelSize.Height += spacerSize.Height;
                         }
-
 
                         // Calculate size using label angle
                         float width = axisLabelSize.Width;
@@ -5380,7 +5272,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             labelNearOffset = float.MaxValue;
             labelFarOffset = float.MinValue;
 
-            // Label string drawing format			
+            // Label string drawing format
             using (StringFormat format = new StringFormat())
             {
                 format.FormatFlags |= StringFormatFlags.LineLimit;
@@ -5448,23 +5340,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         rect.Width = (float)Math.Ceiling(rect.Width);
                         rect.Height = (float)Math.Ceiling(rect.Height);
                         SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"),
-                            (autoLabelFont != null) ? autoLabelFont : this.LabelStyle.Font,
+                            autoLabelFont ?? this.LabelStyle.Font,
                             rect.Size,
                             format);
 
                         // Width and height maybe zeros if rect is too small to fit the text and
-                        // the LineLimit format flag is set. 
+                        // the LineLimit format flag is set.
                         if (axisLabelSize.Width == 0f || axisLabelSize.Height == 0f)
                         {
                             // Measure string without the LineLimit flag
                             format.FormatFlags ^= StringFormatFlags.LineLimit;
                             axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"),
-                                (autoLabelFont != null) ? autoLabelFont : this.LabelStyle.Font,
+                                autoLabelFont ?? this.LabelStyle.Font,
                                 rect.Size,
                                 format);
                             format.FormatFlags |= StringFormatFlags.LineLimit;
                         }
-
 
                         // Add image size
                         if (label.Image.Length > 0)
@@ -5497,7 +5388,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             axisLabelSize.Height += spacerSize.Height;
                         }
 
-
                         // Calculate size using label angle
                         float width = axisLabelSize.Width;
                         float height = axisLabelSize.Height;
@@ -5515,7 +5405,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         axisLabelSize.Width = (float)Math.Ceiling(axisLabelSize.Width) * 1.05f;
                         axisLabelSize.Height = (float)Math.Ceiling(axisLabelSize.Height) * 1.05f;
 
-
                         // If axis is horizontal
                         if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
                         {
@@ -5527,7 +5416,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Calculate the overhang of labels on the side
                                 labelNearOffset = (float)Math.Min(labelNearOffset, (fromPosition + toPosition) / 2f - axisLabelSize.Width / 2f);
                                 labelFarOffset = (float)Math.Max(labelFarOffset, (fromPosition + toPosition) / 2f + axisLabelSize.Width / 2f);
-
                             }
                             else
                             {
@@ -5657,7 +5545,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Get number of groups
             int groupLabelLevelCount = GetGroupLabelLevelCount();
 
-            // Check ig grouping labels exist
+            // Check if grouping labels exist
             if (groupLabelLevelCount > 0)
             {
                 // Create result array
@@ -5684,10 +5572,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (label.RowIndex == groupLevelIndex)
                         {
                             // Measure label text size
-                            SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), (autoLabelFont != null) ? autoLabelFont : this.LabelStyle.Font);
+                            SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), autoLabelFont ?? this.LabelStyle.Font);
                             axisLabelSize.Width = (float)Math.Ceiling(axisLabelSize.Width);
                             axisLabelSize.Height = (float)Math.Ceiling(axisLabelSize.Height);
-
 
                             // Add image size
                             if (label.Image.Length > 0)
@@ -5710,8 +5597,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 axisLabelSize.Width += spacerSize.Width;
                                 axisLabelSize.Height += spacerSize.Height;
                             }
-
-
 
                             // If axis is horizontal
                             if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
@@ -5745,13 +5630,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #region Axis helper methods
 
-
         /// <summary>
         /// Gets main or sub axis associated with this axis.
         /// </summary>
         /// <param name="subAxisName">Sub axis name or empty string to get the main axis.</param>
         /// <returns>Main or sub axis of the main axis.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "subAxisName")]
         internal Axis GetSubAxis(string subAxisName)
         {
 #if SUBAXES
@@ -5901,6 +5784,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         arrowOrientation = ArrowOrientation.Top;
 
                     break;
+
                 case AxisPosition.Right:
 
                     if (isReversed)
@@ -5909,6 +5793,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         arrowOrientation = ArrowOrientation.Top;
 
                     break;
+
                 case AxisPosition.Bottom:
 
                     if (isReversed)
@@ -5917,6 +5802,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         arrowOrientation = ArrowOrientation.Right;
 
                     break;
+
                 case AxisPosition.Top:
 
                     if (isReversed)
@@ -5927,30 +5813,34 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     break;
             }
 
-            // Opposite axis. Arrow uses this axis to find 
-            // a shift from Common.Chart area border. This shift 
+            // Opposite axis. Arrow uses this axis to find
+            // a shift from Common.Chart area border. This shift
             // depend on Tick mark size.
             switch (arrowOrientation)
             {
                 case ArrowOrientation.Left:
                     opositeAxis = ChartArea.AxisX;
                     break;
+
                 case ArrowOrientation.Right:
                     opositeAxis = ChartArea.AxisX2;
                     break;
+
                 case ArrowOrientation.Top:
                     opositeAxis = ChartArea.AxisY2;
                     break;
+
                 case ArrowOrientation.Bottom:
                     opositeAxis = ChartArea.AxisY;
                     break;
+
                 default:
                     opositeAxis = ChartArea.AxisX;
                     break;
             }
 
-            // Arrow size has to have the same shape when width and height 
-            // are changed. When the picture is resized, width of the Common.Chart 
+            // Arrow size has to have the same shape when width and height
+            // are changed. When the picture is resized, width of the Common.Chart
             // picture is used only for arrow size.
             if (arrowOrientation == ArrowOrientation.Top || arrowOrientation == ArrowOrientation.Bottom)
             {
@@ -5987,7 +5877,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Checks if arrow with specified orientation will require space
         /// in axis with specified position
@@ -6009,9 +5898,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return false;
         }
 
-
         /// <summary>
-        /// This function converts real Interval to 
+        /// This function converts real Interval to
         /// absolute Interval
         /// </summary>
         /// <param name="realInterval">A interval represented as double value</param>
@@ -6089,7 +5977,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="ignoreCrossing">Axis crossing should be ignored.</param>
         /// <returns>Relative position</returns>
-        virtual internal double GetAxisPosition(bool ignoreCrossing)
+        internal virtual double GetAxisPosition(bool ignoreCrossing)
         {
             Axis axisOpposite = GetOppositeAxis();
 
@@ -6111,10 +5999,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     case AxisPosition.Top:
                         return PlotAreaPosition.Y;
+
                     case AxisPosition.Bottom:
                         return PlotAreaPosition.Bottom;
+
                     case AxisPosition.Right:
                         return PlotAreaPosition.Right;
+
                     case AxisPosition.Left:
                         return PlotAreaPosition.X;
                 }
@@ -6157,7 +6048,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal double GetAxisProjectionAngle()
         {
             // Get Z position
-            float zPosition = GetMarksZPosition(out bool axisOnEdge);
+            float zPosition = GetMarksZPosition(out _);
 
             // Get axis position
             float axisPosition = (float)GetAxisPosition();
@@ -6195,7 +6086,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 angle = Math.Atan((axisPoints[1].X - axisPoints[0].X) / (axisPoints[1].Y - axisPoints[0].Y));
             }
 
-            // Conver to degrees
+            // Convert to degrees
             return angle * 180.0 / Math.PI;
         }
 
@@ -6251,6 +6142,5 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         #endregion
-
     }
 }
