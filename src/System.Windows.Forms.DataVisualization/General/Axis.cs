@@ -2519,7 +2519,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Check if the back wall is on the top drawing layer
             zPositon = ChartArea.IsMainSceneWallOnFront() ? 0f : ChartArea.areaSceneDepth;
-            SurfaceNames surfName = ChartArea.IsMainSceneWallOnFront() ? SurfaceNames.Back : SurfaceNames.Front;
+            surfName = ChartArea.IsMainSceneWallOnFront() ? SurfaceNames.Back : SurfaceNames.Front;
             if (ChartArea.ShouldDrawOnSurface(surfName, backElements, tickMarksOnEdge))
             {
                 // Draw axis line on the front wall
