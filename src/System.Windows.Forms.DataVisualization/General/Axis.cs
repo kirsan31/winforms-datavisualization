@@ -2496,8 +2496,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Check if the front/back wall is on the top drawing layer
             float zPositon = ChartArea.IsMainSceneWallOnFront() ? ChartArea.areaSceneDepth : 0f;
-            _ = ChartArea.IsMainSceneWallOnFront() ? SurfaceNames.Front : SurfaceNames.Back;
-            if (ChartArea.ShouldDrawOnSurface(SurfaceNames.Back, backElements, tickMarksOnEdge))
+            SurfaceNames surfName = ChartArea.IsMainSceneWallOnFront() ? SurfaceNames.Front : SurfaceNames.Back;
+            if (ChartArea.ShouldDrawOnSurface(surfName, backElements, tickMarksOnEdge))
             {
                 // Start Svg Selection mode
                 graph.StartHotRegion(this._url, _toolTip);
