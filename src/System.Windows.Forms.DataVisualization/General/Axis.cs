@@ -2279,14 +2279,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Opposite axis. Arrow uses this axis to find
                     // a shift from Common.Chart area border. This shift
                     // depend on Tick mark size.
-                    opositeAxis = arrowOrientation switch
+                    switch (arrowOrientation)
                     {
-                        ArrowOrientation.Left => ChartArea.AxisX,
-                        ArrowOrientation.Right => ChartArea.AxisX2,
-                        ArrowOrientation.Top => ChartArea.AxisY2,
-                        ArrowOrientation.Bottom => ChartArea.AxisY,
-                        _ => ChartArea.AxisX,
-                    };
+                        case ArrowOrientation.Left:
+                            opositeAxis = ChartArea.AxisX;
+                            break;
+                        case ArrowOrientation.Right:
+                            opositeAxis = ChartArea.AxisX2;
+                            break;
+                        case ArrowOrientation.Top:
+                            opositeAxis = ChartArea.AxisY2;
+                            break;
+                        case ArrowOrientation.Bottom:
+                            opositeAxis = ChartArea.AxisY;
+                            break;
+                        default:
+                            opositeAxis = ChartArea.AxisX;
+                            break;
+                    }
 
                     // Draw arrow
                     PointF arrowPosition;
@@ -5746,6 +5756,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Size of arrow</returns>
         internal SizeF GetArrowSize(out ArrowOrientation arrowOrientation)
         {
+            Axis opositeAxis;
             double size;
             double sizeOpposite;
             arrowOrientation = ArrowOrientation.Top;
@@ -5790,14 +5801,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     break;
             }
 
-            Axis opositeAxis = arrowOrientation switch
+            // Opposite axis. Arrow uses this axis to find
+            // a shift from Common.Chart area border. This shift
+            // depend on Tick mark size.
+            switch (arrowOrientation)
             {
-                ArrowOrientation.Left => ChartArea.AxisX,
-                ArrowOrientation.Right => ChartArea.AxisX2,
-                ArrowOrientation.Top => ChartArea.AxisY2,
-                ArrowOrientation.Bottom => ChartArea.AxisY,
-                _ => ChartArea.AxisX,
-            };
+                case ArrowOrientation.Left:
+                    opositeAxis = ChartArea.AxisX;
+                    break;
+
+                case ArrowOrientation.Right:
+                    opositeAxis = ChartArea.AxisX2;
+                    break;
+
+                case ArrowOrientation.Top:
+                    opositeAxis = ChartArea.AxisY2;
+                    break;
+
+                case ArrowOrientation.Bottom:
+                    opositeAxis = ChartArea.AxisY;
+                    break;
+
+                default:
+                    opositeAxis = ChartArea.AxisX;
+                    break;
+            }
 
             // Arrow size has to have the same shape when width and height
             // are changed. When the picture is resized, width of the Common.Chart

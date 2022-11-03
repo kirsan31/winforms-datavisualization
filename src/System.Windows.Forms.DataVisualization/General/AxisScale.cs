@@ -5,7 +5,7 @@
 
 //
 //  Purpose:	Base class for the Axis class which defines axis
-//				csale related properties and methods.
+//				scale related properties and methods.
 //
 
 
@@ -177,10 +177,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Axis scroll bar class
         internal AxisScrollBar scrollBar;
 
-        // For scater chart X values could be rounded.
+        // For scatter chart X values could be rounded.
         internal bool roundedXValues;
 
-        // If Axis is logarithmic value shoud be converted to
+        // If Axis is logarithmic value shroud be converted to
         // linear only once.
         internal bool logarithmicConvertedToLinear;
 
@@ -194,7 +194,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // 3D Rotation and perspective
         internal double interval3DCorrection = Double.NaN;
 
-        // Axis coordinate convertion optimization fields
+        // Axis coordinate conversion optimization fields
         internal bool optimizedGetPosition;
         internal double paintViewMax;
         internal double paintViewMin;
@@ -215,7 +215,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
 
-        // Preffered number of intervals on the axis
+        // Preferred number of intervals on the axis
         internal int prefferedNumberofIntervals = 5;
 
         private readonly Stack<Double> _intervalsStore = new Stack<Double>();
@@ -772,7 +772,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion // Axis Segments and Scale Breaks Properties
 
-        #region Axis data scaleView properies and methods
+        #region Axis data scaleView properties and methods
 
         /// <summary>
         /// Gets or sets the scale view settings of the axis.
@@ -858,7 +858,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion
 
-        #region Axis position converters methos
+        #region Axis position converters methods
 
         /// <summary>
         /// This function converts axis value to relative position (0-100%).
@@ -1198,7 +1198,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Recalculates an intelligent interval from real interval.
         /// </summary>
         /// <param name="diff">Real interval.</param>
-        /// <returns>Inteligent interval.</returns>
+        /// <returns>Intelligent interval.</returns>
         internal double CalcInterval(double diff)
         {
             // If the interval is zero return error
@@ -1655,7 +1655,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Opposite axis</returns>
         internal Axis GetOppositeAxis()
         {
-            // Oppoiste axis found
+            // Opposite axis found
             if (oppositeAxis != null)
             {
                 return oppositeAxis;
@@ -1828,7 +1828,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             double axisInterval;
 
-            // Check if veiw size specified without scaleView position
+            // Check if view size specified without scaleView position
             if (!Double.IsNaN(this.ScaleView.Size))
             {
                 // If size set only use axis minimum for scaleView position
@@ -1861,7 +1861,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else // No Zooming mode
             {
-                // Estimate axis shoud be always called for non logarithmic axis
+                // Estimate axis shroud be always called for non logarithmic axis
                 axisInterval = EstimateAxis(ref this.minimum, ref this.maximum, _autoMaximum, _autoMinimum);
             }
 
@@ -1985,7 +1985,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // For log axis margin always turn on.
             margin = 100;
 
-            // Supress zero and negative values with logarithmic axis exceptions
+            // Suppress zero and negative values with logarithmic axis exceptions
             if (this.Common != null && this.Common.Chart != null && this.Common.Chart.chartPicture.SuppressExceptions)
             {
                 if (minimumValue <= 0.0)
@@ -2112,7 +2112,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         false,
                         false);
 
-                    // Align minimum sacale value on the interval
+                    // Align minimum scale value on the interval
                     minimumValue = ChartHelper.AlignIntervalStart(
                         minimumValue,
                         axisInterval * margin / 100,

@@ -4,11 +4,11 @@
 
 
 //
-//  Purpose:	AxisScrollBar class represent axis scroolbar. There 
-//              is a big difference how this UI  functionality 
-//              implemented for Windows Forms and ASP.NET. For 
+//  Purpose:	AxisScrollBar class represent axis scrollbar. There
+//              is a big difference how this UI  functionality
+//              implemented for Windows Forms and ASP.NET. For
 //              Windows Forms a custom drawn scrollbar control is
-//              drawn in the chart which reacts to the mouse input and 
+//              drawn in the chart which reacts to the mouse input and
 //              changes current axis data scaleView.
 //
 
@@ -36,7 +36,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		ThumbTracker,
 
 		/// <summary>
-		/// Scroll by substracting small distance.
+		/// Scroll by subtracting small distance.
 		/// </summary>
 		SmallDecrement,
 
@@ -46,7 +46,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SmallIncrement,
 
 		/// <summary>
-		/// Scroll by substracting large distance.
+		/// Scroll by subtracting large distance.
 		/// </summary>
 		LargeDecrement,
 
@@ -83,7 +83,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		ResetZoom = 2,
 
 		/// <summary>
-		/// All buttons are shown. 
+		/// All buttons are shown.
 		/// </summary>
 		All = SmallScroll | ResetZoom
 	}
@@ -172,7 +172,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #endregion
 
 #region Scroll bar properties
-        
+
         /// <summary>
 		/// Gets or sets a flag which indicates whether scroll bar is positioned inside or outside of chart area.
 		/// </summary>
@@ -193,10 +193,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if(_isPositionedInside != value)
 				{
 					_isPositionedInside = value;
-					if(axis != null)
-					{
-						axis.ChartArea.Invalidate();
-					}
+					axis?.ChartArea.Invalidate();
 				}
 			}
 		}
@@ -222,10 +219,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if(_enabled != value)
 				{
 					_enabled = value;
-					if(axis != null)
-					{
-						axis.ChartArea.Invalidate();
-					}
+					axis?.ChartArea.Invalidate();
 				}
 			}
 		}
@@ -285,10 +279,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if(_scrollBarButtonStyle != value)
 				{
 					_scrollBarButtonStyle = value;
-					if(axis != null)
-					{
-						axis.ChartArea.Invalidate();
-					}
+					axis?.ChartArea.Invalidate();
 				}
 			}
 		}
@@ -318,10 +309,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionScrollBarSizeInvalid);
 					}
 					_scrollBarSize = value;
-					if(axis != null)
-					{
-						axis.ChartArea.Invalidate();
-					}
+					axis?.ChartArea.Invalidate();
 				}
 			}
 		}
@@ -348,10 +336,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if(_buttonColor != value)
 				{
 					_buttonColor = value;
-					if(axis != null)
-					{
-						axis.ChartArea.Invalidate();
-					}
+					axis?.ChartArea.Invalidate();
 				}
 			}
 		}
@@ -378,10 +363,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if(_lineColor != value)
 				{
 					_lineColor = value;
-					if(axis != null)
-					{
-						axis.ChartArea.Invalidate();
-					}
+					axis?.ChartArea.Invalidate();
 				}
 			}
 		}
@@ -408,10 +390,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if(_backColor != value)
 				{
 					_backColor = value;
-					if(axis != null)
-					{
-						axis.ChartArea.Invalidate();
-					}
+					axis?.ChartArea.Invalidate();
 				}
 			}
 		}
@@ -520,21 +499,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			RectangleF	scrollBarRect = this.GetScrollBarRect();
 
 			// Fill scroll bar background
-			graph.FillRectangleRel( 
-				scrollBarRect, 
-				_backCurrentColor, 
-				ChartHatchStyle.None, 
-				"", 
-				ChartImageWrapMode.Tile, 				
+			graph.FillRectangleRel(
+				scrollBarRect,
+				_backCurrentColor,
+				ChartHatchStyle.None,
+				"",
+				ChartImageWrapMode.Tile,
 				Color.Empty,
 				ChartImageAlignmentStyle.Center,
-				GradientStyle.None, 
-				Color.Empty, 
+				GradientStyle.None,
+				Color.Empty,
 				_lineCurrentColor,
-				borderWidth, 
-				ChartDashStyle.Solid, 
-				Color.Empty, 
-				0, 
+				borderWidth,
+				ChartDashStyle.Solid,
+				Color.Empty,
+				0,
 				PenAlignment.Outset );
 
 			// Fill rectangle between to neighbour scroll bars
@@ -556,8 +535,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if(!buttonRect.IsEmpty)
 				{
 					PaintScrollBar3DButton(
-						graph, 
-						buttonRect, 
+						graph,
+						buttonRect,
 						((ScrollBarButtonType)this._pressedButtonType) == buttonType,
                         buttonType);
 				}
@@ -568,26 +547,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				SetHotRegionElement( this.ChartArea.Common );
 			}
 		}
-		
+
 		/// <summary>
 		/// Fills a connection rectangle between two scoll bars.
 		/// </summary>
 		/// <param name="graph">Chart graphics.</param>
 		/// <param name="scrollBarRect">Scroll bar position.</param>
 		/// <param name="borderWidth">Border width.</param>
-		private void PaintScrollBarConnectionRect( 
-			ChartGraphics graph, 
+		private void PaintScrollBarConnectionRect(
+			ChartGraphics graph,
 			RectangleF scrollBarRect,
 			int borderWidth)
 		{
 			// Do not draw anything if scroll bar is vertical
-			if(this.axis.AxisPosition == AxisPosition.Left || 
+			if(this.axis.AxisPosition == AxisPosition.Left ||
 				this.axis.AxisPosition == AxisPosition.Right)
 			{
 				return;
 			}
 
-			// Check if scoll bar is shown on the left/right sides of 
+			// Check if scoll bar is shown on the left/right sides of
 			// the plotting area and get their sizes in relative coordinates
 			float	leftSize = 0f;
 			float	rightSize = 0f;
@@ -614,21 +593,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				connectorRect.Width = leftSize;
 
 				// Fill background
-				graph.FillRectangleRel( 
-					connectorRect, 
-					_backCurrentColor, 
-					ChartHatchStyle.None, 
-					"", 
-					ChartImageWrapMode.Tile, 				
+				graph.FillRectangleRel(
+					connectorRect,
+					_backCurrentColor,
+					ChartHatchStyle.None,
+					"",
+					ChartImageWrapMode.Tile,
 					Color.Empty,
 					ChartImageAlignmentStyle.Center,
-					GradientStyle.None, 
-					Color.Empty, 
+					GradientStyle.None,
+					Color.Empty,
 					_lineCurrentColor,
-					borderWidth, 
-					ChartDashStyle.Solid, 
-					Color.Empty, 
-					0, 
+					borderWidth,
+					ChartDashStyle.Solid,
+					Color.Empty,
+					0,
 					PenAlignment.Outset );
 			}
 
@@ -639,21 +618,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				connectorRect.Width = rightSize;
 
 				// Fill background
-				graph.FillRectangleRel( 
-					connectorRect, 
-					_backCurrentColor, 
-					ChartHatchStyle.None, 
-					"", 
-					ChartImageWrapMode.Tile, 				
+				graph.FillRectangleRel(
+					connectorRect,
+					_backCurrentColor,
+					ChartHatchStyle.None,
+					"",
+					ChartImageWrapMode.Tile,
 					Color.Empty,
 					ChartImageAlignmentStyle.Center,
-					GradientStyle.None, 
-					Color.Empty, 
+					GradientStyle.None,
+					Color.Empty,
 					_lineCurrentColor,
-					borderWidth, 
-					ChartDashStyle.Solid, 
-					Color.Empty, 
-					0, 
+					borderWidth,
+					ChartDashStyle.Solid,
+					Color.Empty,
+					0,
 					PenAlignment.Outset );
 			}
 
@@ -666,10 +645,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="buttonRect">Button position.</param>
 		/// <param name="pressedState">Indicates that button is pressed.</param>
 		/// <param name="buttonType">Button type to draw.</param>
-		internal void PaintScrollBar3DButton( 
-			ChartGraphics graph, 
-			RectangleF buttonRect, 
-			bool pressedState, 
+		internal void PaintScrollBar3DButton(
+			ChartGraphics graph,
+			RectangleF buttonRect,
+			bool pressedState,
 			ScrollBarButtonType buttonType)
 		{
 			// Page Up/Down buttons do not require drawing
@@ -684,21 +663,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			Color	lighterColor = ChartGraphics.GetGradientColor(_buttonCurrentColor, Color.White, 0.5);
 
 			// Fill button rectangle background
-			graph.FillRectangleRel( 
-				buttonRect, 
-				_buttonCurrentColor, 
-				ChartHatchStyle.None, 
-				"", 
-				ChartImageWrapMode.Tile, 				
+			graph.FillRectangleRel(
+				buttonRect,
+				_buttonCurrentColor,
+				ChartHatchStyle.None,
+				"",
+				ChartImageWrapMode.Tile,
 				Color.Empty,
 				ChartImageAlignmentStyle.Center,
-				GradientStyle.None, 
-				Color.Empty, 
+				GradientStyle.None,
+				Color.Empty,
 				darkerColor,
-				pressedState ? 1 : 0, 
-				ChartDashStyle.Solid, 
-				Color.Empty, 
-				0, 
+				pressedState ? 1 : 0,
+				ChartDashStyle.Solid,
+				Color.Empty,
+				0,
 				PenAlignment.Outset );
 
 			// Check if 2 or 1 pixel border will be drawn (if size too small)
@@ -756,7 +735,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Check axis orientation
-			bool	verticalAxis = this.axis.AxisPosition == AxisPosition.Left || 
+			bool	verticalAxis = this.axis.AxisPosition == AxisPosition.Left ||
 				this.axis.AxisPosition == AxisPosition.Right;
 
 			// Set graphics transformation for button pressed mode
@@ -997,7 +976,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						break;
 					case ScrollBarButtonType.ThumbTracker:
 					{
-						if(!_lastClickMousePosition.IsEmpty && 
+						if(!_lastClickMousePosition.IsEmpty &&
 							!double.IsNaN(this._lastClickViewPosition) &&
 							(_lastClickMousePosition.X != x || _lastClickMousePosition.Y != y))
 						{
@@ -1009,7 +988,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							scrollBarClientRect.Inflate(-borderRelativeSize.Width, -borderRelativeSize.Height);
 
 							// Check axis orientation
-							bool	verticalAxis = this.axis.AxisPosition == AxisPosition.Left || 
+							bool	verticalAxis = this.axis.AxisPosition == AxisPosition.Left ||
 								this.axis.AxisPosition == AxisPosition.Right;
 
 							// Get button relative size
@@ -1025,7 +1004,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							}
 							buttonSize = this.GetRelativeSize(buttonSize);
 
-							// Calculate the distance in percentages the mouse was moved 
+							// Calculate the distance in percentages the mouse was moved
 							// from it's original (clicked) position.
 							float distance = 0f;
 							double trackingAreaSize = 0f;
@@ -1044,7 +1023,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								distance = x - _lastClickMousePosition.X;
 
 								// Convert to relative coordinates
-								distance = distance * 100F / (this.axis.Common.Width - 1); 
+								distance = distance * 100F / (this.axis.Common.Width - 1);
 							}
 
 							// Convert to percentages from total tracking area
@@ -1099,7 +1078,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			//************************************************************
 			//** Invalidate chart
 			//************************************************************
-			
+
 			// Save type of the button pressed
 			this._pressedButtonType = (int)buttonType;
 
@@ -1114,7 +1093,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="myObject">Object.</param>
 		/// <param name="myEventArgs">Event arguments.</param>
         [SuppressMessage("Microsoft.Mobility", "CA1601:DoNotUseTimersThatPreventPowerStateChanges", Justification = "The timer is used for simulating scrolling behavior")]
-		private void ScrollingTimerEventProcessor(Object myObject, EventArgs myEventArgs) 
+		private void ScrollingTimerEventProcessor(Object myObject, EventArgs myEventArgs)
 		{
 			// Simulate mouse move events
 			if(_mouseArguments != null)
@@ -1140,7 +1119,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			borderRelativeSize = this.GetRelativeSize(borderRelativeSize);
 			RectangleF scrollBarClientRect = new RectangleF(scrollBarRect.Location, scrollBarRect.Size);
 			scrollBarClientRect.Inflate(-borderRelativeSize.Width, -borderRelativeSize.Height);
-			
+
 			ChartElementType buttonType = ChartElementType.Nothing;
 
 			// Fill collection with scroll buttons rectangles.
@@ -1174,7 +1153,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				RectangleF buttonRect = this.GetScrollBarButtonRect(scrollBarClientRect, (ScrollBarButtonType)type);
 
 				common.HotRegionsList.AddHotRegion( buttonRect, this, buttonType, true );
-				
+
 			}
 		}
 
@@ -1189,16 +1168,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>True if position is in the scroll bar.</returns>
 		private bool GetElementByPixelPosition(float x, float y, out ScrollBarButtonType buttonType)
 		{
-			// Set initial values 
+			// Set initial values
 			buttonType = ScrollBarButtonType.ThumbTracker;
 
-			// Convert mouse click coordinates to relative
-			PointF	position = new PointF(x, y);
-			position.X = x * 100F / (this.axis.Common.Width - 1); 
-			position.Y = y * 100F / (this.axis.Common.Height - 1); 
+            // Convert mouse click coordinates to relative
+            PointF position = new PointF(x, y)
+            {
+                X = x * 100F / (this.axis.Common.Width - 1),
+                Y = y * 100F / (this.axis.Common.Height - 1)
+            };
 
-			// Check if mouse button was clicked in the scroll bar
-			RectangleF	scrollBarRect = this.GetScrollBarRect();
+            // Check if mouse button was clicked in the scroll bar
+            RectangleF	scrollBarRect = this.GetScrollBarRect();
 			if(scrollBarRect.Contains(position))
 			{
 				// Get scroll bar client rectangle
@@ -1244,7 +1225,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			RectangleF	buttonRect = new RectangleF(scrollBarClientRect.Location, scrollBarClientRect.Size);
 
 			// Check axis orientation
-			bool	verticalAxis = this.axis.AxisPosition == AxisPosition.Left || 
+			bool	verticalAxis = this.axis.AxisPosition == AxisPosition.Left ||
 				this.axis.AxisPosition == AxisPosition.Right;
 
 			// Get relative size of 1 pixel
@@ -1360,8 +1341,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						}
 						else
 						{
-							float x = scrollBarClientRect.X + 
-								this.GetButtonsNumberTop() * buttonSize.Width + 
+							float x = scrollBarClientRect.X +
+								this.GetButtonsNumberTop() * buttonSize.Width +
 								pixelRelativeSize.Width;
 
 							buttonRect.Width = buttonRect.X - x;
@@ -1374,8 +1355,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						if(verticalAxis)
 						{
-							float y = scrollBarClientRect.Y + 
-								this.GetButtonsNumberTop() * buttonSize.Height + 
+							float y = scrollBarClientRect.Y +
+								this.GetButtonsNumberTop() * buttonSize.Height +
 								pixelRelativeSize.Height;
 
 							buttonRect.Height = buttonRect.Y - y;
@@ -1465,8 +1446,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Get relative size of the axis line (Note: Code removed for now. -- AG)
 			//SizeF axisLineSize = new SizeF(axis.LineWidth, axis.LineWidth);
-			//axisLineSize.Width =  axisLineSize.Width * 100F / ((float)(this.axis.Common.Width - 1)); 
-			//axisLineSize.Height = axisLineSize.Height * 100F / ((float)(this.axis.Common.Height - 1)); 
+			//axisLineSize.Width =  axisLineSize.Width * 100F / ((float)(this.axis.Common.Width - 1));
+			//axisLineSize.Height = axisLineSize.Height * 100F / ((float)(this.axis.Common.Height - 1));
 
 			// Check if scroll bar is positioned next to PlotArea or ChartArea
 			RectangleF	areaPosition = axis.PlotAreaPosition.ToRectangleF();
@@ -1510,34 +1491,34 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					case AxisPosition.Left:
 						barPosition.Y = areaPosition.Y;
 						barPosition.Height = areaPosition.Height;
-						barPosition.X = 
+						barPosition.X =
 							( this.IsPositionedInside ? (float)axis.GetAxisPosition(true) : areaPosition.X) - scrollBarSize;// - axisLineSize.Width / 2f;
 						barPosition.Width = scrollBarSize;
 						break;
 					case AxisPosition.Right:
 						barPosition.Y = areaPosition.Y;
 						barPosition.Height = areaPosition.Height;
-						barPosition.X = 
+						barPosition.X =
 							this.IsPositionedInside ? (float)axis.GetAxisPosition(true) : areaPosition.Right;// + axisLineSize.Width / 2f;
 						barPosition.Width = scrollBarSize;
 						break;
 					case AxisPosition.Bottom:
 						barPosition.X = areaPosition.X;
 						barPosition.Width = areaPosition.Width;
-						barPosition.Y = 
+						barPosition.Y =
 							this.IsPositionedInside ? (float)axis.GetAxisPosition(true) : areaPosition.Bottom;// + axisLineSize.Height / 2f;
 						barPosition.Height = scrollBarSize;
 						break;
 					case AxisPosition.Top:
 						barPosition.X = areaPosition.X;
 						barPosition.Width = areaPosition.Width;
-						barPosition.Y = 
+						barPosition.Y =
 							( this.IsPositionedInside ? (float)axis.GetAxisPosition(true) : areaPosition.Y) - scrollBarSize;// - axisLineSize.Height / 2f;
 						barPosition.Height = scrollBarSize;
 						break;
 				}
 			}
-		
+
 			return barPosition;
 		}
 
@@ -1565,16 +1546,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Get scroll bar relative size depending on the axis location
 			if(this.axis.AxisPosition == AxisPosition.Left || this.axis.AxisPosition == AxisPosition.Right)
 			{
-				return this._scrollBarSize * 100F / (this.axis.Common.Width - 1); 
+				return this._scrollBarSize * 100F / (this.axis.Common.Width - 1);
 			}
 			else
 			{
-				return this._scrollBarSize * 100F / (this.axis.Common.Height - 1); 
+				return this._scrollBarSize * 100F / (this.axis.Common.Height - 1);
 			}
 		}
 
 		/// <summary>
-		/// Returns the percentage size (0-100%) of the data scaleView comparing to 
+		/// Returns the percentage size (0-100%) of the data scaleView comparing to
 		/// the axis scale minimum and maximum values.
 		/// </summary>
 		/// <returns>Size of the data scaleView in percentage.</returns>
@@ -1587,7 +1568,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				!double.IsNaN(this.axis.ScaleView.Position) &&
 				!double.IsNaN(this.axis.ScaleView.Size))
 			{
-				// Get data scaleView size 
+				// Get data scaleView size
                 double dataViewSize = ChartHelper.GetIntervalSize(
 					this.axis.ScaleView.Position,
 					this.axis.ScaleView.Size,
@@ -1617,7 +1598,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// Returns the the data scaleView position in percentage (0-100%) using 
+		/// Returns the the data scaleView position in percentage (0-100%) using
 		/// the axis scale minimum and maximum values.
 		/// </summary>
 		/// <returns>Data scaleView position in percentage.</returns>
@@ -1630,7 +1611,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				!double.IsNaN(this.axis.ScaleView.Position) &&
 				!double.IsNaN(this.axis.ScaleView.Size))
 			{
-				// Get data scaleView size 
+				// Get data scaleView size
                 double dataViewSize = ChartHelper.GetIntervalSize(
 					this.axis.ScaleView.Position,
 					this.axis.ScaleView.Size,
@@ -1723,9 +1704,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			SizeF absolute = SizeF.Empty;
 
 			// Convert relative coordinates to absolute coordinates
-			absolute.Width = relative.Width * (this.axis.Common.Width - 1) / 100F; 
-			absolute.Height = relative.Height * (this.axis.Common.Height - 1) / 100F; 
-			
+			absolute.Width = relative.Width * (this.axis.Common.Width - 1) / 100F;
+			absolute.Height = relative.Height * (this.axis.Common.Height - 1) / 100F;
+
 			// Return Absolute coordinates
 			return absolute;
 		}
@@ -1740,9 +1721,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			SizeF relative = SizeF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
-			relative.Width = size.Width * 100F / (this.axis.Common.Width - 1); 
-			relative.Height = size.Height * 100F / (this.axis.Common.Height - 1); 
-			
+			relative.Width = size.Width * 100F / (this.axis.Common.Width - 1);
+			relative.Height = size.Height * 100F / (this.axis.Common.Height - 1);
+
 			// Return relative coordinates
 			return relative;
 		}
@@ -1788,11 +1769,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #region Private fields
 
 		// Private fields for properties values storage
-		private		Axis					_axis;
+		private readonly Axis					_axis;
         private		bool					_isHandled;
-        private		int						_mousePositionX;
-        private		int						_mousePositionY;
-        private		ScrollBarButtonType		_buttonType = ScrollBarButtonType.ThumbTracker;
+        private readonly int						_mousePositionX;
+        private readonly int						_mousePositionY;
+        private readonly ScrollBarButtonType		_buttonType = ScrollBarButtonType.ThumbTracker;
 
 #endregion
 
@@ -1860,7 +1841,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				return _buttonType;
 			}
 		}
-		
+
 		/// <summary>
 		/// Indicates if the event is handled by the user and no further processing is required.
 		/// </summary>

@@ -40,7 +40,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private double _scaleMaximum;
 
         // Axis segment interval offset.
-        private double _intervalOffset;
+        private readonly double _intervalOffset;
 
         // Axis segment interval.
         private double _interval;
@@ -49,13 +49,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private DateTimeIntervalType _intervalType = DateTimeIntervalType.Auto;
 
 		// Axis segment interval offset units type.
-		private DateTimeIntervalType _intervalOffsetType = DateTimeIntervalType.Auto;
+		private readonly DateTimeIntervalType _intervalOffsetType = DateTimeIntervalType.Auto;
 
 		// Object associated with the segment
 		private object _tag;
 
         // Stack used to save/load axis settings
-        private Stack	_oldAxisSettings = new Stack();
+        private readonly Stack	_oldAxisSettings = new Stack();
 
 		#endregion // Fields
 
@@ -334,7 +334,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 using Brush fillBrush = this.GetChartFillBrush(graph);
                 graph.FillPath(fillBrush, fillPath);
 
-                // Check if shadow exsits in chart area
+                // Check if shadow exists in chart area
                 if (this.axis.ChartArea.ShadowOffset != 0 && !this.axis.ChartArea.ShadowColor.IsEmpty)
                 {
                     // Clear shadow
@@ -370,7 +370,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         size = Math.Min(size, breakPosition.Width);
                     }
 
-                    // Define step to increase transperancy
+                    // Define step to increase transparency
                     int transparencyStep = (int)(this.axis.ChartArea.ShadowColor.A / size);
 
                     // Set clip region to achieve spacing of the shadow
@@ -436,10 +436,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Dispose break line paths
 			breakLinePathTop.Dispose();
-            if (breakLinePathBottom != null)
-			{
-				breakLinePathBottom.Dispose();
-            }
+            breakLinePathBottom?.Dispose();
 
         }
 
@@ -511,7 +508,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     points[0] = new PointF(startX, y);
-                    points[points.Length - 1] = new PointF(endX, y);
+                    points[^1] = new PointF(endX, y);
                 }
                 else
                 {
@@ -533,7 +530,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     points[0] = new PointF(x, startY);
-                    points[points.Length - 1] = new PointF(x, endY);
+                    points[^1] = new PointF(x, endY);
                 }
 
                 path.AddCurve(points, 0, pointNumber, 0.8f);
@@ -563,7 +560,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     points[0] = new PointF(startX, y);
-                    points[points.Length - 1] = new PointF(endX, y);
+                    points[^1] = new PointF(endX, y);
                 }
                 else
                 {
@@ -586,7 +583,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     points[0] = new PointF(x, startY);
-                    points[points.Length - 1] = new PointF(x, endY);
+                    points[^1] = new PointF(x, endY);
                 }
 
                 path.AddLines(points);
@@ -631,7 +628,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Start with the plotting rectangle position
 			RectangleF breakPosition = this.axis.PlotAreaPosition.ToRectangleF();
 
-			// Find maximum scale value of the current segment and minimuj of the next
+			// Find maximum scale value of the current segment and minimum of the next
 			double from = this.axis.GetLinearPosition(nextSegment.ScaleMinimum);
 			double to = this.axis.GetLinearPosition(this.ScaleMaximum);
 			if( this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left )
@@ -771,10 +768,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Axis this segment collection belongs to.
-		private Axis _axis;
+		private readonly Axis _axis;
 
         // Segment which is always used to convert scale values.
-        // This value is set tmporarly when only one segment has 
+        // This value is set temporarily when only one segment has 
         // to handle all the values.
         private AxisScaleSegment _enforcedSegment;
 
@@ -899,7 +896,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// Find axis scale segment that should be used to translate axis value to relative coordinates.
 		/// </summary>
 		/// <param name="axisValue">Axis value to convert.</param>
-		/// <returns>Scale segment to use for the convertion.</returns>
+		/// <returns>Scale segment to use for the conversion.</returns>
 		public AxisScaleSegment FindScaleSegmentForAxisValue(double axisValue)
 		{
 			// Check if no segments defined
@@ -908,7 +905,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				return null;
 			}
 
-			// Check if segment enforcment is enabled
+			// Check if segment enforcement is enabled
 			if(_enforcedSegment != null)
 			{
 				return _enforcedSegment;

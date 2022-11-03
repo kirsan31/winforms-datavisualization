@@ -49,4 +49,12 @@
 			<Namespace>System.Windows.Forms.DataVisualization.Charting</Namespace>
 		</EmbeddedResource>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <EditorConfigFiles Remove="C:\Users\PaulM\Source\Repos\winforms-datavisualization\src\System.Windows.Forms.DataVisualization\.editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="C:\Users\PaulM\Source\Repos\winforms-datavisualization\src\System.Windows.Forms.DataVisualization\.editorconfig" />
+	</ItemGroup>
 </Project>
