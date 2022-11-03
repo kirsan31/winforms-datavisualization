@@ -16,7 +16,7 @@
 //  exposed through the Legend property of the root chart object.
 //  Due to the customer requests, support for unlimited number of
 //  legends was added through the LegendCollection exposed as a
-//  Legends property in the root chart object. Old propertys was
+//  Legends property in the root chart object. Old property's was
 //  deprecated and marked as non-browsable.
 //
 
@@ -256,7 +256,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Legend column collection
         private LegendCellColumnCollection _cellColumns;
 
-        // Indicates that legend items automatically added based on the exsisting
+        // Indicates that legend items automatically added based on the existing
         // series in reversed order.
         private LegendItemOrder _legendItemOrder = LegendItemOrder.Auto;
 
@@ -318,7 +318,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Sub-columns sizes calculated during the fitting process
         private int[,] _subColumnSizes;
 
-        // Legend item heigts
+        // Legend item heights
         private int[,] _cellHeights;
 
         // Number of rows per each legend table column
@@ -722,7 +722,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 // Advance to the next row/column. Break if number of legend items exceed
-                // number of availabale rows/columns.
+                // number of available rows/columns.
                 ++currentRow;
                 if (currentRow >= this._numberOfRowsPerColumn[currentColumn])
                 {
@@ -768,7 +768,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** Get cell Left location
             //*****************************************************************
 
-            // Add extar space left after auto fitting
+            // Add extra space left after auto fitting
             if (this._horizontalSpaceLeft > 0)
             {
                 cellPosition.X += itemHalfSpacing.Width;
@@ -777,7 +777,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Calculate how many sub-columns (cells) this legend has
             int numberOfSubColumns = this.GetNumberOfCells();
 
-            // Iterate through all prev. columns
+            // Iterate through all previous columns
             for (int index = 0; index < columnIndex; index++)
             {
                 // Add width of previous columns
@@ -1216,7 +1216,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 columnNumber = 1;
                 numberOfRowsPerColumn = new int[] { 1 };
 
-                // Get legend table style and adjust number of columns and rows accordinly
+                // Get legend table style and adjust number of columns and rows accordingly
                 LegendTableStyle tableStyle = this.GetLegendTableStyle(chartGraph);
 
                 //*********************************************************************************
@@ -1308,10 +1308,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Check if we end up with legend with multiple columns
-                    // where last column has sinificantly lower height of all rows
+                    // where last column has significantly lower height of all rows
                     if (columnNumber > 1)
                     {
-                        // Try reducing number of rows in the "tall" calumns and move them
+                        // Try reducing number of rows in the "tall" columns and move them
                         // into the last column.
                         bool done = false;
                         while (!done)
@@ -1658,7 +1658,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Each column may have its own number of rows. Calculate the maximum number of rows.
             int maxNumberOfRows = this.GetMaximumNumberOfRows(numberOfRowsPerColumn);
 
-            // Create multidimensional arrays that will be holding the widths and heightsof all
+            // Create multidimensional arrays that will be holding the widths and heights of all
             // individual cells. First dimension will be the legend column index, second dimension
             // is row index and the third is sub-column (cell) index.
             int[,,] cellWidths = new int[numberOfColumns, maxNumberOfRows, numberOfSubColumns];
@@ -1687,14 +1687,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Get legend cell
                     LegendCell legendCell = legendItem.Cells[cellIndex];
 
-                    // Get assocated legend column object (may be NULL)
+                    // Get associated legend column object (may be NULL)
                     LegendCellColumn legendColumn = null;
                     if (cellIndex < this.CellColumns.Count)
                     {
                         legendColumn = this.CellColumns[cellIndex];
                     }
 
-                    // Check if current cell should be skipped becuse it's overlapped
+                    // Check if current cell should be skipped because it's overlapped
                     // by the previous sell that uses CellSpan.
                     if (numberOfCellsToSkip > 0)
                     {
@@ -1744,7 +1744,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 // Advance to the next row/column. Break if number of legend items exceed
-                // number of availabale rows/columns.
+                // number of available rows/columns.
                 ++currentRow;
                 if (currentRow >= numberOfRowsPerColumn[currentColumn])
                 {
@@ -1804,7 +1804,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             //*************************************************************************
-            //** If leagend header text is used check if it fits into the currenly
+            //** If legend header text is used check if it fits into the currently
             //** calculated sub-column sizes.
             //*************************************************************************
 
@@ -1883,7 +1883,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Check if current cell fits into the cell span
                                 if (cellWidth > spanWidth)
                                 {
-                                    // Adjust last span cell width to fit all curent cell content
+                                    // Adjust last span cell width to fit all current cell content
                                     subColumnSizes[currentColumn, currentSubColumn + cellSpan] += cellWidth - spanWidth;
                                 }
                             }
@@ -1897,7 +1897,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //*************************************************************************
             if (this.IsEquallySpacedItems)
             {
-                // Makre sure that same sub-colimn width are used in all columns
+                // Make sure that same sub-column width are used in all columns
                 for (int currentSubColumn = 0; currentSubColumn < numberOfSubColumns; currentSubColumn++)
                 {
                     int width = 0;
@@ -2011,7 +2011,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Flag which indicates that series requires legend items to be reversed
             bool seriesWithReversedLegendItemsPresent = false;
 
-            // Add legend items based on the exsisting chart series
+            // Add legend items based on the existing chart series
             foreach (Series series in this.Common.DataManager.Series)
             {
                 // Check if series uses this legend
@@ -2365,7 +2365,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     Rectangle separatorPosition = Rectangle.Empty;
                     separatorPosition.X = legendItem.Cells[0].cellPosition.Left;
 
-                    // Find right most cell position excluding ovelapped cells that have negative size
+                    // Find right most cell position excluding overlapped cells that have negative size
                     int right = 0;
                     for (int index = legendItem.Cells.Count - 1; index >= 0; index--)
                     {
@@ -2621,7 +2621,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Determoines if this position should be serialized.
+        /// Determines if this position should be serialized.
         /// </summary>
         /// <returns></returns>
         internal bool ShouldSerializePosition()
@@ -3764,14 +3764,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion // Legend Title Properties
 
-        #region Legent Title and Header Helper methods
+        #region Legend Title and Header Helper methods
 
         /// <summary>
         /// Gets legend title size in relative coordinates.
         /// </summary>
         /// <param name="chartGraph">Chart graphics.</param>
         /// <param name="titleMaxSize">Maximum possible legend title size.</param>
-        /// <returns>Legend yitle size.</returns>
+        /// <returns>Legend title size.</returns>
         private Size GetTitleSize(ChartGraphics chartGraph, Size titleMaxSize)
         {
             Size titleSize = Size.Empty;
@@ -3804,7 +3804,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="chartGraph">Chart graphics.</param>
         /// <param name="legendColumn">Legend column to get the header for.</param>
-        /// <returns>Legend yitle size.</returns>
+        /// <returns>Legend title size.</returns>
         private Size GetHeaderSize(ChartGraphics chartGraph, LegendCellColumn legendColumn)
         {
             Size headerSize = Size.Empty;
@@ -4206,7 +4206,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 throw new InvalidOperationException(SR.ExceptionLegendSeparatorTypeUnknown(separatorType.ToString()));
             }
 
-            // For the vertical part of the separator always add additiobal spacing
+            // For the vertical part of the separator always add additional spacing
             size.Width += this._itemColumnSpacingRel;
 
             return size;
@@ -4227,7 +4227,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool horizontal,
             Rectangle position)
         {
-            // Temporary disable antialiasing
+            // Temporary disable anti-aliasing
             SmoothingMode oldSmoothingMode = chartGraph.SmoothingMode;
             chartGraph.SmoothingMode = SmoothingMode.None;
 
@@ -4448,7 +4448,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             chartGraph.SmoothingMode = oldSmoothingMode;
         }
 
-        #endregion // Legent Title Helper methods
+        #endregion // Legend Title Helper methods
 
         #region Helper methods
 
@@ -4481,7 +4481,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (this.Position.Auto)
                 {
                     // If legend is automatically positioned, use docking
-                    // do determine preffered table style
+                    // do determine preferred table style
                     if (this.Docking == Docking.Left ||
                         this.Docking == Docking.Right)
                     {
@@ -4494,7 +4494,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 else
                 {
-                    // If legend is custom positioned, use legend width and heiht
+                    // If legend is custom positioned, use legend width and height
                     // to determine the best table layout.
                     SizeF legendPixelSize = chartGraph.GetAbsoluteRectangle(this.Position.ToRectangleF()).Size;
                     if (legendPixelSize.Width < legendPixelSize.Height)
@@ -4721,7 +4721,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (Common != null && Common.ChartPicture != null)
             {
-                // Get elemets spacing
+                // Get elements spacing
                 float areaSpacing = Math.Min(chartAreasRectangle.Height / 100F * elementSpacing, chartAreasRectangle.Width / 100F * elementSpacing);
 
                 // Loop through all legends
@@ -4822,7 +4822,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Get area position
                         RectangleF legendPlottingRectangle = area.PlotAreaPosition.ToRectangleF();
 
-                        // Get elemets spacing
+                        // Get elements spacing
                         float areaSpacing = Math.Min(legendPlottingRectangle.Height / 100F * elementSpacing, legendPlottingRectangle.Width / 100F * elementSpacing);
 
                         // Loop through all legends
@@ -5085,7 +5085,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Legend item visual separator color
         private Color _separatorColor = Color.Black;
 
-        // Indicates that temporary cells where added and thet have to be removed
+        // Indicates that temporary cells where added and they have to be removed
         internal bool clearTempCells;
 
         #endregion

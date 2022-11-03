@@ -183,7 +183,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Checks if the other (primary/secondary) axis has custom labels labels.
+        /// Checks if the other (primary/secondary) axis has custom labels.
         /// These labels will be added if this axis has no series attached and no custom labels.
         /// This works only on category axes. 
         /// </summary>
