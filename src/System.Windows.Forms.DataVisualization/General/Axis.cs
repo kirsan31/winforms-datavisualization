@@ -357,14 +357,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Set axis name.
             // NOTE: Strings below should never be localized. Name properties in the chart are never localized
             // and represent consistent object name in all locales.
-            return axisName switch
+            switch (axisName)
             {
-                AxisName.X => "X axis",
-                AxisName.Y => "Y (Value) axis",
-                AxisName.X2 => "Secondary X axis",
-                AxisName.Y2 => "Secondary Y (Value) axis",
-                _ => null,
-            };
+                case AxisName.X:
+                    return "X axis";
+
+                case AxisName.Y:
+                    return "Y (Value) axis";
+
+                case AxisName.X2:
+                    return "Secondary X axis";
+
+                case AxisName.Y2:
+                    return "Secondary Y (Value) axis";
+            }
+            return null;
         }
 
         #endregion Axis constructor and initialization
