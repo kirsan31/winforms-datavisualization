@@ -50,7 +50,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         override public string Name { get { return ChartTypeNames.OneHundredPercentStackedArea; } }
 
         /// <summary>
-        /// Indicates that it's a hundredred percent chart.
+        /// Indicates that it's a hundred percent chart.
         /// Axis scale from 0 to 100 percent should be used.
         /// </summary>
         override public bool HundredPercent { get { return true; } }

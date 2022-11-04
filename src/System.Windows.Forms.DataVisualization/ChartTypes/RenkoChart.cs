@@ -581,13 +581,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		virtual public bool ExtraYValuesConnectedToYAxis{ get { return true; } }
 		
 		/// <summary>
-		/// Indicates that it's a hundredred percent chart.
+		/// Indicates that it's a hundred percent chart.
 		/// Axis scale from 0 to 100 percent should be used.
 		/// </summary>
 		virtual public bool HundredPercent{ get{return false;} }
 
 		/// <summary>
-		/// Indicates that it's a hundredred percent chart.
+		/// Indicates that it's a hundred percent chart.
 		/// Axis scale from 0 to 100 percent should be used.
 		/// </summary>
 		virtual public bool HundredPercentSupportNegative{ get{return false;} }

@@ -474,10 +474,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	{
 		#region Fields
 
-		// Chart area 3D style attribuytes
+		// Chart area 3D style attributes
 		private		ChartArea3DStyle	_area3DStyle = new ChartArea3DStyle();
 
-		// Coordinate convertion matrix
+		// Coordinate conversion matrix
 		internal	Matrix3D			matrix3D = new Matrix3D();
 
 		// Chart area scene wall width in relative coordinates
@@ -641,7 +641,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				this.matrix3D);
 
 			//***********************************************************
-			//** Chech if area scene should be drawn
+			//** Check if area scene should be drawn
 			//***********************************************************
 			Color	sceneBackColor = chartArea.BackColor;
 
@@ -914,9 +914,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			//***********************************************************
 			//** Stacked column and bar charts can be drawn side-by-side
-			//** using the StackGroupName custom properties. The code 
+			//** using the StackGroupName custom properties. The code
 			//** checks if multiple groups are used how many of these
-			//** groups exsist.
+			//** groups exist.
 			//**
 			//** If isClustered mode enabled each stack group is drawn 
 			//** using it's own cluster.
@@ -926,7 +926,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Check series support stack groups
 				if(Common.ChartTypeRegistry.GetChartType(smallestIntervalSeries.ChartTypeName).SupportStackedGroups)
 				{
-                    // Calculate how many stack groups exsist
+                    // Calculate how many stack groups exist
                     ArrayList stackGroupNames = new ArrayList();
 					foreach(string seriesName in this._series)
 					{
@@ -940,7 +940,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								seriesStackGroupName = curSeries[CustomPropertyName.StackedGroupName];
 							}
 
-							// Add group name if it do not already exsist
+							// Add group name if it do not already exist
 							if(!stackGroupNames.Contains(seriesStackGroupName))
 							{
 								stackGroupNames.Add(seriesStackGroupName);
@@ -1632,7 +1632,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					stackGroupName = ser[CustomPropertyName.StackedGroupName];
 				}
 
-				// Add group name if it do not already exsist
+				// Add group name if it do not already exist
 				if(!this._stackGroupNames.Contains(stackGroupName))
 				{
 					this._stackGroupNames.Add(stackGroupName);
@@ -1691,7 +1691,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			ArrayList pointsList = new ArrayList();
 
 			//************************************************************
-			//** Analyse input series
+			//** Analyze input series
 			//************************************************************
 
 			// Find the number of data series for side-by-side drawing

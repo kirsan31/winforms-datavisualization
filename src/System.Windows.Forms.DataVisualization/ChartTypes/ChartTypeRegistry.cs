@@ -7,8 +7,8 @@
 //  Purpose:	ChartTypeRegistry is a repository for all standard 
 //              and custom chart types. Each chart type has unique 
 //              name and IChartType derived class which provides
-//              behaviour information about the chart type and
-//              also contains drwaing functionality.
+//              behavior information about the chart type and
+//              also contains drawing functionality.
 //              ChartTypeRegistry can be used by user for custom 
 //              chart type registering and can be retrieved using 
 //              Chart.GetService(typeof(ChartTypeRegistry)) method.
@@ -251,7 +251,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 	/// <summary>
 	/// IChartType interface must be implemented for any standard or custom 
     /// chart type displayed in the chart control. This interface defines 
-    /// properties which provide information on chart type behaviour including 
+    /// properties which provide information on chart type behavior including 
     /// how many Y values supported, is it a stacked chart type, how it 
     /// interacts with axes and much more.
     /// 
@@ -351,7 +351,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		bool SecondYScale{ get; }
 
 		/// <summary>
-		/// Indicates that it's a hundredred percent chart.
+		/// Indicates that it's a hundred percent chart.
 		/// Axis scale from 0 to 100 percent should be used.
 		/// </summary>
 		bool HundredPercent{ get; }

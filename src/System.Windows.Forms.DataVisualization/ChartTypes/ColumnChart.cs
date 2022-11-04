@@ -482,7 +482,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     {
                         if (!labels)
                         {
-                            // Check if column is completly out of the data scaleView
+                            // Check if column is completely out of the data scaleView
                             double xValue = indexedSeries ? index : point.XValue;
                             xValue = hAxis.GetLogValue(xValue);
                             if (xValue < horizontalViewMin || xValue > horizontalViewMax)
@@ -596,7 +596,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <summary>
         /// Gets label position for the column depending on the Y value.
         /// </summary>
-        /// <returns>Return automaticly detected label position.</returns>
+        /// <returns>Return automatically detected label position.</returns>
         /// <param name="series">Data series.</param>
         /// <param name="pointIndex">Point index.</param>
         /// <returns>Label aligning.</returns>
@@ -609,7 +609,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Indicates that markers are drawnd on the X edge of the data scaleView.
+        /// Indicates that markers are drawn on the X edge of the data scaleView.
         /// </summary>
         /// <returns>False. Column chart never draws markers on the edge.</returns>
         protected override bool ShouldDrawMarkerOnViewEdgeX()
@@ -801,7 +801,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     continue;
                 }
 
-                // Check if column is completly out of the data scaleView
+                // Check if column is completely out of the data scaleView
                 double xValue = pointEx.indexedSeries ? pointEx.index : point.XValue;
                 xValue = hAxis.GetLogValue(xValue);
                 if (xValue < hAxis.ViewMinimum || xValue > hAxis.ViewMaximum)

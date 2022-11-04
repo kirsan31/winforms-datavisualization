@@ -1048,7 +1048,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="series">Array of series</param>
         internal void CheckXValuesAlignment(Series[] series)
         {
-            // Check aligment only if more than 1 series provided
+            // Check alignment only if more than 1 series provided
             if (series.Length > 1)
             {
                 // Series loop

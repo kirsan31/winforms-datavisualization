@@ -921,7 +921,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (buttons == MouseButtons.Right)
             {
-                // Stop pacement
+                // Stop placement
                 this.EndPlacement();
             }
             if (buttons == MouseButtons.Left &&
@@ -946,7 +946,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     if (this.lastPlacementPosition.X == newPoint.X &&
                         this.lastPlacementPosition.Y == newPoint.Y)
                     {
-                        // Stop pacement
+                        // Stop placement
                         this.EndPlacement();
                     }
                 }
@@ -992,7 +992,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (buttons == MouseButtons.Left &&
                 isFreeDrawPlacement)
             {
-                // Stop pacement
+                // Stop placement
                 this.EndPlacement();
             }
 

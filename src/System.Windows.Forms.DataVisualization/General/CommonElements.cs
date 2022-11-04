@@ -233,7 +233,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		#endregion
 
-		#region String convertion helper methods
+		#region String conversion helper methods
 
         /// <summary>
 		/// Converts string to double.

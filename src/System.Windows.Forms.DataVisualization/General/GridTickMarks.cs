@@ -4,10 +4,10 @@
 
 
 //
-//  Purpose:	Axis tick marks and grid lines a very similar chart 
-//              elements and most of the functionality is located 
-//              in the Grid class. TickMark class is derived from 
-//              the Grid class and provides tick mark specific 
+//  Purpose:	Axis tick marks and grid lines a very similar chart
+//              elements and most of the functionality is located
+//              in the Grid class. TickMark class is derived from
+//              the Grid class and provides tick mark specific
 //              functionality.
 //
 
@@ -32,15 +32,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Tickmarks are disabled.
 		/// </summary>
-		None, 
+		None,
 		/// <summary>
 		/// Tickmarks are located outside of the chart area.
 		/// </summary>
-		OutsideArea, 
+		OutsideArea,
 		/// <summary>
 		/// Tickmarks are located inside of the chart area.
 		/// </summary>
-		InsideArea, 
+		InsideArea,
 		/// <summary>
 		/// Tickmarks are set across the axis line.
 		/// </summary>
@@ -50,8 +50,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	#endregion
 
     /// <summary>
-    /// The TickMark class represents axis tick marks which are drawn next to 
-    /// the axis line. TickMark shares many common properties with the Grid 
+    /// The TickMark class represents axis tick marks which are drawn next to
+    /// the axis line. TickMark shares many common properties with the Grid
     /// class. This class also contains methods for tick marks drawing.
     /// </summary>
 	[
@@ -97,7 +97,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			PointF first = PointF.Empty; // The First point of a tick mark
 			PointF second = PointF.Empty; // The Second point of a tick mark
-			float axisPosition; // Axis position. 
+			float axisPosition; // Axis position.
 
 			// Tick Marks are disabled
 			if( !this.enabled )
@@ -106,9 +106,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// ****************************************************************
-			// This code creates auto interval for auto tick marks and 
-			// gridlines. If type is not date there are always four tickmarks 
-			// or gridlines between major gridlines and tickmarks. For date 
+			// This code creates auto interval for auto tick marks and
+			// gridlines. If type is not date there are always four tickmarks
+			// or gridlines between major gridlines and tickmarks. For date
 			// type interval is calculated using CalcInterval function.
 			// ****************************************************************
 			double oldInterval = this.interval;
@@ -128,9 +128,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     DateTimeIntervalType localIntervalType = this.Axis.majorGrid.GetIntervalType();
                     this.interval = Axis.CalcInterval(
                         this.Axis.ViewMinimum,
-                        this.Axis.ViewMinimum + (this.Axis.ViewMaximum - this.Axis.ViewMinimum) / Grid.NumberOfDateTimeIntervals, 
-						true, 
-						out localIntervalType, 
+                        this.Axis.ViewMinimum + (this.Axis.ViewMaximum - this.Axis.ViewMinimum) / Grid.NumberOfDateTimeIntervals,
+						true,
+						out localIntervalType,
 						ChartValueType.DateTime );
 					this.intervalType = localIntervalType;
                     this.intervalOffsetType = this.Axis.majorGrid.GetIntervalOffsetType();
@@ -187,7 +187,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// The Current position is start position, not minimum
             if (GetIntervalOffset() != 0 && !double.IsNaN(GetIntervalOffset()) && axisSeries == null)
 			{
-                current += ChartHelper.GetIntervalSize(current, GetIntervalOffset(), 
+                current += ChartHelper.GetIntervalSize(current, GetIntervalOffset(),
 					offsetType, axisSeries, 0, DateTimeIntervalType.Number, true, false);
 			}
 
@@ -196,8 +196,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				return;
 			}
-		
-			// If Maximum, minimum and interval don’t have 
+
+			// If Maximum, minimum and interval don’t have
 			// proper value do not draw tick marks.
             if (Axis.ViewMaximum <= Axis.ViewMinimum)
 			{
@@ -217,7 +217,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Left tickmarks
             if (Axis.AxisPosition == AxisPosition.Left)
 			{
-				// The tick marks will follow axis or they will 
+				// The tick marks will follow axis or they will
 				// be always on the border of the chart area.
                 if (Axis.GetIsMarksNextToAxis())
                     axisPosition = (float)Axis.GetAxisPosition();
@@ -244,7 +244,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Right tickmarks
             else if (Axis.AxisPosition == AxisPosition.Right)
 			{
-				// The tick marks will follow axis or they will 
+				// The tick marks will follow axis or they will
 				// be always on the border of the chart area.
                 if (Axis.GetIsMarksNextToAxis())
                     axisPosition = (float)Axis.GetAxisPosition();
@@ -271,7 +271,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Top tickmarks
             else if (Axis.AxisPosition == AxisPosition.Top)
 			{
-				// The tick marks will follow axis or they will 
+				// The tick marks will follow axis or they will
 				// be always on the border of the chart area.
                 if (Axis.GetIsMarksNextToAxis())
                     axisPosition = (float)Axis.GetAxisPosition();
@@ -298,7 +298,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Bottom tickmarks
             else if (Axis.AxisPosition == AxisPosition.Bottom)
 			{
-				// The tick marks will follow axis or they will 
+				// The tick marks will follow axis or they will
 				// be always on the border of the chart area.
                 if (Axis.GetIsMarksNextToAxis())
                     axisPosition = (float)Axis.GetAxisPosition();
@@ -332,24 +332,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 double logInterval = 0;
 
                 double interval;
-                // Take an interval between gridlines. Interval 
+                // Take an interval between gridlines. Interval
                 // depends on interval type.
                 if (this.majorGridTick || this.Axis.IsLogarithmic == false)
                 {
-                    // Take an interval between tickmarks. Interval 
+                    // Take an interval between tickmarks. Interval
                     // depends on interval type.
                     interval = ChartHelper.GetIntervalSize(current, this.GetInterval(), this.GetIntervalType(), axisSeries, this.GetIntervalOffset(), offsetType, true);
 
                 }
-                // Code for linear minor gridlines and tickmarks 
+                // Code for linear minor gridlines and tickmarks
                 // if scale is logarithmic.
                 else
                 {
-                    // This code is used only for logarithmic scale and minor tick marks or 
-                    // gridlines which have linear minor scale in logarithmic major scale. 
-                    // This code is used to find minimum value for the interval. For example 
-                    // if logarithmic base is 2 and interval is between 4 and 8; current value 
-                    // is 5.6; this method will return linearised value for 4. This code works 
+                    // This code is used only for logarithmic scale and minor tick marks or
+                    // gridlines which have linear minor scale in logarithmic major scale.
+                    // This code is used to find minimum value for the interval. For example
+                    // if logarithmic base is 2 and interval is between 4 and 8; current value
+                    // is 5.6; this method will return linearized value for 4. This code works
                     // like Math.Floor for logarithmic scale.
                     double logMinimum = this.GetLogMinimum(current, axisSeries);
 
@@ -359,7 +359,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         logStep = 1;
                     }
 
-                    // Find interval for logarithmic linearised scale
+                    // Find interval for logarithmic linearized scale
                     logInterval = Math.Log(1 + this.interval * logStep, Axis.logarithmBase);
 
                     current = oldCurrent;
@@ -499,7 +499,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-            // Used for auto interval for auto tick marks and 
+            // Used for auto interval for auto tick marks and
             // gridlines
             if ( !this.majorGridTick )
 			{
@@ -511,7 +511,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// This method returns linearized logarithmic value 
+		/// This method returns linearized logarithmic value
 		/// which is minimum for range with interval 1.
 		/// </summary>
 		/// <param name="current">Current value</param>
@@ -523,7 +523,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			DateTimeIntervalType offsetType = (GetIntervalOffsetType() == DateTimeIntervalType.Auto) ? GetIntervalType() : GetIntervalOffsetType();
 			if( GetIntervalOffset() != 0 && axisSeries == null)
 			{
-                viewMinimum += ChartHelper.GetIntervalSize(viewMinimum, GetIntervalOffset(), 
+                viewMinimum += ChartHelper.GetIntervalSize(viewMinimum, GetIntervalOffset(),
 					offsetType, axisSeries, 0, DateTimeIntervalType.Number, true, false);
 			}
 
@@ -539,7 +539,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			PointF first = PointF.Empty;	// The First point of a tick mark
 			PointF second = PointF.Empty;	// The Second point of a tick mark
-			float axisPosition;				// Axis position. 
+			float axisPosition;				// Axis position.
 
 			// Axis scroll bar will increase size of the Outside and Cross style tick marks
 			float	scrollBarSize = 0;
@@ -552,7 +552,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Left tickmarks
             if (Axis.AxisPosition == AxisPosition.Left)
 			{
-				// The tick marks will follow axis or they will 
+				// The tick marks will follow axis or they will
 				// be always on the border of the chart area.
                 if (Axis.GetIsMarksNextToAxis())
                     axisPosition = (float)Axis.GetAxisPosition();
@@ -579,7 +579,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Right tickmarks
             else if (Axis.AxisPosition == AxisPosition.Right)
 			{
-				// The tick marks will follow axis or they will 
+				// The tick marks will follow axis or they will
 				// be always on the border of the chart area.
                 if (Axis.GetIsMarksNextToAxis())
                     axisPosition = (float)Axis.GetAxisPosition();
@@ -606,7 +606,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Top tickmarks
             else if (Axis.AxisPosition == AxisPosition.Top)
 			{
-				// The tick marks will follow axis or they will 
+				// The tick marks will follow axis or they will
 				// be always on the border of the chart area.
                 if (Axis.GetIsMarksNextToAxis())
                     axisPosition = (float)Axis.GetAxisPosition();
@@ -633,7 +633,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Bottom tickmarks
             else if (Axis.AxisPosition == AxisPosition.Bottom)
 			{
-				// The tick marks will follow axis or they will 
+				// The tick marks will follow axis or they will
 				// be always on the border of the chart area.
                 if (Axis.GetIsMarksNextToAxis())
                     axisPosition = (float)Axis.GetAxisPosition();
@@ -732,13 +732,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="point2">Second line point.</param>
 		/// <param name="backElements">Back elements of the axis should be drawn in 3D scene.</param>
 		internal void Draw3DTickLine(
-			ChartGraphics graph, 
-			PointF point1, 
-			PointF point2, 
+			ChartGraphics graph,
+			PointF point1,
+			PointF point2,
 			bool backElements
 			)
 		{
-		
+
 			ChartArea	area = this.Axis.ChartArea;
 
             //*****************************************************************
@@ -926,7 +926,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			//*****************************************************************
 			//** Draw tick mark (first line)
 			//*****************************************************************
-			graph.Draw3DLine( 
+			graph.Draw3DLine(
 				area.matrix3D,
 				borderColor, borderWidth, borderDashStyle,
 				new Point3D(point1.X, point1.Y, wallZPosition),
@@ -936,13 +936,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				ChartElementType.TickMarks
 				);
 
-			
+
 			//*****************************************************************
 			//** Draw tick mark (second line)
 			//*****************************************************************
 			if(point3 != null && point4 != null)
 			{
-				graph.Draw3DLine( 
+				graph.Draw3DLine(
 					area.matrix3D,
 					borderColor, borderWidth, borderDashStyle,
 					point3,
@@ -1006,9 +1006,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	}
 
 	/// <summary>
-    /// The Grid class represents axis grid lines which are drawn in the 
-    /// plotting area. It contains grid interval and visual appearance 
-    /// properties. This class also contains methods for grid lines drawing. 
+    /// The Grid class represents axis grid lines which are drawn in the
+    /// plotting area. It contains grid interval and visual appearance
+    /// properties. This class also contains methods for grid lines drawing.
 	/// </summary>
 	[
 		DefaultProperty("Enabled"),
@@ -1072,13 +1072,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			// Minor elements are disabled by default
 			if(!this.enabledChanged &&
-				this._axis == null && 
+				this._axis == null &&
 				!major)
 			{
 				enabled = false;
 			}
 
-			// If object was first created and populated with data and then added into the axis 
+			// If object was first created and populated with data and then added into the axis
 			// we need to remember changed values.
 			// NOTE: Fixes issue #6237
 			if(this._axis == null)
@@ -1184,10 +1184,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				PaintCustom( graph );
 				return;
 			}
-		
+
 			double gridInterval; // Grid interval
 			double current; // Current position
-			
+
 			// Get first series attached to this axis
 			Series	axisSeries = null;
 			if(_axis.axisType == AxisName.X || _axis.axisType == AxisName.X2)
@@ -1204,9 +1204,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// ****************************************************************
-			// This code creates auto interval for auto tick marks and 
-			// gridlines. If type is not date there are always four tickmarks 
-			// or gridlines between major gridlines and tickmarks. For date 
+			// This code creates auto interval for auto tick marks and
+			// gridlines. If type is not date there are always four tickmarks
+			// or gridlines between major gridlines and tickmarks. For date
 			// type interval is calculated using CalcInterval function.
 			// ****************************************************************
 			double oldInterval = this.interval;
@@ -1225,10 +1225,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					DateTimeIntervalType localIntervalType = this._axis.majorGrid.GetIntervalType();
                     this.interval = _axis.CalcInterval(
-                        this._axis.minimum, 
-                        this._axis.minimum + (this._axis.maximum - this._axis.minimum) / Grid.NumberOfDateTimeIntervals, 
-                        true, 
-                        out localIntervalType, 
+                        this._axis.minimum,
+                        this._axis.minimum + (this._axis.maximum - this._axis.minimum) / Grid.NumberOfDateTimeIntervals,
+                        true,
+                        out localIntervalType,
                         ChartValueType.DateTime);
 					this.intervalType = localIntervalType;
 					this.intervalOffsetType = this._axis.majorGrid.GetIntervalOffsetType();
@@ -1246,7 +1246,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Adjust start position depending on the interval type
 			if(!_axis.ChartArea.chartAreaIsCurcular ||
-				_axis.axisType == AxisName.Y || 
+				_axis.axisType == AxisName.Y ||
 				_axis.axisType == AxisName.Y2 )
 			{
                 current = ChartHelper.AlignIntervalStart(current, this.GetInterval(), this.GetIntervalType(), axisSeries, this.majorGridTick);
@@ -1263,7 +1263,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if( ( _axis.ViewMaximum - _axis.ViewMinimum ) / ChartHelper.GetIntervalSize( current, this.GetInterval(), this.GetIntervalType(), axisSeries, 0, DateTimeIntervalType.Number, true ) > ChartHelper.MaxNumOfGridlines )
 				return;
 
-			// If Maximum, minimum and interval don’t have 
+			// If Maximum, minimum and interval don’t have
 			// proper value do not draw grid lines.
 			if( _axis.ViewMaximum <= _axis.ViewMinimum )
 				return;
@@ -1278,7 +1278,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			decimal viewMaximum = (decimal)_axis.ViewMaximum;
 			while( (decimal)current <= viewMaximum )
 			{
-				// Take an interval between gridlines. Interval 
+				// Take an interval between gridlines. Interval
 				// depends on interval type.
 				if( this.majorGridTick || this._axis.IsLogarithmic == false )
 				{
@@ -1301,15 +1301,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Move position
 					current += gridInterval;
 				}
-				// Code for linear minor gridlines and tickmarks 
+				// Code for linear minor gridlines and tickmarks
 				// if scale is logarithmic.
 				else
 				{
-					// This code is used only for logarithmic scale and minor tick marks or 
-					// gridlines which have linear minor scale in logarithmic major scale. 
-					// This code is used to find minimum value for the interval. For example 
-					// if logarithmic base is 2 and interval is between 4 and 8; current value 
-					// is 5.6; this method will return linearised value for 4. This code works 
+					// This code is used only for logarithmic scale and minor tick marks or
+					// gridlines which have linear minor scale in logarithmic major scale.
+					// This code is used to find minimum value for the interval. For example
+					// if logarithmic base is 2 and interval is between 4 and 8; current value
+					// is 5.6; this method will return linearized value for 4. This code works
 					// like Math.Floor for logarithmic scale.
 					double logMinimum = this.GetLogMinimum( current, axisSeries );
 
@@ -1318,8 +1318,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						oldCurrent = logMinimum;
 						logStep = 1;
 					}
-					
-					// Find interval for logarithmic linearised scale
+
+					// Find interval for logarithmic linearized scale
 					double logInterval = Math.Log( 1 + this.interval * logStep, _axis.logarithmBase );
 
 					current = oldCurrent;
@@ -1355,7 +1355,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 			}
 
-			// Used for auto interval for auto tick marks and 
+			// Used for auto interval for auto tick marks and
 			// gridlines
 			if( !this.majorGridTick )
 			{
@@ -1367,7 +1367,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// This method returns linearized logarithmic value 
+		/// This method returns linearized logarithmic value
 		/// which is minimum for range with interval 1.
 		/// </summary>
 		/// <param name="current">Current value</param>
@@ -1379,7 +1379,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			DateTimeIntervalType offsetType = (GetIntervalOffsetType() == DateTimeIntervalType.Auto) ? GetIntervalType() : GetIntervalOffsetType();
 			if( GetIntervalOffset() != 0 && axisSeries == null)
 			{
-                viewMinimum += ChartHelper.GetIntervalSize(viewMinimum, GetIntervalOffset(), 
+                viewMinimum += ChartHelper.GetIntervalSize(viewMinimum, GetIntervalOffset(),
 					offsetType, axisSeries, 0, DateTimeIntervalType.Number, true, false);
 			}
 
@@ -1387,7 +1387,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// Draw the grid line 
+		/// Draw the grid line
 		/// </summary>
 		/// <param name="graph">Chart Graphics object</param>
 		/// <param name="current">Current position of the gridline</param>
@@ -1475,7 +1475,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// Draws custom grid lines from custom labels.
 		/// </summary>
@@ -1484,7 +1484,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			// Common Elements
 			CommonElements common = this._axis.Common;
-			
+
 			PointF first = PointF.Empty; // The First point of a grid line
 			PointF second = PointF.Empty; // The Second point of a grid line
 			RectangleF plotArea = _axis.PlotAreaPosition.ToRectangleF(); // Plot area position
@@ -1543,7 +1543,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								graph.Draw3DGridLine(this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second,  _axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right , common, this );
 							}
 						}
-						
+
 						if( common.ProcessModePaint )
 						{
 							if(!this._axis.ChartArea.Area3DStyle.Enable3D || this._axis.ChartArea.chartAreaIsCurcular)
@@ -1893,7 +1893,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				this.Invalidate();
 			}
 		}
-		
+
 		/// <summary>
         /// Gets or sets a flag which indicates if the grid or tick mark is enabled.
 		/// </summary>

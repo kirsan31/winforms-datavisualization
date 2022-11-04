@@ -979,7 +979,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Gets intersection point coordinates between point line and and horizontal 
+        /// Gets intersection point coordinates between point line and horizontal 
         /// line specified by Y coordinate.
         /// </summary>
         /// <param name="firstPoint">First data point.</param>
@@ -998,7 +998,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Gets intersection point coordinates between point line and and vertical 
+        /// Gets intersection point coordinates between point line and vertical 
         /// line specified by X coordinate.
         /// </summary>
         /// <param name="firstPoint">First data point.</param>

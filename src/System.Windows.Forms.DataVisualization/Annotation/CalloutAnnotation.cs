@@ -744,7 +744,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Draws Rounded rectangle or Ellipse style callout.
         /// </summary>
         /// <param name="graphics">Chart graphics.</param>
-        /// <param name="rectanglePosition">Position of annotation objet.</param>
+        /// <param name="rectanglePosition">Position of annotation object.</param>
         /// <param name="anchorPoint">Anchor location.</param>
         /// <param name="isEllipse">True if ellipse shape should be used.</param>
         /// <returns>Hot region of the callout.</returns>
@@ -847,7 +847,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Draws Rectangle style callout.
         /// </summary>
         /// <param name="graphics">Chart graphics.</param>
-        /// <param name="rectanglePosition">Position of annotation objet.</param>
+        /// <param name="rectanglePosition">Position of annotation object.</param>
         /// <param name="anchorPoint">Anchor location.</param>
         /// <returns>Hot region of the callout.</returns>
         private GraphicsPath DrawRectangleCallout(
@@ -1038,7 +1038,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Draws Perspective style callout.
         /// </summary>
         /// <param name="graphics">Chart graphics.</param>
-        /// <param name="rectanglePosition">Position of annotation objet.</param>
+        /// <param name="rectanglePosition">Position of annotation object.</param>
         /// <param name="anchorPoint">Anchor location.</param>
         /// <returns>Hot region of the cloud.</returns>
         private GraphicsPath DrawCloudCallout(
@@ -1210,7 +1210,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Draws Perspective style callout.
         /// </summary>
         /// <param name="graphics">Chart graphics.</param>
-        /// <param name="rectanglePosition">Position of annotation objet.</param>
+        /// <param name="rectanglePosition">Position of annotation object.</param>
         /// <param name="anchorPoint">Anchor location.</param>
         /// <returns>Hot region of the cloud.</returns>
         private GraphicsPath DrawPerspectiveCallout(
@@ -1371,7 +1371,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Draws SimpleLine or BorderLine style callout.
         /// </summary>
         /// <param name="graphics">Chart graphics.</param>
-        /// <param name="rectanglePosition">Position of annotation objet.</param>
+        /// <param name="rectanglePosition">Position of annotation object.</param>
         /// <param name="anchorPoint">Anchor location.</param>
         /// <param name="drawRectangle">If true draws BorderLine style, otherwise SimpleLine.</param>
         /// <returns>Hot region of the cloud.</returns>
@@ -1728,7 +1728,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets intersection point coordinates between point line and and horizontal 
+        /// Gets intersection point coordinates between point line and horizontal 
         /// line specified by Y coordinate.
         /// </summary>
         /// <param name="firstPoint">First data point.</param>
@@ -1747,7 +1747,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets intersection point coordinates between point line and and vertical 
+        /// Gets intersection point coordinates between point line and vertical 
         /// line specified by X coordinate.
         /// </summary>
         /// <param name="firstPoint">First data point.</param>

@@ -1389,7 +1389,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             //***************************************************************
-            //** Draw text shadow for the default style when background is not drawn anf ShadowOffset is not null
+            //** Draw text shadow for the default style when background is not drawn and ShadowOffset is not null
             //***************************************************************
             Color textShadowColor = ChartGraphics.GetGradientColor(this.ForeColor, Color.Black, 0.8);
             int textShadowOffset = 1;

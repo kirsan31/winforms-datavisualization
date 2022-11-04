@@ -177,7 +177,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 if (parseSucceed)
                 {
-                    // Succeded converting from date format
+                    // Succeeded converting from date format
                     return valueAsDate.ToOADate();
                 }
             }

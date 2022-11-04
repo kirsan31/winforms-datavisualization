@@ -4,13 +4,13 @@
 
 
 //
-//  Purpose:	This class contains all necessary methods and 
-//				properties for drawing and selection of the stacked 
-//				bar	and hundred percent stacked bar charts. 
-//				Every data point in the Stacked bar chart is 
-//				represented with one rectangle. If there is 
-//				more then one series with this chart type from 
-//				same chart area, bars with same X values are 
+//  Purpose:	This class contains all necessary methods and
+//				properties for drawing and selection of the stacked
+//				bar	and hundred percent stacked bar charts.
+//				Every data point in the Stacked bar chart is
+//				represented with one rectangle. If there is
+//				more then one series with this chart type from
+//				same chart area, bars with same X values are
 //				Stacked.
 //
 
@@ -47,7 +47,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 
 
-        // Total Y values from all series at specified index orgonized by stacked groups
+        // Total Y values from all series at specified index organized by stacked groups
         // Hashtable will contain arrays of doubles stored by group name key.
         Hashtable _stackedGroupsTotalPerPoint;
 
@@ -62,13 +62,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         override public string Name { get { return ChartTypeNames.OneHundredPercentStackedBar; } }
 
         /// <summary>
-        /// Indicates that it's a hundredred percent chart.
+        /// Indicates that it's a hundred percent chart.
         /// Axis scale from 0 to 100 percent should be used.
         /// </summary>
         override public bool HundredPercent { get { return true; } }
 
         /// <summary>
-        /// Indicates that it's a hundredred percent chart.
+        /// Indicates that it's a hundred percent chart.
         /// Axis scale from 0 to 100 percent should be used.
         /// </summary>
         override public bool HundredPercentSupportNegative { get { return true; } }
@@ -129,7 +129,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     // Allocate memory for the array of totals
                     double[] totals = new double[series.Points.Count];
 
-                    // Calculate the total of Y value per point 
+                    // Calculate the total of Y value per point
                     for (int index = 0; index < series.Points.Count; index++)
                     {
                         totals[index] = 0;
@@ -267,8 +267,8 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
     }
 
     /// <summary>
-    /// StackedBarChart class contains all the code necessary to draw 
-    /// and hit test Stacked Bar chart. 
+    /// StackedBarChart class contains all the code necessary to draw
+    /// and hit test Stacked Bar chart.
     /// </summary>
     internal class StackedBarChart : IChartType
     {
@@ -340,7 +340,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
 
 
         /// <summary>
-        /// True if stacked chart type should draw separately positive and 
+        /// True if stacked chart type should draw separately positive and
         /// negative data points ( Bar and column Stacked types ).
         /// </summary>
         public bool StackSign { get { return true; } }
@@ -376,8 +376,8 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         public bool SideBySideSeries { get { return false; } }
 
         /// <summary>
-        /// If the crossing value is auto Crossing value should be 
-        /// automatically set to zero for some chart 
+        /// If the crossing value is auto Crossing value should be
+        /// automatically set to zero for some chart
         /// types (Bar, column, area etc.)
         /// </summary>
         public bool ZeroCrossing { get { return true; } }
@@ -393,13 +393,13 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         virtual public bool ExtraYValuesConnectedToYAxis { get { return false; } }
 
         /// <summary>
-        /// Indicates that it's a hundredred percent chart.
+        /// Indicates that it's a hundred percent chart.
         /// Axis scale from 0 to 100 percent should be used.
         /// </summary>
         virtual public bool HundredPercent { get { return false; } }
 
         /// <summary>
-        /// Indicates that it's a hundredred percent chart.
+        /// Indicates that it's a hundred percent chart.
         /// Axis scale from 0 to 100 percent should be used.
         /// </summary>
         virtual public bool HundredPercentSupportNegative { get { return false; } }
@@ -422,7 +422,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         }
 
         /// <summary>
-        /// Number of supported Y value(s) per point 
+        /// Number of supported Y value(s) per point
         /// </summary>
         public int YValuesPerPoint { get { return 1; } }
 
@@ -468,7 +468,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         }
 
         /// <summary>
-        /// This method recalculates size of the stacked bars. This method is used 
+        /// This method recalculates size of the stacked bars. This method is used
         /// from Paint or Select method.
         /// </summary>
         /// <param name="selection">If True selection mode is active, otherwise paint mode is active.</param>
@@ -490,8 +490,8 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
 
             //************************************************************
             //** If stacked series is attached to diferent X and Y axis
-            //** they can not be processed. To solve this issue series 
-            //** will be orgonized in groups based on the axes.
+            //** they can not be processed. To solve this issue series
+            //** will be organized in groups based on the axes.
             //************************************************************
 
             // Loop through all series and check if different axes are used
@@ -728,7 +728,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         double xValue = point.XValue;
                         if (indexedSeries)
                         {
-                            // The formula for position is based on a distance 
+                            // The formula for position is based on a distance
                             //from the grid line or nPoints position.
                             xValue = (double)pointIndx + 1;
                         }
@@ -777,7 +777,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                             rectSize.Y = (float)(xPosition - width / 2);
                             rectSize.Height = (float)width;
 
-                            // The left side of rectangle has always 
+                            // The left side of rectangle has always
                             // smaller value than a right value
                             if (zero < height)
                             {
@@ -835,7 +835,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                                     rectSize.X < area.PlotAreaPosition.X ||
                                     rectSize.Right > area.PlotAreaPosition.Right)
                                 {
-                                    // Set clipping region for line drawing 
+                                    // Set clipping region for line drawing
                                     graph.SetClip(area.PlotAreaPosition.ToRectangleF());
                                     clipRegionSet = true;
                                 }
@@ -875,10 +875,10 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                                     graph.EndHotRegion();
                                 }
 
-                                // Draw labels 
+                                // Draw labels
                                 else
                                 {
-                                    // Calculate label rectangle 
+                                    // Calculate label rectangle
                                     RectangleF labelRect = new RectangleF(rectSize.Location, rectSize.Size);
                                     if (clipRegionSet && !ajaxScrollingEnabled)
                                     {
@@ -1056,7 +1056,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         sf));
 
                     //************************************************************
-                    // Check labels style custom properties 
+                    // Check labels style custom properties
                     //************************************************************
                     BarValueLabelDrawingStyle drawingStyle = BarValueLabelDrawingStyle.Center;
                     string valueLabelAttrib = "";
@@ -1149,7 +1149,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
 
 
 
-                        // Adjust label background position that can be changed by the 
+                        // Adjust label background position that can be changed by the
                         // Smart Labels algorithm
                         // NOTE: Fixes issue #4688
                         labelBackPosition = area.smartLabels.GetLabelPosition(
@@ -1300,7 +1300,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         #region 3D Painting and selection methods
 
         /// <summary>
-        /// This method recalculates size of the stacked bars in 3D space. This method is used 
+        /// This method recalculates size of the stacked bars in 3D space. This method is used
         /// from Paint or Select method.
         /// </summary>
         /// <param name="selection">If True selection mode is active, otherwise paint mode is active.</param>
@@ -1520,7 +1520,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         rectSize.Y = (float)(pointEx.xPosition - pointEx.width / 2);
                         rectSize.Height = (float)pointEx.width;
 
-                        // The left side of rectangle has always 
+                        // The left side of rectangle has always
                         // smaller value than a right value
                         if (zero < height)
                         {
@@ -1683,7 +1683,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         rectSize.Y = (float)(pointEx.xPosition - pointEx.width / 2);
                         rectSize.Height = (float)pointEx.width;
 
-                        // The left side of rectangle has always 
+                        // The left side of rectangle has always
                         // smaller value than a right value
                         if (zero < height)
                         {
@@ -1767,7 +1767,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                 using StringFormat format = new StringFormat();
 
                 //************************************************************
-                // Get label text 
+                // Get label text
                 //************************************************************
                 string text;
                 if (point.Label.Length == 0)
@@ -1795,7 +1795,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
 
 
                 //************************************************************
-                // Check labels style custom properties 
+                // Check labels style custom properties
                 //************************************************************
                 BarValueLabelDrawingStyle drawingStyle = BarValueLabelDrawingStyle.Center;
                 string valueLabelAttrib = "";
@@ -1877,7 +1877,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     // NOTE: Code below is commented. Fixes issue #4687 - AG
                     labelFit = true;
 
-                    //					// Make sure value label fits rectangle. 
+                    //					// Make sure value label fits rectangle.
                     //					SizeF valueTextSize = graph.MeasureStringRel(text, point.Font);
                     //					if(!labelSwitched && valueTextSize.Width > rectLabel.Width)
                     //					{
@@ -2092,7 +2092,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            //Nothing to dispose at the base class. 
+            //Nothing to dispose at the base class.
         }
 
         /// <summary>

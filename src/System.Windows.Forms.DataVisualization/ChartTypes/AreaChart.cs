@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 //
-//  Purpose:	Provide 2D/3D drawing and hit testing functionality 
-//              for the Area and SplineArea charts. Spline chart 
+//  Purpose:	Provide 2D/3D drawing and hit testing functionality
+//              for the Area and SplineArea charts. Spline chart
 //              type is used as a base for the Area and SplineArea
 //              charts.
 //
@@ -16,7 +16,7 @@ using System.Drawing.Drawing2D;
 namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 {
     /// <summary>
-    /// SplineAreaChart class extends the AreaChart class by 
+    /// SplineAreaChart class extends the AreaChart class by
     /// providing a different initial tension for the line.
     /// </summary>
     internal class SplineAreaChart : AreaChart
@@ -78,12 +78,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     }
 
     /// <summary>
-    /// AreaChart class provides 2D/3D drawing and hit testing 
-    /// functionality for the Area and SplineArea charts. The 
-    /// only difference of the SplineArea chart is the default 
+    /// AreaChart class provides 2D/3D drawing and hit testing
+    /// functionality for the Area and SplineArea charts. The
+    /// only difference of the SplineArea chart is the default
     /// tension of the line.
-    /// 
-    /// SplineChart base class provides most of the functionality 
+    ///
+    /// SplineChart base class provides most of the functionality
     /// like drawing lines, labels and markers.
     /// </summary>
     internal class AreaChart : SplineChart
@@ -153,8 +153,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         { get { return ChartTypeNames.Area; } }
 
         /// <summary>
-        /// If the crossing value is auto Crossing value should be 
-        /// automatically set to zero for some chart 
+        /// If the crossing value is auto Crossing value should be
+        /// automatically set to zero for some chart
         /// types (Bar, column, area etc.)
         /// </summary>
         public override bool ZeroCrossing
@@ -186,7 +186,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         #region Painting and Selection methods
 
         /// <summary>
-        /// This method recalculates position of the end points of lines. This method 
+        /// This method recalculates position of the end points of lines. This method
         /// is used from Paint or Select method.
         /// </summary>
         /// <param name="selection">If True selection mode is active, otherwise paint mode is active.</param>
@@ -442,7 +442,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             //************************************************************
-            // Hot Regions mode used for image maps, tool tips and 
+            // Hot Regions mode used for image maps, tool tips and
             // hit test function
             //************************************************************
             if (common.ProcessModeRegions)
@@ -451,7 +451,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 //** Add area for the inside of the area
                 //**************************************************************
 
-                // Create grapics path object dor the curve
+                // Create graphics path object for the curve
                 GraphicsPath mapAreaPath = new GraphicsPath();
                 mapAreaPath.AddLine(point1.X, axisPos.Y, point1.X, point1.Y);
                 if (this.lineTension == 0)
@@ -478,7 +478,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
 
                 //************************************************************
-                // Hot Regions mode used for image maps, tool tips and 
+                // Hot Regions mode used for image maps, tool tips and
                 // hit test function
                 //************************************************************
                 common.HotRegionsList.AddHotRegion(
@@ -534,7 +534,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
 
                     //************************************************************
-                    // Hot Regions mode used for image maps, tool tips and 
+                    // Hot Regions mode used for image maps, tool tips and
                     // hit test function
                     //************************************************************
                     common.HotRegionsList.AddHotRegion(
@@ -611,12 +611,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="pointLoopIndex">Index of points loop.</param>
         /// <param name="tension">Line tension.</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
-        /// <param name="topDarkening">Darkenning scale for top surface. 0 - None.</param>
-        /// <param name="bottomDarkening">Darkenning scale for bottom surface. 0 - None.</param>
+        /// <param name="topDarkening">Darkening scale for top surface. 0 - None.</param>
+        /// <param name="bottomDarkening">Darkening scale for bottom surface. 0 - None.</param>
         /// <param name="thirdPointPosition">Position where the third point is actually located or float.NaN if same as in "firstPoint".</param>
         /// <param name="fourthPointPosition">Position where the fourth point is actually located or float.NaN if same as in "secondPoint".</param>
         /// <param name="clippedSegment">Indicates that drawn segment is 3D clipped. Only top/bottom should be drawn.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         protected override GraphicsPath Draw3DSurface(
             ChartArea area,
             ChartGraphics graph,
@@ -844,14 +844,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="tension">Line tension.</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
         /// <param name="surfaceSegmentType">Define surface segment type if it consists of several segments.</param>
-        /// <param name="topDarkening">Darkenning scale for top surface. 0 - None.</param>
-        /// <param name="bottomDarkening">Darkenning scale for bottom surface. 0 - None.</param>
+        /// <param name="topDarkening">Darkening scale for top surface. 0 - None.</param>
+        /// <param name="bottomDarkening">Darkening scale for bottom surface. 0 - None.</param>
         /// <param name="thirdPointPosition">Position where the third point is actually located or float.NaN if same as in "firstPoint".</param>
         /// <param name="fourthPointPosition">Position where the fourth point is actually located or float.NaN if same as in "secondPoint".</param>
         /// <param name="clippedSegment">Indicates that drawn segment is 3D clipped. Only top/bottom should be drawn.</param>
-        /// <param name="clipOnTop">Indicates that top segment line should be clipped to the pkot area.</param>
-        /// <param name="clipOnBottom">Indicates that bottom segment line should be clipped to the pkot area.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <param name="clipOnTop">Indicates that top segment line should be clipped to the plot area.</param>
+        /// <param name="clipOnBottom">Indicates that bottom segment line should be clipped to the plot area.</param>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         protected override GraphicsPath Draw3DSurface(
             DataPoint3D firstPoint,
             DataPoint3D secondPoint,
@@ -890,7 +890,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             //****************************************************************
-            //** Fint point with line properties
+            //** First point with line properties
             //****************************************************************
             DataPoint3D pointAttr = secondPoint;
             if (prevDataPointEx.dataPoint.IsEmpty)
@@ -967,7 +967,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 ref visibleSurfaces);
 
             //****************************************************************
-            //** Calculate position of top/bootom points.
+            //** Calculate position of top/bottom points.
             //****************************************************************
             GetBottomPointsPosition(
                 Common,
@@ -999,7 +999,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             //****************************************************************
-            //** Clip area first and second data points inside 
+            //** Clip area first and second data points inside
             //** the plotting area.
             //****************************************************************
             if (clipOnTop && ClipTopPoints(
@@ -1028,7 +1028,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             //****************************************************************
-            //** Clip area third and fourth data points inside 
+            //** Clip area third and fourth data points inside
             //** the plotting area.
             //****************************************************************
             if (clipOnBottom && ClipBottomPoints(
@@ -1438,7 +1438,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="positionZ">Z coordinate of the back side of the cube.</param>
         /// <param name="depth">Cube depth.</param>
         /// <param name="matrix">Coordinate transformation matrix.</param>
-        /// <param name="visibleSurfaces">Surface visibility reference. Initialized with bounary cube visibility.</param>
+        /// <param name="visibleSurfaces">Surface visibility reference. Initialized with boundary cube visibility.</param>
         protected virtual void GetTopSurfaceVisibility(
             ChartArea area,
             DataPoint3D firstPoint,
@@ -1490,7 +1490,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
             }
 
-            // Tranform coordinates 
+            // Transform coordinates
             matrix.TransformPoints(cubePoints);
 
             // Check the top side visibility

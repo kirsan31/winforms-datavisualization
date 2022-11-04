@@ -325,7 +325,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     double yValue1 = vAxis.GetLogValue(point.YValues[1]);
                     xValue = hAxis.GetLogValue(xValue);
 
-                    // Check if chart is completly out of the data scaleView
+                    // Check if chart is completely out of the data scaleView
                     if (xValue < hAxis.ViewMinimum ||
                         xValue > hAxis.ViewMaximum ||
                         (yValue0 < vAxis.ViewMinimum && yValue1 < vAxis.ViewMinimum) ||
@@ -587,7 +587,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         double yValue1 = vAxis.GetLogValue(point.YValues[1]);
                         xValue = hAxis.GetLogValue(xValue);
 
-                        // Check if chart is completly out of the data scaleView
+                        // Check if chart is completely out of the data scaleView
                         if (xValue < hAxis.ViewMinimum ||
                             xValue > hAxis.ViewMaximum ||
                             (yValue0 < vAxis.ViewMinimum && yValue1 < vAxis.ViewMinimum) ||
@@ -1099,7 +1099,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     double yValue1 = vAxis.GetLogValue(point.YValues[1]);
                     xValue = hAxis.GetLogValue(xValue);
 
-                    // Check if chart is completly out of the data scaleView
+                    // Check if chart is completely out of the data scaleView
                     if (xValue < hAxis.ViewMinimum ||
                         xValue > hAxis.ViewMaximum ||
                         (yValue0 < vAxis.ViewMinimum && yValue1 < vAxis.ViewMinimum) ||
@@ -1370,7 +1370,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         double yValue1 = vAxis.GetLogValue(point.YValues[1]);
                         xValue = hAxis.GetLogValue(xValue);
 
-                        // Check if chart is completly out of the data scaleView
+                        // Check if chart is completely out of the data scaleView
                         if (xValue < hAxis.ViewMinimum ||
                             xValue > hAxis.ViewMaximum ||
                             (yValue0 < vAxis.ViewMinimum && yValue1 < vAxis.ViewMinimum) ||
@@ -1527,7 +1527,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Create as many data points as series in attribute
                 string[] attrValues = boxPlotSeries[CustomPropertyName.BoxPlotSeries].Split(';');
 
-                // Clear and and new points
+                // Clear and add new points
                 boxPlotSeries.Points.Clear();
                 int pointIndex = 0;
                 foreach (string val in attrValues)
@@ -1719,7 +1719,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Update point's values
             if (unusualValuesList.Count > 0)
             {
-                // Create new arry of values for the data pont
+                // Create new array of values for the data point
                 double[] newYValues = new double[6 + unusualValuesList.Count];
 
                 // Copy original data

@@ -169,7 +169,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 					double sum = 0;
 					int startSum = 0;
 
-					// Find the begining of the period
+					// Find the beginning of the period
 					if( point - period + 1 > 0 )
 					{
 						startSum = point - period + 1;

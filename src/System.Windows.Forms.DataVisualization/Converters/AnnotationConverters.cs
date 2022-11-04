@@ -26,7 +26,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	/// <param name="context">Descriptor context.</param>
 	/// <param name="culture">Culture information.</param>
 	/// <param name="value">Value to convert.</param>
-	/// <param name="destinationType">Convertion destination type.</param>
+	/// <param name="destinationType">Conversion destination type.</param>
 	/// <returns>Converted object.</returns>
 	public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) 
 	{
@@ -62,12 +62,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Converter methods
 
 		/// <summary>
-		/// Converts axis associated with anootation to string.
+		/// Converts axis associated with annotation to string.
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
 		/// <param name="culture">Culture information.</param>
 		/// <param name="value">Value to convert.</param>
-		/// <param name="destinationType">Convertion destination type.</param>
+		/// <param name="destinationType">Conversion destination type.</param>
 		/// <returns>Converted object.</returns>
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {

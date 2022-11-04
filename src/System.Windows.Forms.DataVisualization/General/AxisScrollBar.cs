@@ -111,7 +111,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		// Axis data scaleView scroll bar size
 		private	double					_scrollBarSize = 14.0;
 
-		// Index of the pressed butoon in the scroll bar
+		// Index of the pressed button in the scroll bar
 		private	int						_pressedButtonType = int.MaxValue;
 
 		// Axis data scaleView scroll bar buttons color
@@ -885,7 +885,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Mouse move event should not be handled by any other chart elements
 				handled = true;
 
-				// Check if tracking buton was pressed
+				// Check if tracking button was pressed
 				if((ScrollBarButtonType)this._pressedButtonType == ScrollBarButtonType.ThumbTracker)
 				{
 					// Proceed if last clicked position is known
@@ -1692,7 +1692,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 #endregion
 
-#region Coordinate convertion methods
+#region Coordinate conversion methods
 
 		/// <summary>
 		/// Converts Relative size to Absolute size

@@ -22,7 +22,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Converter methods
 
 		/// <summary>
-		/// Subproperties NOT suported.
+		/// Subproperties NOT supported.
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
 		/// <returns>Always false.</returns>

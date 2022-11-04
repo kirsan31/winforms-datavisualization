@@ -165,7 +165,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #region Component Designer generated code
         /// <summary>
-        /// Required method for Designer support - do not modify 
+        /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
@@ -505,7 +505,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     chartPicture.BackColor = Color.Transparent;
                 }
 
-                // Call base class 
+                // Call base class
                 base.OnPaintBackground(pevent);
 
                 chartPicture.BackColor = oldBackColor;
@@ -1154,7 +1154,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Specifies whether smoothing (antialiasing) is applied while drawing chart.
+        /// Specifies whether smoothing (anti-aliasing) is applied while drawing chart.
         /// </summary>
         [
         SRCategory("CategoryAttributeImage"),
@@ -1185,7 +1185,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Specifies the quality of text antialiasing.
+        /// Specifies the quality of text anti-aliasing.
         /// </summary>
         [
         SRCategory("CategoryAttributeImage"),
@@ -1962,13 +1962,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         public void ResetAutoValues()
         {
-            // Reset auto calculated series properties values 
+            // Reset auto calculated series properties values
             foreach (Series series in this.Series)
             {
                 series.ResetAutoValues();
             }
 
-            // Reset auto calculated axis properties values 
+            // Reset auto calculated axis properties values
             foreach (ChartArea chartArea in this.ChartAreas)
             {
                 chartArea.ResetAutoValues();
@@ -2019,7 +2019,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         /// <summary>
         /// Call this method to determine the  chart element,
-        /// if any, that is located at a point defined by the given X and Y 
+        /// if any, that is located at a point defined by the given X and Y
         /// coordinates.
         /// <seealso cref="HitTestResult"/></summary>
         /// <param name="x">The X coordinate for the point in question.
@@ -2028,31 +2028,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="y">The Y coordinate for the point in question.
         /// Often obtained from a parameter in an event
         /// (e.g. the Y parameter value in the MouseDown event).</param>
-        /// <param name="ignoreTransparent">Indicates that transparent 
+        /// <param name="ignoreTransparent">Indicates that transparent
         /// elements should be ignored.</param>
         /// <param name="requestedElement">
-        /// An array of type which specify the types                  
-        /// to test for, on order to filter the result. If omitted checking for                 
-        /// elementTypes will be ignored and all kind of elementTypes will be 
+        /// An array of type which specify the types
+        /// to test for, on order to filter the result. If omitted checking for
+        /// elementTypes will be ignored and all kind of elementTypes will be
         /// valid.
         ///  </param>
         /// <returns>
         /// A array of <see cref="HitTestResult"/> objects,
         /// which provides information concerning the  chart element
         /// (if any) that is at the specified location. Result contains at least
-        /// one element, which could be ChartElementType.Nothing. 
-        /// The objects in the result are sorted in from top to bottom of 
+        /// one element, which could be ChartElementType.Nothing.
+        /// The objects in the result are sorted in from top to bottom of
         /// different layers of control. </returns>
         /// <remarks>Call this method to determine the  gauge element
         /// (if any) that is located at a specified point. Often this method is used in
         /// some mouse-related event (e.g. MouseDown)
         /// to determine what  gauge element the end-user clicked on.
         /// The X and Y mouse coordinates obtained from the
-        /// event parameters are then used for the X and Y parameter              
-        /// values of this method call.   The returned 
+        /// event parameters are then used for the X and Y parameter
+        /// values of this method call.   The returned
         /// <see cref="HitTestResult"/> object's properties
         /// can then be used to determine what  chart element was clicked on,
-        /// and also provides a reference to the actual object selected (if 
+        /// and also provides a reference to the actual object selected (if
         /// any).</remarks>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
             Justification = "X and Y are cartesian coordinates and well understood")]
@@ -2069,12 +2069,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="elementType">Type of the element.</param>
         /// <returns> A <see cref="ChartElementOutline"/> object which contains
         /// 1) An array of points in absolute coordinates which can be used as outline markers arround this chart element.
-        /// 2) A GraphicsPath for drawing aouline around this chart emenent.
+        /// 2) A GraphicsPath for drawing an outline around this chart element.
         /// </returns>
         /// <remarks>
-        /// If the <paramref name="element"/> is not part of the chart or <paramref name="elementType"/> cannot be combined 
-        /// with <paramref name="element"/> then the result will contain empty array of marker points. 
-        /// The marker points are sorted clockwize.
+        /// If the <paramref name="element"/> is not part of the chart or <paramref name="elementType"/> cannot be combined
+        /// with <paramref name="element"/> then the result will contain empty array of marker points.
+        /// The marker points are sorted clockwise.
         /// </remarks>
         public ChartElementOutline GetChartElementOutline(object element, ChartElementType elementType)
         {
@@ -2084,7 +2084,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #endregion
 
         #region Control protected methods
-
+        /// <summary>
+        /// Invoked whenever an unhandled GotFocus event reaches this element in its route.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnGotFocus(EventArgs e)
         {
             base.OnGotFocus(e);
@@ -2092,7 +2095,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             using Graphics g = Graphics.FromHwndInternal(Handle);
             ControlPaint.DrawFocusRectangle(g, new Rectangle(1, 1, Size.Width - 2, Size.Height - 2));
         }
-
+        /// <summary>
+        /// Invoked whenever an unhandled LostFocus event reaches this element in its route.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnLostFocus(EventArgs e)
         {
             base.OnLostFocus(e);
@@ -2519,7 +2525,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public event EventHandler<ChartPaintEventArgs> PrePaint;
 
         /// <summary>
-        /// Fires when chart element backround must be drawn. 
+        /// Fires when chart element background must be drawn.
         /// This event is fired for elements like: ChartPicture, ChartArea and Legend
         /// </summary>
         /// <param name="e">Event arguments.</param>
@@ -2532,7 +2538,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when chart element backround must be drawn. 
+        /// Fires when chart element background must be drawn.
         /// This event is fired for elements like: ChartPicture, ChartArea and Legend
         /// </summary>
         /// <param name="e">Event arguments.</param>
@@ -2542,7 +2548,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when chart element must be drawn. 
+        /// Fires when chart element must be drawn.
         /// This event is fired for elements like: ChartPicture, ChartArea and Legend
         /// </summary>
         /// <param name="e">Event arguments.</param>
@@ -2555,7 +2561,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when chart element must be drawn. 
+        /// Fires when chart element must be drawn.
         /// This event is fired for elements like: ChartPicture, ChartArea and Legend
         /// </summary>
         /// <param name="e">Event arguments.</param>
@@ -2578,7 +2584,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
         /// <summary>
-        /// Fires when all chart data is prepared to be customized before drawing. 
+        /// Fires when all chart data is prepared to be customized before drawing.
         /// </summary>
         [
         SRDescription("DescriptionAttributeChart_OnCustomize")
@@ -2592,7 +2598,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when all chart data is prepared to be customized before drawing. 
+        /// Fires when all chart data is prepared to be customized before drawing.
         /// </summary>
         internal void CallOnCustomize()
         {
@@ -2609,7 +2615,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
         /// <summary>
-        /// Fires when all chart data is prepared to be customized before drawing. 
+        /// Fires when all chart data is prepared to be customized before drawing.
         /// </summary>
         [
             SRDescription("DescriptionAttributeChart_OnCustomizeLegend")
@@ -2623,7 +2629,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when all chart data is prepared to be customized before drawing. 
+        /// Fires when all chart data is prepared to be customized before drawing.
         /// </summary>
         internal void CallOnCustomizeLegend(LegendItemsCollection legendItems, string legendName)
         {
@@ -2634,7 +2640,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Annotation events
 
         /// <summary>
-        /// Fires when annotation text was changed. 
+        /// Fires when annotation text was changed.
         /// </summary>
         [
         SRDescription("DescriptionAttributeChartEvent_AnnotationTextChanged"),
@@ -2655,7 +2661,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when selected annotation changes. 
+        /// Fires when selected annotation changes.
         /// </summary>
         [
         SRDescription("DescriptionAttributeChartEvent_AnnotationSelectionChanged"),
@@ -2681,7 +2687,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public event EventHandler<AnnotationPositionChangingEventArgs> AnnotationPositionChanging;
 
         /// <summary>
-        /// Fires when annotation is placed by the user on the chart. 
+        /// Fires when annotation is placed by the user on the chart.
         /// </summary>
         [
         SRDescription("DescriptionAttributeChartEvent_AnnotationPlaced"),
@@ -2704,7 +2710,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when selected annotation changes. 
+        /// Fires when selected annotation changes.
         /// </summary>
         /// <param name="annotation">Annotation which have it's selection changed.</param>
         internal void OnAnnotationSelectionChanged(Annotation annotation)
@@ -2817,9 +2823,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Automatically creates and binds series to specified data table. 
+        /// Automatically creates and binds series to specified data table.
         /// Each column of the table becomes a Y value in a separate series.
-        /// Series X value field may also be provided. 
+        /// Series X value field may also be provided.
         /// </summary>
         /// <param name="dataSource">Data source.</param>
         /// <param name="xField">Name of the field for series X values.</param>
@@ -2835,7 +2841,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Automatically creates and binds series to specified data table. 
+        /// Automatically creates and binds series to specified data table.
         /// Each column of the table becomes a Y value in a separate series.
         /// </summary>
         /// <param name="dataSource">Data source.</param>

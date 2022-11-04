@@ -4,9 +4,9 @@
 
 
 //
-//  Purpose:	LegendCell and LegendCellColumn classes allow to 
-//              create highly customize legends. Please refer to 
-//              Chart documentation which contains images and 
+//  Purpose:	LegendCell and LegendCellColumn classes allow to
+//              create highly customize legends. Please refer to
+//              Chart documentation which contains images and
 //              samples describing this functionality.
 //
 
@@ -67,8 +67,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     #endregion // Enumerations
 
     /// <summary>
-    /// The LegendCellColumn class represents a cell column in a legend, 
-    /// used to extend the functionality of the default legend. It contains 
+    /// The LegendCellColumn class represents a cell column in a legend,
+    /// used to extend the functionality of the default legend. It contains
     /// visual appearance properties, legend header settings and also determine
     /// how and in which order cells are formed for each of the legend items.
     /// </summary>
@@ -100,7 +100,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Legend column series symbol size
         private Size _seriesSymbolSize = new Size(200, 70);
 
-        // Legend column content allignment
+        // Legend column content alignment
         private ContentAlignment _alignment = ContentAlignment.MiddleCenter;
 
         // Legend column tooltip
@@ -112,7 +112,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Legend column header text
         private string _headerText = string.Empty;
 
-        // Legend column/cell content allignment
+        // Legend column/cell content alignment
         private StringAlignment _headerAlignment = StringAlignment.Center;
 
         // Legend column header text color
@@ -128,7 +128,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private int _minimumCellWidth = -1;
 
         // Maximum column width
-        private int _maximumCellWidth = -1;        
+        private int _maximumCellWidth = -1;
 
         #endregion // Fields
 
@@ -238,7 +238,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets legend column text.  This is only applicable to items that are automatically generated for the series.  
+        /// Gets or sets legend column text.  This is only applicable to items that are automatically generated for the series.
         /// Set the ColumnType property to text to use this property.
         /// </summary>
         [
@@ -377,7 +377,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the margins of the legend column (as a percentage of legend font size).  
+        /// Gets or sets the margins of the legend column (as a percentage of legend font size).
         /// This is only applicable to items that are automatically generated for the series.
         /// </summary>
         [
@@ -619,7 +619,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Methods
 
         /// <summary>
-        /// Creates a new LegendCell object and copies all properties from the 
+        /// Creates a new LegendCell object and copies all properties from the
         /// current column into the newly created one.
         /// </summary>
         /// <returns>A new copy of the LegendCell</returns>
@@ -669,9 +669,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
     }
 
     /// <summary>
-    /// The LegendCell class represents a single cell in the chart legend. 
+    /// The LegendCell class represents a single cell in the chart legend.
     /// Legend contains several legend items.  Each item contains several
-    /// cells which form the vertical columns. This class provides properties 
+    /// cells which form the vertical columns. This class provides properties
     /// which determine content of the cell and its visual appearance. It
     /// also contains method which determine the size of the cell and draw
     /// cell in the chart.
@@ -713,10 +713,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Legend cell series symbol size
         private Size _seriesSymbolSize = new Size(200, 70);
 
-        // Legend cell content allignment
+        // Legend cell content alignment
         private ContentAlignment _alignment = ContentAlignment.MiddleCenter;
 
-        // Numer of cells this cell uses to show it's content
+        // Number of cells this cell uses to show it's content
         private int _cellSpan = 1;
 
         // Legend cell tooltip
@@ -729,10 +729,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private int _rowIndex = -1;
 
         // Position where cell is drawn in pixel coordinates.
-        // Exncludes margins and space required for separators
+        // Excludes margins and space required for separators
         internal Rectangle cellPosition = Rectangle.Empty;
 
-        // Position where cell is drawn in pixel coordinates. 
+        // Position where cell is drawn in pixel coordinates.
         // Includes margins and space required for separators
         internal Rectangle cellPositionWithMargins = Rectangle.Empty;
 
@@ -1024,7 +1024,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the image size (as a percentage of legend font size) of the legend cell. 
+        /// Gets or sets the image size (as a percentage of legend font size) of the legend cell.
         /// Set CellType to Image to use this property.
         /// </summary>
         /// <remarks>
@@ -1054,7 +1054,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the series symbol size (as a percentage of legend font size) of the legend cell. 
+        /// Gets or sets the series symbol size (as a percentage of legend font size) of the legend cell.
         /// Set CellType to SeriesSymbol to use this property.
         /// </summary>
         [
@@ -1219,7 +1219,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Rectangle position,
             Size singleWCharacterSize)
         {
-            // Set cell position 
+            // Set cell position
             this.cellPosition = position;
             this.cellPositionWithMargins = position;
             this._rowIndex = rowIndex;
@@ -1314,7 +1314,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 throw new InvalidOperationException(SR.ExceptionLegendCellTypeUnknown(this.CellType.ToString()));
             }
 
-            // Add cell margins 
+            // Add cell margins
             cellSize.Width += (int)((this.Margins.Left + this.Margins.Right) * singleWCharacterSize.Width / 100f);
             cellSize.Height += (int)((this.Margins.Top + this.Margins.Bottom) * singleWCharacterSize.Height / 100f);
 
@@ -1363,7 +1363,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
 
-                // Get font from the legend isInterlaced 
+                // Get font from the legend isInterlaced
                 if (resultColor.IsEmpty &&
                     this.Legend.InterlacedRows &&
                     this._rowIndex % 2 != 0)
@@ -1448,7 +1448,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check if font size should be adjusted
             if (cellFont != null && fontSizeReducedBy != 0)
             {
-                // New font is created anf it must be disposed
+                // New font is created and it must be disposed
                 disposeFont = true;
 
                 // Calculate new font size
@@ -1476,7 +1476,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Helper function that returns cell tooltip.
         /// </summary>
         /// <remarks>
-        /// Tooltip can be set in the cell or in the legend item. Cell 
+        /// Tooltip can be set in the cell or in the legend item. Cell
         /// tooltip always has a higher priority.
         /// </remarks>
         /// <returns>Returns cell text.</returns>
@@ -1501,7 +1501,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Helper function that returns cell url.
         /// </summary>
         /// <remarks>
-        /// Url can be set in the cell or in the legend item. Cell 
+        /// Url can be set in the cell or in the legend item. Cell
         /// tooltip always has a higher priority.
         /// </remarks>
         /// <returns>Returns cell text.</returns>
@@ -1514,7 +1514,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Helper function that returns cell url.
         /// </summary>
         /// <remarks>
-        /// Url can be set in the cell or in the legend item. Cell 
+        /// Url can be set in the cell or in the legend item. Cell
         /// tooltip always has a higher priority.
         /// </remarks>
         /// <returns>Returns cell text.</returns>
@@ -1527,7 +1527,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Helper function that returns cell url.
         /// </summary>
         /// <remarks>
-        /// Url can be set in the cell or in the legend item. Cell 
+        /// Url can be set in the cell or in the legend item. Cell
         /// tooltip always has a higher priority.
         /// </remarks>
         /// <returns>Returns cell text.</returns>
@@ -1540,7 +1540,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Helper function that returns the exact text presented in the cell.
         /// </summary>
         /// <remarks>
-        /// This method replaces the "\n" substring with the new line character 
+        /// This method replaces the "\n" substring with the new line character
         /// and automatically wrap text if required.
         /// </remarks>
         /// <returns>Returns cell text.</returns>
@@ -2253,7 +2253,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     }
 
     /// <summary>
-    /// The Margins class represents the margins for various chart elements. 
+    /// The Margins class represents the margins for various chart elements.
     /// </summary>
     [
     SRDescription("DescriptionAttributeMargins_Margins"),
@@ -2540,7 +2540,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="LegendCellType"/> value representing the cell type.
         /// </param>
         /// <param name="text">
-        /// A <b>string</b> value representing cell text or image name depending 
+        /// A <b>string</b> value representing cell text or image name depending
         /// on the <b>cellType</b> parameter.
         /// </param>
         /// <param name="alignment">
@@ -2566,7 +2566,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="LegendCellType"/> value representing the cell type.
         /// </param>
         /// <param name="text">
-        /// A <b>string</b> value representing cell text or image name depending 
+        /// A <b>string</b> value representing cell text or image name depending
         /// on the <b>cellType</b> parameter.
         /// </param>
         /// <param name="alignment">
@@ -2581,7 +2581,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #endregion
 
         #region IDisposable Members
-        
+
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
@@ -2590,7 +2590,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (_disposedValue)
                 return;
-            
+
             if (disposing)
             {
                 // Dispose managed resources
@@ -2599,10 +2599,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     element.Dispose();
                 }
             }
-            
+
             _disposedValue = true;
         }
-        
+
         /// <summary>
         /// Performs freeing, releasing, or resetting managed resources.
         /// </summary>
@@ -2611,7 +2611,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
-        
+
         #endregion
     }
 

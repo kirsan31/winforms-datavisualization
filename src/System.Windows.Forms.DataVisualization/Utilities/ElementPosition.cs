@@ -331,7 +331,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				_y = value;
 				Auto = false;
 
-				// Adjust heigth
+				// Adjust height
 				if( (_y + Height) > 100)
 				{
 					Height = 100 - _y;

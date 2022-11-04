@@ -40,7 +40,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     public enum ScrollType
 	{
 		/// <summary>
-		/// Scrolls by substracting one small size.
+		/// Scrolls by subtracting one small size.
 		/// </summary>
 		SmallDecrement,
 		/// <summary>
@@ -48,7 +48,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		SmallIncrement,
 		/// <summary>
-		/// Scrolls by substracting one scaleView size.
+		/// Scrolls by subtracting one scaleView size.
 		/// </summary>
 		LargeDecrement,
 		/// <summary>
@@ -164,7 +164,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			get
 			{
-				// Axis scaleView is not supported in circular chrt areas
+				// Axis scaleView is not supported in circular chart areas
 				if(this.axis != null && this.axis.ChartArea != null && this.axis.ChartArea.chartAreaIsCurcular)
 				{
 					return Double.NaN;
@@ -173,7 +173,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 			set
 			{
-				// Axis scaleView is not supported in circular chrt areas
+				// Axis scaleView is not supported in circular chart areas
 				if(this.axis != null && this.axis.ChartArea != null && this.axis.ChartArea.chartAreaIsCurcular)
 				{
 					return;
@@ -219,7 +219,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			get
 			{
-				// Axis scaleView is not supported in circular chrt areas
+				// Axis scaleView is not supported in circular chart areas
 				if(this.axis != null && this.axis.ChartArea != null && this.axis.ChartArea.chartAreaIsCurcular)
 				{
 					return Double.NaN;
@@ -229,7 +229,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 			set
 			{
-				// Axis scaleView is not supported in circular chrt areas
+				// Axis scaleView is not supported in circular chart areas
 				if(this.axis != null && this.axis.ChartArea != null && this.axis.ChartArea.chartAreaIsCurcular)
 				{
 					return;
@@ -1068,7 +1068,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				return this.SmallScrollSize;
 			}
 
-			// Calcualte scroll line size depending on the current scaleView size
+			// Calculate scroll line size depending on the current scaleView size
 			GetCurrentViewSmallScrollSize();
 
 			// Return line size

@@ -50,12 +50,12 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         private System.ComponentModel.Container _components;
 
         /// <summary>
-        /// Property name that is beign edited.
+        /// Property name that is being edited.
         /// </summary>
         private string _propertyName = string.Empty;
 
         /// <summary>
-        /// Object/class name beign edited.
+        /// Object/class name being edited.
         /// </summary>
         private string _classTypeName = string.Empty;
 
@@ -135,8 +135,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// Object constructor.
         /// </summary>
         /// <param name="initialString">String to edit.</param>
-        /// <param name="classTypeName">Class name that beign edited.</param>
-        /// <param name="propertyName">Property name that is beign edited.</param>
+        /// <param name="classTypeName">Class name that being edited.</param>
+        /// <param name="propertyName">Property name that is being edited.</param>
         /// <param name="maxYValueIndex">Maximum number of supported Y values.</param>
         public KeywordsStringEditorForm(string initialString, string classTypeName, string propertyName, int maxYValueIndex) : this()
         {
@@ -754,7 +754,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             // Create new array
             ArrayList keywordList = new ArrayList();
 
-            // Get acess to the chart keywords registry
+            // Get access to the chart keywords registry
             if (KeywordsRegistry != null &&
                 this._propertyName.Length > 0 &&
                 this._classTypeName.Length > 0)

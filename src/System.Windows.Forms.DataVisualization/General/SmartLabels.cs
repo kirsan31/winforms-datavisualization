@@ -1092,7 +1092,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-            // Check if 1 collisuion is aceptable in case of cennter alignment
+            // Check if 1 collision is acceptable in case of center alignment
             bool allowOneCollision =
                 labelAlignment == LabelAlignmentStyles.Center && !smartLabelStyle.IsMarkerOverlappingAllowed;
             if (this.checkAllCollisions)
@@ -1567,7 +1567,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Calculate label position rectangle
             RectangleF labelPosition = GetLabelPosition(graph, position, size, format, false);
 
-            // Check if 1 collisuion is aceptable in case of cennter alignment
+            // Check if 1 collision is acceptable in case of center alignment
             bool allowOneCollision =
                 labelAlignment == LabelAlignmentStyles.Center && !smartLabelStyle.IsMarkerOverlappingAllowed;
             if (this.checkAllCollisions)

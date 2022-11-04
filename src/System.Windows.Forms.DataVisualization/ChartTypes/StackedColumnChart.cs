@@ -58,14 +58,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         { get { return ChartTypeNames.OneHundredPercentStackedColumn; } }
 
         /// <summary>
-        /// Indicates that it's a hundredred percent chart.
+        /// Indicates that it's a hundred percent chart.
         /// Axis scale from 0 to 100 percent should be used.
         /// </summary>
         public override bool HundredPercent
         { get { return true; } }
 
         /// <summary>
-        /// Indicates that it's a hundredred percent chart.
+        /// Indicates that it's a hundred percent chart.
         /// Axis scale from 0 to 100 percent should be used.
         /// </summary>
         public override bool HundredPercentSupportNegative
@@ -386,14 +386,14 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         { get { return false; } }
 
         /// <summary>
-        /// Indicates that it's a hundredred percent chart.
+        /// Indicates that it's a hundred percent chart.
         /// Axis scale from 0 to 100 percent should be used.
         /// </summary>
         public virtual bool HundredPercent
         { get { return false; } }
 
         /// <summary>
-        /// Indicates that it's a hundredred percent chart.
+        /// Indicates that it's a hundred percent chart.
         /// Axis scale from 0 to 100 percent should be used.
         /// </summary>
         public virtual bool HundredPercentSupportNegative

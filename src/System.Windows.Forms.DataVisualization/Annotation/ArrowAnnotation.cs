@@ -43,7 +43,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     #endregion Enumeration
 
     /// <summary>
-    /// <b>ArrowAnnotation</b> is a class class that represents an arrow annotation.
+    /// <b>ArrowAnnotation</b> is a class that represents an arrow annotation.
     /// </summary>
     /// <remarks>
     /// Arrow annotations can be used to connect to points on the chart or highlight a

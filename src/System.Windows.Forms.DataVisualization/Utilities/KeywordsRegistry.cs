@@ -442,7 +442,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		{
             // NOTE: Each keyword has a unique name. In addition the keyword may have an
             // alternative names (aliases). 
-            // Most common scenario for a keyword aliase is when keyword has a long and
+            // Most common scenario for a keyword alias is when keyword has a long and
             // short form. For example, KeywordName.Ser and "#SERIES".
             
 			// Fill array of possible names for that keyword

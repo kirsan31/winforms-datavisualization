@@ -884,7 +884,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Methods
 
         /// <summary>
-		/// Adjust the beginnin of the first interval depending on the type and size.
+		/// Adjust the beginning of the first interval depending on the type and size.
 		/// </summary>
 		/// <param name="start">Original start point.</param>
 		/// <param name="intervalSize">Interval size.</param>
@@ -896,7 +896,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// Adjust the beginnin of the first interval depending on the type and size.
+		/// Adjust the beginning of the first interval depending on the type and size.
 		/// </summary>
 		/// <param name="start">Original start point.</param>
 		/// <param name="intervalSize">Interval size.</param>

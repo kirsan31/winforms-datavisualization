@@ -37,7 +37,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 {
     using FontStyle = System.Drawing.FontStyle;
 
-    #region Chart area aligment enumerations
+    #region Chart area alignment enumerations
 
     /// <summary>
     /// An enumeration of the alignment orientations of a ChartArea
@@ -158,7 +158,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private int _circularSectorNumber = int.MinValue;
         private int _circularUsePolygons = int.MinValue;
 
-        // Flag indicates that chart area is acurrently aligned
+        // Flag indicates that chart area is currently aligned
         internal bool alignmentInProcess;
 
         // Chart area position before adjustments
@@ -1513,7 +1513,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 axisSize += axis.titleSize + axis.scrollBarSize;
 
 
-                // Calculate horizontal axes size for circualar area
+                // Calculate horizontal axes size for circular area
                 if (this.chartAreaIsCurcular &&
                     (axis.AxisPosition == AxisPosition.Top || axis.AxisPosition == AxisPosition.Bottom))
                 {
@@ -1737,7 +1737,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // If axis is not on the edge of the chart area do not
             // try to adjust it's position when axis labels overlap
-            // labels of the oppositie axis.
+            // labels of the opposite axis.
             if (!axis.IsAxisOnAreaEdge)
             {
                 return;
@@ -2261,7 +2261,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "These parameters are used when compiling for the WinForms version of Chart")]
         internal void PaintCursors(ChartGraphics graph, bool cursorOnly)
         {
-            // Cursors and selection are supoorted only in 2D charts
+            // Cursors and selection are supported only in 2D charts
             if (this.Area3DStyle.Enable3D == true)
             {
                 return;
@@ -2273,7 +2273,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return;
             }
 
-            // Cursors and selection are not supoorted in circular areas
+            // Cursors and selection are not supported in circular areas
             if (this.chartAreaIsCurcular)
             {
                 return;
@@ -2338,7 +2338,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
 
-                        // Copy chart area plotting rectangle from the chart's dubble buffer image into area dubble buffer image
+                        // Copy chart area plotting rectangle from the chart's double buffer image into area double buffer image
                         if (chart.paintBufferBitmap != null)
                         {
                             areaBufferBitmap = chart.paintBufferBitmap.Clone(absAreaPlotPosition, chart.paintBufferBitmap.PixelFormat);

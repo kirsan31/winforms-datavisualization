@@ -227,7 +227,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		// Name of the attribute that controls labels style
         internal string funnelLabelStyleAttributeName = CustomPropertyName.FunnelLabelStyle;
 
-		// Array of data point value adjusments in percentage
+		// Array of data point value adjustments in percentage
 		private		double[]	_valuePercentages;
 
         /// <summary>
@@ -331,13 +331,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		virtual public bool ExtraYValuesConnectedToYAxis{ get { return false; } }
 	
 		/// <summary>
-		/// Indicates that it's a hundredred percent chart.
+		/// Indicates that it's a hundred percent chart.
 		/// Axis scale from 0 to 100 percent should be used.
 		/// </summary>
 		virtual public bool HundredPercent{ get{return false;} }
 
 		/// <summary>
-		/// Indicates that it's a hundredred percent chart.
+		/// Indicates that it's a hundred percent chart.
 		/// Axis scale from 0 to 100 percent should be used.
 		/// </summary>
 		virtual public bool HundredPercentSupportNegative{ get{return false;} }
@@ -497,7 +497,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="location">Segment top location. Bottom location if reversed drawing order.</param>
 		/// <param name="height">Returns the height of the segment.</param>
 		/// <param name="startWidth">Returns top width of the segment.</param>
-		/// <param name="endWidth">Returns botom width of the segment.</param>
+		/// <param name="endWidth">Returns bottom width of the segment.</param>
 		protected virtual void GetPointWidthAndHeight(
 			Series series,
 			int pointIndex,
@@ -1754,7 +1754,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			//Loop through all labels
 			foreach(FunnelPointLabelInfo labelInfo in this.labelInfoList)
 			{
-				// Get assosiated funnel segment information
+				// Get associated funnel segment information
 				bool	lastLabel = false;
 				int pointIndex = labelInfo.PointIndex + (ShouldDrawFirstPoint() ? 0 : 1);
 				if(pointIndex > this.segmentList.Count && !ShouldDrawFirstPoint() )
@@ -2207,7 +2207,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <returns>Adjusted segment height.</returns>
 		protected float CheckMinHeight(float height)
 		{
-			// When point gap is used do not allow to have the segment heigth to be zero.
+			// When point gap is used do not allow to have the segment height to be zero.
 			float minSize = Math.Min(2f, this.funnelSegmentGap / 2f);
 			if(this.funnelSegmentGap > 0 && 
 				height < minSize)
@@ -2858,7 +2858,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="location">Segment top location. Bottom location if reversed drawing order.</param>
 		/// <param name="height">Returns the height of the segment.</param>
 		/// <param name="startWidth">Returns top width of the segment.</param>
-		/// <param name="endWidth">Returns botom width of the segment.</param>
+		/// <param name="endWidth">Returns bottom width of the segment.</param>
 		protected override void GetPointWidthAndHeight(
 			Series series,
 			int pointIndex,
@@ -2934,7 +2934,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 	{
 		#region Fields
 
-		// Assosiated data point
+		// Associated data point
 		public	DataPoint	Point;
 
         // Data point index
@@ -2968,7 +2968,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 	{
 		#region Fields
 
-		// Assosiated data point
+		// Associated data point
 		public	DataPoint			Point;
 
         // Data point index

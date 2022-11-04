@@ -239,14 +239,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         { get { return false; } }
 
         /// <summary>
-        /// Indicates that it's a hundredred percent chart.
+        /// Indicates that it's a hundred percent chart.
         /// Axis scale from 0 to 100 percent should be used.
         /// </summary>
         public virtual bool HundredPercent
         { get { return false; } }
 
         /// <summary>
-        /// Indicates that it's a hundredred percent chart.
+        /// Indicates that it's a hundred percent chart.
         /// Axis scale from 0 to 100 percent should be used.
         /// </summary>
         public virtual bool HundredPercentSupportNegative
@@ -570,7 +570,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // if data point is not empty and not labels drawing mode
                         if (!point.IsEmpty && !labels)
                         {
-                            // Check if column is completly out of the data scaleView
+                            // Check if column is completely out of the data scaleView
                             double xValue = indexedSeries ? pointIndex + 1 : point.XValue;
                             xValue = vAxis.GetLogValue(xValue);
                             if (xValue < vertViewMin || xValue > vertViewMax)
@@ -1476,7 +1476,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // if data point is not empty
                 if (!point.IsEmpty)
                 {
-                    // Check if column is completly out of the data scaleView
+                    // Check if column is completely out of the data scaleView
                     xValue = pointEx.indexedSeries ? pointEx.index : point.XValue;
                     xValue = vAxis.GetLogValue(xValue);
                     if (xValue < vAxis.ViewMinimum || xValue > vAxis.ViewMaximum)
@@ -1663,7 +1663,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     // if data point is not empty
                     if (!point.IsEmpty)
                     {
-                        // Check if column is completly out of the data scaleView
+                        // Check if column is completely out of the data scaleView
                         xValue = pointEx.indexedSeries ? pointEx.index : point.XValue;
                         xValue = vAxis.GetLogValue(xValue);
                         if (xValue < vAxis.ViewMinimum || xValue > vAxis.ViewMaximum)

@@ -31,7 +31,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	{
 		#region Fields
 
-		// Indicates that annotion rectangle should be drawn
+		// Indicates that annotation rectangle should be drawn
 		internal	bool		isRectVisible = true;
 
 		#endregion

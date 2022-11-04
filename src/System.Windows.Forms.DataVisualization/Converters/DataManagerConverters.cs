@@ -398,7 +398,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="context">Descriptor context.</param>
 		/// <param name="culture">Culture information.</param>
 		/// <param name="value">Value to convert.</param>
-		/// <param name="destinationType">Convertion destination type.</param>
+		/// <param name="destinationType">Conversion destination type.</param>
 		/// <returns>Converted object.</returns>
 		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) 
 		{  
@@ -430,8 +430,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// provide information about the design-time container.
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
-		/// <param name="sourceType">Convertion source type.</param>
-		/// <returns>Indicates if convertion is possible.</returns>
+		/// <param name="sourceType">Conversion source type.</param>
+		/// <returns>Indicates if conversion is possible.</returns>
 		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) 
 		{
       		if (sourceType == typeof(string)) 
@@ -512,7 +512,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="context">Descriptor context.</param>
 		/// <param name="culture">Culture information.</param>
 		/// <param name="value">Value to convert.</param>
-		/// <param name="destinationType">Convertion destination type.</param>
+		/// <param name="destinationType">Conversion destination type.</param>
 		/// <returns>Converted object.</returns>
 		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) 
 		{  
@@ -569,7 +569,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="context">Descriptor context.</param>
 		/// <param name="culture">Culture information.</param>
 		/// <param name="value">Value to convert.</param>
-		/// <param name="destinationType">Convertion destination type.</param>
+		/// <param name="destinationType">Conversion destination type.</param>
 		/// <returns>Converted object.</returns>
 		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) 
 		{  
@@ -693,8 +693,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// provide information about the design-time container.
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
-		/// <param name="sourceType">Convertion source type.</param>
-		/// <returns>Indicates if convertion is possible.</returns>
+		/// <param name="sourceType">Conversion source type.</param>
+		/// <returns>Indicates if conversion is possible.</returns>
 		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) 
 		{
 			if (sourceType == typeof(string)) 
@@ -710,7 +710,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="context">Descriptor context.</param>
 		/// <param name="culture">Culture information.</param>
 		/// <param name="value">Value to convert.</param>
-		/// <param name="destinationType">Convertion destination type.</param>
+		/// <param name="destinationType">Conversion destination type.</param>
 		/// <returns>Converted object.</returns>
 		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) 
 		{  

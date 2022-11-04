@@ -581,7 +581,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 throw new ArgumentOutOfRangeException(nameof(interval));
 
             //**************************************************
-            //** Automaticly detect minimum and maximum values
+            //** Automatically detect minimum and maximum values
             //**************************************************
             double fromX = Math.Min(fromXValue, toXValue);
             double toX = Math.Max(fromXValue, toXValue);
@@ -623,7 +623,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             //**************************************************
-            //** Automaticly adjust the beginning interval and
+            //** Automatically adjust the beginning interval and
             //** offset
             //**************************************************
             double nonAdjustedFromX = fromX;
@@ -1402,7 +1402,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             private DateRangeType _dateRange;
             private int[] _rangeElements;
 
-            // Default constructor is not accesiable
+            // Default constructor is not accessible
             private PointElementFilter()
             {
             }

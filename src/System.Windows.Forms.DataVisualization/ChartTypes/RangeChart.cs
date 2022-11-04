@@ -1460,7 +1460,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 			}
 
-			// Tranform coordinates 
+			// Transform coordinates 
 			matrix.TransformPoints( cubePoints );
 
 			// Check the top side visibility
@@ -1519,7 +1519,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 			}
 
-			// Tranform coordinates 
+			// Transform coordinates 
 			matrix.TransformPoints( cubePoints );
 
 			// Check the top side visibility

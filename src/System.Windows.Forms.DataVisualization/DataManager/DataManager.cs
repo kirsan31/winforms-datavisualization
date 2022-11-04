@@ -175,7 +175,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         internal void ApplyPaletteColors()
         {
             ChartColorPalette palette = this.Palette;
-            // switch to default pallette if is none and custom collors array is empty.
+            // switch to default palette if is none and custom colors array is empty.
             if (palette == ChartColorPalette.None && this.PaletteCustomColors.Length == 0)
             {
                 palette = ChartColorPalette.BrightPastel;
@@ -298,7 +298,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         }
 
         /// <summary>
-        /// Get Maximum value for Y and and Radius (Y2) ( used for bubble chart )
+        /// Get Maximum value for Y and Radius (Y2) ( used for bubble chart )
         /// </summary>
         /// <param name="area">Chart Area</param>
         /// <param name="series">Series IDs</param>
@@ -716,7 +716,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         }
 
         /// <summary>
-        /// Get Minimum value for Y and and Radius (Y2) ( used for bubble chart )
+        /// Get Minimum value for Y and Radius (Y2) ( used for bubble chart )
         /// </summary>
         /// <param name="area">Chart Area</param>
         /// <param name="series">Series IDs</param>

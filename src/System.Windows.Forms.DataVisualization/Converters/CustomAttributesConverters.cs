@@ -27,14 +27,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	/// </summary>
 	internal class CustomPropertiesTypeConverter : TypeConverter
 	{
-		#region String to/from convertion methods
+		#region String to/from conversion methods
 
 		/// <summary>
 		/// Overrides the CanConvertFrom method of TypeConverter.
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
-		/// <param name="sourceType">Convertion source type.</param>
-		/// <returns>Indicates if convertion is possible.</returns>
+		/// <param name="sourceType">Conversion source type.</param>
+		/// <returns>Indicates if conversion is possible.</returns>
 		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
 		{
 			if(sourceType == typeof(string))
@@ -50,7 +50,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
 		/// <param name="destinationType">Destination type.</param>
-		/// <returns>Indicates if convertion is possible.</returns>
+		/// <returns>Indicates if conversion is possible.</returns>
 		public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
 		{
 			if(destinationType == typeof(CustomProperties))
@@ -67,7 +67,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="context">Descriptor context.</param>
 		/// <param name="culture">Culture information.</param>
 		/// <param name="value">Value to convert.</param>
-		/// <param name="destinationType">Convertion destination type.</param>
+		/// <param name="destinationType">Conversion destination type.</param>
 		/// <returns>Converted object.</returns>
 		public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType) 
 		{  
@@ -86,7 +86,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="context">Descriptor context.</param>
 		/// <param name="culture">Culture information.</param>
 		/// <param name="value">Value to convert from.</param>
-		/// <returns>Indicates if convertion is possible.</returns>
+		/// <returns>Indicates if conversion is possible.</returns>
         [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
             Justification = "Too large of a code change to justify making this change")]
 		public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value) 
@@ -134,7 +134,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			return base.ConvertFrom(context, culture, value);
 		}
 	
-		#endregion // String to/from convertion methods
+		#endregion // String to/from conversion methods
 
 		#region Property Descriptor Collection methods
 

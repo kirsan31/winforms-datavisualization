@@ -1124,7 +1124,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
         /// <param name="lineSegmentType">AxisName of line segment. Used for step lines and splines.</param>
         /// <param name="thinBorders">Thin border will be drawn on specified sides.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         internal GraphicsPath Draw3DPolygon(
             ChartArea area,
             Matrix3D matrix,
@@ -1474,7 +1474,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="multiSeries">Multiple series are drawn at the same time.</param>
         /// <param name="yValueIndex">Index of the Y value to use.</param>
         /// <param name="clipInsideArea">Surface should be clipped inside plotting area.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         internal GraphicsPath Draw3DSplineSurface(
             ChartArea area,
             Matrix3D matrix,
@@ -1675,7 +1675,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="multiSeries">Multiple series are drawn at the same time.</param>
         /// <param name="yValueIndex">Index of the Y value to use.</param>
         /// <param name="clipInsideArea">Surface should be clipped inside plotting area.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         internal GraphicsPath Draw3DSurface(
             ChartArea area,
             Matrix3D matrix,
@@ -1767,19 +1767,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 plotAreaPositionRight += 0.001M;
                 plotAreaPositionBottom += 0.001M;
 
-                // Chech data points X values
+                // Check data points X values
                 if ((decimal)firstPoint.xPosition < plotAreaPositionX ||
                     (decimal)firstPoint.xPosition > plotAreaPositionRight ||
                     (decimal)secondPoint.xPosition < plotAreaPositionX ||
                     (decimal)secondPoint.xPosition > plotAreaPositionRight)
                 {
-                    // Check if surface completly out of the plot area
+                    // Check if surface completely out of the plot area
                     if ((decimal)firstPoint.xPosition < plotAreaPositionX &&
                         (decimal)secondPoint.xPosition < plotAreaPositionX)
                     {
                         return resultPath;
                     }
-                    // Check if surface completly out of the plot area
+                    // Check if surface completely out of the plot area
                     if ((decimal)firstPoint.xPosition > plotAreaPositionRight &&
                         (decimal)secondPoint.xPosition > plotAreaPositionRight)
                     {
@@ -1821,7 +1821,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
 
-                // Chech data points Y values
+                // Check data points Y values
                 if ((decimal)firstPoint.yPosition < plotAreaPositionY ||
                     (decimal)firstPoint.yPosition > plotAreaPositionBottom ||
                     (decimal)secondPoint.yPosition < plotAreaPositionY ||
@@ -2745,7 +2745,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="borderWidth">Border Width</param>
         /// <param name="borderDashStyle">Border Style</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         internal GraphicsPath Fill3DRectangle(
             RectangleF position,
             float positionZ,
@@ -2793,7 +2793,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="barDrawingStyle">Bar drawing style.</param>
         /// <param name="veticalOrientation">Defines if bar is vertical or horizontal.</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         internal GraphicsPath Fill3DRectangle(
             RectangleF position,
             float positionZ,
@@ -2848,7 +2848,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             cubePoints[6] = new Point3D(position.Right, position.Bottom, positionZ);
             cubePoints[7] = new Point3D(position.Right, position.Y, positionZ);
 
-            // Tranform cube coordinates
+            // Transform cube coordinates
             matrix.TransformPoints(cubePoints);
 
             // For lightStyle style Non, Border color always exist.
@@ -2982,7 +2982,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Draw surface
                         if ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement)
                         {
-                            // Draw only completly visible surfaces
+                            // Draw only completely visible surfaces
                             if ((visibleSurfaces & currentSurface) != 0)
                             {
                                 using (Brush brush = new SolidBrush(surfaceColor))
@@ -3022,7 +3022,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Add surface coordinate to the path
                         if ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
                         {
-                            // Only if surface is completly visible
+                            // Only if surface is completely visible
                             if ((visibleSurfaces & currentSurface) != 0)
                             {
                                 resultPath.SetMarkers();
@@ -3069,7 +3069,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 SizeF sizeRel = GetRelativeSize(new SizeF(size, size));
 
-                // Make 3D convertion of the key points
+                // Make 3D conversion of the key points
                 Point3D[] gradientPoints = new Point3D[6];
                 gradientPoints[0] = new Point3D(position.Left, position.Top, positionZ + depth);
                 gradientPoints[1] = new Point3D(position.Left, position.Bottom, positionZ + depth);
@@ -3086,7 +3086,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     gradientPoints[5] = new Point3D(position.Right - sizeRel.Width, position.Top + position.Height / 2f, positionZ + depth);
                 }
 
-                // Tranform cube coordinates
+                // Transform cube coordinates
                 matrix.TransformPoints(gradientPoints);
 
                 // Convert points to absolute
@@ -3223,7 +3223,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 gradientPoints[2] = new Point3D(gradientRect.Right, gradientRect.Bottom, positionZ + depth);
                 gradientPoints[3] = new Point3D(gradientRect.Right, gradientRect.Top, positionZ + depth);
 
-                // Tranform cube coordinates
+                // Transform cube coordinates
                 matrix.TransformPoints(gradientPoints);
 
                 // Convert points to absolute
@@ -3277,7 +3277,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 gradientPoints[2] = new Point3D(gradientRect.Right, gradientRect.Bottom, positionZ + depth);
                 gradientPoints[3] = new Point3D(gradientRect.Right, gradientRect.Top, positionZ + depth);
 
-                // Tranform cube coordinates
+                // Transform cube coordinates
                 matrix.TransformPoints(gradientPoints);
 
                 // Convert points to absolute
@@ -3333,7 +3333,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 gradientPoints[4] = new Point3D(position.Left + shadowSizeRel.Width, position.Top + shadowSizeRel.Height, positionZ + depth);
                 gradientPoints[5] = new Point3D(position.Left + shadowSizeRel.Width, position.Bottom - shadowSizeRel.Height, positionZ + depth);
 
-                // Tranform cube coordinates
+                // Transform cube coordinates
                 matrix.TransformPoints(gradientPoints);
 
                 // Convert points to absolute
@@ -3362,7 +3362,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 gradientPoints[4] = new Point3D(position.Right - shadowSizeRel.Width, position.Bottom - shadowSizeRel.Height, positionZ + depth);
                 gradientPoints[5] = new Point3D(position.Right - shadowSizeRel.Width, position.Top + shadowSizeRel.Height, positionZ + depth);
 
-                // Tranform cube coordinates
+                // Transform cube coordinates
                 matrix.TransformPoints(gradientPoints);
 
                 // Convert points to absolute
@@ -3406,7 +3406,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="shadowColor">Marker shadow color.</param>
         /// <param name="imageScaleRect">Rectangle to which marker image should be scaled.</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to ElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to ElementPath, otherwise Null.</returns>
         internal GraphicsPath DrawMarker3D(
             Matrix3D matrix,
             LightStyle lightStyle,
@@ -3685,7 +3685,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             cubePoints[6] = new Point3D(position.Right, position.Bottom, positionZ);
             cubePoints[7] = new Point3D(position.Right, position.Y, positionZ);
 
-            // Tranform coordinates 
+            // Transform coordinates 
             matrix.TransformPoints(cubePoints);
 
             // Detect surfaces visibility
@@ -3894,7 +3894,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="borderDashStyle">Border Style</param>
         /// <param name="veticalOrientation">Defines if bar is vertical or horizontal.</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         internal GraphicsPath Fill3DRectangleAsCylinder(
             RectangleF position,
             float positionZ,
@@ -3943,7 +3943,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 cubePoints[7] = new Point3D(position.Right, middleYValue, positionZ);
             }
 
-            // Tranform cylinder coordinates
+            // Transform cylinder coordinates
             matrix.TransformPoints(cubePoints);
 
             // Covert coordinates to absolute

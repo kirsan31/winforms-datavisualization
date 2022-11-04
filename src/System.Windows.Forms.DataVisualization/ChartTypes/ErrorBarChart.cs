@@ -451,7 +451,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     double yValue1 = vAxis.GetLogValue(point.YValues[2]);
                     xValue = hAxis.GetLogValue(xValue);
 
-                    // Check if chart is completly out of the data scaleView
+                    // Check if chart is completely out of the data scaleView
                     if (xValue < hAxis.ViewMinimum ||
                         xValue > hAxis.ViewMaximum ||
                         (yValue0 < vAxis.ViewMinimum && yValue1 < vAxis.ViewMinimum) ||
@@ -603,7 +603,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         double yValue1 = vAxis.GetLogValue(point.YValues[2]);
                         xValue = hAxis.GetLogValue(xValue);
 
-                        // Check if chart is completly out of the data scaleView
+                        // Check if chart is completely out of the data scaleView
                         if (xValue < hAxis.ViewMinimum ||
                             xValue > hAxis.ViewMaximum ||
                             (yValue0 < vAxis.ViewMinimum && yValue1 < vAxis.ViewMinimum) ||
@@ -1195,7 +1195,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     double yValue1 = vAxis.GetLogValue(point.YValues[2]);
                     xValue = hAxis.GetLogValue(xValue);
 
-                    // Check if chart is completly out of the data scaleView
+                    // Check if chart is completely out of the data scaleView
                     if (xValue < hAxis.ViewMinimum ||
                         xValue > hAxis.ViewMaximum ||
                         (yValue0 < vAxis.ViewMinimum && yValue1 < vAxis.ViewMinimum) ||
@@ -1364,7 +1364,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         double yValue1 = vAxis.GetLogValue(point.YValues[2]);
                         xValue = hAxis.GetLogValue(xValue);
 
-                        // Check if chart is completly out of the data scaleView
+                        // Check if chart is completely out of the data scaleView
                         if (xValue < hAxis.ViewMinimum ||
                             xValue > hAxis.ViewMaximum ||
                             (yValue0 < vAxis.ViewMinimum && yValue1 < vAxis.ViewMinimum) ||

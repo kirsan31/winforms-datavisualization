@@ -330,7 +330,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Get position of the parent axis
 				double position = this.parentAxis.GetAxisPosition(ignoreCrossing);
 
-                // Addjust parent position by the offset
+                // Adjust parent position by the offset
 				if(this.parentAxis.AxisPosition == AxisPosition.Left)
 				{
 					position -= this.offsetFromParent;

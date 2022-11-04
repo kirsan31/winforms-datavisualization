@@ -59,7 +59,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 #warning designer
         /*
 		/// <summary>
-		/// Ovveride the HelpTopic property to provide different topics,
+		/// Override the HelpTopic property to provide different topics,
 		/// depending on selected property.
 		/// </summary>
 		protected override string HelpTopic
@@ -120,14 +120,14 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 #warning designer
         /*
 		/// <summary>
-		/// Displaying help for the curently selected item in the property grid
+		/// Displaying help for the currently selected item in the property grid
 		/// </summary>
 		protected override void ShowHelp()
 		{
 			// Init topic name
 			_helpTopic = "";
 			PropertyGrid	grid = this.GetPropertyGrid(_form.Controls);;
-			
+
             // Check currently selected grid item
 			if(grid != null)
 			{

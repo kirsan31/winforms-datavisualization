@@ -18,8 +18,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <seealso cref="Charting.Chart.Annotations"/>
     /// </summary>
     /// <remarks>
-    /// All chart annotations are stored in this collection.  It is exposed as 
-    /// a <see cref="Charting.Chart.Annotations"/> property of the chart. It is also used to 
+    /// All chart annotations are stored in this collection.  It is exposed as
+    /// a <see cref="Charting.Chart.Annotations"/> property of the chart. It is also used to
     /// store annotations inside the <see cref="AnnotationGroup"/> class.
     /// <para>
     /// This class includes methods for adding, inserting, iterating and removing annotations.
@@ -120,7 +120,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             foreach (Annotation annotation in this)
             {
-                // Compare annotation name 
+                // Compare annotation name
                 if (annotation.Name == name)
                 {
                     return annotation;
@@ -171,7 +171,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         chartPicture.nonTopLevelChartBuffer = null;
                     }
 
-                    // Copy chart area plotting rectangle from the chart's dubble buffer image into area dubble buffer image
+                    // Copy chart area plotting rectangle from the chart's double buffer image into area double buffer image
                     if (this.Chart.paintBufferBitmap != null &&
                         this.Chart.paintBufferBitmap.Size.Width >= chartPosition.Size.Width &&
                         this.Chart.paintBufferBitmap.Size.Height >= chartPosition.Size.Height)
@@ -199,7 +199,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     bool resetClip = false;
 
-                    // Check if anchor point assosiated with plot area is inside the scaleView
+                    // Check if anchor point associated with plot area is inside the scaleView
                     if (annotation.IsAnchorVisible())
                     {
                         // Set annotation object clipping
@@ -311,7 +311,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 PointF pointRel = Common.graph.GetRelativePoint(point);
                 foreach (Annotation annot in this)
                 {
-                    // Reset selcted path point
+                    // Reset selected path point
                     annot.currentPathPointIndex = -1;
 
                     // Check if annotation is selected
@@ -379,7 +379,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 bool updateRequired = false;
                 this._resizingMode = ResizingMode.None;
 
-                // Check if mouse buton was pressed in any selection handles areas
+                // Check if mouse button was pressed in any selection handles areas
                 Annotation annotation =
                     HitTestSelectionHandles(new PointF(e.X, e.Y), ref this._resizingMode);
 
@@ -422,7 +422,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Mouse down event handled
                     isHandled = true;
 
-                    // Select/Unselect annotation 
+                    // Select/Unselect annotation
                     Annotation selectableAnnotation = annotation;
                     if (annotation.AnnotationGroup != null)
                     {
@@ -456,7 +456,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Remember last clicked and selected annotation
                     lastClickedAnnotation = annotation;
 
-                    // Rember mouse position
+                    // Remember mouse position
                     this._movingResizingStartPoint = new PointF(e.X, e.Y);
 
                     // Start moving, repositioning or resizing of annotation
@@ -485,7 +485,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (this._resizingMode == ResizingMode.None && annotation.AllowMoving)
                         {
-                            // Do not allow moving child annotations inside the group. 
+                            // Do not allow moving child annotations inside the group.
                             // Only the whole group can be selected, resized or repositioned.
                             if (annotation.AnnotationGroup != null)
                             {
@@ -526,7 +526,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (e.Button == MouseButtons.Left)
             {
-                // Reset moving sizing start point 
+                // Reset moving sizing start point
                 this._movingResizingStartPoint = PointF.Empty;
                 this._resizingMode = ResizingMode.None;
             }
@@ -671,7 +671,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                         }
                     }
-                    // Set mouse cursor			
+                    // Set mouse cursor
                     SetResizingCursor(annotation, currentResizingMode);
                 }
             }
@@ -793,7 +793,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (_disposedValue)
                 return;
-            
+
             if (disposing)
             {
                 // Dispose managed resources
@@ -802,7 +802,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     element.Dispose();
                 }
             }
-            
+
             _disposedValue = true;
         }
 

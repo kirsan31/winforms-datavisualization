@@ -4,11 +4,11 @@
 
 
 //
-//  Purpose:	Chart graphic class is used for drawing Chart 
-//				elements as Rectangles, Pie slices, lines, areas 
-//				etc. This class is used in all classes where 
-//				drawing is necessary. The GDI+ graphic class is 
-//				used throw this class. Encapsulates a GDI+ chart 
+//  Purpose:	Chart graphic class is used for drawing Chart
+//				elements as Rectangles, Pie slices, lines, areas
+//				etc. This class is used in all classes where
+//				drawing is necessary. The GDI+ graphic class is
+//				used throw this class. Encapsulates a GDI+ chart
 //				drawing functionality
 //
 
@@ -50,7 +50,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// LightToDark bar/column style.
 		/// </summary>
 		LightToDark,
-		
+
 		/// <summary>
 		/// Wedge bar/column style.
 		/// </summary>
@@ -88,23 +88,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		NotSet,
 		/// <summary>
-		/// Specifies a line consisting of dashes. 
+		/// Specifies a line consisting of dashes.
 		/// </summary>
 		Dash,
 		/// <summary>
-		/// Specifies a line consisting of a repeating pattern of dash-dot. 
+		/// Specifies a line consisting of a repeating pattern of dash-dot.
 		/// </summary>
 		DashDot,
 		/// <summary>
-		/// Specifies a line consisting of a repeating pattern of dash-dot-dot. 
+		/// Specifies a line consisting of a repeating pattern of dash-dot-dot.
 		/// </summary>
 		DashDotDot,
 		/// <summary>
-		/// Specifies a line consisting of dots. 
+		/// Specifies a line consisting of dots.
 		/// </summary>
 		Dot,
 		/// <summary>
-		/// Specifies a solid line. 
+		/// Specifies a solid line.
 		/// </summary>
 		Solid,
 	}
@@ -112,9 +112,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	#endregion
 
 	/// <summary>
-    /// The ChartGraphics class provides all chart drawing capabilities. 
-    /// It contains methods for drawing 2D primitives and also exposes 
-    /// all ChartGraphics3D class methods for 3D shapes. Only this 
+    /// The ChartGraphics class provides all chart drawing capabilities.
+    /// It contains methods for drawing 2D primitives and also exposes
+    /// all ChartGraphics3D class methods for 3D shapes. Only this
     /// class should be used for any drawing in the chart.
 	/// </summary>
     public partial class ChartGraphics : ChartElement, IDisposable
@@ -128,11 +128,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private Pen                 _pen;
 		private SolidBrush			_solidBrush;
 		private Matrix				_myMatrix;
-	
+
 		// Private fields which represents picture size
 		private int					_width;
 		private int					_height;
-		
+
 		// Indicates that smoothing is applied while drawing shadows
 		internal bool				softShadows = true;
 
@@ -155,19 +155,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="style">Line style.</param>
 		/// <param name="firstPointF">A Point that represents the first point to connect.</param>
 		/// <param name="secondPointF">A Point that represents the second point to connect.</param>
-		internal void DrawLineRel( 
-			Color color, 
-			int width, 
-			ChartDashStyle style, 
-			PointF firstPointF, 
-			PointF secondPointF 
+		internal void DrawLineRel(
+			Color color,
+			int width,
+			ChartDashStyle style,
+			PointF firstPointF,
+			PointF secondPointF
 			)
 		{
 			DrawLineAbs(
-				color, 
-				width, 
-				style, 
-				GetAbsolutePoint(firstPointF), 
+				color,
+				width,
+				style,
+				GetAbsolutePoint(firstPointF),
 				GetAbsolutePoint(secondPointF) );
 		}
 
@@ -179,12 +179,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="style">Line style.</param>
 		/// <param name="firstPoint">A Point that represents the first point to connect.</param>
 		/// <param name="secondPoint">A Point that represents the second point to connect.</param>
-		internal void DrawLineAbs( 
-			Color color, 
-			int width, 
-			ChartDashStyle style, 
-			PointF firstPoint, 
-			PointF secondPoint 
+		internal void DrawLineAbs(
+			Color color,
+			int width,
+			ChartDashStyle style,
+			PointF firstPoint,
+			PointF secondPoint
 			)
 		{
 			// Do not draw line if width is 0 or style not set
@@ -211,9 +211,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				_pen.DashStyle = GetPenStyle( style );
 			}
 
-			// Remember SmoothingMode and turn off anti aliasing for 
-			// vertical or horizontal lines usinig 1 pixel dashed pen.
-			// This prevents anialiasing from completly smoothing the 
+			// Remember SmoothingMode and turn off anti aliasing for
+			// vertical or horizontal lines using 1 pixel dashed pen.
+			// This prevents anti-aliasing from completely smoothing the
 			// dashed line.
 			SmoothingMode oldSmoothingMode = this.SmoothingMode;
 			if(width <= 1 && style != ChartDashStyle.Solid)
@@ -226,10 +226,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Draw a line
-            this.DrawLine(_pen, 
-				(float)Math.Round(firstPoint.X), 
-				(float)Math.Round(firstPoint.Y), 
-				(float)Math.Round(secondPoint.X), 
+            this.DrawLine(_pen,
+				(float)Math.Round(firstPoint.X),
+				(float)Math.Round(firstPoint.Y),
+				(float)Math.Round(secondPoint.X),
 				(float)Math.Round(secondPoint.Y) );
 
 			// Return old smoothing mode
@@ -243,26 +243,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="width">Line width.</param>
 		/// <param name="style">Line style.</param>
 		/// <param name="firstPoint">A Point that represents the first point to connect.</param>
-		/// <param name="secondPoint">A Point that represents the second point to connect.</param>		
+		/// <param name="secondPoint">A Point that represents the second point to connect.</param>
 		/// <param name="shadowColor">Shadow Color.</param>
 		/// <param name="shadowOffset">Shadow Offset.</param>
-		internal void DrawLineRel(	
-			Color color, 
-			int width, 
-			ChartDashStyle style, 
-			PointF firstPoint, 
-			PointF secondPoint, 
-			Color shadowColor, 
-			int shadowOffset  
+		internal void DrawLineRel(
+			Color color,
+			int width,
+			ChartDashStyle style,
+			PointF firstPoint,
+			PointF secondPoint,
+			Color shadowColor,
+			int shadowOffset
 			)
 		{
-			DrawLineAbs(	
-				color, 
-				width, 
-				style, 
-				GetAbsolutePoint(firstPoint), 
-				GetAbsolutePoint(secondPoint), 
-				shadowColor, 
+			DrawLineAbs(
+				color,
+				width,
+				style,
+				GetAbsolutePoint(firstPoint),
+				GetAbsolutePoint(secondPoint),
+				shadowColor,
 				shadowOffset );
 		}
 
@@ -273,17 +273,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="width">Line width.</param>
 		/// <param name="style">Line style.</param>
 		/// <param name="firstPoint">A Point that represents the first point to connect.</param>
-		/// <param name="secondPoint">A Point that represents the second point to connect.</param>		
+		/// <param name="secondPoint">A Point that represents the second point to connect.</param>
 		/// <param name="shadowColor">Shadow Color.</param>
 		/// <param name="shadowOffset">Shadow Offset.</param>
-		internal void DrawLineAbs(	
-			Color color, 
-			int width, 
-			ChartDashStyle style, 
-			PointF firstPoint, 
-			PointF secondPoint, 
-			Color shadowColor, 
-			int shadowOffset  
+		internal void DrawLineAbs(
+			Color color,
+			int width,
+			ChartDashStyle style,
+			PointF firstPoint,
+			PointF secondPoint,
+			Color shadowColor,
+			int shadowOffset
 			)
 		{
 			if(shadowOffset != 0)
@@ -291,7 +291,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Shadow color
 				Color shColor;
 
-				// Make shadow semi transparent 
+				// Make shadow semi transparent
 				// if alpha value not used
 				if( shadowColor.A != 255 )
 					shColor = shadowColor;
@@ -321,17 +321,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="backColor">Back Color.</param>
 		/// <param name="foreColor">Fore Color.</param>
 		/// <returns>Brush</returns>
-        internal Brush GetHatchBrush( 
-			ChartHatchStyle hatchStyle, 
-			Color backColor, 
-			Color foreColor 
+        internal Brush GetHatchBrush(
+			ChartHatchStyle hatchStyle,
+			Color backColor,
+			Color foreColor
 			)
 		{
-			// Convert Chart Hatch Style enum 
+			// Convert Chart Hatch Style enum
 			// to Hatch Style enum.
 			HatchStyle hatch;
 			hatch = (HatchStyle)Enum.Parse(typeof(HatchStyle),hatchStyle.ToString());
-			
+
 			// Create Hatch Brush
 			return new HatchBrush( hatch, foreColor, backColor );
 		}
@@ -345,8 +345,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="backColor">Image background color.</param>
 		/// <returns>Textured brush.</returns>
 		internal Brush GetTextureBrush(
-			string name, 
-			Color backImageTransparentColor, 
+			string name,
+			Color backImageTransparentColor,
 			ChartImageWrapMode mode,
 			Color backColor
 			)
@@ -380,23 +380,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 				return backFilledBrush;
 			}
-                       
-            
+
+
             TextureBrush textureBrush;
 
             if (ImageLoader.DoDpisMatch(image, this.Graphics))
                 textureBrush = new TextureBrush(image, new RectangleF(0, 0, image.Width, image.Height), attrib);
-            else  // if the image dpi does not match the graphics dpi we have to scale the image    
+            else  // if the image dpi does not match the graphics dpi we have to scale the image
             {
                 Image scaledImage = ImageLoader.GetScaledImage(image, this.Graphics);
                 textureBrush = new TextureBrush(scaledImage, new RectangleF(0, 0, scaledImage.Width, scaledImage.Height), attrib);
                 scaledImage.Dispose();
             }
-            
+
             return textureBrush;
 
 		}
-                
+
 		/// <summary>
 		/// This method creates a gradient brush.
 		/// </summary>
@@ -405,10 +405,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="secondColor">Second color.</param>
 		/// <param name="type ">Gradient type .</param>
 		/// <returns>Gradient Brush</returns>
-        internal Brush GetGradientBrush( 
-			RectangleF rectangle, 
-			Color firstColor, 
-			Color secondColor, 
+        internal Brush GetGradientBrush(
+			RectangleF rectangle,
+			Color firstColor,
+			Color secondColor,
 			GradientStyle type
 			)
 		{
@@ -418,7 +418,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
             Brush gradientBrush;
-            // Function which create gradient brush fires exception if 
+            // Function which create gradient brush fires exception if
             // rectangle size is zero.
             if (rectangle.Height == 0 || rectangle.Width == 0)
             {
@@ -440,15 +440,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 			else if(  type == GradientStyle.DiagonalLeft )
 			{
-				angle = (float)(Math.Atan(rectangle.Width / rectangle.Height)* 180 / Math.PI); 
+				angle = (float)(Math.Atan(rectangle.Width / rectangle.Height)* 180 / Math.PI);
 			}
 			else if(  type == GradientStyle.DiagonalRight )
 			{
-				angle = (float)(180 - Math.Atan(rectangle.Width / rectangle.Height)* 180 / Math.PI); 
+				angle = (float)(180 - Math.Atan(rectangle.Width / rectangle.Height)* 180 / Math.PI);
 			}
-			
+
 			// Create a linear gradient brush
-			if( type == GradientStyle.TopBottom || type == GradientStyle.LeftRight 
+			if( type == GradientStyle.TopBottom || type == GradientStyle.LeftRight
 				|| type == GradientStyle.DiagonalLeft || type == GradientStyle.DiagonalRight
 				|| type == GradientStyle.HorizontalCenter || type == GradientStyle.VerticalCenter )
 			{
@@ -480,7 +480,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// *******************************************
 			// Gradient is not linear : From Center.
 			// *******************************************
-			
+
 			// Create a path
 			GraphicsPath path = new GraphicsPath();
 
@@ -497,7 +497,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Set the Surround color
 			Color[] colors = {secondColor};
             pathGradientBrush.SurroundColors = colors;
-			
+
 			if( path != null )
 			{
 				path.Dispose();
@@ -507,17 +507,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// This method creates a gradient brush for pie. This gradient is one 
+		/// This method creates a gradient brush for pie. This gradient is one
 		/// of the types used only with pie and doughnut.
 		/// </summary>
 		/// <param name="rectangle">A rectangle which has to be filled with a gradient color</param>
 		/// <param name="firstColor">First color</param>
 		/// <param name="secondColor">Second color</param>
 		/// <returns>Gradient Brush</returns>
-		internal Brush GetPieGradientBrush( 
-			RectangleF rectangle, 
-			Color firstColor, 
-			Color secondColor 
+		internal Brush GetPieGradientBrush(
+			RectangleF rectangle,
+			Color firstColor,
+			Color secondColor
 			)
 		{
 			// Create a path that consists of a single ellipse.
@@ -530,7 +530,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Set the color at the center of the path.
 			gradientBrush.CenterColor = firstColor;
 
-			// Set the color along the entire boundary 
+			// Set the color along the entire boundary
 			// of the path to aqua.
 			Color[] colors = {secondColor};
 
@@ -593,7 +593,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// overflow check
 			for (int pointIndex = 0; pointIndex < numberOfCornersX2; pointIndex++)
-			{				
+			{
 				if (matrix is null)
 					matrix = new Matrix();
 				else
@@ -625,16 +625,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="shadowColor">Marker shadow color.</param>
 		/// <param name="imageScaleRect">Rectangle to which marker image should be scaled.</param>
 		internal void DrawMarkerRel(
-			PointF point, 
-			MarkerStyle markerStyle, 
-			int markerSize, 
-			Color markerColor, 
-			Color markerBorderColor, 
-			int markerBorderSize, 
-			string markerImage, 
-			Color markerImageTransparentColor, 
-			int shadowSize, 
-			Color shadowColor, 
+			PointF point,
+			MarkerStyle markerStyle,
+			int markerSize,
+			Color markerColor,
+			Color markerBorderColor,
+			int markerBorderSize,
+			string markerImage,
+			Color markerImageTransparentColor,
+			int shadowSize,
+			Color shadowColor,
 			RectangleF imageScaleRect
 			)
 		{
@@ -657,17 +657,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="imageScaleRect">Rectangle to which marker image should be scaled.</param>
 		/// <param name="forceAntiAlias">Always use anti aliasing when drawing the marker.</param>
 		internal void DrawMarkerAbs(
-			PointF point, 
-			MarkerStyle markerStyle, 
-			int markerSize, 
-			Color markerColor, 
-			Color markerBorderColor, 
-			int markerBorderSize, 
-			string markerImage, 
-			Color markerImageTransparentColor, 
-			int shadowSize, 
-			Color shadowColor, 
-			RectangleF imageScaleRect, 
+			PointF point,
+			MarkerStyle markerStyle,
+			int markerSize,
+			Color markerColor,
+			Color markerBorderColor,
+			int markerBorderSize,
+			string markerImage,
+			Color markerImageTransparentColor,
+			int shadowSize,
+			Color shadowColor,
+			RectangleF imageScaleRect,
 			bool forceAntiAlias
 			)
 		{
@@ -746,7 +746,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
                     this.SmoothingMode = SmoothingMode.AntiAlias;
 				}
-				
+
 				// Create solid color brush
                 using (SolidBrush brush = new SolidBrush(markerColor))
                 {
@@ -1012,7 +1012,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         diamondRect.Width = diamondSize;
                                         diamondRect.Height = diamondSize;
 
-                                        // Set rotation matrix to 45 
+                                        // Set rotation matrix to 45
                                         translateMatrix.RotateAt(45, point);
                                         this.Transform = translateMatrix;
 
@@ -1109,11 +1109,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		#endregion
-	
+
 		#region String Methods
 
         /// <summary>
-        /// Measures the specified string when drawn with the specified 
+        /// Measures the specified string when drawn with the specified
         /// Font object and formatted with the specified StringFormat object.
         /// </summary>
         /// <param name="text">String to measure.</param>
@@ -1132,8 +1132,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Current implementation of the stacked text will simply insert a new
             // line character between all characters in the original string. This
-            // apporach will not allow to show multiple lines of stacked text or 
-            // correctly handle text wrapping. 
+            // approach will not allow to show multiple lines of stacked text or
+            // correctly handle text wrapping.
             if (textOrientation == TextOrientation.Stacked)
             {
                 text = GetStackedText(text);
@@ -1142,8 +1142,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Measures the specified text string when drawn with 
-        /// the specified Font object and formatted with the 
+        /// Measures the specified text string when drawn with
+        /// the specified Font object and formatted with the
         /// specified StringFormat object.
         /// </summary>
         /// <param name="text">The string to measure</param>
@@ -1153,16 +1153,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="textOrientation">Text orientation.</param>
         /// <returns>A SizeF structure that represents the size of text as drawn with font.</returns>
         internal SizeF MeasureStringRel(
-            string text, 
-            Font font, 
-            SizeF layoutArea, 
+            string text,
+            Font font,
+            SizeF layoutArea,
             StringFormat stringFormat,
             TextOrientation textOrientation)
         {
             // Current implementation of the stacked text will simply insert a new
             // line character between all characters in the original string. This
-            // apporach will not allow to show multiple lines of stacked text or 
-            // correctly handle text wrapping. 
+            // approach will not allow to show multiple lines of stacked text or
+            // correctly handle text wrapping.
             if (textOrientation == TextOrientation.Stacked)
             {
                 text = GetStackedText(text);
@@ -1190,8 +1190,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Current implementation of the stacked text will simply insert a new
             // line character between all characters in the original string. This
-            // apporach will not allow to show multiple lines of stacked text or 
-            // correctly handle text wrapping. 
+            // approach will not allow to show multiple lines of stacked text or
+            // correctly handle text wrapping.
             if (textOrientation == TextOrientation.Stacked)
             {
                 text = GetStackedText(text);
@@ -1221,8 +1221,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Current implementation of the stacked text will simply insert a new
             // line character between all characters in the original string. This
-            // apporach will not allow to show multiple lines of stacked text or 
-            // correctly handle text wrapping. 
+            // approach will not allow to show multiple lines of stacked text or
+            // correctly handle text wrapping.
             if (textOrientation == TextOrientation.Stacked)
             {
                 text = GetStackedText(text);
@@ -1251,8 +1251,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Current implementation of the stacked text will simply insert a new
             // line character between all characters in the original string. This
-            // apporach will not allow to show multiple lines of stacked text or 
-            // correctly handle text wrapping. 
+            // approach will not allow to show multiple lines of stacked text or
+            // correctly handle text wrapping.
             if (textOrientation == TextOrientation.Stacked)
             {
                 text = GetStackedText(text);
@@ -1299,18 +1299,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="series">Series</param>
 		/// <param name="point">Point</param>
 		/// <param name="pointIndex">Point index in series</param>
-		internal void DrawPointLabelStringRel( 
+		internal void DrawPointLabelStringRel(
 			CommonElements common,
-			string text, 
-			System.Drawing.Font font, 
-			System.Drawing.Brush brush, 
-			RectangleF position, 
-			System.Drawing.StringFormat format, 
+			string text,
+			System.Drawing.Font font,
+			System.Drawing.Brush brush,
+			RectangleF position,
+			System.Drawing.StringFormat format,
 			int angle,
 			RectangleF backPosition,
-			Color backColor, 
-			Color borderColor, 
-			int borderWidth, 
+			Color backColor,
+			Color borderColor,
+			int borderWidth,
 			ChartDashStyle borderDashStyle,
 			Series series,
 			DataPoint point,
@@ -1320,14 +1320,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			this.StartHotRegion( point, true );
 
 			// Draw background
-			DrawPointLabelBackground( 
+			DrawPointLabelBackground(
 				common,
 				angle,
 				PointF.Empty,
 				backPosition,
-				backColor, 
-				borderColor, 
-				borderWidth, 
+				backColor,
+				borderColor,
+				borderWidth,
 				borderDashStyle,
 				series,
 				point,
@@ -1335,7 +1335,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// End Svg/Flash Selection mode
 			this.EndHotRegion( );
-            
+
             point._lastLabelText = text;
             // Draw text
             if (IsRightToLeft)
@@ -1374,18 +1374,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="series">Series</param>
 		/// <param name="point">Point</param>
 		/// <param name="pointIndex">Point index in series</param>
-		internal void DrawPointLabelStringRel( 
+		internal void DrawPointLabelStringRel(
 			CommonElements common,
-			string text, 
-			System.Drawing.Font font, 
-			System.Drawing.Brush brush, 
-			PointF position, 
-			System.Drawing.StringFormat format, 
+			string text,
+			System.Drawing.Font font,
+			System.Drawing.Brush brush,
+			PointF position,
+			System.Drawing.StringFormat format,
 			int angle,
 			RectangleF backPosition,
-			Color backColor, 
-			Color borderColor, 
-			int borderWidth, 
+			Color backColor,
+			Color borderColor,
+			int borderWidth,
 			ChartDashStyle borderDashStyle,
 			Series series,
 			DataPoint point,
@@ -1395,14 +1395,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			this.StartHotRegion( point, true );
 
 			// Draw background
-			DrawPointLabelBackground( 
+			DrawPointLabelBackground(
 				common,
 				angle,
-				position, 
+				position,
 				backPosition,
-				backColor, 
-				borderColor, 
-				borderWidth, 
+				backColor,
+				borderColor,
+				borderWidth,
 				borderDashStyle,
 				series,
 				point,
@@ -1445,14 +1445,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="series">Series</param>
 		/// <param name="point">Point</param>
 		/// <param name="pointIndex">Point index in series</param>
-		private void DrawPointLabelBackground( 
+		private void DrawPointLabelBackground(
 			CommonElements common,
 			int angle,
 			PointF textPosition,
 			RectangleF backPosition,
-			Color backColor, 
-			Color borderColor, 
-			int borderWidth, 
+			Color backColor,
+			Color borderColor,
+			int borderWidth,
 			ChartDashStyle borderDashStyle,
 			Series series,
 			DataPoint point,
@@ -1495,7 +1495,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						this.FillRectangle(brush, backPositionAbs);
 					}
 
-                    // deliant: Fix VSTS #156433	(2)	Data Label Border in core always shows when the style is set to NotSet	
+                    // deliant: Fix VSTS #156433	(2)	Data Label Border in core always shows when the style is set to NotSet
                     // Draw box border
 					if(  borderWidth > 0 &&
                         !borderColor.IsEmpty && borderDashStyle != ChartDashStyle.NotSet)
@@ -1525,7 +1525,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     using Brush brush = new SolidBrush(Color.Transparent);
                     this.FillRectangle(brush, backPositionAbs);
                 }
-			
+
 
 				// Restore old state
 				this.Restore(graphicsState);
@@ -1537,7 +1537,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Insert area
 					if(angle == 0)
 					{
-						common.HotRegionsList.AddHotRegion( 
+						common.HotRegionsList.AddHotRegion(
 							backPosition,
 							point,
 							series.Name,
@@ -1560,10 +1560,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             pointIndex);
                     }
 
-					// Set new hot region element type 
+					// Set new hot region element type
                     if (common.HotRegionsList.List != null && common.HotRegionsList.List.Count > 0)
 					{
-                        common.HotRegionsList.List[common.HotRegionsList.List.Count - 1].Type = 
+                        common.HotRegionsList.List[common.HotRegionsList.List.Count - 1].Type =
 							ChartElementType.DataPointLabel;
 					}
 				}
@@ -1579,21 +1579,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="position">Text Position.</param>
 		/// <param name="format">Format and text alignment.</param>
 		/// <param name="angle">Text angle.</param>
-		internal void DrawStringRel( 
-			string text, 
-			System.Drawing.Font font, 
-			System.Drawing.Brush brush, 
-			PointF position, 
-			System.Drawing.StringFormat format, 
-			int angle 
+		internal void DrawStringRel(
+			string text,
+			System.Drawing.Font font,
+			System.Drawing.Brush brush,
+			PointF position,
+			System.Drawing.StringFormat format,
+			int angle
 			)
 		{
-			DrawStringAbs( 
-				text, 
-				font, 
-				brush, 
-				GetAbsolutePoint(position), 
-				format, 
+			DrawStringAbs(
+				text,
+				font,
+				brush,
+				GetAbsolutePoint(position),
+				format,
 				angle);
 		}
 
@@ -1606,20 +1606,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="absPosition">Text Position.</param>
 		/// <param name="format">Format and text alignment.</param>
 		/// <param name="angle">Text angle.</param>
-		internal void DrawStringAbs( 
-			string text, 
-			System.Drawing.Font font, 
-			System.Drawing.Brush brush, 
-			PointF absPosition, 
-			System.Drawing.StringFormat format, 
-			int angle 
+		internal void DrawStringAbs(
+			string text,
+			System.Drawing.Font font,
+			System.Drawing.Brush brush,
+			PointF absPosition,
+			System.Drawing.StringFormat format,
+			int angle
 			)
 		{
 			// Create a matrix and rotate it.
 			_myMatrix?.Dispose();
 			_myMatrix = this.Transform;
 			_myMatrix.RotateAt(angle, absPosition);
-    
+
 			// Save aold state
 			GraphicsState graphicsState = this.Save();
 
@@ -1642,7 +1642,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
         /// <summary>
-        /// This method is used by the axis title hot region generation code. 
+        /// This method is used by the axis title hot region generation code.
         /// It transforms the centered rectangle the same way as the Axis title text.
         /// </summary>
         /// <param name="center">Title center</param>
@@ -1652,15 +1652,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal GraphicsPath GetTranformedTextRectPath(PointF center, SizeF size, int angle)
         {
             // Text hot area is 10px greater than the size of text
-            size.Width += 10; 
+            size.Width += 10;
             size.Height += 10;
-            
+
             // Get the absolute center and create the centered rectangle points
-            PointF absCenter = GetAbsolutePoint(center);            
+            PointF absCenter = GetAbsolutePoint(center);
             PointF[] points = new PointF[] {
-                new PointF(absCenter.X - size.Width / 2f, absCenter.Y - size.Height / 2f), 
-                new PointF(absCenter.X + size.Width / 2f, absCenter.Y - size.Height / 2f), 
-                new PointF(absCenter.X + size.Width / 2f, absCenter.Y + size.Height / 2f), 
+                new PointF(absCenter.X - size.Width / 2f, absCenter.Y - size.Height / 2f),
+                new PointF(absCenter.X + size.Width / 2f, absCenter.Y - size.Height / 2f),
+                new PointF(absCenter.X + size.Width / 2f, absCenter.Y + size.Height / 2f),
                 new PointF(absCenter.X - size.Width / 2f, absCenter.Y + size.Height / 2f)};
 
             //Prepare the same transformation matrix as used for the axis title
@@ -1698,19 +1698,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="label">Custom Label Item</param>
 		/// <param name="truncatedLeft">Label is truncated on the left.</param>
 		/// <param name="truncatedRight">Label is truncated on the right.</param>
-		internal void DrawLabelStringRel( 
-			Axis axis, 
-			int labelRowIndex, 
-			LabelMarkStyle labelMark, 
+		internal void DrawLabelStringRel(
+			Axis axis,
+			int labelRowIndex,
+			LabelMarkStyle labelMark,
 			Color markColor,
-			string text, 
+			string text,
 			string image,
 			Color imageTransparentColor,
-			System.Drawing.Font font, 
-			System.Drawing.Brush brush, 
-			RectangleF position, 
-			System.Drawing.StringFormat format, 
-			int angle, 
+			System.Drawing.Font font,
+			System.Drawing.Brush brush,
+			RectangleF position,
+			System.Drawing.StringFormat format,
+			int angle,
 			RectangleF boundaryRect,
 			CustomLabel label,
 			bool truncatedLeft,
@@ -1921,7 +1921,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 RectangleF labelRect = Rectangle.Empty;
                 float offsetY = 0f;
                 float offsetX = 0f;
-                
+
                 // Measure text size
                 labelSize = this.MeasureString(text.Replace("\\n", "\n"), font, absPosition.Size, drawingFormat);
 
@@ -2063,7 +2063,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 //** Reserve space on the left for the label iamge
                 //********************************************************************
                 RectangleF absPositionWithoutImage = new RectangleF(absPosition.Location, absPosition.Size);
-                
+
                 System.Drawing.Image labelImage = null;
                 SizeF imageAbsSize = new SizeF();
 
@@ -2162,7 +2162,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 //********************************************************************
                 if (IsRightToLeft)
                 {
-                    // label alignment on the axis should appear as not RTL. 
+                    // label alignment on the axis should appear as not RTL.
                     using StringFormat fmt = (StringFormat)drawingFormat.Clone();
 
                     if (fmt.Alignment == StringAlignment.Far)
@@ -2309,9 +2309,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="truncatedRight">Label is truncated on the right.</param>
 		/// <param name="originalTransform">Original transformation matrix.</param>
 		private void DrawSecondRowLabelBoxMark(
-			Axis axis, 
+			Axis axis,
 			Color markColor,
-			RectangleF absPosition, 
+			RectangleF absPosition,
 			bool truncatedLeft,
 			bool truncatedRight,
 			Matrix originalTransform)
@@ -2321,7 +2321,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if(originalTransform != null)
 			{
 				curentMatrix = this.Transform;
-				this.Transform = originalTransform;				
+				this.Transform = originalTransform;
 			}
 
 			// Calculate center of the text rectangle
@@ -2343,7 +2343,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			PointF axisPositionAbs = new PointF(axisPosRelative, axisPosRelative);
 			axisPositionAbs = this.GetAbsolutePoint(axisPositionAbs);
 
-			// Round position to achieve crisp lines with antialiasing
+			// Round position to achieve crisp lines with anti-aliasing
 			Rectangle absPositionRounded = Rectangle.Round(absPosition);
 
 			// Make sure the right and bottom position is not shifted during rounding
@@ -2352,7 +2352,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Create pen
 			Pen	markPen = new Pen(
-				markColor.IsEmpty ? axis.MajorTickMark.LineColor : markColor, 
+				markColor.IsEmpty ? axis.MajorTickMark.LineColor : markColor,
 				axis.MajorTickMark.LineWidth);
 
 			// Set pen style
@@ -2376,19 +2376,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if( axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
 				{
 					this.DrawLine(
-						markPen, 
-						(axis.AxisPosition == AxisPosition.Left) ? absPositionRounded.Left : absPositionRounded.Right, 
-						absPositionRounded.Bottom, 
-						axisPositionAbs.X, 
+						markPen,
+						(axis.AxisPosition == AxisPosition.Left) ? absPositionRounded.Left : absPositionRounded.Right,
+						absPositionRounded.Bottom,
+						axisPositionAbs.X,
 						absPositionRounded.Bottom);
 				}
 				else
 				{
 					this.DrawLine(
-						markPen, 
-						absPositionRounded.Left, 
-						(axis.AxisPosition == AxisPosition.Top) ? absPositionRounded.Top : absPositionRounded.Bottom, 
-						absPositionRounded.Left, 
+						markPen,
+						absPositionRounded.Left,
+						(axis.AxisPosition == AxisPosition.Top) ? absPositionRounded.Top : absPositionRounded.Bottom,
+						absPositionRounded.Left,
 						axisPositionAbs.Y);
 				}
 			}
@@ -2399,19 +2399,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if( axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
 				{
 					this.DrawLine(
-						markPen, 
-						(axis.AxisPosition == AxisPosition.Left) ? absPositionRounded.Left : absPositionRounded.Right, 
-						absPositionRounded.Top, 
-						axisPositionAbs.X, 
+						markPen,
+						(axis.AxisPosition == AxisPosition.Left) ? absPositionRounded.Left : absPositionRounded.Right,
+						absPositionRounded.Top,
+						axisPositionAbs.X,
 						absPositionRounded.Top);
 				}
 				else
 				{
 					this.DrawLine(
-						markPen, 
-						absPositionRounded.Right, 
-						(axis.AxisPosition == AxisPosition.Top) ? absPositionRounded.Top : absPositionRounded.Bottom, 
-						absPositionRounded.Right, 
+						markPen,
+						absPositionRounded.Right,
+						(axis.AxisPosition == AxisPosition.Top) ? absPositionRounded.Top : absPositionRounded.Bottom,
+						absPositionRounded.Right,
 						axisPositionAbs.Y);
 				}
 			}
@@ -2437,30 +2437,30 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="axis">Axis object.</param>
 		/// <param name="markColor">Label mark color.</param>
 		/// <param name="absPosition">Absolute position of the text.</param>
-		/// <param name="labelSize">Exact mesured size of the text.</param>
+		/// <param name="labelSize">Exact measured size of the text.</param>
 		/// <param name="labelMark">Label mark style to draw.</param>
 		/// <param name="truncatedLeft">Label is truncated on the left.</param>
 		/// <param name="truncatedRight">Label is truncated on the right.</param>
 		/// <param name="oldTransform">Original transformation matrix.</param>
 		private void DrawSecondRowLabelMark(
-			Axis axis, 
+			Axis axis,
 			Color markColor,
-			RectangleF absPosition, 
-			SizeF labelSize, 
+			RectangleF absPosition,
+			SizeF labelSize,
 			LabelMarkStyle labelMark,
 			bool truncatedLeft,
 			bool truncatedRight,
 			Matrix oldTransform)
 		{
 			// Do not draw marking line if width is 0 and style or color are not set
-			if( axis.MajorTickMark.LineWidth == 0 || 
+			if( axis.MajorTickMark.LineWidth == 0 ||
 				axis.MajorTickMark.LineDashStyle == ChartDashStyle.NotSet ||
 				axis.MajorTickMark.LineColor == Color.Empty)
 			{
 				return;
 			}
 
-			// Remember SmoothingMode and turn off anti aliasing for 
+			// Remember SmoothingMode and turn off anti aliasing for
 			// vertical or horizontal lines of the label markers.
 			SmoothingMode oldSmoothingMode = this.SmoothingMode;
 			this.SmoothingMode = SmoothingMode.None;
@@ -2470,9 +2470,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if(labelMark == LabelMarkStyle.Box)
 			{
 				DrawSecondRowLabelBoxMark(
-					axis, 
+					axis,
 					markColor,
-					absPosition, 
+					absPosition,
 					truncatedLeft,
 					truncatedRight,
 					oldTransform);
@@ -2483,7 +2483,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Calculate center of the text rectangle
 				System.Drawing.Point	center = System.Drawing.Point.Round(new PointF(absPosition.X + absPosition.Width/2F, absPosition.Y + absPosition.Height/2F));
 
-				// Round position to achieve crisp lines with antialiasing
+				// Round position to achieve crisp lines with anti-aliasing
 				Rectangle absPositionRounded = Rectangle.Round(absPosition);
 
 				// Make sure the right and bottom position is not shifted during rounding
@@ -2534,7 +2534,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 				// Create pen
 				Pen	markPen = new Pen(
-					markColor.IsEmpty ? axis.MajorTickMark.LineColor : markColor, 
+					markColor.IsEmpty ? axis.MajorTickMark.LineColor : markColor,
 					axis.MajorTickMark.LineWidth);
 
 				// Set pen style
@@ -2556,8 +2556,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// Measures the specified text string when drawn with 
-		/// the specified Font object and formatted with the 
+		/// Measures the specified text string when drawn with
+		/// the specified Font object and formatted with the
 		/// specified StringFormat object.
 		/// </summary>
 		/// <param name="text">The string to measure</param>
@@ -2575,8 +2575,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// Measures the specified text string when drawn with 
-		/// the specified Font object and formatted with the 
+		/// Measures the specified text string when drawn with
+		/// the specified Font object and formatted with the
 		/// specified StringFormat object.
 		/// </summary>
 		/// <param name="text">The string to measure</param>
@@ -2598,8 +2598,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// Measures the specified text string when drawn with 
-		/// the specified Font object and formatted with the 
+		/// Measures the specified text string when drawn with
+		/// the specified Font object and formatted with the
 		/// specified StringFormat object.
 		/// </summary>
 		/// <param name="text">The string to measure</param>
@@ -2613,8 +2613,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// Measures the specified text string when drawn with 
-		/// the specified Font object and formatted with the 
+		/// Measures the specified text string when drawn with
+		/// the specified Font object and formatted with the
 		/// specified StringFormat object.
 		/// </summary>
 		/// <param name="text">The string to measure</param>
@@ -2629,9 +2629,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// Draws the specified text string at the specified location 
-		/// with the specified Brush object and font. The formatting 
-		/// properties in the specified StringFormat object are applied 
+		/// Draws the specified text string at the specified location
+		/// with the specified Brush object and font. The formatting
+		/// properties in the specified StringFormat object are applied
 		/// to the text.
 		/// </summary>
 		/// <param name="text">A string object that specifies the text to draw.</param>
@@ -2667,11 +2667,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			this.DrawString( text, font, brush, rect, format );
 		}
 
-		
+
 		/// <summary>
-		/// Draws the specified text string at the specified location 
-		/// with the specified angle and with the specified Brush object and font. The 
-		/// formatting properties in the specified StringFormat object are applied 
+		/// Draws the specified text string at the specified location
+		/// with the specified angle and with the specified Brush object and font. The
+		/// formatting properties in the specified StringFormat object are applied
 		/// to the text.
 		/// </summary>
 		/// <param name="text">A string object that specifies the text to draw.</param>
@@ -2680,13 +2680,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="layoutRectangle">A RectangleF structure that specifies the location of the drawn text.</param>
 		/// <param name="format">A StringFormat object that specifies formatting properties, such as line spacing and alignment, that are applied to the drawn text.</param>
 		/// <param name="angle">A angle of the text</param>
-		internal void DrawStringRel( 
-			string text, 
-			Font font, 
-			Brush brush,	
-			RectangleF layoutRectangle,	
-			StringFormat format, 
-			int angle	
+		internal void DrawStringRel(
+			string text,
+			Font font,
+			Brush brush,
+			RectangleF layoutRectangle,
+			StringFormat format,
+			int angle
 			)
 		{
 			RectangleF rect;
@@ -2784,22 +2784,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						}
 						if(gradientRect.Width > 0 && gradientRect.Height > 0)
 						{
-							this.FillRectangleAbs( 
-								gradientRect, 
+							this.FillRectangleAbs(
+								gradientRect,
 								Color.Transparent,
-								ChartHatchStyle.None, 
-								string.Empty, 
-								ChartImageWrapMode.Scaled, 
+								ChartHatchStyle.None,
+								string.Empty,
+								ChartImageWrapMode.Scaled,
 								Color.Empty,
 								ChartImageAlignmentStyle.Center,
-								isVertical ? GradientStyle.LeftRight : GradientStyle.TopBottom, 
+								isVertical ? GradientStyle.LeftRight : GradientStyle.TopBottom,
 								Color.FromArgb(120, Color.White),
-								Color.Empty, 
-								0, 
-								ChartDashStyle.NotSet, 
+								Color.Empty,
+								0,
+								ChartDashStyle.NotSet,
 								PenAlignment.Inset );
 
-						
+
 							if(isVertical)
 							{
 								gradientRect.X += gradientRect.Width + 1f;
@@ -2811,19 +2811,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								gradientRect.Height = rect.Bottom - gradientRect.Y;
 							}
 
-							this.FillRectangleAbs( 
-								gradientRect, 
+							this.FillRectangleAbs(
+								gradientRect,
 								Color.FromArgb(120, Color.White),
-								ChartHatchStyle.None, 
-								string.Empty, 
-								ChartImageWrapMode.Scaled, 
+								ChartHatchStyle.None,
+								string.Empty,
+								ChartImageWrapMode.Scaled,
 								Color.Empty,
 								ChartImageAlignmentStyle.Center,
-								isVertical ? GradientStyle.LeftRight : GradientStyle.TopBottom, 
+								isVertical ? GradientStyle.LeftRight : GradientStyle.TopBottom,
 								Color.FromArgb(150, Color.Black),
-								Color.Empty, 
-								0, 
-								ChartDashStyle.NotSet, 
+								Color.Empty,
+								0,
+								ChartDashStyle.NotSet,
 								PenAlignment.Inset );
 
 						}
@@ -2906,19 +2906,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						}
 						if(gradientRect.Width > 0 && gradientRect.Height > 0)
 						{
-							this.FillRectangleAbs( 
-								gradientRect, 
-								isVertical ? Color.FromArgb(120, Color.White) : Color.Transparent, 
-								ChartHatchStyle.None, 
-								string.Empty, 
-								ChartImageWrapMode.Scaled, 
+							this.FillRectangleAbs(
+								gradientRect,
+								isVertical ? Color.FromArgb(120, Color.White) : Color.Transparent,
+								ChartHatchStyle.None,
+								string.Empty,
+								ChartImageWrapMode.Scaled,
 								Color.Empty,
 								ChartImageAlignmentStyle.Center,
-								isVertical ? GradientStyle.TopBottom : GradientStyle.LeftRight, 
-								isVertical ? Color.Transparent : Color.FromArgb(120, Color.White), 
-								Color.Empty, 
-								0, 
-								ChartDashStyle.NotSet, 
+								isVertical ? GradientStyle.TopBottom : GradientStyle.LeftRight,
+								isVertical ? Color.Transparent : Color.FromArgb(120, Color.White),
+								Color.Empty,
+								0,
+								ChartDashStyle.NotSet,
 								PenAlignment.Inset );
 
 							gradientRect = rect;
@@ -2934,19 +2934,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							}
 
 
-							this.FillRectangleAbs( 
-								gradientRect, 
-								(!isVertical) ? Color.FromArgb(80, Color.Black) : Color.Transparent, 
-								ChartHatchStyle.None, 
-								string.Empty, 
-								ChartImageWrapMode.Scaled, 
+							this.FillRectangleAbs(
+								gradientRect,
+								(!isVertical) ? Color.FromArgb(80, Color.Black) : Color.Transparent,
+								ChartHatchStyle.None,
+								string.Empty,
+								ChartImageWrapMode.Scaled,
 								Color.Empty,
 								ChartImageAlignmentStyle.Center,
-								isVertical ? GradientStyle.TopBottom : GradientStyle.LeftRight, 
-								(!isVertical) ? Color.Transparent : Color.FromArgb(80, Color.Black), 
-								Color.Empty, 
-								0, 
-								ChartDashStyle.NotSet, 
+								isVertical ? GradientStyle.TopBottom : GradientStyle.LeftRight,
+								(!isVertical) ? Color.Transparent : Color.FromArgb(80, Color.Black),
+								Color.Empty,
+								0,
+								ChartDashStyle.NotSet,
 								PenAlignment.Inset );
 
 						}
@@ -3105,38 +3105,38 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="penAlignment">Pen Alignment</param>
 		/// <param name="barDrawingStyle">Bar drawing style.</param>
 		/// <param name="isVertical">True if a vertical bar.</param>
-		internal void FillRectangleRel( RectangleF rectF, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
+		internal void FillRectangleRel( RectangleF rectF,
+			Color backColor,
+			ChartHatchStyle backHatchStyle,
+			string backImage,
+			ChartImageWrapMode backImageWrapMode,
 			Color backImageTransparentColor,
 			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
-			Color shadowColor, 
+			GradientStyle backGradientStyle,
+			Color backSecondaryColor,
+			Color borderColor,
+			int borderWidth,
+			ChartDashStyle borderDashStyle,
+			Color shadowColor,
 			int shadowOffset,
 			PenAlignment penAlignment,
 			BarDrawingStyle barDrawingStyle,
 			bool isVertical)
 		{
-			this.FillRectangleRel( 
-				rectF, 
-				backColor, 
-				backHatchStyle, 
-				backImage, 
-				backImageWrapMode, 
+			this.FillRectangleRel(
+				rectF,
+				backColor,
+				backHatchStyle,
+				backImage,
+				backImageWrapMode,
 				backImageTransparentColor,
 				backImageAlign,
-				backGradientStyle, 
-				backSecondaryColor, 
-				borderColor, 
-				borderWidth, 
-				borderDashStyle, 
-				shadowColor, 
+				backGradientStyle,
+				backSecondaryColor,
+				borderColor,
+				borderWidth,
+				borderDashStyle,
+				shadowColor,
 				shadowOffset,
 				penAlignment,
 				false,
@@ -3164,36 +3164,36 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="shadowColor">Shadow Color</param>
 		/// <param name="shadowOffset">Shadow Offset</param>
 		/// <param name="penAlignment">Pen Alignment</param>
-		internal void FillRectangleRel( RectangleF rectF, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
+		internal void FillRectangleRel( RectangleF rectF,
+			Color backColor,
+			ChartHatchStyle backHatchStyle,
+			string backImage,
+			ChartImageWrapMode backImageWrapMode,
 			Color backImageTransparentColor,
 			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
-			Color shadowColor, 
+			GradientStyle backGradientStyle,
+			Color backSecondaryColor,
+			Color borderColor,
+			int borderWidth,
+			ChartDashStyle borderDashStyle,
+			Color shadowColor,
 			int shadowOffset,
 			PenAlignment penAlignment )
 		{
-			this.FillRectangleRel( 
-				rectF, 
-				backColor, 
-				backHatchStyle, 
-				backImage, 
-				backImageWrapMode, 
+			this.FillRectangleRel(
+				rectF,
+				backColor,
+				backHatchStyle,
+				backImage,
+				backImageWrapMode,
 				backImageTransparentColor,
 				backImageAlign,
-				backGradientStyle, 
-				backSecondaryColor, 
-				borderColor, 
-				borderWidth, 
-				borderDashStyle, 
-				shadowColor, 
+				backGradientStyle,
+				backSecondaryColor,
+				borderColor,
+				borderWidth,
+				borderDashStyle,
+				shadowColor,
 				shadowOffset,
 				penAlignment,
 				false,
@@ -3224,39 +3224,39 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="circular">Draw circular shape inside the rectangle.</param>
 		/// <param name="circularSectorsCount">Number of sectors in circle when drawing the polygon.</param>
 		/// <param name="circle3D">3D Circle must be drawn.</param>
-		internal void FillRectangleRel( RectangleF rectF, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
+		internal void FillRectangleRel( RectangleF rectF,
+			Color backColor,
+			ChartHatchStyle backHatchStyle,
+			string backImage,
+			ChartImageWrapMode backImageWrapMode,
 			Color backImageTransparentColor,
 			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
-			Color shadowColor, 
+			GradientStyle backGradientStyle,
+			Color backSecondaryColor,
+			Color borderColor,
+			int borderWidth,
+			ChartDashStyle borderDashStyle,
+			Color shadowColor,
 			int shadowOffset,
 			PenAlignment penAlignment,
 			bool circular,
 			int	circularSectorsCount,
 			bool circle3D)
 		{
-			this.FillRectangleRel( 
-				rectF, 
-				backColor, 
-				backHatchStyle, 
-				backImage, 
-				backImageWrapMode, 
+			this.FillRectangleRel(
+				rectF,
+				backColor,
+				backHatchStyle,
+				backImage,
+				backImageWrapMode,
 				backImageTransparentColor,
 				backImageAlign,
-				backGradientStyle, 
-				backSecondaryColor, 
-				borderColor, 
-				borderWidth, 
-				borderDashStyle, 
-				shadowColor, 
+				backGradientStyle,
+				backSecondaryColor,
+				borderColor,
+				borderWidth,
+				borderDashStyle,
+				shadowColor,
 				shadowOffset,
 				penAlignment,
                 circular,
@@ -3266,7 +3266,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				true);
 		}
 
-		
+
 		/// <summary>
 		/// Draws rectangle or circle (inside rectangle) with shadow.
 		/// </summary>
@@ -3290,19 +3290,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="circle3D">3D Circle must be drawn.</param>
 		/// <param name="barDrawingStyle">Bar drawing style.</param>
 		/// <param name="isVertical">True if a vertical bar.</param>
-		internal void FillRectangleRel( RectangleF rectF, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
+		internal void FillRectangleRel( RectangleF rectF,
+			Color backColor,
+			ChartHatchStyle backHatchStyle,
+			string backImage,
+			ChartImageWrapMode backImageWrapMode,
 			Color backImageTransparentColor,
 			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
-			Color shadowColor, 
+			GradientStyle backGradientStyle,
+			Color backSecondaryColor,
+			Color borderColor,
+			int borderWidth,
+			ChartDashStyle borderDashStyle,
+			Color shadowColor,
 			int shadowOffset,
 			PenAlignment penAlignment,
 			bool circular,
@@ -3322,24 +3322,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Color is empty
-			if( backColor.IsEmpty ) 
+			if( backColor.IsEmpty )
 			{
 				backColor = Color.White;
 			}
 
-			if( backSecondaryColor.IsEmpty ) 
+			if( backSecondaryColor.IsEmpty )
 			{
 				backSecondaryColor = Color.White;
 			}
 
-			if( borderColor.IsEmpty || borderDashStyle == ChartDashStyle.NotSet) 
+			if( borderColor.IsEmpty || borderDashStyle == ChartDashStyle.NotSet)
 			{
 				borderWidth = 0;
 			}
-		
+
 			// Get absolute coordinates
 			RectangleF rect = GetAbsoluteRectangle( rectF );
-			
+
 			// Rectangle width and height can not be very small value
 			if( rect.Width < 1.0F && rect.Width > 0.0F )
 			{
@@ -3369,7 +3369,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					if (mt.Elements[0] != 1f || mt.Elements[3] != 1f)
 					{
 						// Do not reduce filling rectangle if scaling is used in the graphics
-						// transformations. Rounding may cause a 1 pixel gap between the border 
+						// transformations. Rounding may cause a 1 pixel gap between the border
 						// and the filling.
 						fillRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 					}
@@ -3392,8 +3392,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Fix for issue #6714:
 			// Make sure the rectangle coordinates fit the control. In same cases rectangle width or
-			// hight ca be extremly large. Drawing such a rectangle may cause an overflow exception. 
-			// The code below restricts the maximum size to double the chart size. See issue 
+			// hight ca be extremly large. Drawing such a rectangle may cause an overflow exception.
+			// The code below restricts the maximum size to double the chart size. See issue
 			// description for more information. -AG.
 			if(fillRect.Width > 2f * this._width)
 			{
@@ -3508,14 +3508,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					else
 						this.FillRectangle( brush, fillRect );
 				}
-                 
+
                 // Draw image
-				this.DrawImage(image, 
+				this.DrawImage(image,
 					new Rectangle((int)Math.Round(imageRect.X),(int)Math.Round(imageRect.Y), (int)Math.Round(imageRect.Width), (int)Math.Round(imageRect.Height)),
 					0, 0,
                     (backImageWrapMode == ChartImageWrapMode.Unscaled) ? imageRect.Width * image.Width / imageAbsSize.Width : image.Width,
                     (backImageWrapMode == ChartImageWrapMode.Unscaled) ? imageRect.Height * image.Height / imageAbsSize.Height : image.Height,
-					GraphicsUnit.Pixel, 
+					GraphicsUnit.Pixel,
 					attrib);
 			}
 				// Draw rectangle
@@ -3550,7 +3550,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					_pen.Color = borderColor;
 				}
-			
+
 				// Set a border line width
 				if(_pen.Width != borderWidth)
 				{
@@ -3576,7 +3576,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 				else
 				{
-					// NOTE: Rectangle with single pixel inset border is drawn 1 pixel larger 
+					// NOTE: Rectangle with single pixel inset border is drawn 1 pixel larger
 					// in the .Net Framework. Increase size by 1 pixel to solve the issue.
 					if(_pen.Alignment == PenAlignment.Inset && _pen.Width > 1f)
 					{
@@ -3606,16 +3606,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="shadowColor">Shadow Color</param>
 		/// <param name="shadowOffset">Shadow Offset</param>
 		/// <param name="backColor">Back Color</param>
-        internal void FillRectangleShadowAbs( 
-			RectangleF rect, 
-			Color shadowColor, 
-			float shadowOffset, 
+        internal void FillRectangleShadowAbs(
+			RectangleF rect,
+			Color shadowColor,
+			float shadowOffset,
 			Color backColor)
 		{
-			FillRectangleShadowAbs( 
-				rect, 
-				shadowColor, 
-				shadowOffset, 
+			FillRectangleShadowAbs(
+				rect,
+				shadowColor,
+				shadowOffset,
 				backColor,
 				false,
 				0);
@@ -3630,10 +3630,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="backColor">Back Color</param>
         /// <param name="circular">Draw circular shape inside the rectangle.</param>
         /// <param name="circularSectorsCount">Number of sectors in circle when drawing the polygon.</param>
-		internal void FillRectangleShadowAbs( 
-			RectangleF rect, 
-			Color shadowColor, 
-			float shadowOffset, 
+		internal void FillRectangleShadowAbs(
+			RectangleF rect,
+			Color shadowColor,
+			float shadowOffset,
 			Color backColor,
 			bool circular,
 			int	circularSectorsCount)
@@ -3662,7 +3662,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 region.Xor(rect);
                 this.Clip = region;
             }
-            
+
 			// Draw usual or "soft" shadows
 			if(!softShadows || circularSectorsCount > 2)
 			{
@@ -3692,14 +3692,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				RectangleF offset = RectangleF.Empty;
 
 				absolute = Round( rect );
-				
+
 
 				// Shadow Position
 				offset.X = absolute.X + shadowOffset - 1;
 				offset.Y = absolute.Y + shadowOffset - 1;
 				offset.Width = absolute.Width + 2;
 				offset.Height = absolute.Height + 2;
-				
+
 				// Calculate rounded rect radius
 				float	radius = shadowOffset * 0.7f;
 				radius = (float)Math.Max(radius, 2f);
@@ -3990,7 +3990,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 curentSector *= 0.8f;
 			}
 
-			// No angles more than 180 
+			// No angles more than 180
 			if(curentSector > 180)
 			{
 				curentSector = 360f - curentSector;
@@ -4043,18 +4043,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="borderWidth">Border Width</param>
 		/// <param name="borderDashStyle">Border Style</param>
 		/// <param name="penAlignment">Border is outside or inside rectangle</param>
-		internal void FillRectangleAbs( RectangleF rect, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
+		internal void FillRectangleAbs( RectangleF rect,
+			Color backColor,
+			ChartHatchStyle backHatchStyle,
+			string backImage,
+			ChartImageWrapMode backImageWrapMode,
 			Color backImageTransparentColor,
 			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
+			GradientStyle backGradientStyle,
+			Color backSecondaryColor,
+			Color borderColor,
+			int borderWidth,
+			ChartDashStyle borderDashStyle,
 			PenAlignment penAlignment )
 		{
 			Brush brush;
@@ -4066,18 +4066,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			this.SmoothingMode = SmoothingMode.None;
 
 			// Color is empty
-			if( backColor.IsEmpty ) 
+			if( backColor.IsEmpty )
 				backColor = Color.White;
 
-			if( backSecondaryColor.IsEmpty ) 
+			if( backSecondaryColor.IsEmpty )
 				backSecondaryColor = Color.White;
 
-			if( borderColor.IsEmpty ) 
+			if( borderColor.IsEmpty )
 			{
 				borderColor = Color.White;
 				borderWidth = 0;
 			}
-		
+
 			// Set a border line color
 			_pen.Color = borderColor;
 
@@ -4121,7 +4121,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// For inset alignment resize fill rectangle
 			RectangleF fillRect;
-			
+
 			// The fill rectangle is same
 			fillRect = new RectangleF(rect.X + borderWidth, rect.Y + borderWidth, rect.Width - borderWidth * 2, rect.Height - borderWidth * 2);
 
@@ -4134,7 +4134,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				// Load image
                 Image image = _common.ImageLoader.LoadImage( backImage );
-                                
+
 
 				// Prepare image properties (transparent color)
 				using ImageAttributes attrib = new ImageAttributes();
@@ -4199,10 +4199,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				this.FillRectangle( brush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
 
 				// Draw image
-				this.DrawImage(image, 
+				this.DrawImage(image,
 					new Rectangle((int)Math.Round(imageRect.X),(int)Math.Round(imageRect.Y), (int)Math.Round(imageRect.Width), (int)Math.Round(imageRect.Height)),
 					0, 0, image.Width, image.Height,
-					GraphicsUnit.Pixel, 
+					GraphicsUnit.Pixel,
 					attrib);
 			}
 				// Draw rectangle
@@ -4252,19 +4252,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="penAlignment">Border is outside or inside rectangle</param>
 		/// <param name="shadowOffset">Shadow offset.</param>
 		/// <param name="shadowColor">Shadow color.</param>
-		internal void DrawPathAbs( 
-			GraphicsPath path, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
+		internal void DrawPathAbs(
+			GraphicsPath path,
+			Color backColor,
+			ChartHatchStyle backHatchStyle,
+			string backImage,
+			ChartImageWrapMode backImageWrapMode,
 			Color backImageTransparentColor,
 			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
+			GradientStyle backGradientStyle,
+			Color backSecondaryColor,
+			Color borderColor,
+			int borderWidth,
+			ChartDashStyle borderDashStyle,
 			PenAlignment penAlignment,
 			int shadowOffset,
 			Color shadowColor)
@@ -4319,17 +4319,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Draw path
 			this.DrawPathAbs(
 				path,
-				backColor, 
-				backHatchStyle, 
-				backImage, 
-				backImageWrapMode, 
+				backColor,
+				backHatchStyle,
+				backImage,
+				backImageWrapMode,
 				backImageTransparentColor,
 				backImageAlign,
-				backGradientStyle, 
-				backSecondaryColor, 
-				borderColor, 
-				borderWidth, 
-				borderDashStyle, 
+				backGradientStyle,
+				backSecondaryColor,
+				borderColor,
+				borderWidth,
+				borderDashStyle,
 				penAlignment);
 		}
 
@@ -4349,18 +4349,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="borderWidth">Border Width</param>
 		/// <param name="borderDashStyle">Border Style</param>
 		/// <param name="penAlignment">Border is outside or inside rectangle</param>
-		internal void DrawPathAbs( GraphicsPath path, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
+		internal void DrawPathAbs( GraphicsPath path,
+			Color backColor,
+			ChartHatchStyle backHatchStyle,
+			string backImage,
+			ChartImageWrapMode backImageWrapMode,
 			Color backImageTransparentColor,
 			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
+			GradientStyle backGradientStyle,
+			Color backSecondaryColor,
+			Color borderColor,
+			int borderWidth,
+			ChartDashStyle borderDashStyle,
 			PenAlignment penAlignment )
 		{
 			Brush brush;
@@ -4368,18 +4368,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Brush OldBrush = null;
 
             // Color is empty
-            if ( backColor.IsEmpty ) 
+            if ( backColor.IsEmpty )
 				backColor = Color.White;
 
-			if( backSecondaryColor.IsEmpty ) 
+			if( backSecondaryColor.IsEmpty )
 				backSecondaryColor = Color.White;
 
-			if( borderColor.IsEmpty ) 
+			if( borderColor.IsEmpty )
 			{
 				borderColor = Color.White;
 				borderWidth = 0;
 			}
-		
+
 			// Set pen properties
 			_pen.Color = borderColor;
 			_pen.Width = borderWidth;
@@ -4398,8 +4398,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				RectangleF pathRect = path.GetBounds();
 				pathRect.Inflate(new SizeF(2,2));
 #pragma warning disable CA2000 // Dispose objects before losing scope
-                brush = GetGradientBrush( 
-					pathRect, 
+                brush = GetGradientBrush(
+					pathRect,
 					backColor,
                     backSecondaryColor,
                     backGradientStyle);
@@ -4429,7 +4429,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// For inset alignment resize fill rectangle
 			RectangleF fillRect = path.GetBounds();
-			
+
 			// Draw rectangle image
 			if( backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
 			{
@@ -4501,14 +4501,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Draw image
 				Region oldClipRegion = this.Clip;
 				this.Clip = new Region(path);
-				this.DrawImage(image, 
+				this.DrawImage(image,
 					new Rectangle((int)Math.Round(imageRect.X),(int)Math.Round(imageRect.Y), (int)Math.Round(imageRect.Width), (int)Math.Round(imageRect.Height)),
 					0, 0, image.Width, image.Height,
-					GraphicsUnit.Pixel, 
+					GraphicsUnit.Pixel,
 					attrib);
 				this.Clip = oldClipRegion;
 			}
-			
+
 				// Draw rectangle
 			else
 			{
@@ -4543,14 +4543,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="backGradientStyle">Gradient type </param>
 		/// <param name="backSecondaryColor">Gradient End Color</param>
 		/// <returns>New brush object.</returns>
-		internal Brush CreateBrush( 
+		internal Brush CreateBrush(
 			RectangleF rect,
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
+			Color backColor,
+			ChartHatchStyle backHatchStyle,
+			string backImage,
+			ChartImageWrapMode backImageWrapMode,
 			Color backImageTransparentColor,
-			GradientStyle backGradientStyle, 
+			GradientStyle backGradientStyle,
 			Color backSecondaryColor
 			)
 		{
@@ -4578,7 +4578,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Coordinates converter
 
 		/// <summary>
-        /// This method takes a RectangleF structure that is using absolute coordinates 
+        /// This method takes a RectangleF structure that is using absolute coordinates
         /// and returns a RectangleF object that uses relative coordinates.
 		/// </summary>
         /// <param name="rectangle">RectangleF structure in absolute coordinates.</param>
@@ -4588,17 +4588,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
             RectangleF relative = RectangleF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
-			relative.X = rectangle.X * 100F / (_width - 1); 
-			relative.Y = rectangle.Y * 100F / (_height - 1); 
-			relative.Width = rectangle.Width * 100F / (_width - 1); 
-			relative.Height = rectangle.Height * 100F / (_height - 1); 
+			relative.X = rectangle.X * 100F / (_width - 1);
+			relative.Y = rectangle.Y * 100F / (_height - 1);
+			relative.Width = rectangle.Width * 100F / (_width - 1);
+			relative.Height = rectangle.Height * 100F / (_height - 1);
 
 			// Return Relative coordinates
 			return relative;
 		}
 
 		/// <summary>
-        /// This method takes a PointF object that is using absolute coordinates 
+        /// This method takes a PointF object that is using absolute coordinates
         /// and returns a PointF object that uses relative coordinates.
 		/// </summary>
 		/// <param name="point">PointF object in absolute coordinates.</param>
@@ -4608,16 +4608,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
             PointF relative = PointF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
-			relative.X = point.X * 100F / (_width - 1); 
-			relative.Y = point.Y * 100F / (_height - 1); 
-			
+			relative.X = point.X * 100F / (_width - 1);
+			relative.Y = point.Y * 100F / (_height - 1);
+
 			// Return Relative coordinates
 			return relative;
 		}
 
 
 		/// <summary>
-        /// This method takes a SizeF object that uses absolute coordinates 
+        /// This method takes a SizeF object that uses absolute coordinates
         /// and returns a SizeF object that uses relative coordinates.
 		/// </summary>
 		/// <param name="size">SizeF object in absolute coordinates.</param>
@@ -4627,15 +4627,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
             SizeF relative = SizeF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
-			relative.Width = size.Width * 100F / (_width - 1); 
-			relative.Height = size.Height * 100F / (_height - 1); 
-			
+			relative.Width = size.Width * 100F / (_width - 1);
+			relative.Height = size.Height * 100F / (_height - 1);
+
 			// Return relative coordinates
 			return relative;
 		}
 
 		/// <summary>
-        /// This method takes a PointF object and converts its relative coordinates 
+        /// This method takes a PointF object and converts its relative coordinates
         /// to absolute coordinates.
 		/// </summary>
         /// <param name="point">PointF object in relative coordinates.</param>
@@ -4645,15 +4645,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			PointF absolute = PointF.Empty;
 
 			// Convert relative coordinates to absolute coordinates
-			absolute.X = point.X * (_width - 1) / 100F; 
-			absolute.Y = point.Y * (_height - 1) / 100F; 
+			absolute.X = point.X * (_width - 1) / 100F;
+			absolute.Y = point.Y * (_height - 1) / 100F;
 
 			// Return Absolute coordinates
 			return absolute;
 		}
 
 		/// <summary>
-        /// This method takes a RectangleF structure and converts its relative coordinates 
+        /// This method takes a RectangleF structure and converts its relative coordinates
         /// to absolute coordinates.
 		/// </summary>
         /// <param name="rectangle">RectangleF object in relative coordinates.</param>
@@ -4663,10 +4663,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			RectangleF absolute = RectangleF.Empty;
 
 			// Convert relative coordinates to absolute coordinates
-			absolute.X = rectangle.X * (_width - 1) / 100F; 
-			absolute.Y = rectangle.Y * (_height - 1) / 100F; 
-			absolute.Width = rectangle.Width * (_width - 1) / 100F; 
-			absolute.Height = rectangle.Height * (_height - 1) / 100F; 
+			absolute.X = rectangle.X * (_width - 1) / 100F;
+			absolute.Y = rectangle.Y * (_height - 1) / 100F;
+			absolute.Width = rectangle.Width * (_width - 1) / 100F;
+			absolute.Height = rectangle.Height * (_height - 1) / 100F;
 
 			// Return Absolute coordinates
 			return absolute;
@@ -4683,14 +4683,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             SizeF absolute = SizeF.Empty;
 
 			// Convert relative coordinates to absolute coordinates
-			absolute.Width = size.Width * (_width - 1) / 100F; 
-			absolute.Height = size.Height * (_height - 1) / 100F; 
-			
+			absolute.Width = size.Width * (_width - 1) / 100F;
+			absolute.Height = size.Height * (_height - 1) / 100F;
+
 			// Return Absolute coordinates
 			return absolute;
 		}
 
-	
+
 		#endregion
 
 		#region Border drawing helper methods
@@ -4770,22 +4770,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="borderWidth">Border Width</param>
 		/// <param name="borderDashStyle">Border Style</param>
 		internal void Draw3DBorderRel(
-			BorderSkin borderSkin, 
-			RectangleF rect, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
+			BorderSkin borderSkin,
+			RectangleF rect,
+			Color backColor,
+			ChartHatchStyle backHatchStyle,
+			string backImage,
+			ChartImageWrapMode backImageWrapMode,
 			Color backImageTransparentColor,
 			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
+			GradientStyle backGradientStyle,
+			Color backSecondaryColor,
+			Color borderColor,
+			int borderWidth,
 			ChartDashStyle borderDashStyle)
 		{
-			Draw3DBorderAbs(borderSkin, GetAbsoluteRectangle(rect), backColor, backHatchStyle, 
-				backImage, backImageWrapMode, backImageTransparentColor, backImageAlign, backGradientStyle, 
+			Draw3DBorderAbs(borderSkin, GetAbsoluteRectangle(rect), backColor, backHatchStyle,
+				backImage, backImageWrapMode, backImageTransparentColor, backImageAlign, backGradientStyle,
 				backSecondaryColor, borderColor, borderWidth, borderDashStyle);
 		}
 
@@ -4807,18 +4807,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="borderWidth">Border Width</param>
 		/// <param name="borderDashStyle">Border Style</param>
 		internal void Draw3DBorderAbs(
-			BorderSkin borderSkin, 
-			RectangleF absRect, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
+			BorderSkin borderSkin,
+			RectangleF absRect,
+			Color backColor,
+			ChartHatchStyle backHatchStyle,
+			string backImage,
+			ChartImageWrapMode backImageWrapMode,
 			Color backImageTransparentColor,
 			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
+			GradientStyle backGradientStyle,
+			Color backSecondaryColor,
+			Color borderColor,
+			int borderWidth,
 			ChartDashStyle borderDashStyle)
 		{
 			// Check input parameters
@@ -4833,8 +4833,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
                 borderTypeInterface.Resolution = this.Graphics.DpiX;
 				// Draw border
-				borderTypeInterface.DrawBorder(this, borderSkin, absRect, backColor, backHatchStyle, backImage, backImageWrapMode, 
-					backImageTransparentColor, backImageAlign, backGradientStyle, backSecondaryColor, 
+				borderTypeInterface.DrawBorder(this, borderSkin, absRect, backColor, backHatchStyle, backImage, backImageWrapMode,
+					backImageTransparentColor, backImageAlign, backGradientStyle, backSecondaryColor,
 					borderColor, borderWidth, borderDashStyle);
 			}
 		}
@@ -4866,7 +4866,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 else if (string.Equals(styleName, "Concave", StringComparison.OrdinalIgnoreCase))
 				{
 					pieDrawingStyle = PieDrawingStyle.Concave;
-				}					
+				}
 				else
 				{
 					throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid( styleName, "PieDrawingStyle"));
@@ -4895,20 +4895,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="doughnut">True if Doughnut is drawn instead of pie</param>
 		/// <param name="doughnutRadius">Internal radius of the doughnut</param>
 		/// <param name="pieDrawingStyle">Pie drawing style.</param>
-		internal void DrawPieRel( 
-			RectangleF rect, 
+		internal void DrawPieRel(
+			RectangleF rect,
 			float startAngle,
 			float sweepAngle,
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
+			Color backColor,
+			ChartHatchStyle backHatchStyle,
+			string backImage,
+			ChartImageWrapMode backImageWrapMode,
 			Color backImageTransparentColor,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
+			GradientStyle backGradientStyle,
+			Color backSecondaryColor,
+			Color borderColor,
+			int borderWidth,
+			ChartDashStyle borderDashStyle,
 			bool shadow,
 			bool doughnut,
 			float doughnutRadius,
@@ -4936,8 +4936,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Create Hatch Brush
 				fillBrush = GetHatchBrush( backHatchStyle, backColor, backSecondaryColor );
 			}
-			else if( backGradientStyle != GradientStyle.None ) 
-			{ 
+			else if( backGradientStyle != GradientStyle.None )
+			{
 				// Create gradient brush
 				if( backGradientStyle == GradientStyle.Center )
 				{
@@ -4951,7 +4951,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 			}
 			else if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled )
-			{ 
+			{
 				// Create textured brush
 				fillBrush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor );
 			}
@@ -5002,7 +5002,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					DrawPieSoftShadow( startAngle, sweepAngle, absRect, backColor );
 				}
-				else 
+				else
 				{
 					// Fill Pie for normal shadow or colored pie slice
 					this.FillPie( fillBrush, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle );
@@ -5011,7 +5011,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					this.DrawPieGradientEffects( pieDrawingStyle, absRect, startAngle, sweepAngle, -1f);
 				}
 
-				
+
 				// Draw Pie Border
 				if( !shadow  &&
 					borderWidth > 0 &&
@@ -5033,20 +5033,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 		}
 
-		private void DrawPieGradientEffects( 
-			PieDrawingStyle pieDrawingStyle, 
-			RectangleF position, 
-			float startAngle, 
+		private void DrawPieGradientEffects(
+			PieDrawingStyle pieDrawingStyle,
+			RectangleF position,
+			float startAngle,
 			float sweepAngle,
 			float doughnutRadius)
 		{
 			if(pieDrawingStyle == PieDrawingStyle.Concave)
 			{
-				// Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn 
+				// Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn
 				// twice on the outside and inside radius.
 				float minSize = (float)Math.Min(position.Width, position.Height);
 				float shadowSize = minSize * 0.05f;
-			
+
 				// Create brush path
 				RectangleF gradientPath = position;
 				gradientPath.Inflate(-shadowSize, -shadowSize);
@@ -5092,7 +5092,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 			else if(pieDrawingStyle == PieDrawingStyle.SoftEdge)
 			{
-				// Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn 
+				// Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn
 				// twice on the outside and inside radius.
 				float minSize = (float)Math.Min(position.Width, position.Height);
 				float shadowSize = minSize/10f;
@@ -5166,7 +5166,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// The soft shadow of the pie 
+		/// The soft shadow of the pie
 		/// </summary>
 		/// <param name="startAngle">Angle measured in degrees clockwise from the x-axis to the first side of the pie shape.</param>
 		/// <param name="sweepAngle">Angle measured in degrees clockwise from the startAngle parameter to the second side of the pie shape.</param>
@@ -5175,19 +5175,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private void DrawPieSoftShadow( float startAngle, float sweepAngle, RectangleF absRect, Color backColor )
 		{
 			using GraphicsPath path = new GraphicsPath();
-			
+
 			path.AddEllipse( absRect.X, absRect.Y, absRect.Width, absRect.Height );
 
 			using PathGradientBrush brush = new PathGradientBrush( path );
-		
+
 			Color[] colors = {
 								Color.FromArgb( 0, backColor ),
-								Color.FromArgb( backColor.A, backColor ),   
-								Color.FromArgb( backColor.A, backColor )}; 
+								Color.FromArgb( backColor.A, backColor ),
+								Color.FromArgb( backColor.A, backColor )};
 
 			float[] relativePositions = {
-											0f,       
-											0.05f,     
+											0f,
+											0.05f,
 											1.0f};    // at the center point.
 
 			ColorBlend colorBlend = new ColorBlend();
@@ -5277,8 +5277,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
 		/// <summary>
-		/// This function calculates points for polygon, which represents 
-		/// shape of an arrow. There are four different orientations 
+		/// This function calculates points for polygon, which represents
+		/// shape of an arrow. There are four different orientations
 		/// of arrow and three arrow types.
 		/// </summary>
 		/// <param name="position">Arrow position</param>
@@ -5299,8 +5299,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Top orientation
 				case ArrowOrientation.Top:
 					// Get absolute size for arrow
-					// Arrow size has to have the same shape when width and height 
-					// are changed. When the picture is resized, width of the chart 
+					// Arrow size has to have the same shape when width and height
+					// are changed. When the picture is resized, width of the chart
 					// picture is used only for arrow size.
 					size = GetAbsoluteSize( new SizeF((float)size, (float)size) ).Width;
 					shift = GetAbsoluteSize( new SizeF((float)shift,(float)shift) ).Height;
@@ -5323,13 +5323,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						endPoint.Y = points[1].Y;
 					else
 						endPoint.Y = points[2].Y;
-					
+
 					break;
 					// Bottom orientation
 				case ArrowOrientation.Bottom:
 					// Get absolute size for arrow
-					// Arrow size has to have the same shape when width and height 
-					// are changed. When the picture is resized, width of the chart 
+					// Arrow size has to have the same shape when width and height
+					// are changed. When the picture is resized, width of the chart
 					// picture is used only for arrow size.
 					size = GetAbsoluteSize( new SizeF((float)size, (float)size) ).Width;
 					shift = GetAbsoluteSize( new SizeF((float)shift,(float)shift) ).Height;
@@ -5409,7 +5409,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		#endregion
-		
+
 		#region Other methods and properties
 
 		/// <summary>
@@ -5465,9 +5465,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			float	top = (float)Math.Round( (double)rect.Top );
 			float	bottom = (float)Math.Round( (double)rect.Bottom );
 
-			return new RectangleF( left, top, right - left, bottom - top ); 
+			return new RectangleF( left, top, right - left, bottom - top );
 		}
-		
+
 		/// <summary>
         /// This method takes a given axis value for a specified axis and returns the relative pixel value.
 		/// </summary>
@@ -5557,7 +5557,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
 		/// <summary>
-		/// Sets the clipping region of this Graphics object 
+		/// Sets the clipping region of this Graphics object
 		/// to the rectangle specified by a RectangleF structure.
 		/// </summary>
 		/// <param name="region">Region rectangle</param>
@@ -5565,7 +5565,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			this.SetClipAbs( GetAbsoluteRectangle( region ) );
 		}
-	
+
 		#endregion
 
 		#region Color manipulation methods
@@ -5584,7 +5584,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				return beginColor;
 			}
-			
+
 			// Extracts Begin color
 			int nBRed = beginColor.R;
 			int nBGreen = beginColor.G;
@@ -5622,7 +5622,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #region RightToLeft
         /// <summary>
-        /// Returns chart right to left flag 
+        /// Returns chart right to left flag
         /// </summary>
         internal bool IsRightToLeft
         {
@@ -5635,7 +5635,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return Common.ChartPicture.RightToLeft == RightToLeft.Yes;
             }
         }
-        
+
         #endregion //RightToLeft
 
         #region IDisposable Members
