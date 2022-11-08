@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "Axis" Priority="450">
-  <Title>Logarithmic Scale</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Using Logarithmic Scale</ShortBlurb> 
-  <SampleControl>LogarithmicScale</SampleControl> 
-  <InfoPages>
+  <Title>Logarithmic Scale</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Using Logarithmic Scale</ShortBlurb>
+ <SampleControl>LogarithmicScale</SampleControl>
+ <InfoPages>
 	<InfoPage Title="Overview">Overview.htm</InfoPage>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
@@ -14,8 +14,5 @@
 	<Keyword>Logarithmic scale</Keyword>
 	<Keyword>Axis, Logarithmic scale</Keyword>
   </Keywords>
-
 </SampleConfig>
-
-
 </SampleConfigs>

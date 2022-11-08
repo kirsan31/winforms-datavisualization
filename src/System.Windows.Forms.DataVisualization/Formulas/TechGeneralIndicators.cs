@@ -12,8 +12,8 @@ using System.Globalization;
 namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 {
     /// <summary>
-    /// This class is used for calculations of general 
-    /// technical analyses indicators.
+    /// This class is used for calculations of general
+   /// technical analyses indicators.
     /// </summary>
     internal class GeneralTechnicalIndicators : PriceIndicators
     {
@@ -30,24 +30,24 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         #region Formulas
 
         /// <summary>
-        /// Standard Deviation is a statistical measure of volatility. 
-        /// Standard Deviation is typically used as a component of 
-        /// other indicators, rather than as a stand-alone indicator. 
-        /// For example, Bollinger Bands are calculated by adding 
-        /// a security's Standard Deviation to a moving average. 
-        /// High Standard Deviation values occur when the data item 
-        /// being analyzed (e.g., prices or an indicator) is changing 
-        /// dramatically. Similarly, low Standard Deviation values 
-        /// occur when prices are stable.
+        /// Standard Deviation is a statistical measure of volatility.
+       /// Standard Deviation is typically used as a component of
+       /// other indicators, rather than as a stand-alone indicator.
+       /// For example, Bollinger Bands are calculated by adding
+       /// a security's Standard Deviation to a moving average.
+       /// High Standard Deviation values occur when the data item
+       /// being analyzed (e.g., prices or an indicator) is changing
+       /// dramatically. Similarly, low Standard Deviation values
+       /// occur when prices are stable.
         /// ---------------------------------------------------------
-        /// Input: 
-        ///		- 1 Y value.
-        /// Output: 
-        ///		- 1 Y value Standard Deviation
-        /// Parameters: 
-        ///		- Periods for standard deviation ( used for moving average )
-        ///	Extra Parameters: 
-        ///		-
+        /// Input:
+       ///		- 1 Y value.
+        /// Output:
+       ///		- 1 Y value Standard Deviation
+        /// Parameters:
+       ///		- Periods for standard deviation ( used for moving average )
+        ///	Extra Parameters:
+       ///		-
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
@@ -103,21 +103,21 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
 
         /// <summary>
-        /// The Average True Range ("ATR") is a measure of volatility. It was introduced 
-        /// by Welles Wilder in his book, New Concepts in Technical Trading Systems, and 
-        /// has since been used as a component of many indicators and trading systems. Wilder 
-        /// has found that high ATR values often occur at market bottoms following a "panic" 
-        /// sell-off. Low Average True Range values are often found during extended sideways 
-        /// periods, such as those found at tops and after consolidation periods. The Average 
-        /// True Range can be interpreted using the same techniques that are used with 
-        /// the other volatility indicators.
+        /// The Average True Range ("ATR") is a measure of volatility. It was introduced
+       /// by Welles Wilder in his book, New Concepts in Technical Trading Systems, and
+       /// has since been used as a component of many indicators and trading systems. Wilder
+       /// has found that high ATR values often occur at market bottoms following a "panic"
+       /// sell-off. Low Average True Range values are often found during extended sideways
+       /// periods, such as those found at tops and after consolidation periods. The Average
+       /// True Range can be interpreted using the same techniques that are used with
+       /// the other volatility indicators.
         /// ---------------------------------------------------------
-        /// Input: 
-        ///		- 3 Y values ( High, Low, Close ).
-        /// Output: 
-        ///		- 1 Y value AverageTrueRange
-        /// Parameters: 
-        ///		- Periods (Default 14) = is used to configure the number of periods to calculate the ATR
+        /// Input:
+       ///		- 3 Y values ( High, Low, Close ).
+        /// Output:
+       ///		- 1 Y value AverageTrueRange
+        /// Parameters:
+       ///		- Periods (Default 14) = is used to configure the number of periods to calculate the ATR
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
@@ -183,18 +183,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
 
         /// <summary>
-        /// The Ease of Movement indicator shows the relationship between volume and price 
-        /// change. This indicator shows how much volume is required to move prices. The Ease 
-        /// of Movement indicator was developed Richard W. Arms, Jr., the creator of Equivolume.
-        /// High Ease of Movement values occur when prices are moving upward on lightStyle volume. 
-        /// Low Ease of Movement values occur when prices are moving downward on lightStyle volume. 
-        /// If prices are not moving, or if heavy volume is required to move prices, then 
-        /// indicator will also be near zero.
+        /// The Ease of Movement indicator shows the relationship between volume and price
+       /// change. This indicator shows how much volume is required to move prices. The Ease
+       /// of Movement indicator was developed Richard W. Arms, Jr., the creator of Equivolume.
+        /// High Ease of Movement values occur when prices are moving upward on lightStyle volume.
+       /// Low Ease of Movement values occur when prices are moving downward on lightStyle volume.
+       /// If prices are not moving, or if heavy volume is required to move prices, then
+       /// indicator will also be near zero.
         /// ---------------------------------------------------------
-        /// Input: 
-        ///		- 3 Y values ( High, Low, Volume ).
-        /// Output: 
-        ///		- 1 Y value Ease Of Movement
+        /// Input:
+       ///		- 3 Y values ( High, Low, Volume ).
+        /// Output:
+       ///		- 1 Y value Ease Of Movement
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
@@ -221,11 +221,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 // Set X values
                 outputValues[0][index - 1] = inputValues[0][index];
 
-                // Calculate the Mid-point Move for each day:                          
-                MidPointMove = (inputValues[1][index] + inputValues[2][index]) / 2 - (inputValues[1][index - 1] + inputValues[2][index - 1]) / 2;
+                // Calculate the Mid-point Move for each day:                         
+               MidPointMove = (inputValues[1][index] + inputValues[2][index]) / 2 - (inputValues[1][index - 1] + inputValues[2][index - 1]) / 2;
 
-                // The Box Ratio determines the ratio between height and width of the Equivolume box:    
-                BoxRattio = inputValues[3][index] / (inputValues[1][index] - inputValues[2][index]);
+                // The Box Ratio determines the ratio between height and width of the Equivolume box:   
+               BoxRattio = inputValues[3][index] / (inputValues[1][index] - inputValues[2][index]);
 
                 // Ease of Movement is then calculated as:
                 outputValues[1][index - 1] = MidPointMove / BoxRattio;
@@ -233,21 +233,21 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
 
         /// <summary>
-        /// The Mass Index was designed to identify trend reversals by measuring the narrowing 
-        /// and widening of the range between the high and low prices. As this range widens, the 
-        /// Mass Index increases; as the range narrows the Mass Index decreases.
-        /// The Mass Index was developed by Donald Dorsey. According to Mr. Dorsey, the most 
-        /// significant pattern to watch for is a "reversal bulge." A reversal bulge occurs when 
-        /// a 25-period Mass Index rises above 27.0 and subsequently falls below 26.5. A reversal 
-        /// in price is then likely. The overall price trend (i.e., trending or trading range) 
-        /// is unimportant.
+        /// The Mass Index was designed to identify trend reversals by measuring the narrowing
+       /// and widening of the range between the high and low prices. As this range widens, the
+       /// Mass Index increases; as the range narrows the Mass Index decreases.
+        /// The Mass Index was developed by Donald Dorsey. According to Mr. Dorsey, the most
+       /// significant pattern to watch for is a "reversal bulge." A reversal bulge occurs when
+       /// a 25-period Mass Index rises above 27.0 and subsequently falls below 26.5. A reversal
+       /// in price is then likely. The overall price trend (i.e., trending or trading range)
+       /// is unimportant.
         /// ---------------------------------------------------------
-        /// Input: 
-        ///		- 2 Y values ( High, Low ).
-        /// Output: 
-        ///		- 1 Y value Mass Index
-        /// Parameters: 
-        ///		- Period = is used to calculate the accumulation, By default this property is set to 25.
+        /// Input:
+       ///		- 2 Y values ( High, Low ).
+        /// Output:
+       ///		- 1 Y value Mass Index
+        /// Parameters:
+       ///		- Period = is used to calculate the accumulation, By default this property is set to 25.
         ///		- AveragePeriod = is used to calculate Simple Moving Avg, By default this property is set to 9.
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
@@ -321,20 +321,20 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
 
         /// <summary>
-        /// The Performance indicator displays a security's price performance as 
-        /// a percentage. This is sometimes called a "normalized" chart. The 
-        /// Performance indicator displays the percentage that the security 
-        /// has increased since the first period displayed. For example, if 
-        /// the Performance indicator is 10, it means that the security's 
-        /// price has increased 10% since the first period displayed on the 
-        /// left side of the chart. Similarly, a value of -10% means that 
-        /// the security's price has fallen by 10% since the first period 
-        /// displayed.
+        /// The Performance indicator displays a security's price performance as
+       /// a percentage. This is sometimes called a "normalized" chart. The
+       /// Performance indicator displays the percentage that the security
+       /// has increased since the first period displayed. For example, if
+       /// the Performance indicator is 10, it means that the security's
+       /// price has increased 10% since the first period displayed on the
+       /// left side of the chart. Similarly, a value of -10% means that
+       /// the security's price has fallen by 10% since the first period
+       /// displayed.
         /// ---------------------------------------------------------
-        /// Input: 
-        ///		- 1 Y value ( Close ).
-        /// Output: 
-        ///		- 1 Y value Performance
+        /// Input:
+       ///		- 1 Y value ( Close ).
+        /// Output:
+       ///		- 1 Y value Performance
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
@@ -364,25 +364,25 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
 
         /// <summary>
-        /// Rate of Change is used to monitor momentum by making direct comparisons between current 
-        /// and past prices on a continual basis. The results can be used to determine the strength 
-        /// of price trends. Note: This study is the same as the Momentum except that Momentum uses 
-        /// subtraction in its calculations while Rate of Change uses division. The resulting lines 
-        /// of these two studies operated over the same data will look exactly the same - only the 
-        /// scale values will differ. The Price Rate-of-Change indicator displays the 
-        /// difference between the current price and the price x-time periods ago. The difference 
-        /// can be displayed in either points or as a percentage. The Momentum indicator displays 
-        /// the same information, but expresses it as a ratio. When the Rate-of-Change displays 
-        /// the price change in points, it subtracts the price x-time periods ago from today’s price.
-        /// When the Rate-of-Change displays the price change as a percentage, it divides 
-        /// the price change by price x-time period’s ago.
+        /// Rate of Change is used to monitor momentum by making direct comparisons between current
+       /// and past prices on a continual basis. The results can be used to determine the strength
+       /// of price trends. Note: This study is the same as the Momentum except that Momentum uses
+       /// subtraction in its calculations while Rate of Change uses division. The resulting lines
+       /// of these two studies operated over the same data will look exactly the same - only the
+       /// scale values will differ. The Price Rate-of-Change indicator displays the
+       /// difference between the current price and the price x-time periods ago. The difference
+       /// can be displayed in either points or as a percentage. The Momentum indicator displays
+       /// the same information, but expresses it as a ratio. When the Rate-of-Change displays
+       /// the price change in points, it subtracts the price x-time periods ago from today’s price.
+        /// When the Rate-of-Change displays the price change as a percentage, it divides
+       /// the price change by price x-time period’s ago.
         /// ---------------------------------------------------------
-        /// Input: 
-        ///		- 1 Y value ( Close ).
-        /// Output: 
-        ///		- 1 Y value Rate of Change
-        /// Parameters: 
-        ///		- Periods = is used to configure the number of periods to calculate the rate of Change. By default the Periods property is set to 10.
+        /// Input:
+       ///		- 1 Y value ( Close ).
+        /// Output:
+       ///		- 1 Y value Rate of Change
+        /// Parameters:
+       ///		- Periods = is used to configure the number of periods to calculate the rate of Change. By default the Periods property is set to 10.
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
@@ -423,21 +423,21 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
 
         /// <summary>
-        /// This indicator was developed by Welles Wilder Jr. Relative Strength is often 
-        /// used to identify price tops and bottoms by keying on specific levels 
-        /// (usually "30" and "70") on the RSI chart which is scaled from from 0-100. 
-        /// The study is also useful to detect the following: 
-        ///		- Movement which might not be as readily apparent on the bar chart
+        /// This indicator was developed by Welles Wilder Jr. Relative Strength is often
+       /// used to identify price tops and bottoms by keying on specific levels
+       /// (usually "30" and "70") on the RSI chart which is scaled from from 0-100.
+       /// The study is also useful to detect the following:
+       ///		- Movement which might not be as readily apparent on the bar chart
         ///		- Failure swings above 70 or below 30 which can warn of coming reversals
-        ///		- Support and resistance levels 
-        ///		- Divergence between the RSI and price which is often a useful reversal indicator 
-        /// ---------------------------------------------------------
-        /// Input: 
-        ///		- 1 Y value ( Close ).
-        /// Output: 
-        ///		- 1 Y value RelativeStrengthIndex 
-        /// Parameters: 
-        ///		- Periods = is used to configure the number of periods to calculate the RSI indicator. By default the Periods property is set to 10.
+        ///		- Support and resistance levels
+       ///		- Divergence between the RSI and price which is often a useful reversal indicator
+       /// ---------------------------------------------------------
+        /// Input:
+       ///		- 1 Y value ( Close ).
+        /// Output:
+       ///		- 1 Y value RelativeStrengthIndex
+       /// Parameters:
+       ///		- Periods = is used to configure the number of periods to calculate the RSI indicator. By default the Periods property is set to 10.
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
@@ -503,24 +503,24 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
 
         /// <summary>
-        /// TripleExponentialMovingAverage is a momentum indicator that displays the percent rate-of-change of a triple 
-        /// exponentially smoothed moving average of the security's closing price. It is designed 
-        /// to keep you in trends equal to or shorter than the number of periods you specify. 
-        /// The TripleExponentialMovingAverage indicator oscillates around a zero line. Its triple exponential smoothing is 
-        /// designed to filter out "insignificant" cycles (i.e., those that are shorter than 
-        /// the number of periods you specify).	Trades should be placed when the indicator changes 
-        /// direction (i.e., buy when it turns up and sell when it turns down). You may want to 
-        /// plot a 9-period moving average of the TripleExponentialMovingAverage to create a "signal" line (similar to the 
-        /// MovingAverageConvergenceDivergence indicator, and then buy when the TripleExponentialMovingAverage rises above its signal, and sell when it 
-        /// falls below its signal. Divergences between the security and the TripleExponentialMovingAverage can also help 
-        /// identify turning points.
+        /// TripleExponentialMovingAverage is a momentum indicator that displays the percent rate-of-change of a triple
+       /// exponentially smoothed moving average of the security's closing price. It is designed
+       /// to keep you in trends equal to or shorter than the number of periods you specify.
+       /// The TripleExponentialMovingAverage indicator oscillates around a zero line. Its triple exponential smoothing is
+       /// designed to filter out "insignificant" cycles (i.e., those that are shorter than
+       /// the number of periods you specify).	Trades should be placed when the indicator changes
+       /// direction (i.e., buy when it turns up and sell when it turns down). You may want to
+       /// plot a 9-period moving average of the TripleExponentialMovingAverage to create a "signal" line (similar to the
+       /// MovingAverageConvergenceDivergence indicator, and then buy when the TripleExponentialMovingAverage rises above its signal, and sell when it
+       /// falls below its signal. Divergences between the security and the TripleExponentialMovingAverage can also help
+       /// identify turning points.
         /// ---------------------------------------------------------
-        /// Input: 
-        ///		- 1 Y values ( Close ).
-        /// Output: 
-        ///		- 1 Y value ( TripleExponentialMovingAverage ).
-        /// Parameters: 
-        ///		- Period = is used to calculate the Exponential Moving Avg, By default this property is set to 12.
+        /// Input:
+       ///		- 1 Y values ( Close ).
+        /// Output:
+       ///		- 1 Y value ( TripleExponentialMovingAverage ).
+        /// Parameters:
+       ///		- Period = is used to calculate the Exponential Moving Avg, By default this property is set to 12.
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
@@ -577,26 +577,26 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
 
         /// <summary>
-        /// The MovingAverageConvergenceDivergence is used to determine overbought or oversold conditions in the market. Written 
-        /// for stocks and stock indices, MovingAverageConvergenceDivergence can be used for commodities as well. The MovingAverageConvergenceDivergence line 
-        /// is the difference between the long and short exponential moving averages of the chosen 
-        /// item. The signal line is an exponential moving average of the MovingAverageConvergenceDivergence line. Signals are 
-        /// generated by the relationship of the two lines. As with RSI and Stochastics, 
-        /// divergences between the MovingAverageConvergenceDivergence and prices may indicate an upcoming trend reversal. The MovingAverageConvergenceDivergence  
-        /// is a trend following momentum indicator that shows the relationship between two 
-        /// moving averages of prices. The MovingAverageConvergenceDivergence is the difference between a 26-day and 12-day 
-        /// exponential moving average. A 9-day exponential moving average, called the "signal" 
-        /// (or "trigger") line is plotted on top of the MovingAverageConvergenceDivergence to show buy/sell opportunities. The 
-        /// MovingAverageConvergenceDivergence is calculated by subtracting the value of a 26-day exponential moving average 
-        /// from a 12-day exponential moving average. A 9-day dotted exponential moving average of 
-        /// the MovingAverageConvergenceDivergence (the "signal" line) is then plotted on top of the MovingAverageConvergenceDivergence.
+        /// The MovingAverageConvergenceDivergence is used to determine overbought or oversold conditions in the market. Written
+       /// for stocks and stock indices, MovingAverageConvergenceDivergence can be used for commodities as well. The MovingAverageConvergenceDivergence line
+       /// is the difference between the long and short exponential moving averages of the chosen
+       /// item. The signal line is an exponential moving average of the MovingAverageConvergenceDivergence line. Signals are
+       /// generated by the relationship of the two lines. As with RSI and Stochastics,
+       /// divergences between the MovingAverageConvergenceDivergence and prices may indicate an upcoming trend reversal. The MovingAverageConvergenceDivergence 
+       /// is a trend following momentum indicator that shows the relationship between two
+       /// moving averages of prices. The MovingAverageConvergenceDivergence is the difference between a 26-day and 12-day
+       /// exponential moving average. A 9-day exponential moving average, called the "signal"
+       /// (or "trigger") line is plotted on top of the MovingAverageConvergenceDivergence to show buy/sell opportunities. The
+       /// MovingAverageConvergenceDivergence is calculated by subtracting the value of a 26-day exponential moving average
+       /// from a 12-day exponential moving average. A 9-day dotted exponential moving average of
+       /// the MovingAverageConvergenceDivergence (the "signal" line) is then plotted on top of the MovingAverageConvergenceDivergence.
         /// ---------------------------------------------------------
-        /// Input: 
-        ///		- 1 Y value ( Close ).
-        /// Output: 
-        ///		- 1 Y value ( MovingAverageConvergenceDivergence ).
-        /// Parameters: 
-        ///		- ShortPeriod = is used to configure the short Exponential Moving Average, By default this property is set to 12.
+        /// Input:
+       ///		- 1 Y value ( Close ).
+        /// Output:
+       ///		- 1 Y value ( MovingAverageConvergenceDivergence ).
+        /// Parameters:
+       ///		- ShortPeriod = is used to configure the short Exponential Moving Average, By default this property is set to 12.
         ///		- LongPeriod = is used to configure the Int64 Exponential Moving Average, By default this property is set to 26.
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
@@ -660,29 +660,29 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
 
         /// <summary>
-        /// The CCI is a timing system that is best applied to commodity contracts which 
-        /// have cyclical or seasonal tendencies. CCI does not determine the length of 
-        /// cycles - it is designed to detect when such cycles begin and end through 
-        /// the use of a statistical analysis which incorporates a moving average and a divisor 
-        /// reflecting both the possible and actual trading ranges. Although developed primarily 
-        /// for commodities, the CCI could conceivably be used to analyze stocks as well. The 
-        /// Commodity Channel Index ("CCI") measures the variation of a security’s price from 
-        /// its statistical mean. High values show that prices are unusually high compared to 
-        /// average prices whereas low values indicate that prices are unusually low. 
-        /// 1. Calculate today's Typical Price (TP) = (H+L+C)/3 where H = high; L = low, and C = close. 
-        /// 2. Calculate today's 20-day Simple Moving Average of the Typical Price (SMATP). 
-        /// 3. Calculate today's Mean Deviation. First, calculate the absolute value of the difference 
-        ///    between today's SMATP and the typical price for each of the past 20 days. 
-        ///    Add all of these absolute values together and divide by 20 to find the Mean Deviation. 
-        /// 4. The final step is to apply the Typical Price (TP), the Simple Moving Average of the 
-        ///    Typical Price (SMATP), the Mean Deviation and a Constant (.015).
+        /// The CCI is a timing system that is best applied to commodity contracts which
+       /// have cyclical or seasonal tendencies. CCI does not determine the length of
+       /// cycles - it is designed to detect when such cycles begin and end through
+       /// the use of a statistical analysis which incorporates a moving average and a divisor
+       /// reflecting both the possible and actual trading ranges. Although developed primarily
+       /// for commodities, the CCI could conceivably be used to analyze stocks as well. The
+       /// Commodity Channel Index ("CCI") measures the variation of a security’s price from
+       /// its statistical mean. High values show that prices are unusually high compared to
+       /// average prices whereas low values indicate that prices are unusually low.
+       /// 1. Calculate today's Typical Price (TP) = (H+L+C)/3 where H = high; L = low, and C = close.
+       /// 2. Calculate today's 20-day Simple Moving Average of the Typical Price (SMATP).
+       /// 3. Calculate today's Mean Deviation. First, calculate the absolute value of the difference
+       ///    between today's SMATP and the typical price for each of the past 20 days.
+       ///    Add all of these absolute values together and divide by 20 to find the Mean Deviation.
+       /// 4. The final step is to apply the Typical Price (TP), the Simple Moving Average of the
+       ///    Typical Price (SMATP), the Mean Deviation and a Constant (.015).
         /// ---------------------------------------------------------
-        /// Input: 
-        ///		- 3 Y values ( Hi, Low, Close ).
-        /// Output: 
-        ///		- 1 Y value ( CCI ).
-        /// Parameters: 
-        ///		- Periods = is used to configure the number of periods to calculate the CCI. By default the Periods property is set to 10.
+        /// Input:
+       ///		- 3 Y values ( Hi, Low, Close ).
+        /// Output:
+       ///		- 1 Y value ( CCI ).
+        /// Parameters:
+       ///		- Periods = is used to configure the number of periods to calculate the CCI. By default the Periods property is set to 10.
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
@@ -717,13 +717,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 
             // Moving Average
 
-            // Simple Moving Average of the Typical Price 
-            MovingAverage(typicalPrice, out double[] movingAverage, period, false);
+            // Simple Moving Average of the Typical Price
+           MovingAverage(typicalPrice, out double[] movingAverage, period, false);
 
-            // Calculate today's Mean Deviation. First, calculate the absolute value 
-            // of the difference between today's SMATP and the typical price for each 
-            // of the past 20 days. Add all of these absolute values together and 
-            // divide by 20 to find the Mean Deviation. 
+            // Calculate today's Mean Deviation. First, calculate the absolute value
+           // of the difference between today's SMATP and the typical price for each
+           // of the past 20 days. Add all of these absolute values together and
+           // divide by 20 to find the Mean Deviation. 
 
             // Mean Deviation
             double[] meanDeviation = new double[movingAverage.Length];
@@ -764,8 +764,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
 
         /// <summary>
-        /// The first method in the module, which converts a formula 
-        /// name to the corresponding private method.
+        /// The first method in the module, which converts a formula
+       /// name to the corresponding private method.
         /// </summary>
         /// <param name="formulaName">String which represent a formula name</param>
         /// <param name="inputValues">Arrays of doubles - Input values</param>

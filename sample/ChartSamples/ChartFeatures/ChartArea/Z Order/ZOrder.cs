@@ -1,62 +1,57 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AxisAppearance.
-	/// </summary>
-	public class ZOrder : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox SelectedSeries;
-		private System.Windows.Forms.ComboBox SelectedArea;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AxisAppearance.
+    /// </summary>
+    public class ZOrder : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox SelectedSeries;
+        private System.Windows.Forms.ComboBox SelectedArea;
 
-		public ZOrder()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			SelectedSeries.SelectedIndex = 0;
-			SelectedArea.SelectedIndex = 0;
+        public ZOrder()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		}
+            SelectedSeries.SelectedIndex = 0;
+            SelectedArea.SelectedIndex = 0;
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
@@ -108,10 +103,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
@@ -121,10 +116,10 @@ namespace ChartSamples
             this.label9.Text = "This sample shows how to change the Z order for chart areas and series. Click on " +
                 "the chart to set the top chart area.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.SelectedSeries);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.SelectedSeries);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.SelectedArea);
             this.panel1.Controls.Add(this.label1);
@@ -132,10 +127,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // SelectedSeries
-            // 
-            this.SelectedSeries.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // SelectedSeries
+            //
+           this.SelectedSeries.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SelectedSeries.Items.AddRange(new object[] {
             "1-2",
             "2-1"});
@@ -144,19 +139,19 @@ namespace ChartSamples
             this.SelectedSeries.Size = new System.Drawing.Size(120, 22);
             this.SelectedSeries.TabIndex = 3;
             this.SelectedSeries.SelectedIndexChanged += new System.EventHandler(this.SelectedArea_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(32, 43);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(32, 43);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(136, 16);
             this.label2.TabIndex = 2;
             this.label2.Text = "&Series Z Order:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // SelectedArea
-            // 
-            this.SelectedArea.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // SelectedArea
+            //
+           this.SelectedArea.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SelectedArea.Items.AddRange(new object[] {
             "1-2-3",
             "1-3-2",
@@ -169,20 +164,20 @@ namespace ChartSamples
             this.SelectedArea.Size = new System.Drawing.Size(120, 22);
             this.SelectedArea.TabIndex = 1;
             this.SelectedArea.SelectedIndexChanged += new System.EventHandler(this.SelectedArea_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(8, 11);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(8, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(157, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Chart &Areas Z Order:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -331,10 +326,10 @@ namespace ChartSamples
             this.Chart1.Titles.Add(title1);
             this.Chart1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Chart1_MouseDown);
             this.Chart1.Click += new System.EventHandler(this.Chart1_Click);
-            // 
-            // ZOrder
-            // 
-            this.Controls.Add(this.Chart1);
+            //
+           // ZOrder
+            //
+           this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -343,152 +338,149 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		
+        private void SelectedArea_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if (
+                SelectedSeries.SelectedItem == null ||
+                SelectedArea.SelectedItem == null
+            )
+            {
+                return;
+            }
 
-		private void SelectedArea_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			if( 
-				SelectedSeries.SelectedItem == null ||
-				SelectedArea.SelectedItem == null
-			)
-			{
-				return;
-			}
+            // Create references to chart areas.
+            ChartArea[] areas = new ChartArea[3];
+            areas[0] = Chart1.ChartAreas["Default"];
+            areas[1] = Chart1.ChartAreas["Chart Area 2"];
+            areas[2] = Chart1.ChartAreas["Chart Area 3"];
 
-			// Create references to chart areas.
-			ChartArea [] areas = new ChartArea[3];
-			areas[0] = Chart1.ChartAreas["Default"];
-			areas[1] = Chart1.ChartAreas["Chart Area 2"];
-			areas[2] = Chart1.ChartAreas["Chart Area 3"];
+            // Remove all chart areas from the collection
+            Chart1.ChartAreas.Clear();
 
-			// Remove all chart areas from the collection
-			Chart1.ChartAreas.Clear();
+            // Create references to series
+            Series[] series = new Series[6];
+            series[0] = Chart1.Series["Series1"];
+            series[1] = Chart1.Series["Series2"];
+            series[2] = Chart1.Series["Series3"];
+            series[3] = Chart1.Series["Series4"];
+            series[4] = Chart1.Series["Series5"];
+            series[5] = Chart1.Series["Series6"];
 
-			// Create references to series
-			Series [] series = new Series[6];
-			series[0] = Chart1.Series["Series1"];
-			series[1] = Chart1.Series["Series2"];
-			series[2] = Chart1.Series["Series3"];
-			series[3] = Chart1.Series["Series4"];
-			series[4] = Chart1.Series["Series5"];
-			series[5] = Chart1.Series["Series6"];
+            // Remove all series from the collection
+            Chart1.Series.Clear();
 
-			// Remove all series from the collection
-			Chart1.Series.Clear();
+            // Selected item from check box
+            switch (SelectedArea.SelectedIndex)
+            {
+                case 0:
+                    // Add chart areas to the collection in selected order
+                    Chart1.ChartAreas.Add(areas[0]);
+                    Chart1.ChartAreas.Add(areas[1]);
+                    Chart1.ChartAreas.Add(areas[2]);
+                    break;
 
-			// Selected item from check box
-			switch( SelectedArea.SelectedIndex )
-			{
-				case 0:
-					// Add chart areas to the collection in selected order
-					Chart1.ChartAreas.Add(areas[0]);
-					Chart1.ChartAreas.Add(areas[1]);
-					Chart1.ChartAreas.Add(areas[2]);
-					break;
-				case 1:
-					Chart1.ChartAreas.Add(areas[0]);
-					Chart1.ChartAreas.Add(areas[2]);
-					Chart1.ChartAreas.Add(areas[1]);
-					break;
-				case 2:
-					Chart1.ChartAreas.Add(areas[1]);
-					Chart1.ChartAreas.Add(areas[0]);
-					Chart1.ChartAreas.Add(areas[2]);
-					break;
-				case 3:
-					Chart1.ChartAreas.Add(areas[1]);
-					Chart1.ChartAreas.Add(areas[2]);
-					Chart1.ChartAreas.Add(areas[0]);
-					break;
-				case 4:
-					Chart1.ChartAreas.Add(areas[2]);
-					Chart1.ChartAreas.Add(areas[0]);
-					Chart1.ChartAreas.Add(areas[1]);
-					break;
-				case 5:
-					Chart1.ChartAreas.Add(areas[2]);
-					Chart1.ChartAreas.Add(areas[1]);
-					Chart1.ChartAreas.Add(areas[0]);
-					break;
-			}
+                case 1:
+                    Chart1.ChartAreas.Add(areas[0]);
+                    Chart1.ChartAreas.Add(areas[2]);
+                    Chart1.ChartAreas.Add(areas[1]);
+                    break;
 
-			// Add series to the collection in selected order
-			if( SelectedSeries.SelectedIndex == 0 )
-			{
-				Chart1.Series.Add(series[0]);
-				Chart1.Series.Add(series[1]);
-				Chart1.Series.Add(series[2]);
-				Chart1.Series.Add(series[3]);
-				Chart1.Series.Add(series[4]);
-				Chart1.Series.Add(series[5]);
-			}
-			else
-			{
-				Chart1.Series.Add(series[1]);
-				Chart1.Series.Add(series[0]);
-				Chart1.Series.Add(series[3]);
-				Chart1.Series.Add(series[2]);
-				Chart1.Series.Add(series[5]);
-				Chart1.Series.Add(series[4]);
-			}
-		}
+                case 2:
+                    Chart1.ChartAreas.Add(areas[1]);
+                    Chart1.ChartAreas.Add(areas[0]);
+                    Chart1.ChartAreas.Add(areas[2]);
+                    break;
 
-		private void label1_Click(object sender, System.EventArgs e)
-		{
-		
-		}
+                case 3:
+                    Chart1.ChartAreas.Add(areas[1]);
+                    Chart1.ChartAreas.Add(areas[2]);
+                    Chart1.ChartAreas.Add(areas[0]);
+                    break;
 
-		private void Chart1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			if(e.X != 0 && e.Y != 0)
-			{
-				int selected = 0;
+                case 4:
+                    Chart1.ChartAreas.Add(areas[2]);
+                    Chart1.ChartAreas.Add(areas[0]);
+                    Chart1.ChartAreas.Add(areas[1]);
+                    break;
 
-				// Create references to chart areas.
-				ChartArea [] areas = new ChartArea[3];
-				areas[0] = Chart1.ChartAreas[0];
-				areas[1] = Chart1.ChartAreas[1];
-				areas[2] = Chart1.ChartAreas[2];
-				
-				// Conver pixels to percentage coordinates
-				double X = e.X * 100F / ((float)(Chart1.Width - 1));
-				double Y = e.Y * 100F / ((float)(Chart1.Height - 1)); 
+                case 5:
+                    Chart1.ChartAreas.Add(areas[2]);
+                    Chart1.ChartAreas.Add(areas[1]);
+                    Chart1.ChartAreas.Add(areas[0]);
+                    break;
+            }
 
-				// Find which chart area is selected.
-				if( areas[0].Position.ToRectangleF().Contains((float)X,(float)Y) )
-				{
-					selected = 0;
-				}
-				else if( areas[1].Position.ToRectangleF().Contains((float)X,(float)Y) )
-				{
-					selected = 1;
-				}
-				else if( areas[2].Position.ToRectangleF().Contains((float)X,(float)Y) )
-				{
-					selected = 2;
-				}
+            // Add series to the collection in selected order
+            if (SelectedSeries.SelectedIndex == 0)
+            {
+                Chart1.Series.Add(series[0]);
+                Chart1.Series.Add(series[1]);
+                Chart1.Series.Add(series[2]);
+                Chart1.Series.Add(series[3]);
+                Chart1.Series.Add(series[4]);
+                Chart1.Series.Add(series[5]);
+            }
+            else
+            {
+                Chart1.Series.Add(series[1]);
+                Chart1.Series.Add(series[0]);
+                Chart1.Series.Add(series[3]);
+                Chart1.Series.Add(series[2]);
+                Chart1.Series.Add(series[5]);
+                Chart1.Series.Add(series[4]);
+            }
+        }
 
-				// Change selected item from combo box.
-				if( areas[selected].Name == "Default" )
-					SelectedArea.SelectedIndex = 5;
-				else if( areas[selected].Name == "Chart Area 2" )
-					SelectedArea.SelectedIndex = 1;
-				else if( areas[selected].Name == "Chart Area 3" )
-					SelectedArea.SelectedIndex = 0;
+        private void label1_Click(object sender, System.EventArgs e)
+        {
+        }
 
+        private void Chart1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.X != 0 && e.Y != 0)
+            {
+                int selected = 0;
 
-			}
-		}
+                // Create references to chart areas.
+                ChartArea[] areas = new ChartArea[3];
+                areas[0] = Chart1.ChartAreas[0];
+                areas[1] = Chart1.ChartAreas[1];
+                areas[2] = Chart1.ChartAreas[2];
 
-		private void Chart1_Click(object sender, System.EventArgs e)
-		{
-		
-		}
+                // Conver pixels to percentage coordinates
+                double X = e.X * 100F / ((float)(Chart1.Width - 1));
+                double Y = e.Y * 100F / ((float)(Chart1.Height - 1));
 
-		
-	}
+                // Find which chart area is selected.
+                if (areas[0].Position.ToRectangleF().Contains((float)X, (float)Y))
+                {
+                    selected = 0;
+                }
+                else if (areas[1].Position.ToRectangleF().Contains((float)X, (float)Y))
+                {
+                    selected = 1;
+                }
+                else if (areas[2].Position.ToRectangleF().Contains((float)X, (float)Y))
+                {
+                    selected = 2;
+                }
+
+                // Change selected item from combo box.
+                if (areas[selected].Name == "Default")
+                    SelectedArea.SelectedIndex = 5;
+                else if (areas[selected].Name == "Chart Area 2")
+                    SelectedArea.SelectedIndex = 1;
+                else if (areas[selected].Name == "Chart Area 3")
+                    SelectedArea.SelectedIndex = 0;
+            }
+        }
+
+        private void Chart1_Click(object sender, System.EventArgs e)
+        {
+        }
+    }
 }

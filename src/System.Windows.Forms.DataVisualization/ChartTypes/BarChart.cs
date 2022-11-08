@@ -47,10 +47,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     #endregion Bar label style enumeration
 
     /// <summary>
-    /// BarChart class contains all the code necessary to draw 
-    /// both Bar and RangeBar charts. The RangeBarChart class is used 
-    /// to override few default settings, so that 2 Y values 
-    /// will be used to define left and right position of each bar.
+    /// BarChart class contains all the code necessary to draw
+   /// both Bar and RangeBar charts. The RangeBarChart class is used
+   /// to override few default settings, so that 2 Y values
+   /// will be used to define left and right position of each bar.
     /// </summary>
     internal class RangeBarChart : BarChart
     {
@@ -79,16 +79,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         { get { return ChartTypeNames.RangeBar; } }
 
         /// <summary>
-        /// If the crossing value is auto Crossing value should be 
-        /// automatically set to zero for some chart 
-        /// types (Bar, column, area etc.)
+        /// If the crossing value is auto Crossing value should be
+       /// automatically set to zero for some chart
+       /// types (Bar, column, area etc.)
         /// </summary>
         public override bool ZeroCrossing
         { get { return true; } }
 
         /// <summary>
-        /// Number of supported Y value(s) per point 
-        /// </summary>
+        /// Number of supported Y value(s) per point
+       /// </summary>
         public override int YValuesPerPoint
         { get { return 2; } }
 
@@ -102,11 +102,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     }
 
     /// <summary>
-    /// BarChart class provides 2D/3D drawing and hit testing 
-    /// functionality for the Bar and RangeBar charts. The only 
-    /// difference between the RangeBar and Bar chart is that 
-    /// 2 Y values are used to position left and right side 
-    /// of each RangeBar bar.
+    /// BarChart class provides 2D/3D drawing and hit testing
+   /// functionality for the Bar and RangeBar charts. The only
+   /// difference between the RangeBar and Bar chart is that
+   /// 2 Y values are used to position left and right side
+   /// of each RangeBar bar.
     /// </summary>
     internal class BarChart : IChartType
     {
@@ -176,8 +176,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         { get { return false; } }
 
         /// <summary>
-        /// True if stacked chart type should draw separately positive and 
-        /// negative data points ( Bar and column Stacked types ).
+        /// True if stacked chart type should draw separately positive and
+       /// negative data points ( Bar and column Stacked types ).
         /// </summary>
         public bool StackSign
         { get { return false; } }
@@ -219,9 +219,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         { get { return true; } }
 
         /// <summary>
-        /// If the crossing value is auto Crossing value should be 
-        /// automatically set to zero for some chart 
-        /// types (Bar, column, area etc.)
+        /// If the crossing value is auto Crossing value should be
+       /// automatically set to zero for some chart
+       /// types (Bar, column, area etc.)
         /// </summary>
         public virtual bool ZeroCrossing
         { get { return true; } }
@@ -271,8 +271,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Number of supported Y value(s) per point 
-        /// </summary>
+        /// Number of supported Y value(s) per point
+       /// </summary>
         public virtual int YValuesPerPoint
         { get { return 1; } }
 
@@ -507,8 +507,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     double xPosition = 0;
                     if (indexedSeries)
                     {
-                        // The formula for position is based on a distance 
-                        // from the grid line or nPoints position.
+                        // The formula for position is based on a distance
+                       // from the grid line or nPoints position.
                         xPosition = vAxis.GetPosition((double)pointIndex + 1) - width * numOfSeries / 2.0 + width / 2 + seriesIndx * width;
                     }
                     else if (sameInterval)
@@ -540,8 +540,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         rectSize.Y = (float)(xPosition - width / 2);
                         rectSize.Height = (float)width;
 
-                        // The left side of rectangle has always 
-                        // smaller value than a right value
+                        // The left side of rectangle has always
+                       // smaller value than a right value
                         if (barStartPosition < barSize)
                         {
                             rectSize.X = (float)barStartPosition;
@@ -583,8 +583,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             bool clipRegionSet = false;
                             if (rectSize.Y < area.PlotAreaPosition.Y || rectSize.Bottom > area.PlotAreaPosition.Bottom)
                             {
-                                // Set clipping region for line drawing 
-                                graph.SetClip(area.PlotAreaPosition.ToRectangleF());
+                                // Set clipping region for line drawing
+                               graph.SetClip(area.PlotAreaPosition.ToRectangleF());
                                 clipRegionSet = true;
                             }
 
@@ -652,8 +652,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
 
                     //************************************************************
-                    // Hot Regions mode used for image maps, tool tips and 
-                    // hit test function
+                    // Hot Regions mode used for image maps, tool tips and
+                   // hit test function
                     //************************************************************
                     if (common.ProcessModeRegions && !common.ProcessModePaint)
                     {
@@ -816,8 +816,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 using StringFormat format = new StringFormat();
 
                 //************************************************************
-                // Get label text 
-                //************************************************************
+                // Get label text
+               //************************************************************
                 string text;
                 if (point.Label.Length == 0)
                 {
@@ -836,8 +836,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
 
                 //************************************************************
-                // Check labels style custom properties 
-                //************************************************************
+                // Check labels style custom properties
+               //************************************************************
                 BarValueLabelDrawingStyle drawingStyle = defLabelDrawingStyle;
                 string valueLabelAttrib = "";
                 if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
@@ -945,8 +945,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             format.Alignment = StringAlignment.Far;
                     }
 
-                    // Make sure value label fits rectangle. 
-                    SizeF valueTextSize = graph.MeasureStringRel(text, point.Font);
+                    // Make sure value label fits rectangle.
+                   SizeF valueTextSize = graph.MeasureStringRel(text, point.Font);
                     if (!labelSwitched &&
                         !labelSwitchedBack &&
                         valueTextSize.Width > rectLabel.Width - 1)
@@ -1067,8 +1067,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Inserts Hot Regions used for image maps, tool tips and 
-        /// hit test function
+        /// Inserts Hot Regions used for image maps, tool tips and
+       /// hit test function
         /// </summary>
         /// <param name="common">Common elements object</param>
         /// <param name="graph">Chart Graphics object</param>
@@ -1168,10 +1168,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// This method will find previous and next data point, which is not 
-        /// empty and recalculate a new value for current empty data point. 
-        /// New value depends on custom attribute “EmptyPointValue” and 
-        /// it could be zero or average.
+        /// This method will find previous and next data point, which is not
+       /// empty and recalculate a new value for current empty data point.
+       /// New value depends on custom attribute “EmptyPointValue” and
+       /// it could be zero or average.
         /// </summary>
         /// <param name="point">IsEmpty data point.</param>
         /// <param name="pointIndex">IsEmpty data point index.</param>
@@ -1443,8 +1443,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     rectSize.Y = (float)(xPosition - pointEx.width / 2);
                     rectSize.Height = (float)pointEx.width;
 
-                    // The left side of rectangle has always 
-                    // smaller value than a right value
+                    // The left side of rectangle has always
+                   // smaller value than a right value
                     if (barStartPosition < barSize)
                     {
                         rectSize.X = (float)barStartPosition;
@@ -1558,8 +1558,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
 
                 //************************************************************
-                // Hot Regions mode used for image maps, tool tips and 
-                // hit test function
+                // Hot Regions mode used for image maps, tool tips and
+               // hit test function
                 //************************************************************
                 if (common.ProcessModeRegions)
                 {
@@ -1639,8 +1639,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         rectSize.Y = (float)(xPosition - pointEx.width / 2);
                         rectSize.Height = (float)pointEx.width;
 
-                        // The left side of rectangle has always 
-                        // smaller value than a right value
+                        // The left side of rectangle has always
+                       // smaller value than a right value
                         if (barStartPosition < barSize)
                         {
                             rectSize.X = (float)barStartPosition;
@@ -1808,8 +1808,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 using StringFormat format = new StringFormat();
 
                 //************************************************************
-                // Get label text 
-                //************************************************************
+                // Get label text
+               //************************************************************
                 string text;
                 if (point.Label.Length == 0)
                 {
@@ -1850,8 +1850,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
 
                 //************************************************************
-                // Check labels style custom properties 
-                //************************************************************
+                // Check labels style custom properties
+               //************************************************************
                 BarValueLabelDrawingStyle drawingStyle = defLabelDrawingStyle;
                 string valueLabelAttrib = "";
                 if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
@@ -1952,8 +1952,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             format.Alignment = StringAlignment.Far;
                     }
 
-                    // Make sure value label fits rectangle. 
-                    SizeF valueTextSize = graph.MeasureStringRel(text, point.Font);
+                    // Make sure value label fits rectangle.
+                   SizeF valueTextSize = graph.MeasureStringRel(text, point.Font);
                     if (!labelSwitched &&
                         !labelSwitchedBack &&
                         valueTextSize.Width > rectLabel.Width)
@@ -2135,8 +2135,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            //Nothing to dispose at the base class. 
-        }
+            //Nothing to dispose at the base class.
+       }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -2153,13 +2153,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     #region Points drawing order comparer class
 
     /// <summary>
-    /// Chart 3D engine relies on the data point drawing order 
-    /// to achieve correct visual appearance. All data points 
-    /// have to be drawn in the correct order depending on the 
-    /// 3D angles, perspective and the depth of the series.
-    /// 
-    /// BarPointsDrawingOrderComparer class is used sort data 
-    /// points of the Bar chart type.
+    /// Chart 3D engine relies on the data point drawing order
+   /// to achieve correct visual appearance. All data points
+   /// have to be drawn in the correct order depending on the
+   /// 3D angles, perspective and the depth of the series.
+    ///
+   /// BarPointsDrawingOrderComparer class is used sort data
+   /// points of the Bar chart type.
     /// </summary>
     internal class BarPointsDrawingOrderComparer : IComparer
     {

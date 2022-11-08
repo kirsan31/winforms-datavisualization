@@ -1,58 +1,55 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AnnotationEditing.
-	/// </summary>
-	public class AnnotationEditing : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.CheckBox AllowTextEditingCheck;
-		private System.Windows.Forms.CheckBox VisibleCheck;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AnnotationEditing.
+    /// </summary>
+    public class AnnotationEditing : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.CheckBox AllowTextEditingCheck;
+        private System.Windows.Forms.CheckBox VisibleCheck;
 
-		public AnnotationEditing()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			((CalloutAnnotation)Chart1.Annotations["ElipseAnnotation"]).IsMultiline = true;
+        public AnnotationEditing()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		}
+            ((CalloutAnnotation)Chart1.Annotations["ElipseAnnotation"]).IsMultiline = true;
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation calloutAnnotation1 = new System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -76,10 +73,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 34);
@@ -87,19 +84,19 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to enable and disable text editing for an annotation" +
                 ".  Double-click on the Annotation object to begin editing the text.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.VisibleCheck);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.VisibleCheck);
             this.panel1.Controls.Add(this.AllowTextEditingCheck);
             this.panel1.Location = new System.Drawing.Point(432, 68);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 19;
-            // 
-            // VisibleCheck
-            // 
-            this.VisibleCheck.Checked = true;
+            //
+           // VisibleCheck
+            //
+           this.VisibleCheck.Checked = true;
             this.VisibleCheck.CheckState = System.Windows.Forms.CheckState.Checked;
             this.VisibleCheck.Location = new System.Drawing.Point(48, 8);
             this.VisibleCheck.Name = "VisibleCheck";
@@ -107,10 +104,10 @@ namespace ChartSamples
             this.VisibleCheck.TabIndex = 1;
             this.VisibleCheck.Text = "Annotation &Visible";
             this.VisibleCheck.CheckedChanged += new System.EventHandler(this.VisibleCheck_CheckedChanged);
-            // 
-            // AllowTextEditingCheck
-            // 
-            this.AllowTextEditingCheck.Checked = true;
+            //
+           // AllowTextEditingCheck
+            //
+           this.AllowTextEditingCheck.Checked = true;
             this.AllowTextEditingCheck.CheckState = System.Windows.Forms.CheckState.Checked;
             this.AllowTextEditingCheck.Location = new System.Drawing.Point(48, 40);
             this.AllowTextEditingCheck.Name = "AllowTextEditingCheck";
@@ -118,10 +115,10 @@ namespace ChartSamples
             this.AllowTextEditingCheck.TabIndex = 0;
             this.AllowTextEditingCheck.Text = "Allow &Multiline Text Editing";
             this.AllowTextEditingCheck.CheckedChanged += new System.EventHandler(this.Enabled_CheckedChanged);
-            // 
-            // Chart1
-            // 
-            calloutAnnotation1.AllowTextEditing = true;
+            //
+           // Chart1
+            //
+           calloutAnnotation1.AllowTextEditing = true;
             calloutAnnotation1.AnchorDataPointName = "Default\\r2";
             calloutAnnotation1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             calloutAnnotation1.CalloutStyle = System.Windows.Forms.DataVisualization.Charting.CalloutStyle.Ellipse;
@@ -251,10 +248,10 @@ namespace ChartSamples
             this.Chart1.TabIndex = 0;
             this.Chart1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Chart1_KeyDown);
             this.Chart1.Click += new System.EventHandler(this.Chart1_Click);
-            // 
-            // AnnotationEditing
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // AnnotationEditing
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
@@ -264,36 +261,31 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void Enabled_CheckedChanged(object sender, System.EventArgs e)
+        {
+            ((CalloutAnnotation)Chart1.Annotations["ElipseAnnotation"]).IsMultiline = AllowTextEditingCheck.Checked;
+        }
 
-		private void Enabled_CheckedChanged(object sender, System.EventArgs e)
-		{
-			((CalloutAnnotation)Chart1.Annotations["ElipseAnnotation"]).IsMultiline = AllowTextEditingCheck.Checked;
+        private void Chart1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Chart1.Annotations[0].ResizeToContent();
+            }
+        }
 
-		}
+        private void Chart1_Click(object sender, System.EventArgs e)
+        {
+            Chart1.Focus();
+        }
 
-		private void Chart1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
-		{
-			if(e.KeyCode == Keys.Enter)
-			{
-				Chart1.Annotations[0].ResizeToContent();
-			}
-		
-		}
-
-		private void Chart1_Click(object sender, System.EventArgs e)
-		{
-			Chart1.Focus();
-		}
-
-		private void VisibleCheck_CheckedChanged(object sender, System.EventArgs e)
-		{
-			Chart1.Annotations[0].Visible = VisibleCheck.Checked;
-		}
-
-
-	}
+        private void VisibleCheck_CheckedChanged(object sender, System.EventArgs e)
+        {
+            Chart1.Annotations[0].Visible = VisibleCheck.Checked;
+        }
+    }
 }

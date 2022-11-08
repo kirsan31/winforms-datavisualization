@@ -3,13 +3,13 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 Private Sub AddButton_Click(sender As Object, e As System.EventArgs)
    Dim rnd As New Random()
-   
-   Dim series As Series = Chart1.Series.Add("Series 1")
+  
+  Dim series As Series = Chart1.Series.Add("Series 1")
    series.ChartArea = "Default"
    series.ChartType = SeriesChartType.Spline;
    series.BorderWidth = 2
-   
-   Dim j As Integer = 0
+  
+  Dim j As Integer = 0
    Dim MaxPoints As Integer = 10
    While j ++ < MaxPoints
       series.Points.Add(rnd.Next(5, 20))

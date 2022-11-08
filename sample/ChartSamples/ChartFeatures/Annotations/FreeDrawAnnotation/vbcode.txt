@@ -33,13 +33,13 @@ Private Sub UndoButton_Click(sender As Object, e As System.EventArgs)
          ' Uncheck the drawing mode button, which will cause
          ' the end placement method to be called for the check changed event
          DrawingMode.Checked = False
-         
-         ' Call self to remove the annotation... as simply removing the 
-         ' annotation does not work 
-         UndoButton_Click(sender, e)
+        
+        ' Call self to remove the annotation... as simply removing the
+        ' annotation does not work
+        UndoButton_Click(sender, e)
       End If
-      
-      ' Remove the last annotation object that was added
+     
+     ' Remove the last annotation object that was added
       Chart1.Annotations.Remove(Chart1.Annotations((Chart1.Annotations.Count - 1)))
    End If
 End Sub 'UndoButton_Click

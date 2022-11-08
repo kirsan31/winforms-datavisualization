@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "Labels" Priority="400">
-  <Title>Formatting Labels</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Formatting Labels</ShortBlurb> 
-  <SampleControl>LabelsFormatting</SampleControl> 
-  <InfoPages>
+  <Title>Formatting Labels</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Formatting Labels</ShortBlurb>
+ <SampleControl>LabelsFormatting</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -16,7 +16,5 @@
 	<Keyword>Axis, Labels formatting</Keyword>
 	<Keyword>Formatting, Labels</Keyword>
   </Keywords>    
-
 </SampleConfig>
-
 </SampleConfigs>

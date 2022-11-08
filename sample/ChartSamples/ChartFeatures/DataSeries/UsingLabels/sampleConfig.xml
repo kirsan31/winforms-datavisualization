@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "DataSeries">
-  <Title>Using Labels</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Setting Data Labels Appearance</ShortBlurb> 
-  <SampleControl>UsingLabels</SampleControl> 
-  <InfoPages>
+  <Title>Using Labels</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Setting Data Labels Appearance</ShortBlurb>
+ <SampleControl>UsingLabels</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -16,7 +16,5 @@
     <Keyword>Data Label, Appearance</Keyword>
     <Keyword>Point labels</Keyword>
   </Keywords>    
-
 </SampleConfig>
-
 </SampleConfigs>

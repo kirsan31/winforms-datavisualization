@@ -1,75 +1,72 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for StripIntervals.
-	/// </summary>
-	public class StripIntervals : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox StripWidth;
-		private System.Windows.Forms.ComboBox IntervalOffset;
-		private System.Windows.Forms.ComboBox IntervalType;
-		private System.Windows.Forms.ComboBox IntervalOffsetType;
-		private System.Windows.Forms.ComboBox StripWidthType;
+    /// <summary>
+    /// Summary description for StripIntervals.
+    /// </summary>
+    public class StripIntervals : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox StripWidth;
+        private System.Windows.Forms.ComboBox IntervalOffset;
+        private System.Windows.Forms.ComboBox IntervalType;
+        private System.Windows.Forms.ComboBox IntervalOffsetType;
+        private System.Windows.Forms.ComboBox StripWidthType;
         private System.Windows.Forms.ComboBox StripInterval;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
 
-		public StripIntervals()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
-			
-			FillData();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			this.StripWidth.SelectedIndex = 1;
-			this.IntervalOffset.SelectedIndex = 0;
-			this.IntervalType.SelectedIndex = 0;
-			this.IntervalOffsetType.SelectedIndex = 0;
-			this.StripWidthType.SelectedIndex = 0;
-			this.StripInterval.SelectedIndex = 0;
-		}
+        public StripIntervals()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            FillData();
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+            this.StripWidth.SelectedIndex = 1;
+            this.IntervalOffset.SelectedIndex = 0;
+            this.IntervalType.SelectedIndex = 0;
+            this.IntervalOffsetType.SelectedIndex = 0;
+            this.StripWidthType.SelectedIndex = 0;
+            this.StripInterval.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.StripLine stripLine1 = new System.Windows.Forms.DataVisualization.Charting.StripLine();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -92,10 +89,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // StripWidth
-            // 
-            this.StripWidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // StripWidth
+            //
+           this.StripWidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.StripWidth.Items.AddRange(new object[] {
             "0",
             "1",
@@ -105,10 +102,10 @@ namespace ChartSamples
             this.StripWidth.Size = new System.Drawing.Size(121, 22);
             this.StripWidth.TabIndex = 4;
             this.StripWidth.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // IntervalOffset
-            // 
-            this.IntervalOffset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // IntervalOffset
+            //
+           this.IntervalOffset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.IntervalOffset.Items.AddRange(new object[] {
             "1",
             "2"});
@@ -117,10 +114,10 @@ namespace ChartSamples
             this.IntervalOffset.Size = new System.Drawing.Size(121, 22);
             this.IntervalOffset.TabIndex = 2;
             this.IntervalOffset.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // IntervalType
-            // 
-            this.IntervalType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // IntervalType
+            //
+           this.IntervalType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.IntervalType.Items.AddRange(new object[] {
             "Weeks",
             "Months"});
@@ -129,10 +126,10 @@ namespace ChartSamples
             this.IntervalType.Size = new System.Drawing.Size(121, 22);
             this.IntervalType.TabIndex = 1;
             this.IntervalType.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // IntervalOffsetType
-            // 
-            this.IntervalOffsetType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // IntervalOffsetType
+            //
+           this.IntervalOffsetType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.IntervalOffsetType.Items.AddRange(new object[] {
             "Days",
             "Weeks"});
@@ -141,46 +138,46 @@ namespace ChartSamples
             this.IntervalOffsetType.Size = new System.Drawing.Size(121, 22);
             this.IntervalOffsetType.TabIndex = 3;
             this.IntervalOffsetType.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(14, 139);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(14, 139);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(152, 16);
             this.label5.TabIndex = 13;
             this.label5.Text = "Strip &Width:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(14, 43);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(14, 43);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(152, 16);
             this.label6.TabIndex = 14;
             this.label6.Text = "Interval &Type:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(14, 75);
+            //
+           // label7
+            //
+           this.label7.Location = new System.Drawing.Point(14, 75);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(152, 16);
             this.label7.TabIndex = 15;
             this.label7.Text = "&Offset:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(14, 107);
+            //
+           // label8
+            //
+           this.label8.Location = new System.Drawing.Point(14, 107);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(152, 16);
             this.label8.TabIndex = 16;
             this.label8.Text = "Offset T&ype:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 43);
@@ -188,10 +185,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to set the offset, interval, strip width, and width " +
                 "type of a StripLine object.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.label2);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.StripWidthType);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.StripInterval);
@@ -207,19 +204,19 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 0;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(14, 171);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(14, 171);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(152, 16);
             this.label2.TabIndex = 28;
             this.label2.Text = "Width Ty&pe:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // StripWidthType
-            // 
-            this.StripWidthType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // StripWidthType
+            //
+           this.StripWidthType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.StripWidthType.Items.AddRange(new object[] {
             "Days",
             "Weeks"});
@@ -228,19 +225,19 @@ namespace ChartSamples
             this.StripWidthType.Size = new System.Drawing.Size(121, 22);
             this.StripWidthType.TabIndex = 5;
             this.StripWidthType.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(14, 11);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(14, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(152, 16);
             this.label1.TabIndex = 18;
             this.label1.Text = "&Interval:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // StripInterval
-            // 
-            this.StripInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // StripInterval
+            //
+           this.StripInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.StripInterval.Items.AddRange(new object[] {
             "1",
             "2",
@@ -250,10 +247,10 @@ namespace ChartSamples
             this.StripInterval.Size = new System.Drawing.Size(121, 22);
             this.StripInterval.TabIndex = 0;
             this.StripInterval.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -307,10 +304,10 @@ namespace ChartSamples
             this.Chart1.Series.Add(series1);
             this.Chart1.Size = new System.Drawing.Size(412, 296);
             this.Chart1.TabIndex = 1;
-            // 
-            // StripIntervals
-            // 
-            this.Controls.Add(this.Chart1);
+            //
+           // StripIntervals
+            //
+           this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -320,131 +317,127 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void StripIntervals_Load(object sender, System.EventArgs e)
+        {
+        }
 
-		private void StripIntervals_Load(object sender, System.EventArgs e)
-		{
-		}
+        private void ControlSelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if (this.StripWidth.SelectedIndex >= 0)
+            {
+                this.Chart1.ChartAreas[0].AxisX.StripLines[0].StripWidth =
+                    int.Parse(this.StripWidth.SelectedItem.ToString());
+            }
 
-		private void ControlSelectedIndexChanged(object sender, System.EventArgs e)
-		{
+            if (this.StripWidthType.SelectedIndex >= 0)
+            {
+                switch (this.StripWidthType.SelectedItem.ToString())
+                {
+                    case "Days":
+                        this.Chart1.ChartAreas[0].AxisX.StripLines[0].StripWidthType = DateTimeIntervalType.Days;
+                        break;
 
-			if(this.StripWidth.SelectedIndex >= 0)
-			{
-				this.Chart1.ChartAreas[0].AxisX.StripLines[0].StripWidth = 
-					int.Parse(this.StripWidth.SelectedItem.ToString());
-			}
+                    case "Weeks":
+                        this.Chart1.ChartAreas[0].AxisX.StripLines[0].StripWidthType = DateTimeIntervalType.Weeks;
+                        break;
+                }
+            }
 
-			if(this.StripWidthType.SelectedIndex >= 0)
-			{
-				switch( this.StripWidthType.SelectedItem.ToString())
-				{
-					case "Days":
-						this.Chart1.ChartAreas[0].AxisX.StripLines[0].StripWidthType = DateTimeIntervalType.Days;
-						break;
-					case "Weeks":
-						this.Chart1.ChartAreas[0].AxisX.StripLines[0].StripWidthType = DateTimeIntervalType.Weeks;
-						break;
-				}
-			}
+            if (this.IntervalOffset.SelectedIndex >= 0)
+            {
+                this.Chart1.ChartAreas[0].AxisX.StripLines[0].IntervalOffset =
+                    int.Parse(this.IntervalOffset.SelectedItem.ToString());
+            }
 
+            if (this.IntervalOffsetType.SelectedIndex >= 0)
+            {
+                switch (this.IntervalOffsetType.SelectedItem.ToString())
+                {
+                    case "Days":
+                        this.Chart1.ChartAreas[0].AxisX.StripLines[0].IntervalOffsetType = DateTimeIntervalType.Days;
+                        break;
 
-			if(this.IntervalOffset.SelectedIndex >= 0)
-			{
-				this.Chart1.ChartAreas[0].AxisX.StripLines[0].IntervalOffset = 
-					int.Parse(this.IntervalOffset.SelectedItem.ToString());
-			}
+                    case "Weeks":
+                        this.Chart1.ChartAreas[0].AxisX.StripLines[0].IntervalOffsetType = DateTimeIntervalType.Weeks;
+                        break;
+                }
+            }
 
-			if(this.IntervalOffsetType.SelectedIndex >= 0)
-			{
-				switch( this.IntervalOffsetType.SelectedItem.ToString())
-				{
-					case "Days":
-						this.Chart1.ChartAreas[0].AxisX.StripLines[0].IntervalOffsetType = DateTimeIntervalType.Days;
-						break;
-					case "Weeks":
-						this.Chart1.ChartAreas[0].AxisX.StripLines[0].IntervalOffsetType = DateTimeIntervalType.Weeks;
-						break;
-				}
-			}
+            if (this.StripInterval.SelectedIndex >= 0)
+            {
+                this.Chart1.ChartAreas[0].AxisX.StripLines[0].Interval =
+                    int.Parse(this.StripInterval.SelectedItem.ToString());
+            }
 
-			if(this.StripInterval.SelectedIndex >= 0)
-			{
-				this.Chart1.ChartAreas[0].AxisX.StripLines[0].Interval = 
-					int.Parse(this.StripInterval.SelectedItem.ToString());
-			}
+            if (this.IntervalType.SelectedIndex >= 0)
+            {
+                switch (this.IntervalType.SelectedItem.ToString())
+                {
+                    case "Weeks":
+                        this.Chart1.ChartAreas[0].AxisX.StripLines[0].IntervalType = DateTimeIntervalType.Weeks;
+                        break;
 
-			if(this.IntervalType.SelectedIndex >= 0)
-			{
-				switch( this.IntervalType.SelectedItem.ToString())
-				{
-					case "Weeks":
-						this.Chart1.ChartAreas[0].AxisX.StripLines[0].IntervalType = DateTimeIntervalType.Weeks;
-						break;
-					case "Months":
-						this.Chart1.ChartAreas[0].AxisX.StripLines[0].IntervalType = DateTimeIntervalType.Months;
-						break;
-				}
-			}
-		}
+                    case "Months":
+                        this.Chart1.ChartAreas[0].AxisX.StripLines[0].IntervalType = DateTimeIntervalType.Months;
+                        break;
+                }
+            }
+        }
 
-		private void FillData()
-		{
-			Random rand;
-			// Use a number to calculate a starting value for 
-			// the pseudo-random number sequence
-			rand = new Random();
-			
-			// The number of days for stock data
-			int period = 120;
+        private void FillData()
+        {
+            Random rand;
+            // Use a number to calculate a starting value for
+           // the pseudo-random number sequence
+            rand = new Random();
 
-			// The first High value
-			double high = rand.NextDouble() * 40;
+            // The number of days for stock data
+            int period = 120;
 
-			// The first Close value
-			double close = high - rand.NextDouble();
+            // The first High value
+            double high = rand.NextDouble() * 40;
 
-			// The first Low value
-			double low = close - rand.NextDouble();
+            // The first Close value
+            double close = high - rand.NextDouble();
 
-			// The first Open value
-			double open = ( high - low ) * rand.NextDouble() + low;
+            // The first Low value
+            double low = close - rand.NextDouble();
 
-			// The first day X and Y values
-			Chart1.Series[0].Points.AddXY(DateTime.Parse("1/2/2002"), high);
-			Chart1.Series[0].Points[0].YValues[1] = low;
+            // The first Open value
+            double open = (high - low) * rand.NextDouble() + low;
 
-			// The Open value is not used.
-			Chart1.Series[0].Points[0].YValues[2] = open;
-			Chart1.Series[0].Points[0].YValues[3] = close;
-			
-			// Days loop
-			for( int day = 1; day <= period; day++ )
-			{
-			
-				// Calculate High, Low and Close values
-				high = Chart1.Series[0].Points[day-1].YValues[2]+rand.NextDouble();
-				close = high - rand.NextDouble();
-				low = close - rand.NextDouble();
-				open = ( high - low ) * rand.NextDouble() + low;
-				
-				// The low cannot be less than yesterday close value.
-				if( low > Chart1.Series[0].Points[day-1].YValues[2])
-					low = Chart1.Series[0].Points[day-1].YValues[2];
-							
-				// Set data points values
-				Chart1.Series[0].Points.AddXY(day, high);
-				Chart1.Series[0].Points[day].XValue = Chart1.Series[0].Points[day-1].XValue+1;
-				Chart1.Series[0].Points[day].YValues[1] = low;
-				Chart1.Series[0].Points[day].YValues[2] = open;
-				Chart1.Series[0].Points[day].YValues[3] = close;
+            // The first day X and Y values
+            Chart1.Series[0].Points.AddXY(DateTime.Parse("1/2/2002"), high);
+            Chart1.Series[0].Points[0].YValues[1] = low;
 
-			}
-		}
+            // The Open value is not used.
+            Chart1.Series[0].Points[0].YValues[2] = open;
+            Chart1.Series[0].Points[0].YValues[3] = close;
 
+            // Days loop
+            for (int day = 1; day <= period; day++)
+            {
+                // Calculate High, Low and Close values
+                high = Chart1.Series[0].Points[day - 1].YValues[2] + rand.NextDouble();
+                close = high - rand.NextDouble();
+                low = close - rand.NextDouble();
+                open = (high - low) * rand.NextDouble() + low;
 
-	}
+                // The low cannot be less than yesterday close value.
+                if (low > Chart1.Series[0].Points[day - 1].YValues[2])
+                    low = Chart1.Series[0].Points[day - 1].YValues[2];
+
+                // Set data points values
+                Chart1.Series[0].Points.AddXY(day, high);
+                Chart1.Series[0].Points[day].XValue = Chart1.Series[0].Points[day - 1].XValue + 1;
+                Chart1.Series[0].Points[day].YValues[1] = low;
+                Chart1.Series[0].Points[day].YValues[2] = open;
+                Chart1.Series[0].Points[day].YValues[3] = close;
+            }
+        }
+    }
 }

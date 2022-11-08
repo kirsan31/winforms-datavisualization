@@ -1,64 +1,61 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for TechnicalPriceIndicators.
-	/// </summary>
-	public class MultiChartAreaCursor : System.Windows.Forms.UserControl
-	{
-		private	int		randSeed = 0;
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for TechnicalPriceIndicators.
+    /// </summary>
+    public class MultiChartAreaCursor : System.Windows.Forms.UserControl
+    {
+        private int randSeed = 0;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
 
-		public MultiChartAreaCursor()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// First set the ChartArea.InnerPlotPosition property.
-			chart1.ChartAreas["Default"].InnerPlotPosition.Auto = true;
-			chart1.ChartAreas["Volume"].InnerPlotPosition.Auto = true;
+        public MultiChartAreaCursor()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// Set the alignment properties so the "Volume" chart area will allign to "Default"
-			chart1.ChartAreas["Volume"].AlignmentOrientation = AreaAlignmentOrientations.Vertical;
-			chart1.ChartAreas["Volume"].AlignmentStyle = AreaAlignmentStyles.All;
-			chart1.ChartAreas["Volume"].AlignWithChartArea = "Default";
-		}
+            // First set the ChartArea.InnerPlotPosition property.
+            chart1.ChartAreas["Default"].InnerPlotPosition.Auto = true;
+            chart1.ChartAreas["Volume"].InnerPlotPosition.Auto = true;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            // Set the alignment properties so the "Volume" chart area will allign to "Default"
+            chart1.ChartAreas["Volume"].AlignmentOrientation = AreaAlignmentOrientations.Vertical;
+            chart1.ChartAreas["Volume"].AlignmentStyle = AreaAlignmentStyles.All;
+            chart1.ChartAreas["Volume"].AlignWithChartArea = "Default";
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -69,10 +66,10 @@ namespace ChartSamples
             this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -179,10 +176,10 @@ namespace ChartSamples
             this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(412, 296);
             this.chart1.TabIndex = 0;
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 14);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 43);
@@ -190,17 +187,17 @@ namespace ChartSamples
             this.labelSampleComment.Text = "This sample demonstrates how to use the alignment properties in the ChartArea obj" +
                 "ect to synchronize the cursor of two chart areas.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(432, 73);
+            //
+           // panel1
+            //
+           this.panel1.Location = new System.Drawing.Point(432, 73);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 1;
-            // 
-            // MultiChartAreaCursor
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // MultiChartAreaCursor
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
@@ -210,85 +207,83 @@ namespace ChartSamples
             this.Load += new System.EventHandler(this.TemplateSampleControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		/// <summary>
-		/// Random Stock Data Generator
-		/// </summary>
-		/// <param name="series">Data series</param>
-		private void Data( Series series )
-		{
-			Random rand;
-			// Use a number to calculate a starting value for 
-			// the pseudo-random number sequence
-			rand = new Random(randSeed);
-			
-			// The number of days for stock data
-			int period = 100;
+        /// <summary>
+        /// Random Stock Data Generator
+        /// </summary>
+        /// <param name="series">Data series</param>
+        private void Data(Series series)
+        {
+            Random rand;
+            // Use a number to calculate a starting value for
+           // the pseudo-random number sequence
+            rand = new Random(randSeed);
 
-			chart1.Series["Input"].Points.Clear();
+            // The number of days for stock data
+            int period = 100;
 
-			// The first High value
-			double high = rand.NextDouble() * 40;
+            chart1.Series["Input"].Points.Clear();
 
-			// The first Close value
-			double close = high - rand.NextDouble();
+            // The first High value
+            double high = rand.NextDouble() * 40;
 
-			// The first Low value
-			double low = close - rand.NextDouble();
+            // The first Close value
+            double close = high - rand.NextDouble();
 
-			// The first Open value
-			double open = ( high - low ) * rand.NextDouble() + low;
+            // The first Low value
+            double low = close - rand.NextDouble();
 
-			// The first Volume value
-			double volume = 100 + 15 * rand.NextDouble();
-						
-			// The first day X and Y values
-			chart1.Series["Input"].Points.AddXY(DateTime.Parse("1/2/2002"), high);
-			chart1.Series["Volume"].Points.AddXY(DateTime.Parse("1/2/2002"), volume);
-			chart1.Series["Input"].Points[0].YValues[1] = low;
+            // The first Open value
+            double open = (high - low) * rand.NextDouble() + low;
 
-			// The Open value is not used.
-			chart1.Series["Input"].Points[0].YValues[2] = open;
-			chart1.Series["Input"].Points[0].YValues[3] = close;
-			
-			// Days loop
-			for( int day = 1; day <= period; day++ )
-			{
-			
-				// Calculate High, Low and Close values
-				high = chart1.Series["Input"].Points[day-1].YValues[2]+rand.NextDouble();
-				close = high - rand.NextDouble();
-				low = close - rand.NextDouble();
-				open = ( high - low ) * rand.NextDouble() + low;
+            // The first Volume value
+            double volume = 100 + 15 * rand.NextDouble();
 
-				// The Volume value
-				volume = 100 + 50 * rand.NextDouble();
-				
-				// The low cannot be less than yesterday close value.
-				if( low > chart1.Series["Input"].Points[day-1].YValues[2])
-					low = chart1.Series["Input"].Points[day-1].YValues[2];
-							
-				// Set data points values
-				chart1.Series["Input"].Points.AddXY(day, high);
-				chart1.Series["Input"].Points[day].XValue = chart1.Series["Input"].Points[day-1].XValue+1;
-				chart1.Series["Input"].Points[day].YValues[1] = low;
-				chart1.Series["Input"].Points[day].YValues[2] = open;
-				chart1.Series["Input"].Points[day].YValues[3] = close;
+            // The first day X and Y values
+            chart1.Series["Input"].Points.AddXY(DateTime.Parse("1/2/2002"), high);
+            chart1.Series["Volume"].Points.AddXY(DateTime.Parse("1/2/2002"), volume);
+            chart1.Series["Input"].Points[0].YValues[1] = low;
 
-				chart1.Series["Volume"].Points.AddXY(chart1.Series["Input"].Points[day].XValue, volume);
+            // The Open value is not used.
+            chart1.Series["Input"].Points[0].YValues[2] = open;
+            chart1.Series["Input"].Points[0].YValues[3] = close;
 
-			}
+            // Days loop
+            for (int day = 1; day <= period; day++)
+            {
+                // Calculate High, Low and Close values
+                high = chart1.Series["Input"].Points[day - 1].YValues[2] + rand.NextDouble();
+                close = high - rand.NextDouble();
+                low = close - rand.NextDouble();
+                open = (high - low) * rand.NextDouble() + low;
 
-			chart1.Invalidate();
-		}
+                // The Volume value
+                volume = 100 + 50 * rand.NextDouble();
 
-		private void TemplateSampleControl_Load(object sender, System.EventArgs e)
-		{
-			// Set random data
-			Data( chart1.Series["Input"] );
-		}
-	}
+                // The low cannot be less than yesterday close value.
+                if (low > chart1.Series["Input"].Points[day - 1].YValues[2])
+                    low = chart1.Series["Input"].Points[day - 1].YValues[2];
+
+                // Set data points values
+                chart1.Series["Input"].Points.AddXY(day, high);
+                chart1.Series["Input"].Points[day].XValue = chart1.Series["Input"].Points[day - 1].XValue + 1;
+                chart1.Series["Input"].Points[day].YValues[1] = low;
+                chart1.Series["Input"].Points[day].YValues[2] = open;
+                chart1.Series["Input"].Points[day].YValues[3] = close;
+
+                chart1.Series["Volume"].Points.AddXY(chart1.Series["Input"].Points[day].XValue, volume);
+            }
+
+            chart1.Invalidate();
+        }
+
+        private void TemplateSampleControl_Load(object sender, System.EventArgs e)
+        {
+            // Set random data
+            Data(chart1.Series["Input"]);
+        }
+    }
 }

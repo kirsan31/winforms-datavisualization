@@ -1,61 +1,57 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AnnotationPositioning.
-	/// </summary>
-	public class PositionChangedEvent : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox AnnotationX;
-		private System.Windows.Forms.TextBox AnnotationY;
-		private System.Windows.Forms.CheckBox AllowMoving;
-		private System.Windows.Forms.CheckBox ClipToChartArea;
-		private System.Windows.Forms.Label label1;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AnnotationPositioning.
+    /// </summary>
+    public class PositionChangedEvent : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox AnnotationX;
+        private System.Windows.Forms.TextBox AnnotationY;
+        private System.Windows.Forms.CheckBox AllowMoving;
+        private System.Windows.Forms.CheckBox ClipToChartArea;
+        private System.Windows.Forms.Label label1;
 
-		public PositionChangedEvent()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
-		}
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        public PositionChangedEvent()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation calloutAnnotation1 = new System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -90,20 +86,20 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 34);
             this.label9.TabIndex = 2;
             this.label9.Text = "This sample demonstrates the AnnotationPositionChanged event.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.ClipToChartArea);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.ClipToChartArea);
             this.panel1.Controls.Add(this.AnnotationY);
             this.panel1.Controls.Add(this.AnnotationX);
             this.panel1.Controls.Add(this.label2);
@@ -113,10 +109,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 1;
-            // 
-            // ClipToChartArea
-            // 
-            this.ClipToChartArea.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // ClipToChartArea
+            //
+           this.ClipToChartArea.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ClipToChartArea.Location = new System.Drawing.Point(29, 40);
             this.ClipToChartArea.Name = "ClipToChartArea";
             this.ClipToChartArea.Size = new System.Drawing.Size(152, 24);
@@ -124,47 +120,47 @@ namespace ChartSamples
             this.ClipToChartArea.Text = "&Clip To Chart Area:  ";
             this.ClipToChartArea.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ClipToChartArea.CheckedChanged += new System.EventHandler(this.ClipToChartArea_CheckedChanged);
-            // 
-            // AnnotationY
-            // 
-            this.AnnotationY.Location = new System.Drawing.Point(168, 104);
+            //
+           // AnnotationY
+            //
+           this.AnnotationY.Location = new System.Drawing.Point(168, 104);
             this.AnnotationY.Name = "AnnotationY";
             this.AnnotationY.ReadOnly = true;
             this.AnnotationY.Size = new System.Drawing.Size(40, 22);
             this.AnnotationY.TabIndex = 5;
             this.AnnotationY.Text = "0";
-            // 
-            // AnnotationX
-            // 
-            this.AnnotationX.Location = new System.Drawing.Point(168, 72);
+            //
+           // AnnotationX
+            //
+           this.AnnotationX.Location = new System.Drawing.Point(168, 72);
             this.AnnotationX.Name = "AnnotationX";
             this.AnnotationX.ReadOnly = true;
             this.AnnotationX.Size = new System.Drawing.Size(40, 22);
             this.AnnotationX.TabIndex = 3;
             this.AnnotationX.Text = "0";
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(99, 104);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(99, 104);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 23);
             this.label2.TabIndex = 4;
             this.label2.Text = "&Y:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(99, 72);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(99, 72);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(64, 23);
             this.label3.TabIndex = 2;
             this.label3.Text = "&X:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label3.Click += new System.EventHandler(this.label3_Click);
-            // 
-            // AllowMoving
-            // 
-            this.AllowMoving.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // AllowMoving
+            //
+           this.AllowMoving.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.AllowMoving.Checked = true;
             this.AllowMoving.CheckState = System.Windows.Forms.CheckState.Checked;
             this.AllowMoving.Location = new System.Drawing.Point(61, 8);
@@ -174,10 +170,10 @@ namespace ChartSamples
             this.AllowMoving.Text = "Allow &Moving:";
             this.AllowMoving.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.AllowMoving.CheckedChanged += new System.EventHandler(this.AllowMoving_CheckedChanged);
-            // 
-            // Chart1
-            // 
-            calloutAnnotation1.AllowMoving = true;
+            //
+           // Chart1
+            //
+           calloutAnnotation1.AllowMoving = true;
             calloutAnnotation1.AllowSelecting = true;
             calloutAnnotation1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             calloutAnnotation1.CalloutStyle = System.Windows.Forms.DataVisualization.Charting.CalloutStyle.RoundedRectangle;
@@ -283,10 +279,10 @@ namespace ChartSamples
             this.Chart1.Size = new System.Drawing.Size(412, 296);
             this.Chart1.TabIndex = 0;
             this.Chart1.AnnotationPositionChanged += new System.EventHandler(this.Chart1_AnnotationPositionChanged);
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label1
+            //
+           this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(16, 360);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(702, 39);
@@ -295,10 +291,10 @@ namespace ChartSamples
                 "notationPositionChanged event to update X and Y coordinates to the right of the " +
                 "chart.";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // PositionChangedEvent
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // PositionChangedEvent
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
@@ -310,49 +306,37 @@ namespace ChartSamples
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void AnnotationPositioning_Load(object sender, System.EventArgs e)
+        {
+        }
 
-		private void AnnotationPositioning_Load(object sender, System.EventArgs e)
-		{ 
-		
-		}
+        private void Chart1_AnnotationPositionChanged(object sender, System.EventArgs e)
+        {
+            Annotation annotation = (Annotation)sender;
 
-		private void Chart1_AnnotationPositionChanged(object sender, System.EventArgs e)
-		{
-			Annotation annotation = (Annotation) sender;
-			
-			AnnotationX.Text = annotation.X.ToString("#.#");
-			AnnotationY.Text = annotation.Y.ToString("#.#");
+            AnnotationX.Text = annotation.X.ToString("#.#");
+            AnnotationY.Text = annotation.Y.ToString("#.#");
+        }
 
+        private void AllowMoving_CheckedChanged(object sender, System.EventArgs e)
+        {
+            Chart1.Annotations[0].AllowMoving = AllowMoving.Checked;
+        }
 
-		}
+        private void ClipToChartArea_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (ClipToChartArea.Checked)
+                Chart1.Annotations[0].ClipToChartArea = "Default";
+            else
+                Chart1.Annotations[0].ClipToChartArea = "";
+        }
 
-		private void AllowMoving_CheckedChanged(object sender, System.EventArgs e)
-		{
-			Chart1.Annotations[0].AllowMoving = AllowMoving.Checked;
-		}
-
-		private void ClipToChartArea_CheckedChanged(object sender, System.EventArgs e)
-		{
-			if(ClipToChartArea.Checked)
-				Chart1.Annotations[0].ClipToChartArea = "Default";
-			else
-				Chart1.Annotations[0].ClipToChartArea = "";
-		
-		}
-
-		private void label3_Click(object sender, System.EventArgs e)
-		{
-		
-		}
-
-
-
-
-
-
-	}
+        private void label3_Click(object sender, System.EventArgs e)
+        {
+        }
+    }
 }

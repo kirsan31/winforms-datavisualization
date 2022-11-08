@@ -1,62 +1,58 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for Title.
-	/// </summary>
-	public class MultipleTitles : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.ComboBox Alignment;
-		private System.Windows.Forms.ComboBox Docking;
-		private System.Windows.Forms.CheckBox IsDockedInsideChartArea;
-		private bool initialized = false;
-		private System.Windows.Forms.CheckBox checkBoxDockToChartArea;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for Title.
+    /// </summary>
+    public class MultipleTitles : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox Alignment;
+        private System.Windows.Forms.ComboBox Docking;
+        private System.Windows.Forms.CheckBox IsDockedInsideChartArea;
+        private bool initialized = false;
+        private System.Windows.Forms.CheckBox checkBoxDockToChartArea;
 
-		public MultipleTitles()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
-		
-		}
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        public MultipleTitles()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel2 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
@@ -98,10 +94,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 43);
@@ -110,10 +106,10 @@ namespace ChartSamples
                 "area. Try changing the alignment and docking of the \"SIDEBAR\" title using contro" +
                 "ls below. ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.checkBoxDockToChartArea);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.checkBoxDockToChartArea);
             this.panel1.Controls.Add(this.Docking);
             this.panel1.Controls.Add(this.Alignment);
             this.panel1.Controls.Add(this.label3);
@@ -123,56 +119,56 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 296);
             this.panel1.TabIndex = 1;
-            // 
-            // checkBoxDockToChartArea
-            // 
-            this.checkBoxDockToChartArea.Location = new System.Drawing.Point(15, 72);
+            //
+           // checkBoxDockToChartArea
+            //
+           this.checkBoxDockToChartArea.Location = new System.Drawing.Point(15, 72);
             this.checkBoxDockToChartArea.Name = "checkBoxDockToChartArea";
             this.checkBoxDockToChartArea.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.checkBoxDockToChartArea.Size = new System.Drawing.Size(168, 22);
             this.checkBoxDockToChartArea.TabIndex = 5;
             this.checkBoxDockToChartArea.Text = "Dock to &Chart Area";
             this.checkBoxDockToChartArea.CheckedChanged += new System.EventHandler(this.checkBoxDockToChartArea_CheckedChanged);
-            // 
-            // Docking
-            // 
-            this.Docking.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // Docking
+            //
+           this.Docking.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Docking.Location = new System.Drawing.Point(168, 40);
             this.Docking.Name = "Docking";
             this.Docking.Size = new System.Drawing.Size(121, 22);
             this.Docking.TabIndex = 4;
             this.Docking.SelectedIndexChanged += new System.EventHandler(this.Docking_SelectedIndexChanged);
-            // 
-            // Alignment
-            // 
-            this.Alignment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // Alignment
+            //
+           this.Alignment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Alignment.Location = new System.Drawing.Point(168, 8);
             this.Alignment.Name = "Alignment";
             this.Alignment.Size = new System.Drawing.Size(121, 22);
             this.Alignment.TabIndex = 2;
             this.Alignment.SelectedIndexChanged += new System.EventHandler(this.Docking_SelectedIndexChanged);
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(12, 40);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(12, 40);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(152, 22);
             this.label3.TabIndex = 3;
             this.label3.Text = "&Docking:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(12, 8);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(12, 8);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(152, 22);
             this.label2.TabIndex = 1;
             this.label2.Text = "&Alignment:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // IsDockedInsideChartArea
-            // 
-            this.IsDockedInsideChartArea.Checked = true;
+            //
+           // IsDockedInsideChartArea
+            //
+           this.IsDockedInsideChartArea.Checked = true;
             this.IsDockedInsideChartArea.CheckState = System.Windows.Forms.CheckState.Checked;
             this.IsDockedInsideChartArea.Enabled = false;
             this.IsDockedInsideChartArea.Location = new System.Drawing.Point(15, 104);
@@ -182,10 +178,10 @@ namespace ChartSamples
             this.IsDockedInsideChartArea.TabIndex = 0;
             this.IsDockedInsideChartArea.Text = "Dock &Inside Chart Area";
             this.IsDockedInsideChartArea.Click += new System.EventHandler(this.IsDockedInsideChartArea_Click);
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -323,10 +319,10 @@ namespace ChartSamples
             this.Chart1.Titles.Add(title1);
             this.Chart1.Titles.Add(title2);
             this.Chart1.Titles.Add(title3);
-            // 
-            // MultipleTitles
-            // 
-            this.Controls.Add(this.Chart1);
+            //
+           // MultipleTitles
+            //
+           this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -336,83 +332,80 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void MultipleTitles_Load(object sender, System.EventArgs e)
-		{
-		
-			this.Alignment.Items.Add( "Near" );
-			this.Alignment.Items.Add( "Center" );
-			this.Alignment.Items.Add( "Far" );
-				
+        private void MultipleTitles_Load(object sender, System.EventArgs e)
+        {
+            this.Alignment.Items.Add("Near");
+            this.Alignment.Items.Add("Center");
+            this.Alignment.Items.Add("Far");
 
-			this.Alignment.SelectedIndex = 1;
+            this.Alignment.SelectedIndex = 1;
 
-			foreach( string docking in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.Docking)))
-			{
-				this.Docking.Items.Add( docking );
-			}
+            foreach (string docking in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.Docking)))
+            {
+                this.Docking.Items.Add(docking);
+            }
 
-			this.Docking.SelectedIndex = 3;
+            this.Docking.SelectedIndex = 3;
 
-			initialized = true;
-		}
-	
+            initialized = true;
+        }
 
-		private void DockOffset_Leave(object sender, System.EventArgs e)
-		{
-			TitleChanged();
-		}
+        private void DockOffset_Leave(object sender, System.EventArgs e)
+        {
+            TitleChanged();
+        }
 
-		private void IsDockedInsideChartArea_Click(object sender, System.EventArgs e)
-		{
-			TitleChanged();
-		}
-	
-		private void TitleChanged()
-		{
-			if( !initialized )
-			{
-				return;
-			}
+        private void IsDockedInsideChartArea_Click(object sender, System.EventArgs e)
+        {
+            TitleChanged();
+        }
 
-			if( this.Alignment.SelectedItem.ToString() == "Near" )
-			{
-				Chart1.Titles[1].Alignment = ContentAlignment.MiddleLeft;
-			}
-			else if( this.Alignment.SelectedItem.ToString() == "Far" )
-			{
-				Chart1.Titles[1].Alignment = ContentAlignment.MiddleRight;
-			}
-			else
-			{
-				Chart1.Titles[1].Alignment = ContentAlignment.MiddleCenter;
-			}
+        private void TitleChanged()
+        {
+            if (!initialized)
+            {
+                return;
+            }
 
-			// Change Docking
-			string docking = (string)(this.Docking.SelectedItem.ToString());
-			Chart1.Titles[1].Docking = (System.Windows.Forms.DataVisualization.Charting.Docking)Enum.Parse( typeof(System.Windows.Forms.DataVisualization.Charting.Docking), docking );
+            if (this.Alignment.SelectedItem.ToString() == "Near")
+            {
+                Chart1.Titles[1].Alignment = ContentAlignment.MiddleLeft;
+            }
+            else if (this.Alignment.SelectedItem.ToString() == "Far")
+            {
+                Chart1.Titles[1].Alignment = ContentAlignment.MiddleRight;
+            }
+            else
+            {
+                Chart1.Titles[1].Alignment = ContentAlignment.MiddleCenter;
+            }
 
-			// Change Dock inside chart area 
-			Chart1.Titles[1].IsDockedInsideChartArea = this.IsDockedInsideChartArea.Checked;
+            // Change Docking
+            string docking = (string)(this.Docking.SelectedItem.ToString());
+            Chart1.Titles[1].Docking = (System.Windows.Forms.DataVisualization.Charting.Docking)Enum.Parse(typeof(System.Windows.Forms.DataVisualization.Charting.Docking), docking);
 
-			// Change Dock to chart area
-			Chart1.Titles[1].DockedToChartArea = (checkBoxDockToChartArea.Checked) ? "Default" : "";
-			
-			// Enable or disable Dock Inside chart area.
-			this.IsDockedInsideChartArea.Enabled = checkBoxDockToChartArea.Checked;
-		}
+            // Change Dock inside chart area
+           Chart1.Titles[1].IsDockedInsideChartArea = this.IsDockedInsideChartArea.Checked;
 
-		private void Docking_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			TitleChanged();
-		}
+            // Change Dock to chart area
+            Chart1.Titles[1].DockedToChartArea = (checkBoxDockToChartArea.Checked) ? "Default" : "";
 
-		private void checkBoxDockToChartArea_CheckedChanged(object sender, System.EventArgs e)
-		{
-			TitleChanged();
-		}
-	}
+            // Enable or disable Dock Inside chart area.
+            this.IsDockedInsideChartArea.Enabled = checkBoxDockToChartArea.Checked;
+        }
+
+        private void Docking_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            TitleChanged();
+        }
+
+        private void checkBoxDockToChartArea_CheckedChanged(object sender, System.EventArgs e)
+        {
+            TitleChanged();
+        }
+    }
 }

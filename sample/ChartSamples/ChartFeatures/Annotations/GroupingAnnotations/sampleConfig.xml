@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "Annotations" Priority= "700">
-  <Title>Grouping Annotations</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Grouping Annotations</ShortBlurb> 
-  <SampleControl>GroupingAnnotations</SampleControl> 
-  <InfoPages>
+  <Title>Grouping Annotations</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Grouping Annotations</ShortBlurb>
+ <SampleControl>GroupingAnnotations</SampleControl>
+ <InfoPages>
     <InfoPage Title="Overview">Overview.htm</InfoPage>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
@@ -14,5 +14,4 @@
 	<Keyword>Annotations, Grouping</Keyword>
   </Keywords>
 </SampleConfig>
-
 </SampleConfigs>

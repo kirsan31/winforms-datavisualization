@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	ChartGraphics3D class is 3D chart rendering engine. 
 //              All chart 3D shapes are drawn in specific order so 
@@ -11,7 +10,6 @@
 //              3D shapes are transformed into one or more 2D shapes 
 //              and then drawn with 2D chart graphics engine.
 //
-
 
 using System.Collections;
 using System.ComponentModel;
@@ -33,22 +31,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Front.
         /// </summary>
         Front = 1,
+
         /// <summary>
         /// Back.
         /// </summary>
         Back = 2,
+
         /// <summary>
         /// Left.
         /// </summary>
         Left = 4,
+
         /// <summary>
         /// Right.
         /// </summary>
         Right = 8,
+
         /// <summary>
         /// Top.
         /// </summary>
         Top = 16,
+
         /// <summary>
         /// Bottom.
         /// </summary>
@@ -56,9 +59,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
     }
 
     /// <summary>
-    /// This enumeration defines all significant points in a pie 
-    /// slice. Only these points should be transformed for pie 
-    /// chart using Matrix object.
+    /// This enumeration defines all significant points in a pie
+   /// slice. Only these points should be transformed for pie
+   /// chart using Matrix object.
     /// </summary>
     internal enum PiePoints
     {
@@ -208,7 +211,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DoughnutBottomRectBottomRightPoint,
     }
 
-
     /// <summary>
     /// AxisName of drawing operation.
     /// </summary>
@@ -252,14 +254,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Last
     }
 
-    #endregion
+    #endregion 3D enumerations
 
     /// <summary>
-    /// The ChartGraphics class is 3D chart rendering engine. All chart 
-    /// 3D shapes are drawn in specific order so that correct Z order 
-    /// of all shapes is achieved. 3D graphics engine do not support 
-    /// shapes intersection. 3D shapes are transformed into one or 
-    /// more 2D shapes and then drawn with 2D chart graphics engine.
+    /// The ChartGraphics class is 3D chart rendering engine. All chart
+   /// 3D shapes are drawn in specific order so that correct Z order
+   /// of all shapes is achieved. 3D graphics engine do not support
+   /// shapes intersection. 3D shapes are transformed into one or
+   /// more 2D shapes and then drawn with 2D chart graphics engine.
     /// </summary>
     public partial class ChartGraphics
     {
@@ -290,7 +292,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         internal Pen frontLinePen;
 
-        #endregion
+        #endregion Fields
 
         #region 3D Line drawing methods
 
@@ -354,7 +356,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     obj,
                     chartElementType
                     );
-
             }
             else if (area.IsBottomSceneWallVisible())
             {
@@ -397,7 +398,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             ChartElementType type
             )
         {
-
             // Transform coordinates
             Point3D[] points = new Point3D[] { firstPoint, secondPoint };
             matrix.TransformPoints(points);
@@ -418,7 +418,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     path.AddLine(points[0].X - 1, points[0].Y, points[1].X - 1, points[1].Y);
                     path.AddLine(points[1].X + 1, points[1].Y, points[0].X + 1, points[0].Y);
                     path.CloseAllFigures();
-
                 }
                 common.HotRegionsList.AddHotRegion(path, true, type, obj);
             }
@@ -428,17 +427,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Draw 2D line in 3D space
                 this.DrawLineRel(color, width, style, points[0].PointF, points[1].PointF);
             }
-
         }
 
-        #endregion
+        #endregion 3D Line drawing methods
 
         #region 3D Pie Drawing methods and enumerations
 
-
         /// <summary>
-        /// This method draw and fill four point polygons which 
-        /// represents sides of a pie slice.
+        /// This method draw and fill four point polygons which
+       /// represents sides of a pie slice.
         /// </summary>
         /// <param name="area">Chart Area</param>
         /// <param name="inclination">X angle rotation</param>
@@ -459,7 +456,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool doughnut
             )
         {
-
             // Create a graphics path
             GraphicsPath path;
 
@@ -509,7 +505,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (startAngle >= -180 && startAngle < -90 || startAngle > 90 && startAngle < 270 || startAngle > 450 && startAngle <= 540)
                 {
                     startSide = true;
-
                 }
                 if (endAngle > -90 && endAngle < 90 || endAngle > 270 && endAngle < 450)
                 {
@@ -524,7 +519,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // *****************************************
                 using (path = new GraphicsPath())
                 {
-
                     if (doughnut)
                     {
                         // Add Line between The Doughnut Arc and Arc
@@ -610,7 +604,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                         // Add Line between The Bottom Center and The Top Center
                         path.AddLine(bottomCenter, topCenter);
-
                     }
 
                     // Get surface colors
@@ -679,10 +672,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Create a graphics path
             using GraphicsPath path = new GraphicsPath();
 
-            // It is enough to transform only two points from 
-            // rectangle. This code will create RectangleF from 
-            // top left and bottom right points. 
-            RectangleF pieTopRectangle = new RectangleF();
+            // It is enough to transform only two points from
+           // rectangle. This code will create RectangleF from
+           // top left and bottom right points.
+           RectangleF pieTopRectangle = new RectangleF();
             pieTopRectangle.X = topFirstRectPoint.X;
             pieTopRectangle.Y = topFirstRectPoint.Y;
             pieTopRectangle.Height = topSecondRectPoint.Y - topFirstRectPoint.Y;
@@ -694,8 +687,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             pieBottomRectangle.Height = bottomSecondRectPoint.Y - bottomFirstRectPoint.Y;
             pieBottomRectangle.Width = bottomSecondRectPoint.X - bottomFirstRectPoint.X;
 
-            // Angle correction algorithm. After rotation AddArc method should used 
-            // different transformed angles. This method transforms angles.
+            // Angle correction algorithm. After rotation AddArc method should used
+           // different transformed angles. This method transforms angles.
             double angleCorrection = pieTopRectangle.Height / pieTopRectangle.Width;
 
             float endAngle;
@@ -742,11 +735,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     DrawGraphicsPath(pen, path);
                 }
-
             }
             if (common.ProcessModeRegions)
             {
-
                 // Check if processing collected data point
                 if (point.IsCustomPropertySet("_COLLECTED_DATA_POINT"))
                 {
@@ -765,8 +756,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     return;
                 }
 
-
-
                 common.HotRegionsList.AddHotRegion(
                     path,
                     false,
@@ -778,8 +767,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method draws projection of 3D pie slice. 
-        /// </summary>
+        /// This method draws projection of 3D pie slice.
+       /// </summary>
         /// <param name="area">Chart area used for drawing</param>
         /// <param name="point">Data point which creates this pie slice</param>
         /// <param name="brush">Graphic Brush used for drawing</param>
@@ -801,17 +790,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Create a graphics path
             using GraphicsPath path = new GraphicsPath();
 
-            // It is enough to transform only two points from 
-            // rectangle. This code will create RectangleF from 
-            // top left and bottom right points. 
-            RectangleF pieRectangle = new RectangleF();
+            // It is enough to transform only two points from
+           // rectangle. This code will create RectangleF from
+           // top left and bottom right points.
+           RectangleF pieRectangle = new RectangleF();
             pieRectangle.X = firstRectPoint.X;
             pieRectangle.Y = firstRectPoint.Y;
             pieRectangle.Height = secondRectPoint.Y - firstRectPoint.Y;
             pieRectangle.Width = secondRectPoint.X - firstRectPoint.X;
 
-            // Angle correction algorithm. After rotation AddArc method should used 
-            // different transformed angles. This method transforms angles.
+            // Angle correction algorithm. After rotation AddArc method should used
+           // different transformed angles. This method transforms angles.
             double angleCorrection = pieRectangle.Height / pieRectangle.Width;
 
             float endAngle;
@@ -862,8 +851,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (common.ProcessModeRegions && fill)
             {
-
-
                 // Check if processing collected data point
                 if (point.IsCustomPropertySet("_COLLECTED_DATA_POINT"))
                 {
@@ -882,15 +869,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     return;
                 }
 
-
-
                 common.HotRegionsList.AddHotRegion(path, false, this, point, point.series.Name, pointIndex);
             }
         }
 
         /// <summary>
-        /// This method draws projection of 3D pie slice. 
-        /// </summary>
+        /// This method draws projection of 3D pie slice.
+       /// </summary>
         /// <param name="area">Chart area used for drawing</param>
         /// <param name="point">Data point which creates this Doughnut slice</param>
         /// <param name="brush">Graphic Brush used for drawing</param>
@@ -916,10 +901,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Create a graphics path
             using GraphicsPath path = new GraphicsPath();
 
-            // It is enough to transform only two points from 
-            // rectangle. This code will create RectangleF from 
-            // top left and bottom right points. 
-            RectangleF pieRectangle = new RectangleF();
+            // It is enough to transform only two points from
+           // rectangle. This code will create RectangleF from
+           // top left and bottom right points.
+           RectangleF pieRectangle = new RectangleF();
             pieRectangle.X = firstRectPoint.X;
             pieRectangle.Y = firstRectPoint.Y;
             pieRectangle.Height = secondRectPoint.Y - firstRectPoint.Y;
@@ -931,8 +916,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             pieDoughnutRectangle.Height = pieRectangle.Height * doughnutRadius;
             pieDoughnutRectangle.Width = pieRectangle.Width * doughnutRadius;
 
-            // Angle correction algorithm. After rotation AddArc method should used 
-            // different transformed angles. This method transforms angles.
+            // Angle correction algorithm. After rotation AddArc method should used
+           // different transformed angles. This method transforms angles.
             double angleCorrection = pieRectangle.Height / pieRectangle.Width;
 
             float endAngle;
@@ -989,8 +974,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (common.ProcessModeRegions && fill)
             {
-
-
                 // Check if processing collected data point
                 if (point.IsCustomPropertySet("_COLLECTED_DATA_POINT"))
                 {
@@ -1021,8 +1004,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Draw Graphics Path. This method is introduced because of 
-        /// bug in DrawPath method when Pen Width is bigger then 1.
+        /// Draw Graphics Path. This method is introduced because of
+       /// bug in DrawPath method when Pen Width is bigger then 1.
         /// </summary>
         /// <param name="pen">Pen</param>
         /// <param name="path">Graphics Path</param>
@@ -1035,9 +1018,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else
             {
-
-                // Converts each curve in this path into a sequence 
-                // of connected line segments. Slow Drawing.
+                // Converts each curve in this path into a sequence
+               // of connected line segments. Slow Drawing.
                 path.Flatten();
 
                 // Set Pen cap
@@ -1063,8 +1045,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Angle correction algorithm. After rotation different 
-        /// transformed angle should be used. This method transforms angles.
+        /// Angle correction algorithm. After rotation different
+       /// transformed angle should be used. This method transforms angles.
         /// </summary>
         /// <param name="angle">Not transformed angle</param>
         /// <param name="correction">Correction of bounding rectangle (change between width and height)</param>
@@ -1103,7 +1085,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return angle;
         }
 
-        #endregion
+        #endregion 3D Pie Drawing methods and enumerations
 
         #region 3D Surface drawing methods (used in Line charts)
 
@@ -1166,7 +1148,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             polygonPoints[1] = GetAbsolutePoint(points3D[1].PointF);
             polygonPoints[2] = GetAbsolutePoint(points3D[2].PointF);
             polygonPoints[3] = GetAbsolutePoint(points3D[3].PointF);
-
 
             //**********************************************************************
             //** Define drawing colors
@@ -1271,8 +1252,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     else
                     {
-                        // Draw line !!!! 
-                        DrawLine(
+                        // Draw line !!!!
+                       DrawLine(
                             frontLinePen,
                             (float)Math.Round(frontLinePoint1.X),
                             (float)Math.Round(frontLinePoint1.Y),
@@ -1377,7 +1358,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (splineDataPoints[3] != null)
                 ++nonNullPoints;
 
-
             // Get coordinates and create array of PointF for the front spline
             PointF[] polygonPointsFront = new PointF[nonNullPoints];
             if (yValueIndex == 0)
@@ -1428,7 +1408,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     polygonPointsFront[index] = GetAbsolutePoint(points3D[index].PointF);
                 }
-
             }
 
             // Create graphics path for the front spline surface and flatten it.
@@ -1641,12 +1620,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     resultPath.AddPath(segmentResultPath, true);
                 }
-
             }
 
             return resultPath;
         }
-
 
         /// <summary>
         /// Draws a 3D surface connecting the two specified points in 2D space.
@@ -1748,8 +1725,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** Clip surface
             //**********************************************************************
 
-            // Check if line between the first and second points intersects with 
-            // plotting area top or bottom boundary
+            // Check if line between the first and second points intersects with
+           // plotting area top or bottom boundary
             if (clipInsideArea)
             {
                 //****************************************************************
@@ -1919,7 +1896,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             intersectionPoint2.yPosition = tempPoint.yPosition;
                         }
                     }
-
 
                     // Adjust points Y values
                     bool firstSegmentVisible = true;
@@ -2131,7 +2107,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             DrawLine(thinBorderPen, polygonPoints[1], polygonPoints[2]);
                         }
                     }
-
                 }
                 else
                 {
@@ -2172,8 +2147,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 //**********************************************************************
-                //** Check if there are visible (non-empty) lines to the left & right 
-                //** of the current line.
+                //** Check if there are visible (non-empty) lines to the left & right
+               //** of the current line.
                 //**********************************************************************
 
                 // Get visibility of bounding rectangle
@@ -2204,7 +2179,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         secondPoint,
                         multiSeries,
                         ref tempLineSegmentType) == 2;
-
 
                     // Check right line visibility
                     thickBorderOnRight = ChartGraphics.ShouldDrawLineChartSurface(
@@ -2269,7 +2243,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             (float)Math.Round(polygonPoints[1].Y));
                     }
                 }
-
 
                 //**********************************************************************
                 //** Draw border on the left side of line surface (only when visible)
@@ -2401,7 +2374,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 resultPath.AddPolygon(polygonPoints);
             }
 
-            if(thickBorderPen is not null && thickBorderPen != frontLinePen)
+            if (thickBorderPen is not null && thickBorderPen != frontLinePen)
                 thickBorderPen.Dispose();
 
             if (thinBorderPen != frontLinePen)
@@ -2409,8 +2382,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             return resultPath;
         }
-
-
 
         /// <summary>
         /// Helper method, which indicates if area chart surface should be drawn or not.
@@ -2460,8 +2431,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (surfaceName == SurfaceNames.Left)
             {
                 int pointArrayIndex = int.MinValue;
-                // Find Left point 
-                DataPoint3D leftPoint;
+                // Find Left point
+               DataPoint3D leftPoint;
                 DataPoint3D leftPointAttr;
                 if (!reversedSeriesOrder)
                 {
@@ -2514,8 +2485,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-            // Find Right point 
-            if (surfaceName == SurfaceNames.Right)
+            // Find Right point
+           if (surfaceName == SurfaceNames.Right)
             {
                 int pointArrayIndex = int.MinValue;
                 DataPoint3D rightPoint;
@@ -2597,7 +2568,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-
             //****************************************************************
             //** Check surfaces visibility
             //****************************************************************
@@ -2654,7 +2624,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return result;
         }
 
-
         /// <summary>
         /// Helper method which finds point in the list by it's real index.
         /// </summary>
@@ -2695,7 +2664,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         return point;
                     }
                 }
-
             }
 
             // Loop through all points
@@ -2726,8 +2694,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return null;
         }
 
-
-        #endregion
+        #endregion 3D Surface drawing methods (used in Line charts)
 
         #region 3D Rectangle drawing methods
 
@@ -2810,7 +2777,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool veticalOrientation,
             DrawingOperationTypes operationType)
         {
-
             // Check if special drawing is required
             if (barDrawingStyle == BarDrawingStyle.Cylinder)
             {
@@ -2885,7 +2851,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-
             // Check visible surfaces
             SurfaceNames visibleSurfaces = GetVisibleSurfacesWithPerspective(position, positionZ, depth, matrix);
 
@@ -2903,8 +2868,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     SurfaceNames currentSurface = (SurfaceNames)surfaceIndex;
 
-                    // If width, height or depth of the cube (3DRectangle) is zero graphical path 
-                    // should contain only one surface with 4 points.
+                    // If width, height or depth of the cube (3DRectangle) is zero graphical path
+                   // should contain only one surface with 4 points.
                     if (depth == 0.0 && currentSurface != SurfaceNames.Front)
                     {
                         continue;
@@ -2936,6 +2901,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 pointsSurface[2] = new PointF(cubePoints[2].X, cubePoints[2].Y);
                                 pointsSurface[3] = new PointF(cubePoints[3].X, cubePoints[3].Y);
                                 break;
+
                             case SurfaceNames.Back:
                                 surfaceColor = backLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[4].X, cubePoints[4].Y);
@@ -2943,6 +2909,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 pointsSurface[2] = new PointF(cubePoints[6].X, cubePoints[6].Y);
                                 pointsSurface[3] = new PointF(cubePoints[7].X, cubePoints[7].Y);
                                 break;
+
                             case SurfaceNames.Left:
                                 surfaceColor = leftLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[0].X, cubePoints[0].Y);
@@ -2950,6 +2917,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 pointsSurface[2] = new PointF(cubePoints[5].X, cubePoints[5].Y);
                                 pointsSurface[3] = new PointF(cubePoints[4].X, cubePoints[4].Y);
                                 break;
+
                             case SurfaceNames.Right:
                                 surfaceColor = rightLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[3].X, cubePoints[3].Y);
@@ -2957,6 +2925,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 pointsSurface[2] = new PointF(cubePoints[6].X, cubePoints[6].Y);
                                 pointsSurface[3] = new PointF(cubePoints[7].X, cubePoints[7].Y);
                                 break;
+
                             case SurfaceNames.Top:
                                 surfaceColor = topLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[0].X, cubePoints[0].Y);
@@ -2964,6 +2933,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 pointsSurface[2] = new PointF(cubePoints[7].X, cubePoints[7].Y);
                                 pointsSurface[3] = new PointF(cubePoints[4].X, cubePoints[4].Y);
                                 break;
+
                             case SurfaceNames.Bottom:
                                 surfaceColor = bottomLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[1].X, cubePoints[1].Y);
@@ -2990,8 +2960,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     FillPolygon(brush, pointsSurface);
                                 }
 
-                                // Check if any additional drawing should be done 
-                                if (currentSurface == SurfaceNames.Front &&
+                                // Check if any additional drawing should be done
+                               if (currentSurface == SurfaceNames.Front &&
                                     barDrawingStyle != BarDrawingStyle.Default &&
                                     barDrawingStyle != BarDrawingStyle.Cylinder)
                                 {
@@ -3029,7 +2999,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 resultPath.AddPolygon(pointsSurface);
                             }
                         }
-
                     }
                 }
             }
@@ -3095,7 +3064,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     gradientPointsAbs[index] = GetAbsolutePoint(gradientPoints[index].PointF);
                 }
-
 
                 // Draw left/bottom shadow
                 using (GraphicsPath path = new GraphicsPath())
@@ -3184,8 +3152,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     using Pen pen = new Pen(Color.FromArgb(40, Color.White), 1);
                     this.DrawPath(pen, path);
                 }
-
-
             }
             else if (barDrawingStyle == BarDrawingStyle.LightToDark)
             {
@@ -3214,7 +3180,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     gradientRect.X = gradientRect.Right - (float)Math.Floor(gradientRect.Width / 3f);
                     gradientRect.Width = (float)Math.Floor(gradientRect.Width / 3f);
                 }
-
 
                 // Top gradient
                 Point3D[] gradientPoints = new Point3D[4];
@@ -3254,8 +3219,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
 
-
-
                 // Calculate gradient position for the bottom gradient
                 gradientRect = position;
                 gradientRect.Inflate(-shadowSizeRel.Width, -shadowSizeRel.Height);
@@ -3268,7 +3231,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     gradientRect.Width = (float)Math.Floor(gradientRect.Width / 3f);
                 }
-
 
                 // Top gradient
                 gradientPoints = new Point3D[4];
@@ -3307,7 +3269,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         this.FillPath(topBrush, path);
                     }
                 }
-
             }
             else if (barDrawingStyle == BarDrawingStyle.Emboss)
             {
@@ -3384,7 +3345,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion 3D Rectangle drawing methods
 
         #region 3D markers drawing methods
 
@@ -3570,7 +3531,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                     case MarkerStyle.Square:
                         {
-
                             // Calculate marker non-rotated rectangle
                             RectangleF rectNonRotated = RectangleF.Empty;
                             rectNonRotated.X = point.X - ((float)markerRelativeSize.Width) / 2F;
@@ -3603,7 +3563,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return resultPath;
         }
 
-        #endregion
+        #endregion 3D markers drawing methods
 
         #region 3D cube surface visibility methods
 
@@ -3685,8 +3645,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             cubePoints[6] = new Point3D(position.Right, position.Bottom, positionZ);
             cubePoints[7] = new Point3D(position.Right, position.Y, positionZ);
 
-            // Tranform coordinates 
-            matrix.TransformPoints(cubePoints);
+            // Tranform coordinates
+           matrix.TransformPoints(cubePoints);
 
             // Detect surfaces visibility
             return GetVisibleSurfacesWithPerspective(cubePoints);
@@ -3809,7 +3769,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion 3D cube surface visibility methods
 
         #region Line intersection helper method
 
@@ -3872,10 +3832,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return result;
         }
 
-        #endregion
+        #endregion Line intersection helper method
 
         #region 3D Cylinder drawing methods
-
 
         /// <summary>
         /// Function is used to calculate the coordinates of the 2D rectangle in 3D space
@@ -4000,8 +3959,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             //*******************************************************
-            //** Create flattened paths for the sides of the 
-            //** cylinder (top,bottom/left,rigth)
+            //** Create flattened paths for the sides of the
+           //** cylinder (top,bottom/left,rigth)
             //*******************************************************
             PointF[] sidePoints = new PointF[4];
             sidePoints[0] = cubePoints[6].PointF;
@@ -4143,7 +4102,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                                     centralLinePoint.X /= (float)Math.Tan(centralLineAngle);
                                                 }
 
-
                                                 PointF middlePoint1 = ChartGraphics.GetLinesIntersection(
                                                     boundsRectMiddlePoint.X, boundsRectMiddlePoint.Y,
                                                     centralLinePoint.X, centralLinePoint.Y,
@@ -4165,7 +4123,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                                         lightColor,
                                                         darkColor);
 
-
                                                     ColorBlend colorBlend = new ColorBlend(5);
                                                     colorBlend.Colors[0] = darkColor;
                                                     colorBlend.Colors[1] = darkColor;
@@ -4182,7 +4139,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                                     ((LinearGradientBrush)frontSurfaceBrush).InterpolationColors = colorBlend;
                                                 }
                                             }
-
                                         }
                                     }
 
@@ -4195,6 +4151,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     pathToDraw = topRigthSide;
                                 }
                                 break;
+
                             case SurfaceNames.Bottom:
                                 if (veticalOrientation)
                                 {
@@ -4202,6 +4159,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     pathToDraw = bottomLeftSide;
                                 }
                                 break;
+
                             case SurfaceNames.Right:
                                 if (!veticalOrientation)
                                 {
@@ -4209,6 +4167,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     pathToDraw = topRigthSide;
                                 }
                                 break;
+
                             case SurfaceNames.Left:
                                 if (!veticalOrientation)
                                 {
@@ -4217,7 +4176,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
                                 break;
                         }
-
 
                         //*******************************************************
                         //** Draw surface
@@ -4300,7 +4258,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             int leftBottomPoint = 0;
             int rigthTopPoint = 0;
             PointF[] ellipsePoints = ellipseFlattenPath.PathPoints;
-
 
             if (veticalOrientation)
             {
@@ -4508,7 +4465,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         this._oppRigthTopPoint = temp;
                                     }
                                 }
-
                             }
                         }
                     }
@@ -4540,7 +4496,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion 3D Cylinder drawing methods
     }
 
     /// <summary>
@@ -4556,7 +4512,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Point Z coordinate (depth)
         private float _coordZ;
 
-        #endregion
+        #endregion Fields
 
         #region Properties
 
@@ -4643,7 +4599,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
@@ -4663,9 +4619,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         public Point3D()
         {
-
         }
 
-        #endregion // Constructor
+        #endregion Constructors
     }
 }

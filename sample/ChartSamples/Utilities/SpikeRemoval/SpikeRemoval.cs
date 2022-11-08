@@ -13,11 +13,7 @@
 // Copyright © Microsoft Corporation, all rights reserved
 //===================================================================
 
-using System;
-using System.Data;
-using System.Configuration;
 using System.Drawing;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 {
@@ -29,15 +25,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     public class SpikeRemoval
     {
         #region Members
+
         private bool mySetCutoffLabels;
         private MarkerStyle myRemovedPointStyle;
         private float myMaximum;
         private float myMinimum;
         private int myRemovedPointSize;
-        
-        #endregion
+
+        #endregion Members
 
         #region Properties
+
         /// <summary>
         /// Sets whether or not labels are set on each cut off point. If they are, they will show up on the chart and provide
         /// extra clarification if the tooltip is not enough.
@@ -83,9 +81,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             get { return myMinimum; }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Constructors
+
         /// <summary>
         /// Default Constructor.
         /// </summary>
@@ -97,9 +97,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             //Default labels to off.
             mySetCutoffLabels = false;
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Public Methods
+
         /// <summary>
         /// RemoveSpikes will remove the high and low spikes off of a graph. The data within the series
         /// provided will be modified, and for best results, the chart containing it should have axis
@@ -120,7 +122,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 throw new ArgumentOutOfRangeException("range", "Range must be a percentage between 1 and 100");
             if ((tolerance < 0 || tolerance > 100))
                 throw new ArgumentOutOfRangeException("tolerance", "Tolerance must be a percentage between 0 and 100");
-            
+
             //Data values and indices hold the y values and the indices of the points in arrays.
             float[] datavalues = new float[dataseries.Points.Count];
             int[] indices = new int[dataseries.Points.Count];
@@ -159,7 +161,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 {
                     //Assign the tooltip to the point
                     dataseries.Points[indices[i]].ToolTip = "Value: " + dataseries.Points[indices[i]].YValues[0];
-                    
+
                     //Assign the label to the point
                     if (mySetCutoffLabels)
                     {
@@ -205,6 +207,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 }
             }
         }
-        #endregion
+
+        #endregion Public Methods
     }
 }

@@ -2,11 +2,11 @@
 <SampleConfigs>
 
 <SampleConfig ParentNodeID = "GettingStarted" Priority = "900">
-  <Title>Creating a Chart Dynamically</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Creating a Chart Dynamically</ShortBlurb> 
-  <SampleControl>DynamicChartCreation</SampleControl> 
-  <InfoPages>
+  <Title>Creating a Chart Dynamically</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Creating a Chart Dynamically</ShortBlurb>
+ <SampleControl>DynamicChartCreation</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -15,7 +15,5 @@
     <Keyword>Dynamically Creating a Chart</Keyword>
     <Keyword>Chart, Creating Dynamically</Keyword>
   </Keywords>    
-
 </SampleConfig>
-
 </SampleConfigs>

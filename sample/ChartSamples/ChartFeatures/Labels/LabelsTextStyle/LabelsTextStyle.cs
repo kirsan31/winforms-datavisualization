@@ -1,77 +1,73 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AxisAppearance.
-	/// </summary>
-	public class LabelsTextStyle : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.ComboBox FontNameList;
-		private System.Windows.Forms.ComboBox FontSizeList;
-		private System.Windows.Forms.ComboBox AngleList;
-		private System.Windows.Forms.CheckBox OffsetLabels;
-		private System.Windows.Forms.CheckBox EnableLabels;
-		private System.Windows.Forms.CheckBox TextAntiAlias;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AxisAppearance.
+    /// </summary>
+    public class LabelsTextStyle : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox FontNameList;
+        private System.Windows.Forms.ComboBox FontSizeList;
+        private System.Windows.Forms.ComboBox AngleList;
+        private System.Windows.Forms.CheckBox OffsetLabels;
+        private System.Windows.Forms.CheckBox EnableLabels;
+        private System.Windows.Forms.CheckBox TextAntiAlias;
 
-		public LabelsTextStyle()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Initialize combo boxes
-			FontNameList.SelectedIndex = 2;
-			FontSizeList.SelectedIndex = 1;
-			AngleList.SelectedIndex = 0;
-			OffsetLabels.Checked = false;
-			EnableLabels.Checked = true;
-			TextAntiAlias.Checked = true;
-		}
-		
+        public LabelsTextStyle()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            // Initialize combo boxes
+            FontNameList.SelectedIndex = 2;
+            FontSizeList.SelectedIndex = 1;
+            AngleList.SelectedIndex = 0;
+            OffsetLabels.Checked = false;
+            EnableLabels.Checked = true;
+            TextAntiAlias.Checked = true;
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel2 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
@@ -119,10 +115,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
@@ -131,10 +127,10 @@ namespace ChartSamples
             this.label9.TabIndex = 0;
             this.label9.Text = "This sample demonstrates how to set an axis labels\' font, angle, and offset style" +
                 ". It also shows how to enable and disable axis labels.  ";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.TextAntiAlias);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.TextAntiAlias);
             this.panel1.Controls.Add(this.EnableLabels);
             this.panel1.Controls.Add(this.OffsetLabels);
             this.panel1.Controls.Add(this.AngleList);
@@ -152,10 +148,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // TextAntiAlias
-            // 
-            this.TextAntiAlias.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // TextAntiAlias
+            //
+           this.TextAntiAlias.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.TextAntiAlias.Location = new System.Drawing.Point(17, 168);
             this.TextAntiAlias.Name = "TextAntiAlias";
             this.TextAntiAlias.Size = new System.Drawing.Size(164, 24);
@@ -163,10 +159,10 @@ namespace ChartSamples
             this.TextAntiAlias.Text = "AntiAlias For &Text:";
             this.TextAntiAlias.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.TextAntiAlias.CheckedChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // EnableLabels
-            // 
-            this.EnableLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // EnableLabels
+            //
+           this.EnableLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.EnableLabels.Location = new System.Drawing.Point(8, 136);
             this.EnableLabels.Name = "EnableLabels";
             this.EnableLabels.Size = new System.Drawing.Size(168, 24);
@@ -174,10 +170,10 @@ namespace ChartSamples
             this.EnableLabels.Text = "&Enable X Axis Labels:";
             this.EnableLabels.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.EnableLabels.CheckedChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // OffsetLabels
-            // 
-            this.OffsetLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // OffsetLabels
+            //
+           this.OffsetLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.OffsetLabels.Location = new System.Drawing.Point(17, 104);
             this.OffsetLabels.Name = "OffsetLabels";
             this.OffsetLabels.Size = new System.Drawing.Size(164, 24);
@@ -185,10 +181,10 @@ namespace ChartSamples
             this.OffsetLabels.Text = "&Offset X Axis Labels:";
             this.OffsetLabels.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.OffsetLabels.CheckedChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // AngleList
-            // 
-            this.AngleList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // AngleList
+            //
+           this.AngleList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.AngleList.Items.AddRange(new object[] {
             "0",
             "30",
@@ -204,19 +200,19 @@ namespace ChartSamples
             this.AngleList.Size = new System.Drawing.Size(120, 22);
             this.AngleList.TabIndex = 5;
             this.AngleList.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(4, 72);
+            //
+           // label7
+            //
+           this.label7.Location = new System.Drawing.Point(4, 72);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(160, 24);
             this.label7.TabIndex = 4;
             this.label7.Text = "X Axis Labels &Angle:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // FontSizeList
-            // 
-            this.FontSizeList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // FontSizeList
+            //
+           this.FontSizeList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.FontSizeList.Items.AddRange(new object[] {
             "6",
             "8",
@@ -229,19 +225,19 @@ namespace ChartSamples
             this.FontSizeList.Size = new System.Drawing.Size(120, 22);
             this.FontSizeList.TabIndex = 3;
             this.FontSizeList.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(4, 40);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(4, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(160, 24);
             this.label2.TabIndex = 2;
             this.label2.Text = "X Axis Labels Font &Size:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // FontNameList
-            // 
-            this.FontNameList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // FontNameList
+            //
+           this.FontNameList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.FontNameList.Items.AddRange(new object[] {
             "Arial",
             "Courier New",
@@ -253,59 +249,59 @@ namespace ChartSamples
             this.FontNameList.Size = new System.Drawing.Size(120, 22);
             this.FontNameList.TabIndex = 1;
             this.FontNameList.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(0, 8);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(0, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(164, 24);
             this.label1.TabIndex = 0;
             this.label1.Text = "X Axis Labels Font &Name:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(64, 403);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(64, 403);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 23);
             this.label6.TabIndex = 12;
             this.label6.Text = "Border Size:";
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(64, 380);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(64, 380);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(100, 23);
             this.label5.TabIndex = 11;
             this.label5.Text = "Border Color:";
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(64, 357);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(64, 357);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(100, 23);
             this.label4.TabIndex = 10;
             this.label4.Text = "Hatch Style:";
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(64, 334);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(64, 334);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 9;
             this.label3.Text = "Gradient:";
-            // 
-            // label15
-            // 
-            this.label15.Location = new System.Drawing.Point(64, 426);
+            //
+           // label15
+            //
+           this.label15.Location = new System.Drawing.Point(64, 426);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(100, 23);
             this.label15.TabIndex = 5;
             this.label15.Text = "Border Size:";
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -444,10 +440,10 @@ namespace ChartSamples
             title1.Text = "Chart Control for .NET Framework";
             this.Chart1.Titles.Add(title1);
             this.Chart1.Click += new System.EventHandler(this.Chart1_Click);
-            // 
-            // LabelsTextStyle
-            // 
-            this.Controls.Add(this.Chart1);
+            //
+           // LabelsTextStyle
+            //
+           this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -457,61 +453,56 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
-		
-		private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Labels();
-		}
+        #endregion Component Designer generated code
 
-		private void Labels()
-		{
-			if(
-				FontNameList.SelectedItem == null ||
-				FontSizeList.SelectedItem == null ||
-				AngleList.SelectedItem == null
-				)
-			{
-				return;
-			}
+        private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Labels();
+        }
 
-			// Disable axis labels text auto fitting
-			Chart1.ChartAreas["Default"].AxisX.IsLabelAutoFit = false;
+        private void Labels()
+        {
+            if (
+                FontNameList.SelectedItem == null ||
+                FontSizeList.SelectedItem == null ||
+                AngleList.SelectedItem == null
+                )
+            {
+                return;
+            }
 
-			// Set axis labels font
-			Chart1.ChartAreas["Default"].AxisX.LabelStyle.Font = new Font(FontNameList.GetItemText(FontNameList.SelectedItem), int.Parse(FontSizeList.GetItemText(FontSizeList.SelectedItem)));
+            // Disable axis labels text auto fitting
+            Chart1.ChartAreas["Default"].AxisX.IsLabelAutoFit = false;
 
-			// Set axis labels angle
-			AngleList.Enabled = !OffsetLabels.Checked;
-			Chart1.ChartAreas["Default"].AxisX.LabelStyle.Angle = int.Parse(AngleList.GetItemText(AngleList.SelectedItem));
+            // Set axis labels font
+            Chart1.ChartAreas["Default"].AxisX.LabelStyle.Font = new Font(FontNameList.GetItemText(FontNameList.SelectedItem), int.Parse(FontSizeList.GetItemText(FontSizeList.SelectedItem)));
 
-			// Set offset labels style
-			Chart1.ChartAreas["Default"].AxisX.LabelStyle.IsStaggered = OffsetLabels.Checked;
+            // Set axis labels angle
+            AngleList.Enabled = !OffsetLabels.Checked;
+            Chart1.ChartAreas["Default"].AxisX.LabelStyle.Angle = int.Parse(AngleList.GetItemText(AngleList.SelectedItem));
 
-			// Disable X axis labels
-			Chart1.ChartAreas["Default"].AxisX.LabelStyle.Enabled = EnableLabels.Checked;
+            // Set offset labels style
+            Chart1.ChartAreas["Default"].AxisX.LabelStyle.IsStaggered = OffsetLabels.Checked;
 
-			// Enable AntiAliasing for either Text and Graphics or just Graphics
-			if(TextAntiAlias.Checked)
+            // Disable X axis labels
+            Chart1.ChartAreas["Default"].AxisX.LabelStyle.Enabled = EnableLabels.Checked;
+
+            // Enable AntiAliasing for either Text and Graphics or just Graphics
+            if (TextAntiAlias.Checked)
                 Chart1.AntiAliasing = AntiAliasingStyles.All;
-			else
-				Chart1.AntiAliasing = AntiAliasingStyles.Graphics;
-			
-		}
+            else
+                Chart1.AntiAliasing = AntiAliasingStyles.Graphics;
+        }
 
-		private void Chart1_Click(object sender, System.EventArgs e)
-		{
-		
-		}
+        private void Chart1_Click(object sender, System.EventArgs e)
+        {
+        }
 
-		private void LabelsTextStyle_Load(object sender, System.EventArgs e)
-		{
-			Labels();
-		}
-
-
-		
-	}
+        private void LabelsTextStyle_Load(object sender, System.EventArgs e)
+        {
+            Labels();
+        }
+    }
 }

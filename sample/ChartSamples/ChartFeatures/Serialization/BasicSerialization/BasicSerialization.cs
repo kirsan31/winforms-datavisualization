@@ -1,65 +1,59 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.IO;
-using System.Windows.Forms;
-using System.Drawing.Printing;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for BasicSerialization.
-	/// </summary>
-	public class BasicSerialization : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
-		private System.Windows.Forms.Button buttonLoad;
-		private System.Windows.Forms.Button buttonResetAppearance;
-		private System.Windows.Forms.Button buttonResetData;
-		private System.Windows.Forms.Label label1;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for BasicSerialization.
+    /// </summary>
+    public class BasicSerialization : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
+        private System.Windows.Forms.Button buttonLoad;
+        private System.Windows.Forms.Button buttonResetAppearance;
+        private System.Windows.Forms.Button buttonResetData;
+        private System.Windows.Forms.Label label1;
 
-		public BasicSerialization()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Initialize combo boxes
-		
-		}
-		
+        public BasicSerialization()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            // Initialize combo boxes
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -102,10 +96,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -192,10 +186,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Serialization Sample";
             this.chart1.Titles.Add(title1);
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 24);
@@ -203,20 +197,20 @@ namespace ChartSamples
             this.labelSampleComment.Text = "This sample demonstrates how to save, load, and reset chart data using serializat" +
                 "ion.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.buttonResetData);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.buttonResetData);
             this.panel1.Controls.Add(this.buttonResetAppearance);
             this.panel1.Controls.Add(this.buttonLoad);
             this.panel1.Location = new System.Drawing.Point(536, 48);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(208, 248);
             this.panel1.TabIndex = 2;
-            // 
-            // buttonResetData
-            // 
-            this.buttonResetData.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // buttonResetData
+            //
+           this.buttonResetData.BackColor = System.Drawing.SystemColors.Control;
             this.buttonResetData.Location = new System.Drawing.Point(8, 128);
             this.buttonResetData.Name = "buttonResetData";
             this.buttonResetData.Size = new System.Drawing.Size(200, 40);
@@ -224,10 +218,10 @@ namespace ChartSamples
             this.buttonResetData.Text = "Reset &Second Chart";
             this.buttonResetData.UseVisualStyleBackColor = false;
             this.buttonResetData.Click += new System.EventHandler(this.buttonResetData_Click);
-            // 
-            // buttonResetAppearance
-            // 
-            this.buttonResetAppearance.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // buttonResetAppearance
+            //
+           this.buttonResetAppearance.BackColor = System.Drawing.SystemColors.Control;
             this.buttonResetAppearance.Location = new System.Drawing.Point(8, 72);
             this.buttonResetAppearance.Name = "buttonResetAppearance";
             this.buttonResetAppearance.Size = new System.Drawing.Size(200, 40);
@@ -235,10 +229,10 @@ namespace ChartSamples
             this.buttonResetAppearance.Text = "&Reset Visual Appearance of the Second  Chart";
             this.buttonResetAppearance.UseVisualStyleBackColor = false;
             this.buttonResetAppearance.Click += new System.EventHandler(this.buttonReset_Click);
-            // 
-            // buttonLoad
-            // 
-            this.buttonLoad.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // buttonLoad
+            //
+           this.buttonLoad.BackColor = System.Drawing.SystemColors.Control;
             this.buttonLoad.Location = new System.Drawing.Point(8, 16);
             this.buttonLoad.Name = "buttonLoad";
             this.buttonLoad.Size = new System.Drawing.Size(200, 40);
@@ -246,10 +240,10 @@ namespace ChartSamples
             this.buttonLoad.Text = "&Load Data from the First Chart into the Second Chart";
             this.buttonLoad.UseVisualStyleBackColor = false;
             this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
-            // 
-            // chart2
-            // 
-            this.chart2.BorderlineColor = System.Drawing.Color.Black;
+            //
+           // chart2
+            //
+           this.chart2.BorderlineColor = System.Drawing.Color.Black;
             this.chart2.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             chartArea2.Name = "Default";
             this.chart2.ChartAreas.Add(chartArea2);
@@ -264,10 +258,10 @@ namespace ChartSamples
             this.chart2.Series.Add(series3);
             this.chart2.Size = new System.Drawing.Size(250, 260);
             this.chart2.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label1
+            //
+           this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(16, 312);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(702, 64);
@@ -276,10 +270,10 @@ namespace ChartSamples
                 " stream and then loaded into the second chart. You can then reset the second cha" +
                 "rt in two different ways.";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // BasicSerialization
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // BasicSerialization
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chart2);
             this.Controls.Add(this.panel1);
@@ -292,46 +286,46 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void buttonLoad_Click(object sender, System.EventArgs e)
-		{
-			// Save first chart into the memory stream
-			chart2.Serializer.Content = SerializationContents.Default;
-			MemoryStream ms = new MemoryStream();
-			chart1.Serializer.Save(ms);
+        private void buttonLoad_Click(object sender, System.EventArgs e)
+        {
+            // Save first chart into the memory stream
+            chart2.Serializer.Content = SerializationContents.Default;
+            MemoryStream ms = new MemoryStream();
+            chart1.Serializer.Save(ms);
 
-			// Load data from memory stream into the second chart
-			ms.Seek(0, SeekOrigin.Begin);
-			chart2.Serializer.Load(ms);
-			ms.Close();
-		}
+            // Load data from memory stream into the second chart
+            ms.Seek(0, SeekOrigin.Begin);
+            chart2.Serializer.Load(ms);
+            ms.Close();
+        }
 
-		private void buttonReset_Click(object sender, System.EventArgs e)
-		{
-			// Reset visual appearance of the second chart
-			chart2.Serializer.Content = SerializationContents.Appearance;
-			chart2.Serializer.Reset();		
+        private void buttonReset_Click(object sender, System.EventArgs e)
+        {
+            // Reset visual appearance of the second chart
+            chart2.Serializer.Content = SerializationContents.Appearance;
+            chart2.Serializer.Reset();
 
-			// Show border around second chart
-			chart2.BorderlineColor = Color.Black;
-			chart2.BorderlineDashStyle = ChartDashStyle.Solid;
-		}
+            // Show border around second chart
+            chart2.BorderlineColor = Color.Black;
+            chart2.BorderlineDashStyle = ChartDashStyle.Solid;
+        }
 
-		private void buttonResetData_Click(object sender, System.EventArgs e)
-		{
-			// Reset data of the second chart
-			chart2.Serializer.Content = SerializationContents.All;
-			chart2.Serializer.Reset();		
+        private void buttonResetData_Click(object sender, System.EventArgs e)
+        {
+            // Reset data of the second chart
+            chart2.Serializer.Content = SerializationContents.All;
+            chart2.Serializer.Reset();
 
-			chart2.Width = chart1.Width;
-			chart2.Height = chart1.Height;
+            chart2.Width = chart1.Width;
+            chart2.Height = chart1.Height;
 
-			// Show border around second chart
-			chart2.BorderlineColor = Color.Black;
-			chart2.BorderlineDashStyle = ChartDashStyle.Solid;
-		}
-	}
+            // Show border around second chart
+            chart2.BorderlineColor = Color.Black;
+            chart2.BorderlineDashStyle = ChartDashStyle.Solid;
+        }
+    }
 }

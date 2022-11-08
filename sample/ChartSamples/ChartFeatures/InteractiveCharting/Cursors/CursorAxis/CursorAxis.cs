@@ -1,65 +1,62 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AxisAppearance.
-	/// </summary>
-	public class CursorAxis : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox Series1X;
-		private System.Windows.Forms.ComboBox Series1Y;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AxisAppearance.
+    /// </summary>
+    public class CursorAxis : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox Series1X;
+        private System.Windows.Forms.ComboBox Series1Y;
 
-		public CursorAxis()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
-		}
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        public CursorAxis()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -96,10 +93,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
@@ -109,10 +106,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to attach a cursor to the primary or secondary axis." +
                 " Note that when the axis type is changed, the previous axis value is used.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.label2);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.Series1Y);
             this.panel1.Controls.Add(this.Series1X);
@@ -127,28 +124,28 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(64, 40);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(64, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 23);
             this.label2.TabIndex = 2;
             this.label2.Text = "Cursor &Y Axis:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(64, 8);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(64, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(104, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Cursor &X Axis:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Series1Y
-            // 
-            this.Series1Y.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // Series1Y
+            //
+           this.Series1Y.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Series1Y.Items.AddRange(new object[] {
             "Primary",
             "Secondary"});
@@ -157,10 +154,10 @@ namespace ChartSamples
             this.Series1Y.Size = new System.Drawing.Size(121, 22);
             this.Series1Y.TabIndex = 3;
             this.Series1Y.SelectedIndexChanged += new System.EventHandler(this.Series_SelectedIndexChanged);
-            // 
-            // Series1X
-            // 
-            this.Series1X.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // Series1X
+            //
+           this.Series1X.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Series1X.Items.AddRange(new object[] {
             "Primary",
             "Secondary"});
@@ -169,66 +166,66 @@ namespace ChartSamples
             this.Series1X.Size = new System.Drawing.Size(121, 22);
             this.Series1X.TabIndex = 1;
             this.Series1X.SelectedIndexChanged += new System.EventHandler(this.Series_SelectedIndexChanged);
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(64, 472);
+            //
+           // label8
+            //
+           this.label8.Location = new System.Drawing.Point(64, 472);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(100, 23);
             this.label8.TabIndex = 7;
             this.label8.Text = "Shadow Offset:";
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(64, 449);
+            //
+           // label7
+            //
+           this.label7.Location = new System.Drawing.Point(64, 449);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(100, 23);
             this.label7.TabIndex = 6;
             this.label7.Text = "Border Style:";
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(64, 403);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(64, 403);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 23);
             this.label6.TabIndex = 5;
             this.label6.Text = "Border Size:";
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(64, 380);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(64, 380);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(100, 23);
             this.label5.TabIndex = 4;
             this.label5.Text = "Border Color:";
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(64, 357);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(64, 357);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(100, 23);
             this.label4.TabIndex = 3;
             this.label4.Text = "Hatch Style:";
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(64, 334);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(64, 334);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 4;
             this.label3.Text = "Gradient:";
-            // 
-            // label15
-            // 
-            this.label15.Location = new System.Drawing.Point(64, 426);
+            //
+           // label15
+            //
+           this.label15.Location = new System.Drawing.Point(64, 426);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(100, 23);
             this.label15.TabIndex = 5;
             this.label15.Text = "Border Size:";
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -326,10 +323,10 @@ namespace ChartSamples
             this.Chart1.Series.Add(series2);
             this.Chart1.Size = new System.Drawing.Size(412, 296);
             this.Chart1.TabIndex = 1;
-            // 
-            // CursorAxis
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // CursorAxis
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
@@ -340,69 +337,62 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void SetSecondary()
-		{
-			if( Series1X.SelectedItem == null ||
-				Series1Y.SelectedItem == null )
-			{
-				return;
-			}
-			
-			ChartArea area = Chart1.ChartAreas["Default"];
+        private void SetSecondary()
+        {
+            if (Series1X.SelectedItem == null ||
+                Series1Y.SelectedItem == null)
+            {
+                return;
+            }
 
-			AxisType axisXType = (AxisType)AxisType.Parse(typeof(AxisType), Series1X.GetItemText(Series1X.SelectedItem));
-			AxisType axisYType = (AxisType)AxisType.Parse(typeof(AxisType), Series1Y.GetItemText(Series1Y.SelectedItem));
+            ChartArea area = Chart1.ChartAreas["Default"];
 
-			area.CursorX.AxisType = axisXType;
-			area.CursorY.AxisType = axisYType;
-			
-			if ( axisXType == AxisType.Primary )
-			{
-				area.AxisX.LineColor = Color.Black;
-				area.AxisX2.LineColor = Color.FromArgb(64,64,64,64);
-			}
-			else
-			{
-				area.AxisX2.LineColor = Color.Black;
-				area.AxisX.LineColor = Color.FromArgb(64,64,64,64);
-			}
+            AxisType axisXType = (AxisType)AxisType.Parse(typeof(AxisType), Series1X.GetItemText(Series1X.SelectedItem));
+            AxisType axisYType = (AxisType)AxisType.Parse(typeof(AxisType), Series1Y.GetItemText(Series1Y.SelectedItem));
 
-			if ( axisYType == AxisType.Primary )
-			{
-				area.AxisY.LineColor = Color.Black;
-				area.AxisY2.LineColor = Color.FromArgb(64,64,64,64);
-			}
-			else
-			{
-				area.AxisY2.LineColor = Color.Black;
-				area.AxisY.LineColor = Color.FromArgb(64,64,64,64);
-			}
+            area.CursorX.AxisType = axisXType;
+            area.CursorY.AxisType = axisYType;
 
-			
-		}
+            if (axisXType == AxisType.Primary)
+            {
+                area.AxisX.LineColor = Color.Black;
+                area.AxisX2.LineColor = Color.FromArgb(64, 64, 64, 64);
+            }
+            else
+            {
+                area.AxisX2.LineColor = Color.Black;
+                area.AxisX.LineColor = Color.FromArgb(64, 64, 64, 64);
+            }
 
-		private void Series_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			SetSecondary();
-		}
-		
+            if (axisYType == AxisType.Primary)
+            {
+                area.AxisY.LineColor = Color.Black;
+                area.AxisY2.LineColor = Color.FromArgb(64, 64, 64, 64);
+            }
+            else
+            {
+                area.AxisY2.LineColor = Color.Black;
+                area.AxisY.LineColor = Color.FromArgb(64, 64, 64, 64);
+            }
+        }
 
-		private void CursorAxis_Load(object sender, System.EventArgs e)
-		{
-			Chart1.ChartAreas["Default"].CursorX.Position = 3;
-			Chart1.ChartAreas["Default"].CursorY.Position = 5;
+        private void Series_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            SetSecondary();
+        }
 
-			// Initialize Combo boxes
-			Series1X.SelectedIndex = 0;
-			Series1Y.SelectedIndex = 0;
-		}
+        private void CursorAxis_Load(object sender, System.EventArgs e)
+        {
+            Chart1.ChartAreas["Default"].CursorX.Position = 3;
+            Chart1.ChartAreas["Default"].CursorY.Position = 5;
 
-		
-		
-
-	}
+            // Initialize Combo boxes
+            Series1X.SelectedIndex = 0;
+            Series1Y.SelectedIndex = 0;
+        }
+    }
 }

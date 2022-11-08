@@ -1,108 +1,104 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for ChartAppearance.
-	/// </summary>
-	public class ChartAppearance : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.Label label13;
-		private System.Windows.Forms.Label label14;
-		private System.Windows.Forms.Label label16;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox HatchStyle;
-		private System.Windows.Forms.ComboBox Gradient;
-		private System.Windows.Forms.ComboBox BorderDashStyle;
-		private System.Windows.Forms.ComboBox BorderColor;
-		private System.Windows.Forms.ComboBox BorderSizeCom;
-		private System.Windows.Forms.ComboBox ForeColorCom;
-		private System.Windows.Forms.ComboBox BackColorCom;
-		private System.Windows.Forms.CheckBox ShowImageCheck;
-		private System.Windows.Forms.ComboBox ImageMode;
-		private System.Windows.Forms.ComboBox ImageAlign;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.Label label17;
-		private	bool		loadingData = false;
+    /// <summary>
+    /// Summary description for ChartAppearance.
+    /// </summary>
+    public class ChartAppearance : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox HatchStyle;
+        private System.Windows.Forms.ComboBox Gradient;
+        private System.Windows.Forms.ComboBox BorderDashStyle;
+        private System.Windows.Forms.ComboBox BorderColor;
+        private System.Windows.Forms.ComboBox BorderSizeCom;
+        private System.Windows.Forms.ComboBox ForeColorCom;
+        private System.Windows.Forms.ComboBox BackColorCom;
+        private System.Windows.Forms.CheckBox ShowImageCheck;
+        private System.Windows.Forms.ComboBox ImageMode;
+        private System.Windows.Forms.ComboBox ImageAlign;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label17;
+        private bool loadingData = false;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public ChartAppearance()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public ChartAppearance()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// Add Hatch styles to control.
-			foreach(string colorName in Enum.GetNames(typeof(ChartHatchStyle)))
-			{
-				HatchStyle.Items.Add(colorName);
-			}
-		
-			// Add Chart Gradient types to control.
-			foreach(string colorName in Enum.GetNames(typeof(GradientStyle)))
-			{
-				Gradient.Items.Add(colorName);
-			}
+            // Add Hatch styles to control.
+            foreach (string colorName in Enum.GetNames(typeof(ChartHatchStyle)))
+            {
+                HatchStyle.Items.Add(colorName);
+            }
 
-			// Add Chart Line styles to control.
-			foreach(string colorName in Enum.GetNames(typeof(ChartDashStyle)))
-			{
-				BorderDashStyle.Items.Add(colorName);
-			}
+            // Add Chart Gradient types to control.
+            foreach (string colorName in Enum.GetNames(typeof(GradientStyle)))
+            {
+                Gradient.Items.Add(colorName);
+            }
 
-			
-			// Add Chart Image Mode styles to control.
-			foreach(string imageMode in Enum.GetNames(typeof(ChartImageWrapMode)))
-			{
-				ImageMode.Items.Add(imageMode);
-			}
-			ImageMode.SelectedIndex = 5;
+            // Add Chart Line styles to control.
+            foreach (string colorName in Enum.GetNames(typeof(ChartDashStyle)))
+            {
+                BorderDashStyle.Items.Add(colorName);
+            }
 
-			// Add Chart Image Align styles to control.
-			foreach(string imageAlign in Enum.GetNames(typeof(ChartImageAlignmentStyle)))
-			{
-				ImageAlign.Items.Add(imageAlign);
-			}
-			ImageAlign.SelectedIndex = 2;
-		}
+            // Add Chart Image Mode styles to control.
+            foreach (string imageMode in Enum.GetNames(typeof(ChartImageWrapMode)))
+            {
+                ImageMode.Items.Add(imageMode);
+            }
+            ImageMode.SelectedIndex = 5;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            // Add Chart Image Align styles to control.
+            foreach (string imageAlign in Enum.GetNames(typeof(ChartImageAlignmentStyle)))
+            {
+                ImageAlign.Items.Add(imageAlign);
+            }
+            ImageAlign.SelectedIndex = 2;
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -146,10 +142,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
@@ -158,10 +154,10 @@ namespace ChartSamples
             this.label9.TabIndex = 0;
             this.label9.Text = "This sample demonstrates how to set a chart\'s background appearance.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.ImageMode);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.ImageMode);
             this.panel1.Controls.Add(this.ImageAlign);
             this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.label17);
@@ -184,46 +180,46 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // ImageMode
-            // 
-            this.ImageMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // ImageMode
+            //
+           this.ImageMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ImageMode.Location = new System.Drawing.Point(168, 232);
             this.ImageMode.Name = "ImageMode";
             this.ImageMode.Size = new System.Drawing.Size(120, 22);
             this.ImageMode.TabIndex = 16;
             this.ImageMode.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // ImageAlign
-            // 
-            this.ImageAlign.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // ImageAlign
+            //
+           this.ImageAlign.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ImageAlign.Location = new System.Drawing.Point(168, 256);
             this.ImageAlign.Name = "ImageAlign";
             this.ImageAlign.Size = new System.Drawing.Size(120, 22);
             this.ImageAlign.TabIndex = 18;
             this.ImageAlign.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // label11
-            // 
-            this.label11.Location = new System.Drawing.Point(66, 232);
+            //
+           // label11
+            //
+           this.label11.Location = new System.Drawing.Point(66, 232);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(100, 23);
             this.label11.TabIndex = 15;
             this.label11.Text = "Image &Mode:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label17
-            // 
-            this.label17.Location = new System.Drawing.Point(66, 256);
+            //
+           // label17
+            //
+           this.label17.Location = new System.Drawing.Point(66, 256);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(100, 23);
             this.label17.TabIndex = 17;
             this.label17.Text = "Image &Align:";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // ShowImageCheck
-            // 
-            this.ShowImageCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // ShowImageCheck
+            //
+           this.ShowImageCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ShowImageCheck.Location = new System.Drawing.Point(64, 208);
             this.ShowImageCheck.Name = "ShowImageCheck";
             this.ShowImageCheck.Size = new System.Drawing.Size(120, 24);
@@ -231,19 +227,19 @@ namespace ChartSamples
             this.ShowImageCheck.Text = "Show &Image: ";
             this.ShowImageCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ShowImageCheck.Click += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // BorderDashStyle
-            // 
-            this.BorderDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // BorderDashStyle
+            //
+           this.BorderDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BorderDashStyle.Location = new System.Drawing.Point(168, 168);
             this.BorderDashStyle.Name = "BorderDashStyle";
             this.BorderDashStyle.Size = new System.Drawing.Size(120, 22);
             this.BorderDashStyle.TabIndex = 13;
             this.BorderDashStyle.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // BorderSizeCom
-            // 
-            this.BorderSizeCom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // BorderSizeCom
+            //
+           this.BorderSizeCom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BorderSizeCom.Items.AddRange(new object[] {
             "1",
             "2",
@@ -255,10 +251,10 @@ namespace ChartSamples
             this.BorderSizeCom.Size = new System.Drawing.Size(120, 22);
             this.BorderSizeCom.TabIndex = 11;
             this.BorderSizeCom.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // BorderColor
-            // 
-            this.BorderColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // BorderColor
+            //
+           this.BorderColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BorderColor.Items.AddRange(new object[] {
             "MidnightBlue",
             "Red",
@@ -270,28 +266,28 @@ namespace ChartSamples
             this.BorderColor.Size = new System.Drawing.Size(120, 22);
             this.BorderColor.TabIndex = 9;
             this.BorderColor.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // HatchStyle
-            // 
-            this.HatchStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // HatchStyle
+            //
+           this.HatchStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.HatchStyle.Location = new System.Drawing.Point(168, 56);
             this.HatchStyle.Name = "HatchStyle";
             this.HatchStyle.Size = new System.Drawing.Size(120, 22);
             this.HatchStyle.TabIndex = 5;
             this.HatchStyle.SelectedIndexChanged += new System.EventHandler(this.HatchStyle_SelectedIndexChanged);
-            // 
-            // Gradient
-            // 
-            this.Gradient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // Gradient
+            //
+           this.Gradient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Gradient.Location = new System.Drawing.Point(168, 32);
             this.Gradient.Name = "Gradient";
             this.Gradient.Size = new System.Drawing.Size(120, 22);
             this.Gradient.TabIndex = 3;
             this.Gradient.SelectedIndexChanged += new System.EventHandler(this.Gradient_SelectedIndexChanged);
-            // 
-            // ForeColorCom
-            // 
-            this.ForeColorCom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // ForeColorCom
+            //
+           this.ForeColorCom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ForeColorCom.Items.AddRange(new object[] {
             "SkyBlue",
             "Yellow",
@@ -303,10 +299,10 @@ namespace ChartSamples
             this.ForeColorCom.Size = new System.Drawing.Size(120, 22);
             this.ForeColorCom.TabIndex = 7;
             this.ForeColorCom.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // BackColorCom
-            // 
-            this.BackColorCom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // BackColorCom
+            //
+           this.BackColorCom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BackColorCom.Items.AddRange(new object[] {
             "White",
             "AliceBlue",
@@ -319,73 +315,73 @@ namespace ChartSamples
             this.BackColorCom.Size = new System.Drawing.Size(120, 22);
             this.BackColorCom.TabIndex = 1;
             this.BackColorCom.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(66, 168);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(66, 168);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 23);
             this.label1.TabIndex = 12;
             this.label1.Text = "Border S&tyle:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(6, 80);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(6, 80);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(160, 23);
             this.label2.TabIndex = 6;
             this.label2.Text = "Secondary Back C&olor:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label10
-            // 
-            this.label10.Location = new System.Drawing.Point(66, 144);
+            //
+           // label10
+            //
+           this.label10.Location = new System.Drawing.Point(66, 144);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(100, 23);
             this.label10.TabIndex = 10;
             this.label10.Text = "Border &Size:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label12
-            // 
-            this.label12.Location = new System.Drawing.Point(66, 8);
+            //
+           // label12
+            //
+           this.label12.Location = new System.Drawing.Point(66, 8);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(100, 23);
             this.label12.TabIndex = 0;
             this.label12.Text = "&Back Color:";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label13
-            // 
-            this.label13.Location = new System.Drawing.Point(66, 32);
+            //
+           // label13
+            //
+           this.label13.Location = new System.Drawing.Point(66, 32);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(100, 23);
             this.label13.TabIndex = 2;
             this.label13.Text = "&Gradient:";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label14
-            // 
-            this.label14.Location = new System.Drawing.Point(66, 120);
+            //
+           // label14
+            //
+           this.label14.Location = new System.Drawing.Point(66, 120);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(100, 23);
             this.label14.TabIndex = 8;
             this.label14.Text = "Border &Color:";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label16
-            // 
-            this.label16.Location = new System.Drawing.Point(66, 56);
+            //
+           // label16
+            //
+           this.label16.Location = new System.Drawing.Point(66, 56);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(100, 23);
             this.label16.TabIndex = 4;
             this.label16.Text = "&Hatch Style:";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -483,10 +479,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Chart Control for .NET Framework";
             this.Chart1.Titles.Add(title1);
-            // 
-            // ChartAppearance
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // ChartAppearance
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
@@ -497,113 +493,113 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void ChartAppearance_Load(object sender, System.EventArgs e)
-		{
-			BackColorCom.SelectedIndex = 0;
-			Gradient.SelectedIndex = 0;
-			ForeColorCom.SelectedIndex = 2;
-			BorderColor.SelectedIndex = 0;
-			HatchStyle.SelectedIndex = 0;
-			BorderSizeCom.SelectedIndex = 1;
-			BorderDashStyle.SelectedIndex = 5;
-			
-			ChartAppearanceChange();
-		}
+        private void ChartAppearance_Load(object sender, System.EventArgs e)
+        {
+            BackColorCom.SelectedIndex = 0;
+            Gradient.SelectedIndex = 0;
+            ForeColorCom.SelectedIndex = 2;
+            BorderColor.SelectedIndex = 0;
+            HatchStyle.SelectedIndex = 0;
+            BorderSizeCom.SelectedIndex = 1;
+            BorderDashStyle.SelectedIndex = 5;
 
-		private void ChartAppearanceChange()
-		{
-			// Enable/disable appearance controls
-			ForeColorCom.Enabled = (HatchStyle.SelectedIndex != 0 || Gradient.SelectedIndex != 0);
-			BorderColor.Enabled = (BorderDashStyle.SelectedIndex != 0);
-			BorderSizeCom.Enabled = (BorderDashStyle.SelectedIndex != 0);
+            ChartAppearanceChange();
+        }
 
-			// Set Back Color
-			Chart1.BackColor = Color.FromName(BackColorCom.GetItemText(BackColorCom.SelectedItem));
+        private void ChartAppearanceChange()
+        {
+            // Enable/disable appearance controls
+            ForeColorCom.Enabled = (HatchStyle.SelectedIndex != 0 || Gradient.SelectedIndex != 0);
+            BorderColor.Enabled = (BorderDashStyle.SelectedIndex != 0);
+            BorderSizeCom.Enabled = (BorderDashStyle.SelectedIndex != 0);
 
-			// Set Back Gradient End Color
-			Chart1.BackSecondaryColor = Color.FromName(ForeColorCom.GetItemText(ForeColorCom.SelectedItem));
+            // Set Back Color
+            Chart1.BackColor = Color.FromName(BackColorCom.GetItemText(BackColorCom.SelectedItem));
 
-			// Set Gradient Type
-			if( Gradient.SelectedItem != null )
-				Chart1.BackGradientStyle = (GradientStyle)GradientStyle.Parse(typeof(GradientStyle), Gradient.GetItemText(Gradient.SelectedItem));
+            // Set Back Gradient End Color
+            Chart1.BackSecondaryColor = Color.FromName(ForeColorCom.GetItemText(ForeColorCom.SelectedItem));
 
-			// Set Gradient Type
-			if( HatchStyle.SelectedItem != null )
-				Chart1.BackHatchStyle = (ChartHatchStyle)ChartHatchStyle.Parse(typeof(ChartHatchStyle), HatchStyle.GetItemText(HatchStyle.SelectedItem));
+            // Set Gradient Type
+            if (Gradient.SelectedItem != null)
+                Chart1.BackGradientStyle = (GradientStyle)GradientStyle.Parse(typeof(GradientStyle), Gradient.GetItemText(Gradient.SelectedItem));
 
-			// Set background image
-			if(!ShowImageCheck.Checked)
-			{
-				Chart1.BackImage = "";
-				ImageAlign.Enabled = false;
-				ImageMode.Enabled = false;
-			}
-			else
-			{
-				ImageMode.Enabled = true;
-				ImageAlign.Enabled = (ImageMode.SelectedIndex == 5);
+            // Set Gradient Type
+            if (HatchStyle.SelectedItem != null)
+                Chart1.BackHatchStyle = (ChartHatchStyle)ChartHatchStyle.Parse(typeof(ChartHatchStyle), HatchStyle.GetItemText(HatchStyle.SelectedItem));
 
-				// Set chart image
-				MainForm mainForm = (MainForm)this.ParentForm;
+            // Set background image
+            if (!ShowImageCheck.Checked)
+            {
+                Chart1.BackImage = "";
+                ImageAlign.Enabled = false;
+                ImageMode.Enabled = false;
+            }
+            else
+            {
+                ImageMode.Enabled = true;
+                ImageAlign.Enabled = (ImageMode.SelectedIndex == 5);
+
+                // Set chart image
+                MainForm mainForm = (MainForm)this.ParentForm;
                 string imageFileName = mainForm.CurrentSamplePath;
-				imageFileName += "\\Flag.gif";
-				Chart1.BackImage = imageFileName;
-				Chart1.BackImageTransparentColor = Color.Red;
+                imageFileName += "\\Flag.gif";
+                Chart1.BackImage = imageFileName;
+                Chart1.BackImageTransparentColor = Color.Red;
 
-				// Set Image Mode
-				if( ImageMode.SelectedItem != null )
-					Chart1.BackImageWrapMode = (ChartImageWrapMode)ChartImageWrapMode.Parse(typeof(ChartImageWrapMode), ImageMode.SelectedItem.ToString());
+                // Set Image Mode
+                if (ImageMode.SelectedItem != null)
+                    Chart1.BackImageWrapMode = (ChartImageWrapMode)ChartImageWrapMode.Parse(typeof(ChartImageWrapMode), ImageMode.SelectedItem.ToString());
 
-				// Set Image Alignment
-				if( ImageAlign.SelectedItem != null )
-					Chart1.BackImageAlignment = (ChartImageAlignmentStyle)ChartImageAlignmentStyle.Parse(typeof(ChartImageAlignmentStyle), ImageAlign.SelectedItem.ToString());
-			}
+                // Set Image Alignment
+                if (ImageAlign.SelectedItem != null)
+                    Chart1.BackImageAlignment = (ChartImageAlignmentStyle)ChartImageAlignmentStyle.Parse(typeof(ChartImageAlignmentStyle), ImageAlign.SelectedItem.ToString());
+            }
 
-			// Set Border Width
-			if( BorderSizeCom.SelectedItem != null )
-				Chart1.BorderWidth = int.Parse(BorderSizeCom.GetItemText(BorderSizeCom.SelectedItem));
+            // Set Border Width
+            if (BorderSizeCom.SelectedItem != null)
+                Chart1.BorderWidth = int.Parse(BorderSizeCom.GetItemText(BorderSizeCom.SelectedItem));
 
-			// Set Border Style
-			if( BorderDashStyle.SelectedItem != null )
-				Chart1.BorderDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), BorderDashStyle.GetItemText(BorderDashStyle.SelectedItem));
+            // Set Border Style
+            if (BorderDashStyle.SelectedItem != null)
+                Chart1.BorderDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), BorderDashStyle.GetItemText(BorderDashStyle.SelectedItem));
 
-			// Set Border Color
-			Chart1.BorderColor = Color.FromName(BorderColor.GetItemText(BorderColor.SelectedItem));
-		}
+            // Set Border Color
+            Chart1.BorderColor = Color.FromName(BorderColor.GetItemText(BorderColor.SelectedItem));
+        }
 
-		private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			ChartAppearanceChange();
-		}
+        private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            ChartAppearanceChange();
+        }
 
-		private void Gradient_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			if(!loadingData)
-			{
-				// Reset Hatching style
-				loadingData = true;
-				HatchStyle.SelectedIndex = 0;
-				loadingData = false;
+        private void Gradient_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if (!loadingData)
+            {
+                // Reset Hatching style
+                loadingData = true;
+                HatchStyle.SelectedIndex = 0;
+                loadingData = false;
 
-				ChartAppearanceChange();
-			}
-		}
+                ChartAppearanceChange();
+            }
+        }
 
-		private void HatchStyle_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			if(!loadingData)
-			{
-				// Reset Gradient style
-				loadingData = true;
-				Gradient.SelectedIndex = 0;
-				loadingData = false;
+        private void HatchStyle_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if (!loadingData)
+            {
+                // Reset Gradient style
+                loadingData = true;
+                Gradient.SelectedIndex = 0;
+                loadingData = false;
 
-				ChartAppearanceChange();
-			}
-		}
-	}
+                ChartAppearanceChange();
+            }
+        }
+    }
 }

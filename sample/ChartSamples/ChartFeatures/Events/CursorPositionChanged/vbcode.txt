@@ -12,12 +12,12 @@ End Sub 'chart1_CursorPositionChanging
 Private Sub SetPosition(axis As Axis, position As Double)
    If Double.IsNaN(position) Then
       Return
-   End If 
-   If axis.AxisName = AxisName.X Then
+   End If
+  If axis.AxisName = AxisName.X Then
       ' Convert Double to DateTime.
       Dim dateTimeX As DateTime = DateTime.FromOADate(position)
-      
-      ' Set X cursor position to edit Control
+     
+     ' Set X cursor position to edit Control
       CursorX.Text = dateTimeX.ToLongDateString()
    Else
       ' Set Y cursor position to edit Control

@@ -14,15 +14,15 @@
 //===================================================================
 
 #region Using Statements
-using System;
-using System.Text;
+
 using System.Drawing;
-using System.Windows.Forms.DataVisualization.Charting; 
-#endregion
+
+#endregion Using Statements
 
 namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 {
     #region Activity Legend Class
+
     /// <summary>
     /// ActivityLegend adds a legend which documents each point within specified series in a separate legend.
     /// For clarity, lines are drawn to each data point from the legend to the point.
@@ -30,6 +30,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     public class ActivityLegend
     {
         #region Private Members
+
         // The chart that contains the series and is to have this legend added to it
         private Chart myChart;
 
@@ -83,11 +84,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         private Font mySecondCellFont;
 
         // myItemSpacing holds the amount of margin space at the top and bottom between items
-        private int myItemSpacing;        
+        private int myItemSpacing;
 
-        #endregion
+        #endregion Private Members
 
         #region Public Properties
+
         /// <summary>
         /// Gets or sets the legend used for the Activities.
         /// </summary>
@@ -138,7 +140,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             set { myCirclePointRadius = value; }
         }
 
-
         /// <summary>
         /// Gets or sets the color of the circle outline. By default, it is the same color as the filled portion
         /// of the circle which is the color of the series.
@@ -188,10 +189,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             get { return mySecondCellFont; }
             set { mySecondCellFont = value; }
-        } 
-        #endregion
+        }
+
+        #endregion Public Properties
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:ActivityLegend"/> class.
         /// </summary>
@@ -232,17 +235,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
             // Instatiate the AlternateLineColors class
             myAlternateLineColors = new AlternateLineColorsClass();
-        } 
-        #endregion
+        }
+
+        #endregion Constructors
 
         #region Private Functions
+
         /// <summary>
         /// Sets the up the event handler for Chart's PostPaint event.
         /// </summary>
         /// <param name="mainChart">The chart.</param>
         private void SetUpEventHandler(Chart mainChart)
         {
-            mainChart.PostPaint +=new EventHandler<ChartPaintEventArgs>(mainChart_PostPaint);
+            mainChart.PostPaint += new EventHandler<ChartPaintEventArgs>(mainChart_PostPaint);
         }
 
         /// <summary>
@@ -327,10 +332,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             if (sender is LegendCell)
             {
                 // Get the LegendCell
-                LegendCell legendCell = sender as LegendCell;				
+                LegendCell legendCell = sender as LegendCell;
 
                 // Ensure it's one of the items created by this class
-                if (legendCell.Name.IndexOf("ActivityItem")  > -1)
+                if (legendCell.Name.IndexOf("ActivityItem") > -1)
                 {
                     // Get the index out of the cell's name
                     index = Convert.ToInt32(legendCell.Name.Substring(12));
@@ -413,10 +418,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     myLeftPadding = e.Position.Width;
                 }
             }
-        } 
-        #endregion
+        }
+
+        #endregion Private Functions
 
         #region Public Functions
+
         /// <summary>
         /// Adds the activity legend to the Chart. This must be done before the PostPaint event if the add-on
         /// is to work correctly.
@@ -446,7 +453,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 // Loop through all points in this series
                 foreach (DataPoint dataPoint in thisSeries.Points)
                 {
-                    if ((dataPoint.IsEmpty != true) && dataPoint.LegendText !="")
+                    if ((dataPoint.IsEmpty != true) && dataPoint.LegendText != "")
                     {
                         // Disable the marker for this datapoint
                         dataPoint.MarkerSize = 0;
@@ -552,26 +559,32 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// </summary>
         public void RemoveEventHandler()
         {
-            myChart.PostPaint -= new EventHandler<ChartPaintEventArgs>(mainChart_PostPaint); 
-               // new PaintEventHandler(mainChart_PostPaint);
+            myChart.PostPaint -= new EventHandler<ChartPaintEventArgs>(mainChart_PostPaint);
+            // new PaintEventHandler(mainChart_PostPaint);
         }
-        #endregion
-    }  
-    #endregion
+
+        #endregion Public Functions
+    }
+
+    #endregion Activity Legend Class
 
     #region Alternate Line Colors Class
+
     /// <summary>
     /// This class is used by ActivityLegend to hold the settings for the alternate line colors.
     /// </summary>
     public class AlternateLineColorsClass
     {
         #region Private Members
+
         private bool myEnabled;
         private Color myFirstColor;
-        private Color mySecondColor; 
-        #endregion
+        private Color mySecondColor;
+
+        #endregion Private Members
 
         #region Public Properties
+
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:AlternateLineColorsClass"/> is enabled.
         /// </summary>
@@ -600,10 +613,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             get { return myFirstColor; }
             set { myFirstColor = value; }
-        } 
-        #endregion
+        }
+
+        #endregion Public Properties
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AlternateLineColorsClass"/> class.
         /// </summary>
@@ -613,8 +628,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             myEnabled = true;
             myFirstColor = Color.FromArgb(115, Color.Black);
             mySecondColor = Color.FromArgb(115, Color.Green);
-        } 
-        #endregion
-    } 
-    #endregion
+        }
+
+        #endregion Constructors
+    }
+
+    #endregion Alternate Line Colors Class
 }

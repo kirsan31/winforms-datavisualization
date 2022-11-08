@@ -10,11 +10,12 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     ''' Pie segments which are too small are shown in a supplemental pie chart series.
     ''' </summary>
     Public Class PieCollectedDataHelper
+
 #Region "Fields"
 
         ''' <summary>
-        ''' Specifies the percentage of the total series values. This value determines 
-        ''' if the data point value is a "small" value and should be shown as collected.
+        ''' Specifies the percentage of the total series values. This value determines
+       ''' if the data point value is a "small" value and should be shown as collected.
         ''' </summary>
         Public CollectedPercentage As Double = 5.0
 
@@ -50,7 +51,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         ''' </summary>
         Public CollectedLabel As String = "Other"
 
-
         ' Reference to the parameters
         Private chartControl As Chart = Nothing
         Private series As series = Nothing
@@ -72,8 +72,8 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         Public Sub New(ByVal chartControl As Chart)
             Me.chartControl = chartControl
 
-            ' Handle chart PostPaint event to draw the "connection" between the 
-            ' collected pie slice and supplemental chart.
+            ' Handle chart PostPaint event to draw the "connection" between the
+           ' collected pie slice and supplemental chart.
             AddHandler chartControl.PostPaint, AddressOf chart_PostPaint
         End Sub
 
@@ -198,7 +198,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 Me.series.Points.Add(colectedDataPoint)
             End If
 
-
             ' Apply pallete colors to series to save same data point colors
             ' in supplemental series.
             Me.chartControl.ApplyPaletteColors()
@@ -260,8 +259,8 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 ' Calculate collected pie slice angle
                 Me.collectedPieSliceAngle = CSng((360.0F / 100.0F) * (collectedValue / (total / 100)))
 
-                ' Adjust the Pie chart start angle, so that the middle of the 
-                ' collected slice looks directly at 3 o'clock.
+                ' Adjust the Pie chart start angle, so that the middle of the
+               ' collected slice looks directly at 3 o'clock.
                 Dim startAngle As Integer = CInt(Math.Round(Me.collectedPieSliceAngle / 2.0))
                 Me.series("PieStartAngle") = startAngle.ToString()
 
@@ -275,8 +274,8 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         End Function
 
         ''' <summary>
-        ''' Chart post paint event handler. 
-        ''' Used to draw the "connection" lines between the original and supplemental pies.
+        ''' Chart post paint event handler.
+       ''' Used to draw the "connection" lines between the original and supplemental pies.
         ''' </summary>
         ''' <param name="sender">Event sender.</param>
         ''' <param name="e">Event arguments.</param>
@@ -312,8 +311,8 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         End Sub
 
         ''' <summary>
-        ''' Helper method which calculates a point on the edje of the pie chart using 
-        ''' specified angle.
+        ''' Helper method which calculates a point on the edje of the pie chart using
+       ''' specified angle.
         ''' </summary>
         ''' <param name="areaPosition">Chart are position in pixels.</param>
         ''' <param name="angle">Point angle in degrees.</param>
@@ -352,5 +351,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         End Function
 
 #End Region   ' Methods
+
     End Class
 End Namespace

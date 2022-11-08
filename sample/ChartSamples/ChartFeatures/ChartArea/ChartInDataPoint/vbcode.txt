@@ -25,40 +25,40 @@ Public Sub CreateChartInSeriesPoints(chart As Chart, series As Series, chartType
          Exit ForEach
       End If
    Next point
-   
-   '****************************************************
+  
+  '****************************************************
    '** Calculate bubble scaling variables required to
    '** for the bubble size calculations.
    '****************************************************
    Dim bubbleChart As Boolean = False
-   
-   ' Minimum/Maximum bubble size
+  
+  ' Minimum/Maximum bubble size
    Dim maxPossibleBubbleSize As Double = 15F
    Dim minPossibleBubbleSize As Double = 3F
    Dim maxBubleSize As Single = 0F
    Dim minBubleSize As Single = 0F
-   
-   ' Current min/max size of the bubble size
+  
+  ' Current min/max size of the bubble size
    Dim minAll As Double = Double.MaxValue
    Dim maxAll As Double = Double.MinValue
-   
-   ' Bubble size difference value
+  
+  ' Bubble size difference value
    Dim valueDiff As Double = 0
    Dim valueScale As Double = 1
-   
-   ' Check for the Bubble chart type
-   If series.ChartType = SeriesChartType.Bubble Then 
-      bubbleChart = True
-      
-      ' Check if custom attributes are set to specify scale
+  
+  ' Check for the Bubble chart type
+   If series.ChartType = SeriesChartType.Bubble Then
+     bubbleChart = True
+     
+     ' Check if custom attributes are set to specify scale
       If series.IsCustomPropertySet("BubbleScaleMin") Then
          minAll = Math.Min(minAll, [Double].Parse(series("BubbleScaleMin")))
       End If
       If series.IsCustomPropertySet("BubbleScaleMax") Then
          maxAll = Math.Max(maxAll, [Double].Parse(series("BubbleScaleMax")))
       End If
-      
-      ' Calculate bubble scale
+     
+     ' Calculate bubble scale
       Dim minSer As Double = Double.MaxValue
       Dim maxSer As Double = Double.MinValue
       Dim ser As Series
@@ -77,17 +77,17 @@ Public Sub CreateChartInSeriesPoints(chart As Chart, series As Series, chartType
       If maxAll = Double.MinValue Then
          maxAll = maxSer
       End If
-      
-      ' Calculate maximum bubble size
+     
+     ' Calculate maximum bubble size
       Dim areaSize As SizeF = chart.ChartAreas(series.ChartArea).Position.GetSize()
-      
-      ' Convert relative coordinates to absolute coordinates
+     
+     ' Convert relative coordinates to absolute coordinates
       areaSize.Width = areaSize.Width *(chart.Width - 1) / 100F
       areaSize.Height = areaSize.Height *(chart.Height - 1) / 100F
       maxBubleSize = CSng(Math.Min(areaSize.Width, areaSize.Height) /(100.0 / maxPossibleBubbleSize))
       minBubleSize = CSng(Math.Min(areaSize.Width, areaSize.Height) /(100.0 / minPossibleBubbleSize))
-      
-      ' Calculate scaling variables depending on the Min/Max values
+     
+     ' Calculate scaling variables depending on the Min/Max values
       If maxAll = minAll Then
          valueScale = 1
          valueDiff = minAll -(maxBubleSize - minBubleSize) / 2F
@@ -96,9 +96,9 @@ Public Sub CreateChartInSeriesPoints(chart As Chart, series As Series, chartType
          valueDiff = minAll
       End If
    End If
-   
-   
-   '****************************************************
+  
+ 
+  '****************************************************
    '** Create chart area for each data point
    '****************************************************
    Dim pointIndex As Integer = 0
@@ -119,8 +119,8 @@ Public Sub CreateChartInSeriesPoints(chart As Chart, series As Series, chartType
       areaPoint.AxisY.MajorGrid.Enabled = False
       areaPoint.AxisY.MajorTickMark.Enabled = False
       areaPoint.AxisY.LabelStyle.Enabled = False
-      
-      '****************************************************
+     
+     '****************************************************
       '** Create data series in the chart area
       '****************************************************
       Dim seriesPoint As Series = chart.Series.Add((series.Name + "_" + pointIndex.ToString()))
@@ -130,8 +130,8 @@ Public Sub CreateChartInSeriesPoints(chart As Chart, series As Series, chartType
       seriesPoint.BorderColor = Color.FromArgb(64, 64, 64)
       seriesPoint.ShadowOffset = 2
       seriesPoint.Palette = ChartColorPalette.Pastel
-      
-      '****************************************************
+     
+     '****************************************************
       '** Populate data series.
       '** TODO: For this sample each series is populated
       '** with random data. Do your own series population
@@ -141,26 +141,26 @@ Public Sub CreateChartInSeriesPoints(chart As Chart, series As Series, chartType
       For sliceIndex = 0 To 4
          seriesPoint.Points.AddY(random.Next(2, 20))
       Next sliceIndex
-      
-      '****************************************************
+     
+     '****************************************************
       '** Set chart area position and inner plot position
       '****************************************************
       ' Set chart area inner plot position
       areaPoint.InnerPlotPosition = New ElementPosition(3, 3, 94, 94)
-      
-      ' Position chart area over the data point
+     
+     ' Position chart area over the data point
       Dim position As PointF = PointF.Empty
       position.X = CSng(chart.ChartAreas(series.ChartArea).AxisX.GetPosition((If zeroXValues Then pointIndex + 1 Else point.XValue))) 'ToDo: Unsupported feature: conditional (?) operator.
       position.Y = CSng(chart.ChartAreas(series.ChartArea).AxisY.GetPosition(point.YValues(0)))
-      
-      Dim pieSize As Single = (If point.MarkerSize < 15 Then 15 Else point.MarkerSize) 'ToDo: Unsupported feature: conditional (?) operator.
+     
+     Dim pieSize As Single = (If point.MarkerSize < 15 Then 15 Else point.MarkerSize) 'ToDo: Unsupported feature: conditional (?) operator.
       If bubbleChart Then
          pieSize = CSng((point.YValues(1) - valueDiff) * valueScale) + minBubleSize
       End If
       pieSize = pieSize * 100F / CSng(chart.Width - 1)
       areaPoint.Position = New ElementPosition(position.X - pieSize / 2F, position.Y - pieSize / 2F, pieSize, pieSize)
-      
-      ' Increase point index
+     
+     ' Increase point index
       pointIndex += 1
    Next point
 End Sub 'CreateChartInSeriesPoints

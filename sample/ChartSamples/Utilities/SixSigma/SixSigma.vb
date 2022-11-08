@@ -17,7 +17,6 @@ Imports System.Configuration
 Imports System.Drawing
 Imports System.Windows.Forms.DataVisualization.Charting
 
-
 Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     ''' <summary>
     ''' SixSigma is a utility that includes useful functions related to the Six Sigma strategy.
@@ -193,7 +192,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             Return cseries
         End Function 'cChart
 
-
         ''' <summary>
         ''' Creates a P-Chart with lines indicating pBar, UCL and LCL. A P-Chart is the same as an NP-Chart except
         ''' with a variable number of items in each subgroup.
@@ -281,7 +279,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             Return pseries
         End Function 'pChart
 
-
         ''' <summary>
         ''' Creates an NP-Chart with lines indicating CL, UCL and LCL. An NP chart is the same as a P-chart except
         ''' that the number of items in each subgroup is the same.
@@ -356,7 +353,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             'Return the series.
             Return npseries
         End Function 'npChart
-
 
         ''' <summary>
         ''' Creates a U-Chart with UBar, UCL and LCL lines. A U-Chart is used when the desired chart
@@ -450,7 +446,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             Return useries
         End Function 'uChart
 
-
         ''' <summary>
         ''' Creates a Run Chart of the data and adds an average line. A run chart is a plot of the data without
         ''' manipulation along with a line indicating where the average of the points is.
@@ -493,7 +488,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             'Return the series.
             Return runseries
         End Function 'runChart
-
 
         ''' <summary>
         ''' Creates an S-Chart of prepared data that can be evaluated. If the data is deemed to be in statistical control
@@ -595,7 +589,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             Return sseries
         End Function 'sChart
 
-
         ''' <summary>
         ''' Creates an R-Chart of prepared data that can be evaluated. If the data is deemed to be in statistical control
         ''' an XBAR chart can be created via XBARChart function.
@@ -696,7 +689,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             Return rseries
         End Function 'rChart
 
-
         ''' <summary>
         ''' Creates an XBAR chart of the prepared data. sChart or rChart must have already been called to create a XBAR chart.
         ''' </summary>
@@ -708,7 +700,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             'Call the private function with no MRBAR to graph a separate XBAR chart.
             Return XBARChartImplementation(subgroup, data, output, 0)
         End Function 'XBARChart
-
 
         ''' <summary>
         ''' Creates an Individuals Chart of the data and places the MRBar, XBAR, UCL and LCL upon it.
@@ -742,7 +733,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             'Return the series
             Return XBARChartImplementation(subgroup, data, output, mrbar)
         End Function 'individualsChart
-
 
         ''' <summary>
         ''' Creates an XBAR chart of the prepared data. This function contains the implementation for the public function with one extra
@@ -870,7 +860,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             Return sum
         End Function 'Mean
 
-
         ''' <summary>
         ''' Calculates the range of an array of numbers.
         ''' </summary>
@@ -894,7 +883,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             'Return the Range.
             Return data(maxIndex) - data(minIndex)
         End Function 'Range
-
 
         ''' <summary>
         ''' Calculates the standard deviation of an array of numbers.

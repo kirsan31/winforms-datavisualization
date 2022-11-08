@@ -1,64 +1,59 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for LineCurves3D.
-	/// </summary>
-	public class LineCurves3D : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboBoxChartType;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox comboBoxPointLabels;
-		private System.Windows.Forms.CheckBox checkBoxShowMargin;
-		private System.Windows.Forms.CheckBox ShowMarkerLines;
+    /// <summary>
+    /// Summary description for LineCurves3D.
+    /// </summary>
+    public class LineCurves3D : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBoxChartType;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboBoxPointLabels;
+        private System.Windows.Forms.CheckBox checkBoxShowMargin;
+        private System.Windows.Forms.CheckBox ShowMarkerLines;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public LineCurves3D()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public LineCurves3D()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// TODO: Add any initialization after the InitForm call
+            // TODO: Add any initialization after the InitForm call
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -76,10 +71,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -148,10 +143,10 @@ namespace ChartSamples
             this.chart1.Series.Add(series3);
             this.chart1.Size = new System.Drawing.Size(412, 296);
             this.chart1.TabIndex = 1;
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F);
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F);
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 37);
@@ -160,10 +155,10 @@ namespace ChartSamples
                 "he label style and the display of data point marker lines can be set using custo" +
                 "m attributes.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.ShowMarkerLines);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.ShowMarkerLines);
             this.panel1.Controls.Add(this.checkBoxShowMargin);
             this.panel1.Controls.Add(this.comboBoxPointLabels);
             this.panel1.Controls.Add(this.label2);
@@ -173,10 +168,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // ShowMarkerLines
-            // 
-            this.ShowMarkerLines.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // ShowMarkerLines
+            //
+           this.ShowMarkerLines.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ShowMarkerLines.Location = new System.Drawing.Point(14, 104);
             this.ShowMarkerLines.Name = "ShowMarkerLines";
             this.ShowMarkerLines.Size = new System.Drawing.Size(168, 24);
@@ -184,10 +179,10 @@ namespace ChartSamples
             this.ShowMarkerLines.Text = "Show Marker &Lines:";
             this.ShowMarkerLines.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ShowMarkerLines.CheckedChanged += new System.EventHandler(this.ShowMarkerLines_CheckedChanged);
-            // 
-            // checkBoxShowMargin
-            // 
-            this.checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // checkBoxShowMargin
+            //
+           this.checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShowMargin.Location = new System.Drawing.Point(14, 72);
             this.checkBoxShowMargin.Name = "checkBoxShowMargin";
             this.checkBoxShowMargin.Size = new System.Drawing.Size(168, 24);
@@ -195,10 +190,10 @@ namespace ChartSamples
             this.checkBoxShowMargin.Text = "Show X Axis &Margin:";
             this.checkBoxShowMargin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShowMargin.CheckedChanged += new System.EventHandler(this.checkBoxShowMargin_CheckedChanged);
-            // 
-            // comboBoxPointLabels
-            // 
-            this.comboBoxPointLabels.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBoxPointLabels
+            //
+           this.comboBoxPointLabels.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPointLabels.Items.AddRange(new object[] {
             "None",
             "Auto",
@@ -216,19 +211,19 @@ namespace ChartSamples
             this.comboBoxPointLabels.Size = new System.Drawing.Size(104, 22);
             this.comboBoxPointLabels.TabIndex = 3;
             this.comboBoxPointLabels.SelectedIndexChanged += new System.EventHandler(this.comboBoxChartType_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(51, 40);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(51, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(112, 23);
             this.label2.TabIndex = 2;
             this.label2.Text = "Point &Labels:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // comboBoxChartType
-            // 
-            this.comboBoxChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBoxChartType
+            //
+           this.comboBoxChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxChartType.Items.AddRange(new object[] {
             "Line",
             "Spline",
@@ -238,19 +233,19 @@ namespace ChartSamples
             this.comboBoxChartType.Size = new System.Drawing.Size(104, 22);
             this.comboBoxChartType.TabIndex = 1;
             this.comboBoxChartType.SelectedIndexChanged += new System.EventHandler(this.comboBoxChartType_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(51, 8);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(51, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(112, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Chart &Type:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // LineCurves3D
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // LineCurves3D
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
@@ -261,71 +256,70 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void UpdateChartSettings()
-		{
-			// Loop through all series
-			foreach(Series series in chart1.Series)
-			{
-				// Set series chart type
-				series.ChartType = (SeriesChartType) Enum.Parse( typeof(SeriesChartType), comboBoxChartType.Text, true );
+        private void UpdateChartSettings()
+        {
+            // Loop through all series
+            foreach (Series series in chart1.Series)
+            {
+                // Set series chart type
+                series.ChartType = (SeriesChartType)Enum.Parse(typeof(SeriesChartType), comboBoxChartType.Text, true);
 
-				// Set point labels
-				if(comboBoxPointLabels.Text != "None")
-				{
-					series.IsValueShownAsLabel = true;
-					if(comboBoxPointLabels.Text != "Auto")
-					{
-						series["LabelStyle"] = comboBoxPointLabels.Text;
-					}
-				}
-				else
-				{
-					series.IsValueShownAsLabel = false;
-				}
+                // Set point labels
+                if (comboBoxPointLabels.Text != "None")
+                {
+                    series.IsValueShownAsLabel = true;
+                    if (comboBoxPointLabels.Text != "Auto")
+                    {
+                        series["LabelStyle"] = comboBoxPointLabels.Text;
+                    }
+                }
+                else
+                {
+                    series.IsValueShownAsLabel = false;
+                }
 
-				// Enable / disable Marker Lines
-				series["ShowMarkerLines"] = ShowMarkerLines.Checked.ToString();
-			}
+                // Enable / disable Marker Lines
+                series["ShowMarkerLines"] = ShowMarkerLines.Checked.ToString();
+            }
 
-			// Set X axis margin
-			chart1.ChartAreas["Default"].AxisX.IsMarginVisible = checkBoxShowMargin.Checked;
+            // Set X axis margin
+            chart1.ChartAreas["Default"].AxisX.IsMarginVisible = checkBoxShowMargin.Checked;
+        }
 
-		}
+        private void LineCurves3D_Load(object sender, System.EventArgs e)
+        {
+            comboBoxChartType.SelectedIndex = 1;
+            comboBoxPointLabels.SelectedIndex = 0;
 
-		private void LineCurves3D_Load(object sender, System.EventArgs e)
-		{
-			comboBoxChartType.SelectedIndex = 1;
-			comboBoxPointLabels.SelectedIndex = 0;
+            // Populate series data
+            Random random = new Random();
+            for (int pointIndex = 0; pointIndex < 10; pointIndex++)
+            {
+                chart1.Series["Series1"].Points.AddY(random.Next(45, 95));
+                chart1.Series["Series2"].Points.AddY(random.Next(5, 75));
+                chart1.Series["Series3"].Points.AddY(random.Next(2, 50));
+            }
 
-			// Populate series data
-			Random	random = new Random();
-			for(int pointIndex = 0; pointIndex < 10; pointIndex++)
-			{
-				chart1.Series["Series1"].Points.AddY(random.Next(45, 95));
-				chart1.Series["Series2"].Points.AddY(random.Next(5, 75));
-				chart1.Series["Series3"].Points.AddY(random.Next(2, 50));
-			}
+            UpdateChartSettings();
+        }
 
-			UpdateChartSettings();
-		}
+        private void comboBoxChartType_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void comboBoxChartType_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
+        private void checkBoxShowMargin_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void checkBoxShowMargin_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
-
-		private void ShowMarkerLines_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
-	}
+        private void ShowMarkerLines_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
+    }
 }

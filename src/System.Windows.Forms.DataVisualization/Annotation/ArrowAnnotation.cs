@@ -156,13 +156,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <seealso cref="Annotation.AnchorOffsetY"/>
         /// </summary>
         /// <value>
-        /// A <see cref="ContentAlignment"/> value that represents the annotation's alignment to 
-        /// the anchor point.
+        /// A <see cref="ContentAlignment"/> value that represents the annotation's alignment to
+       /// the anchor point.
         /// </value>
         /// <remarks>
-        /// The annotation must be anchored using either <see cref="Annotation.AnchorDataPoint"/>, or the <see cref="Annotation.AnchorX"/> 
-        /// and <see cref="Annotation.AnchorY"/> properties. Its <see cref="Annotation.X"/> and <see cref="Annotation.Y"/> 
-        /// properties must be set to <b>Double.NaN</b>.
+        /// The annotation must be anchored using either <see cref="Annotation.AnchorDataPoint"/>, or the <see cref="Annotation.AnchorX"/>
+       /// and <see cref="Annotation.AnchorY"/> properties. Its <see cref="Annotation.X"/> and <see cref="Annotation.Y"/>
+       /// properties must be set to <b>Double.NaN</b>.
         /// </remarks>
         [
         SRCategory("CategoryAttributeAnchor"),
@@ -191,9 +191,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets an annotation's type name.
         /// </summary>
         /// <remarks>
-        /// This property is used to get the name of each annotation type  
-        /// (e.g. Line, Rectangle, Ellipse). 
-        /// <para>
+        /// This property is used to get the name of each annotation type 
+       /// (e.g. Line, Rectangle, Ellipse).
+       /// <para>
         /// This property is for internal use and is hidden at design and run time.
         /// </para>
         /// </remarks>

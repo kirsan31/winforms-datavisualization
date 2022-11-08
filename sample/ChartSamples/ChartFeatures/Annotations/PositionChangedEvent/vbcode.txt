@@ -3,8 +3,8 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 Private Sub Chart1_AnnotationPositionChanged(sender As Object, e As System.EventArgs)  Handles Chart1.AnnotationPositionChanged
    Dim annotation As Annotation = CType(sender, Annotation)
-   
-   AnnotationX.Text = annotation.X.ToString("#.#")
+  
+  AnnotationX.Text = annotation.X.ToString("#.#")
    AnnotationY.Text = annotation.Y.ToString("#.#")
 End Sub 'Chart1_AnnotationPositionChanged
 

@@ -1,62 +1,57 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for PrintPreview.
-	/// </summary>
-	public class PrintPreview : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Button buttonPrint;
-		private System.Windows.Forms.Button buttonPreview;
-		private System.Windows.Forms.Button buttonPageSetup;
-		private System.Windows.Forms.CheckBox checkBoxShowPrinterDialog;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for PrintPreview.
+    /// </summary>
+    public class PrintPreview : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button buttonPrint;
+        private System.Windows.Forms.Button buttonPreview;
+        private System.Windows.Forms.Button buttonPageSetup;
+        private System.Windows.Forms.CheckBox checkBoxShowPrinterDialog;
 
-		public PrintPreview()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Initialize combo boxes
-		
-		}
-		
+        public PrintPreview()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            // Initialize combo boxes
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -94,10 +89,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -177,10 +172,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Printing Sample";
             this.chart1.Titles.Add(title1);
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 14);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 43);
@@ -188,10 +183,10 @@ namespace ChartSamples
             this.labelSampleComment.Text = "This sample demonstrates printing and previewing. Page settings are accessible th" +
                 "rough the Page Setup dialog.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.checkBoxShowPrinterDialog);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.checkBoxShowPrinterDialog);
             this.panel1.Controls.Add(this.buttonPageSetup);
             this.panel1.Controls.Add(this.buttonPreview);
             this.panel1.Controls.Add(this.buttonPrint);
@@ -199,20 +194,20 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // checkBoxShowPrinterDialog
-            // 
-            this.checkBoxShowPrinterDialog.Checked = true;
+            //
+           // checkBoxShowPrinterDialog
+            //
+           this.checkBoxShowPrinterDialog.Checked = true;
             this.checkBoxShowPrinterDialog.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxShowPrinterDialog.Location = new System.Drawing.Point(168, 40);
             this.checkBoxShowPrinterDialog.Name = "checkBoxShowPrinterDialog";
             this.checkBoxShowPrinterDialog.Size = new System.Drawing.Size(120, 40);
             this.checkBoxShowPrinterDialog.TabIndex = 2;
             this.checkBoxShowPrinterDialog.Text = "Show Printer &Dialog";
-            // 
-            // buttonPageSetup
-            // 
-            this.buttonPageSetup.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // buttonPageSetup
+            //
+           this.buttonPageSetup.BackColor = System.Drawing.SystemColors.Control;
             this.buttonPageSetup.Location = new System.Drawing.Point(48, 8);
             this.buttonPageSetup.Name = "buttonPageSetup";
             this.buttonPageSetup.Size = new System.Drawing.Size(104, 23);
@@ -220,10 +215,10 @@ namespace ChartSamples
             this.buttonPageSetup.Text = "Page &Setup";
             this.buttonPageSetup.UseVisualStyleBackColor = false;
             this.buttonPageSetup.Click += new System.EventHandler(this.buttonPageSetup_Click);
-            // 
-            // buttonPreview
-            // 
-            this.buttonPreview.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // buttonPreview
+            //
+           this.buttonPreview.BackColor = System.Drawing.SystemColors.Control;
             this.buttonPreview.Location = new System.Drawing.Point(48, 88);
             this.buttonPreview.Name = "buttonPreview";
             this.buttonPreview.Size = new System.Drawing.Size(104, 23);
@@ -231,10 +226,10 @@ namespace ChartSamples
             this.buttonPreview.Text = "Previe&w";
             this.buttonPreview.UseVisualStyleBackColor = false;
             this.buttonPreview.Click += new System.EventHandler(this.buttonPreview_Click);
-            // 
-            // buttonPrint
-            // 
-            this.buttonPrint.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // buttonPrint
+            //
+           this.buttonPrint.BackColor = System.Drawing.SystemColors.Control;
             this.buttonPrint.Location = new System.Drawing.Point(48, 48);
             this.buttonPrint.Name = "buttonPrint";
             this.buttonPrint.Size = new System.Drawing.Size(104, 23);
@@ -242,10 +237,10 @@ namespace ChartSamples
             this.buttonPrint.Text = "&Print";
             this.buttonPrint.UseVisualStyleBackColor = false;
             this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
-            // 
-            // PrintPreview
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // PrintPreview
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
@@ -255,45 +250,44 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void buttonPageSetup_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				chart1.Printing.PageSetup();
-			}
-			catch(Exception ex)
-			{
-				MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-		}
+        private void buttonPageSetup_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                chart1.Printing.PageSetup();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
 
-		private void buttonPrint_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				chart1.Printing.Print(checkBoxShowPrinterDialog.Checked);
-			}
-			catch(Exception ex)
-			{
-				MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-		}
+        private void buttonPrint_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                chart1.Printing.Print(checkBoxShowPrinterDialog.Checked);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
 
-		private void buttonPreview_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				chart1.Printing.PrintPreview();
-			}
-			catch(Exception ex)
-			{
-				MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-		}
-
-	}
+        private void buttonPreview_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                chart1.Printing.PrintPreview();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+    }
 }

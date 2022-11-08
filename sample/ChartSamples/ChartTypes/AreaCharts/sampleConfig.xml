@@ -2,11 +2,11 @@
 <SampleConfigs>
 
 <SampleConfig ParentNodeID = "AreaCharts">
-  <Title>3D Area and Spline Area Charts</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>3D Area and Spline Area Charts</ShortBlurb> 
-  <SampleControl>AreaChart3D</SampleControl> 
-  <InfoPages>
+  <Title>3D Area and Spline Area Charts</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>3D Area and Spline Area Charts</ShortBlurb>
+ <SampleControl>AreaChart3D</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">3DArea\cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">3DArea\vbcode.txt</InfoPage>
   </InfoPages>
@@ -26,11 +26,11 @@
 </SampleConfig>
 
 <SampleConfig ParentNodeID = "AreaCharts">
-  <Title>Area and Spline Area Charts</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Area and Spline Area Charts</ShortBlurb> 
-  <SampleControl>AreaChartType</SampleControl> 
-  <InfoPages>
+  <Title>Area and Spline Area Charts</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Area and Spline Area Charts</ShortBlurb>
+ <SampleControl>AreaChartType</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">Area\cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">Area\vbcode.txt</InfoPage>
   </InfoPages>

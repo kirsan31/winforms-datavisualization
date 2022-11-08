@@ -1,64 +1,56 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for UsingPerspectives.
-	/// </summary>
-	public class UsingPerspectives : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.NumericUpDown Rotation;
-		private System.Windows.Forms.NumericUpDown Inclination;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.NumericUpDown perspective;
+    /// <summary>
+    /// Summary description for UsingPerspectives.
+    /// </summary>
+    public class UsingPerspectives : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown Rotation;
+        private System.Windows.Forms.NumericUpDown Inclination;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown perspective;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public UsingPerspectives()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public UsingPerspectives()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// TODO: Add any initialization after the InitForm call
+            // TODO: Add any initialization after the InitForm call
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -92,10 +84,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.Rotation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Inclination)).BeginInit();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -185,20 +177,20 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "3D Rotation and Perspective";
             this.chart1.Titles.Add(title1);
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 32);
             this.labelSampleComment.TabIndex = 0;
             this.labelSampleComment.Text = "This sample demonstrates perspective and rotation for a 3D chart area.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            //
+           // panel1
+            //
+           this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Controls.Add(this.perspective);
             this.panel1.Controls.Add(this.Rotation);
             this.panel1.Controls.Add(this.Inclination);
@@ -210,10 +202,10 @@ namespace ChartSamples
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-            // 
-            // perspective
-            // 
-            this.perspective.Increment = new decimal(new int[] {
+            //
+           // perspective
+            //
+           this.perspective.Increment = new decimal(new int[] {
             5,
             0,
             0,
@@ -238,10 +230,10 @@ namespace ChartSamples
             0,
             0});
             this.perspective.ValueChanged += new System.EventHandler(this.perspective_ValueChanged);
-            // 
-            // Rotation
-            // 
-            this.Rotation.Increment = new decimal(new int[] {
+            //
+           // Rotation
+            //
+           this.Rotation.Increment = new decimal(new int[] {
             5,
             0,
             0,
@@ -266,10 +258,10 @@ namespace ChartSamples
             0,
             0});
             this.Rotation.ValueChanged += new System.EventHandler(this.Rotation_ValueChanged);
-            // 
-            // Inclination
-            // 
-            this.Inclination.Increment = new decimal(new int[] {
+            //
+           // Inclination
+            //
+           this.Inclination.Increment = new decimal(new int[] {
             5,
             0,
             0,
@@ -294,39 +286,39 @@ namespace ChartSamples
             0,
             0});
             this.Inclination.ValueChanged += new System.EventHandler(this.Inclination_ValueChanged);
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(62, 72);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(62, 72);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(104, 23);
             this.label4.TabIndex = 4;
             this.label4.Text = "Rotate &Y:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label4.Click += new System.EventHandler(this.label4_Click);
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(62, 40);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(62, 40);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(104, 23);
             this.label5.TabIndex = 2;
             this.label5.Text = "Rotate &X:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label5.Click += new System.EventHandler(this.label5_Click);
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(54, 8);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(54, 8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(112, 23);
             this.label3.TabIndex = 0;
             this.label3.Text = "&Perspective:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // UsingPerspectives
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // UsingPerspectives
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
@@ -340,59 +332,54 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.Rotation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Inclination)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void BarColumnChartType_Load(object sender, System.EventArgs e)
+        {
+            chart1.ChartAreas[0].Area3DStyle.IsRightAngleAxes = false;
+        }
 
-		private void BarColumnChartType_Load(object sender, System.EventArgs e)
-		{
-			chart1.ChartAreas[0].Area3DStyle.IsRightAngleAxes = false;
-		}
+        private void Inclination_ValueChanged(object sender, System.EventArgs e)
+        {
+            if (Inclination.Value > 90)
+                Inclination.Value = -90;
+            if (Inclination.Value < -90)
+                Inclination.Value = 90;
 
-		private void Inclination_ValueChanged(object sender, System.EventArgs e)
-		{
-			if(Inclination.Value > 90)
-				Inclination.Value = -90;
-			if(Inclination.Value < -90)
-				Inclination.Value = 90;
+            chart1.ChartAreas["Default"].Area3DStyle.Inclination = (int)Inclination.Value;
+        }
 
-			chart1.ChartAreas["Default"].Area3DStyle.Inclination = (int)Inclination.Value;
-		}
+        private void Rotation_ValueChanged(object sender, System.EventArgs e)
+        {
+            if (Rotation.Value > 180)
+                Rotation.Value = -180;
+            if (Rotation.Value < -180)
+                Rotation.Value = 180;
 
-		private void Rotation_ValueChanged(object sender, System.EventArgs e)
-		{
-			if(Rotation.Value > 180)
-				Rotation.Value = -180;
-			if(Rotation.Value < -180)
-				Rotation.Value = 180;
+            chart1.ChartAreas["Default"].Area3DStyle.Rotation = (int)Rotation.Value;
+        }
 
-			chart1.ChartAreas["Default"].Area3DStyle.Rotation = (int)Rotation.Value;
-		}
+        private void perspective_ValueChanged(object sender, System.EventArgs e)
+        {
+            if (perspective.Value > 100)
+                perspective.Value = 0;
+            if (perspective.Value < 0)
+                perspective.Value = 100;
+            chart1.ChartAreas[0].Area3DStyle.Perspective = (int)perspective.Value;
+        }
 
-		private void perspective_ValueChanged(object sender, System.EventArgs e)
-		{
-			if(perspective.Value > 100)
-				perspective.Value = 0;
-			if(perspective.Value < 0)
-				perspective.Value = 100;
-			chart1.ChartAreas[0].Area3DStyle.Perspective = (int)perspective.Value;
-		}
+        private void label4_Click(object sender, System.EventArgs e)
+        {
+        }
 
-		private void label4_Click(object sender, System.EventArgs e)
-		{
-		
-		}
+        private void label5_Click(object sender, System.EventArgs e)
+        {
+        }
 
-		private void label5_Click(object sender, System.EventArgs e)
-		{
-		
-		}
-
-		private void panel1_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
-		{
-		
-		}
-
-	}
+        private void panel1_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
+        }
+    }
 }

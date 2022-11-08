@@ -1,130 +1,124 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AnnotationAppearance.
-	/// </summary>
-	public class AnnotationAnchoring : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label1;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AnnotationAppearance.
+    /// </summary>
+    public class AnnotationAnchoring : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label1;
 
-		public AnnotationAnchoring()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			AddLineAnnotation();
-			AddCalloutAnnotation();
-			AddRectangleAnnotation();
-			
-		}
+        public AnnotationAnchoring()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		
-		private void AddCalloutAnnotation()
-		{
-			// create a callout annotation
-			CalloutAnnotation annotation = new CalloutAnnotation();
+            AddLineAnnotation();
+            AddCalloutAnnotation();
+            AddRectangleAnnotation();
+        }
 
-			// setup visual attributes
-			annotation.AnchorDataPoint = Chart1.Series[0].Points[2];
-			annotation.Text = "Attached to Point";
-			annotation.BackColor = Color.FromArgb(255,255,192);
-			annotation.ClipToChartArea = "Default";
+        private void AddCalloutAnnotation()
+        {
+            // create a callout annotation
+            CalloutAnnotation annotation = new CalloutAnnotation();
 
-			// prevent moving or selecting
-			annotation.AllowMoving = false;
-			annotation.AllowAnchorMoving = false;
-			annotation.AllowSelecting = false;
-	
-			// add the annotation to the collection
-			Chart1.Annotations.Add(annotation);
-		}
+            // setup visual attributes
+            annotation.AnchorDataPoint = Chart1.Series[0].Points[2];
+            annotation.Text = "Attached to Point";
+            annotation.BackColor = Color.FromArgb(255, 255, 192);
+            annotation.ClipToChartArea = "Default";
 
-		private void AddRectangleAnnotation()
-		{
-			// create a rectangle annotation
-			RectangleAnnotation annotation = new RectangleAnnotation();
+            // prevent moving or selecting
+            annotation.AllowMoving = false;
+            annotation.AllowAnchorMoving = false;
+            annotation.AllowSelecting = false;
 
-			// setup visual attributes
-			annotation.Text = "Attached to\nChart Picture";
-			annotation.BackColor = Color.FromArgb(255,255,192);
-			annotation.AnchorX = 30;
-			annotation.AnchorY = 25;
-		
-			// prevent moving or selecting
-			annotation.AllowMoving = false;
-			annotation.AllowAnchorMoving = false;
-			annotation.AllowSelecting = false;
+            // add the annotation to the collection
+            Chart1.Annotations.Add(annotation);
+        }
 
-			// add the annotation to the collection
-			Chart1.Annotations.Add(annotation);
-		}
+        private void AddRectangleAnnotation()
+        {
+            // create a rectangle annotation
+            RectangleAnnotation annotation = new RectangleAnnotation();
 
-		private void AddLineAnnotation()
-		{
-			// create a line annotation
-			LineAnnotation annotation = new LineAnnotation();
+            // setup visual attributes
+            annotation.Text = "Attached to\nChart Picture";
+            annotation.BackColor = Color.FromArgb(255, 255, 192);
+            annotation.AnchorX = 30;
+            annotation.AnchorY = 25;
 
-			// setup visual attributes
-			annotation.StartCap = LineAnchorCapStyle.Arrow;
-			annotation.EndCap = LineAnchorCapStyle.Arrow;
-			annotation.LineWidth = 3;
-			annotation.LineColor = Color.OrangeRed;
-			annotation.ShadowOffset = 2;
-			annotation.ClipToChartArea = "Default";
+            // prevent moving or selecting
+            annotation.AllowMoving = false;
+            annotation.AllowAnchorMoving = false;
+            annotation.AllowSelecting = false;
 
-			// prevent moving or selecting
-			annotation.AllowMoving = false;
-			annotation.AllowAnchorMoving = false;
-			annotation.AllowSelecting = false;
+            // add the annotation to the collection
+            Chart1.Annotations.Add(annotation);
+        }
 
-			if(Chart1.Series[0].Points.Count > 10)
-			{
-				// Use the Anchor Method to anchor to points 8 and 10...
+        private void AddLineAnnotation()
+        {
+            // create a line annotation
+            LineAnnotation annotation = new LineAnnotation();
+
+            // setup visual attributes
+            annotation.StartCap = LineAnchorCapStyle.Arrow;
+            annotation.EndCap = LineAnchorCapStyle.Arrow;
+            annotation.LineWidth = 3;
+            annotation.LineColor = Color.OrangeRed;
+            annotation.ShadowOffset = 2;
+            annotation.ClipToChartArea = "Default";
+
+            // prevent moving or selecting
+            annotation.AllowMoving = false;
+            annotation.AllowAnchorMoving = false;
+            annotation.AllowSelecting = false;
+
+            if (Chart1.Series[0].Points.Count > 10)
+            {
+                // Use the Anchor Method to anchor to points 8 and 10...
                 annotation.SetAnchor(Chart1.Series[0].Points[8], Chart1.Series[0].Points[10]);
-			}
+            }
 
+            // add the annotation to the collection
+            Chart1.Annotations.Add(annotation);
+        }
 
-			// add the annotation to the collection
-			Chart1.Annotations.Add(annotation);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -152,27 +146,27 @@ namespace ChartSamples
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 34);
             this.label9.TabIndex = 1;
             this.label9.Text = "This sample demonstrates the behavior of the Annotation object with anchoring. ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(432, 56);
+            //
+           // panel1
+            //
+           this.panel1.Location = new System.Drawing.Point(432, 56);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 19;
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -241,20 +235,20 @@ namespace ChartSamples
             this.Chart1.Series.Add(series1);
             this.Chart1.Size = new System.Drawing.Size(412, 296);
             this.Chart1.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label1
+            //
+           this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(16, 357);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(702, 78);
             this.label1.TabIndex = 20;
             this.label1.Text = resources.GetString("label1.Text");
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // AnnotationAnchoring
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // AnnotationAnchoring
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
@@ -263,10 +257,8 @@ namespace ChartSamples
             this.Size = new System.Drawing.Size(728, 480);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
-
-
-	}
+        #endregion Component Designer generated code
+    }
 }

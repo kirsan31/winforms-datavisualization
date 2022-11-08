@@ -1,64 +1,57 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for LegendCustomPosition.
-	/// </summary>
-	public class TitleCustomPosition : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.NumericUpDown numericUpDownX;
-		private System.Windows.Forms.NumericUpDown numericUpDownY;
-		private System.Windows.Forms.NumericUpDown numericUpDownWidth;
-		private System.Windows.Forms.NumericUpDown numericUpDownHeight;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for LegendCustomPosition.
+    /// </summary>
+    public class TitleCustomPosition : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown numericUpDownX;
+        private System.Windows.Forms.NumericUpDown numericUpDownY;
+        private System.Windows.Forms.NumericUpDown numericUpDownWidth;
+        private System.Windows.Forms.NumericUpDown numericUpDownHeight;
 
-		public TitleCustomPosition()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		}
+        public TitleCustomPosition()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel2 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
@@ -101,10 +94,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 12);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 45);
@@ -112,10 +105,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to position the chart by setting the coordinates of " +
                 "its top left corner, width, and height. ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -238,10 +231,10 @@ namespace ChartSamples
             title1.Text = "Chart Control for .NET Framework";
             this.Chart1.Titles.Add(title1);
             this.Chart1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Chart1_MouseDown);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.numericUpDownHeight);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.numericUpDownHeight);
             this.panel1.Controls.Add(this.numericUpDownWidth);
             this.panel1.Controls.Add(this.numericUpDownY);
             this.panel1.Controls.Add(this.numericUpDownX);
@@ -253,10 +246,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 296);
             this.panel1.TabIndex = 2;
-            // 
-            // numericUpDownHeight
-            // 
-            this.numericUpDownHeight.Location = new System.Drawing.Point(168, 104);
+            //
+           // numericUpDownHeight
+            //
+           this.numericUpDownHeight.Location = new System.Drawing.Point(168, 104);
             this.numericUpDownHeight.Maximum = new decimal(new int[] {
             90,
             0,
@@ -271,10 +264,10 @@ namespace ChartSamples
             0,
             0});
             this.numericUpDownHeight.ValueChanged += new System.EventHandler(this.numericUpDownHeight_ValueChanged);
-            // 
-            // numericUpDownWidth
-            // 
-            this.numericUpDownWidth.Location = new System.Drawing.Point(168, 72);
+            //
+           // numericUpDownWidth
+            //
+           this.numericUpDownWidth.Location = new System.Drawing.Point(168, 72);
             this.numericUpDownWidth.Maximum = new decimal(new int[] {
             90,
             0,
@@ -289,10 +282,10 @@ namespace ChartSamples
             0,
             0});
             this.numericUpDownWidth.ValueChanged += new System.EventHandler(this.numericUpDownWidth_ValueChanged);
-            // 
-            // numericUpDownY
-            // 
-            this.numericUpDownY.Location = new System.Drawing.Point(168, 40);
+            //
+           // numericUpDownY
+            //
+           this.numericUpDownY.Location = new System.Drawing.Point(168, 40);
             this.numericUpDownY.Maximum = new decimal(new int[] {
             90,
             0,
@@ -307,10 +300,10 @@ namespace ChartSamples
             0,
             0});
             this.numericUpDownY.ValueChanged += new System.EventHandler(this.numericUpDownY_ValueChanged);
-            // 
-            // numericUpDownX
-            // 
-            this.numericUpDownX.Location = new System.Drawing.Point(168, 8);
+            //
+           // numericUpDownX
+            //
+           this.numericUpDownX.Location = new System.Drawing.Point(168, 8);
             this.numericUpDownX.Maximum = new decimal(new int[] {
             70,
             0,
@@ -325,55 +318,55 @@ namespace ChartSamples
             0,
             0});
             this.numericUpDownX.ValueChanged += new System.EventHandler(this.numericUpDownX_ValueChanged);
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(12, 104);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(12, 104);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(152, 22);
             this.label5.TabIndex = 6;
             this.label5.Text = "&Height:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(12, 72);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(12, 72);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(152, 22);
             this.label4.TabIndex = 4;
             this.label4.Text = "&Width:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(12, 40);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(12, 40);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(152, 22);
             this.label3.TabIndex = 2;
             this.label3.Text = "&Y:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(12, 8);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(12, 8);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(152, 22);
             this.label2.TabIndex = 0;
             this.label2.Text = "&X:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label1
+            //
+           this.label1.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(16, 377);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(702, 71);
             this.label1.TabIndex = 3;
             this.label1.Text = resources.GetString("label1.Text");
-            // 
-            // TitleCustomPosition
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // TitleCustomPosition
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.Chart1);
@@ -389,76 +382,75 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void LegendCustomPosition_Load(object sender, System.EventArgs e)
+        {
+            SetText();
+        }
 
-		private void LegendCustomPosition_Load(object sender, System.EventArgs e)
-		{
-			SetText();
-		}
+        private void SetText()
+        {
+            numericUpDownX.Value = (decimal)Chart1.Titles[0].Position.X;
+            numericUpDownY.Value = (decimal)Chart1.Titles[0].Position.Y;
+            numericUpDownWidth.Value = (decimal)Chart1.Titles[0].Position.Width;
+            numericUpDownHeight.Value = (decimal)Chart1.Titles[0].Position.Height;
+        }
 
-		private void SetText()
-		{
-			numericUpDownX.Value = (decimal)Chart1.Titles[0].Position.X;
-			numericUpDownY.Value = (decimal)Chart1.Titles[0].Position.Y;
-			numericUpDownWidth.Value = (decimal)Chart1.Titles[0].Position.Width;
-			numericUpDownHeight.Value = (decimal)Chart1.Titles[0].Position.Height;
-		}
+        private void Chart1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.X != 0 && e.Y != 0)
+            {
+                // Conver pixels to percentage coordinates and set legend position
+                Chart1.Titles[0].Position.X = e.X * 100F / ((float)(Chart1.Size.Width - 1));
+                Chart1.Titles[0].Position.Y = e.Y * 100F / ((float)(Chart1.Size.Height - 1));
 
-		private void Chart1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			if(e.X != 0 && e.Y != 0)
-			{
-				// Conver pixels to percentage coordinates and set legend position
-				Chart1.Titles[0].Position.X = e.X * 100F / ((float)(Chart1.Size.Width - 1));
-				Chart1.Titles[0].Position.Y = e.Y * 100F / ((float)(Chart1.Size.Height - 1)); 
-	
-				AdjustLegendControls();
+                AdjustLegendControls();
 
-				SetText();
-			}
-		}
+                SetText();
+            }
+        }
 
-		private void AdjustLegendControls()
-		{
-			// Restrict title position and size
-			if(Chart1.Titles[0].Position.X > 70)
-			{
-				Chart1.Titles[0].Position.X = 70;
-				Chart1.Titles[0].Position.Width = 30;
-			}
-				
-			if(Chart1.Titles[0].Position.Y > 90)
-			{
-				Chart1.Titles[0].Position.Y = 90;
-				Chart1.Titles[0].Position.Height = 10;
-			}
-		}
+        private void AdjustLegendControls()
+        {
+            // Restrict title position and size
+            if (Chart1.Titles[0].Position.X > 70)
+            {
+                Chart1.Titles[0].Position.X = 70;
+                Chart1.Titles[0].Position.Width = 30;
+            }
 
-		private void numericUpDownX_ValueChanged(object sender, System.EventArgs e)
-		{
-			Chart1.Titles[0].Position.X = (float)numericUpDownX.Value;
-			AdjustLegendControls();
-		}
+            if (Chart1.Titles[0].Position.Y > 90)
+            {
+                Chart1.Titles[0].Position.Y = 90;
+                Chart1.Titles[0].Position.Height = 10;
+            }
+        }
 
-		private void numericUpDownY_ValueChanged(object sender, System.EventArgs e)
-		{
-			Chart1.Titles[0].Position.Y = (float)numericUpDownY.Value;
-			AdjustLegendControls();
-		}
+        private void numericUpDownX_ValueChanged(object sender, System.EventArgs e)
+        {
+            Chart1.Titles[0].Position.X = (float)numericUpDownX.Value;
+            AdjustLegendControls();
+        }
 
-		private void numericUpDownWidth_ValueChanged(object sender, System.EventArgs e)
-		{
-			Chart1.Titles[0].Position.Width = (float)numericUpDownWidth.Value;
-			AdjustLegendControls();
-		}
+        private void numericUpDownY_ValueChanged(object sender, System.EventArgs e)
+        {
+            Chart1.Titles[0].Position.Y = (float)numericUpDownY.Value;
+            AdjustLegendControls();
+        }
 
-		private void numericUpDownHeight_ValueChanged(object sender, System.EventArgs e)
-		{
-			Chart1.Titles[0].Position.Height = (float)numericUpDownHeight.Value;
-			AdjustLegendControls();
-		}
-	}
+        private void numericUpDownWidth_ValueChanged(object sender, System.EventArgs e)
+        {
+            Chart1.Titles[0].Position.Width = (float)numericUpDownWidth.Value;
+            AdjustLegendControls();
+        }
+
+        private void numericUpDownHeight_ValueChanged(object sender, System.EventArgs e)
+        {
+            Chart1.Titles[0].Position.Height = (float)numericUpDownHeight.Value;
+            AdjustLegendControls();
+        }
+    }
 }

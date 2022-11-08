@@ -1,61 +1,55 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AxisMargins.
-	/// </summary>
-	public class AxisMargins : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.RadioButton radioButtonArea;
-		private System.Windows.Forms.RadioButton radioButtonSplineArea;
-		private System.Windows.Forms.CheckBox checkBoxShowMargin;
+    /// <summary>
+    /// Summary description for AxisMargins.
+    /// </summary>
+    public class AxisMargins : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.RadioButton radioButtonArea;
+        private System.Windows.Forms.RadioButton radioButtonSplineArea;
+        private System.Windows.Forms.CheckBox checkBoxShowMargin;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public AxisMargins()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public AxisMargins()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// TODO: Add any initialization after the InitForm call
+            // TODO: Add any initialization after the InitForm call
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -87,10 +81,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -162,50 +156,50 @@ namespace ChartSamples
             this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(412, 296);
             this.chart1.TabIndex = 1;
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 34);
             this.labelSampleComment.TabIndex = 0;
             this.labelSampleComment.Text = "This sample demonstrates how to use axis margins.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.checkBoxShowMargin);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.checkBoxShowMargin);
             this.panel1.Controls.Add(this.radioButtonSplineArea);
             this.panel1.Controls.Add(this.radioButtonArea);
             this.panel1.Location = new System.Drawing.Point(432, 56);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // checkBoxShowMargin
-            // 
-            this.checkBoxShowMargin.Location = new System.Drawing.Point(13, 72);
+            //
+           // checkBoxShowMargin
+            //
+           this.checkBoxShowMargin.Location = new System.Drawing.Point(13, 72);
             this.checkBoxShowMargin.Name = "checkBoxShowMargin";
             this.checkBoxShowMargin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.checkBoxShowMargin.Size = new System.Drawing.Size(168, 24);
             this.checkBoxShowMargin.TabIndex = 2;
             this.checkBoxShowMargin.Text = "Show X Axis &Margin";
             this.checkBoxShowMargin.CheckedChanged += new System.EventHandler(this.checkBoxShowMargin_CheckedChanged);
-            // 
-            // radioButtonSplineArea
-            // 
-            this.radioButtonSplineArea.Location = new System.Drawing.Point(12, 36);
+            //
+           // radioButtonSplineArea
+            //
+           this.radioButtonSplineArea.Location = new System.Drawing.Point(12, 36);
             this.radioButtonSplineArea.Name = "radioButtonSplineArea";
             this.radioButtonSplineArea.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.radioButtonSplineArea.Size = new System.Drawing.Size(168, 24);
             this.radioButtonSplineArea.TabIndex = 1;
             this.radioButtonSplineArea.Text = "&Line Chart";
             this.radioButtonSplineArea.CheckedChanged += new System.EventHandler(this.radioButtonSplineArea_CheckedChanged);
-            // 
-            // radioButtonArea
-            // 
-            this.radioButtonArea.Checked = true;
+            //
+           // radioButtonArea
+            //
+           this.radioButtonArea.Checked = true;
             this.radioButtonArea.Location = new System.Drawing.Point(8, 8);
             this.radioButtonArea.Name = "radioButtonArea";
             this.radioButtonArea.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -214,10 +208,10 @@ namespace ChartSamples
             this.radioButtonArea.TabStop = true;
             this.radioButtonArea.Text = "&Area Chart";
             this.radioButtonArea.CheckedChanged += new System.EventHandler(this.radioButtonArea_CheckedChanged);
-            // 
-            // AxisMargins
-            // 
-            this.Controls.Add(this.panel1);
+            //
+           // AxisMargins
+            //
+           this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -227,58 +221,53 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void UpdateChartSettings()
-		{
-			if(radioButtonArea.Checked)
-			{
-				// Set chart type to Area
-				chart1.Series["Default"].ChartType = SeriesChartType.Area;
-				chart1.Series["Series2"].ChartType = SeriesChartType.Area;
-				chart1.Series["Default"].DeleteCustomProperty("LineTension");
-				chart1.Series["Series2"].DeleteCustomProperty("LineTension");
-				chart1.Series["Default"].BorderWidth = 1;
-				chart1.Series["Series2"].BorderWidth = 1;
-			}
-			else
-			{
-				// Set chart type to line 
-				chart1.Series["Default"].ChartType = SeriesChartType.Line;
-				chart1.Series["Series2"].ChartType = SeriesChartType.Line;
-				chart1.Series["Default"].BorderWidth = 2;
-				chart1.Series["Series2"].BorderWidth = 2;
-			}
+        private void UpdateChartSettings()
+        {
+            if (radioButtonArea.Checked)
+            {
+                // Set chart type to Area
+                chart1.Series["Default"].ChartType = SeriesChartType.Area;
+                chart1.Series["Series2"].ChartType = SeriesChartType.Area;
+                chart1.Series["Default"].DeleteCustomProperty("LineTension");
+                chart1.Series["Series2"].DeleteCustomProperty("LineTension");
+                chart1.Series["Default"].BorderWidth = 1;
+                chart1.Series["Series2"].BorderWidth = 1;
+            }
+            else
+            {
+                // Set chart type to line
+               chart1.Series["Default"].ChartType = SeriesChartType.Line;
+                chart1.Series["Series2"].ChartType = SeriesChartType.Line;
+                chart1.Series["Default"].BorderWidth = 2;
+                chart1.Series["Series2"].BorderWidth = 2;
+            }
 
+            // Disable/enable X axis margin
+            chart1.ChartAreas["Default"].AxisX.IsMarginVisible = checkBoxShowMargin.Checked;
+        }
 
-			// Disable/enable X axis margin
-			chart1.ChartAreas["Default"].AxisX.IsMarginVisible = checkBoxShowMargin.Checked;
+        private void radioButtonArea_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		}
+        private void radioButtonSplineArea_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void radioButtonArea_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
+        private void checkBoxShowMargin_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void radioButtonSplineArea_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
-
-		private void checkBoxShowMargin_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
-
-
-		private void AxisMargins_Load(object sender, System.EventArgs e)
-		{
-			checkBoxShowMargin.Checked = true;
-		}
-
-
-	}
+        private void AxisMargins_Load(object sender, System.EventArgs e)
+        {
+            checkBoxShowMargin.Checked = true;
+        }
+    }
 }

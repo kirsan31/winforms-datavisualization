@@ -8,20 +8,21 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     ''' <summary>
     ''' Helper class that creates a histogram chart. Histogram is a data
     ''' distribution chart which shows how many values, from the data series,
-    ''' are inside each segment interval.  
-    ''' 
-    ''' You can define how many intervals you want to have using the SegmentIntervalNumber
+    ''' are inside each segment interval. 
+   '''
+   ''' You can define how many intervals you want to have using the SegmentIntervalNumber
     ''' field or the exact length of the interval using the SegmentIntervalWidth
     ''' field. Actual segment interval number can be slightly different due
     ''' to the automatic interval rounding.
     ''' </summary>
     Public Class HistogramChartHelper
+
 #Region "Fields"
 
         ''' <summary>
         ''' Number of class intervals the data range is devided in.
-        ''' This property only has affect when "SegmentIntervalWidth" is 
-        ''' set to double.NaN.
+        ''' This property only has affect when "SegmentIntervalWidth" is
+       ''' set to double.NaN.
         ''' </summary>
         Public SegmentIntervalNumber As Integer = 20
 
@@ -125,7 +126,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     End If
                 Next datPoint
 
-
                 ' Add data point into the histogram series
                 histogramSeries.Points.AddXY(currentPosition + Me.SegmentIntervalWidth / 2.0, count)
                 currentPosition += Me.SegmentIntervalWidth
@@ -216,5 +216,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         End Function
 
 #End Region   ' Methods
+
     End Class
 End Namespace

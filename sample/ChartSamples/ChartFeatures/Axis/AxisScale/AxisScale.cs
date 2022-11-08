@@ -1,63 +1,57 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AxisScale.
-	/// </summary>
-	public class AxisScale : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.ComboBox MinValue;
-		private System.Windows.Forms.ComboBox MaxValue;
-		private System.Windows.Forms.CheckBox AutoCheck;
-		private System.Windows.Forms.CheckBox LogCheck;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AxisScale.
+    /// </summary>
+    public class AxisScale : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.ComboBox MinValue;
+        private System.Windows.Forms.ComboBox MaxValue;
+        private System.Windows.Forms.CheckBox AutoCheck;
+        private System.Windows.Forms.CheckBox LogCheck;
 
-		public AxisScale()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			this.MaxValue.SelectedIndex = 1;
-			this.MinValue.SelectedIndex = 0;
-		}
+        public AxisScale()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            this.MaxValue.SelectedIndex = 1;
+            this.MinValue.SelectedIndex = 0;
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -90,10 +84,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // MinValue
-            // 
-            this.MinValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // MinValue
+            //
+           this.MinValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MinValue.Items.AddRange(new object[] {
             "0",
             "250",
@@ -103,10 +97,10 @@ namespace ChartSamples
             this.MinValue.Size = new System.Drawing.Size(120, 22);
             this.MinValue.TabIndex = 5;
             this.MinValue.SelectedIndexChanged += new System.EventHandler(this.ControlChange);
-            // 
-            // MaxValue
-            // 
-            this.MaxValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // MaxValue
+            //
+           this.MaxValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MaxValue.Items.AddRange(new object[] {
             "3000",
             "5000",
@@ -116,30 +110,30 @@ namespace ChartSamples
             this.MaxValue.Size = new System.Drawing.Size(120, 22);
             this.MaxValue.TabIndex = 3;
             this.MaxValue.SelectedIndexChanged += new System.EventHandler(this.ControlChange);
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(0, 96);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(0, 96);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(164, 16);
             this.label5.TabIndex = 4;
             this.label5.Text = "Mi&nimum:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label5.Click += new System.EventHandler(this.label5_Click);
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(0, 72);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(0, 72);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(164, 16);
             this.label6.TabIndex = 2;
             this.label6.Text = "Ma&ximum:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label6.Click += new System.EventHandler(this.label6_Click);
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 43);
@@ -147,10 +141,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to use a logarithmic scale, as well as how to set th" +
                 "e minimum and maximum axis values.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.AutoCheck);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.AutoCheck);
             this.panel1.Controls.Add(this.LogCheck);
             this.panel1.Controls.Add(this.MaxValue);
             this.panel1.Controls.Add(this.label5);
@@ -161,10 +155,10 @@ namespace ChartSamples
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-            // 
-            // AutoCheck
-            // 
-            this.AutoCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // AutoCheck
+            //
+           this.AutoCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.AutoCheck.Checked = true;
             this.AutoCheck.CheckState = System.Windows.Forms.CheckState.Checked;
             this.AutoCheck.Location = new System.Drawing.Point(0, 40);
@@ -174,10 +168,10 @@ namespace ChartSamples
             this.AutoCheck.Text = "&Auto Scale:";
             this.AutoCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.AutoCheck.CheckedChanged += new System.EventHandler(this.ControlChange);
-            // 
-            // LogCheck
-            // 
-            this.LogCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // LogCheck
+            //
+           this.LogCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.LogCheck.Location = new System.Drawing.Point(8, 8);
             this.LogCheck.Name = "LogCheck";
             this.LogCheck.Size = new System.Drawing.Size(172, 24);
@@ -185,10 +179,10 @@ namespace ChartSamples
             this.LogCheck.Text = "&Logarithmic:";
             this.LogCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.LogCheck.CheckedChanged += new System.EventHandler(this.ControlChange);
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -266,10 +260,10 @@ namespace ChartSamples
             this.Chart1.Series.Add(series3);
             this.Chart1.Size = new System.Drawing.Size(412, 296);
             this.Chart1.TabIndex = 1;
-            // 
-            // AxisScale
-            // 
-            this.Controls.Add(this.Chart1);
+            //
+           // AxisScale
+            //
+           this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -278,62 +272,56 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void AxisScale_Load(object sender, System.EventArgs e)
+        {
+        }
 
-		private void AxisScale_Load(object sender, System.EventArgs e)
-		{ 
-		}
+        private void ControlChange(object sender, System.EventArgs e)
+        {
+            Chart1.ChartAreas["Default"].AxisY.IsLogarithmic = LogCheck.Checked;
 
-		private void ControlChange(object sender, System.EventArgs e)
-		{
-			Chart1.ChartAreas["Default"].AxisY.IsLogarithmic = LogCheck.Checked;
+            if (LogCheck.Checked)
+            {
+                AutoCheck.Enabled = false;
+                AutoCheck.Checked = true;
+            }
+            else
+                AutoCheck.Enabled = true;
 
-			if(LogCheck.Checked)
-			{
-				AutoCheck.Enabled = false;
-				AutoCheck.Checked = true;
-			}
-			else
-				AutoCheck.Enabled = true;
+            this.MaxValue.Enabled = !AutoCheck.Checked;
+            this.MinValue.Enabled = !AutoCheck.Checked;
 
+            if (this.MaxValue.SelectedIndex >= 0 &&
+                this.MinValue.SelectedIndex >= 0 &&
+                !AutoCheck.Checked)
+            {
+                double maxval = double.Parse(this.MaxValue.SelectedItem.ToString());
+                double minval = double.Parse(this.MinValue.SelectedItem.ToString());
 
-			this.MaxValue.Enabled = !AutoCheck.Checked;
-			this.MinValue.Enabled = !AutoCheck.Checked;
+                Chart1.ChartAreas["Default"].AxisY.Maximum = maxval;
+                Chart1.ChartAreas["Default"].AxisY.Minimum = minval;
+            }
+            else
+            {
+                Chart1.ChartAreas["Default"].AxisY.Maximum = double.NaN;
+                Chart1.ChartAreas["Default"].AxisY.Minimum = double.NaN;
+            }
+        }
 
-			if(this.MaxValue.SelectedIndex >= 0 && 
-				this.MinValue.SelectedIndex >= 0 && 
-				!AutoCheck.Checked)
-			{
-				double maxval= double.Parse(this.MaxValue.SelectedItem.ToString());
-				double minval= double.Parse(this.MinValue.SelectedItem.ToString());
+        private void label6_Click(object sender, System.EventArgs e)
+        {
+        }
 
-				Chart1.ChartAreas["Default"].AxisY.Maximum = maxval;
-				Chart1.ChartAreas["Default"].AxisY.Minimum = minval;
-			}
-			else
-			{
-				Chart1.ChartAreas["Default"].AxisY.Maximum = double.NaN;
-				Chart1.ChartAreas["Default"].AxisY.Minimum = double.NaN;
-			}
-		}
+        private void label5_Click(object sender, System.EventArgs e)
+        {
+        }
 
-		private void label6_Click(object sender, System.EventArgs e)
-		{
-		
-		}
-
-		private void label5_Click(object sender, System.EventArgs e)
-		{
-		
-		}
-
-		private void panel1_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
-		{
-		
-		}
-
-	}
+        private void panel1_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
+        }
+    }
 }

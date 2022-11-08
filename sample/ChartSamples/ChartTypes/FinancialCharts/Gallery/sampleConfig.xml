@@ -2,8 +2,8 @@
 <SampleConfigs>
 
 <SampleConfig ParentNodeID = "AdvancedFinancialCharts" Priority = "1">
-  <Title>Gallery</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
+  <Title>Gallery</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
   <ShortBlurb>Advanced Financial Chart Gallery</ShortBlurb>
   <SampleControl>None</SampleControl>
   <InfoPages>
@@ -15,5 +15,4 @@
     <Keyword>Advanced Financial Charts, Gallery</Keyword>
   </Keywords>
 </SampleConfig>
-
 </SampleConfigs>

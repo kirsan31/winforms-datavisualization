@@ -53,15 +53,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Image properties
 
         /// <summary>
-        /// Gets or sets the name of an annotation's image. 
-        /// <seealso cref="ImageTransparentColor"/>
+        /// Gets or sets the name of an annotation's image.
+       /// <seealso cref="ImageTransparentColor"/>
         /// </summary>
         /// <value>
         /// A string value representing the name of an annotation's image.
         /// </value>
         /// <remarks>
-        /// The name can be a file name, URL for the web control or a name from 
-        /// the <see cref="NamedImagesCollection"/> class.	
+        /// The name can be a file name, URL for the web control or a name from
+       /// the <see cref="NamedImagesCollection"/> class.	
         /// </remarks>
         [
         SRCategory("CategoryAttributeImage"),
@@ -87,8 +87,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets the drawing mode of the image.
         /// </summary>
         /// <value>
-        /// A <see cref="ChartImageWrapMode"/> value that defines the drawing mode of the image. 
-        /// </value>
+        /// A <see cref="ChartImageWrapMode"/> value that defines the drawing mode of the image.
+       /// </value>
         [
         SRCategory("CategoryAttributeImage"),
         Bindable(true),
@@ -142,9 +142,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="ContentAlignment"/> value that represents the content alignment.
         /// </value>
         /// <remarks>
-        /// This property is used to align text for <see cref="TextAnnotation"/>, <see cref="RectangleAnnotation"/>,  
-        /// <see cref="EllipseAnnotation"/> and <see cref="CalloutAnnotation"/> objects, and to align 
-        /// a non-scaled image inside an <see cref="ImageAnnotation"/> object.
+        /// This property is used to align text for <see cref="TextAnnotation"/>, <see cref="RectangleAnnotation"/>, 
+       /// <see cref="EllipseAnnotation"/> and <see cref="CalloutAnnotation"/> objects, and to align
+       /// a non-scaled image inside an <see cref="ImageAnnotation"/> object.
         /// </remarks>
 		[
         SRCategory("CategoryAttributeImage"),
@@ -194,9 +194,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets an annotation's type name.
         /// </summary>
         /// <remarks>
-        /// This property is used to get the name of each annotation type 
-        /// (e.g. Line, Rectangle, Ellipse). 
-        /// <para>
+        /// This property is used to get the name of each annotation type
+       /// (e.g. Line, Rectangle, Ellipse).
+       /// <para>
         /// This property is for internal use and is hidden at design and run time.
         /// </para>
         /// </remarks>

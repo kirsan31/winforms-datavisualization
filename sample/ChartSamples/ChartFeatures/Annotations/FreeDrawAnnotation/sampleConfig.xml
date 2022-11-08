@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "Annotations" Priority = "500">
-  <Title>Free-drawing Annotations</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Free-drawing Annotations</ShortBlurb> 
-  <SampleControl>FreeDrawAnnotation</SampleControl> 
-  <InfoPages>
+  <Title>Free-drawing Annotations</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Free-drawing Annotations</ShortBlurb>
+ <SampleControl>FreeDrawAnnotation</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -19,8 +19,8 @@
   <Title>Free-drawing Annotations</Title>
   <Thumbnail>thumbnail.jpg</Thumbnail>
   <ShortBlurb>Free-drawing Annotations</ShortBlurb>
-  <SampleControl>FreeDrawAnnotation</SampleControl> 
-  <InfoPages>
+  <SampleControl>FreeDrawAnnotation</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -30,5 +30,4 @@
 	<Keyword>Free Draw Annotation</Keyword>
   </Keywords>
 </SampleConfig>
-
 </SampleConfigs>

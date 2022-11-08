@@ -5,8 +5,8 @@ Imports System.Windows.Forms.DataVisualization.Charting
 chart1.Printing.PrintDocument.DefaultPageSettings.Landscape = False
 
 ' Set 1 inch page margins (in hundredths of an inch)
-chart1.Printing.PrintDocument.DefaultPageSettings.IsMarginVisibles = 
-    New System.Drawing.Printing.IsMarginVisibles(100, 100, 100, 100)
+chart1.Printing.PrintDocument.DefaultPageSettings.IsMarginVisibles =
+   New System.Drawing.Printing.IsMarginVisibles(100, 100, 100, 100)
 
  ' Set printer resolution
 Dim pr As PrinterResolution

@@ -17,7 +17,6 @@ Imports System.Collections.Generic
 Imports System.Text
 Imports System.Windows.Forms.DataVisualization.Charting
 
-
 Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     ''' <summary>
     ''' Helper class which implements the filtering functions. Currently Low Pass, High Pass and
@@ -193,7 +192,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             Filter(iseries, oseries)
         End Sub 'LowPassFilter
 
-
         ''' <summary>
         ''' Performs a high pass filter. Output series will be cleared before being
         ''' output to. If passband start and end frequencies are left at 0, defaults are used.
@@ -217,7 +215,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             'Filter the series based on the coefficients generated
             Filter(iseries, oseries)
         End Sub 'HighPassFilter
-
 
         ''' <summary>
         ''' Performs a band pass filter. Output series will be cleared before being

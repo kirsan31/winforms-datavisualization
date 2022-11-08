@@ -2,11 +2,11 @@
 <SampleConfigs>
 
 <SampleConfig ParentNodeID = "PriceRangeFinanceCharts" Priority="500">
-  <Title>Three Line Break Chart</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Three Line Break Chart Type</ShortBlurb> 
-  <SampleControl>ThreeLineBreakChartType</SampleControl> 
-  <InfoPages>
+  <Title>Three Line Break Chart</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Three Line Break Chart Type</ShortBlurb>
+ <SampleControl>ThreeLineBreakChartType</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -16,5 +16,4 @@
       <Keyword>NumberOfLineInBreak</Keyword>
     </Keywords>
 </SampleConfig>
-
 </SampleConfigs>

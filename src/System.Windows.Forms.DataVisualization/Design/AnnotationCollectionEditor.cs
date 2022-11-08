@@ -2,11 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Design-time UI editor for Annotations.
 //
-
 
 using System.ComponentModel;
 using System.Drawing.Design;
@@ -36,26 +34,26 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// <returns>An array of data types that this collection can contain.</returns>
         protected override Type[] CreateNewItemTypes()
         {
-            return new Type[] { 
-				typeof(LineAnnotation), 
-				typeof(VerticalLineAnnotation),
-				typeof(HorizontalLineAnnotation),
-				typeof(TextAnnotation), 
-				typeof(RectangleAnnotation), 
-			    typeof(EllipseAnnotation), 
-			    typeof(ArrowAnnotation),
-				typeof(Border3DAnnotation),
-			    typeof(CalloutAnnotation),
-			    typeof(PolylineAnnotation), 
-			    typeof(PolygonAnnotation), 
-			    typeof(ImageAnnotation), 
-				typeof(AnnotationGroup) 
-			};
+            return new Type[] {
+                typeof(LineAnnotation),
+                typeof(VerticalLineAnnotation),
+                typeof(HorizontalLineAnnotation),
+                typeof(TextAnnotation),
+                typeof(RectangleAnnotation),
+                typeof(EllipseAnnotation),
+                typeof(ArrowAnnotation),
+                typeof(Border3DAnnotation),
+                typeof(CalloutAnnotation),
+                typeof(PolylineAnnotation),
+                typeof(PolygonAnnotation),
+                typeof(ImageAnnotation),
+                typeof(AnnotationGroup)
+            };
         }
 
         /// <summary>
-        /// Create annotation instance in the editor 
-        /// </summary>
+        /// Create annotation instance in the editor
+       /// </summary>
         /// <param name="itemType">Item type.</param>
         /// <returns>Newly created item.</returns>
         protected override object CreateInstance(Type itemType)
@@ -65,16 +63,14 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             // Call base class
             Annotation annotation = base.CreateInstance(itemType) as Annotation;
 
-            // Generate unique name 
-            if (control != null)
+            // Generate unique name
+           if (control != null)
             {
                 annotation.Name = NextUniqueName(control, itemType);
             }
 
             return annotation;
         }
-
-
 
         /// <summary>
         /// Finds the unique name for a new annotation being added to the collection
@@ -100,8 +96,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             return result;
         }
 
-
-        #endregion // Methods
+        #endregion Methods
     }
 
     /// <summary>
@@ -146,7 +141,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             return value;
         }
 
-
         /// <summary>
         /// Gets editing style.
         /// </summary>
@@ -161,7 +155,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             return base.GetEditStyle(context);
         }
 
-        #endregion
+        #endregion Editor methods and properties
     }
 
     /// <summary>
@@ -173,10 +167,11 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 
         // Annotation object to edit
         private Annotation _annotation;
+
         private DataPoint _dataPoint;
         IWindowsFormsEditorService _edSvc;
 
-        #endregion
+        #endregion Control fields
 
         #region Control constructor
 
@@ -203,7 +198,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this.FillTree();
         }
 
-        #endregion
+        #endregion Control constructor
 
         #region Control methods
 
@@ -299,7 +294,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 }
             }
         }
-        #endregion
+
+        #endregion Control methods
     }
 
     /// <summary>
@@ -353,7 +349,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             return value;
         }
 
-
         /// <summary>
         /// Gets editing style.
         /// </summary>
@@ -368,7 +363,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             return base.GetEditStyle(context);
         }
 
-        #endregion
+        #endregion Editor methods and properties
     }
 
     /// <summary>
@@ -380,11 +375,12 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 
         // Annotation object to edit
         private Annotation _annotation;
+
         private Axis _axis;
         IWindowsFormsEditorService _edSvc;
         private bool _showXAxes = true;
 
-        #endregion
+        #endregion Control fields
 
         #region Control constructor
 
@@ -414,7 +410,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this.FillTree();
         }
 
-        #endregion
+        #endregion Control constructor
 
         #region Control methods
 
@@ -519,7 +515,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 }
             }
         }
-        #endregion
-    }
 
+        #endregion Control methods
+    }
 }

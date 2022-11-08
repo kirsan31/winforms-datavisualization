@@ -19,7 +19,7 @@ private void chart1_Click(object sender, System.Web.UI.ImageClickEventArgs e)
     {
         // Convert pixels to percentage coordinates and set the legend position
         chart1.Legend.Position.X = e.X * 100F / ((float)(chart1.Width.Value - 1));
-        chart1.Legend.Position.Y = e.Y * 100F / ((float)(chart1.Height.Value - 1)); 
-    }
+        chart1.Legend.Position.Y = e.Y * 100F / ((float)(chart1.Height.Value - 1));
+   }
 }
 ...

@@ -1,69 +1,64 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AxisAppearance.
-	/// </summary>
-	public class MultilineLabels : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.TextBox AxisLabel;
-		private System.Windows.Forms.TextBox PointLabel;
-		private System.Windows.Forms.CheckBox ShowValueLabels;
+    /// <summary>
+    /// Summary description for AxisAppearance.
+    /// </summary>
+    public class MultilineLabels : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox AxisLabel;
+        private System.Windows.Forms.TextBox PointLabel;
+        private System.Windows.Forms.CheckBox ShowValueLabels;
         private Label label7;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
 
-		public MultilineLabels()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Initialize combo boxes
-		
-		}
-		
+        public MultilineLabels()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            // Initialize combo boxes
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -100,10 +95,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
@@ -112,10 +107,10 @@ namespace ChartSamples
             this.label9.TabIndex = 0;
             this.label9.Text = "This sample demonstrates how to set labels for point values. It also shows how to" +
                 " set labels for individual data points.";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.ShowValueLabels);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.ShowValueLabels);
             this.panel1.Controls.Add(this.PointLabel);
             this.panel1.Controls.Add(this.AxisLabel);
             this.panel1.Controls.Add(this.label2);
@@ -129,10 +124,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // ShowValueLabels
-            // 
-            this.ShowValueLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // ShowValueLabels
+            //
+           this.ShowValueLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ShowValueLabels.Location = new System.Drawing.Point(26, 7);
             this.ShowValueLabels.Name = "ShowValueLabels";
             this.ShowValueLabels.Size = new System.Drawing.Size(156, 23);
@@ -140,86 +135,86 @@ namespace ChartSamples
             this.ShowValueLabels.Text = "&Show Point Values:";
             this.ShowValueLabels.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ShowValueLabels.CheckedChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // PointLabel
-            // 
-            this.PointLabel.Location = new System.Drawing.Point(168, 72);
+            //
+           // PointLabel
+            //
+           this.PointLabel.Location = new System.Drawing.Point(168, 72);
             this.PointLabel.Name = "PointLabel";
             this.PointLabel.Size = new System.Drawing.Size(120, 22);
             this.PointLabel.TabIndex = 4;
             this.PointLabel.Text = "Point Label #3";
             this.PointLabel.TextChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // AxisLabel
-            // 
-            this.AxisLabel.Location = new System.Drawing.Point(168, 40);
+            //
+           // AxisLabel
+            //
+           this.AxisLabel.Location = new System.Drawing.Point(168, 40);
             this.AxisLabel.Name = "AxisLabel";
             this.AxisLabel.Size = new System.Drawing.Size(120, 22);
             this.AxisLabel.TabIndex = 3;
             this.AxisLabel.Text = "Axis Label #3";
             this.AxisLabel.TextChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(28, 72);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(28, 72);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(136, 23);
             this.label2.TabIndex = 2;
             this.label2.Text = "&Point Label:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(28, 40);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(28, 40);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(136, 23);
             this.label1.TabIndex = 1;
             this.label1.Text = "&Axis Label:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(64, 403);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(64, 403);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 23);
             this.label6.TabIndex = 5;
             this.label6.Text = "Border Size:";
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(64, 380);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(64, 380);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(100, 23);
             this.label5.TabIndex = 4;
             this.label5.Text = "Border Color:";
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(64, 357);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(64, 357);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(100, 23);
             this.label4.TabIndex = 3;
             this.label4.Text = "Hatch Style:";
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(64, 334);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(64, 334);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 2;
             this.label3.Text = "Gradient:";
-            // 
-            // label15
-            // 
-            this.label15.Location = new System.Drawing.Point(64, 426);
+            //
+           // label15
+            //
+           this.label15.Location = new System.Drawing.Point(64, 426);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(100, 23);
             this.label15.TabIndex = 5;
             this.label15.Text = "Border Size:";
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -323,10 +318,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Chart Control for .NET Framework";
             this.Chart1.Titles.Add(title1);
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label7
+            //
+           this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(16, 368);
@@ -334,10 +329,10 @@ namespace ChartSamples
             this.label7.Size = new System.Drawing.Size(702, 57);
             this.label7.TabIndex = 3;
             this.label7.Text = resources.GetString("label7.Text");
-            // 
-            // MultilineLabels
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // MultilineLabels
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label7);
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
@@ -350,39 +345,33 @@ namespace ChartSamples
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void AxisLabelsInterval_Load(object sender, System.EventArgs e)
-		{
-			Labels();
-		}
+        private void AxisLabelsInterval_Load(object sender, System.EventArgs e)
+        {
+            Labels();
+        }
 
-		
-		private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Labels();
-		}
+        private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Labels();
+        }
 
-		private void Labels()
-		{
+        private void Labels()
+        {
+            // Show data points values as labels
+            foreach (Series series in Chart1.Series)
+            {
+                series.IsValueShownAsLabel = ShowValueLabels.Checked;
+            }
 
-			// Show data points values as labels
-			foreach( Series series in Chart1.Series)
-			{
-				series.IsValueShownAsLabel = ShowValueLabels.Checked;
-			}
+            // Set axis label
+           Chart1.Series["Series1"].Points[2].AxisLabel = AxisLabel.Text;
 
-			// Set axis label 
-			Chart1.Series["Series1"].Points[2].AxisLabel = AxisLabel.Text;
-
-			// Set data point label
-			Chart1.Series["Series1"].Points[2].Label = PointLabel.Text;
-
-		}
-		
-
-		
-	}
+            // Set data point label
+            Chart1.Series["Series1"].Points[2].Label = PointLabel.Text;
+        }
+    }
 }

@@ -13,7 +13,7 @@
         <MajorGrid LineColor="64, 64, 64, 64" />
         <LabelStyle Font="Trebuchet MS, 8.25pt, style=Bold" />
       </axisx>
-      <area3dstyle IsRightAngleAxes="False" IsClustered="False" Perspective="10" Inclination="15" Rotation="10" WallWidth="0"/>
+      <area3dstyle IsRightAngleAxes="False" IsClustered="False" Perspective="10" Inclination="15" Rotation="10" WallWidth="0" />
     </ChartArea>
   </chartareas>
   <legends>

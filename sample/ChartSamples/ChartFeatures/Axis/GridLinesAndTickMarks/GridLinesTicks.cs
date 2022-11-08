@@ -1,108 +1,105 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for GridLinesTicks.
-	/// </summary>
-	public class GridLinesTicks : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.ComboBox MajorInterval;
-		private System.Windows.Forms.ComboBox MajorLineColor;
-		private System.Windows.Forms.ComboBox MajorLineDashStyle;
-		private System.Windows.Forms.ComboBox MajorLineWidth;
-		private System.Windows.Forms.ComboBox Major;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox Minor;
-		private System.Windows.Forms.ComboBox MinorLineDashStyle;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.ComboBox MinorInterval;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.ComboBox MinorLineWidth;
-		private System.Windows.Forms.ComboBox MinorLineColor;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for GridLinesTicks.
+    /// </summary>
+    public class GridLinesTicks : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.ComboBox MajorInterval;
+        private System.Windows.Forms.ComboBox MajorLineColor;
+        private System.Windows.Forms.ComboBox MajorLineDashStyle;
+        private System.Windows.Forms.ComboBox MajorLineWidth;
+        private System.Windows.Forms.ComboBox Major;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox Minor;
+        private System.Windows.Forms.ComboBox MinorLineDashStyle;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox MinorInterval;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox MinorLineWidth;
+        private System.Windows.Forms.ComboBox MinorLineColor;
 
-		public GridLinesTicks()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Populate list of intervals
-			double[] intervals = new double[] { 0.1, 0.2, 0.5 };
-			foreach(double interval in intervals)
-			{
-				this.MinorInterval.Items.Add(interval.ToString());
-			}
-	
-			foreach(string lineName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)))
-			{
-				this.MinorLineDashStyle.Items.Add(lineName);
-				this.MajorLineDashStyle.Items.Add(lineName);
-			}
-			this.MajorLineDashStyle.SelectedIndex = 5;
-			this.MinorLineDashStyle.SelectedIndex = 5;
+        public GridLinesTicks()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			foreach(String colorName in KnownColor.GetNames(typeof(KnownColor)))
-			{
-				this.MinorLineColor.Items.Add(colorName);
-				this.MajorLineColor.Items.Add(colorName);
-			}
+            // Populate list of intervals
+            double[] intervals = new double[] { 0.1, 0.2, 0.5 };
+            foreach (double interval in intervals)
+            {
+                this.MinorInterval.Items.Add(interval.ToString());
+            }
 
-			this.MajorLineColor.SelectedIndex = this.MajorLineColor.Items.IndexOf("DimGray");
-			this.MinorLineColor.SelectedIndex = this.MinorLineColor.Items.IndexOf("LightGray");;
+            foreach (string lineName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)))
+            {
+                this.MinorLineDashStyle.Items.Add(lineName);
+                this.MajorLineDashStyle.Items.Add(lineName);
+            }
+            this.MajorLineDashStyle.SelectedIndex = 5;
+            this.MinorLineDashStyle.SelectedIndex = 5;
 
-			this.MajorLineWidth.SelectedIndex = 1;
-			this.MinorLineWidth.SelectedIndex = 0;
+            foreach (String colorName in KnownColor.GetNames(typeof(KnownColor)))
+            {
+                this.MinorLineColor.Items.Add(colorName);
+                this.MajorLineColor.Items.Add(colorName);
+            }
 
-			this.Major.SelectedIndex = 0;
-			this.Minor.SelectedIndex = 0;
+            this.MajorLineColor.SelectedIndex = this.MajorLineColor.Items.IndexOf("DimGray");
+            this.MinorLineColor.SelectedIndex = this.MinorLineColor.Items.IndexOf("LightGray"); ;
 
-			this.MajorInterval.SelectedIndex = 0;
-			this.MinorInterval.SelectedIndex = 0;
+            this.MajorLineWidth.SelectedIndex = 1;
+            this.MinorLineWidth.SelectedIndex = 0;
 
-		}
+            this.Major.SelectedIndex = 0;
+            this.Minor.SelectedIndex = 0;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            this.MajorInterval.SelectedIndex = 0;
+            this.MinorInterval.SelectedIndex = 0;
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -150,10 +147,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // MajorInterval
-            // 
-            this.MajorInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // MajorInterval
+            //
+           this.MajorInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MajorInterval.Items.AddRange(new object[] {
             "1",
             "2",
@@ -163,28 +160,28 @@ namespace ChartSamples
             this.MajorInterval.Size = new System.Drawing.Size(121, 22);
             this.MajorInterval.TabIndex = 9;
             this.MajorInterval.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // MajorLineColor
-            // 
-            this.MajorLineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // MajorLineColor
+            //
+           this.MajorLineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MajorLineColor.Location = new System.Drawing.Point(168, 72);
             this.MajorLineColor.Name = "MajorLineColor";
             this.MajorLineColor.Size = new System.Drawing.Size(121, 22);
             this.MajorLineColor.TabIndex = 5;
             this.MajorLineColor.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // MajorLineDashStyle
-            // 
-            this.MajorLineDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // MajorLineDashStyle
+            //
+           this.MajorLineDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MajorLineDashStyle.Location = new System.Drawing.Point(168, 40);
             this.MajorLineDashStyle.Name = "MajorLineDashStyle";
             this.MajorLineDashStyle.Size = new System.Drawing.Size(121, 22);
             this.MajorLineDashStyle.TabIndex = 3;
             this.MajorLineDashStyle.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // MajorLineWidth
-            // 
-            this.MajorLineWidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // MajorLineWidth
+            //
+           this.MajorLineWidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MajorLineWidth.Items.AddRange(new object[] {
             "1",
             "2",
@@ -195,56 +192,56 @@ namespace ChartSamples
             this.MajorLineWidth.Size = new System.Drawing.Size(121, 22);
             this.MajorLineWidth.TabIndex = 7;
             this.MajorLineWidth.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(86, 144);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(86, 144);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(80, 16);
             this.label5.TabIndex = 8;
             this.label5.Text = "&Interval:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(86, 48);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(86, 48);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(80, 16);
             this.label6.TabIndex = 2;
             this.label6.Text = "Line &Style:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(86, 80);
+            //
+           // label7
+            //
+           this.label7.Location = new System.Drawing.Point(86, 80);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(80, 16);
             this.label7.TabIndex = 4;
             this.label7.Text = "Line &Color:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(86, 112);
+            //
+           // label8
+            //
+           this.label8.Location = new System.Drawing.Point(86, 112);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(80, 16);
             this.label8.TabIndex = 6;
             this.label8.Text = "Line &Width:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 34);
             this.label9.TabIndex = 0;
             this.label9.Text = "This sample demonstrates how to set the appearance of grid lines and tick marks.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.label2);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.Minor);
             this.panel1.Controls.Add(this.MinorLineDashStyle);
             this.panel1.Controls.Add(this.label3);
@@ -268,19 +265,19 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 340);
             this.panel1.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(86, 184);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(86, 184);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(80, 16);
             this.label2.TabIndex = 10;
             this.label2.Text = "Mi&nor:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Minor
-            // 
-            this.Minor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // Minor
+            //
+           this.Minor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Minor.Items.AddRange(new object[] {
             "Grid Lines",
             "Tick Marks"});
@@ -289,64 +286,64 @@ namespace ChartSamples
             this.Minor.Size = new System.Drawing.Size(121, 22);
             this.Minor.TabIndex = 11;
             this.Minor.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // MinorLineDashStyle
-            // 
-            this.MinorLineDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // MinorLineDashStyle
+            //
+           this.MinorLineDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MinorLineDashStyle.Location = new System.Drawing.Point(168, 208);
             this.MinorLineDashStyle.Name = "MinorLineDashStyle";
             this.MinorLineDashStyle.Size = new System.Drawing.Size(121, 22);
             this.MinorLineDashStyle.TabIndex = 13;
             this.MinorLineDashStyle.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(86, 312);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(86, 312);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(80, 16);
             this.label3.TabIndex = 18;
             this.label3.Text = "In&terval:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(86, 216);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(86, 216);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(80, 16);
             this.label4.TabIndex = 12;
             this.label4.Text = "Line S&tyle:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // MinorInterval
-            // 
-            this.MinorInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // MinorInterval
+            //
+           this.MinorInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MinorInterval.Location = new System.Drawing.Point(168, 304);
             this.MinorInterval.Name = "MinorInterval";
             this.MinorInterval.Size = new System.Drawing.Size(121, 22);
             this.MinorInterval.TabIndex = 19;
             this.MinorInterval.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // label10
-            // 
-            this.label10.Location = new System.Drawing.Point(86, 248);
+            //
+           // label10
+            //
+           this.label10.Location = new System.Drawing.Point(86, 248);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(80, 16);
             this.label10.TabIndex = 14;
             this.label10.Text = "Line C&olor:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label11
-            // 
-            this.label11.Location = new System.Drawing.Point(86, 280);
+            //
+           // label11
+            //
+           this.label11.Location = new System.Drawing.Point(86, 280);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(80, 16);
             this.label11.TabIndex = 16;
             this.label11.Text = "Line Wi&dth:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // MinorLineWidth
-            // 
-            this.MinorLineWidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // MinorLineWidth
+            //
+           this.MinorLineWidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MinorLineWidth.Items.AddRange(new object[] {
             "1",
             "2",
@@ -357,28 +354,28 @@ namespace ChartSamples
             this.MinorLineWidth.Size = new System.Drawing.Size(121, 22);
             this.MinorLineWidth.TabIndex = 17;
             this.MinorLineWidth.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // MinorLineColor
-            // 
-            this.MinorLineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // MinorLineColor
+            //
+           this.MinorLineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MinorLineColor.Location = new System.Drawing.Point(168, 240);
             this.MinorLineColor.Name = "MinorLineColor";
             this.MinorLineColor.Size = new System.Drawing.Size(121, 22);
             this.MinorLineColor.TabIndex = 15;
             this.MinorLineColor.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(86, 16);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(86, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Ma&jor:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Major
-            // 
-            this.Major.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // Major
+            //
+           this.Major.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Major.Items.AddRange(new object[] {
             "Grid Lines",
             "Tick Marks"});
@@ -387,10 +384,10 @@ namespace ChartSamples
             this.Major.Size = new System.Drawing.Size(121, 22);
             this.Major.TabIndex = 1;
             this.Major.SelectedIndexChanged += new System.EventHandler(this.ControlSelectedIndexChanged);
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -466,10 +463,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Grid Lines and Tick Marks";
             this.Chart1.Titles.Add(title1);
-            // 
-            // GridLinesTicks
-            // 
-            this.Controls.Add(this.Chart1);
+            //
+           // GridLinesTicks
+            //
+           this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -478,98 +475,99 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void ControlSelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            // Disable all elements
+            Chart1.ChartAreas["Default"].AxisX.MajorGrid.Enabled = false;
+            Chart1.ChartAreas["Default"].AxisX.MajorTickMark.Enabled = false;
+            Chart1.ChartAreas["Default"].AxisX.MinorGrid.Enabled = false;
+            Chart1.ChartAreas["Default"].AxisX.MinorTickMark.Enabled = false;
 
-		private void ControlSelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			// Disable all elements
-			Chart1.ChartAreas["Default"].AxisX.MajorGrid.Enabled = false;
-			Chart1.ChartAreas["Default"].AxisX.MajorTickMark.Enabled = false;
-			Chart1.ChartAreas["Default"].AxisX.MinorGrid.Enabled = false;
-			Chart1.ChartAreas["Default"].AxisX.MinorTickMark.Enabled = false;
+            // Enable Major selected element
+            if (Major.SelectedIndex >= 0)
+            {
+                switch (Major.SelectedItem.ToString())
+                {
+                    case "Grid Lines":
+                        Chart1.ChartAreas["Default"].AxisX.MajorGrid.Enabled = true;
+                        break;
 
-			// Enable Major selected element
-			if(Major.SelectedIndex >= 0)
-			{
-				switch( Major.SelectedItem.ToString())
-				{
-					case "Grid Lines":
-						Chart1.ChartAreas["Default"].AxisX.MajorGrid.Enabled = true;
-						break;
-					case "Tick Marks":
-						Chart1.ChartAreas["Default"].AxisX.MajorTickMark.Enabled = true;
-						break;
-				}
-			}
+                    case "Tick Marks":
+                        Chart1.ChartAreas["Default"].AxisX.MajorTickMark.Enabled = true;
+                        break;
+                }
+            }
 
-			// Enable Minor selected element
-			if(Minor.SelectedIndex >= 0)
-			{
-				switch( Minor.SelectedItem.ToString() )
-				{
-					case "Grid Lines":
-						Chart1.ChartAreas["Default"].AxisX.MinorGrid.Enabled = true;
-						break;
-					case "Tick Marks":
-						Chart1.ChartAreas["Default"].AxisX.MinorTickMark.Enabled = true;
-						break;
-				}
-			}
+            // Enable Minor selected element
+            if (Minor.SelectedIndex >= 0)
+            {
+                switch (Minor.SelectedItem.ToString())
+                {
+                    case "Grid Lines":
+                        Chart1.ChartAreas["Default"].AxisX.MinorGrid.Enabled = true;
+                        break;
 
-			// Set Grid lines and tick marks interval
-			if(MajorInterval.SelectedIndex >= 0)
-			{
-				Chart1.ChartAreas["Default"].AxisX.MajorGrid.Interval = double.Parse( MajorInterval.SelectedItem.ToString() );
-				Chart1.ChartAreas["Default"].AxisX.MajorTickMark.Interval = double.Parse( MajorInterval.SelectedItem.ToString() );
-			}
+                    case "Tick Marks":
+                        Chart1.ChartAreas["Default"].AxisX.MinorTickMark.Enabled = true;
+                        break;
+                }
+            }
 
-			if(MinorInterval.SelectedIndex >= 0)
-			{
-				Chart1.ChartAreas["Default"].AxisX.MinorGrid.Interval = double.Parse( MinorInterval.SelectedItem.ToString() );
-				Chart1.ChartAreas["Default"].AxisX.MinorTickMark.Interval = double.Parse( MinorInterval.SelectedItem.ToString() );
-			}
+            // Set Grid lines and tick marks interval
+            if (MajorInterval.SelectedIndex >= 0)
+            {
+                Chart1.ChartAreas["Default"].AxisX.MajorGrid.Interval = double.Parse(MajorInterval.SelectedItem.ToString());
+                Chart1.ChartAreas["Default"].AxisX.MajorTickMark.Interval = double.Parse(MajorInterval.SelectedItem.ToString());
+            }
 
-			// Set Line Color
-			if(MajorLineColor.SelectedIndex >= 0)
-			{
-				Chart1.ChartAreas["Default"].AxisX.MajorGrid.LineColor = Color.FromName(MajorLineColor.SelectedItem.ToString());
-				Chart1.ChartAreas["Default"].AxisX.MajorTickMark.LineColor = Color.FromName(MajorLineColor.SelectedItem.ToString());
-			}
-			
-			if(MinorLineColor.SelectedIndex >= 0)
-			{
-				Chart1.ChartAreas["Default"].AxisX.MinorGrid.LineColor = Color.FromName(MinorLineColor.SelectedItem.ToString());
-				Chart1.ChartAreas["Default"].AxisX.MinorTickMark.LineColor = Color.FromName(MinorLineColor.SelectedItem.ToString());
-			}
-			
-			// Set Line Style
-			if(MajorLineDashStyle.SelectedIndex >= 0)
-			{
-				Chart1.ChartAreas["Default"].AxisX.MajorGrid.LineDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), MajorLineDashStyle.SelectedItem.ToString());
-				Chart1.ChartAreas["Default"].AxisX.MajorTickMark.LineDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), MajorLineDashStyle.SelectedItem.ToString());
-			}
+            if (MinorInterval.SelectedIndex >= 0)
+            {
+                Chart1.ChartAreas["Default"].AxisX.MinorGrid.Interval = double.Parse(MinorInterval.SelectedItem.ToString());
+                Chart1.ChartAreas["Default"].AxisX.MinorTickMark.Interval = double.Parse(MinorInterval.SelectedItem.ToString());
+            }
 
-			if(MinorLineDashStyle.SelectedIndex >= 0)
-			{
-				Chart1.ChartAreas["Default"].AxisX.MinorGrid.LineDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), MinorLineDashStyle.SelectedItem.ToString());
-				Chart1.ChartAreas["Default"].AxisX.MinorTickMark.LineDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), MinorLineDashStyle.SelectedItem.ToString());
-			}
-			
-			// Set Line Width
-			if(MajorLineWidth.SelectedIndex >= 0)
-			{
-				Chart1.ChartAreas["Default"].AxisX.MajorGrid.LineWidth = int.Parse(MajorLineWidth.SelectedItem.ToString());
-				Chart1.ChartAreas["Default"].AxisX.MajorTickMark.LineWidth = int.Parse(MajorLineWidth.SelectedItem.ToString());
-			}
+            // Set Line Color
+            if (MajorLineColor.SelectedIndex >= 0)
+            {
+                Chart1.ChartAreas["Default"].AxisX.MajorGrid.LineColor = Color.FromName(MajorLineColor.SelectedItem.ToString());
+                Chart1.ChartAreas["Default"].AxisX.MajorTickMark.LineColor = Color.FromName(MajorLineColor.SelectedItem.ToString());
+            }
 
-			if(MinorLineWidth.SelectedIndex >= 0)
-			{
-				Chart1.ChartAreas["Default"].AxisX.MinorGrid.LineWidth = int.Parse(MinorLineWidth.SelectedItem.ToString());
-				Chart1.ChartAreas["Default"].AxisX.MinorTickMark.LineWidth = int.Parse(MinorLineWidth.SelectedItem.ToString());
-			}
-		}
-	}
+            if (MinorLineColor.SelectedIndex >= 0)
+            {
+                Chart1.ChartAreas["Default"].AxisX.MinorGrid.LineColor = Color.FromName(MinorLineColor.SelectedItem.ToString());
+                Chart1.ChartAreas["Default"].AxisX.MinorTickMark.LineColor = Color.FromName(MinorLineColor.SelectedItem.ToString());
+            }
+
+            // Set Line Style
+            if (MajorLineDashStyle.SelectedIndex >= 0)
+            {
+                Chart1.ChartAreas["Default"].AxisX.MajorGrid.LineDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), MajorLineDashStyle.SelectedItem.ToString());
+                Chart1.ChartAreas["Default"].AxisX.MajorTickMark.LineDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), MajorLineDashStyle.SelectedItem.ToString());
+            }
+
+            if (MinorLineDashStyle.SelectedIndex >= 0)
+            {
+                Chart1.ChartAreas["Default"].AxisX.MinorGrid.LineDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), MinorLineDashStyle.SelectedItem.ToString());
+                Chart1.ChartAreas["Default"].AxisX.MinorTickMark.LineDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), MinorLineDashStyle.SelectedItem.ToString());
+            }
+
+            // Set Line Width
+            if (MajorLineWidth.SelectedIndex >= 0)
+            {
+                Chart1.ChartAreas["Default"].AxisX.MajorGrid.LineWidth = int.Parse(MajorLineWidth.SelectedItem.ToString());
+                Chart1.ChartAreas["Default"].AxisX.MajorTickMark.LineWidth = int.Parse(MajorLineWidth.SelectedItem.ToString());
+            }
+
+            if (MinorLineWidth.SelectedIndex >= 0)
+            {
+                Chart1.ChartAreas["Default"].AxisX.MinorGrid.LineWidth = int.Parse(MinorLineWidth.SelectedItem.ToString());
+                Chart1.ChartAreas["Default"].AxisX.MinorTickMark.LineWidth = int.Parse(MinorLineWidth.SelectedItem.ToString());
+            }
+        }
+    }
 }

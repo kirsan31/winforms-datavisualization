@@ -1,69 +1,64 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AutoFitAxesLabels.
-	/// </summary>
-	public class AutoFitAxesLabels : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.CheckBox checkBoxAutoFit;
-		private System.Windows.Forms.CheckBox checkBoxFontSize;
-		private System.Windows.Forms.CheckBox checkBoxOffsetLabels;
-		private System.Windows.Forms.CheckBox checkBoxWordWrap;
-		private System.Windows.Forms.ComboBox comboBoInclination;
-		private System.Windows.Forms.Label labelAngle;
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.GroupBox groupBox1;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AutoFitAxesLabels.
+    /// </summary>
+    public class AutoFitAxesLabels : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.CheckBox checkBoxAutoFit;
+        private System.Windows.Forms.CheckBox checkBoxFontSize;
+        private System.Windows.Forms.CheckBox checkBoxOffsetLabels;
+        private System.Windows.Forms.CheckBox checkBoxWordWrap;
+        private System.Windows.Forms.ComboBox comboBoInclination;
+        private System.Windows.Forms.Label labelAngle;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox groupBox1;
 
-		public AutoFitAxesLabels()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Initialize component
-			comboBoInclination.SelectedIndex = 1;
+        public AutoFitAxesLabels()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			UpdateAutoFitChecked();
-		}
-		
+            // Initialize component
+            comboBoInclination.SelectedIndex = 1;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            UpdateAutoFitChecked();
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -99,10 +94,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
@@ -111,19 +106,19 @@ namespace ChartSamples
             this.label9.TabIndex = 0;
             this.label9.Text = "This sample demonstrates how to automatically fit labels along an axis. ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.groupBox1);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.checkBoxAutoFit);
             this.panel1.Location = new System.Drawing.Point(432, 56);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.checkBoxFontSize);
+            //
+           // groupBox1
+            //
+           this.groupBox1.Controls.Add(this.checkBoxFontSize);
             this.groupBox1.Controls.Add(this.labelAngle);
             this.groupBox1.Controls.Add(this.checkBoxWordWrap);
             this.groupBox1.Controls.Add(this.checkBoxOffsetLabels);
@@ -134,10 +129,10 @@ namespace ChartSamples
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Automatic Fitting Style:";
-            // 
-            // checkBoxFontSize
-            // 
-            this.checkBoxFontSize.Checked = true;
+            //
+           // checkBoxFontSize
+            //
+           this.checkBoxFontSize.Checked = true;
             this.checkBoxFontSize.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxFontSize.Enabled = false;
             this.checkBoxFontSize.Location = new System.Drawing.Point(32, 24);
@@ -146,20 +141,20 @@ namespace ChartSamples
             this.checkBoxFontSize.TabIndex = 2;
             this.checkBoxFontSize.Text = "Modify Font &Size";
             this.checkBoxFontSize.CheckedChanged += new System.EventHandler(this.checkBoxFontSize_CheckedChanged);
-            // 
-            // labelAngle
-            // 
-            this.labelAngle.Enabled = false;
+            //
+           // labelAngle
+            //
+           this.labelAngle.Enabled = false;
             this.labelAngle.Location = new System.Drawing.Point(24, 120);
             this.labelAngle.Name = "labelAngle";
             this.labelAngle.Size = new System.Drawing.Size(96, 23);
             this.labelAngle.TabIndex = 5;
             this.labelAngle.Text = "Labels &Angle:";
             this.labelAngle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // checkBoxWordWrap
-            // 
-            this.checkBoxWordWrap.Checked = true;
+            //
+           // checkBoxWordWrap
+            //
+           this.checkBoxWordWrap.Checked = true;
             this.checkBoxWordWrap.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxWordWrap.Enabled = false;
             this.checkBoxWordWrap.Location = new System.Drawing.Point(32, 88);
@@ -168,10 +163,10 @@ namespace ChartSamples
             this.checkBoxWordWrap.TabIndex = 4;
             this.checkBoxWordWrap.Text = "Use Word &Wrap";
             this.checkBoxWordWrap.CheckedChanged += new System.EventHandler(this.checkBoxWordWrap_CheckedChanged);
-            // 
-            // checkBoxOffsetLabels
-            // 
-            this.checkBoxOffsetLabels.Checked = true;
+            //
+           // checkBoxOffsetLabels
+            //
+           this.checkBoxOffsetLabels.Checked = true;
             this.checkBoxOffsetLabels.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxOffsetLabels.Enabled = false;
             this.checkBoxOffsetLabels.Location = new System.Drawing.Point(32, 56);
@@ -180,10 +175,10 @@ namespace ChartSamples
             this.checkBoxOffsetLabels.TabIndex = 3;
             this.checkBoxOffsetLabels.Text = "Use &Offset Labels";
             this.checkBoxOffsetLabels.CheckedChanged += new System.EventHandler(this.checkBoxOffsetLabels_CheckedChanged);
-            // 
-            // comboBoInclination
-            // 
-            this.comboBoInclination.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBoInclination
+            //
+           this.comboBoInclination.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoInclination.Enabled = false;
             this.comboBoInclination.Items.AddRange(new object[] {
             "Not Changed",
@@ -195,10 +190,10 @@ namespace ChartSamples
             this.comboBoInclination.Size = new System.Drawing.Size(120, 22);
             this.comboBoInclination.TabIndex = 6;
             this.comboBoInclination.SelectedIndexChanged += new System.EventHandler(this.comboBoInclination_SelectedIndexChanged);
-            // 
-            // checkBoxAutoFit
-            // 
-            this.checkBoxAutoFit.Checked = true;
+            //
+           // checkBoxAutoFit
+            //
+           this.checkBoxAutoFit.Checked = true;
             this.checkBoxAutoFit.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxAutoFit.Location = new System.Drawing.Point(48, 8);
             this.checkBoxAutoFit.Name = "checkBoxAutoFit";
@@ -206,10 +201,10 @@ namespace ChartSamples
             this.checkBoxAutoFit.TabIndex = 0;
             this.checkBoxAutoFit.Text = "Automatically Fit &X Axis Labels";
             this.checkBoxAutoFit.CheckedChanged += new System.EventHandler(this.checkBoxAutoFit_CheckedChanged);
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -267,10 +262,10 @@ namespace ChartSamples
             this.Chart1.Size = new System.Drawing.Size(412, 296);
             this.Chart1.TabIndex = 1;
             this.Chart1.Click += new System.EventHandler(this.Chart1_Click);
-            // 
-            // chart2
-            // 
-            this.chart2.BorderlineColor = System.Drawing.Color.DimGray;
+            //
+           // chart2
+            //
+           this.chart2.BorderlineColor = System.Drawing.Color.DimGray;
             this.chart2.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.chart2.BorderSkin.BackSecondaryColor = System.Drawing.Color.White;
             this.chart2.BorderSkin.PageColor = System.Drawing.SystemColors.Control;
@@ -313,10 +308,10 @@ namespace ChartSamples
             this.chart2.Series.Add(series2);
             this.chart2.Size = new System.Drawing.Size(360, 260);
             this.chart2.TabIndex = 0;
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label2
+            //
+           this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(20, 360);
@@ -325,10 +320,10 @@ namespace ChartSamples
             this.label2.TabIndex = 3;
             this.label2.Text = "For more information on this sample, Click the Overview tab at the top of this fr" +
                 "ame.";
-            // 
-            // AutoFitAxesLabels
-            // 
-            this.Controls.Add(this.panel1);
+            //
+           // AutoFitAxesLabels
+            //
+           this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.label9);
@@ -342,96 +337,93 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void Chart1_Click(object sender, System.EventArgs e)
-		{
-		
-		}
+        private void Chart1_Click(object sender, System.EventArgs e)
+        {
+        }
 
-		private void CustomLabels_Load(object sender, System.EventArgs e)
-		{
-		}
+        private void CustomLabels_Load(object sender, System.EventArgs e)
+        {
+        }
 
-		private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-		}
+        private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+        }
 
-		private void checkBoxAutoFit_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateAutoFitChecked();
-		}
+        private void checkBoxAutoFit_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateAutoFitChecked();
+        }
 
-		private void UpdateAutoFitChecked() 
-		{
-			checkBoxFontSize.Enabled = checkBoxAutoFit.Checked;
-			checkBoxOffsetLabels.Enabled = checkBoxAutoFit.Checked;
-			checkBoxWordWrap.Enabled = checkBoxAutoFit.Checked;
-			labelAngle.Enabled = checkBoxAutoFit.Checked;
-			comboBoInclination.Enabled = checkBoxAutoFit.Checked;
+        private void UpdateAutoFitChecked()
+        {
+            checkBoxFontSize.Enabled = checkBoxAutoFit.Checked;
+            checkBoxOffsetLabels.Enabled = checkBoxAutoFit.Checked;
+            checkBoxWordWrap.Enabled = checkBoxAutoFit.Checked;
+            labelAngle.Enabled = checkBoxAutoFit.Checked;
+            comboBoInclination.Enabled = checkBoxAutoFit.Checked;
 
-			// Enable/disable X axis labels automatic fitting
-			Chart1.ChartAreas["Default"].AxisX.IsLabelAutoFit = checkBoxAutoFit.Checked;
-		}
+            // Enable/disable X axis labels automatic fitting
+            Chart1.ChartAreas["Default"].AxisX.IsLabelAutoFit = checkBoxAutoFit.Checked;
+        }
 
-		private void checkBoxFontSize_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateAutoFitStyle();
-		}
+        private void checkBoxFontSize_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateAutoFitStyle();
+        }
 
-		private void checkBoxOffsetLabels_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateAutoFitStyle();
-		}
+        private void checkBoxOffsetLabels_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateAutoFitStyle();
+        }
 
-		private void checkBoxWordWrap_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateAutoFitStyle();
-		}
+        private void checkBoxWordWrap_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateAutoFitStyle();
+        }
 
-		private void comboBoInclination_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			UpdateAutoFitStyle();
-		}
+        private void comboBoInclination_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdateAutoFitStyle();
+        }
 
-		private void UpdateAutoFitStyle()
-		{
-			// Set X axis auto fit style
-			Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle = LabelAutoFitStyles.None;
-			if(checkBoxFontSize.Checked)
-			{
-				Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle |= 
-					LabelAutoFitStyles.DecreaseFont | LabelAutoFitStyles.IncreaseFont;
-			}
-			if(checkBoxOffsetLabels.Checked)
-			{
-				Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle |= 
-					LabelAutoFitStyles.StaggeredLabels;
-			}
-			if(checkBoxWordWrap.Checked)
-			{
-				Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle |= 
-					LabelAutoFitStyles.WordWrap;
-			}
-			if(comboBoInclination.SelectedIndex == 1)
-			{
-				Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle |= 
-					LabelAutoFitStyles.LabelsAngleStep30;
-			}
-			if(comboBoInclination.SelectedIndex == 2)
-			{
-				Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle |= 
-					LabelAutoFitStyles.LabelsAngleStep45;
-			}
-			if(comboBoInclination.SelectedIndex == 3)
-			{
-				Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle |= 
-					LabelAutoFitStyles.LabelsAngleStep90;
-			}
-
-		}
-		
-	}
+        private void UpdateAutoFitStyle()
+        {
+            // Set X axis auto fit style
+            Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle = LabelAutoFitStyles.None;
+            if (checkBoxFontSize.Checked)
+            {
+                Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle |=
+                    LabelAutoFitStyles.DecreaseFont | LabelAutoFitStyles.IncreaseFont;
+            }
+            if (checkBoxOffsetLabels.Checked)
+            {
+                Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle |=
+                    LabelAutoFitStyles.StaggeredLabels;
+            }
+            if (checkBoxWordWrap.Checked)
+            {
+                Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle |=
+                    LabelAutoFitStyles.WordWrap;
+            }
+            if (comboBoInclination.SelectedIndex == 1)
+            {
+                Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle |=
+                    LabelAutoFitStyles.LabelsAngleStep30;
+            }
+            if (comboBoInclination.SelectedIndex == 2)
+            {
+                Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle |=
+                    LabelAutoFitStyles.LabelsAngleStep45;
+            }
+            if (comboBoInclination.SelectedIndex == 3)
+            {
+                Chart1.ChartAreas["Default"].AxisX.LabelAutoFitStyle |=
+                    LabelAutoFitStyles.LabelsAngleStep90;
+            }
+        }
+    }
 }

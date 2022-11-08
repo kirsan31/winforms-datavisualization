@@ -29,10 +29,10 @@ partial class Form1
     private void InitializeComponent()
     {
             this.SuspendLayout();
-            // 
-            // Form1
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            //
+           // Form1
+            //
+           this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(499, 460);
             this.Name = "Form1";

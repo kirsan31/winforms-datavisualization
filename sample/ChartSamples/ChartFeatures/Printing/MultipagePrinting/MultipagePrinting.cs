@@ -1,63 +1,57 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Drawing.Printing;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-    
-    using ScrollType = System.Windows.Forms.DataVisualization.Charting.ScrollType;
+    /// <summary>
+    /// Summary description for MultipagePrinting.
+    /// </summary>
+    public class MultipagePrinting : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button buttonPrintPreview;
 
-	/// <summary>
-	/// Summary description for MultipagePrinting.
-	/// </summary>
-	public class MultipagePrinting : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Button buttonPrintPreview;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public MultipagePrinting()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public MultipagePrinting()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// Initialize combo boxes
-		
-		}
-		
+            // Initialize combo boxes
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -68,10 +62,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -124,10 +118,10 @@ namespace ChartSamples
             this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(412, 296);
             this.chart1.TabIndex = 1;
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 14);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 43);
@@ -136,18 +130,18 @@ namespace ChartSamples
                 "ted with price data for an eight-month period, and each printed page displays tw" +
                 "o months of data.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.buttonPrintPreview);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.buttonPrintPreview);
             this.panel1.Location = new System.Drawing.Point(432, 73);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // buttonPrintPreview
-            // 
-            this.buttonPrintPreview.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // buttonPrintPreview
+            //
+           this.buttonPrintPreview.BackColor = System.Drawing.SystemColors.Control;
             this.buttonPrintPreview.Location = new System.Drawing.Point(48, 8);
             this.buttonPrintPreview.Name = "buttonPrintPreview";
             this.buttonPrintPreview.Size = new System.Drawing.Size(120, 23);
@@ -155,10 +149,10 @@ namespace ChartSamples
             this.buttonPrintPreview.Text = "Print &Preview";
             this.buttonPrintPreview.UseVisualStyleBackColor = false;
             this.buttonPrintPreview.Click += new System.EventHandler(this.buttonPreview_Click);
-            // 
-            // MultipagePrinting
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // MultipagePrinting
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
@@ -169,160 +163,159 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void MultipagePrinting_Load(object sender, System.EventArgs e)
-		{
-			// Fill chart with data
-			FillData();
-		}
+        private void MultipagePrinting_Load(object sender, System.EventArgs e)
+        {
+            // Fill chart with data
+            FillData();
+        }
 
-		/// <summary>
-		/// Random Stock Data Generator
-		/// </summary>
-		private void FillData()
-		{
-			Random rand;
-			// Use a number to calculate a starting value for 
-			// the pseudo-random number sequence
-			rand = new Random();
-			
-			// The number of days for stock data
-			int period = 240;
+        /// <summary>
+        /// Random Stock Data Generator
+        /// </summary>
+        private void FillData()
+        {
+            Random rand;
+            // Use a number to calculate a starting value for
+           // the pseudo-random number sequence
+            rand = new Random();
 
-			// The first High value
-			double high = rand.NextDouble() * 40;
+            // The number of days for stock data
+            int period = 240;
 
-			// The first Close value
-			double close = high - rand.NextDouble();
+            // The first High value
+            double high = rand.NextDouble() * 40;
 
-			// The first Low value
-			double low = close - rand.NextDouble();
+            // The first Close value
+            double close = high - rand.NextDouble();
 
-			// The first Open value
-			double open = ( high - low ) * rand.NextDouble() + low;
+            // The first Low value
+            double low = close - rand.NextDouble();
 
-			// The first Volume value
-			double volume = 100 + 15 * rand.NextDouble();
-						
-			// The first day X and Y values
-			chart1.Series["Price"].Points.AddXY(DateTime.Parse("1/2/2002"), high);
-			chart1.Series["Price"].Points[0].YValues[1] = low;
+            // The first Open value
+            double open = (high - low) * rand.NextDouble() + low;
 
-			// The Open value is not used.
-			chart1.Series["Price"].Points[0].YValues[2] = open;
-			chart1.Series["Price"].Points[0].YValues[3] = close;
-			
-			// Days loop
-			for( int day = 1; day <= period; day++ )
-			{
-			
-				// Calculate High, Low and Close values
-				high = chart1.Series["Price"].Points[day-1].YValues[2]+rand.NextDouble();
-				close = high - rand.NextDouble();
-				low = close - rand.NextDouble();
-				open = ( high - low ) * rand.NextDouble() + low;
-				
-				// The low cannot be less than yesterday close value.
-				if( low > chart1.Series["Price"].Points[day-1].YValues[2])
-					low = chart1.Series["Price"].Points[day-1].YValues[2];
-							
-				// Set data points values
-				chart1.Series["Price"].Points.AddXY(day, high);
-				chart1.Series["Price"].Points[day].XValue = chart1.Series["Price"].Points[day-1].XValue+1;
-				chart1.Series["Price"].Points[day].YValues[1] = low;
-				chart1.Series["Price"].Points[day].YValues[2] = open;
-				chart1.Series["Price"].Points[day].YValues[3] = close;
-			}
-		}
+            // The first Volume value
+            double volume = 100 + 15 * rand.NextDouble();
 
-		private void buttonPreview_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				// Set new print document with custom page printing event handler
-				chart1.Printing.PrintDocument = new PrintDocument();
-				chart1.Printing.PrintDocument.PrintPage += new PrintPageEventHandler(pd_PrintPage);
+            // The first day X and Y values
+            chart1.Series["Price"].Points.AddXY(DateTime.Parse("1/2/2002"), high);
+            chart1.Series["Price"].Points[0].YValues[1] = low;
 
-				// Set Low printer resolution
-				foreach(PrinterResolution pr in chart1.Printing.PrintDocument.PrinterSettings.PrinterResolutions)
-				{
-					if(pr.Kind == PrinterResolutionKind.Low)
-					{
-						chart1.Printing.PrintDocument.DefaultPageSettings.PrinterResolution = pr;
-						break;
-					}
-				}
+            // The Open value is not used.
+            chart1.Series["Price"].Points[0].YValues[2] = open;
+            chart1.Series["Price"].Points[0].YValues[3] = close;
 
-				// Print preview chart
-				chart1.Printing.PrintPreview();
-			}
-			catch(Exception ex)
-			{
-				MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-		}
+            // Days loop
+            for (int day = 1; day <= period; day++)
+            {
+                // Calculate High, Low and Close values
+                high = chart1.Series["Price"].Points[day - 1].YValues[2] + rand.NextDouble();
+                close = high - rand.NextDouble();
+                low = close - rand.NextDouble();
+                open = (high - low) * rand.NextDouble() + low;
 
-		// Page index
-		private	int printingPageIndex = 0;
+                // The low cannot be less than yesterday close value.
+                if (low > chart1.Series["Price"].Points[day - 1].YValues[2])
+                    low = chart1.Series["Price"].Points[day - 1].YValues[2];
 
-		/// <summary>
-		/// Handles PrintPage event of the document.
-		/// </summary>
-		/// <param name="sender">Sender object.</param>
-		/// <param name="ev">Event parameters.</param>
-		private void pd_PrintPage(object sender, PrintPageEventArgs ev) 
-		{
-			// Print more pages
-			ev.HasMorePages = true;
+                // Set data points values
+                chart1.Series["Price"].Points.AddXY(day, high);
+                chart1.Series["Price"].Points[day].XValue = chart1.Series["Price"].Points[day - 1].XValue + 1;
+                chart1.Series["Price"].Points[day].YValues[1] = low;
+                chart1.Series["Price"].Points[day].YValues[2] = open;
+                chart1.Series["Price"].Points[day].YValues[3] = close;
+            }
+        }
 
-			// Calculate chart position rectangle
-			Rectangle	chartPosition = new Rectangle(ev.MarginBounds.X, ev.MarginBounds.Y, chart1.Size.Width, chart1.Size.Height);
+        private void buttonPreview_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                // Set new print document with custom page printing event handler
+                chart1.Printing.PrintDocument = new PrintDocument();
+                chart1.Printing.PrintDocument.PrintPage += new PrintPageEventHandler(pd_PrintPage);
 
-			// Align chart position on the page
-			float	chartWidthScale = ((float)ev.MarginBounds.Width) / ((float)chartPosition.Width);
-			float	chartHeightScale = ((float)ev.MarginBounds.Height) / ((float)chartPosition.Height);
-			chartPosition.Width = (int)(chartPosition.Width * Math.Min(chartWidthScale, chartHeightScale));
-			chartPosition.Height = (int)(chartPosition.Height * Math.Min(chartWidthScale, chartHeightScale));
+                // Set Low printer resolution
+                foreach (PrinterResolution pr in chart1.Printing.PrintDocument.PrinterSettings.PrinterResolutions)
+                {
+                    if (pr.Kind == PrinterResolutionKind.Low)
+                    {
+                        chart1.Printing.PrintDocument.DefaultPageSettings.PrinterResolution = pr;
+                        break;
+                    }
+                }
 
-			// Check if chart view was already set
-			if(double.IsNaN(chart1.ChartAreas["Default"].AxisX.ScaleView.Position))
-			{
-				// Reset page index
-				printingPageIndex = 0;
+                // Print preview chart
+                chart1.Printing.PrintPreview();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
 
-				// Set view
-				chart1.ChartAreas["Default"].AxisX.ScaleView.Position = chart1.ChartAreas["Default"].AxisX.Minimum;
-				chart1.ChartAreas["Default"].AxisX.ScaleView.Size = 2;
-				chart1.ChartAreas["Default"].AxisX.ScaleView.SizeType = DateTimeIntervalType.Months;
-			}
+        // Page index
+        private int printingPageIndex = 0;
 
-			// Set chart title
-			++printingPageIndex;
-			chart1.Text = "Chart Page Number " + printingPageIndex.ToString();
+        /// <summary>
+        /// Handles PrintPage event of the document.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="ev">Event parameters.</param>
+        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
+        {
+            // Print more pages
+            ev.HasMorePages = true;
 
-			// Draw chart on the printer graphisc
-			chart1.Printing.PrintPaint(ev.Graphics, chartPosition);
+            // Calculate chart position rectangle
+            Rectangle chartPosition = new Rectangle(ev.MarginBounds.X, ev.MarginBounds.Y, chart1.Size.Width, chart1.Size.Height);
 
-			// Scroll to the next view (2 months)
-			double	currentPosition = chart1.ChartAreas["Default"].AxisX.ScaleView.Position;
-			chart1.ChartAreas["Default"].AxisX.ScaleView.Scroll(System.Windows.Forms.DataVisualization.Charting.ScrollType.LargeIncrement);
-			
-			// Check if position was scrolled
-			if(currentPosition >= (chart1.ChartAreas["Default"].AxisX.ScaleView.Position - 1.0))
-			{
-				// No more pages
-				ev.HasMorePages = false;
+            // Align chart position on the page
+            float chartWidthScale = ((float)ev.MarginBounds.Width) / ((float)chartPosition.Width);
+            float chartHeightScale = ((float)ev.MarginBounds.Height) / ((float)chartPosition.Height);
+            chartPosition.Width = (int)(chartPosition.Width * Math.Min(chartWidthScale, chartHeightScale));
+            chartPosition.Height = (int)(chartPosition.Height * Math.Min(chartWidthScale, chartHeightScale));
 
-				// Restore view state
-				chart1.ChartAreas["Default"].AxisX.ScaleView.Position = double.NaN;
-				chart1.ChartAreas["Default"].AxisX.ScaleView.Size = double.NaN;
+            // Check if chart view was already set
+            if (double.IsNaN(chart1.ChartAreas["Default"].AxisX.ScaleView.Position))
+            {
+                // Reset page index
+                printingPageIndex = 0;
 
-				// Remove chart title
-				chart1.Text = "";
-			}
-		}
-	}
+                // Set view
+                chart1.ChartAreas["Default"].AxisX.ScaleView.Position = chart1.ChartAreas["Default"].AxisX.Minimum;
+                chart1.ChartAreas["Default"].AxisX.ScaleView.Size = 2;
+                chart1.ChartAreas["Default"].AxisX.ScaleView.SizeType = DateTimeIntervalType.Months;
+            }
+
+            // Set chart title
+            ++printingPageIndex;
+            chart1.Text = "Chart Page Number " + printingPageIndex.ToString();
+
+            // Draw chart on the printer graphisc
+            chart1.Printing.PrintPaint(ev.Graphics, chartPosition);
+
+            // Scroll to the next view (2 months)
+            double currentPosition = chart1.ChartAreas["Default"].AxisX.ScaleView.Position;
+            chart1.ChartAreas["Default"].AxisX.ScaleView.Scroll(System.Windows.Forms.DataVisualization.Charting.ScrollType.LargeIncrement);
+
+            // Check if position was scrolled
+            if (currentPosition >= (chart1.ChartAreas["Default"].AxisX.ScaleView.Position - 1.0))
+            {
+                // No more pages
+                ev.HasMorePages = false;
+
+                // Restore view state
+                chart1.ChartAreas["Default"].AxisX.ScaleView.Position = double.NaN;
+                chart1.ChartAreas["Default"].AxisX.ScaleView.Size = double.NaN;
+
+                // Remove chart title
+                chart1.Text = "";
+            }
+        }
+    }
 }

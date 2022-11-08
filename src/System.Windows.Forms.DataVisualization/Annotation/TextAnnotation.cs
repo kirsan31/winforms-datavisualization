@@ -23,8 +23,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <b>TextAnnotation</b> is a class that represents a text annotation.
     /// </summary>
     /// <remarks>
-    /// Note that other annotations do display inner text (e.g. rectangle, 
-    /// ellipse annotations.).
+    /// Note that other annotations do display inner text (e.g. rectangle,
+   /// ellipse annotations.).
     /// </remarks>
     [
         SRDescription("DescriptionAttributeTextAnnotation_TextAnnotation"),
@@ -299,9 +299,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets an annotation's type name.
         /// </summary>
         /// <remarks>
-        /// This property is used to get the name of each annotation type 
-        /// (e.g. Line, Rectangle, Ellipse). 
-        /// <para>
+        /// This property is used to get the name of each annotation type
+       /// (e.g. Line, Rectangle, Ellipse).
+       /// <para>
         /// This property is for internal use and is hidden at design and run time.
         /// </para>
         /// </remarks>
@@ -627,9 +627,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <seealso cref="BeginTextEditing"/>
         /// </summary>
         /// <remarks>
-        /// Call this method to cancel text editing, which was started via a call to 
-        /// the <see cref="BeginTextEditing"/> method, or after the end-user double-clicks 
-        /// on the annotation.
+        /// Call this method to cancel text editing, which was started via a call to
+       /// the <see cref="BeginTextEditing"/> method, or after the end-user double-clicks
+       /// on the annotation.
         /// </remarks>
         public void StopTextEditing()
         {
@@ -734,12 +734,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <seealso cref="StopTextEditing"/>
         /// </summary>
         /// <remarks>
-        /// After calling this method, the annotation displays an editing box which allows 
-        /// for editing of the annotation's text.
+        /// After calling this method, the annotation displays an editing box which allows
+       /// for editing of the annotation's text.
         /// <para>
-        /// Call the <see cref="StopTextEditing"/> method to cancel this mode programatically.  
-        /// Note that editing ends when the end-user hits the <c>Enter</c> key if multi-line 
-        /// is false, or when the end-user clicks outside of the editing box if multi-line is true.
+        /// Call the <see cref="StopTextEditing"/> method to cancel this mode programatically. 
+       /// Note that editing ends when the end-user hits the <c>Enter</c> key if multi-line
+       /// is false, or when the end-user clicks outside of the editing box if multi-line is true.
         /// </para>
         /// </remarks>
         public void BeginTextEditing()
@@ -849,8 +849,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return new RectangleF(float.NaN, float.NaN, contentSize.Width, contentSize.Height);
             }
 
-            // Create temporary bitmap based chart graphics if chart was not 
-            // rendered yet and the graphics was not created.
+            // Create temporary bitmap based chart graphics if chart was not
+           // rendered yet and the graphics was not created.
             // NOTE: Fix for issue #3978.
             Graphics graphics = null;
             Image graphicsImage = null;
@@ -946,12 +946,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Ends user placement of an annotation.
         /// </summary>
         /// <remarks>
-        /// Ends an annotation placement operation previously started by a 
-        /// <see cref="Annotation.BeginPlacement"/> method call.
+        /// Ends an annotation placement operation previously started by a
+       /// <see cref="Annotation.BeginPlacement"/> method call.
         /// <para>
         /// Calling this method is not required, since placement will automatically
-        /// end when an end user enters all required points. However, it is useful when an annotation 
-        /// placement operation needs to be aborted for some reason.
+        /// end when an end user enters all required points. However, it is useful when an annotation
+       /// placement operation needs to be aborted for some reason.
         /// </para>
         /// </remarks>
         public override void EndPlacement()
@@ -980,8 +980,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     }
 
     /// <summary>
-    /// The <b>AnnotationSmartLabelStyle</b> class is used to store an annotation's smart 
-    /// labels properties.
+    /// The <b>AnnotationSmartLabelStyle</b> class is used to store an annotation's smart
+   /// labels properties.
     /// <seealso cref="Annotation.SmartLabelStyle"/>
     /// </summary>
     /// <remarks>

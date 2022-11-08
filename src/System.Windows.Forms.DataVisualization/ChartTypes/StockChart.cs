@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:    Stock chart requires 4 Y values High, Low, Open and Close.
 //  :
@@ -19,8 +18,6 @@
 //  open, and close value.
 //
 
-
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -51,11 +48,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         Candlestick
     }
 
-    #endregion
+    #endregion Open/close marks style enumeration
 
     /// <summary>
-    /// CandleStick class provides chart unique name and changes the marking 
-    /// style in the StockChart class to StockOpenCloseMarkStyle.CandleStick.
+    /// CandleStick class provides chart unique name and changes the marking
+   /// style in the StockChart class to StockOpenCloseMarkStyle.CandleStick.
     /// </summary>
     internal class CandleStickChart : StockChart
     {
@@ -69,7 +66,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             forceCandleStick = true;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IChartType interface implementation
 
@@ -88,12 +85,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
         }
 
-        #endregion
+        #endregion IChartType interface implementation
     }
 
     /// <summary>
-    /// StockChart class provides 2D/3D drawing and hit testing 
-    /// functionality for the Stock and CandleStick charts.
+    /// StockChart class provides 2D/3D drawing and hit testing
+   /// functionality for the Stock and CandleStick charts.
     /// </summary>
     internal class StockChart : IChartType
     {
@@ -119,7 +116,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         protected bool forceCandleStick;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -139,7 +136,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             this.openCloseStyle = style;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IChartType interface implementation
 
@@ -153,16 +150,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         virtual public bool Stacked { get { return false; } }
 
-
         /// <summary>
         /// True if stacked chart type supports groups
         /// </summary>
         virtual public bool SupportStackedGroups { get { return false; } }
 
-
         /// <summary>
-        /// True if stacked chart type should draw separately positive and 
-        /// negative data points ( Bar and column Stacked types ).
+        /// True if stacked chart type should draw separately positive and
+       /// negative data points ( Bar and column Stacked types ).
         /// </summary>
         public bool StackSign { get { return false; } }
 
@@ -202,9 +197,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         virtual public bool DataPointsInLegend { get { return false; } }
 
         /// <summary>
-        /// If the crossing value is auto Crossing value should be 
-        /// automatically set to zero for some chart 
-        /// types (Bar, column, area etc.)
+        /// If the crossing value is auto Crossing value should be
+       /// automatically set to zero for some chart
+       /// types (Bar, column, area etc.)
         /// </summary>
         virtual public bool ZeroCrossing { get { return false; } }
 
@@ -243,8 +238,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Number of supported Y value(s) per point 
-        /// </summary>
+        /// Number of supported Y value(s) per point
+       /// </summary>
         virtual public int YValuesPerPoint { get { return 4; } }
 
         /// <summary>
@@ -256,7 +251,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         {
             return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
         }
-        #endregion
+
+        #endregion IChartType interface implementation
 
         #region Painting and Selection methods
 
@@ -273,8 +269,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// This method recalculates size of the bars. This method is used 
-        /// from Paint or Select method.
+        /// This method recalculates size of the bars. This method is used
+       /// from Paint or Select method.
         /// </summary>
         /// <param name="selection">If True selection mode is active, otherwise paint mode is active.</param>
         /// <param name="graph">The Chart Graphics object.</param>
@@ -288,14 +284,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             ChartArea area,
             Series seriesToDraw)
         {
-
             // Prosess 3D chart type
             if (area.Area3DStyle.Enable3D)
             {
                 ProcessChartType3D(selection, graph, common, area, seriesToDraw);
                 return;
             }
-
 
             // All data series from chart area which have Stock chart type
             List<string> typeSeries = area.GetSeriesFromChartType(this.Name);
@@ -335,7 +329,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     common.Chart.CallOnPrePaint(new ChartPaintEventArgs(ser, graph, common, area.PlotAreaPosition));
                 }
-
 
                 //************************************************************
                 //** Series data points loop
@@ -397,13 +390,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                     if (common.ProcessModePaint)
                     {
-
                         // Check if chart is partialy in the data scaleView
                         bool clipRegionSet = false;
                         if (xValue == HAxis.ViewMinimum || xValue == HAxis.ViewMaximum)
                         {
-                            // Set clipping region for line drawing 
-                            graph.SetClip(area.PlotAreaPosition.ToRectangleF());
+                            // Set clipping region for line drawing
+                           graph.SetClip(area.PlotAreaPosition.ToRectangleF());
                             clipRegionSet = true;
                         }
 
@@ -447,7 +439,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             point,
                             ser.Name,
                             index - 1);
-
                     }
                     ++index;
                 }
@@ -582,7 +573,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                         index - 1);
                                 }
                             }
-
                         }
 
                         // Increase the markers counter
@@ -707,11 +697,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             bool clipRegionSet = false;
             if (style == StockOpenCloseMarkStyle.Candlestick || (xPosition - width / 2f) < area.PlotAreaPosition.X || (xPosition + width / 2f) > area.PlotAreaPosition.Right)
             {
-                // Set clipping region for line drawing 
-                graph.SetClip(area.PlotAreaPosition.ToRectangleF());
+                // Set clipping region for line drawing
+               graph.SetClip(area.PlotAreaPosition.ToRectangleF());
                 clipRegionSet = true;
             }
-
 
             // Draw open-close marks as bar
             if (forceCandleStick || style == StockOpenCloseMarkStyle.Candlestick)
@@ -848,7 +837,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         graph.FillPath(brush, path);
                     }
                 }
-
             }
 
             // Draw ope-close marks as lines
@@ -968,7 +956,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     SizeF sizeFont = SizeF.Empty;
 
-
                     // Check if Smart Labels are enabled
                     if (ser.SmartLabelStyle.Enabled)
                     {
@@ -1006,10 +993,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                         // Smart labels always use 0 degrees text angle
                         textAngle = 0;
-
                     }
-
-
 
                     // Draw label
                     if (!position.IsEmpty)
@@ -1042,7 +1026,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 true);
                         }
 
-
                         // Draw label text
                         using Brush brush = new SolidBrush(point.LabelForeColor);
                         graph.DrawPointLabelStringRel(
@@ -1067,13 +1050,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
         }
 
-        #endregion
+        #endregion Painting and Selection methods
 
         #region 3D Drawing and Selection methods
 
         /// <summary>
-        /// This method recalculates size of the bars. This method is used 
-        /// from Paint or Select method.
+        /// This method recalculates size of the bars. This method is used
+       /// from Paint or Select method.
         /// </summary>
         /// <param name="selection">If True selection mode is active, otherwise paint mode is active.</param>
         /// <param name="graph">The Chart Graphics object.</param>
@@ -1087,7 +1070,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             ChartArea area,
             Series seriesToDraw)
         {
-
             // All data series from chart area which have Stock chart type
             List<string> typeSeries = area.GetSeriesFromChartType(this.Name);
 
@@ -1173,8 +1155,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     bool clipRegionSet = false;
                     if (xValue == HAxis.ViewMinimum || xValue == HAxis.ViewMaximum)
                     {
-                        // Set clipping region for line drawing 
-                        graph.SetClip(area.PlotAreaPosition.ToRectangleF());
+                        // Set clipping region for line drawing
+                       graph.SetClip(area.PlotAreaPosition.ToRectangleF());
                         clipRegionSet = true;
                     }
 
@@ -1253,7 +1235,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             point,
                             ser.Name,
                             index - 1);
-
                     }
 
                     ++index;
@@ -1312,7 +1293,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         low = VAxis.ViewMinimum;
                     }
                     low = VAxis.GetLinearPosition(low);
-
 
                     // 3D Transform coordinates
                     Point3D[] points = new Point3D[2];
@@ -1524,11 +1504,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             bool clipRegionSet = false;
             if ((xPosition - width / 2f) < area.PlotAreaPosition.X || (xPosition + width / 2f) > area.PlotAreaPosition.Right)
             {
-                // Set clipping region for line drawing 
-                graph.SetClip(area.PlotAreaPosition.ToRectangleF());
+                // Set clipping region for line drawing
+               graph.SetClip(area.PlotAreaPosition.ToRectangleF());
                 clipRegionSet = true;
             }
-
 
             // Draw open-close marks as bar
             if (forceCandleStick || style == StockOpenCloseMarkStyle.Candlestick)
@@ -1731,7 +1710,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
         }
 
-        #endregion
+        #endregion 3D Drawing and Selection methods
 
         #region Y values related methods
 
@@ -1756,7 +1735,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return point.YValues[yValueIndex];
         }
 
-        #endregion
+        #endregion Y values related methods
 
         #region SmartLabelStyle methods
 
@@ -1819,8 +1798,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 markerPosition.Y = (float)vAxis.GetLinearPosition(yValue);
                 if (indexedSeries)
                 {
-                    // The formula for position is based on a distance 
-                    // from the grid line or nPoints position.
+                    // The formula for position is based on a distance
+                   // from the grid line or nPoints position.
                     markerPosition.X = (float)hAxis.GetPosition(index);
                 }
                 else
@@ -1894,17 +1873,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
         }
 
-        #endregion
+        #endregion SmartLabelStyle methods
 
         #region IDisposable interface implementation
+
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            //Nothing to dispose at the base class. 
-        }
+            //Nothing to dispose at the base class.
+       }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -1914,6 +1894,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        #endregion
+
+        #endregion IDisposable interface implementation
     }
 }

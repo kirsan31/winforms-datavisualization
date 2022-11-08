@@ -1,71 +1,67 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for LabelsOverlapping.
-	/// </summary>
-	public class AnnotationSmartLabels : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.CheckBox checkBoxEnable;
-		private System.Windows.Forms.Label label1;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for LabelsOverlapping.
+    /// </summary>
+    public class AnnotationSmartLabels : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox checkBoxEnable;
+        private System.Windows.Forms.Label label1;
 
-		public AnnotationSmartLabels()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Anchor annotation to the data point
-			chart1.Annotations[0].AnchorDataPoint = chart1.Series[0].Points[2];
+        public AnnotationSmartLabels()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// Enable annotations SmartLabels
-			foreach(Annotation annotation in chart1.Annotations)
-			{
-				annotation.SmartLabelStyle.Enabled = true;
-			}
+            // Anchor annotation to the data point
+            chart1.Annotations[0].AnchorDataPoint = chart1.Series[0].Points[2];
 
-			// Enable series SmartLabels
-			foreach(Series series in chart1.Series)
-			{
-				series.SmartLabelStyle.Enabled = true;
-			}
-		}
-		
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            // Enable annotations SmartLabels
+            foreach (Annotation annotation in chart1.Annotations)
+            {
+                annotation.SmartLabelStyle.Enabled = true;
+            }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+            // Enable series SmartLabels
+            foreach (Series series in chart1.Series)
+            {
+                series.SmartLabelStyle.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation calloutAnnotation1 = new System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -96,10 +92,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            calloutAnnotation1.AllowAnchorMoving = true;
+            //
+           // chart1
+            //
+           calloutAnnotation1.AllowAnchorMoving = true;
             calloutAnnotation1.AllowSelecting = true;
             calloutAnnotation1.AnchorDataPointName = "Default\\r2";
             calloutAnnotation1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -199,10 +195,10 @@ namespace ChartSamples
             this.chart1.Series.Add(series3);
             this.chart1.Size = new System.Drawing.Size(412, 296);
             this.chart1.TabIndex = 0;
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 14);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 36);
@@ -210,18 +206,18 @@ namespace ChartSamples
             this.labelSampleComment.Text = "This sample demonstrates how to use smart labels in the Annotation object to avoi" +
                 "d overlapping other chart elements that use smart labels. ";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.checkBoxEnable);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.checkBoxEnable);
             this.panel1.Location = new System.Drawing.Point(432, 68);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 1;
-            // 
-            // checkBoxEnable
-            // 
-            this.checkBoxEnable.Checked = true;
+            //
+           // checkBoxEnable
+            //
+           this.checkBoxEnable.Checked = true;
             this.checkBoxEnable.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxEnable.Location = new System.Drawing.Point(48, 16);
             this.checkBoxEnable.Name = "checkBoxEnable";
@@ -229,20 +225,20 @@ namespace ChartSamples
             this.checkBoxEnable.TabIndex = 0;
             this.checkBoxEnable.Text = "&Enable Smart Labels";
             this.checkBoxEnable.CheckedChanged += new System.EventHandler(this.Enable_CheckedChanged);
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label1
+            //
+           this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(16, 374);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(702, 56);
             this.label1.TabIndex = 3;
             this.label1.Text = resources.GetString("label1.Text");
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // AnnotationSmartLabels
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // AnnotationSmartLabels
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
@@ -253,24 +249,23 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void Enable_CheckedChanged(object sender, System.EventArgs e)
-		{
-			// Disable/Enable annotations SmartLabels
-			foreach(Annotation annotation in chart1.Annotations)
-			{
-				annotation.SmartLabelStyle.Enabled = checkBoxEnable.Checked;
-			}
+        private void Enable_CheckedChanged(object sender, System.EventArgs e)
+        {
+            // Disable/Enable annotations SmartLabels
+            foreach (Annotation annotation in chart1.Annotations)
+            {
+                annotation.SmartLabelStyle.Enabled = checkBoxEnable.Checked;
+            }
 
-			// Disable/Enable series SmartLabels
-			foreach(Series series in chart1.Series)
-			{
-				series.SmartLabelStyle.Enabled = checkBoxEnable.Checked;
-			}
-		}
-
-	}
+            // Disable/Enable series SmartLabels
+            foreach (Series series in chart1.Series)
+            {
+                series.SmartLabelStyle.Enabled = checkBoxEnable.Checked;
+            }
+        }
+    }
 }

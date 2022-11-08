@@ -2,22 +2,20 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	ChartAreaCollection class represents a strongly 
 //              typed collection of ChartArea objects.
 //
 
-
 namespace System.Windows.Forms.DataVisualization.Charting
 {
     /// <summary>
-    /// The ChartAreaCollection class represents a strongly typed collection of 
-    /// ChartArea objects. Each chart area has a unique name in the collection
+    /// The ChartAreaCollection class represents a strongly typed collection of
+   /// ChartArea objects. Each chart area has a unique name in the collection
     /// and can be retrieved by name or by index.
     /// </summary>
     public class ChartAreaCollection : ChartNamedElementCollection<ChartArea>, IDisposable
-	{
+    {
         private bool _disposedValue;
 
         #region Constructors
@@ -27,20 +25,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="chartPicture">Parent chart picture.</param>
         internal ChartAreaCollection(ChartPicture chartPicture) : base(chartPicture)
-		{
-		}
+        {
+        }
 
-        #endregion
+        #endregion Constructors
 
         #region Properties
+
         /// <summary>
         /// Gets the default chart area name.
         /// </summary>
-        internal string DefaultNameReference 
+        internal string DefaultNameReference
         {
             get { return this.Count > 0 ? this[0].Name : String.Empty; }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Methods
 
@@ -49,16 +49,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="name">The new chart area name.</param>
         /// <returns></returns>
-        public ChartArea Add(string name) 
+        public ChartArea Add(string name)
         {
             ChartArea area = new ChartArea(name);
             this.Add(area);
             return area;
         }
 
-        #endregion
+        #endregion Methods
 
         #region Event handlers
+
         /// <summary>
         /// Updates the ChartArea alignment references to another chart areas.
         /// </summary>
@@ -71,7 +72,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     chartArea.AlignWithChartArea = e.NewName;
         }
 
-        #endregion
+        #endregion Event handlers
 
         #region IDisposable Members
 
@@ -105,6 +106,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+        #endregion IDisposable Members
     }
 }

@@ -2,13 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Design-time editors and converter classes for the 
 //				Series and DataPoint properties.
 //
 
-
+using Microsoft.DotNet.DesignTools.Editors;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
@@ -16,97 +15,92 @@ using System.Drawing.Design;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 
-using Microsoft.DotNet.DesignTools.Editors;
-
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
-
     /// <summary>
     /// UI type editor for the Y data source members of the series.
     /// </summary>
-    internal class SeriesDataSourceMemberValueAxisUITypeEditor : System.Drawing.Design.UITypeEditor 
-	{
-		#region Editor methods and properties
+    internal class SeriesDataSourceMemberValueAxisUITypeEditor : System.Drawing.Design.UITypeEditor
+    {
+        #region Editor methods and properties
 
         internal virtual SeriesDataSourceMemberYCheckedListBox GetDropDownControl(Chart chart, ITypeDescriptorContext context, object value, bool flag)
         {
             return new SeriesDataSourceMemberYCheckedListBox(chart, value, flag);
         }
 
-
-		/// <summary>
-		/// Display a drop down list with check boxes.
-		/// </summary>
-		/// <param name="context">Editing context.</param>
-		/// <param name="provider">Provider.</param>
-		/// <param name="value">Value to edit.</param>
-		/// <returns>Result</returns>
-		public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
-		{
-			if (context != null && context.Instance != null && provider != null) 
-			{
-				IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
-				if(edSvc != null) 
-				{
+        /// <summary>
+        /// Display a drop down list with check boxes.
+        /// </summary>
+        /// <param name="context">Editing context.</param>
+        /// <param name="provider">Provider.</param>
+        /// <param name="value">Value to edit.</param>
+        /// <returns>Result</returns>
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            if (context != null && context.Instance != null && provider != null)
+            {
+                IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+                if (edSvc != null)
+                {
                     Chart chart = ConverterHelper.GetChartFromContext(context);
 
-					if(chart != null)
-					{
+                    if (chart != null)
+                    {
+                        // Create control for editing
+                        SeriesDataSourceMemberYCheckedListBox control = this.GetDropDownControl(chart, context, value, true);
 
-						// Create control for editing
-						SeriesDataSourceMemberYCheckedListBox control = this.GetDropDownControl(chart, context, value, true);
+                        // Show drop down control
+                        edSvc.DropDownControl(control);
 
-						// Show drop down control
-						edSvc.DropDownControl(control);
+                        // Get new enumeration value
+                        value = control.GetNewValue();
+                    }
+                }
+            }
 
-						// Get new enumeration value
-						value = control.GetNewValue();
-					}
-				}
-			}
+            return value;
+        }
 
-			return value;
-		}
+        /// <summary>
+        /// Gets editing style.
+        /// </summary>
+        /// <param name="context">Editing context.</param>
+        /// <returns>Editor style.</returns>
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+        {
+            if (context != null && context.Instance != null)
+            {
+                // Check how many Y values in the series.
+                int yValuesNumber = 1;
+                if (context.Instance is Series)
+                {
+                    yValuesNumber = ((Series)context.Instance).YValuesPerPoint;
+                }
+                else if (context.Instance is Array)
+                {
+                    Array array = (Array)context.Instance;
+                    if (array.Length > 0 && array.GetValue(0) is Series)
+                    {
+                        yValuesNumber = Math.Max(yValuesNumber, ((Series)array.GetValue(0)).YValuesPerPoint);
+                    }
+                }
 
-		/// <summary>
-		/// Gets editing style.
-		/// </summary>
-		/// <param name="context">Editing context.</param>
-		/// <returns>Editor style.</returns>
-		public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) 
-		{
-			if (context != null && context.Instance != null) 
-			{
-				// Check how many Y values in the series.
-				int	yValuesNumber = 1;
-				if(context.Instance is Series)
-				{
-					yValuesNumber = ((Series)context.Instance).YValuesPerPoint;
-				}
-				else if(context.Instance is Array)
-				{
-					Array	array = (Array)context.Instance;
-					if(array.Length > 0 && array.GetValue(0) is Series)
-					{
-						yValuesNumber = Math.Max(yValuesNumber, ((Series)array.GetValue(0)).YValuesPerPoint);
-					}
-				}
+                return (yValuesNumber == 1) ? UITypeEditorEditStyle.None : UITypeEditorEditStyle.DropDown;
+            }
+            return base.GetEditStyle(context);
+        }
 
-				return (yValuesNumber == 1) ? UITypeEditorEditStyle.None : UITypeEditorEditStyle.DropDown;
-			}
-			return base.GetEditStyle(context);
-		}
+        #endregion Editor methods and properties
+    }
 
-		#endregion
-	}
-
-	/// <summary>
-	/// Checked list box, which is used for the series Y dats source member UI type editing.
-	/// </summary>
+    /// <summary>
+    /// Checked list box, which is used for the series Y dats source member UI type editing.
+    /// </summary>
     internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
     {
-        // Chart object 
-        private Chart _chart;
+        // Chart object
+       private Chart _chart;
 
         // Object to edit
         protected object editValue;
@@ -120,8 +114,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// Public constructor.
         /// </summary>
         /// <param name="chart">Chart control.</param>
-        /// 
-        /// <param name="editValue">Value to edit.</param>
+        ///
+       /// <param name="editValue">Value to edit.</param>
         /// <param name="usedForYValue">Indicates that editor was used for the Y values members.</param>
         public SeriesDataSourceMemberYCheckedListBox(Chart chart, object editValue, bool usedForYValue)
         {
@@ -140,7 +134,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             _chart = chart;
         }
 
-        #endregion
+        #endregion Control constructor
 
         #region Control methods
 
@@ -222,18 +216,18 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             return result;
         }
 
-        #endregion
+        #endregion Control methods
     }
 
-	/// <summary>
-	/// Chart type editor. Paint chart type image in the property grid.
-	/// </summary>
-	internal class ChartTypeEditor : UITypeEditor
-	{
-		#region Converter methods
+    /// <summary>
+    /// Chart type editor. Paint chart type image in the property grid.
+    /// </summary>
+    internal class ChartTypeEditor : UITypeEditor
+    {
+        #region Converter methods
 
-		// Reference to the chart type registry
-		private ChartTypeRegistry	_chartTypeRegistry;
+        // Reference to the chart type registry
+        private ChartTypeRegistry _chartTypeRegistry;
 
         /// <summary>
         /// Override this function to support chart type drawing
@@ -241,76 +235,75 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// <param name="context">Descriptor context.</param>
         /// <returns>Can paint values.</returns>
         public override bool GetPaintValueSupported(ITypeDescriptorContext context)
-		{
+        {
             // Initialize the chartTypeRegistry using context
-			if (context != null && context.Instance != null)
-			{
+            if (context != null && context.Instance != null)
+            {
                 IChartElement chartElement = context.Instance as IChartElement;
                 if (chartElement != null)
                 {
                     this._chartTypeRegistry = chartElement.Common.ChartTypeRegistry;
                 }
-			}
+            }
 
             // Always return true
-			return true;
-		}
+            return true;
+        }
 
-		/// <summary>
-		/// Override this function to support chart type drawing
-		/// </summary>
-		/// <param name="e">Paint value event arguments.</param>
-		public override void PaintValue(PaintValueEventArgs e)
-		{
-			string	chartTypeName = String.Empty;
-			if(_chartTypeRegistry != null && e != null)
-			{
-				if(e.Value is string)
-				{
-					chartTypeName = (string)e.Value;
-				}
-				else if(e.Value is SeriesChartType)
-				{
-					chartTypeName = Series.GetChartTypeName((SeriesChartType)e.Value);
-				}
+        /// <summary>
+        /// Override this function to support chart type drawing
+        /// </summary>
+        /// <param name="e">Paint value event arguments.</param>
+        public override void PaintValue(PaintValueEventArgs e)
+        {
+            string chartTypeName = String.Empty;
+            if (_chartTypeRegistry != null && e != null)
+            {
+                if (e.Value is string)
+                {
+                    chartTypeName = (string)e.Value;
+                }
+                else if (e.Value is SeriesChartType)
+                {
+                    chartTypeName = Series.GetChartTypeName((SeriesChartType)e.Value);
+                }
 
+                if (!string.IsNullOrEmpty(chartTypeName))
+                {
+                    IChartType chartType = _chartTypeRegistry.GetChartType(chartTypeName);
 
-				if(!string.IsNullOrEmpty(chartTypeName))
-				{
-					IChartType chartType = _chartTypeRegistry.GetChartType(chartTypeName);
+                    // Get imahe from the chart type
+                    System.Drawing.Image chartImage = null;
+                    if (chartType != null)
+                    {
+                        chartImage = chartType.GetImage(_chartTypeRegistry);
+                    }
 
-					// Get imahe from the chart type
-					System.Drawing.Image	chartImage = null;
-					if(chartType != null)
-					{
-						chartImage = chartType.GetImage(_chartTypeRegistry);
-					}
+                    // Draw image
+                    if (chartImage != null)
+                    {
+                        e.Graphics.DrawImage(chartImage, e.Bounds);
+                    }
+                }
+            }
+        }
 
-					// Draw image
-					if(chartImage != null)
-					{
-						e.Graphics.DrawImage(chartImage, e.Bounds);
-					}
-				}
-			}
-		}
-		
-        #endregion
-	}
+        #endregion Converter methods
+    }
 
-	/// <summary>
-	/// Designer editor for the data points collection.
-	/// </summary>
-	internal class DataPointCollectionEditor : ChartCollectionEditor
-	{
-		#region Editor methods
+    /// <summary>
+    /// Designer editor for the data points collection.
+    /// </summary>
+    internal class DataPointCollectionEditor : ChartCollectionEditor
+    {
+        #region Editor methods
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public DataPointCollectionEditor() : base(typeof(DataPointCollection))
-		{
-		}
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public DataPointCollectionEditor() : base(typeof(DataPointCollection))
+        {
+        }
 
 #warning designer
         /*
@@ -341,52 +334,54 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// <param name="itemType">Item type.</param>
         /// <returns>New item instance.</returns>
         protected override object CreateInstance(Type itemType)
-		{
-			if (Context != null && Context.Instance != null)
-			{
-				if (Context.Instance is Series)
-				{
-					Series	series = (Series)Context.Instance;
-					DataPoint	newDataPoint = new DataPoint(series);
-					return newDataPoint;
-				}
-				else if(Context.Instance is Array)
-				{
+        {
+            if (Context != null && Context.Instance != null)
+            {
+                if (Context.Instance is Series)
+                {
+                    Series series = (Series)Context.Instance;
+                    DataPoint newDataPoint = new DataPoint(series);
+                    return newDataPoint;
+                }
+                else if (Context.Instance is Array)
+                {
                     throw new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported);
-				}
-			}
+                }
+            }
 
-			return base.CreateInstance(itemType);
-		}
-	
-		#endregion
-	}
+            return base.CreateInstance(itemType);
+        }
 
+        #endregion Editor methods
+    }
 
-	/// <summary>
-	/// Collection editor that supports property help in the property grid
-	/// </summary>
-	internal class ChartCollectionEditor : CollectionEditor
-	{
-        #region Editor methods and properties 
+    /// <summary>
+    /// Collection editor that supports property help in the property grid
+    /// </summary>
+    internal class ChartCollectionEditor : CollectionEditor
+    {
+        #region Editor methods and properties
 
 #warning designer
+
         // Collection editor form
         //        CollectionForm _form = null;
-        Chart _chart;
+        private Chart _chart;
+
         ITypeDescriptorContext _context;
 
         // Help topic string
-        string	_helpTopic = "";
+        string _helpTopic = "";
 
 #warning designer
+
         /// <summary>
         /// Object constructor.
         /// </summary>
         /// <param name="type">AxisName.</param>
         public ChartCollectionEditor(Type type) : base(null, type)
-		{
-		}
+        {
+        }
 
 #warning designer
         /*
@@ -411,8 +406,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             {
                 if (isReferenceCollection)
                 {
-                    controller.DoSnapshot(true, 
-                        new EventHandler<NameReferenceChangedEventArgs>(OnNameReferenceChanging),
+                    controller.DoSnapshot(true,
+                       new EventHandler<NameReferenceChangedEventArgs>(OnNameReferenceChanging),
                         new EventHandler<NameReferenceChangedEventArgs>(OnNameReferenceChanged)
                         );
                     controller.IsColectionEditing = true;
@@ -591,7 +586,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             }
         }
 
-
 #warning designer
 
         /*
@@ -615,10 +609,9 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 grid.PropertyValueChanged += new PropertyValueChangedEventHandler(this.OnPropertyChanged);
                 grid.ControlAdded += new ControlEventHandler(this.OnControlAddedRemoved);
                 grid.ControlRemoved += new ControlEventHandler(this.OnControlAddedRemoved);
-
             }
-            
-            // Changed Apr 29, DT, for VS2005 compatibility
+           
+           // Changed Apr 29, DT, for VS2005 compatibility
             ArrayList buttons = new ArrayList();
             this.CollectButtons(buttons, _form.Controls);
             foreach (System.Windows.Forms.Button button in buttons)
@@ -628,85 +621,82 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 {
                     button.Click += new EventHandler(this.OnOkClicked);
                 }
-
             }
 
 			return _form;
 		}
         */
 
-
         /// <summary>
         /// Update design-time HTML when OK button is clicked in the collection editor
         /// </summary>
         private void OnOkClicked(object sender, EventArgs e)
-		{
-			// Clear the help topic
-			_helpTopic = "";
-		}
+        {
+            // Clear the help topic
+            _helpTopic = "";
+        }
 
-		/// <summary>
-		/// Update design-time HTML when propery is added or removed
-		/// </summary>
-		private void OnControlAddedRemoved(object sender, ControlEventArgs e)
-		{
-		}
+        /// <summary>
+        /// Update design-time HTML when propery is added or removed
+        /// </summary>
+        private void OnControlAddedRemoved(object sender, ControlEventArgs e)
+        {
+        }
 
-		/// <summary>
-		/// Update design-time HTML when propery is changed
-		/// </summary>
-		private void OnPropertyChanged(object sender, PropertyValueChangedEventArgs e)
-		{
-		}
+        /// <summary>
+        /// Update design-time HTML when propery is changed
+        /// </summary>
+        private void OnPropertyChanged(object sender, PropertyValueChangedEventArgs e)
+        {
+        }
 
-		/// <summary>
-		/// Checks if the instance belongs to Chart type or contains the field of chart type. 
-		/// NOTE: Required for the Diagram product.
-		/// </summary>
-		/// <param name="instance">
-		/// Instance to check.
-		/// </param>
-		/// <returns>
-		/// Object of chart type.
-		/// </returns>
-		public static object GetChartReference(object instance)
-		{
-			// Check instance type.
-			if(instance is Chart)
-			{
-				return instance;
-			}
+        /// <summary>
+        /// Checks if the instance belongs to Chart type or contains the field of chart type.
+       /// NOTE: Required for the Diagram product.
+        /// </summary>
+        /// <param name="instance">
+        /// Instance to check.
+        /// </param>
+        /// <returns>
+        /// Object of chart type.
+        /// </returns>
+        public static object GetChartReference(object instance)
+        {
+            // Check instance type.
+            if (instance is Chart)
+            {
+                return instance;
+            }
 
-			// Read chart reference from the "chart" field.
+            // Read chart reference from the "chart" field.
             IChartElement element = instance as IChartElement;
             if (element != null)
                 return element.Common.Chart;
             else
                 throw new InvalidOperationException(SR.ExceptionEditorContectInstantsIsNotChartObject);
-		}
+        }
 
         protected override void DestroyInstance(object instance)
         {
             // don't destroy instance because remove is clicked.
         }
 
-		#endregion
-	}
+        #endregion Editor methods and properties
+    }
 
+    /// <summary>
+    /// Designer editor for the data series collection.
+    /// </summary>
+    internal class SeriesCollectionEditor : ChartCollectionEditor
+    {
+        #region Editor methods
 
-	/// <summary>
-	/// Designer editor for the data series collection.
-	/// </summary>
-	internal class SeriesCollectionEditor : ChartCollectionEditor
-	{
-		#region Editor methods
-
-		/// <summary>
-		/// Object constructor.
-		/// </summary>
-		public SeriesCollectionEditor() : base(typeof(SeriesCollection))
-		{
-		}
+        /// <summary>
+        /// Object constructor.
+        /// </summary>
+        public SeriesCollectionEditor() : base(typeof(SeriesCollection))
+        {
+        }
 
         internal static Series CreateNewSeries(Chart control, string suggestedChartArea)
         {
@@ -783,24 +773,22 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             return newSeries;
         }
 
-		/// <summary>
-		/// Create series instance in the editor 
-		/// </summary>
-		/// <param name="itemType">Item type.</param>
-		/// <returns>Newly created item.</returns>
-		protected override object CreateInstance(Type itemType)
-		{
-			if (Context != null && Context.Instance != null)
-			{
-				Chart	control = (Chart)GetChartReference(Context.Instance);
+        /// <summary>
+        /// Create series instance in the editor
+       /// </summary>
+        /// <param name="itemType">Item type.</param>
+        /// <returns>Newly created item.</returns>
+        protected override object CreateInstance(Type itemType)
+        {
+            if (Context != null && Context.Instance != null)
+            {
+                Chart control = (Chart)GetChartReference(Context.Instance);
                 return SeriesCollectionEditor.CreateNewSeries(control, String.Empty);
             }
 
-			return base.CreateInstance(itemType);
-		}
-	
-		#endregion
-	}
+            return base.CreateInstance(itemType);
+        }
+
+        #endregion Editor methods
+    }
 }
-
-

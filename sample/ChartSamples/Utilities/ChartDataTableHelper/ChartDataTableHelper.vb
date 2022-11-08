@@ -11,6 +11,7 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     Public Class ChartDataTableHelper
 
 #Region "Members"
+
         Protected ChartObj As System.Windows.Forms.DataVisualization.Charting.Chart = Nothing
         Protected ChartAreas As ArrayList = Nothing
         Protected AddTableTotals As Boolean = False
@@ -47,7 +48,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             End Set
         End Property
 
-
         ''' <summary>
         ''' Sets or gets the Table Color that will be painted.
         ''' </summary>
@@ -75,6 +75,7 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 #End Region
 
 #Region "Constructors"
+
         ''' <summary>
         ''' Construct a ChartDataTableHelper instance.
         ''' </summary>
@@ -90,7 +91,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             ChartAreas = New ArrayList()
             Initialize(chartObj_Renamed)
         End Sub
-
 
         ''' <summary>
         ''' Construct a ChartDataTableHelper instance and Initialize the specified ChartArea with a table.
@@ -114,6 +114,7 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 #End Region
 
 #Region "Initialization Methods"
+
         ''' <summary>
         ''' Initialize all ChartAreas with a table.
         ''' </summary>
@@ -131,8 +132,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
             Initialized = True
         End Sub
-
-
 
         ''' <summary>
         ''' Initialize all ChartAreas with a table and
@@ -183,25 +182,23 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 Return
             End If
 
-            ' add this chart area to the list of chart areas that need to 
-            ' have a data table attached
+            ' add this chart area to the list of chart areas that need to
+           ' have a data table attached
             ChartAreas.Add(chartAreaName)
 
             Dim Row As Integer = 0
 
-
             If AddTableTotals Then
-                ' create a dummy series that will not be shown but is used for 
-                ' showing the totals in the data table
+                ' create a dummy series that will not be shown but is used for
+               ' showing the totals in the data table
                 ChartObj.Series.Add("DUMMY")
                 ChartObj.Series("DUMMY").ChartArea = chartAreaName
                 ChartObj.Series("DUMMY").Enabled = False
                 ChartObj.Series("DUMMY").Color = Color.Gainsboro
             End If
 
-
-            ' for each of the series that are attached to this 
-            ' named chart area, create a custom axis label.
+            ' for each of the series that are attached to this
+           ' named chart area, create a custom axis label.
             ' All tables lines will be drawn on a paint event.
             ' ****************************************************
             ' NOTE: ALL SERIES MUST HAVE THE SAME NUMBER OF POINTS!
@@ -217,10 +214,9 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
                         ' adjust the series values to ensure they are not
                         ' indexed and they are sorted... plus adding each point
-                        ' to make the dummy series data 
-                        AdjustXValues(ser)
+                        ' to make the dummy series data
+                       AdjustXValues(ser)
                     End If
-
 
                     Row += 1
                     Dim From As Double = 0.0
@@ -329,10 +325,9 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
         End Sub
 
-
         ''' <summary>
-        ''' A cleanup method that ensures the XValues are sorted accordingly and set explicitly.  
-        ''' It will also create the totals for the DUMMY series.
+        ''' A cleanup method that ensures the XValues are sorted accordingly and set explicitly. 
+       ''' It will also create the totals for the DUMMY series.
         ''' </summary>
         Private Sub AdjustXValues(ByVal series As System.Windows.Forms.DataVisualization.Charting.Series)
             Dim AddDummyPoints As Boolean = True
@@ -395,7 +390,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 index += 1
             Next pt
         End Sub
-
 
 #End Region
 
@@ -475,8 +469,8 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 End If
             Next i
 
-            ' now, if a box was actually drawn, then draw 
-            ' the verticle lines to separate the columns of the table.
+            ' now, if a box was actually drawn, then draw
+           ' the verticle lines to separate the columns of the table.
             If seriesCount > 0 Then
                 Dim int As Integer = 0
                 Do While int < e.Chart.Series.Count
@@ -493,7 +487,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                         If (area.AxisX.ScaleView.Position + area.AxisX.ScaleView.Size + 0.5) < max Then
                             max = area.AxisX.ScaleView.Position + area.AxisX.ScaleView.Size + 0.5
                         End If
-
 
                         ' find the starting point that will be display.
                         ' this is dependent on the current axis view.
@@ -533,7 +526,6 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                             ' Draw connection line
                             e.ChartGraphics.Graphics.DrawLine(New Pen(borderColor_Renamed), point1, point2)
 
-
                             point2.X = nextPixelX
                             point2.Y = 0
                             point2 = e.ChartGraphics.GetAbsolutePoint(point2)
@@ -548,8 +540,8 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                             For Each ser In ChartObj.Series
                                 If area.Name = ser.ChartArea Then
                                     If (Not TableLegendDrawn) Then
-                                        ' draw the series color box 
-                                        e.ChartGraphics.Graphics.FillRectangle(New SolidBrush(ser.Color), x - 10, row * (axisFont.Height) + (point1.Y), 10, axisFontSize.Height)
+                                        ' draw the series color box
+                                       e.ChartGraphics.Graphics.FillRectangle(New SolidBrush(ser.Color), x - 10, row * (axisFont.Height) + (point1.Y), 10, axisFontSize.Height)
 
                                         e.ChartGraphics.Graphics.DrawRectangle(New Pen(borderColor_Renamed), x - 10, row * (axisFont.Height) + (point1.Y), 10, axisFontSize.Height)
 
@@ -584,9 +576,7 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             End If
         End Sub
 
-
 #End Region
-
 
     End Class
 End Namespace

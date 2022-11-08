@@ -1,71 +1,65 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AxisTitle.
-	/// </summary>
-	public class MultipleLegends : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.ComboBox comboBox1;
-		private System.Windows.Forms.ComboBox comboBox2;
-		private System.Windows.Forms.ComboBox comboBox3;
-		private System.Windows.Forms.ComboBox comboBox4;
-		private System.Windows.Forms.ComboBox comboBox5;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Splitter splitter1;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AxisTitle.
+    /// </summary>
+    public class MultipleLegends : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Splitter splitter1;
 
-		public MultipleLegends()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			comboBox1.SelectedIndex = 0;
-			comboBox2.SelectedIndex = 0;
-			comboBox3.SelectedIndex = 1;
-			comboBox4.SelectedIndex = 1;
-			comboBox5.SelectedIndex = 1;
-		}
+        public MultipleLegends()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 0;
+            comboBox3.SelectedIndex = 1;
+            comboBox4.SelectedIndex = 1;
+            comboBox5.SelectedIndex = 1;
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -121,10 +115,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 43);
@@ -132,10 +126,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates the use of multiple legends and how to associate differe" +
                 "nt series to them.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.label1);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.comboBox2);
             this.panel1.Controls.Add(this.comboBox3);
@@ -149,19 +143,19 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(8, 11);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(8, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(156, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Series &1 legend:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBox1
+            //
+           this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.Items.AddRange(new object[] {
             "Default",
             "Second"});
@@ -170,10 +164,10 @@ namespace ChartSamples
             this.comboBox1.Size = new System.Drawing.Size(120, 22);
             this.comboBox1.TabIndex = 1;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBox2
+            //
+           this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.Items.AddRange(new object[] {
             "Default",
             "Second"});
@@ -182,10 +176,10 @@ namespace ChartSamples
             this.comboBox2.Size = new System.Drawing.Size(120, 22);
             this.comboBox2.TabIndex = 3;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBox3
+            //
+           this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox3.Items.AddRange(new object[] {
             "Default",
             "Second"});
@@ -194,10 +188,10 @@ namespace ChartSamples
             this.comboBox3.Size = new System.Drawing.Size(120, 22);
             this.comboBox3.TabIndex = 5;
             this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
-            // 
-            // comboBox4
-            // 
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBox4
+            //
+           this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox4.Items.AddRange(new object[] {
             "Default",
             "Second"});
@@ -206,10 +200,10 @@ namespace ChartSamples
             this.comboBox4.Size = new System.Drawing.Size(120, 22);
             this.comboBox4.TabIndex = 7;
             this.comboBox4.SelectedIndexChanged += new System.EventHandler(this.comboBox4_SelectedIndexChanged);
-            // 
-            // comboBox5
-            // 
-            this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBox5
+            //
+           this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox5.Items.AddRange(new object[] {
             "Default",
             "Second"});
@@ -218,46 +212,46 @@ namespace ChartSamples
             this.comboBox5.Size = new System.Drawing.Size(120, 22);
             this.comboBox5.TabIndex = 9;
             this.comboBox5.SelectedIndexChanged += new System.EventHandler(this.comboBox5_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(8, 43);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(8, 43);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(156, 16);
             this.label2.TabIndex = 2;
             this.label2.Text = "Series &2 legend:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(8, 75);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(8, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(156, 16);
             this.label3.TabIndex = 4;
             this.label3.Text = "Series &3 legend:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(8, 107);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(8, 107);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(156, 16);
             this.label4.TabIndex = 6;
             this.label4.Text = "Series &4 legend:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(8, 139);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(8, 139);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(156, 16);
             this.label5.TabIndex = 8;
             this.label5.Text = "Series &5 legend:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -424,18 +418,18 @@ namespace ChartSamples
             this.Chart1.Series.Add(series5);
             this.Chart1.Size = new System.Drawing.Size(412, 296);
             this.Chart1.TabIndex = 2;
-            // 
-            // splitter1
-            // 
-            this.splitter1.Location = new System.Drawing.Point(0, 0);
+            //
+           // splitter1
+            //
+           this.splitter1.Location = new System.Drawing.Point(0, 0);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(3, 480);
             this.splitter1.TabIndex = 0;
             this.splitter1.TabStop = false;
-            // 
-            // MultipleLegends
-            // 
-            this.Controls.Add(this.splitter1);
+            //
+           // MultipleLegends
+            //
+           this.Controls.Add(this.splitter1);
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
@@ -445,39 +439,37 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void LegendFont_Load(object sender, System.EventArgs e)
+        {
+        }
 
-		private void LegendFont_Load(object sender, System.EventArgs e)
-		{
+        private void comboBox1_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Chart1.Series["Series 1"].Legend = comboBox1.SelectedItem.ToString();
+        }
 
-		}
+        private void comboBox2_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Chart1.Series["Series 2"].Legend = comboBox2.SelectedItem.ToString();
+        }
 
-		private void comboBox1_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Chart1.Series["Series 1"].Legend = comboBox1.SelectedItem.ToString();
-		}
+        private void comboBox3_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Chart1.Series["Series 3"].Legend = comboBox3.SelectedItem.ToString();
+        }
 
-		private void comboBox2_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Chart1.Series["Series 2"].Legend = comboBox2.SelectedItem.ToString();	
-		}
+        private void comboBox4_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Chart1.Series["Series 4"].Legend = comboBox4.SelectedItem.ToString();
+        }
 
-		private void comboBox3_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Chart1.Series["Series 3"].Legend = comboBox3.SelectedItem.ToString();	
-		}
-
-		private void comboBox4_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Chart1.Series["Series 4"].Legend = comboBox4.SelectedItem.ToString();
-		}
-
-		private void comboBox5_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Chart1.Series["Series 5"].Legend = comboBox5.SelectedItem.ToString();
-		}
-	}
+        private void comboBox5_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Chart1.Series["Series 5"].Legend = comboBox5.SelectedItem.ToString();
+        }
+    }
 }

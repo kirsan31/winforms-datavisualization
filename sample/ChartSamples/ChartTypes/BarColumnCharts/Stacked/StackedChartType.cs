@@ -1,66 +1,61 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for StackedChartType.
-	/// </summary>
-	public class StackedChartType : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboBoxChartType;
-		private System.Windows.Forms.CheckBox checkBoxHundredPercent;
-		private System.Windows.Forms.CheckBox checkBoxShowLabels;
-		private System.Windows.Forms.CheckBox checkBoxShowMargin;
-		private System.Windows.Forms.CheckBox checkBoxShow3D;
-		private System.Windows.Forms.CheckBox checkBoxGrouped;
-		private System.Windows.Forms.Label label2;
+    /// <summary>
+    /// Summary description for StackedChartType.
+    /// </summary>
+    public class StackedChartType : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBoxChartType;
+        private System.Windows.Forms.CheckBox checkBoxHundredPercent;
+        private System.Windows.Forms.CheckBox checkBoxShowLabels;
+        private System.Windows.Forms.CheckBox checkBoxShowMargin;
+        private System.Windows.Forms.CheckBox checkBoxShow3D;
+        private System.Windows.Forms.CheckBox checkBoxGrouped;
+        private System.Windows.Forms.Label label2;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public StackedChartType()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public StackedChartType()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// TODO: Add any initialization after the InitForm call
+            // TODO: Add any initialization after the InitForm call
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -81,10 +76,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -150,10 +145,10 @@ namespace ChartSamples
             this.chart1.Series.Add(series4);
             this.chart1.Size = new System.Drawing.Size(412, 296);
             this.chart1.TabIndex = 1;
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 37);
@@ -161,10 +156,10 @@ namespace ChartSamples
             this.labelSampleComment.Text = "This sample demonstrates Stacked Area, Stacked Bar, Stacked Column, 100% Stacked " +
                 "Area, 100% Stacked Bar, and 100% Stacked Column chart types.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.checkBoxGrouped);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.checkBoxGrouped);
             this.panel1.Controls.Add(this.checkBoxShow3D);
             this.panel1.Controls.Add(this.checkBoxShowMargin);
             this.panel1.Controls.Add(this.checkBoxShowLabels);
@@ -175,10 +170,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // checkBoxGrouped
-            // 
-            this.checkBoxGrouped.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // checkBoxGrouped
+            //
+           this.checkBoxGrouped.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxGrouped.Location = new System.Drawing.Point(88, 176);
             this.checkBoxGrouped.Name = "checkBoxGrouped";
             this.checkBoxGrouped.Size = new System.Drawing.Size(96, 24);
@@ -186,10 +181,10 @@ namespace ChartSamples
             this.checkBoxGrouped.Text = "&Grouped:";
             this.checkBoxGrouped.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxGrouped.CheckedChanged += new System.EventHandler(this.checkBoxGrouped_CheckedChanged);
-            // 
-            // checkBoxShow3D
-            // 
-            this.checkBoxShow3D.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // checkBoxShow3D
+            //
+           this.checkBoxShow3D.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShow3D.Location = new System.Drawing.Point(15, 144);
             this.checkBoxShow3D.Name = "checkBoxShow3D";
             this.checkBoxShow3D.Size = new System.Drawing.Size(168, 24);
@@ -197,10 +192,10 @@ namespace ChartSamples
             this.checkBoxShow3D.Text = "Display chart as 3&D:";
             this.checkBoxShow3D.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShow3D.CheckedChanged += new System.EventHandler(this.checkBoxShow3D_CheckedChanged);
-            // 
-            // checkBoxShowMargin
-            // 
-            this.checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // checkBoxShowMargin
+            //
+           this.checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShowMargin.Checked = true;
             this.checkBoxShowMargin.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxShowMargin.Location = new System.Drawing.Point(15, 112);
@@ -210,10 +205,10 @@ namespace ChartSamples
             this.checkBoxShowMargin.Text = "Show X Axis &Margin:";
             this.checkBoxShowMargin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShowMargin.CheckedChanged += new System.EventHandler(this.checkBoxShowLabels_CheckedChanged_1);
-            // 
-            // checkBoxShowLabels
-            // 
-            this.checkBoxShowLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // checkBoxShowLabels
+            //
+           this.checkBoxShowLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShowLabels.Location = new System.Drawing.Point(15, 80);
             this.checkBoxShowLabels.Name = "checkBoxShowLabels";
             this.checkBoxShowLabels.Size = new System.Drawing.Size(168, 24);
@@ -221,10 +216,10 @@ namespace ChartSamples
             this.checkBoxShowLabels.Text = "Show Point &Labels:";
             this.checkBoxShowLabels.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShowLabels.CheckedChanged += new System.EventHandler(this.checkBoxShowLabels_CheckedChanged_1);
-            // 
-            // checkBoxHundredPercent
-            // 
-            this.checkBoxHundredPercent.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // checkBoxHundredPercent
+            //
+           this.checkBoxHundredPercent.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxHundredPercent.Location = new System.Drawing.Point(15, 48);
             this.checkBoxHundredPercent.Name = "checkBoxHundredPercent";
             this.checkBoxHundredPercent.Size = new System.Drawing.Size(168, 24);
@@ -232,10 +227,10 @@ namespace ChartSamples
             this.checkBoxHundredPercent.Text = "100% &Stacked:";
             this.checkBoxHundredPercent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxHundredPercent.CheckedChanged += new System.EventHandler(this.checkBoxShowLabels_CheckedChanged_1);
-            // 
-            // comboBoxChartType
-            // 
-            this.comboBoxChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBoxChartType
+            //
+           this.comboBoxChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxChartType.Items.AddRange(new object[] {
             "StackedArea",
             "StackedBar",
@@ -245,19 +240,19 @@ namespace ChartSamples
             this.comboBoxChartType.Size = new System.Drawing.Size(121, 22);
             this.comboBoxChartType.TabIndex = 1;
             this.comboBoxChartType.SelectedIndexChanged += new System.EventHandler(this.comboBoxChartType_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(44, 16);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(44, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(120, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Chart Type:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label2
+            //
+           this.label2.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(16, 357);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(702, 48);
@@ -265,10 +260,10 @@ namespace ChartSamples
             this.label2.Text = "When using the Stacked bar or Stacked column types, you can group different serie" +
                 "s into separate groups by setting the StackedGroupName custom attribute.";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // StackedChartType
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // StackedChartType
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
@@ -280,105 +275,101 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void UpdateChartSettings()
-		{
-			// Set chart type
-			string	chartTypeName = comboBoxChartType.Text;
-			if(checkBoxHundredPercent.Checked)
-			{
-				chartTypeName = chartTypeName + "100";
-			}
+        private void UpdateChartSettings()
+        {
+            // Set chart type
+            string chartTypeName = comboBoxChartType.Text;
+            if (checkBoxHundredPercent.Checked)
+            {
+                chartTypeName = chartTypeName + "100";
+            }
 
-			// Grouping cannot be done using stacked area charts
-			if (chartTypeName == "StackedArea" || chartTypeName == "StackedArea100") 
-				this.checkBoxGrouped.Enabled = false;
+            // Grouping cannot be done using stacked area charts
+            if (chartTypeName == "StackedArea" || chartTypeName == "StackedArea100")
+                this.checkBoxGrouped.Enabled = false;
+            else
+                this.checkBoxGrouped.Enabled = true;
 
-			else
-				this.checkBoxGrouped.Enabled = true;
+            chart1.Series["Series1"].ChartType = (SeriesChartType)Enum.Parse(typeof(SeriesChartType), chartTypeName, true);
+            chart1.Series["Series2"].ChartType = (SeriesChartType)Enum.Parse(typeof(SeriesChartType), chartTypeName, true);
+            chart1.Series["Series3"].ChartType = (SeriesChartType)Enum.Parse(typeof(SeriesChartType), chartTypeName, true);
+            chart1.Series["Series4"].ChartType = (SeriesChartType)Enum.Parse(typeof(SeriesChartType), chartTypeName, true);
 
-			chart1.Series["Series1"].ChartType = (SeriesChartType) Enum.Parse( typeof(SeriesChartType), chartTypeName, true );
-			chart1.Series["Series2"].ChartType = (SeriesChartType) Enum.Parse( typeof(SeriesChartType), chartTypeName, true );
-			chart1.Series["Series3"].ChartType = (SeriesChartType) Enum.Parse( typeof(SeriesChartType), chartTypeName, true );
-			chart1.Series["Series4"].ChartType = (SeriesChartType) Enum.Parse( typeof(SeriesChartType), chartTypeName, true );
+            // Show point labels
+            chart1.Series["Series1"].IsValueShownAsLabel = checkBoxShowLabels.Checked;
+            chart1.Series["Series2"].IsValueShownAsLabel = checkBoxShowLabels.Checked;
+            chart1.Series["Series3"].IsValueShownAsLabel = checkBoxShowLabels.Checked;
+            chart1.Series["Series4"].IsValueShownAsLabel = checkBoxShowLabels.Checked;
 
-			// Show point labels
-			chart1.Series["Series1"].IsValueShownAsLabel = checkBoxShowLabels.Checked;
-			chart1.Series["Series2"].IsValueShownAsLabel = checkBoxShowLabels.Checked;
-			chart1.Series["Series3"].IsValueShownAsLabel = checkBoxShowLabels.Checked;
-			chart1.Series["Series4"].IsValueShownAsLabel = checkBoxShowLabels.Checked;
+            // Enable/Disable margin
+            chart1.ChartAreas["Default"].AxisX.IsMarginVisible = checkBoxShowMargin.Checked;
+        }
 
-			// Enable/Disable margin
-			chart1.ChartAreas["Default"].AxisX.IsMarginVisible = checkBoxShowMargin.Checked;
-		}
+        private void StackedChartType_Load(object sender, System.EventArgs e)
+        {
+            // Populate series data
+            Random random = new Random();
+            for (int pointIndex = 0; pointIndex < 10; pointIndex++)
+            {
+                chart1.Series["Series1"].Points.AddY(random.Next(75, 170));
+                chart1.Series["Series2"].Points.AddY(random.Next(35, 125));
+                chart1.Series["Series3"].Points.AddY(random.Next(45, 140));
+                chart1.Series["Series4"].Points.AddY(random.Next(25, 110));
+            }
 
-		private void StackedChartType_Load(object sender, System.EventArgs e)
-		{
-			// Populate series data
-			Random	random = new Random();
-			for(int pointIndex = 0; pointIndex < 10; pointIndex++)
-			{
-				chart1.Series["Series1"].Points.AddY(random.Next(75, 170));
-				chart1.Series["Series2"].Points.AddY(random.Next(35, 125));
-				chart1.Series["Series3"].Points.AddY(random.Next(45, 140));
-				chart1.Series["Series4"].Points.AddY(random.Next(25, 110));
-			}
+            // Set selection
+            comboBoxChartType.SelectedIndex = 2;
+        }
 
-			// Set selection
-			comboBoxChartType.SelectedIndex = 2;
-		}
+        private void checkBoxShowLabels_CheckedChanged_1(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void checkBoxShowLabels_CheckedChanged_1(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
+        private void comboBoxChartType_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void comboBoxChartType_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();		
-		}
+        private void checkBoxShow3D_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (checkBoxShow3D.Checked)
+            {
+                chart1.ChartAreas["Default"].Area3DStyle.Enable3D = true;
+                chart1.ChartAreas["Default"].Area3DStyle.LightStyle = LightStyle.Simplistic;
+            }
+            else
+            {
+                chart1.ChartAreas["Default"].Area3DStyle.Enable3D = false;
+            }
+        }
 
-		private void checkBoxShow3D_CheckedChanged(object sender, System.EventArgs e)
-		{
-			if(checkBoxShow3D.Checked){
-				chart1.ChartAreas["Default"].Area3DStyle.Enable3D = true;
-				chart1.ChartAreas["Default"].Area3DStyle.LightStyle = LightStyle.Simplistic;		
-			}
+        private void checkBoxGrouped_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (checkBoxGrouped.Checked)
+            {
+                chart1.Series["Series1"]["StackedGroupName"] = "Group1";
+                chart1.Series["Series2"]["StackedGroupName"] = "Group1";
+                chart1.Series["Series3"]["StackedGroupName"] = "Group2";
+                chart1.Series["Series4"]["StackedGroupName"] = "Group2";
 
-			else
-			{
-				chart1.ChartAreas["Default"].Area3DStyle.Enable3D = false;				
-			}
-		}
+                chart1.ResetAutoValues();
+                chart1.Invalidate();
+            }
+            else
+            {
+                foreach (Series series in chart1.Series)
+                {
+                    series["StackedGroupName"] = "";
+                }
 
-		private void checkBoxGrouped_CheckedChanged(object sender, System.EventArgs e)
-		{
-			if (checkBoxGrouped.Checked) 
-			{
-				chart1.Series["Series1"]["StackedGroupName"] = "Group1";
-				chart1.Series["Series2"]["StackedGroupName"] = "Group1";
-				chart1.Series["Series3"]["StackedGroupName"] = "Group2";
-				chart1.Series["Series4"]["StackedGroupName"] = "Group2";
-
-				chart1.ResetAutoValues();
-				chart1.Invalidate();
-			}
-
-			else 
-			{
-				foreach (Series series in chart1.Series) 
-				{
-					series["StackedGroupName"] = "";
-				}
-
-				chart1.ResetAutoValues();
-				chart1.Invalidate();
-
-			}
-		
-		}
-	}
+                chart1.ResetAutoValues();
+                chart1.Invalidate();
+            }
+        }
+    }
 }

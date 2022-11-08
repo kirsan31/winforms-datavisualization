@@ -1,59 +1,55 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for TemplateSampleControl.
-	/// </summary>
-	public class CustomDrawnTitles : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label1;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for TemplateSampleControl.
+    /// </summary>
+    public class CustomDrawnTitles : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label1;
 
-		public CustomDrawnTitles()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// TODO: Add any initialization after the InitForm call
+        public CustomDrawnTitles()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		}
+            // TODO: Add any initialization after the InitForm call
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -79,10 +75,10 @@ namespace ChartSamples
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -181,37 +177,37 @@ namespace ChartSamples
             title1.Text = "Draw an Image";
             this.Chart1.Titles.Add(title1);
             this.Chart1.PostPaint += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs>(this.Chart1_PostPaint);
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F);
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F);
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 34);
             this.labelSampleComment.TabIndex = 2;
             this.labelSampleComment.Text = "This sample demonstrates how to draw an image on the chart.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(432, 56);
+            //
+           // panel1
+            //
+           this.panel1.Location = new System.Drawing.Point(432, 56);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11F);
+            //
+           // label1
+            //
+           this.label1.Font = new System.Drawing.Font("Verdana", 11F);
             this.label1.Location = new System.Drawing.Point(16, 360);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(702, 56);
             this.label1.TabIndex = 3;
             this.label1.Text = resources.GetString("label1.Text");
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // CustomDrawnTitles
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // CustomDrawnTitles
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
@@ -221,58 +217,56 @@ namespace ChartSamples
             this.Size = new System.Drawing.Size(728, 448);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void Chart1_PostPaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
-		{
-			// Painting series object
-			if(e.ChartElement is System.Windows.Forms.DataVisualization.Charting.Series)
-			{
-				// Add custom painting only to the series with name "Sereis2"
-				Series	series = (Series)e.ChartElement;
-				if(series.Name == "Series2")
-				{
-					// Find data point with maximum Y value
-					DataPoint	dataPoint = series.Points.FindMaxByValue();
-					
-					// Image path
-					MainForm mainForm = (MainForm)this.ParentForm;
+        private void Chart1_PostPaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
+        {
+            // Painting series object
+            if (e.ChartElement is System.Windows.Forms.DataVisualization.Charting.Series)
+            {
+                // Add custom painting only to the series with name "Sereis2"
+                Series series = (Series)e.ChartElement;
+                if (series.Name == "Series2")
+                {
+                    // Find data point with maximum Y value
+                    DataPoint dataPoint = series.Points.FindMaxByValue();
+
+                    // Image path
+                    MainForm mainForm = (MainForm)this.ParentForm;
                     string fileNameString = mainForm.applicationPath + "\\Images\\money.png";
 
-					// Load bitmap from file 
-					System.Drawing.Image bitmap = Bitmap.FromFile(fileNameString);
+                    // Load bitmap from file
+                   System.Drawing.Image bitmap = Bitmap.FromFile(fileNameString);
 
-					// Set Red color as transparent
-					ImageAttributes attrib = new ImageAttributes();
-					attrib.SetColorKey(Color.Red, Color.Red, ColorAdjustType.Default);
+                    // Set Red color as transparent
+                    ImageAttributes attrib = new ImageAttributes();
+                    attrib.SetColorKey(Color.Red, Color.Red, ColorAdjustType.Default);
 
-					// Calculates marker position depending on the data point X and Y values
-					RectangleF	imagePosition = RectangleF.Empty;
-					imagePosition.X = (float)e.ChartGraphics.GetPositionFromAxis(
-						"Default", AxisName.X, dataPoint.XValue);
-					imagePosition.Y = (float)e.ChartGraphics.GetPositionFromAxis(
-						"Default", AxisName.Y, dataPoint.YValues[0]);
-					imagePosition = e.ChartGraphics.GetAbsoluteRectangle(imagePosition);
-					imagePosition.Width = bitmap.Width;
-					imagePosition.Height = bitmap.Height;
-					imagePosition.Y -= bitmap.Height;
-					imagePosition.X -= bitmap.Width /2;
+                    // Calculates marker position depending on the data point X and Y values
+                    RectangleF imagePosition = RectangleF.Empty;
+                    imagePosition.X = (float)e.ChartGraphics.GetPositionFromAxis(
+                        "Default", AxisName.X, dataPoint.XValue);
+                    imagePosition.Y = (float)e.ChartGraphics.GetPositionFromAxis(
+                        "Default", AxisName.Y, dataPoint.YValues[0]);
+                    imagePosition = e.ChartGraphics.GetAbsoluteRectangle(imagePosition);
+                    imagePosition.Width = bitmap.Width;
+                    imagePosition.Height = bitmap.Height;
+                    imagePosition.Y -= bitmap.Height;
+                    imagePosition.X -= bitmap.Width / 2;
 
-					// Draw image
-					e.ChartGraphics.Graphics.DrawImage(bitmap, 
-						Rectangle.Round(imagePosition),
-						0, 0, bitmap.Width, bitmap.Height,
-						GraphicsUnit.Pixel, 
-						attrib);
+                    // Draw image
+                    e.ChartGraphics.Graphics.DrawImage(bitmap,
+                        Rectangle.Round(imagePosition),
+                        0, 0, bitmap.Width, bitmap.Height,
+                        GraphicsUnit.Pixel,
+                        attrib);
 
-					// Dispose image object
-					bitmap.Dispose();
-				}
-			}
-		}
-
-
-	}
+                    // Dispose image object
+                    bitmap.Dispose();
+                }
+            }
+        }
+    }
 }

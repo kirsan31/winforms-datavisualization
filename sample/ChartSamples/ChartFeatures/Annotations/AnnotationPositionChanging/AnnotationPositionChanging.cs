@@ -1,63 +1,60 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AnnotationAnchoring.
-	/// </summary>
-	public class AnnotationPositionChanging : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.CheckBox SnapToDataPoint;
-		private System.Windows.Forms.Button ResetPosition;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label AnchorXLocation;
-		private System.Windows.Forms.Label AnchorX;
-		private System.Windows.Forms.Label AnchorY;
-		private System.Windows.Forms.Label label2;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AnnotationAnchoring.
+    /// </summary>
+    public class AnnotationPositionChanging : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.CheckBox SnapToDataPoint;
+        private System.Windows.Forms.Button ResetPosition;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label AnchorXLocation;
+        private System.Windows.Forms.Label AnchorX;
+        private System.Windows.Forms.Label AnchorY;
+        private System.Windows.Forms.Label label2;
 
-		public AnnotationPositionChanging()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
-			UpdateAnnotationPosition(Chart1.Annotations[0]);
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		}
+        public AnnotationPositionChanging()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+            UpdateAnnotationPosition(Chart1.Annotations[0]);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation calloutAnnotation1 = new System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -88,20 +85,20 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 34);
             this.label9.TabIndex = 1;
             this.label9.Text = "This sample demonstrates the AnnotationPositionChanging event. ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.AnchorY);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.AnchorY);
             this.panel1.Controls.Add(this.AnchorX);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.AnchorXLocation);
@@ -111,48 +108,48 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 19;
-            // 
-            // AnchorY
-            // 
-            this.AnchorY.ForeColor = System.Drawing.Color.Red;
+            //
+           // AnchorY
+            //
+           this.AnchorY.ForeColor = System.Drawing.Color.Red;
             this.AnchorY.Location = new System.Drawing.Point(168, 80);
             this.AnchorY.Name = "AnchorY";
             this.AnchorY.Size = new System.Drawing.Size(72, 23);
             this.AnchorY.TabIndex = 8;
             this.AnchorY.Text = "label4";
             this.AnchorY.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // AnchorX
-            // 
-            this.AnchorX.ForeColor = System.Drawing.Color.Red;
+            //
+           // AnchorX
+            //
+           this.AnchorX.ForeColor = System.Drawing.Color.Red;
             this.AnchorX.Location = new System.Drawing.Point(168, 48);
             this.AnchorX.Name = "AnchorX";
             this.AnchorX.Size = new System.Drawing.Size(72, 23);
             this.AnchorX.TabIndex = 7;
             this.AnchorX.Text = "label4";
             this.AnchorX.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(24, 80);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(24, 80);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(136, 23);
             this.label1.TabIndex = 4;
             this.label1.Text = "Anchor Position Y:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // AnchorXLocation
-            // 
-            this.AnchorXLocation.Location = new System.Drawing.Point(16, 48);
+            //
+           // AnchorXLocation
+            //
+           this.AnchorXLocation.Location = new System.Drawing.Point(16, 48);
             this.AnchorXLocation.Name = "AnchorXLocation";
             this.AnchorXLocation.Size = new System.Drawing.Size(144, 23);
             this.AnchorXLocation.TabIndex = 3;
             this.AnchorXLocation.Text = "Anchor Position X:";
             this.AnchorXLocation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // ResetPosition
-            // 
-            this.ResetPosition.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // ResetPosition
+            //
+           this.ResetPosition.BackColor = System.Drawing.SystemColors.Control;
             this.ResetPosition.Location = new System.Drawing.Point(64, 120);
             this.ResetPosition.Name = "ResetPosition";
             this.ResetPosition.Size = new System.Drawing.Size(136, 23);
@@ -160,10 +157,10 @@ namespace ChartSamples
             this.ResetPosition.Text = "&Reset Position";
             this.ResetPosition.UseVisualStyleBackColor = false;
             this.ResetPosition.Click += new System.EventHandler(this.ResetPosition_Click);
-            // 
-            // SnapToDataPoint
-            // 
-            this.SnapToDataPoint.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // SnapToDataPoint
+            //
+           this.SnapToDataPoint.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.SnapToDataPoint.Checked = true;
             this.SnapToDataPoint.CheckState = System.Windows.Forms.CheckState.Checked;
             this.SnapToDataPoint.Location = new System.Drawing.Point(11, 16);
@@ -172,10 +169,10 @@ namespace ChartSamples
             this.SnapToDataPoint.TabIndex = 0;
             this.SnapToDataPoint.Text = "&Snap to DataPoint";
             this.SnapToDataPoint.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Chart1
-            // 
-            calloutAnnotation1.AllowAnchorMoving = true;
+            //
+           // Chart1
+            //
+           calloutAnnotation1.AllowAnchorMoving = true;
             calloutAnnotation1.AllowSelecting = true;
             calloutAnnotation1.AnchorDataPointName = "Default\\r2";
             calloutAnnotation1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(240)))));
@@ -264,20 +261,20 @@ namespace ChartSamples
             this.Chart1.AnnotationPositionChanged += new System.EventHandler(this.Chart1_AnnotationPositionChanged);
             this.Chart1.AnnotationSelectionChanged += new System.EventHandler(this.Chart1_AnnotationSelectionChanged);
             this.Chart1.AnnotationPositionChanging += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.AnnotationPositionChangingEventArgs>(this.Chart1_AnnotationPositionChanging);
-            // 
-            // label2
-            // 
-            this.label2.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label2
+            //
+           this.label2.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(16, 357);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(702, 57);
             this.label2.TabIndex = 20;
             this.label2.Text = resources.GetString("label2.Text");
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // AnnotationPositionChanging
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // AnnotationPositionChanging
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
@@ -288,111 +285,105 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void Chart1_AnnotationPositionChanging(object sender, System.Windows.Forms.DataVisualization.Charting.AnnotationPositionChangingEventArgs e)
+        {
+            if (SnapToDataPoint.Checked)
+            {
+                // get the annotation object from the AnnotationPositionChangingEventArgs
+                Annotation annotation = e.Annotation;
 
-		private void Chart1_AnnotationPositionChanging(object sender, System.Windows.Forms.DataVisualization.Charting.AnnotationPositionChangingEventArgs e)
-		{
-			if(SnapToDataPoint.Checked)
-			{
-				// get the annotation object from the AnnotationPositionChangingEventArgs
-				Annotation annotation = e.Annotation;
+                if (!float.IsNaN(e.NewAnchorLocation.X))
+                {
+                    // get the nearest point to the new location
+                    PointF point = FindNearestDataPoint(e.NewAnchorLocation.X, e.NewAnchorLocation.Y);
 
-				if(!float.IsNaN(e.NewAnchorLocation.X))
-				{
-					// get the nearest point to the new location
-					PointF point = FindNearestDataPoint(e.NewAnchorLocation.X, e.NewAnchorLocation.Y);
+                    annotation.AnchorDataPoint = Chart1.Series[0].Points[(int)point.X - 1];
+                    e.NewAnchorLocationX = point.X;
+                    e.NewAnchorLocationY = point.Y;
+                }
+            }
+            else
+            {
+                if (!float.IsNaN(e.NewAnchorLocation.X) && e.NewAnchorLocation.X > Chart1.ChartAreas[0].AxisX.Maximum)
+                {
+                    e.NewAnchorLocationX = (float)(Chart1.ChartAreas[0].AxisX.Maximum);
+                }
+                else if (!float.IsNaN(e.NewAnchorLocation.X) && e.NewAnchorLocation.X < Chart1.ChartAreas[0].AxisX.Minimum)
+                {
+                    e.NewAnchorLocationX = 0;
+                }
 
-					annotation.AnchorDataPoint = Chart1.Series[0].Points[(int)point.X - 1];
-					e.NewAnchorLocationX= point.X;
-					e.NewAnchorLocationY = point.Y;
-				}
-			}
-			else
-			{
-				if(!float.IsNaN(e.NewAnchorLocation.X) && e.NewAnchorLocation.X > Chart1.ChartAreas[0].AxisX.Maximum)
-				{
-					e.NewAnchorLocationX = (float)(Chart1.ChartAreas[0].AxisX.Maximum);
-				}
-				else if(!float.IsNaN(e.NewAnchorLocation.X) && e.NewAnchorLocation.X < Chart1.ChartAreas[0].AxisX.Minimum)
-				{
-					e.NewAnchorLocationX = 0;
-				}
+                if (!float.IsNaN(e.NewAnchorLocation.X) && e.NewAnchorLocation.Y > Chart1.ChartAreas[0].AxisY.Maximum)
+                {
+                    e.NewAnchorLocationY = (float)(Chart1.ChartAreas[0].AxisY.Maximum);
+                }
+                else if (!float.IsNaN(e.NewAnchorLocation.Y) && e.NewAnchorLocation.Y < 1)
+                {
+                    e.NewAnchorLocationY = 1;
+                }
+            }
+        }
 
-				if(!float.IsNaN(e.NewAnchorLocation.X) && e.NewAnchorLocation.Y > Chart1.ChartAreas[0].AxisY.Maximum)
-				{
-					e.NewAnchorLocationY = (float)(Chart1.ChartAreas[0].AxisY.Maximum);
-				}
-				else if(!float.IsNaN(e.NewAnchorLocation.Y) && e.NewAnchorLocation.Y < 1)
-				{
-					e.NewAnchorLocationY = 1;
-				}
-
-			}
-		}
-
-		private PointF FindNearestDataPoint(double X, double Y)
-		{
-			// get the int portion of the X value
+        private PointF FindNearestDataPoint(double X, double Y)
+        {
+            // get the int portion of the X value
             int curIndex = (int)Math.Round(X);
 
-			// if curIndex is less than 1 curIndex is set to 1
-			curIndex = (int)Math.Max(curIndex, 1);
+            // if curIndex is less than 1 curIndex is set to 1
+            curIndex = (int)Math.Max(curIndex, 1);
 
-			// if curIndex is greater than 11 curIndex is set to 11 (X Value of max point in series)
-			curIndex = (int)Math.Min(curIndex, 11);
+            // if curIndex is greater than 11 curIndex is set to 11 (X Value of max point in series)
+            curIndex = (int)Math.Min(curIndex, 11);
 
-			// return the point value of the nearest point
-			return new PointF(curIndex, (float)Chart1.Series[0].Points[curIndex-1].YValues[0]);
-		}
+            // return the point value of the nearest point
+            return new PointF(curIndex, (float)Chart1.Series[0].Points[curIndex - 1].YValues[0]);
+        }
 
-		private void Chart1_AnnotationPositionChanged(object sender, System.EventArgs e)
-		{
-			Annotation annotation = (Annotation) sender;
-			UpdateAnnotationPosition(annotation);
-		}
+        private void Chart1_AnnotationPositionChanged(object sender, System.EventArgs e)
+        {
+            Annotation annotation = (Annotation)sender;
+            UpdateAnnotationPosition(annotation);
+        }
 
+        private void UpdateAnnotationPosition(Annotation annotation)
+        {
+            // update the UI for the new positions...
 
-		private void UpdateAnnotationPosition(Annotation annotation)
-		{
-			// update the UI for the new positions...
+            if (SnapToDataPoint.Checked)
+            {
+                AnchorX.Text = annotation.AnchorDataPoint.XValue.ToString("#.#");
+                AnchorY.Text = annotation.AnchorDataPoint.YValues[0].ToString("#.#");
+            }
+            else
+            {
+                AnchorX.Text = annotation.AnchorX.ToString("#.#");
+                AnchorY.Text = annotation.AnchorY.ToString("#.#");
+            }
 
-			if(SnapToDataPoint.Checked)
-			{
-				AnchorX.Text = annotation.AnchorDataPoint.XValue.ToString("#.#");
-				AnchorY.Text = annotation.AnchorDataPoint.YValues[0].ToString("#.#");
-			}
-			else
-			{
-				AnchorX.Text = annotation.AnchorX.ToString("#.#");
-				AnchorY.Text = annotation.AnchorY.ToString("#.#");
-			}
+            if (AnchorX.Text == "NaN")
+                AnchorX.Text = "Auto";
 
-			if(AnchorX.Text == "NaN")
-				AnchorX.Text = "Auto";
+            if (AnchorY.Text == "NaN")
+                AnchorY.Text = "Auto";
+        }
 
-			if(AnchorY.Text == "NaN")
-				AnchorY.Text = "Auto";
+        private void ResetPosition_Click(object sender, System.EventArgs e)
+        {
+            Chart1.Annotations[0].AnchorX = double.NaN;
+            Chart1.Annotations[0].AnchorY = double.NaN;
+            Chart1.Annotations[0].AnchorDataPoint = Chart1.Series[0].Points[2];
 
-		}
+            UpdateAnnotationPosition(Chart1.Annotations[0]);
 
-		private void ResetPosition_Click(object sender, System.EventArgs e)
-		{
-			Chart1.Annotations[0].AnchorX = double.NaN;
-			Chart1.Annotations[0].AnchorY = double.NaN;
-			Chart1.Annotations[0].AnchorDataPoint = Chart1.Series[0].Points[2];
-
-			UpdateAnnotationPosition(Chart1.Annotations[0]);
-
-			Chart1.Invalidate();
-		}
+            Chart1.Invalidate();
+        }
 
         private void Chart1_AnnotationSelectionChanged(object sender, EventArgs e)
         {
-
         }
-
-	}
+    }
 }

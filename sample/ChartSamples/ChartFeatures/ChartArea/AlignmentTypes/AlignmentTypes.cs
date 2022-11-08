@@ -1,19 +1,15 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AxisTitle.
-	/// </summary>
-	public class AlignmentTypes : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
+    /// <summary>
+    /// Summary description for AxisTitle.
+    /// </summary>
+    public class AlignmentTypes : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox checkAlign;
         private GroupBox groupBox1;
@@ -26,41 +22,41 @@ namespace ChartSamples
         private GroupBox groupBox3;
         private System.Windows.Forms.Label AlignStyleLabel;
         private Chart Chart1;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
 
-		public AlignmentTypes()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
+        public AlignmentTypes()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -131,10 +127,10 @@ namespace ChartSamples
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 34);
@@ -142,10 +138,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to align two chart areas using various alignment typ" +
                 "es.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.groupBox3);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.checkAlign);
@@ -153,29 +149,29 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.AlignStyleLabel);
+            //
+           // groupBox3
+            //
+           this.groupBox3.Controls.Add(this.AlignStyleLabel);
             this.groupBox3.Location = new System.Drawing.Point(20, 212);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(232, 76);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Align Type";
-            // 
-            // AlignStyleLabel
-            // 
-            this.AlignStyleLabel.AutoSize = true;
+            //
+           // AlignStyleLabel
+            //
+           this.AlignStyleLabel.AutoSize = true;
             this.AlignStyleLabel.Location = new System.Drawing.Point(7, 22);
             this.AlignStyleLabel.Name = "AlignStyleLabel";
             this.AlignStyleLabel.Size = new System.Drawing.Size(79, 14);
             this.AlignStyleLabel.TabIndex = 0;
             this.AlignStyleLabel.Text = "Not aligned";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.AxisViewsBox);
+            //
+           // groupBox2
+            //
+           this.groupBox2.Controls.Add(this.AxisViewsBox);
             this.groupBox2.Controls.Add(this.CursorBox);
             this.groupBox2.Enabled = false;
             this.groupBox2.Location = new System.Drawing.Point(20, 134);
@@ -184,10 +180,10 @@ namespace ChartSamples
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Align using mouse interaction";
-            // 
-            // AxisViewsBox
-            // 
-            this.AxisViewsBox.Checked = true;
+            //
+           // AxisViewsBox
+            //
+           this.AxisViewsBox.Checked = true;
             this.AxisViewsBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.AxisViewsBox.Location = new System.Drawing.Point(7, 47);
             this.AxisViewsBox.Name = "AxisViewsBox";
@@ -195,10 +191,10 @@ namespace ChartSamples
             this.AxisViewsBox.TabIndex = 1;
             this.AxisViewsBox.Text = "AxisViews";
             this.AxisViewsBox.CheckedChanged += new System.EventHandler(this.AnythingChecked);
-            // 
-            // CursorBox
-            // 
-            this.CursorBox.Checked = true;
+            //
+           // CursorBox
+            //
+           this.CursorBox.Checked = true;
             this.CursorBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CursorBox.Location = new System.Drawing.Point(7, 22);
             this.CursorBox.Name = "CursorBox";
@@ -206,10 +202,10 @@ namespace ChartSamples
             this.CursorBox.TabIndex = 0;
             this.CursorBox.Text = "Cursor";
             this.CursorBox.CheckedChanged += new System.EventHandler(this.AnythingChecked);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.noneButton);
+            //
+           // groupBox1
+            //
+           this.groupBox1.Controls.Add(this.noneButton);
             this.groupBox1.Controls.Add(this.plotButton);
             this.groupBox1.Controls.Add(this.positionButton);
             this.groupBox1.Enabled = false;
@@ -219,20 +215,20 @@ namespace ChartSamples
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Align using position";
-            // 
-            // noneButton
-            // 
-            this.noneButton.Location = new System.Drawing.Point(6, 69);
+            //
+           // noneButton
+            //
+           this.noneButton.Location = new System.Drawing.Point(6, 69);
             this.noneButton.Name = "noneButton";
             this.noneButton.Size = new System.Drawing.Size(58, 18);
             this.noneButton.TabIndex = 2;
             this.noneButton.TabStop = true;
             this.noneButton.Text = "None";
             this.noneButton.CheckedChanged += new System.EventHandler(this.AnythingChecked);
-            // 
-            // plotButton
-            // 
-            this.plotButton.Checked = true;
+            //
+           // plotButton
+            //
+           this.plotButton.Checked = true;
             this.plotButton.Location = new System.Drawing.Point(6, 45);
             this.plotButton.Name = "plotButton";
             this.plotButton.Size = new System.Drawing.Size(145, 18);
@@ -240,29 +236,29 @@ namespace ChartSamples
             this.plotButton.TabStop = true;
             this.plotButton.Text = "Inner Plot Position ";
             this.plotButton.CheckedChanged += new System.EventHandler(this.AnythingChecked);
-            // 
-            // positionButton
-            // 
-            this.positionButton.Location = new System.Drawing.Point(6, 21);
+            //
+           // positionButton
+            //
+           this.positionButton.Location = new System.Drawing.Point(6, 21);
             this.positionButton.Name = "positionButton";
             this.positionButton.Size = new System.Drawing.Size(75, 18);
             this.positionButton.TabIndex = 0;
             this.positionButton.TabStop = true;
             this.positionButton.Text = "Position";
             this.positionButton.CheckedChanged += new System.EventHandler(this.AnythingChecked);
-            // 
-            // checkAlign
-            // 
-            this.checkAlign.Location = new System.Drawing.Point(20, 0);
+            //
+           // checkAlign
+            //
+           this.checkAlign.Location = new System.Drawing.Point(20, 0);
             this.checkAlign.Name = "checkAlign";
             this.checkAlign.Size = new System.Drawing.Size(192, 24);
             this.checkAlign.TabIndex = 0;
             this.checkAlign.Text = "&Align the two chart areas";
             this.checkAlign.CheckedChanged += new System.EventHandler(this.AnythingChecked);
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -406,10 +402,10 @@ namespace ChartSamples
             this.Chart1.Series.Add(series4);
             this.Chart1.Size = new System.Drawing.Size(412, 296);
             this.Chart1.TabIndex = 1;
-            // 
-            // AlignmentTypes
-            // 
-            this.Controls.Add(this.Chart1);
+            //
+           // AlignmentTypes
+            //
+           this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -422,14 +418,9 @@ namespace ChartSamples
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
-
-
-
-
-
+        #endregion Component Designer generated code
 
         private void AnythingChecked(object sender, EventArgs e)
         {
@@ -439,11 +430,7 @@ namespace ChartSamples
                 Chart1.ChartAreas["Chart Area 2"].AlignWithChartArea = "Default";
                 groupBox1.Enabled = true;
                 groupBox2.Enabled = true;
-
-
-
             }
-
 
             if (noneButton.Checked)
             {
@@ -462,11 +449,10 @@ namespace ChartSamples
                     Chart1.ChartAreas["Chart Area 2"].AlignmentStyle = AreaAlignmentStyles.None | AreaAlignmentStyles.Cursor;
                     AlignStyleLabel.Text = "AreaAlignmentStyles.None |\n AreaAlignmentStyles.Cursor;";
                 }
-                else if(noneButton.Checked)
+                else if (noneButton.Checked)
                 {
                     Chart1.ChartAreas["Chart Area 2"].AlignmentStyle = AreaAlignmentStyles.None;
                     AlignStyleLabel.Text = "AreaAlignmentStyles.None;";
-
                 }
             }
             if (positionButton.Checked)
@@ -485,7 +471,6 @@ namespace ChartSamples
                 {
                     Chart1.ChartAreas["Chart Area 2"].AlignmentStyle = AreaAlignmentStyles.Position | AreaAlignmentStyles.Cursor;
                     AlignStyleLabel.Text = "AreaAlignmentStyles.Position |\n AreaAlignmentStyles.Cursor;";
-
                 }
                 else if (positionButton.Checked)
                 {
@@ -510,7 +495,7 @@ namespace ChartSamples
                     Chart1.ChartAreas["Chart Area 2"].AlignmentStyle = AreaAlignmentStyles.PlotPosition | AreaAlignmentStyles.Cursor;
                     AlignStyleLabel.Text = "AreaAlignmentStyles.PlotPosition |\n AreaAlignmentStyles.Cursor;";
                 }
-                else if(plotButton.Checked)
+                else if (plotButton.Checked)
                 {
                     Chart1.ChartAreas["Chart Area 2"].AlignmentStyle = AreaAlignmentStyles.PlotPosition;
                     AlignStyleLabel.Text = "AreaAlignmentStyles.PlotPosition;";
@@ -524,15 +509,6 @@ namespace ChartSamples
                 groupBox2.Enabled = false;
                 AlignStyleLabel.Text = "Not aligned";
             }
-
-
-
-
         }
-
-
-
-
-	}
+    }
 }
-

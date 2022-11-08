@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Provides 2D and 3D drawing and hit testing of the 
 //              ErrorBar chart.
@@ -23,8 +22,6 @@
 //      2 - Upper Error value
 //
 
-
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -81,7 +78,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         LowerError
     }
 
-    #endregion
+    #endregion Enumerations
 
     /// <summary>
     /// ErrorBarChart class provides 2D and 3D drawing and hit testing of
@@ -101,9 +98,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// Horizontal axis
         /// </summary>
         protected Axis hAxis;
+
 #pragma warning restore CA2213 // Disposable fields should be disposed
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -114,7 +112,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         {
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IChartType interface implementation
 
@@ -128,16 +126,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         virtual public bool Stacked { get { return false; } }
 
-
         /// <summary>
         /// True if stacked chart type supports groups
         /// </summary>
         virtual public bool SupportStackedGroups { get { return false; } }
 
-
         /// <summary>
-        /// True if stacked chart type should draw separately positive and 
-        /// negative data points ( Bar and column Stacked types ).
+        /// True if stacked chart type should draw separately positive and
+       /// negative data points ( Bar and column Stacked types ).
         /// </summary>
         public bool StackSign { get { return false; } }
 
@@ -177,9 +173,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         virtual public bool DataPointsInLegend { get { return false; } }
 
         /// <summary>
-        /// If the crossing value is auto Crossing value ZeroCrossing should be 
-        /// automatically set to zero for some chart 
-        /// types (Bar, column, area etc.)
+        /// If the crossing value is auto Crossing value ZeroCrossing should be
+       /// automatically set to zero for some chart
+       /// types (Bar, column, area etc.)
         /// </summary>
         virtual public bool ZeroCrossing { get { return false; } }
 
@@ -218,8 +214,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Number of supported Y value(s) per point 
-        /// </summary>
+        /// Number of supported Y value(s) per point
+       /// </summary>
         virtual public int YValuesPerPoint { get { return 3; } }
 
         /// <summary>
@@ -232,7 +228,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
         }
 
-        #endregion
+        #endregion IChartType interface implementation
 
         #region Painting and Selection methods
 
@@ -249,8 +245,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// This method recalculates size of the bars. This method is used 
-        /// from Paint or Select method.
+        /// This method recalculates size of the bars. This method is used
+       /// from Paint or Select method.
         /// </summary>
         /// <param name="selection">If True selection mode is active, otherwise paint mode is active.</param>
         /// <param name="graph">The Chart Graphics object.</param>
@@ -299,7 +295,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Calculates points width
                 float width = (float)ser.GetPointWidth(graph, hAxis, interval, 0.4);
 
-
                 // Align error bar X position with linked series				
                 float sideBySideWidth = width;
                 int numberOfLinkedSeries = 1;
@@ -331,7 +326,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         }
                         ++indexOfLinkedSeries;
                     }
-
 
                     currentDrawSeriesSideBySide = false;
                     if (string.Equals(linkedSeriesChartType, ChartTypeNames.Column, StringComparison.OrdinalIgnoreCase) || string.Equals(linkedSeriesChartType, ChartTypeNames.RangeColumn, StringComparison.OrdinalIgnoreCase))
@@ -406,13 +400,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
                 }
 
-
                 // Call Back Paint event
                 if (!selection)
                 {
                     common.Chart.CallOnPrePaint(new ChartPaintEventArgs(ser, graph, common, area.PlotAreaPosition));
                 }
-
 
                 //************************************************************
                 //** Series data points loop
@@ -523,13 +515,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                     if (common.ProcessModePaint)
                     {
-
                         // Check if chart is partialy in the data scaleView
                         bool clipRegionSet = false;
                         if (xValue == hAxis.ViewMinimum || xValue == hAxis.ViewMaximum)
                         {
-                            // Set clipping region for line drawing 
-                            graph.SetClip(area.PlotAreaPosition.ToRectangleF());
+                            // Set clipping region for line drawing
+                           graph.SetClip(area.PlotAreaPosition.ToRectangleF());
                             clipRegionSet = true;
                         }
 
@@ -644,7 +635,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(point[CustomPropertyName.ErrorBarStyle], "ErrorBarStyle"));
                             }
                         }
-
 
                         if (high > vAxis.ViewMaximum)
                         {
@@ -885,7 +875,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return size;
         }
 
-
         /// <summary>
         /// Draws error bar chart data point label.
         /// </summary>
@@ -951,7 +940,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     SizeF sizeFont = SizeF.Empty;
 
-
                     // Check if Smart Labels are enabled
                     if (ser.SmartLabelStyle.Enabled)
                     {
@@ -975,8 +963,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Smart labels always use 0 degrees text angle
                         textAngle = 0;
                     }
-
-
 
                     // Draw label
                     if (!position.IsEmpty)
@@ -1023,13 +1009,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
         }
 
-        #endregion
+        #endregion Painting and Selection methods
 
         #region 3D Drawing and Selection methods
 
         /// <summary>
-        /// This method recalculates size of the bars. This method is used 
-        /// from Paint or Select method.
+        /// This method recalculates size of the bars. This method is used
+       /// from Paint or Select method.
         /// </summary>
         /// <param name="selection">If True selection mode is active, otherwise paint mode is active.</param>
         /// <param name="graph">The Chart Graphics object.</param>
@@ -1271,13 +1257,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                     if (common.ProcessModePaint)
                     {
-
                         // Check if chart is partialy in the data scaleView
                         bool clipRegionSet = false;
                         if (xValue == hAxis.ViewMinimum || xValue == hAxis.ViewMaximum)
                         {
-                            // Set clipping region for line drawing 
-                            graph.SetClip(area.PlotAreaPosition.ToRectangleF());
+                            // Set clipping region for line drawing
+                           graph.SetClip(area.PlotAreaPosition.ToRectangleF());
                             clipRegionSet = true;
                         }
 
@@ -1359,7 +1344,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             xPosition = (float)hAxis.GetPosition(xValue);
                         }
 
-
                         double yValue0 = vAxis.GetLogValue(point.YValues[1]);
                         double yValue1 = vAxis.GetLogValue(point.YValues[2]);
                         xValue = hAxis.GetLogValue(xValue);
@@ -1425,7 +1409,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             low = vAxis.ViewMinimum;
                         }
                         low = vAxis.GetLinearPosition(low);
-
 
                         // 3D Transform coordinates
                         Point3D[] points = new Point3D[2];
@@ -1529,7 +1512,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
         }
 
-        #endregion
+        #endregion 3D Drawing and Selection methods
 
         #region Y values related methods
 
@@ -1554,7 +1537,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return point.YValues[yValueIndex];
         }
 
-        #endregion
+        #endregion Y values related methods
 
         #region Automatic Values Calculation methods
 
@@ -1619,7 +1602,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
                     typeName = typeName[1..^1];
 
-
                     if (typeName.Length > 0)
                     {
                         if (!double.TryParse(typeName, NumberStyles.Any, CultureInfo.InvariantCulture, out param))
@@ -1663,11 +1645,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
             else if (errorBarType == ErrorBarType.StandardDeviation)
             {
-                // Formula for standard deviation need 
-                // more then one data point
+                // Formula for standard deviation need
+               // more then one data point
                 if (pointNumber > 1)
                 {
-
                     // Calculate series mean value
                     double mean = 0.0;
                     foreach (DataPoint point in errorBarSeries.Points)
@@ -1695,8 +1676,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
             else if (errorBarType == ErrorBarType.StandardError)
             {
-                // Formula for standard deviation need 
-                // more then one data point
+                // Formula for standard deviation need
+               // more then one data point
                 if (pointNumber > 1)
                 {
                     // Calculate standard error
@@ -1717,7 +1698,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
             }
 
-
             // Loop through all points to calculate error amount
             foreach (DataPoint point in errorBarSeries.Points)
             {
@@ -1732,7 +1712,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     point.YValues[2] = point.YValues[0] + errorAmount;
                 }
             }
-
         }
 
         internal static double DefaultErrorBarTypeValue(ErrorBarType errorBarType)
@@ -1742,9 +1721,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 case ErrorBarType.FixedValue:
                 case ErrorBarType.Percentage:
                     return 10.0;
+
                 case ErrorBarType.StandardDeviation:
                 case ErrorBarType.StandardError:
                     return 1.0;
+
                 default:
                     System.Diagnostics.Debug.Fail("Unknown ErrorBarType=" + errorBarType.ToString());
                     break;
@@ -1753,8 +1734,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Populates error bar center value using the linked series specified by 
-        /// "ErrorBarSeries" custom attribute.
+        /// Populates error bar center value using the linked series specified by
+       /// "ErrorBarSeries" custom attribute.
         /// </summary>
         /// <param name="errorBarSeries">Error bar chart type series.</param>
         internal static void GetDataFromLinkedSeries(Series errorBarSeries)
@@ -1804,10 +1785,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     errorBarSeries.Points.AddXY(point.XValue, point.GetValueByName(valueName));
                 }
             }
-
         }
 
-        #endregion
+        #endregion Automatic Values Calculation methods
 
         #region SmartLabelStyle methods
 
@@ -1823,9 +1803,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // No data point markers supported for SmartLabelStyle
         }
 
-        #endregion
+        #endregion SmartLabelStyle methods
 
         #region IDisposable interface implementation
+
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
@@ -1847,7 +1828,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        #endregion
+
+        #endregion IDisposable interface implementation
     }
 }
-

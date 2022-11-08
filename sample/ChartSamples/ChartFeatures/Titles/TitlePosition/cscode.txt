@@ -20,7 +20,7 @@ private void chart1_Click(object sender, System.Web.UI.ImageClickEventArgs e)
     {
         // Convert pixels to percentage coordinates and set the title position
         Chart1.Titles[0].Position.X = e.X * 100F / ((float)(chart1.Width.Value - 1));
-        Chart1.Titles[0].Position.Y = e.Y * 100F / ((float)(chart1.Height.Value - 1)); 
-    }
+        Chart1.Titles[0].Position.Y = e.Y * 100F / ((float)(chart1.Height.Value - 1));
+   }
 }
 ...

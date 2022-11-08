@@ -69,8 +69,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// </summary>
     /// <remarks>
     /// Callout annotation is the only annotation that draws a connection between the
-    /// annotation position and anchor point. It can display text and automatically 
-    /// calculate the required size. Different <see cref="CalloutStyle"/> are supported.
+    /// annotation position and anchor point. It can display text and automatically
+   /// calculate the required size. Different <see cref="CalloutStyle"/> are supported.
     /// </remarks>
     [
         SRDescription("DescriptionAttributeCalloutAnnotation_CalloutAnnotation"),
@@ -79,8 +79,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     {
         #region Fields
 
-        // Callout anchor type 
-        private LineAnchorCapStyle _calloutAnchorCap = LineAnchorCapStyle.Arrow;
+        // Callout anchor type
+       private LineAnchorCapStyle _calloutAnchorCap = LineAnchorCapStyle.Arrow;
 
         // Callout drawing style
         private CalloutStyle _calloutStyle = CalloutStyle.Rectangle;
@@ -154,9 +154,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="LineAnchorCapStyle"/> value used as the anchor cap of a callout line.
         /// </value>
         /// <remarks>
-        /// This property sets the anchor cap of the line connecting an annotation to 
-        /// its anchor point. It only applies when SimpleLine or BorderLine 
-        /// are used.
+        /// This property sets the anchor cap of the line connecting an annotation to
+       /// its anchor point. It only applies when SimpleLine or BorderLine
+       /// are used.
         /// </remarks>
 		[
         SRCategory("CategoryAttributeAppearance"),
@@ -362,8 +362,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <seealso cref="BackGradientStyle"/>
         /// </summary>
         /// <value>
-        /// A <see cref="Color"/> value used for the secondary color of an annotation background with 
-        /// hatching or gradient fill.
+        /// A <see cref="Color"/> value used for the secondary color of an annotation background with
+       /// hatching or gradient fill.
         /// </value>
         /// <remarks>
         /// This color is used with <see cref="BackColor"/> when <see cref="BackHatchStyle"/> or
@@ -405,9 +405,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A double value that represents the x-coordinate offset between the positions of an annotation and its anchor point.
         /// </value>
         /// <remarks>
-        /// The annotation must be anchored using the <see cref="Annotation.AnchorDataPoint"/> or 
-        /// <see cref="Annotation.AnchorX"/> properties, and its <see cref="Annotation.X"/> property must be set 
-        /// to <b>Double.NaN</b>.
+        /// The annotation must be anchored using the <see cref="Annotation.AnchorDataPoint"/> or
+       /// <see cref="Annotation.AnchorX"/> properties, and its <see cref="Annotation.X"/> property must be set
+       /// to <b>Double.NaN</b>.
         /// </remarks>
         [
         SRCategory("CategoryAttributeAnchor"),
@@ -438,8 +438,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A double value that represents the y-coordinate offset between the positions of an annotation and its anchor point.
         /// </value>
         /// <remarks>
-        /// Annotation must be anchored using <see cref="Annotation.AnchorDataPoint"/> or 
-        /// <see cref="Annotation.AnchorY"/> properties and its <see cref="Annotation.Y"/> property must be set
+        /// Annotation must be anchored using <see cref="Annotation.AnchorDataPoint"/> or
+       /// <see cref="Annotation.AnchorY"/> properties and its <see cref="Annotation.Y"/> property must be set
         /// to <b>Double.NaN</b>.
         /// </remarks>
         [
@@ -469,13 +469,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <seealso cref="AnchorOffsetY"/>
         /// </summary>
         /// <value>
-        /// A <see cref="ContentAlignment"/> value that represents the annotation's alignment to 
-        /// the anchor point.
+        /// A <see cref="ContentAlignment"/> value that represents the annotation's alignment to
+       /// the anchor point.
         /// </value>
         /// <remarks>
-        /// The annotation must be anchored using either <see cref="Annotation.AnchorDataPoint"/>, or the <see cref="Annotation.AnchorX"/> 
-        /// and <see cref="Annotation.AnchorY"/> properties. Its <see cref="Annotation.X"/> and <see cref="Annotation.Y"/> 
-        /// properties must be set to <b>Double.NaN</b>.
+        /// The annotation must be anchored using either <see cref="Annotation.AnchorDataPoint"/>, or the <see cref="Annotation.AnchorX"/>
+       /// and <see cref="Annotation.AnchorY"/> properties. Its <see cref="Annotation.X"/> and <see cref="Annotation.Y"/>
+       /// properties must be set to <b>Double.NaN</b>.
         /// </remarks>
 		[
         SRCategory("CategoryAttributeAnchor"),
@@ -502,9 +502,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets an annotation's type name.
         /// </summary>
         /// <remarks>
-        /// This property is used to get the name of each annotation type  
-        /// (e.g. Line, Rectangle, Ellipse). 
-        /// <para>
+        /// This property is used to get the name of each annotation type 
+       /// (e.g. Line, Rectangle, Ellipse).
+       /// <para>
         /// This property is for internal use and is hidden at design and run time.
         /// </para>
         /// </remarks>	
@@ -693,8 +693,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (hotRegionPathAbs != null)
                 {
-                    // If there is more then one graphical path split them and create 
-                    // image maps for every graphical path separately.
+                    // If there is more then one graphical path split them and create
+                   // image maps for every graphical path separately.
                     using GraphicsPathIterator iterator = new GraphicsPathIterator(hotRegionPathAbs);
 
                     // There is more then one path.
@@ -837,8 +837,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.ShadowOffset,
                 this.ShadowColor);
 
-            // Draw text 
-            DrawText(graphics, rectanglePosition, true, false);
+            // Draw text
+           DrawText(graphics, rectanglePosition, true, false);
 
             return ellipsePath;
         }
@@ -1028,8 +1028,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 hotRegion.AddRectangle(graphics.GetAbsoluteRectangle(rectanglePosition));
             }
 
-            // Draw text 
-            DrawText(graphics, rectanglePosition, false, false);
+            // Draw text
+           DrawText(graphics, rectanglePosition, false, false);
 
             return hotRegion;
         }
@@ -1200,8 +1200,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     PenAlignment.Center);
             }
 
-            // Draw text 
-            DrawText(graphics, rectanglePosition, true, false);
+            // Draw text
+           DrawText(graphics, rectanglePosition, true, false);
 
             return pathCloud;
         }
@@ -1240,8 +1240,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             GraphicsPath hotRegion = new GraphicsPath();
             hotRegion.AddRectangle(graphics.GetAbsoluteRectangle(rectanglePosition));
 
-            // Draw text 
-            DrawText(graphics, rectanglePosition, false, false);
+            // Draw text
+           DrawText(graphics, rectanglePosition, false, false);
 
             // Draw perspective polygons from anchoring point
             if (!float.IsNaN(anchorPoint.X) && !float.IsNaN(anchorPoint.Y))
@@ -1402,13 +1402,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this.ShadowOffset,
                     PenAlignment.Center);
 
-                // Draw text 
-                DrawText(graphics, rectanglePosition, false, false);
+                // Draw text
+               DrawText(graphics, rectanglePosition, false, false);
             }
             else
             {
-                // Draw text 
-                rectanglePosition = DrawText(graphics, rectanglePosition, false, true);
+                // Draw text
+               rectanglePosition = DrawText(graphics, rectanglePosition, false, true);
                 SizeF pixelSize = graphics.GetRelativeSize(new SizeF(2f, 2f));
                 rectanglePosition.Inflate(pixelSize);
             }
@@ -1728,8 +1728,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets intersection point coordinates between point line and and horizontal 
-        /// line specified by Y coordinate.
+        /// Gets intersection point coordinates between point line and and horizontal
+       /// line specified by Y coordinate.
         /// </summary>
         /// <param name="firstPoint">First data point.</param>
         /// <param name="secondPoint">Second data point.</param>
@@ -1747,8 +1747,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets intersection point coordinates between point line and and vertical 
-        /// line specified by X coordinate.
+        /// Gets intersection point coordinates between point line and and vertical
+       /// line specified by X coordinate.
         /// </summary>
         /// <param name="firstPoint">First data point.</param>
         /// <param name="secondPoint">Second data point.</param>

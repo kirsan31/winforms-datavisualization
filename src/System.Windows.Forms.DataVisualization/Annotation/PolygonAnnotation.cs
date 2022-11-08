@@ -318,9 +318,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets an annotation's type name.
         /// </summary>
         /// <remarks>
-        /// This property is used to get the name of each annotation type 
-        /// (e.g. Line, Rectangle, Ellipse). 
-        /// <para>
+        /// This property is used to get the name of each annotation type
+       /// (e.g. Line, Rectangle, Ellipse).
+       /// <para>
         /// This property is for internal use and is hidden at design and run time.
         /// </para>
         /// </remarks>
@@ -345,8 +345,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets an annotation selection points style.
         /// </summary>
         /// <value>
-        /// A <see cref="SelectionPointsStyle"/> value that represents the annotation 
-        /// selection style.
+        /// A <see cref="SelectionPointsStyle"/> value that represents the annotation
+       /// selection style.
         /// </value>
         /// <remarks>
         /// This property is for internal use and is hidden at design and run time.
@@ -373,13 +373,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets a flag that determines whether an annotation should be placed using the free-draw mode.
         /// </summary>
         /// <value>
-        /// <b>True</b> if an annotation should be placed using free-draw mode, 
-        /// <b>false</b> otherwise.  Defaults to <b>false</b>.
+        /// <b>True</b> if an annotation should be placed using free-draw mode,
+       /// <b>false</b> otherwise.  Defaults to <b>false</b>.
         /// </value>
         /// <remarks>
-        /// Two different placement modes are supported when the Annotation.BeginPlacement 
-        /// method is called. Set this property to <b>true</b> to switch from the default 
-        /// mode to free-draw mode, which allows the caller to free-draw while moving the mouse cursor.
+        /// Two different placement modes are supported when the Annotation.BeginPlacement
+       /// method is called. Set this property to <b>true</b> to switch from the default
+       /// mode to free-draw mode, which allows the caller to free-draw while moving the mouse cursor.
         /// </remarks>
         [
         SRCategory("CategoryAttributeMisc"),
@@ -405,11 +405,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="GraphicsPath"/> object with the polyline shape.
         /// </value>
         /// <remarks>
-        /// A polyline must use coordinates relative to an annotation object, where (0,0) is 
-        /// the top-left coordinates and (100,100) is the bottom-right coordinates of the annotation.  
-        /// <para>
-        /// This property is not accessible at design time (at design-time, use the 
-        /// <see cref="GraphicsPathPoints"/> property instead).
+        /// A polyline must use coordinates relative to an annotation object, where (0,0) is
+       /// the top-left coordinates and (100,100) is the bottom-right coordinates of the annotation. 
+       /// <para>
+        /// This property is not accessible at design time (at design-time, use the
+       /// <see cref="GraphicsPathPoints"/> property instead).
         /// </para>
         /// </remarks>
         [
@@ -440,11 +440,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// An <see cref="AnnotationPathPointCollection"/> object with the polyline shape.
         /// </value>
         /// <remarks>
-        /// A polyline must use coordinates relative to an annotation object, where (0,0) is 
-        /// the top-left coordinates and (100,100) is the bottom-right coordinates of the annotation.
+        /// A polyline must use coordinates relative to an annotation object, where (0,0) is
+       /// the top-left coordinates and (100,100) is the bottom-right coordinates of the annotation.
         /// <para>
-        /// This property is not accessible at runtime (at runtime, use the <see cref="GraphicsPath"/> 
-        /// property instead).
+        /// This property is not accessible at runtime (at runtime, use the <see cref="GraphicsPath"/>
+       /// property instead).
         /// </para>
         /// </remarks>
         [
@@ -738,8 +738,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Position Changing
 
         /// <summary>
-        /// Changes annotation position, so it exactly matches the bounary of the 
-        /// polyline path.
+        /// Changes annotation position, so it exactly matches the bounary of the
+       /// polyline path.
         /// </summary>
         private void ResizeToPathBoundary()
         {
@@ -876,12 +876,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Ends user placement of an annotation.
         /// </summary>
         /// <remarks>
-        /// Ends an annotation placement operation previously started by a 
-        /// <see cref="Annotation.BeginPlacement"/> method call.
+        /// Ends an annotation placement operation previously started by a
+       /// <see cref="Annotation.BeginPlacement"/> method call.
         /// <para>
         /// Calling this method is not required, since placement will automatically
-        /// end when an end user enters all required points. However, it is useful when an annotation 
-        /// placement operation needs to be aborted for some reason.
+        /// end when an end user enters all required points. However, it is useful when an annotation
+       /// placement operation needs to be aborted for some reason.
         /// </para>
         /// </remarks>
         public override void EndPlacement()
@@ -912,8 +912,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="buttons">Mouse button down.</param>
         internal override void PlacementMouseDown(PointF point, MouseButtons buttons)
         {
-            // Call base class method if path editing is not allowed 
-            if (!this.AllowPathEditing)
+            // Call base class method if path editing is not allowed
+           if (!this.AllowPathEditing)
             {
                 base.PlacementMouseDown(point, buttons);
                 return;
@@ -983,8 +983,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Return true when placing finished.</returns>
         internal override bool PlacementMouseUp(PointF point, MouseButtons buttons)
         {
-            // Call base class method if path editing is not allowed 
-            if (!this.AllowPathEditing)
+            // Call base class method if path editing is not allowed
+           if (!this.AllowPathEditing)
             {
                 return base.PlacementMouseUp(point, buttons);
             }
@@ -1005,8 +1005,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="point">Mouse cursor position in pixels.</param>
         internal override void PlacementMouseMove(PointF point)
         {
-            // Call base class method if path editing is not allowed 
-            if (!this.AllowPathEditing)
+            // Call base class method if path editing is not allowed
+           if (!this.AllowPathEditing)
             {
                 base.PlacementMouseMove(point);
                 return;
@@ -1264,8 +1264,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <seealso cref="BackGradientStyle"/>
         /// </summary>
         /// <value>
-        /// A <see cref="Color"/> value used for the secondary color of an annotation background with 
-        /// hatching or gradient fill.
+        /// A <see cref="Color"/> value used for the secondary color of an annotation background with
+       /// hatching or gradient fill.
         /// </value>
         /// <remarks>
         /// This color is used with <see cref="BackColor"/> when <see cref="BackHatchStyle"/> or
@@ -1300,9 +1300,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets an annotation's type name.
         /// </summary>
         /// <remarks>
-        /// This property is used to get the name of each annotation type 
-        /// (e.g. Line, Rectangle, Ellipse). 
-        /// <para>
+        /// This property is used to get the name of each annotation type
+       /// (e.g. Line, Rectangle, Ellipse).
+       /// <para>
         /// This property is for internal use and is hidden at design and run time.
         /// </para>
         /// </remarks>
@@ -1327,8 +1327,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets an annotation's selection points style.
         /// </summary>
         /// <value>
-        /// A <see cref="SelectionPointsStyle"/> value that represents an annotation's 
-        /// selection style.
+        /// A <see cref="SelectionPointsStyle"/> value that represents an annotation's
+       /// selection style.
         /// </value>
         /// <remarks>
         /// This property is for internal use and is hidden at design and run time.
@@ -1356,13 +1356,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #endregion Properties
     }
 
-    /// <summary><b>AnnotationPathPointCollection</b> is a collection of polyline 
-    /// annotation path points, and is only available via the <b>GraphicsPathPoints</b> 
-    /// property at design-time.
+    /// <summary><b>AnnotationPathPointCollection</b> is a collection of polyline
+   /// annotation path points, and is only available via the <b>GraphicsPathPoints</b>
+   /// property at design-time.
     /// <seealso cref="PolylineAnnotation.GraphicsPathPoints"/></summary>
     /// <remarks>
-    /// This collection is used at design-time only, and uses serialization to expose the 
-    /// shape of the polyline and polygon via their GraphicsPathPoints collection property.
+    /// This collection is used at design-time only, and uses serialization to expose the
+   /// shape of the polyline and polygon via their GraphicsPathPoints collection property.
     /// At run-time, use Path property to set the path of a polyline or polygon
     /// </remarks>
 	[
@@ -1464,8 +1464,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     }
 
     /// <summary>
-    /// The <b>AnnotationPathPoint</b> class represents a path point of a polyline or polygon, 
-    /// and is stored in their <b>GraphicsPathPoints</b> property, which is only available at design-time.
+    /// The <b>AnnotationPathPoint</b> class represents a path point of a polyline or polygon,
+   /// and is stored in their <b>GraphicsPathPoints</b> property, which is only available at design-time.
     /// </summary>
     /// <remarks>
     /// At run-time, use <b>Path</b> property to set the path of a polyline or polygon.

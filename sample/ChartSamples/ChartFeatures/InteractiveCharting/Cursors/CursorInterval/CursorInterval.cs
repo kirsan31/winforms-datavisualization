@@ -1,67 +1,63 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for CursorInterval.
-	/// </summary>
-	public class CursorInterval : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.ComboBox YInterval;
-		private System.Windows.Forms.ComboBox XInterval;
-		private System.Windows.Forms.ComboBox XIntervalType;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for CursorInterval.
+    /// </summary>
+    public class CursorInterval : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox YInterval;
+        private System.Windows.Forms.ComboBox XInterval;
+        private System.Windows.Forms.ComboBox XIntervalType;
 
-		public CursorInterval()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
-		}
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        public CursorInterval()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -100,10 +96,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
@@ -114,10 +110,10 @@ namespace ChartSamples
                 "step\" as it moves across the data view. To move the cursor, left-click on the ch" +
                 "art and drag the mouse.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.label10);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.XIntervalType);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
@@ -134,19 +130,19 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // label10
-            // 
-            this.label10.Location = new System.Drawing.Point(32, 40);
+            //
+           // label10
+            //
+           this.label10.Location = new System.Drawing.Point(32, 40);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(136, 23);
             this.label10.TabIndex = 2;
             this.label10.Text = "Interval &Type:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // XIntervalType
-            // 
-            this.XIntervalType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // XIntervalType
+            //
+           this.XIntervalType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.XIntervalType.Items.AddRange(new object[] {
             "Hours",
             "Days",
@@ -156,28 +152,28 @@ namespace ChartSamples
             this.XIntervalType.Size = new System.Drawing.Size(121, 22);
             this.XIntervalType.TabIndex = 3;
             this.XIntervalType.SelectedIndexChanged += new System.EventHandler(this.Series_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(32, 72);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(32, 72);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(136, 23);
             this.label2.TabIndex = 4;
             this.label2.Text = "&Y Interval:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(32, 8);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(32, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(136, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "&X Interval:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // YInterval
-            // 
-            this.YInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // YInterval
+            //
+           this.YInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.YInterval.Items.AddRange(new object[] {
             "0",
             "1",
@@ -187,10 +183,10 @@ namespace ChartSamples
             this.YInterval.Size = new System.Drawing.Size(121, 22);
             this.YInterval.TabIndex = 5;
             this.YInterval.SelectedIndexChanged += new System.EventHandler(this.Series_SelectedIndexChanged);
-            // 
-            // XInterval
-            // 
-            this.XInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // XInterval
+            //
+           this.XInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.XInterval.Items.AddRange(new object[] {
             "0",
             "1",
@@ -201,66 +197,66 @@ namespace ChartSamples
             this.XInterval.Size = new System.Drawing.Size(121, 22);
             this.XInterval.TabIndex = 1;
             this.XInterval.SelectedIndexChanged += new System.EventHandler(this.Series_SelectedIndexChanged);
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(64, 472);
+            //
+           // label8
+            //
+           this.label8.Location = new System.Drawing.Point(64, 472);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(100, 23);
             this.label8.TabIndex = 7;
             this.label8.Text = "Shadow Offset:";
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(64, 449);
+            //
+           // label7
+            //
+           this.label7.Location = new System.Drawing.Point(64, 449);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(100, 23);
             this.label7.TabIndex = 6;
             this.label7.Text = "Border Style:";
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(64, 403);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(64, 403);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 23);
             this.label6.TabIndex = 5;
             this.label6.Text = "Border Size:";
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(64, 380);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(64, 380);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(100, 23);
             this.label5.TabIndex = 4;
             this.label5.Text = "Border Color:";
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(64, 357);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(64, 357);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(100, 23);
             this.label4.TabIndex = 3;
             this.label4.Text = "Hatch Style:";
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(64, 334);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(64, 334);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 2;
             this.label3.Text = "Gradient:";
-            // 
-            // label15
-            // 
-            this.label15.Location = new System.Drawing.Point(64, 426);
+            //
+           // label15
+            //
+           this.label15.Location = new System.Drawing.Point(64, 426);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(100, 23);
             this.label15.TabIndex = 5;
             this.label15.Text = "Border Size:";
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -356,10 +352,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Cursor Intervals";
             this.Chart1.Titles.Add(title1);
-            // 
-            // CursorInterval
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // CursorInterval
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
@@ -370,44 +366,36 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void Series_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if (XInterval.SelectedItem == null ||
+                XIntervalType.SelectedItem == null ||
+                        YInterval.SelectedItem == null)
+            {
+                return;
+            }
 
-		private void Series_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			if( XInterval.SelectedItem == null ||
-				XIntervalType.SelectedItem == null ||
-						YInterval.SelectedItem == null )
-			{
-				return;
-			}
+            Chart1.ChartAreas["Default"].CursorX.Interval = int.Parse(XInterval.SelectedItem.ToString());
+            Chart1.ChartAreas["Default"].CursorX.IntervalType = (DateTimeIntervalType)DateTimeIntervalType.Parse(typeof(DateTimeIntervalType), XIntervalType.SelectedItem.ToString());
+            Chart1.ChartAreas["Default"].CursorY.Interval = int.Parse(YInterval.SelectedItem.ToString());
+        }
 
-			Chart1.ChartAreas["Default"].CursorX.Interval = int.Parse(XInterval.SelectedItem.ToString());
-			Chart1.ChartAreas["Default"].CursorX.IntervalType = (DateTimeIntervalType)DateTimeIntervalType.Parse(typeof(DateTimeIntervalType), XIntervalType.SelectedItem.ToString());
-			Chart1.ChartAreas["Default"].CursorY.Interval = int.Parse(YInterval.SelectedItem.ToString());
+        private void CursorInterval_Load(object sender, System.EventArgs e)
+        {
+            Chart1.ChartAreas["Default"].CursorY.Position = 4;
+            Chart1.ChartAreas["Default"].CursorX.Position = 37535;
 
-		}
-		
+            Chart1.ChartAreas["Default"].AxisX.ScaleView.MinSize = 2;
+            Chart1.ChartAreas["Default"].AxisY.ScaleView.MinSize = 2;
 
-		private void CursorInterval_Load(object sender, System.EventArgs e)
-		{
-			Chart1.ChartAreas["Default"].CursorY.Position = 4;
-			Chart1.ChartAreas["Default"].CursorX.Position = 37535;
-
-			Chart1.ChartAreas["Default"].AxisX.ScaleView.MinSize = 2;
-			Chart1.ChartAreas["Default"].AxisY.ScaleView.MinSize = 2;
-
-			// Initialize Combo boxes
-			XInterval.SelectedIndex = 1;
-			XIntervalType.SelectedIndex = 1;
-			YInterval.SelectedIndex = 1;
-	
-		}
-
-		
-		
-
-	}
+            // Initialize Combo boxes
+            XInterval.SelectedIndex = 1;
+            XIntervalType.SelectedIndex = 1;
+            YInterval.SelectedIndex = 1;
+        }
+    }
 }

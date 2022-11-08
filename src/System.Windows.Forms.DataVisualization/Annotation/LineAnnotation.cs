@@ -324,22 +324,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Position
 
         /// <summary>
-        /// Gets or sets a flag that specifies whether the size of an annotation is always 
-        /// defined in relative chart coordinates.
+        /// Gets or sets a flag that specifies whether the size of an annotation is always
+       /// defined in relative chart coordinates.
         /// <seealso cref="Annotation.Width"/>
         /// <seealso cref="Annotation.Height"/>
         /// </summary>
         /// <value>
-        /// <b>True</b> if an annotation's <see cref="Annotation.Width"/> and <see cref="Annotation.Height"/> are always 
-        /// in chart relative coordinates, <b>false</b> otherwise.
+        /// <b>True</b> if an annotation's <see cref="Annotation.Width"/> and <see cref="Annotation.Height"/> are always
+       /// in chart relative coordinates, <b>false</b> otherwise.
         /// </value>
         /// <remarks>
-        /// An annotation's width and height may be set in relative chart or axes coordinates. 
-        /// By default, relative chart coordinates are used.
+        /// An annotation's width and height may be set in relative chart or axes coordinates.
+       /// By default, relative chart coordinates are used.
         /// <para>
-        /// To use axes coordinates for size set the <b>IsSizeAlwaysRelative</b> property to 
-        /// <b>false</b> and either anchor the annotation to a data point or set the 
-        /// <see cref="Annotation.AxisX"/> or <see cref="Annotation.AxisY"/> properties.
+        /// To use axes coordinates for size set the <b>IsSizeAlwaysRelative</b> property to
+       /// <b>false</b> and either anchor the annotation to a data point or set the
+       /// <see cref="Annotation.AxisX"/> or <see cref="Annotation.AxisY"/> properties.
         /// </para>
         /// </remarks>
         [
@@ -372,13 +372,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <seealso cref="Annotation.AnchorOffsetY"/>
         /// </summary>
         /// <value>
-        /// A <see cref="ContentAlignment"/> value that represents the annotation's alignment to 
-        /// the anchor point.
+        /// A <see cref="ContentAlignment"/> value that represents the annotation's alignment to
+       /// the anchor point.
         /// </value>
         /// <remarks>
-        /// The annotation must be anchored using either <see cref="Annotation.AnchorDataPoint"/>, or the <see cref="Annotation.AnchorX"/> 
-        /// and <see cref="Annotation.AnchorY"/> properties. Its <see cref="Annotation.X"/> and <see cref="Annotation.Y"/> 
-        /// properties must be set to <b>Double.NaN</b>.
+        /// The annotation must be anchored using either <see cref="Annotation.AnchorDataPoint"/>, or the <see cref="Annotation.AnchorX"/>
+       /// and <see cref="Annotation.AnchorY"/> properties. Its <see cref="Annotation.X"/> and <see cref="Annotation.Y"/>
+       /// properties must be set to <b>Double.NaN</b>.
         /// </remarks>
         [
         SRCategory("CategoryAttributeAnchor"),
@@ -407,9 +407,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets an annotation's type name.
         /// </summary>
         /// <remarks>
-        /// This property is used to get the name of each annotation type 
-        /// (e.g. Line, Rectangle, Ellipse). 
-        /// <para>
+        /// This property is used to get the name of each annotation type
+       /// (e.g. Line, Rectangle, Ellipse).
+       /// <para>
         /// This property is for internal use and is hidden at design and run time.
         /// </para>
         /// </remarks>
@@ -702,9 +702,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets an annotation's type name.
         /// </summary>
         /// <remarks>
-        /// This property is used to get the name of each annotation type 
-        /// (e.g. Line, Rectangle, Ellipse). 
-        /// <para>
+        /// This property is used to get the name of each annotation type
+       /// (e.g. Line, Rectangle, Ellipse).
+       /// <para>
         /// This property is for internal use and is hidden at design and run time.
         /// </para>
         /// </remarks>
@@ -787,9 +787,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets an annotation's type name.
         /// </summary>
         /// <remarks>
-        /// This property is used to get the name of each annotation type 
-        /// (e.g. Line, Rectangle, Ellipse). 
-        /// <para>
+        /// This property is used to get the name of each annotation type
+       /// (e.g. Line, Rectangle, Ellipse).
+       /// <para>
         /// This property is for internal use and is hidden at design and run time.
         /// </para>
         /// </remarks>

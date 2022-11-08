@@ -2,14 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Design-time editor for the strings that may contain
 //				keywords. Form automatically retrives the list of 
 //				recongnizable keywords from the chart keywords 
 //				registry.
 //
-
 
 using System.Collections;
 using System.ComponentModel;
@@ -19,7 +17,6 @@ using System.Drawing.Design;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System;
 
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
@@ -115,7 +112,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         private static int widthDialogExtend = 80;
         private static int heightDialogExtend = 38;
 
-        #endregion // Fields
+        #endregion Fields
 
         #region Constructor
 
@@ -140,7 +137,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// <param name="maxYValueIndex">Maximum number of supported Y values.</param>
         public KeywordsStringEditorForm(string initialString, string classTypeName, string propertyName, int maxYValueIndex) : this()
         {
-
             // Save input parameters
             this._classTypeName = classTypeName;
             this._propertyName = propertyName;
@@ -165,9 +161,10 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             base.Dispose(disposing);
         }
 
-        #endregion // Constructor
+        #endregion Constructor
 
         #region Windows Form Designer generated code
+
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -189,10 +186,10 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._panelTopContent.SuspendLayout();
             this._panelInsertEditButtons.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // richTextBox
-            // 
-            this._richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            //
+           // richTextBox
+            //
+           this._richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this._richTextBox.Location = new System.Drawing.Point(6, 19);
             this._richTextBox.Margin = new System.Windows.Forms.Padding(7);
             this._richTextBox.Name = "_richTextBox";
@@ -203,10 +200,10 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._richTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richTextBox_KeyDown);
             this._richTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.richTextBox_KeyPress);
             this._richTextBox.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
-            // 
-            // groupBoxString
-            // 
-            this._groupBoxString.Controls.Add(this._panelInsertEditButtons);
+            //
+           // groupBoxString
+            //
+           this._groupBoxString.Controls.Add(this._panelInsertEditButtons);
             this._groupBoxString.Controls.Add(this._richTextBox);
             this._groupBoxString.Dock = System.Windows.Forms.DockStyle.Fill;
             this._groupBoxString.Location = new System.Drawing.Point(0, 56);
@@ -216,29 +213,29 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._groupBoxString.TabIndex = 1;
             this._groupBoxString.TabStop = false;
             this._groupBoxString.Text = SR.LabelStringWithKeywords;
-            // 
-            // buttonEdit
-            // 
-            this._buttonEdit.Enabled = false;
+            //
+           // buttonEdit
+            //
+           this._buttonEdit.Enabled = false;
             this._buttonEdit.Location = new System.Drawing.Point(30, 34);
             this._buttonEdit.Name = "_buttonEdit";
             this._buttonEdit.Size = new System.Drawing.Size(156, 27);
             this._buttonEdit.TabIndex = 2;
             this._buttonEdit.Text = SR.LabelEditKeyword;
             this._buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
-            // 
-            // buttonInsert
-            // 
-            this._buttonInsert.Location = new System.Drawing.Point(30, 2);
+            //
+           // buttonInsert
+            //
+           this._buttonInsert.Location = new System.Drawing.Point(30, 2);
             this._buttonInsert.Name = "_buttonInsert";
             this._buttonInsert.Size = new System.Drawing.Size(156, 27);
             this._buttonInsert.TabIndex = 1;
             this._buttonInsert.Text = SR.LabelInsertNewKeyword;
             this._buttonInsert.Click += new System.EventHandler(this.buttonInsert_Click);
-            // 
-            // buttonOk
-            // 
-            this._buttonOk.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            //
+           // buttonOk
+            //
+           this._buttonOk.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             this._buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._buttonOk.Location = new System.Drawing.Point(305, 9);
             this._buttonOk.Name = "_buttonOk";
@@ -246,29 +243,29 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._buttonOk.TabIndex = 2;
             this._buttonOk.Text = SR.LabelButtonOk;
             this._buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
-            // 
-            // buttonCancel
-            // 
-            this._buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            //
+           // buttonCancel
+            //
+           this._buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.Location = new System.Drawing.Point(401, 9);
             this._buttonCancel.Name = "_buttonCancel";
             this._buttonCancel.Size = new System.Drawing.Size(90, 27);
             this._buttonCancel.TabIndex = 3;
             this._buttonCancel.Text = SR.LabelButtonCancel;
-            // 
-            // labelDescription
-            // 
-            this._labelDescription.Dock = System.Windows.Forms.DockStyle.Top;
+            //
+           // labelDescription
+            //
+           this._labelDescription.Dock = System.Windows.Forms.DockStyle.Top;
             this._labelDescription.Location = new System.Drawing.Point(0, 0);
             this._labelDescription.Name = "_labelDescription";
             this._labelDescription.Size = new System.Drawing.Size(500, 56);
             this._labelDescription.TabIndex = 0;
             this._labelDescription.Text = SR.DesciptionCustomLabelEditorTitle;
-            // 
-            // _panelOkCancelButtons
-            // 
-            this._panelOkCancelButtons.Controls.Add(this._buttonOk);
+            //
+           // _panelOkCancelButtons
+            //
+           this._panelOkCancelButtons.Controls.Add(this._buttonOk);
             this._panelOkCancelButtons.Controls.Add(this._buttonCancel);
             this._panelOkCancelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._panelOkCancelButtons.Location = new System.Drawing.Point(4, 191);
@@ -276,30 +273,30 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._panelOkCancelButtons.Padding = new System.Windows.Forms.Padding(6);
             this._panelOkCancelButtons.Size = new System.Drawing.Size(500, 44);
             this._panelOkCancelButtons.TabIndex = 4;
-            // 
-            // _panelTopContent
-            // 
-            this._panelTopContent.Controls.Add(this._groupBoxString);
+            //
+           // _panelTopContent
+            //
+           this._panelTopContent.Controls.Add(this._groupBoxString);
             this._panelTopContent.Controls.Add(this._labelDescription);
             this._panelTopContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this._panelTopContent.Location = new System.Drawing.Point(4, 4);
             this._panelTopContent.Name = "_panelTopContent";
             this._panelTopContent.Size = new System.Drawing.Size(500, 187);
             this._panelTopContent.TabIndex = 5;
-            // 
-            // _panelInsertEditButtons
-            // 
-            this._panelInsertEditButtons.Controls.Add(this._buttonInsert);
+            //
+           // _panelInsertEditButtons
+            //
+           this._panelInsertEditButtons.Controls.Add(this._buttonInsert);
             this._panelInsertEditButtons.Controls.Add(this._buttonEdit);
             this._panelInsertEditButtons.Dock = System.Windows.Forms.DockStyle.Right;
             this._panelInsertEditButtons.Location = new System.Drawing.Point(305, 19);
             this._panelInsertEditButtons.Name = "_panelInsertEditButtons";
             this._panelInsertEditButtons.Size = new System.Drawing.Size(189, 106);
             this._panelInsertEditButtons.TabIndex = 3;
-            // 
-            // KeywordsStringEditorForm
-            // 
-            this.CancelButton = this._buttonCancel;
+            //
+           // KeywordsStringEditorForm
+            //
+           this.CancelButton = this._buttonCancel;
             this.ClientSize = new System.Drawing.Size(524, 275);
             this.Controls.Add(this._panelTopContent);
             this.Controls.Add(this._panelOkCancelButtons);
@@ -319,9 +316,9 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._panelTopContent.ResumeLayout(false);
             this._panelInsertEditButtons.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
-        #endregion
+
+        #endregion Windows Form Designer generated code
 
         #region Event Handlers
 
@@ -366,8 +363,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             {
                 if (_selectedKeywordLength > 0)
                 {
-                    // Insert keyword at the end of curently selected keyword 
-                    // and separate them with space
+                    // Insert keyword at the end of curently selected keyword
+                   // and separate them with space
                     this._richTextBox.SelectionStart += this._richTextBox.SelectionLength;
                     this._richTextBox.SelectionLength = 0;
                     this._richTextBox.SelectedText = " " + keywordEditor.Keyword;
@@ -481,8 +478,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// <param name="e">Event arguments.</param>
         private void richTextBox_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            // Make sure we enter a closing bracket when user starts 
-            // entering the format string
+            // Make sure we enter a closing bracket when user starts
+           // entering the format string
             if (e.KeyChar == '{')
             {
                 if (_richTextBox.SelectionColor == Color.Blue)
@@ -521,7 +518,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Ok button pressed event handler.
         /// </summary>
@@ -537,7 +533,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this.ResultString = this.ResultString.Replace("\n", "\\n");
         }
 
-        #endregion // Event Handlers
+        #endregion Event Handlers
 
         #region Helper Methods
 
@@ -548,7 +544,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// <returns>Input text formatted as RTF.</returns>
         private string GetRtfText(string originalText)
         {
-
             // Initialize empty string
             // Start with RTF header and font table
             string resultRtf = @"{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Microsoft Sans Serif;}}\r\n";
@@ -597,8 +592,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._selectedKeywordStart = -1;
             this._selectedKeywordLength = 0;
 
-            // Current selection position that will be adjusted when formatting 
-            // characters are added infron of it.
+            // Current selection position that will be adjusted when formatting
+           // characters are added infron of it.
             int selectionStart = this._richTextBox.SelectionStart;
 
             // Replace special new line character sequence "\n"
@@ -616,8 +611,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             selectionStart += slashCountre;
             resultText = resultText.Replace(@"\", @"\\");
 
-            // Iterate through all keywords 
-            foreach (KeywordInfo keywordInfo in this.applicableKeywords)
+            // Iterate through all keywords
+           foreach (KeywordInfo keywordInfo in this.applicableKeywords)
             {
                 // Fill array of possible names for that keyword
                 string[] keywordNames = keywordInfo.GetKeywords();
@@ -734,8 +729,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             resultText = resultText.Replace("\\n", @"\par ");
 
             // Replace special RTF Characters '{' and '}'
-            // Has to be done after all processing because this character is 
-            // used in keywords formatting.
+            // Has to be done after all processing because this character is
+           // used in keywords formatting.
             resultText = resultText.Replace(@"{", @"\{");
             resultText = resultText.Replace(@"}", @"\}");
 
@@ -814,7 +809,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._labelDescription.Height += heightDialogExtend;
         }
 
-        #endregion // Helper Methods
+        #endregion Helper Methods
     }
 
     /// <summary>
@@ -891,7 +886,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                             chart = ((LegendCellColumn)instance).Legend.Common.Chart;
                         }
                     }
-
                     else if (instance is Annotation)
                     {
                         chart = ((Annotation)instance).Chart;
@@ -904,8 +898,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                             series = chart.Series[0];
                         }
                     }
-
-
 
                     // Make sure chart reference was found
                     if (chart == null && series != null)
@@ -961,9 +953,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             return base.GetEditStyle(context);
         }
 
-        #endregion
+        #endregion Editor methods and properties
     }
-
 }
-
-

@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "Selection">
-  <Title>Drill Down</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Chart Drill Down</ShortBlurb> 
-  <SampleControl>DrillDown</SampleControl> 
-  <InfoPages>
+  <Title>Drill Down</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Chart Drill Down</ShortBlurb>
+ <SampleControl>DrillDown</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -14,8 +14,5 @@
 		<Keyword>Events, Drill down</Keyword>
 		<Keyword>Interactive chart, Drill down</Keyword>
 	</Keywords> 
-
 </SampleConfig>
-
-
 </SampleConfigs>

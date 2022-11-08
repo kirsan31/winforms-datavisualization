@@ -1,116 +1,113 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for Borders.
-	/// </summary>
-	public class Borders : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.ComboBox SkinStyle;
-		private System.Windows.Forms.ComboBox ChartForeColor;
-		private System.Windows.Forms.ComboBox HatchStyle;
-		private System.Windows.Forms.ComboBox Gradient;
-		private System.Windows.Forms.ComboBox BorderColor;
-		private System.Windows.Forms.ComboBox BorderDashStyle;
-		private System.Windows.Forms.ComboBox BorderSize;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.ComboBox ChartBackColor;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
+    /// <summary>
+    /// Summary description for Borders.
+    /// </summary>
+    public class Borders : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.ComboBox SkinStyle;
+        private System.Windows.Forms.ComboBox ChartForeColor;
+        private System.Windows.Forms.ComboBox HatchStyle;
+        private System.Windows.Forms.ComboBox Gradient;
+        private System.Windows.Forms.ComboBox BorderColor;
+        private System.Windows.Forms.ComboBox BorderDashStyle;
+        private System.Windows.Forms.ComboBox BorderSize;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox ChartBackColor;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
 
-		private bool initialising = true;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public Borders()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        private bool initialising = true;
 
-			// Add Hatch styles to control.
-			foreach(string colorName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle)))
-			{
-				this.HatchStyle.Items.Add(colorName);
-			}
-			this.HatchStyle.SelectedIndex = 0;
+        public Borders()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// Add Chart Gradient types to control.
-			foreach(string colorName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.GradientStyle)))
-			{
-				this.Gradient.Items.Add(colorName);
-			}
-			this.Gradient.SelectedIndex = 0;
+            // Add Hatch styles to control.
+            foreach (string colorName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle)))
+            {
+                this.HatchStyle.Items.Add(colorName);
+            }
+            this.HatchStyle.SelectedIndex = 0;
 
-			// Add Chart Line styles to control.
-			foreach(string skinStyle in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle)))
-			{
-				this.SkinStyle.Items.Add(skinStyle);
-			}
-			this.SkinStyle.SelectedIndex = 1;
+            // Add Chart Gradient types to control.
+            foreach (string colorName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.GradientStyle)))
+            {
+                this.Gradient.Items.Add(colorName);
+            }
+            this.Gradient.SelectedIndex = 0;
 
-			
-			// Add Border styles to control.
-			foreach(string colorName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)))
-			{
-				this.BorderDashStyle.Items.Add(colorName);
-			}
-			this.BorderDashStyle.SelectedIndex = this.BorderDashStyle.Items.IndexOf("Solid");
+            // Add Chart Line styles to control.
+            foreach (string skinStyle in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle)))
+            {
+                this.SkinStyle.Items.Add(skinStyle);
+            }
+            this.SkinStyle.SelectedIndex = 1;
 
-			// Add Colors to controls.
-			foreach(String colorName in KnownColor.GetNames(typeof(KnownColor)))
-			{
-				this.ChartBackColor.Items.Add(colorName);
-				this.ChartForeColor.Items.Add(colorName);
-				this.BorderColor.Items.Add(colorName);
-			}
+            // Add Border styles to control.
+            foreach (string colorName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)))
+            {
+                this.BorderDashStyle.Items.Add(colorName);
+            }
+            this.BorderDashStyle.SelectedIndex = this.BorderDashStyle.Items.IndexOf("Solid");
 
-			this.BorderColor.SelectedIndex = this.BorderColor.Items.IndexOf("Maroon");
-			this.ChartBackColor.SelectedIndex = this.BorderColor.Items.IndexOf("PeachPuff");
-			this.ChartForeColor.SelectedIndex = this.BorderColor.Items.IndexOf("White");
+            // Add Colors to controls.
+            foreach (String colorName in KnownColor.GetNames(typeof(KnownColor)))
+            {
+                this.ChartBackColor.Items.Add(colorName);
+                this.ChartForeColor.Items.Add(colorName);
+                this.BorderColor.Items.Add(colorName);
+            }
 
-			this.BorderSize.SelectedIndex = 0;
-			
-			this.initialising = false;
-		}
+            this.BorderColor.SelectedIndex = this.BorderColor.Items.IndexOf("Maroon");
+            this.ChartBackColor.SelectedIndex = this.BorderColor.Items.IndexOf("PeachPuff");
+            this.ChartForeColor.SelectedIndex = this.BorderColor.Items.IndexOf("White");
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            this.BorderSize.SelectedIndex = 0;
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+            this.initialising = false;
+        }
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -151,73 +148,73 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ChartBackColor
-            // 
-            this.ChartBackColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // ChartBackColor
+            //
+           this.ChartBackColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ChartBackColor.Location = new System.Drawing.Point(168, 80);
             this.ChartBackColor.Name = "ChartBackColor";
             this.ChartBackColor.Size = new System.Drawing.Size(121, 22);
             this.ChartBackColor.TabIndex = 2;
             this.ChartBackColor.SelectedIndexChanged += new System.EventHandler(this.SkinItems_Changed);
-            // 
-            // SkinStyle
-            // 
-            this.SkinStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // SkinStyle
+            //
+           this.SkinStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SkinStyle.Location = new System.Drawing.Point(168, 8);
             this.SkinStyle.Name = "SkinStyle";
             this.SkinStyle.Size = new System.Drawing.Size(121, 22);
             this.SkinStyle.TabIndex = 0;
             this.SkinStyle.SelectedIndexChanged += new System.EventHandler(this.SkinStyle_SelectedIndexChanged);
-            // 
-            // ChartForeColor
-            // 
-            this.ChartForeColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // ChartForeColor
+            //
+           this.ChartForeColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ChartForeColor.Location = new System.Drawing.Point(168, 48);
             this.ChartForeColor.Name = "ChartForeColor";
             this.ChartForeColor.Size = new System.Drawing.Size(121, 22);
             this.ChartForeColor.TabIndex = 1;
             this.ChartForeColor.SelectedIndexChanged += new System.EventHandler(this.SkinItems_Changed);
-            // 
-            // HatchStyle
-            // 
-            this.HatchStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // HatchStyle
+            //
+           this.HatchStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.HatchStyle.Location = new System.Drawing.Point(168, 144);
             this.HatchStyle.Name = "HatchStyle";
             this.HatchStyle.Size = new System.Drawing.Size(121, 22);
             this.HatchStyle.TabIndex = 4;
             this.HatchStyle.SelectedIndexChanged += new System.EventHandler(this.SkinItems_Changed);
-            // 
-            // Gradient
-            // 
-            this.Gradient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // Gradient
+            //
+           this.Gradient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Gradient.Location = new System.Drawing.Point(168, 112);
             this.Gradient.Name = "Gradient";
             this.Gradient.Size = new System.Drawing.Size(121, 22);
             this.Gradient.TabIndex = 3;
             this.Gradient.SelectedIndexChanged += new System.EventHandler(this.SkinItems_Changed);
-            // 
-            // BorderColor
-            // 
-            this.BorderColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // BorderColor
+            //
+           this.BorderColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BorderColor.Location = new System.Drawing.Point(168, 216);
             this.BorderColor.Name = "BorderColor";
             this.BorderColor.Size = new System.Drawing.Size(121, 22);
             this.BorderColor.TabIndex = 6;
             this.BorderColor.SelectedIndexChanged += new System.EventHandler(this.Border_Changed);
-            // 
-            // BorderDashStyle
-            // 
-            this.BorderDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // BorderDashStyle
+            //
+           this.BorderDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BorderDashStyle.Location = new System.Drawing.Point(168, 184);
             this.BorderDashStyle.Name = "BorderDashStyle";
             this.BorderDashStyle.Size = new System.Drawing.Size(121, 22);
             this.BorderDashStyle.TabIndex = 5;
             this.BorderDashStyle.SelectedIndexChanged += new System.EventHandler(this.Border_Changed);
-            // 
-            // BorderSize
-            // 
-            this.BorderSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // BorderSize
+            //
+           this.BorderSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BorderSize.Items.AddRange(new object[] {
             "1",
             "2",
@@ -229,82 +226,82 @@ namespace ChartSamples
             this.BorderSize.Size = new System.Drawing.Size(121, 22);
             this.BorderSize.TabIndex = 7;
             this.BorderSize.SelectedIndexChanged += new System.EventHandler(this.Border_Changed);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(26, 11);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(26, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(136, 16);
             this.label1.TabIndex = 9;
             this.label1.Text = "&Skin Style:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(26, 51);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(26, 51);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(136, 16);
             this.label2.TabIndex = 10;
             this.label2.Text = "&Fore Color:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(26, 83);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(26, 83);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(136, 16);
             this.label3.TabIndex = 11;
             this.label3.Text = "&Back Color:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(26, 115);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(26, 115);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(136, 16);
             this.label4.TabIndex = 12;
             this.label4.Text = "&Gradient:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(26, 147);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(26, 147);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(136, 16);
             this.label5.TabIndex = 13;
             this.label5.Text = "&Hatch Style:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(26, 187);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(26, 187);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(136, 16);
             this.label6.TabIndex = 14;
             this.label6.Text = "B&order Style:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(26, 219);
+            //
+           // label7
+            //
+           this.label7.Location = new System.Drawing.Point(26, 219);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(136, 16);
             this.label7.TabIndex = 15;
             this.label7.Text = "Bo&rder Color:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(26, 251);
+            //
+           // label8
+            //
+           this.label8.Location = new System.Drawing.Point(26, 251);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(136, 16);
             this.label8.TabIndex = 16;
             this.label8.Text = "Bor&der Size:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 34);
@@ -312,10 +309,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to set the appearance properties of a chart\'s border" +
                 " skin.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.BorderDashStyle);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.BorderDashStyle);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.Gradient);
             this.panel1.Controls.Add(this.label6);
@@ -335,10 +332,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 0;
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.Maroon;
@@ -433,10 +430,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Chart Control for .NET Framework";
             this.Chart1.Titles.Add(title1);
-            // 
-            // Borders
-            // 
-            this.Controls.Add(this.Chart1);
+            //
+           // Borders
+            //
+           this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -445,97 +442,94 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private bool IsFrameStyle()
-		{
-			return Chart1.BorderSkin.SkinStyle.ToString().IndexOf("Frame") != -1;
-		}
+        private bool IsFrameStyle()
+        {
+            return Chart1.BorderSkin.SkinStyle.ToString().IndexOf("Frame") != -1;
+        }
 
-		private void SkinStyle_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			// Set Border Skin
-			Chart1.BorderSkin.SkinStyle = (System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle)System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Parse(typeof(System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle), SkinStyle.SelectedItem.ToString());
-			
-			// disable controls
-			this.ChartForeColor.Enabled = this.IsFrameStyle();
-			this.ChartBackColor.Enabled = this.IsFrameStyle();
-			this.Gradient.Enabled		= this.IsFrameStyle();
-			this.HatchStyle.Enabled 	= this.IsFrameStyle();
-			
-			this.SkinItems_Changed( sender, e );
-			this.Border_Changed( sender, e );
-		}
+        private void SkinStyle_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            // Set Border Skin
+            Chart1.BorderSkin.SkinStyle = (System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle)System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Parse(typeof(System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle), SkinStyle.SelectedItem.ToString());
 
+            // disable controls
+            this.ChartForeColor.Enabled = this.IsFrameStyle();
+            this.ChartBackColor.Enabled = this.IsFrameStyle();
+            this.Gradient.Enabled = this.IsFrameStyle();
+            this.HatchStyle.Enabled = this.IsFrameStyle();
 
-		private void SkinItems_Changed(object sender, System.EventArgs e)
-		{
-			
-			if ( this.initialising )
-			{
-				return;
-			}
+            this.SkinItems_Changed(sender, e);
+            this.Border_Changed(sender, e);
+        }
 
-			// Set Fore Color
-			Chart1.BorderSkin.BackSecondaryColor = Color.FromName(ChartForeColor.SelectedItem.ToString());		
+        private void SkinItems_Changed(object sender, System.EventArgs e)
+        {
+            if (this.initialising)
+            {
+                return;
+            }
 
-			// Set Back Color
-			Chart1.BorderSkin.BackColor = Color.FromName(ChartBackColor.SelectedItem.ToString());
+            // Set Fore Color
+            Chart1.BorderSkin.BackSecondaryColor = Color.FromName(ChartForeColor.SelectedItem.ToString());
 
-			// Set Gradient Type
-			Chart1.BorderSkin.BackGradientStyle = (System.Windows.Forms.DataVisualization.Charting.GradientStyle)System.Windows.Forms.DataVisualization.Charting.GradientStyle.Parse(typeof(System.Windows.Forms.DataVisualization.Charting.GradientStyle), Gradient.SelectedItem.ToString());
+            // Set Back Color
+            Chart1.BorderSkin.BackColor = Color.FromName(ChartBackColor.SelectedItem.ToString());
 
-			// Disable hatch if gradient is active
-			if( Chart1.BorderSkin.BackGradientStyle != System.Windows.Forms.DataVisualization.Charting.GradientStyle.None )
-				this.HatchStyle.SelectedIndex = 0;
+            // Set Gradient Type
+            Chart1.BorderSkin.BackGradientStyle = (System.Windows.Forms.DataVisualization.Charting.GradientStyle)System.Windows.Forms.DataVisualization.Charting.GradientStyle.Parse(typeof(System.Windows.Forms.DataVisualization.Charting.GradientStyle), Gradient.SelectedItem.ToString());
 
-			// Set Hatch Style
-			Chart1.BorderSkin.BackHatchStyle = (System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle)System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.Parse(typeof(System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle), HatchStyle.SelectedItem.ToString());
+            // Disable hatch if gradient is active
+            if (Chart1.BorderSkin.BackGradientStyle != System.Windows.Forms.DataVisualization.Charting.GradientStyle.None)
+                this.HatchStyle.SelectedIndex = 0;
 
-			// Disable gradient if hatch style is active
-			if( Chart1.BorderSkin.BackHatchStyle != System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.None )
-				this.Gradient.SelectedIndex = 0;		
+            // Set Hatch Style
+            Chart1.BorderSkin.BackHatchStyle = (System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle)System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.Parse(typeof(System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle), HatchStyle.SelectedItem.ToString());
 
-		}
+            // Disable gradient if hatch style is active
+            if (Chart1.BorderSkin.BackHatchStyle != System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.None)
+                this.Gradient.SelectedIndex = 0;
+        }
 
-		private void Border_Changed(object sender, System.EventArgs e)
-		{
-			if ( this.initialising )
-			{
-				return;
-			}
+        private void Border_Changed(object sender, System.EventArgs e)
+        {
+            if (this.initialising)
+            {
+                return;
+            }
 
-			System.Windows.Forms.DataVisualization.Charting.ChartDashStyle style = (System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Parse(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle), BorderDashStyle.SelectedItem.ToString());
-			
-			// set default appearance
-			Chart1.BorderSkin.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.NotSet;
-			Chart1.BorderSkin.BorderColor = Color.Empty;
-			Chart1.BorderSkin.BorderWidth = 1;
+            System.Windows.Forms.DataVisualization.Charting.ChartDashStyle style = (System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Parse(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle), BorderDashStyle.SelectedItem.ToString());
 
-			Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.NotSet;
-			Chart1.BorderlineColor = Color.Empty;
-			Chart1.BorderlineWidth = 1;
+            // set default appearance
+            Chart1.BorderSkin.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.NotSet;
+            Chart1.BorderSkin.BorderColor = Color.Empty;
+            Chart1.BorderSkin.BorderWidth = 1;
 
-			if ( this.IsFrameStyle() )
-			{
-				// Set Border Style
-				Chart1.BorderSkin.BorderDashStyle = style;
-				// Set Border Color
-				Chart1.BorderSkin.BorderColor = Color.FromName(BorderColor.SelectedItem.ToString());
-				// Set Border Width
-				Chart1.BorderSkin.BorderWidth = int.Parse(BorderSize.SelectedItem.ToString());
-			}
-			else
-			{
-				// Set Border Style
-				Chart1.BorderlineDashStyle = style;
-				// Set Border Color
-				Chart1.BorderlineColor = Color.FromName(BorderColor.SelectedItem.ToString());
-				// Set Border Width
-				Chart1.BorderlineWidth = int.Parse(BorderSize.SelectedItem.ToString());
-			}
-		}
-	}
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.NotSet;
+            Chart1.BorderlineColor = Color.Empty;
+            Chart1.BorderlineWidth = 1;
+
+            if (this.IsFrameStyle())
+            {
+                // Set Border Style
+                Chart1.BorderSkin.BorderDashStyle = style;
+                // Set Border Color
+                Chart1.BorderSkin.BorderColor = Color.FromName(BorderColor.SelectedItem.ToString());
+                // Set Border Width
+                Chart1.BorderSkin.BorderWidth = int.Parse(BorderSize.SelectedItem.ToString());
+            }
+            else
+            {
+                // Set Border Style
+                Chart1.BorderlineDashStyle = style;
+                // Set Border Color
+                Chart1.BorderlineColor = Color.FromName(BorderColor.SelectedItem.ToString());
+                // Set Border Width
+                Chart1.BorderlineWidth = int.Parse(BorderSize.SelectedItem.ToString());
+            }
+        }
+    }
 }

@@ -1,69 +1,67 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for CursorAppearance.
-	/// </summary>
-	public class CursorAppearance : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox SelectionColor;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.ComboBox XLineDashStyle;
-		private System.Windows.Forms.ComboBox XLineSize;
-		private System.Windows.Forms.ComboBox XLineColor;
-		private System.Windows.Forms.ComboBox YLineDashStyle;
-		private System.Windows.Forms.ComboBox YLineSize;
-		private System.Windows.Forms.ComboBox YLineColor;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for CursorAppearance.
+    /// </summary>
+    public class CursorAppearance : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox SelectionColor;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox XLineDashStyle;
+        private System.Windows.Forms.ComboBox XLineSize;
+        private System.Windows.Forms.ComboBox XLineColor;
+        private System.Windows.Forms.ComboBox YLineDashStyle;
+        private System.Windows.Forms.ComboBox YLineSize;
+        private System.Windows.Forms.ComboBox YLineColor;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
 
-		public CursorAppearance()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
-		}
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        public CursorAppearance()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -88,10 +86,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
@@ -100,10 +98,10 @@ namespace ChartSamples
             this.label9.TabIndex = 0;
             this.label9.Text = "This sample demonstrates how to set the appearance properties of axis cursors.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.YLineDashStyle);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.YLineDashStyle);
             this.panel1.Controls.Add(this.YLineSize);
             this.panel1.Controls.Add(this.YLineColor);
             this.panel1.Controls.Add(this.label3);
@@ -121,19 +119,19 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 0;
-            // 
-            // YLineDashStyle
-            // 
-            this.YLineDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // YLineDashStyle
+            //
+           this.YLineDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.YLineDashStyle.Location = new System.Drawing.Point(168, 184);
             this.YLineDashStyle.Name = "YLineDashStyle";
             this.YLineDashStyle.Size = new System.Drawing.Size(120, 22);
             this.YLineDashStyle.TabIndex = 16;
             this.YLineDashStyle.SelectedIndexChanged += new System.EventHandler(this.YControl_SelectedIndexChanged);
-            // 
-            // YLineSize
-            // 
-            this.YLineSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // YLineSize
+            //
+           this.YLineSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.YLineSize.Items.AddRange(new object[] {
             "1",
             "2",
@@ -145,10 +143,10 @@ namespace ChartSamples
             this.YLineSize.Size = new System.Drawing.Size(120, 22);
             this.YLineSize.TabIndex = 14;
             this.YLineSize.SelectedIndexChanged += new System.EventHandler(this.YControl_SelectedIndexChanged);
-            // 
-            // YLineColor
-            // 
-            this.YLineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // YLineColor
+            //
+           this.YLineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.YLineColor.Items.AddRange(new object[] {
             ""});
             this.YLineColor.Location = new System.Drawing.Point(168, 120);
@@ -156,37 +154,37 @@ namespace ChartSamples
             this.YLineColor.Size = new System.Drawing.Size(120, 22);
             this.YLineColor.TabIndex = 12;
             this.YLineColor.SelectedIndexChanged += new System.EventHandler(this.YControl_SelectedIndexChanged);
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(24, 184);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(24, 184);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(144, 24);
             this.label3.TabIndex = 15;
             this.label3.Text = "Y Cursor Line Sty&le:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(24, 152);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(24, 152);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(144, 24);
             this.label4.TabIndex = 13;
             this.label4.Text = "Y Cursor Line S&ize:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(24, 120);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(24, 120);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(144, 24);
             this.label5.TabIndex = 11;
             this.label5.Text = "Y Cursor Line C&olor:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // SelectionColor
-            // 
-            this.SelectionColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // SelectionColor
+            //
+           this.SelectionColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SelectionColor.Items.AddRange(new object[] {
             ""});
             this.SelectionColor.Location = new System.Drawing.Point(168, 232);
@@ -194,28 +192,28 @@ namespace ChartSamples
             this.SelectionColor.Size = new System.Drawing.Size(120, 22);
             this.SelectionColor.TabIndex = 10;
             this.SelectionColor.SelectedIndexChanged += new System.EventHandler(this.SelectionColor_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(24, 232);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(24, 232);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(144, 24);
             this.label2.TabIndex = 9;
             this.label2.Text = "Selection C&olor:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // XLineDashStyle
-            // 
-            this.XLineDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // XLineDashStyle
+            //
+           this.XLineDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.XLineDashStyle.Location = new System.Drawing.Point(168, 72);
             this.XLineDashStyle.Name = "XLineDashStyle";
             this.XLineDashStyle.Size = new System.Drawing.Size(120, 22);
             this.XLineDashStyle.TabIndex = 7;
             this.XLineDashStyle.SelectedIndexChanged += new System.EventHandler(this.XControl_SelectedIndexChanged);
-            // 
-            // XLineSize
-            // 
-            this.XLineSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // XLineSize
+            //
+           this.XLineSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.XLineSize.Items.AddRange(new object[] {
             "1",
             "2",
@@ -227,10 +225,10 @@ namespace ChartSamples
             this.XLineSize.Size = new System.Drawing.Size(120, 22);
             this.XLineSize.TabIndex = 5;
             this.XLineSize.SelectedIndexChanged += new System.EventHandler(this.XControl_SelectedIndexChanged);
-            // 
-            // XLineColor
-            // 
-            this.XLineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // XLineColor
+            //
+           this.XLineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.XLineColor.Items.AddRange(new object[] {
             ""});
             this.XLineColor.Location = new System.Drawing.Point(168, 8);
@@ -238,37 +236,37 @@ namespace ChartSamples
             this.XLineColor.Size = new System.Drawing.Size(120, 22);
             this.XLineColor.TabIndex = 3;
             this.XLineColor.SelectedIndexChanged += new System.EventHandler(this.XControl_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(24, 72);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(24, 72);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(144, 24);
             this.label1.TabIndex = 6;
             this.label1.Text = "X Cursor Line St&yle:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label10
-            // 
-            this.label10.Location = new System.Drawing.Point(24, 40);
+            //
+           // label10
+            //
+           this.label10.Location = new System.Drawing.Point(24, 40);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(144, 24);
             this.label10.TabIndex = 4;
             this.label10.Text = "X Cursor Line &Size:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label12
-            // 
-            this.label12.Location = new System.Drawing.Point(24, 8);
+            //
+           // label12
+            //
+           this.label12.Location = new System.Drawing.Point(24, 8);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(144, 24);
             this.label12.TabIndex = 2;
             this.label12.Text = "X Cursor Line &Color:";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -335,10 +333,10 @@ namespace ChartSamples
             this.Chart1.Series.Add(series1);
             this.Chart1.Size = new System.Drawing.Size(412, 296);
             this.Chart1.TabIndex = 1;
-            // 
-            // label11
-            // 
-            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label11
+            //
+           this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label11.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(24, 352);
@@ -348,10 +346,10 @@ namespace ChartSamples
             this.label11.Text = "Each axis has its own associated cursor. If selection is enabled, the user can se" +
                 "lect and zoom in on the data view by left-clicking and dragging the mouse.";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // CursorAppearance
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // CursorAppearance
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label11);
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
@@ -363,43 +361,41 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void CursorAppearance_Load(object sender, System.EventArgs e)
-		{
-			
-			foreach(string lineName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)))
-			{
-				this.XLineDashStyle.Items.Add(lineName);
-				this.YLineDashStyle.Items.Add(lineName);
-			}
-			this.XLineDashStyle.SelectedIndex = 5;
-			this.YLineDashStyle.SelectedIndex = 5;
+        private void CursorAppearance_Load(object sender, System.EventArgs e)
+        {
+            foreach (string lineName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)))
+            {
+                this.XLineDashStyle.Items.Add(lineName);
+                this.YLineDashStyle.Items.Add(lineName);
+            }
+            this.XLineDashStyle.SelectedIndex = 5;
+            this.YLineDashStyle.SelectedIndex = 5;
 
-			foreach(String colorName in KnownColor.GetNames(typeof(KnownColor)))
-			{
-				this.XLineColor.Items.Add(colorName);
-				this.YLineColor.Items.Add(colorName);
-				this.SelectionColor.Items.Add(colorName);
-			}
-			
-			this.XLineSize.SelectedIndex = 0;
-			this.XLineColor.SelectedIndex = this.XLineColor.Items.IndexOf("Black");
+            foreach (String colorName in KnownColor.GetNames(typeof(KnownColor)))
+            {
+                this.XLineColor.Items.Add(colorName);
+                this.YLineColor.Items.Add(colorName);
+                this.SelectionColor.Items.Add(colorName);
+            }
 
-			this.YLineSize.SelectedIndex = 0;
-			this.YLineColor.SelectedIndex = this.XLineColor.Items.IndexOf("Black");
-			
+            this.XLineSize.SelectedIndex = 0;
+            this.XLineColor.SelectedIndex = this.XLineColor.Items.IndexOf("Black");
 
-			this.SelectionColor.SelectedIndex = this.XLineColor.Items.IndexOf("Highlight");
+            this.YLineSize.SelectedIndex = 0;
+            this.YLineColor.SelectedIndex = this.XLineColor.Items.IndexOf("Black");
+
+            this.SelectionColor.SelectedIndex = this.XLineColor.Items.IndexOf("Highlight");
 
             Axis axisX = Chart1.ChartAreas["Default"].AxisX;
 
             CustomLabel label = null;
 
             label = axisX.CustomLabels.Add(Math.PI - Math.PI / 5, Math.PI + Math.PI / 5, "pi");
-			label.GridTicks = GridTickTypes.All;
+            label.GridTicks = GridTickTypes.All;
 
             label = axisX.CustomLabels.Add(2 * Math.PI - Math.PI / 5, 2 * Math.PI + Math.PI / 5, "2pi");
             label.GridTicks = GridTickTypes.All;
@@ -407,68 +403,60 @@ namespace ChartSamples
             label = axisX.CustomLabels.Add(3 * Math.PI - Math.PI / 5, 3 * Math.PI + Math.PI / 5, "3pi");
             label.GridTicks = GridTickTypes.All;
 
+            double t;
+            for (t = 0; t <= (7 * Math.PI / 2); t += Math.PI / 6)
+            {
+                double ch1 = Math.Sin(t);
+                Chart1.Series["Default"].Points.AddXY(t, ch1);
+            }
 
-			double t;
-			for(t = 0; t <= (7 * Math.PI / 2); t += Math.PI/6)
-			{
-				double ch1 = Math.Sin(t);
-				Chart1.Series["Default"].Points.AddXY(t, ch1);
-			}
+            Chart1.ChartAreas["Default"].CursorX.Position = Math.PI / 2;
+            Chart1.ChartAreas["Default"].CursorY.Position = -1.0;
+        }
 
-			Chart1.ChartAreas["Default"].CursorX.Position = Math.PI / 2;
-			Chart1.ChartAreas["Default"].CursorY.Position = -1.0;
+        private void XControl_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            System.Windows.Forms.DataVisualization.Charting.Cursor cursor = Chart1.ChartAreas["Default"].CursorX;
 
+            if (XLineSize.SelectedIndex >= 0)
+            {
+                cursor.LineWidth = int.Parse(XLineSize.SelectedItem.ToString());
+            }
+            if (XLineDashStyle.SelectedIndex >= 0)
+            {
+                cursor.LineDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), XLineDashStyle.SelectedItem.ToString());
+            }
+            if (XLineColor.SelectedIndex >= 0)
+            {
+                cursor.LineColor = Color.FromName(XLineColor.SelectedItem.ToString());
+            }
+        }
 
-		}
-		
+        private void YControl_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            System.Windows.Forms.DataVisualization.Charting.Cursor cursor = Chart1.ChartAreas["Default"].CursorY;
 
+            if (YLineSize.SelectedIndex >= 0)
+            {
+                cursor.LineWidth = int.Parse(YLineSize.SelectedItem.ToString());
+            }
+            if (YLineDashStyle.SelectedIndex >= 0)
+            {
+                cursor.LineDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), YLineDashStyle.SelectedItem.ToString());
+            }
+            if (YLineColor.SelectedIndex >= 0)
+            {
+                cursor.LineColor = Color.FromName(YLineColor.SelectedItem.ToString());
+            }
+        }
 
-		private void XControl_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			System.Windows.Forms.DataVisualization.Charting.Cursor cursor = Chart1.ChartAreas["Default"].CursorX;
-		
-			if(XLineSize.SelectedIndex >= 0)
-			{
-				cursor.LineWidth = int.Parse(XLineSize.SelectedItem.ToString());
-			}
-			if(XLineDashStyle.SelectedIndex >= 0)
-			{
-				cursor.LineDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), XLineDashStyle.SelectedItem.ToString());
-			}
-			if(XLineColor.SelectedIndex >= 0)
-			{
-				cursor.LineColor = Color.FromName(XLineColor.SelectedItem.ToString());
-			}
-		}
-
-		private void YControl_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			System.Windows.Forms.DataVisualization.Charting.Cursor cursor = Chart1.ChartAreas["Default"].CursorY;
-		
-			if(YLineSize.SelectedIndex >= 0)
-			{
-				cursor.LineWidth = int.Parse(YLineSize.SelectedItem.ToString());
-			}
-			if(YLineDashStyle.SelectedIndex >= 0)
-			{
-				cursor.LineDashStyle = (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), YLineDashStyle.SelectedItem.ToString());
-			}
-			if(YLineColor.SelectedIndex >= 0)
-			{
-				cursor.LineColor = Color.FromName(YLineColor.SelectedItem.ToString());
-			}
-		}
-
-		private void SelectionColor_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			if(SelectionColor.SelectedIndex >= 0)
-			{
-				Chart1.ChartAreas["Default"].CursorX.SelectionColor = Color.FromName(SelectionColor.SelectedItem.ToString());	
-				Chart1.ChartAreas["Default"].CursorY.SelectionColor = Color.FromName(SelectionColor.SelectedItem.ToString());	
-			}
-		
-		}
-
-	
-	}
+        private void SelectionColor_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if (SelectionColor.SelectedIndex >= 0)
+            {
+                Chart1.ChartAreas["Default"].CursorX.SelectionColor = Color.FromName(SelectionColor.SelectedItem.ToString());
+                Chart1.ChartAreas["Default"].CursorY.SelectionColor = Color.FromName(SelectionColor.SelectedItem.ToString());
+            }
+        }
+    }
 }

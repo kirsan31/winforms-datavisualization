@@ -2,8 +2,8 @@
 <SampleConfigs>
 
 <SampleConfig ParentNodeID = "PriceRangeFinanceCharts" Priority = "1">
-  <Title>Gallery</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
+  <Title>Gallery</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
   <ShortBlurb>Price Change Financial Chart Gallery</ShortBlurb>
   <SampleControl>None</SampleControl>
   <InfoPages>
@@ -15,5 +15,4 @@
     <Keyword>Price Change Financial Charts, Gallery</Keyword>
   </Keywords>
 </SampleConfig>
-
 </SampleConfigs>

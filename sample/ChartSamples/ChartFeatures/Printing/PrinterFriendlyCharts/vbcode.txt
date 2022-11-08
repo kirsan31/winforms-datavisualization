@@ -17,14 +17,14 @@ Private Function CreatePrinterFriendlyChart(originalChart As Chart) As Chart
    originalChart.Serializer.Content = SerializationContents.Data
    originalChart.Serializer.SerializableContent += ",*.ChartType,*.Title,*.TitleFont,Chart.Legend,*.Enabled,Chart.ChartAreas,ChartArea.Name"
    originalChart.Serializer.Save(memoryStream)
-   
-   ' Create new chart control and load data from stream
+  
+  ' Create new chart control and load data from stream
    Dim printerChart = New System.Windows.Forms.DataVisualization.Charting.Chart()
    memoryStream.Seek(0, SeekOrigin.Begin)
    printerChart.Serializer.Load(memoryStream)
    memoryStream.Close();
-   
-   ' Loop through all series
+  
+  ' Loop through all series
    Dim pointIndex As Integer = 1
    Dim hatchingValues As Array = [Enum].GetValues(GetType(ChartHatchStyle))
    Dim series As Series
@@ -42,8 +42,8 @@ Private Function CreatePrinterFriendlyChart(originalChart As Chart) As Chart
          End If
       Next point
    Next series
-   
-   Return printerChart
+  
+  Return printerChart
    
 End Function 'CreatePrinterFriendlyChart
 

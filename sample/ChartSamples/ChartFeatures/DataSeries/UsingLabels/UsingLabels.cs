@@ -1,90 +1,87 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AxisAppearance.
-	/// </summary>
-	public class UsingLabels : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.ComboBox AngleList;
-		private System.Windows.Forms.ComboBox FontColorCombo;
-		private System.Windows.Forms.ComboBox FontNameList;
-		private System.Windows.Forms.ComboBox LabelPosition;
-		private System.Windows.Forms.ComboBox FontNameSize;
-		private System.Windows.Forms.Label label13;
-		private System.Windows.Forms.Label label14;
-		private System.Windows.Forms.ComboBox BorderSize;
-		private System.Windows.Forms.ComboBox BorderColor;
-		private System.Windows.Forms.Label label16;
-		private System.Windows.Forms.ComboBox comboBoxBackColor;
-		private System.Windows.Forms.Label label17;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AxisAppearance.
+    /// </summary>
+    public class UsingLabels : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox AngleList;
+        private System.Windows.Forms.ComboBox FontColorCombo;
+        private System.Windows.Forms.ComboBox FontNameList;
+        private System.Windows.Forms.ComboBox LabelPosition;
+        private System.Windows.Forms.ComboBox FontNameSize;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox BorderSize;
+        private System.Windows.Forms.ComboBox BorderColor;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.ComboBox comboBoxBackColor;
+        private System.Windows.Forms.Label label17;
 
-		public UsingLabels()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Initialize Combo boxes
-			this.AngleList.SelectedIndex = 0;
-			this.FontColorCombo.SelectedIndex = 0;
-			this.FontNameList.SelectedIndex = 0;
-			this.LabelPosition.SelectedIndex = 0;
-			this.LabelPosition.SelectedIndex = 0;
-			this.FontNameSize.SelectedIndex = 1;
+        public UsingLabels()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			this.comboBoxBackColor.SelectedIndex = 0;
-			this.BorderColor.SelectedIndex = 0;
-			this.BorderSize.SelectedIndex = 0;
-		}
-	
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            // Initialize Combo boxes
+            this.AngleList.SelectedIndex = 0;
+            this.FontColorCombo.SelectedIndex = 0;
+            this.FontNameList.SelectedIndex = 0;
+            this.LabelPosition.SelectedIndex = 0;
+            this.LabelPosition.SelectedIndex = 0;
+            this.FontNameSize.SelectedIndex = 1;
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+            this.comboBoxBackColor.SelectedIndex = 0;
+            this.BorderColor.SelectedIndex = 0;
+            this.BorderSize.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel2 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
@@ -142,10 +139,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
@@ -154,10 +151,10 @@ namespace ChartSamples
             this.label9.TabIndex = 0;
             this.label9.Text = "This sample shows how to set the font, angle, and color of data point labels.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.comboBoxBackColor);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.comboBoxBackColor);
             this.panel1.Controls.Add(this.label16);
             this.panel1.Controls.Add(this.BorderSize);
             this.panel1.Controls.Add(this.BorderColor);
@@ -184,10 +181,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 3;
-            // 
-            // comboBoxBackColor
-            // 
-            this.comboBoxBackColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBoxBackColor
+            //
+           this.comboBoxBackColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxBackColor.Items.AddRange(new object[] {
             "Transparent",
             "Beige",
@@ -199,19 +196,19 @@ namespace ChartSamples
             this.comboBoxBackColor.Size = new System.Drawing.Size(121, 22);
             this.comboBoxBackColor.TabIndex = 9;
             this.comboBoxBackColor.SelectedIndexChanged += new System.EventHandler(this.BackColor_SelectedIndexChanged);
-            // 
-            // label16
-            // 
-            this.label16.Location = new System.Drawing.Point(64, 136);
+            //
+           // label16
+            //
+           this.label16.Location = new System.Drawing.Point(64, 136);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(96, 23);
             this.label16.TabIndex = 8;
             this.label16.Text = "&Back Color:";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // BorderSize
-            // 
-            this.BorderSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // BorderSize
+            //
+           this.BorderSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BorderSize.Items.AddRange(new object[] {
             "1",
             "2",
@@ -221,10 +218,10 @@ namespace ChartSamples
             this.BorderSize.Size = new System.Drawing.Size(121, 22);
             this.BorderSize.TabIndex = 15;
             this.BorderSize.SelectedIndexChanged += new System.EventHandler(this.BorderSize_SelectedIndexChanged);
-            // 
-            // BorderColor
-            // 
-            this.BorderColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // BorderColor
+            //
+           this.BorderColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BorderColor.Items.AddRange(new object[] {
             "Transparent",
             "Black",
@@ -236,28 +233,28 @@ namespace ChartSamples
             this.BorderColor.Size = new System.Drawing.Size(121, 22);
             this.BorderColor.TabIndex = 13;
             this.BorderColor.SelectedIndexChanged += new System.EventHandler(this.BorderColor_SelectedIndexChanged);
-            // 
-            // label13
-            // 
-            this.label13.Location = new System.Drawing.Point(64, 232);
+            //
+           // label13
+            //
+           this.label13.Location = new System.Drawing.Point(64, 232);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(100, 23);
             this.label13.TabIndex = 14;
             this.label13.Text = "Border &Size:";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label14
-            // 
-            this.label14.Location = new System.Drawing.Point(64, 200);
+            //
+           // label14
+            //
+           this.label14.Location = new System.Drawing.Point(64, 200);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(100, 23);
             this.label14.TabIndex = 12;
             this.label14.Text = "Bo&rder Color:";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // AngleList
-            // 
-            this.AngleList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // AngleList
+            //
+           this.AngleList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.AngleList.Items.AddRange(new object[] {
             "0",
             "30",
@@ -273,10 +270,10 @@ namespace ChartSamples
             this.AngleList.Size = new System.Drawing.Size(121, 22);
             this.AngleList.TabIndex = 11;
             this.AngleList.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // FontColorCombo
-            // 
-            this.FontColorCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // FontColorCombo
+            //
+           this.FontColorCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.FontColorCombo.Items.AddRange(new object[] {
             "Black",
             "Blue",
@@ -289,10 +286,10 @@ namespace ChartSamples
             this.FontColorCombo.Size = new System.Drawing.Size(121, 22);
             this.FontColorCombo.TabIndex = 7;
             this.FontColorCombo.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // FontNameSize
-            // 
-            this.FontNameSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // FontNameSize
+            //
+           this.FontNameSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.FontNameSize.Items.AddRange(new object[] {
             "6",
             "8",
@@ -302,10 +299,10 @@ namespace ChartSamples
             this.FontNameSize.Size = new System.Drawing.Size(121, 22);
             this.FontNameSize.TabIndex = 5;
             this.FontNameSize.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // FontNameList
-            // 
-            this.FontNameList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // FontNameList
+            //
+           this.FontNameList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.FontNameList.Items.AddRange(new object[] {
             "Trebuchet MS",
             "Microsoft Sans Serif",
@@ -316,10 +313,10 @@ namespace ChartSamples
             this.FontNameList.Size = new System.Drawing.Size(121, 22);
             this.FontNameList.TabIndex = 3;
             this.FontNameList.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // LabelPosition
-            // 
-            this.LabelPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // LabelPosition
+            //
+           this.LabelPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LabelPosition.Items.AddRange(new object[] {
             "Top",
             "Bottom",
@@ -331,112 +328,112 @@ namespace ChartSamples
             this.LabelPosition.Size = new System.Drawing.Size(121, 22);
             this.LabelPosition.TabIndex = 1;
             this.LabelPosition.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // label12
-            // 
-            this.label12.Location = new System.Drawing.Point(64, 168);
+            //
+           // label12
+            //
+           this.label12.Location = new System.Drawing.Point(64, 168);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(100, 23);
             this.label12.TabIndex = 10;
             this.label12.Text = "Label &Angle:";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label12.Click += new System.EventHandler(this.label12_Click);
-            // 
-            // label11
-            // 
-            this.label11.Location = new System.Drawing.Point(64, 104);
+            //
+           // label11
+            //
+           this.label11.Location = new System.Drawing.Point(64, 104);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(100, 23);
             this.label11.TabIndex = 6;
             this.label11.Text = "Font &Color:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label10
-            // 
-            this.label10.Location = new System.Drawing.Point(64, 72);
+            //
+           // label10
+            //
+           this.label10.Location = new System.Drawing.Point(64, 72);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(100, 23);
             this.label10.TabIndex = 4;
             this.label10.Text = "F&ont Size:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(64, 40);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(64, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 23);
             this.label2.TabIndex = 2;
             this.label2.Text = "&Font Name:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(64, 8);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(64, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "&Position:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(64, 472);
+            //
+           // label8
+            //
+           this.label8.Location = new System.Drawing.Point(64, 472);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(100, 23);
             this.label8.TabIndex = 7;
             this.label8.Text = "Shadow Offset:";
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(64, 449);
+            //
+           // label7
+            //
+           this.label7.Location = new System.Drawing.Point(64, 449);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(100, 23);
             this.label7.TabIndex = 6;
             this.label7.Text = "Border Style:";
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(64, 403);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(64, 403);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 23);
             this.label6.TabIndex = 19;
             this.label6.Text = "Border Size:";
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(64, 380);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(64, 380);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(100, 23);
             this.label5.TabIndex = 18;
             this.label5.Text = "Border Color:";
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(64, 357);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(64, 357);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(100, 23);
             this.label4.TabIndex = 17;
             this.label4.Text = "Hatch Style:";
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(64, 334);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(64, 334);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 16;
             this.label3.Text = "Gradient:";
-            // 
-            // label15
-            // 
-            this.label15.Location = new System.Drawing.Point(64, 426);
+            //
+           // label15
+            //
+           this.label15.Location = new System.Drawing.Point(64, 426);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(100, 23);
             this.label15.TabIndex = 5;
             this.label15.Text = "Border Size:";
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -580,10 +577,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Chart Control for .NET Framework";
             this.Chart1.Titles.Add(title1);
-            // 
-            // label17
-            // 
-            this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label17
+            //
+           this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label17.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.Location = new System.Drawing.Point(20, 378);
@@ -592,10 +589,10 @@ namespace ChartSamples
             this.label17.TabIndex = 0;
             this.label17.Text = "Note that these properties can be applied to all data points in a series or to a " +
                 "single data point.";
-            // 
-            // UsingLabels
-            // 
-            this.Controls.Add(this.label17);
+            //
+           // UsingLabels
+            //
+           this.Controls.Add(this.label17);
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
@@ -605,77 +602,75 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void Labels()
-		{
-			if(
-				this.AngleList.SelectedItem == null ||
-				this.FontColorCombo.SelectedItem == null ||
-				this.FontNameList.SelectedItem == null ||
-				this.LabelPosition.SelectedItem == null ||
-				this.LabelPosition.SelectedItem == null ||
-				this.FontNameSize.SelectedItem == null ||
-				this.comboBoxBackColor.SelectedItem == null ||
-				this.BorderColor.SelectedItem == null ||
-				this.BorderSize.SelectedItem == null 
-				)
-			{
-				return;
-			}
+        private void Labels()
+        {
+            if (
+                this.AngleList.SelectedItem == null ||
+                this.FontColorCombo.SelectedItem == null ||
+                this.FontNameList.SelectedItem == null ||
+                this.LabelPosition.SelectedItem == null ||
+                this.LabelPosition.SelectedItem == null ||
+                this.FontNameSize.SelectedItem == null ||
+                this.comboBoxBackColor.SelectedItem == null ||
+                this.BorderColor.SelectedItem == null ||
+                this.BorderSize.SelectedItem == null
+                )
+            {
+                return;
+            }
 
-			foreach(Series series in Chart1.Series)
-			{
-
-				// Set labels Position
+            foreach (Series series in Chart1.Series)
+            {
+                // Set labels Position
                 series["LabelStyle"] = LabelPosition.GetItemText(LabelPosition.SelectedItem);
 
-				// Set labels font
+                // Set labels font
                 series.Font = new Font(FontNameList.GetItemText(FontNameList.SelectedItem), int.Parse(FontNameSize.GetItemText(FontNameSize.SelectedItem)), FontStyle.Bold);
 
                 // Set labels angle - smart ables must be disabled to set LabelAngel
                 series.SmartLabelStyle.Enabled = false;
                 series.LabelAngle = int.Parse(AngleList.GetItemText(AngleList.SelectedItem));
 
-				// Set labels color
+                // Set labels color
                 series.LabelForeColor = Color.FromName(FontColorCombo.GetItemText(FontColorCombo.SelectedItem));
 
-				// Set labels background color
+                // Set labels background color
                 series.LabelBackColor = Color.FromName(FontColorCombo.GetItemText(comboBoxBackColor.SelectedItem));
 
-				// Set labels border color
+                // Set labels border color
                 series.LabelBorderColor = Color.FromName(FontColorCombo.GetItemText(BorderColor.SelectedItem));
 
-				// Set labels border width
+                // Set labels border width
                 series.LabelBorderWidth = int.Parse((string)BorderSize.SelectedItem);
-			}
-		}
+            }
+        }
 
-		private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Labels();
-		}
+        private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Labels();
+        }
 
-		private void BackColor_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Labels();
-		}
+        private void BackColor_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Labels();
+        }
 
-		private void BorderColor_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Labels();
-		}
+        private void BorderColor_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Labels();
+        }
 
-		private void BorderSize_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Labels();
-		}
+        private void BorderSize_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Labels();
+        }
 
-		private void label12_Click(object sender, System.EventArgs e)
-		{
-		
-		}
-	}
+        private void label12_Click(object sender, System.EventArgs e)
+        {
+        }
+    }
 }

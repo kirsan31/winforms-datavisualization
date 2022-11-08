@@ -11,11 +11,7 @@
 // Chart Control for .NET Framework
 // Copyright © Microsoft Corporation, all rights reserved
 //===================================================================
-using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.Collections;
 
 namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 {
@@ -27,6 +23,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     public class SixSigma
     {
         #region Members
+
         /// <summary>
         /// sBar holds a value if an schart has been created. sBar is used for a XBAR chart.
         /// </summary>
@@ -47,9 +44,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         private Color myLineColor;
         private Color myForeColor;
         private Font myFont;
-        #endregion
+
+        #endregion Members
 
         #region Properties
+
         /// <summary>
         /// Controls whether the AxisY will have an automatic Maximum set so that the chart will always
         /// contain the UCL annotation. If left to false, it is up to the user to set a maximum AxisY value
@@ -96,9 +95,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             get { return myFont; }
             set { myFont = value; }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Constructors
+
         /// <summary>
         /// Default Constructor.
         /// </summary>
@@ -110,9 +111,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             myForeColor = Color.Red;
             myFont = new Font("Arial", 8);
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Chart Creation Methods
+
         /// <summary>
         /// Creates a C-Chart with lines indicating cBar, UCL and LCL. A C-Chart is a measure of the number of
         /// non-conformities per unit, where unit is a fixed rate.
@@ -554,10 +557,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             float LCL = 0;
 
             //Declare the constants needed for calculations.
-            float[] B3 ={ 0, 0, 0, 0, 0.03F, 0.118F, 0.185F, 0.239F };
-            float[] B4 ={ 3.267F, 2.568F, 2.266F, 2.089F, 1.970F, 1.882F, 1.815F, 1.761F };
-            float[] C4 ={ 0.7979F, 0.8862F, 0.9213F, 0.9400F, 0.9515F, 0.9594F, 0.9650F, 0.9693F };
-            
+            float[] B3 = { 0, 0, 0, 0, 0.03F, 0.118F, 0.185F, 0.239F };
+            float[] B4 = { 3.267F, 2.568F, 2.266F, 2.089F, 1.970F, 1.882F, 1.815F, 1.761F };
+            float[] C4 = { 0.7979F, 0.8862F, 0.9213F, 0.9400F, 0.9515F, 0.9594F, 0.9650F, 0.9693F };
+
             //Calculate sbar which is the center line of the standard deviation of each subgroup.
             for (int i = 0; i < c; i++)
                 sbar += data[i];
@@ -660,9 +663,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             float LCL = 0;
 
             //Declare the constants needed for calculations.
-            float[] D3 ={ 0, 0, 0, 0, 0, 0.076F, 0.136F, 0.184F };
-            float[] D4 ={ 3.267F, 2.574F, 2.282F, 2.114F, 2.004F, 1.924F, 1.864F, 1.816F };
-            float[] D2 ={ 1.128F, 1.693F, 2.059F, 2.326F, 2.534F, 2.704F, 2.847F, 2.970F };
+            float[] D3 = { 0, 0, 0, 0, 0, 0.076F, 0.136F, 0.184F };
+            float[] D4 = { 3.267F, 2.574F, 2.282F, 2.114F, 2.004F, 1.924F, 1.864F, 1.816F };
+            float[] D2 = { 1.128F, 1.693F, 2.059F, 2.326F, 2.534F, 2.704F, 2.847F, 2.970F };
 
             //Calculate rbar which is the center line of the range of each subgroup.
             for (int i = 0; i < c; i++)
@@ -767,7 +770,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             float mrbar = 0;
 
             //Calculate cbar.
-            for (int i = 0; i < c-1; i++)
+            for (int i = 0; i < c - 1; i++)
             {
                 mrbar += (float)System.Math.Abs(data[i + 1] - data[i]);
             }
@@ -809,8 +812,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             float LCL = 0;
 
             //Declare the constants needed for calculations.
-            float[] A2 ={ 1.880F, 1.023F, 0.729F, 0.577F, 0.483F, 0.419F, 0.373F, 0.337F };
-            float[] A3 ={ 2.659F, 1.954F, 1.628F, 1.427F, 1.287F, 1.182F, 1.099F, 1.032F };
+            float[] A2 = { 1.880F, 1.023F, 0.729F, 0.577F, 0.483F, 0.419F, 0.373F, 0.337F };
+            float[] A3 = { 2.659F, 1.954F, 1.628F, 1.427F, 1.287F, 1.182F, 1.099F, 1.032F };
 
             //Calculate xbar, which is the mean of all the subgroup means.
             for (int i = 0; i < c; i++)
@@ -882,20 +885,22 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 addTextAnnotation("LCL", output.ChartAreas[xbarseries.ChartArea].AxisX, output.ChartAreas[xbarseries.ChartArea].AxisY,
                     xbarseries.Points[0].XValue, LCL, output);
 
-                if (mrbar!=0)
+                if (mrbar != 0)
                     addTextAnnotation("MRBAR", output.ChartAreas[xbarseries.ChartArea].AxisX, output.ChartAreas[xbarseries.ChartArea].AxisY,
                         xbarseries.Points[0].XValue, mrbar, output);
             }
 
             //Scale the chart if the user has requested it.
             FitChart(UCL, xbarseries.ChartArea, output);
-            
+
             //Return the series.
             return xbarseries;
         }
-        #endregion
+
+        #endregion Chart Creation Methods
 
         #region Math Methods
+
         /// <summary>
         /// Calculates the mean of an array of numbers.
         /// </summary>
@@ -962,9 +967,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             //Return the standard deviation.
             return (float)System.Math.Sqrt(sumdeviation / (data.Length - 1));
         }
-        #endregion
+
+        #endregion Math Methods
 
         #region Private Methods
+
         /// <summary>
         /// Scales the chart so that the UCL line will always be within the chart.
         /// </summary>
@@ -1047,6 +1054,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             //Add the annotation to the chart.
             output.Annotations.Add(textAnnotation);
         }
-        #endregion
+
+        #endregion Private Methods
     }
 }

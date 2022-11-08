@@ -1,70 +1,67 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for Palettes.
-	/// </summary>
-	public class Palettes : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.ComboBox cb_Palette;
-		private System.Windows.Forms.ComboBox cb_CustomPalette;
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
+    /// <summary>
+    /// Summary description for Palettes.
+    /// </summary>
+    public class Palettes : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ComboBox cb_Palette;
+        private System.Windows.Forms.ComboBox cb_CustomPalette;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
 
-		Random random = new Random();
-		private System.Windows.Forms.RadioButton rb_Palette;
-		private System.Windows.Forms.RadioButton rb_CustomPalette;
+        private Random random = new Random();
+        private System.Windows.Forms.RadioButton rb_Palette;
+        private System.Windows.Forms.RadioButton rb_CustomPalette;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public Palettes()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public Palettes()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			chart2.Series.Clear();
-			FillSeries(chart2, 5, 30);
-			FillSeries(chart2, 20, 40);
-			FillSeries(chart2, 40, 50);
-			FillSeries(chart2, 11, 50);
+            chart2.Series.Clear();
+            FillSeries(chart2, 5, 30);
+            FillSeries(chart2, 20, 40);
+            FillSeries(chart2, 40, 50);
+            FillSeries(chart2, 11, 50);
 
-			this.cb_CustomPalette.SelectedIndex = 0;
-			this.cb_Palette.SelectedIndex = 0;
-		}	
+            this.cb_CustomPalette.SelectedIndex = 0;
+            this.cb_Palette.SelectedIndex = 0;
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = ((System.Windows.Forms.DataVisualization.Charting.ChartArea)(new System.Windows.Forms.DataVisualization.Charting.ChartArea()));
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = ((System.Windows.Forms.DataVisualization.Charting.Legend)(new System.Windows.Forms.DataVisualization.Charting.Legend()));
             System.Windows.Forms.DataVisualization.Charting.Series series1 = ((System.Windows.Forms.DataVisualization.Charting.Series)(new System.Windows.Forms.DataVisualization.Charting.Series()));
@@ -82,10 +79,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart2
-            // 
-            this.chart2.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // chart2
+            //
+           this.chart2.BackColor = System.Drawing.Color.WhiteSmoke;
             this.chart2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart2.BackSecondaryColor = System.Drawing.Color.White;
             this.chart2.BorderlineColor = System.Drawing.Color.Navy;
@@ -230,20 +227,20 @@ namespace ChartSamples
             title1.Position.Y = 5.542373F;
             title1.Text = "Chart Control for .NET Framework";
             this.chart2.Titles.Add(title1);
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 34);
             this.labelSampleComment.TabIndex = 2;
             this.labelSampleComment.Text = "This sample demonstrates how a chart palette can be specified.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.rb_CustomPalette);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.rb_CustomPalette);
             this.panel1.Controls.Add(this.rb_Palette);
             this.panel1.Controls.Add(this.cb_CustomPalette);
             this.panel1.Controls.Add(this.cb_Palette);
@@ -251,20 +248,20 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(312, 288);
             this.panel1.TabIndex = 1;
-            // 
-            // rb_CustomPalette
-            // 
-            this.rb_CustomPalette.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // rb_CustomPalette
+            //
+           this.rb_CustomPalette.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.rb_CustomPalette.Location = new System.Drawing.Point(24, 48);
             this.rb_CustomPalette.Name = "rb_CustomPalette";
             this.rb_CustomPalette.Size = new System.Drawing.Size(136, 24);
             this.rb_CustomPalette.TabIndex = 6;
             this.rb_CustomPalette.Text = "Custom Palette:";
             this.rb_CustomPalette.CheckedChanged += new System.EventHandler(this.rb_CustomPalette_CheckedChanged);
-            // 
-            // rb_Palette
-            // 
-            this.rb_Palette.Checked = true;
+            //
+           // rb_Palette
+            //
+           this.rb_Palette.Checked = true;
             this.rb_Palette.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.rb_Palette.Location = new System.Drawing.Point(24, 16);
             this.rb_Palette.Name = "rb_Palette";
@@ -273,10 +270,10 @@ namespace ChartSamples
             this.rb_Palette.TabStop = true;
             this.rb_Palette.Text = "Standard Palette:";
             this.rb_Palette.CheckedChanged += new System.EventHandler(this.rb_Palette_CheckedChanged);
-            // 
-            // cb_CustomPalette
-            // 
-            this.cb_CustomPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // cb_CustomPalette
+            //
+           this.cb_CustomPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_CustomPalette.Enabled = false;
             this.cb_CustomPalette.Items.AddRange(new object[] {
             "CorporateGold",
@@ -287,10 +284,10 @@ namespace ChartSamples
             this.cb_CustomPalette.Size = new System.Drawing.Size(128, 22);
             this.cb_CustomPalette.TabIndex = 4;
             this.cb_CustomPalette.SelectedIndexChanged += new System.EventHandler(this.cb_CustomPalette_SelectedIndexChanged);
-            // 
-            // cb_Palette
-            // 
-            this.cb_Palette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // cb_Palette
+            //
+           this.cb_Palette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_Palette.Items.AddRange(new object[] {
             "BrightPastel",
             "EarthTones",
@@ -302,10 +299,10 @@ namespace ChartSamples
             this.cb_Palette.Size = new System.Drawing.Size(128, 22);
             this.cb_Palette.TabIndex = 1;
             this.cb_Palette.SelectedIndexChanged += new System.EventHandler(this.cb_Palette_SelectedIndexChanged);
-            // 
-            // Palettes
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // Palettes
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart2);
@@ -316,116 +313,110 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
-
-		}
-		#endregion
-
-		private void cb_CustomPalette_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			UpdateCustomPalette();
-            chart2.Invalidate();
-		}
-
-		public void AddSeries(Chart chart, string seriesName)
-		{
-			Series s = new Series(seriesName);
-			chart.Series.Add(s);
-			chart.Series[seriesName].ChartType = SeriesChartType.Column;
-			chart.Series[seriesName]["DrawingStyle"] = "Emboss";
-		}
-
-		public void GenerateData(Chart chart, string seriesName, int min, int max)
-		{
-			//random 
-			DateTime dateSeries2;
-			for (int pointIndex = 0; pointIndex < 5; pointIndex++)
-			{
-				dateSeries2 = DateTime.Now.AddDays(pointIndex);
-				chart.Series[seriesName].Points.AddXY(dateSeries2, random.Next(min, max));
-			}
-		}
-
-		
-		public void FillSeries(Chart chart, int min, int max)
-		{            
-			// Add series to the chart
-			string seriesName = "Series" + min;
-			this.AddSeries(chart, seriesName);
-
-			chart.Series[seriesName].BorderWidth = 3;
-			chart.Series[seriesName].ShadowOffset = 1;
-
-			// Fill the series with data
-			GenerateData(chart, seriesName, min, max);
-		}
-
-		private void UpdateCustomPalette()
-		{            
-			Color[] colorSet;
-
-            chart2.Palette = ChartColorPalette.None;
-			if (cb_CustomPalette.SelectedItem.ToString() == "CorporateGold")
-			{
-				colorSet = new Color[4] { Color.FromArgb(224, 131, 10), Color.FromArgb(255, 227, 130), Color.FromArgb(251, 197, 65), Color.FromArgb(251, 180, 65) };
-				chart2.PaletteCustomColors = colorSet;
-			}
-
-			else if (cb_CustomPalette.SelectedItem.ToString() == "CorporateBlue")
-			{
-				colorSet = new Color[4] { Color.FromArgb(5, 100, 146), Color.FromArgb(144, 218, 255), Color.FromArgb(149, 193, 254), Color.FromArgb(65, 140, 240) };
-				chart2.PaletteCustomColors = colorSet;
-			}
-
-			else
-			{
-				colorSet = new Color[4] { Color.FromArgb(120, 147, 190), Color.FromArgb(241, 185, 168), Color.FromArgb(128, 184, 209), Color.FromArgb(243, 210, 136) };
-				chart2.PaletteCustomColors = colorSet;
-			}
-		}
-		
-
-		private void UpdatePalette()
-		{
-			chart2.PaletteCustomColors = new Color[0];
-			chart2.Palette = (ChartColorPalette)ChartColorPalette.Parse(typeof(ChartColorPalette), this.cb_Palette.SelectedItem.ToString());
-		}
-
-		private void cb_Palette_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			UpdatePalette();
-			chart2.Invalidate();
-		}
-
-		private void rb_CustomPalette_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateControls();
-			UpdateCustomPalette();
         }
 
-		private void UpdateControls()
-		{			
-			if (this.rb_CustomPalette.Checked) 
-			{
-				this.cb_Palette.Enabled = false;
-				this.cb_CustomPalette.Enabled = true;
-			}
+        #endregion Component Designer generated code
 
-			else 
-			{
-				this.cb_Palette.Enabled = true;
-				this.cb_CustomPalette.Enabled = false;
-			}
-		}
+        private void cb_CustomPalette_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdateCustomPalette();
+            chart2.Invalidate();
+        }
 
-		private void rb_Palette_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateControls();
-			UpdatePalette();
-		}
+        public void AddSeries(Chart chart, string seriesName)
+        {
+            Series s = new Series(seriesName);
+            chart.Series.Add(s);
+            chart.Series[seriesName].ChartType = SeriesChartType.Column;
+            chart.Series[seriesName]["DrawingStyle"] = "Emboss";
+        }
+
+        public void GenerateData(Chart chart, string seriesName, int min, int max)
+        {
+            //random
+           DateTime dateSeries2;
+            for (int pointIndex = 0; pointIndex < 5; pointIndex++)
+            {
+                dateSeries2 = DateTime.Now.AddDays(pointIndex);
+                chart.Series[seriesName].Points.AddXY(dateSeries2, random.Next(min, max));
+            }
+        }
+
+        public void FillSeries(Chart chart, int min, int max)
+        {
+            // Add series to the chart
+            string seriesName = "Series" + min;
+            this.AddSeries(chart, seriesName);
+
+            chart.Series[seriesName].BorderWidth = 3;
+            chart.Series[seriesName].ShadowOffset = 1;
+
+            // Fill the series with data
+            GenerateData(chart, seriesName, min, max);
+        }
+
+        private void UpdateCustomPalette()
+        {
+            Color[] colorSet;
+
+            chart2.Palette = ChartColorPalette.None;
+            if (cb_CustomPalette.SelectedItem.ToString() == "CorporateGold")
+            {
+                colorSet = new Color[4] { Color.FromArgb(224, 131, 10), Color.FromArgb(255, 227, 130), Color.FromArgb(251, 197, 65), Color.FromArgb(251, 180, 65) };
+                chart2.PaletteCustomColors = colorSet;
+            }
+            else if (cb_CustomPalette.SelectedItem.ToString() == "CorporateBlue")
+            {
+                colorSet = new Color[4] { Color.FromArgb(5, 100, 146), Color.FromArgb(144, 218, 255), Color.FromArgb(149, 193, 254), Color.FromArgb(65, 140, 240) };
+                chart2.PaletteCustomColors = colorSet;
+            }
+            else
+            {
+                colorSet = new Color[4] { Color.FromArgb(120, 147, 190), Color.FromArgb(241, 185, 168), Color.FromArgb(128, 184, 209), Color.FromArgb(243, 210, 136) };
+                chart2.PaletteCustomColors = colorSet;
+            }
+        }
+
+        private void UpdatePalette()
+        {
+            chart2.PaletteCustomColors = new Color[0];
+            chart2.Palette = (ChartColorPalette)ChartColorPalette.Parse(typeof(ChartColorPalette), this.cb_Palette.SelectedItem.ToString());
+        }
+
+        private void cb_Palette_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdatePalette();
+            chart2.Invalidate();
+        }
+
+        private void rb_CustomPalette_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateControls();
+            UpdateCustomPalette();
+        }
+
+        private void UpdateControls()
+        {
+            if (this.rb_CustomPalette.Checked)
+            {
+                this.cb_Palette.Enabled = false;
+                this.cb_CustomPalette.Enabled = true;
+            }
+            else
+            {
+                this.cb_Palette.Enabled = true;
+                this.cb_CustomPalette.Enabled = false;
+            }
+        }
+
+        private void rb_Palette_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateControls();
+            UpdatePalette();
+        }
 
         private void Palettes_Load(object sender, EventArgs e)
         {
-
         }
-	}
+    }
 }

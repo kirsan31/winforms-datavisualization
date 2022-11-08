@@ -2,23 +2,19 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Windows forms chart control designer class.
 //
 
-
+using Microsoft.DotNet.DesignTools.Designers;
 using Microsoft.Win32;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Windows.Forms.DataVisualization.Charting;
-using Microsoft.DotNet.DesignTools.Designers;
 
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
-
-
     /// <summary>
     /// Chart windows forms control designer
     /// </summary>
@@ -29,7 +25,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         // Reference to the chart designer
         static internal ChartWinDesigner controlDesigner;
 
-        #endregion
+        #endregion Fields
 
         #region Methods
 
@@ -39,9 +35,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// <param name="component">Component.</param>
         public override void Initialize(IComponent component)
         {
-
-            // remove default verbs from the action list. 
-            // should be called before initialization.
+            // remove default verbs from the action list.
+           // should be called before initialization.
             IServiceContainer svc = component.Site as IServiceContainer;
             //if (svc != null)
             //{
@@ -64,8 +59,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             base.OnMouseDragBegin(x, y, modifierKeys);
             ChartWinDesigner.controlDesigner = this;
         }
-
-
 
         /// <summary>
         /// Set default values for properties of the component.
@@ -118,9 +111,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             if (e.Category == UserPreferenceCategory.Color)
                 Control.Invalidate();
         }
-        
 
-        #endregion
+        #endregion Methods
 
         #region Data Binding
 
@@ -140,7 +132,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 }
             }
         }
-        
+
         /// <summary>
         /// Gets selected data source object.
         /// </summary>
@@ -192,8 +184,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             return selectedDataSource;
         }
 
-        #endregion //DataBinding
-
+        #endregion Data Binding
     }
 }
-

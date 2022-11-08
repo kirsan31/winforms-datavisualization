@@ -1,65 +1,61 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AxisVarLabelsInterval.
-	/// </summary>
-	public class AxisVarLabelsInterval : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.CheckBox checkBox1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
-		private System.Windows.Forms.ComboBox XAxisFormat;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AxisVarLabelsInterval.
+    /// </summary>
+    public class AxisVarLabelsInterval : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
+        private System.Windows.Forms.ComboBox XAxisFormat;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
 
-		public AxisVarLabelsInterval()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();	
-	
-			this.XAxisFormat.SelectedIndex = 0;
-		}		
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        public AxisVarLabelsInterval()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+            this.XAxisFormat.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -127,10 +123,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
@@ -139,10 +135,10 @@ namespace ChartSamples
             this.label9.TabIndex = 0;
             this.label9.Text = "This sample demonstrates how to set variable label intervals.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.XAxisFormat);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.XAxisFormat);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.checkBox1);
             this.panel1.Controls.Add(this.label6);
@@ -154,10 +150,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(280, 296);
             this.panel1.TabIndex = 2;
-            // 
-            // XAxisFormat
-            // 
-            this.XAxisFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // XAxisFormat
+            //
+           this.XAxisFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.XAxisFormat.Items.AddRange(new object[] {
             "Short Date",
             "Full Date",
@@ -167,18 +163,18 @@ namespace ChartSamples
             this.XAxisFormat.Size = new System.Drawing.Size(102, 22);
             this.XAxisFormat.TabIndex = 15;
             this.XAxisFormat.SelectedIndexChanged += new System.EventHandler(this.XAxisFormat_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(24, 52);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(24, 52);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(142, 23);
             this.label1.TabIndex = 14;
             this.label1.Text = "&X Axis Labels Format:";
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.Checked = true;
+            //
+           // checkBox1
+            //
+           this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.Location = new System.Drawing.Point(8, 16);
             this.checkBox1.Name = "checkBox1";
@@ -187,50 +183,50 @@ namespace ChartSamples
             this.checkBox1.TabIndex = 11;
             this.checkBox1.Text = "Variable Label Intervals";
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(64, 403);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(64, 403);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 23);
             this.label6.TabIndex = 10;
             this.label6.Text = "Border Size:";
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(64, 380);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(64, 380);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(100, 23);
             this.label5.TabIndex = 9;
             this.label5.Text = "Border Color:";
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(64, 357);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(64, 357);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(100, 23);
             this.label4.TabIndex = 8;
             this.label4.Text = "Hatch Style:";
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(64, 334);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(64, 334);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 7;
             this.label3.Text = "Gradient:";
-            // 
-            // label15
-            // 
-            this.label15.Location = new System.Drawing.Point(64, 426);
+            //
+           // label15
+            //
+           this.label15.Location = new System.Drawing.Point(64, 426);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(100, 23);
             this.label15.TabIndex = 5;
             this.label15.Text = "Border Size:";
-            // 
-            // chart2
-            // 
-            this.chart2.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // chart2
+            //
+           this.chart2.BackColor = System.Drawing.Color.WhiteSmoke;
             this.chart2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart2.BackSecondaryColor = System.Drawing.Color.White;
             this.chart2.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -333,10 +329,10 @@ namespace ChartSamples
             this.chart2.Series.Add(series1);
             this.chart2.Size = new System.Drawing.Size(412, 296);
             this.chart2.TabIndex = 1;
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label2
+            //
+           this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(16, 368);
@@ -345,10 +341,10 @@ namespace ChartSamples
             this.label2.TabIndex = 3;
             this.label2.Text = resources.GetString("label2.Text");
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // AxisVarLabelsInterval
-            // 
-            this.Controls.Add(this.label2);
+            //
+           // AxisVarLabelsInterval
+            //
+           this.Controls.Add(this.label2);
             this.Controls.Add(this.chart2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
@@ -358,47 +354,47 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void checkBox1_CheckedChanged(object sender, System.EventArgs e)
-		{
-			// variable intervals
-			if (checkBox1.Checked) 
+        private void checkBox1_CheckedChanged(object sender, System.EventArgs e)
+        {
+            // variable intervals
+            if (checkBox1.Checked)
                 this.chart2.ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.VariableCount;
-			
-			else 
-				this.chart2.ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.FixedCount;
+            else
+                this.chart2.ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.FixedCount;
+        }
 
-		}
+        private void XAxisFormat_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            chart2.ChartAreas["Default"].AxisX.LabelStyle.Format = GetDateItem(XAxisFormat.SelectedIndex);
+        }
 
-		private void XAxisFormat_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			chart2.ChartAreas["Default"].AxisX.LabelStyle.Format = GetDateItem(XAxisFormat.SelectedIndex);		
-		}
+        private string GetDateItem(int item)
+        {
+            string format;
+            switch (item)
+            {
+                case 0:
+                    format = "d";
+                    break;
 
-		private string GetDateItem( int item )
-		{
-			string format;
-			switch( item )
-			{
-				case 0:
-					format = "d";
-					break;
-				case 1:
-					format = "D";
-					break;									
-				case 2:
-					format = "ddd,d";
-					break;
-				default: 
-					format = "";
-					break;
-			}
+                case 1:
+                    format = "D";
+                    break;
 
-			return format;
-		}
-		
-	}
+                case 2:
+                    format = "ddd,d";
+                    break;
+
+                default:
+                    format = "";
+                    break;
+            }
+
+            return format;
+        }
+    }
 }

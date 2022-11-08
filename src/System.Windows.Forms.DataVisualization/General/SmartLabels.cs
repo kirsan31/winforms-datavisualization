@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Smart Labels are used to avoid data point's labels 
 //				overlapping. SmartLabelStyle class is exposed from 
@@ -12,8 +11,6 @@
 //              information about labels in a chart area.
 //
 
-
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -38,18 +35,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// No line anchor cap.
         /// </summary>
         None,
+
         /// <summary>
         /// Arrow line anchor cap.
         /// </summary>
         Arrow,
+
         /// <summary>
         /// Diamond line anchor cap.
         /// </summary>
         Diamond,
+
         /// <summary>
         /// Square line anchor cap.
         /// </summary>
         Square,
+
         /// <summary>
         /// Round line anchor cap.
         /// </summary>
@@ -68,10 +69,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Label connected with the marker using just a line.
         /// </summary>
         None,
+
         /// <summary>
         /// Label is undelined and connected with the marker using a line.
         /// </summary>
         Underlined,
+
         /// <summary>
         /// Box is drawn around the label and it's connected with the marker using a line.
         /// </summary>
@@ -90,25 +93,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Labels can be positioned outside of the plotting area.
         /// </summary>
         Yes,
+
         /// <summary>
         /// Labels can not be positioned outside of the plotting area.
         /// </summary>
         No,
+
         /// <summary>
         /// Labels can be partially outside of the plotting area.
         /// </summary>
         Partial
     }
 
-    #endregion
+    #endregion Enumerations
 
     /// <summary>
-    /// SmartLabelStyle class is used to enable and configure the 
-    /// SmartLabelStyle algorithm for data point labels and annotations. 
-    /// In most of the cases it is enough just to enable the algorithm, 
-    /// but this class also contains properties which allow controlling 
-    /// how the labels are moved around to avoid collisions. Visual 
-    /// appearance of callouts can also be set through this class.
+    /// SmartLabelStyle class is used to enable and configure the
+   /// SmartLabelStyle algorithm for data point labels and annotations.
+   /// In most of the cases it is enough just to enable the algorithm,
+   /// but this class also contains properties which allow controlling
+   /// how the labels are moved around to avoid collisions. Visual
+   /// appearance of callouts can also be set through this class.
     /// </summary>
     [
     DefaultProperty("Enabled"),
@@ -161,7 +166,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Label callout line anchor cap.
         private LineAnchorCapStyle _calloutLineAnchorCapStyle = LineAnchorCapStyle.Arrow;
 
-        #endregion
+        #endregion Fields
 
         #region Constructors and initialization
 
@@ -182,7 +187,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.chartElement = chartElement;
         }
 
-        #endregion
+        #endregion Constructors and initialization
 
         #region Properties
 
@@ -491,7 +496,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Methods
 
@@ -506,25 +511,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     ((Series)chartElement).Invalidate(false, false);
                 }
-
                 else if (chartElement is Annotation)
                 {
                     ((Annotation)chartElement).Invalidate();
                 }
-
             }
         }
 
-        #endregion
+        #endregion Methods
     }
 
     /// <summary>
-    /// SmartLabelStyle class implements the SmartLabelStyle algorithm for the 
-    /// data series points. It keeps track of all labels drawn and 
-    /// detects their collisions. When labels collision is detected 
-    /// the algorithm tries to resolve it by repositioning the labels. 
-    /// If label can not be repositioned it maybe hidden depending on 
-    /// the current settings.
+    /// SmartLabelStyle class implements the SmartLabelStyle algorithm for the
+   /// data series points. It keeps track of all labels drawn and
+   /// detects their collisions. When labels collision is detected
+   /// the algorithm tries to resolve it by repositioning the labels.
+   /// If label can not be repositioned it maybe hidden depending on
+   /// the current settings.
     /// </summary>
     [
     SRDescription("DescriptionAttributeSmartLabels_SmartLabels"),
@@ -542,7 +545,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Number of positions in array for the markers
         internal int markersCount;
 
-        #endregion
+        #endregion Fields
 
         #region Constructors and initialization
 
@@ -553,7 +556,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
         }
 
-        #endregion
+        #endregion Constructors and initialization
 
         #region Methods
 
@@ -637,7 +640,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check if SmartLabelStyle are enabled
             if (smartLabelStyle.Enabled)
             {
-
                 // Add series markers positions to avoid their overlapping
                 bool rememberMarkersCount = this.smartLabelsPositions.Count == 0;
                 AddMarkersPosition(common, area);
@@ -673,8 +675,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         ref labelAlignment,
                         checkCalloutLineOverlapping);
 
-                    // Draw label callout if label was moved away or 
-                    // it's displayed in the corners of the marker
+                    // Draw label callout if label was moved away or
+                   // it's displayed in the corners of the marker
                     if (labelMovedAway ||
                         labelAlignment == LabelAlignmentStyles.BottomLeft ||
                         labelAlignment == LabelAlignmentStyles.BottomRight ||
@@ -705,7 +707,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Return label position
             return labelPosition;
         }
-
 
         /// <summary>
         /// Process single SmartLabelStyle by adjusting it's position in case of collision.
@@ -838,7 +839,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 labelPosition = PointF.Empty;
             }
 
-
             return labelMovedAway && positionFound;
         }
 
@@ -889,7 +889,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Draw box border
                 graph.DrawRectangle(calloutPen, labelRectAbs.X, labelRectAbs.Y, labelRectAbs.Width, labelRectAbs.Height);
             }
-
             else if (smartLabelStyle.CalloutStyle == LabelCalloutStyle.Underlined)
             {
                 if (labelAlignment == LabelAlignmentStyles.Right)
@@ -1011,7 +1010,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 collisionDetected = true;
             }
 
-
             // Check if label is drawn outside of plotting area (collides with axis?).
             if (!collisionDetected && area != null)
             {
@@ -1099,7 +1097,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 allowOneCollision = false;
             }
-
 
             // Loop through all smart label positions
             if (!collisionDetected && this.smartLabelsPositions != null)
@@ -1201,7 +1198,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     return true;
                 }
                 return false;
-
             }
 
             // Check if line completly outside rectangle
@@ -1285,8 +1281,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
 
-
-
                 // Make sure labels do not intersect with scale breaks
                 foreach (Axis currentAxis in area.Axes)
                 {
@@ -1308,12 +1302,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                             // Add label position into the list
                             this.smartLabelsPositions.Add(breakPosition);
-
                         }
                     }
                 }
-
-
             }
         }
 
@@ -1439,40 +1430,48 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 case LabelAlignmentStyles.Center:
                     format.Alignment = StringAlignment.Center;
                     break;
+
                 case LabelAlignmentStyles.Bottom:
                     format.Alignment = StringAlignment.Center;
                     position.Y += sizeMarker.Height / 1.75F;
                     position.Y += sizeFont.Height / 2F;
                     break;
+
                 case LabelAlignmentStyles.Top:
                     format.Alignment = StringAlignment.Center;
                     position.Y -= sizeMarker.Height / 1.75F;
                     position.Y -= sizeFont.Height / 2F;
                     break;
+
                 case LabelAlignmentStyles.Left:
                     format.Alignment = StringAlignment.Far;
                     position.X -= sizeMarker.Height / 1.75F;
                     break;
+
                 case LabelAlignmentStyles.TopLeft:
                     format.Alignment = StringAlignment.Far;
                     position.X -= sizeMarker.Height / 1.75F;
                     position.Y -= sizeMarker.Height / 1.75F;
                     position.Y -= sizeFont.Height / 2F;
                     break;
+
                 case LabelAlignmentStyles.BottomLeft:
                     format.Alignment = StringAlignment.Far;
                     position.X -= sizeMarker.Height / 1.75F;
                     position.Y += sizeMarker.Height / 1.75F;
                     position.Y += sizeFont.Height / 2F;
                     break;
+
                 case LabelAlignmentStyles.Right:
                     position.X += sizeMarker.Height / 1.75F;
                     break;
+
                 case LabelAlignmentStyles.TopRight:
                     position.X += sizeMarker.Height / 1.75F;
                     position.Y -= sizeMarker.Height / 1.75F;
                     position.Y -= sizeFont.Height / 2F;
                     break;
+
                 case LabelAlignmentStyles.BottomRight:
                     position.X += sizeMarker.Height / 1.75F;
                     position.Y += sizeMarker.Height / 1.75F;
@@ -1483,12 +1482,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return position;
         }
 
-        #endregion
+        #endregion Methods
     }
 
     /// <summary>
-    /// AnnotationSmartLabel class provides SmartLabelStyle functionality 
-    /// specific to the annotation objects.
+    /// AnnotationSmartLabel class provides SmartLabelStyle functionality
+   /// specific to the annotation objects.
     /// </summary>
     [
     SRDescription("DescriptionAttributeAnnotationSmartLabels_AnnotationSmartLabels"),
@@ -1504,7 +1503,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
         }
 
-        #endregion
+        #endregion Constructors and initialization
 
         #region Methods
 
@@ -1654,6 +1653,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // No callout is drawn for the annotations
         }
 
-        #endregion
+        #endregion Methods
     }
 }

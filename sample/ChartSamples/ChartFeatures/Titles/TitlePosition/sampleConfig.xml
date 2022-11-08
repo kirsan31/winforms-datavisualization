@@ -3,9 +3,9 @@
 <SampleConfig ParentNodeID = "Titles">
   <Title>Explicit Positioning</Title>
   <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Chart Title Explicit Positioning</ShortBlurb> 
-  <SampleControl>TitleCustomPosition</SampleControl> 
-  <InfoPages>
+  <ShortBlurb>Chart Title Explicit Positioning</ShortBlurb>
+ <SampleControl>TitleCustomPosition</SampleControl>
+ <InfoPages>
     <InfoPage Title="Overview">overview.htm</InfoPage>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
@@ -14,6 +14,5 @@
 	<Keyword>Title, Position</Keyword>
 	<Keyword>Position, Title</Keyword>
   </Keywords> 
-
 </SampleConfig>
 </SampleConfigs>

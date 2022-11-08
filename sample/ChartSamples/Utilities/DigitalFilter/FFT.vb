@@ -16,7 +16,6 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Text
 
-
 Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     ''' <summary>
     ''' Helper class which implements the various window functions for determination of the filter
@@ -275,15 +274,15 @@ Namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
             'Switch based on filtertype
             Select Case filterType
-                Case filterType.BandPass
+                Case FilterType.BandPass
                     pe = PI / 2 * (Me.FreqTo - Me.FreqFrom + Me.myBand) / Me.myFS
                     ps = PI / 2 * (Me.FreqFrom + Me.FreqTo) / Me.myFS
 
-                Case filterType.LowPass
+                Case FilterType.LowPass
                     pe = PI * (Me.FreqTo + Me.myBand / 2) / Me.myFS
                     ps = 0.0F
 
-                Case filterType.HighPass
+                Case FilterType.HighPass
                     pe = PI * (1.0F - (Me.FreqFrom - Me.myBand / 2) / Me.myFS)
                     ps = PI
 

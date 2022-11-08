@@ -1,63 +1,58 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AreaChart3D.
-	/// </summary>
-	public class AreaChart3D : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.RadioButton radioButtonArea;
-		private System.Windows.Forms.RadioButton radioButtonSplineArea;
-		private System.Windows.Forms.CheckBox checkBoxShowMargin;
-		private System.Windows.Forms.ComboBox comboBoxTension;
-		private System.Windows.Forms.CheckBox ShowMarkerLines;
-		private System.Windows.Forms.ComboBox LightingType;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Timer timer1;
-		private System.ComponentModel.IContainer components;
+    /// <summary>
+    /// Summary description for AreaChart3D.
+    /// </summary>
+    public class AreaChart3D : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RadioButton radioButtonArea;
+        private System.Windows.Forms.RadioButton radioButtonSplineArea;
+        private System.Windows.Forms.CheckBox checkBoxShowMargin;
+        private System.Windows.Forms.ComboBox comboBoxTension;
+        private System.Windows.Forms.CheckBox ShowMarkerLines;
+        private System.Windows.Forms.ComboBox LightingType;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Timer timer1;
+        private System.ComponentModel.IContainer components;
 
-		public AreaChart3D()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public AreaChart3D()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// TODO: Add any initialization after the InitForm call
+            // TODO: Add any initialization after the InitForm call
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -96,10 +91,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -170,10 +165,10 @@ namespace ChartSamples
             this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(412, 296);
             this.chart1.TabIndex = 1;
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 45);
@@ -183,10 +178,10 @@ namespace ChartSamples
                 "dified.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelSampleComment.Click += new System.EventHandler(this.labelSampleComment_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.LightingType);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.LightingType);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.ShowMarkerLines);
             this.panel1.Controls.Add(this.comboBoxTension);
@@ -198,10 +193,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // LightingType
-            // 
-            this.LightingType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // LightingType
+            //
+           this.LightingType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LightingType.Items.AddRange(new object[] {
             "None",
             "Simplistic",
@@ -211,19 +206,19 @@ namespace ChartSamples
             this.LightingType.Size = new System.Drawing.Size(80, 22);
             this.LightingType.TabIndex = 5;
             this.LightingType.SelectedIndexChanged += new System.EventHandler(this.LightingType_SelectedIndexChanged);
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(61, 112);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(61, 112);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(104, 23);
             this.label3.TabIndex = 4;
             this.label3.Text = "&Lighting:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // ShowMarkerLines
-            // 
-            this.ShowMarkerLines.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // ShowMarkerLines
+            //
+           this.ShowMarkerLines.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ShowMarkerLines.Location = new System.Drawing.Point(14, 176);
             this.ShowMarkerLines.Name = "ShowMarkerLines";
             this.ShowMarkerLines.Size = new System.Drawing.Size(168, 24);
@@ -231,10 +226,10 @@ namespace ChartSamples
             this.ShowMarkerLines.Text = "Show Marker &Lines:";
             this.ShowMarkerLines.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ShowMarkerLines.CheckedChanged += new System.EventHandler(this.ShowMarkerLines_CheckedChanged);
-            // 
-            // comboBoxTension
-            // 
-            this.comboBoxTension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBoxTension
+            //
+           this.comboBoxTension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTension.Items.AddRange(new object[] {
             "1.2",
             "0.8",
@@ -245,20 +240,20 @@ namespace ChartSamples
             this.comboBoxTension.Size = new System.Drawing.Size(80, 22);
             this.comboBoxTension.TabIndex = 3;
             this.comboBoxTension.SelectedIndexChanged += new System.EventHandler(this.comboBoxTension_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(29, 80);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(29, 80);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(136, 23);
             this.label1.TabIndex = 2;
             this.label1.Text = "Spline &Tension:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // checkBoxShowMargin
-            // 
-            this.checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // checkBoxShowMargin
+            //
+           this.checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShowMargin.Location = new System.Drawing.Point(-2, 144);
             this.checkBoxShowMargin.Name = "checkBoxShowMargin";
             this.checkBoxShowMargin.Size = new System.Drawing.Size(184, 24);
@@ -266,10 +261,10 @@ namespace ChartSamples
             this.checkBoxShowMargin.Text = "Show X Axis &Margin:";
             this.checkBoxShowMargin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShowMargin.CheckedChanged += new System.EventHandler(this.checkBoxShowMargin_CheckedChanged);
-            // 
-            // radioButtonSplineArea
-            // 
-            this.radioButtonSplineArea.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // radioButtonSplineArea
+            //
+           this.radioButtonSplineArea.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.radioButtonSplineArea.Location = new System.Drawing.Point(36, 45);
             this.radioButtonSplineArea.Name = "radioButtonSplineArea";
             this.radioButtonSplineArea.Size = new System.Drawing.Size(144, 24);
@@ -277,10 +272,10 @@ namespace ChartSamples
             this.radioButtonSplineArea.Text = "&Spline Area:";
             this.radioButtonSplineArea.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.radioButtonSplineArea.CheckedChanged += new System.EventHandler(this.radioButtonSplineArea_CheckedChanged);
-            // 
-            // radioButtonArea
-            // 
-            this.radioButtonArea.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // radioButtonArea
+            //
+           this.radioButtonArea.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.radioButtonArea.Checked = true;
             this.radioButtonArea.Location = new System.Drawing.Point(36, 16);
             this.radioButtonArea.Name = "radioButtonArea";
@@ -290,15 +285,15 @@ namespace ChartSamples
             this.radioButtonArea.Text = "&Area:";
             this.radioButtonArea.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.radioButtonArea.CheckedChanged += new System.EventHandler(this.radioButtonArea_CheckedChanged);
-            // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
+            //
+           // timer1
+            //
+           this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // AreaChart3D
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // AreaChart3D
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
@@ -309,101 +304,97 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void UpdateChartSettings()
-		{
-			if(radioButtonArea.Checked)
-			{
-				// Set chart type to Area
-				chart1.Series["Series1"].ChartType = SeriesChartType.Area;
-				chart1.Series["Series2"].ChartType = SeriesChartType.Area;
-				chart1.Series["Series1"].DeleteCustomProperty("LineTension");
-				chart1.Series["Series2"].DeleteCustomProperty("LineTension");
-				comboBoxTension.Enabled = false;
-			}
-			else
-			{
-				// Set chart type to SplineArea and set line tension
-				comboBoxTension.Enabled = true;
-				chart1.Series["Series1"].ChartType = SeriesChartType.SplineArea;
-				chart1.Series["Series1"]["LineTension"] = comboBoxTension.Text;
-				chart1.Series["Series2"].ChartType = SeriesChartType.SplineArea;
-				chart1.Series["Series2"]["LineTension"] = comboBoxTension.Text;
-			}
+        private void UpdateChartSettings()
+        {
+            if (radioButtonArea.Checked)
+            {
+                // Set chart type to Area
+                chart1.Series["Series1"].ChartType = SeriesChartType.Area;
+                chart1.Series["Series2"].ChartType = SeriesChartType.Area;
+                chart1.Series["Series1"].DeleteCustomProperty("LineTension");
+                chart1.Series["Series2"].DeleteCustomProperty("LineTension");
+                comboBoxTension.Enabled = false;
+            }
+            else
+            {
+                // Set chart type to SplineArea and set line tension
+                comboBoxTension.Enabled = true;
+                chart1.Series["Series1"].ChartType = SeriesChartType.SplineArea;
+                chart1.Series["Series1"]["LineTension"] = comboBoxTension.Text;
+                chart1.Series["Series2"].ChartType = SeriesChartType.SplineArea;
+                chart1.Series["Series2"]["LineTension"] = comboBoxTension.Text;
+            }
 
-			// Disable/enable X axis margin
-			chart1.ChartAreas["Default"].AxisX.IsMarginVisible = checkBoxShowMargin.Checked;
-			chart1.Series["Series1"]["ShowMarkerLines"] = ShowMarkerLines.Checked.ToString();
-			chart1.Series["Series2"]["ShowMarkerLines"] = ShowMarkerLines.Checked.ToString();
+            // Disable/enable X axis margin
+            chart1.ChartAreas["Default"].AxisX.IsMarginVisible = checkBoxShowMargin.Checked;
+            chart1.Series["Series1"]["ShowMarkerLines"] = ShowMarkerLines.Checked.ToString();
+            chart1.Series["Series2"]["ShowMarkerLines"] = ShowMarkerLines.Checked.ToString();
 
-			// Set area lighting
-			if(LightingType.Text != "")
-				chart1.ChartAreas["Default"].Area3DStyle.LightStyle = (LightStyle)LightStyle.Parse(typeof(LightStyle), LightingType.Text);
-		}
+            // Set area lighting
+            if (LightingType.Text != "")
+                chart1.ChartAreas["Default"].Area3DStyle.LightStyle = (LightStyle)LightStyle.Parse(typeof(LightStyle), LightingType.Text);
+        }
 
-		private void radioButtonArea_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
+        private void radioButtonArea_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void radioButtonSplineArea_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
+        private void radioButtonSplineArea_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void checkBoxShowMargin_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
+        private void checkBoxShowMargin_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void checkBoxShowMarkers_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
+        private void checkBoxShowMarkers_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void comboBoxTension_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();		
-		}
+        private void comboBoxTension_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void AreaChart3D_Load(object sender, System.EventArgs e)
-		{
-			comboBoxTension.SelectedIndex = 1;
-			LightingType.SelectedIndex = 2;
-		}
+        private void AreaChart3D_Load(object sender, System.EventArgs e)
+        {
+            comboBoxTension.SelectedIndex = 1;
+            LightingType.SelectedIndex = 2;
+        }
 
-		private void ShowMarkerLines_CheckedChanged(object sender, System.EventArgs e)
-		{
-			chart1.Series["Series1"]["ShowMarkerLines"] = ShowMarkerLines.Checked.ToString();
-			chart1.Series["Series2"]["ShowMarkerLines"] = ShowMarkerLines.Checked.ToString();
-		}
+        private void ShowMarkerLines_CheckedChanged(object sender, System.EventArgs e)
+        {
+            chart1.Series["Series1"]["ShowMarkerLines"] = ShowMarkerLines.Checked.ToString();
+            chart1.Series["Series2"]["ShowMarkerLines"] = ShowMarkerLines.Checked.ToString();
+        }
 
-		private void LightingType_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();		
-		}
+        private void LightingType_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void timer1_Tick(object sender, System.EventArgs e)
-		{
-			if(chart1.ChartAreas[0].Area3DStyle.Rotation <= 177)
-				chart1.ChartAreas[0].Area3DStyle.Rotation += 3;
-			else
-				chart1.ChartAreas[0].Area3DStyle.Rotation = -180;
-		}
+        private void timer1_Tick(object sender, System.EventArgs e)
+        {
+            if (chart1.ChartAreas[0].Area3DStyle.Rotation <= 177)
+                chart1.ChartAreas[0].Area3DStyle.Rotation += 3;
+            else
+                chart1.ChartAreas[0].Area3DStyle.Rotation = -180;
+        }
 
-		private void label1_Click(object sender, System.EventArgs e)
-		{
-		
-		}
+        private void label1_Click(object sender, System.EventArgs e)
+        {
+        }
 
         private void labelSampleComment_Click(object sender, EventArgs e)
         {
-
         }
-
-
-	}
+    }
 }

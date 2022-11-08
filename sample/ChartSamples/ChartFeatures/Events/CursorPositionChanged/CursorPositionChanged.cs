@@ -1,60 +1,55 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for CursorPositionChanged.
-	/// </summary>
-	public class CursorPositionChanged : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox CursorX;
-		private System.Windows.Forms.Label label2;
+    /// <summary>
+    /// Summary description for CursorPositionChanged.
+    /// </summary>
+    public class CursorPositionChanged : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox CursorX;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox CursorY;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public CursorPositionChanged()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public CursorPositionChanged()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -74,10 +69,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -154,10 +149,10 @@ namespace ChartSamples
             this.chart1.Titles.Add(title1);
             this.chart1.CursorPositionChanging += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.CursorEventArgs>(this.chart1_CursorPositionChanging);
             this.chart1.CursorPositionChanged += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.CursorEventArgs>(this.chart1_CursorPositionChanged);
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 14);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 43);
@@ -165,10 +160,10 @@ namespace ChartSamples
             this.labelSampleComment.Text = "This sample demonstrates how to retrieve the cursor\'s coordinates using the Curso" +
                 "rPositionChanging event.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.CursorY);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.CursorY);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.CursorX);
             this.panel1.Controls.Add(this.label1);
@@ -176,46 +171,46 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 1;
-            // 
-            // CursorY
-            // 
-            this.CursorY.BackColor = System.Drawing.Color.White;
+            //
+           // CursorY
+            //
+           this.CursorY.BackColor = System.Drawing.Color.White;
             this.CursorY.Location = new System.Drawing.Point(168, 40);
             this.CursorY.Name = "CursorY";
             this.CursorY.ReadOnly = true;
             this.CursorY.Size = new System.Drawing.Size(120, 22);
             this.CursorY.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(16, 40);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(16, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(144, 24);
             this.label2.TabIndex = 2;
             this.label2.Text = "&Y Cursor Position:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CursorX
-            // 
-            this.CursorX.BackColor = System.Drawing.Color.White;
+            //
+           // CursorX
+            //
+           this.CursorX.BackColor = System.Drawing.Color.White;
             this.CursorX.Location = new System.Drawing.Point(168, 8);
             this.CursorX.Name = "CursorX";
             this.CursorX.ReadOnly = true;
             this.CursorX.Size = new System.Drawing.Size(120, 22);
             this.CursorX.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(16, 8);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(16, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(144, 24);
             this.label1.TabIndex = 0;
             this.label1.Text = "&X Cursor Position:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CursorPositionChanged
-            // 
-            this.Controls.Add(this.panel1);
+            //
+           // CursorPositionChanged
+            //
+           this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -226,56 +221,55 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void CursorPositionChanged_Load(object sender, System.EventArgs e)
+        {
+            // Fill chart with random data
+            Random random = new Random();
+            for (int pointIndex = 0; pointIndex < 100; pointIndex++)
+            {
+                chart1.Series["Default"].Points.AddY(random.Next(10, 100));
+            }
 
-		private void CursorPositionChanged_Load(object sender, System.EventArgs e)
-		{
-			// Fill chart with random data
-			Random	random = new Random();
-			for(int pointIndex = 0; pointIndex < 100; pointIndex++)
-			{
-				chart1.Series["Default"].Points.AddY(random.Next(10, 100));
-			}
+            // Set Initial Cursor Position
+            SetPosition(chart1.ChartAreas[0].AxisX, chart1.ChartAreas[0].CursorX.Position);
+            SetPosition(chart1.ChartAreas[0].AxisY, chart1.ChartAreas[0].CursorY.Position);
+        }
 
-			// Set Initial Cursor Position
-			SetPosition( chart1.ChartAreas[0].AxisX, chart1.ChartAreas[0].CursorX.Position );
-			SetPosition( chart1.ChartAreas[0].AxisY, chart1.ChartAreas[0].CursorY.Position );
-		}
+        // Cursor Position Changed Event
+        private void chart1_CursorPositionChanged(object sender, System.Windows.Forms.DataVisualization.Charting.CursorEventArgs e)
+        {
+            SetPosition(e.Axis, e.NewPosition);
+        }
 
-		// Cursor Position Changed Event
-		private void chart1_CursorPositionChanged(object sender, System.Windows.Forms.DataVisualization.Charting.CursorEventArgs e)
-		{
-			SetPosition( e.Axis, e.NewPosition );
-		}
+        // Cursor Position Changing Event
+        private void chart1_CursorPositionChanging(object sender, System.Windows.Forms.DataVisualization.Charting.CursorEventArgs e)
+        {
+            SetPosition(e.Axis, e.NewPosition);
+        }
 
-		// Cursor Position Changing Event
-		private void chart1_CursorPositionChanging(object sender, System.Windows.Forms.DataVisualization.Charting.CursorEventArgs e)
-		{
-			SetPosition( e.Axis, e.NewPosition );
-		}
+        // Set Cursor Position to Edit control.
+        private void SetPosition(Axis axis, double position)
+        {
+            if (double.IsNaN(position))
+                return;
 
-		// Set Cursor Position to Edit control.
-		private void SetPosition( Axis axis, double position )
-		{
-			if( double.IsNaN( position ) )
-				return;
+            if (axis.AxisName == AxisName.X)
+            {
+                // Convert Double to DateTime.
+                DateTime dateTimeX = DateTime.FromOADate(position);
 
-			if( axis.AxisName == AxisName.X )
-			{
-				// Convert Double to DateTime.
-				DateTime dateTimeX = DateTime.FromOADate( position );
-						
-				// Set X cursor position to edit Control
-				CursorX.Text = dateTimeX.ToString("ddd, dd MMM");
-			}
-			else
-			{
-				// Set Y cursor position to edit Control
-				CursorY.Text = position.ToString();
-			}
-		}
-	}
+                // Set X cursor position to edit Control
+                CursorX.Text = dateTimeX.ToString("ddd, dd MMM");
+            }
+            else
+            {
+                // Set Y cursor position to edit Control
+                CursorY.Text = position.ToString();
+            }
+        }
+    }
 }

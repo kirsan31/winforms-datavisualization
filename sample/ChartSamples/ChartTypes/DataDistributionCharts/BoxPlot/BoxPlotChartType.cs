@@ -1,64 +1,59 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for BoxPlotChartType.
-	/// </summary>
-	public class BoxPlotChartType : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboBoxPercentiles;
-		private System.Windows.Forms.CheckBox checkBoxShowAverage;
-		private System.Windows.Forms.CheckBox checkBoxShowMedian;
-		private System.Windows.Forms.CheckBox checkBoxShowUnusual;
-		private System.Windows.Forms.Label label5;
+    /// <summary>
+    /// Summary description for BoxPlotChartType.
+    /// </summary>
+    public class BoxPlotChartType : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBoxPercentiles;
+        private System.Windows.Forms.CheckBox checkBoxShowAverage;
+        private System.Windows.Forms.CheckBox checkBoxShowMedian;
+        private System.Windows.Forms.CheckBox checkBoxShowUnusual;
+        private System.Windows.Forms.Label label5;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public BoxPlotChartType()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public BoxPlotChartType()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// TODO: Add any initialization after the InitForm call
+            // TODO: Add any initialization after the InitForm call
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -87,10 +82,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.AntiAliasing = System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles.Graphics;
+            //
+           // chart1
+            //
+           this.chart1.AntiAliasing = System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles.Graphics;
             this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BackSecondaryColor = System.Drawing.Color.White;
@@ -210,20 +205,20 @@ namespace ChartSamples
             this.chart1.Titles.Add(title1);
             this.chart1.Titles.Add(title2);
             this.chart1.PrePaint += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs>(this.chart1_PrePaint);
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 48);
             this.labelSampleComment.TabIndex = 0;
             this.labelSampleComment.Text = "This sample demonstrates how to use a Box Plot chart. ";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.checkBoxShowUnusual);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.checkBoxShowUnusual);
             this.panel1.Controls.Add(this.checkBoxShowMedian);
             this.panel1.Controls.Add(this.checkBoxShowAverage);
             this.panel1.Controls.Add(this.comboBoxPercentiles);
@@ -232,10 +227,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(240, 280);
             this.panel1.TabIndex = 2;
-            // 
-            // checkBoxShowUnusual
-            // 
-            this.checkBoxShowUnusual.Checked = true;
+            //
+           // checkBoxShowUnusual
+            //
+           this.checkBoxShowUnusual.Checked = true;
             this.checkBoxShowUnusual.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxShowUnusual.Location = new System.Drawing.Point(32, 120);
             this.checkBoxShowUnusual.Name = "checkBoxShowUnusual";
@@ -243,10 +238,10 @@ namespace ChartSamples
             this.checkBoxShowUnusual.TabIndex = 4;
             this.checkBoxShowUnusual.Text = "Show &Unusual Points";
             this.checkBoxShowUnusual.CheckedChanged += new System.EventHandler(this.checkBoxShowUnusual_CheckedChanged);
-            // 
-            // checkBoxShowMedian
-            // 
-            this.checkBoxShowMedian.Checked = true;
+            //
+           // checkBoxShowMedian
+            //
+           this.checkBoxShowMedian.Checked = true;
             this.checkBoxShowMedian.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxShowMedian.Location = new System.Drawing.Point(32, 88);
             this.checkBoxShowMedian.Name = "checkBoxShowMedian";
@@ -254,10 +249,10 @@ namespace ChartSamples
             this.checkBoxShowMedian.TabIndex = 3;
             this.checkBoxShowMedian.Text = "Show &Median Line";
             this.checkBoxShowMedian.CheckedChanged += new System.EventHandler(this.checkBoxShowMedian_CheckedChanged);
-            // 
-            // checkBoxShowAverage
-            // 
-            this.checkBoxShowAverage.Checked = true;
+            //
+           // checkBoxShowAverage
+            //
+           this.checkBoxShowAverage.Checked = true;
             this.checkBoxShowAverage.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxShowAverage.Location = new System.Drawing.Point(32, 56);
             this.checkBoxShowAverage.Name = "checkBoxShowAverage";
@@ -265,10 +260,10 @@ namespace ChartSamples
             this.checkBoxShowAverage.TabIndex = 2;
             this.checkBoxShowAverage.Text = "Show &Average Line";
             this.checkBoxShowAverage.CheckedChanged += new System.EventHandler(this.checkBoxShow3D_CheckedChanged);
-            // 
-            // comboBoxPercentiles
-            // 
-            this.comboBoxPercentiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBoxPercentiles
+            //
+           this.comboBoxPercentiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPercentiles.Items.AddRange(new object[] {
             "15/85th Percentile",
             "10/90th Percentile",
@@ -279,19 +274,19 @@ namespace ChartSamples
             this.comboBoxPercentiles.Size = new System.Drawing.Size(168, 22);
             this.comboBoxPercentiles.TabIndex = 1;
             this.comboBoxPercentiles.SelectedIndexChanged += new System.EventHandler(this.comboBoxExploded_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(32, 2);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(32, 2);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(160, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Whiskers &Percentiles:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label5
+            //
+           this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.Font = new System.Drawing.Font("Verdana", 11F);
             this.label5.Location = new System.Drawing.Point(16, 352);
@@ -301,10 +296,10 @@ namespace ChartSamples
             this.label5.Text = "The box and its whiskers can use different percentiles of the data series. Unusua" +
                 "l data points, median and average lines can also be shown or hidden.";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // BoxPlotChartType
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // BoxPlotChartType
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label5);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
@@ -316,136 +311,132 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void UpdateChartSettings()
-		{
-			// Set whiskers percentile
-			int whiskerPercentile = (3 - comboBoxPercentiles.SelectedIndex) * 5;
-			chart1.Series["BoxPlotSeries"]["BoxPlotWhiskerPercentile"] = whiskerPercentile.ToString();
+        private void UpdateChartSettings()
+        {
+            // Set whiskers percentile
+            int whiskerPercentile = (3 - comboBoxPercentiles.SelectedIndex) * 5;
+            chart1.Series["BoxPlotSeries"]["BoxPlotWhiskerPercentile"] = whiskerPercentile.ToString();
 
-			// Show/Hide Average line
-			chart1.Series["BoxPlotSeries"]["BoxPlotShowAverage"] = (checkBoxShowAverage.Checked) ? "true" : "false";
+            // Show/Hide Average line
+            chart1.Series["BoxPlotSeries"]["BoxPlotShowAverage"] = (checkBoxShowAverage.Checked) ? "true" : "false";
 
-			// Show/Hide Median line
-			chart1.Series["BoxPlotSeries"]["BoxPlotShowMedian"] = (checkBoxShowMedian.Checked) ? "true" : "false";
-			
-			// Show/Hide Unusual points
-			chart1.Series["BoxPlotSeries"]["BoxPlotShowUnusualValues"] = (checkBoxShowUnusual.Checked) ? "true" : "false";
-		}
+            // Show/Hide Median line
+            chart1.Series["BoxPlotSeries"]["BoxPlotShowMedian"] = (checkBoxShowMedian.Checked) ? "true" : "false";
 
-		private void PieChartType_Load(object sender, System.EventArgs e)
-		{
-			// Populate series data
-			double[]	yValues = {55.62, 45.54, 73.45, 9.73, 88.42, 45.9, 63.6, 85.1, 67.2, 23.6};
-			chart1.Series["DataSeries"].Points.DataBindY(yValues);
+            // Show/Hide Unusual points
+            chart1.Series["BoxPlotSeries"]["BoxPlotShowUnusualValues"] = (checkBoxShowUnusual.Checked) ? "true" : "false";
+        }
 
-			// Specify data series name for the Box Plot
-			chart1.Series["BoxPlotSeries"]["BoxPlotSeries"] = "DataSeries";
+        private void PieChartType_Load(object sender, System.EventArgs e)
+        {
+            // Populate series data
+            double[] yValues = { 55.62, 45.54, 73.45, 9.73, 88.42, 45.9, 63.6, 85.1, 67.2, 23.6 };
+            chart1.Series["DataSeries"].Points.DataBindY(yValues);
 
-			// Set selection
-			comboBoxPercentiles.SelectedIndex = 1;
+            // Specify data series name for the Box Plot
+            chart1.Series["BoxPlotSeries"]["BoxPlotSeries"] = "DataSeries";
 
-			UpdateChartSettings();	
-		}
+            // Set selection
+            comboBoxPercentiles.SelectedIndex = 1;
 
-		private void comboBoxExploded_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();	
-		}
+            UpdateChartSettings();
+        }
 
-		private void checkBoxShow3D_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();	
-		}
+        private void comboBoxExploded_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void checkBoxShowMedian_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();	
-		}
+        private void checkBoxShow3D_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void checkBoxShowUnusual_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();	
-		}
+        private void checkBoxShowMedian_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void chart1_PrePaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
-		{
-			if(e.ChartElement is Chart)
-			{
-				// Position point chart type series on the points of the box plot to display labels
-				chart1.Series["BoxPlotLabels"].Points[0].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[0];
-				chart1.Series["BoxPlotLabels"].Points[1].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[1];
-				chart1.Series["BoxPlotLabels"].Points[2].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[2];
-				chart1.Series["BoxPlotLabels"].Points[3].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[3];
-				chart1.Series["BoxPlotLabels"].Points[4].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[4];
-				chart1.Series["BoxPlotLabels"].Points[5].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[5];
+        private void checkBoxShowUnusual_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-				chart1.Series["BoxPlotLabels"].Points[6].Label = "";
-				chart1.Series["BoxPlotLabels"].Points[7].Label = "";
-				if(checkBoxShowUnusual.Checked)
-				{
-					if(chart1.Series["BoxPlotSeries"].Points[0].YValues.Length > 6)
-					{
-						chart1.Series["BoxPlotLabels"].Points[6].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[6] - 3;
-						chart1.Series["BoxPlotLabels"].Points[6].Label = "Unusual data point";
-					}
-					if(chart1.Series["BoxPlotSeries"].Points[0].YValues.Length > 8)
-					{
-						chart1.Series["BoxPlotLabels"].Points[7].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[8] + 3;
-						chart1.Series["BoxPlotLabels"].Points[7].Label = "Unusual data point";
-					}
-					else if(chart1.Series["BoxPlotSeries"].Points[0].YValues.Length > 7)
-					{
-						chart1.Series["BoxPlotLabels"].Points[7].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[7] + 3;
-						chart1.Series["BoxPlotLabels"].Points[7].Label = "Unusual data point";
-					}
-				}
-				
+        private void chart1_PrePaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
+        {
+            if (e.ChartElement is Chart)
+            {
+                // Position point chart type series on the points of the box plot to display labels
+                chart1.Series["BoxPlotLabels"].Points[0].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[0];
+                chart1.Series["BoxPlotLabels"].Points[1].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[1];
+                chart1.Series["BoxPlotLabels"].Points[2].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[2];
+                chart1.Series["BoxPlotLabels"].Points[3].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[3];
+                chart1.Series["BoxPlotLabels"].Points[4].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[4];
+                chart1.Series["BoxPlotLabels"].Points[5].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[5];
 
-				// Define labels
-				int whiskerPercentile = (3 - comboBoxPercentiles.SelectedIndex) * 5;
-				chart1.Series["BoxPlotLabels"].Points[0].Label = whiskerPercentile.ToString() + "th Percentile";
-				chart1.Series["BoxPlotLabels"].Points[1].Label = (100 - whiskerPercentile).ToString() + "th Percentile";
-				if(whiskerPercentile == 0)
-				{
-					chart1.Series["BoxPlotLabels"].Points[0].Label = "Minimum";
-					chart1.Series["BoxPlotLabels"].Points[1].Label = "Maximum";
-				}
-				chart1.Series["BoxPlotLabels"].Points[2].Label = "25th Percentile (LQ)";
-				chart1.Series["BoxPlotLabels"].Points[3].Label = "75th Percentile (UQ)";
-				chart1.Series["BoxPlotLabels"].Points[4].Label = (checkBoxShowAverage.Checked) ? "Average/Mean" : "";
-				chart1.Series["BoxPlotLabels"].Points[5].Label = (checkBoxShowMedian.Checked) ? "Median" : "";
+                chart1.Series["BoxPlotLabels"].Points[6].Label = "";
+                chart1.Series["BoxPlotLabels"].Points[7].Label = "";
+                if (checkBoxShowUnusual.Checked)
+                {
+                    if (chart1.Series["BoxPlotSeries"].Points[0].YValues.Length > 6)
+                    {
+                        chart1.Series["BoxPlotLabels"].Points[6].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[6] - 3;
+                        chart1.Series["BoxPlotLabels"].Points[6].Label = "Unusual data point";
+                    }
+                    if (chart1.Series["BoxPlotSeries"].Points[0].YValues.Length > 8)
+                    {
+                        chart1.Series["BoxPlotLabels"].Points[7].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[8] + 3;
+                        chart1.Series["BoxPlotLabels"].Points[7].Label = "Unusual data point";
+                    }
+                    else if (chart1.Series["BoxPlotSeries"].Points[0].YValues.Length > 7)
+                    {
+                        chart1.Series["BoxPlotLabels"].Points[7].YValues[0] = chart1.Series["BoxPlotSeries"].Points[0].YValues[7] + 3;
+                        chart1.Series["BoxPlotLabels"].Points[7].Label = "Unusual data point";
+                    }
+                }
 
-				// Add strip lines
-				chart1.ChartAreas["Data Chart Area"].AxisY.StripLines.Clear();
-				StripLine stripLine = new StripLine();
-				stripLine.BackColor = Color.FromArgb(60, 252, 180, 65);
-				stripLine.IntervalOffset = chart1.Series["BoxPlotLabels"].Points[2].YValues[0];
-				stripLine.StripWidth = chart1.Series["BoxPlotLabels"].Points[3].YValues[0] - stripLine.IntervalOffset;
-				stripLine.Text = "data points\n50% of";
-				stripLine.Font = new Font("Microsoft Sans Serif", 7);
-				stripLine.TextOrientation = TextOrientation.Rotated270;
-                stripLine.TextLineAlignment = StringAlignment.Center;
-                stripLine.TextAlignment = StringAlignment.Near;
-				chart1.ChartAreas["Data Chart Area"].AxisY.StripLines.Add(stripLine);
+                // Define labels
+                int whiskerPercentile = (3 - comboBoxPercentiles.SelectedIndex) * 5;
+                chart1.Series["BoxPlotLabels"].Points[0].Label = whiskerPercentile.ToString() + "th Percentile";
+                chart1.Series["BoxPlotLabels"].Points[1].Label = (100 - whiskerPercentile).ToString() + "th Percentile";
+                if (whiskerPercentile == 0)
+                {
+                    chart1.Series["BoxPlotLabels"].Points[0].Label = "Minimum";
+                    chart1.Series["BoxPlotLabels"].Points[1].Label = "Maximum";
+                }
+                chart1.Series["BoxPlotLabels"].Points[2].Label = "25th Percentile (LQ)";
+                chart1.Series["BoxPlotLabels"].Points[3].Label = "75th Percentile (UQ)";
+                chart1.Series["BoxPlotLabels"].Points[4].Label = (checkBoxShowAverage.Checked) ? "Average/Mean" : "";
+                chart1.Series["BoxPlotLabels"].Points[5].Label = (checkBoxShowMedian.Checked) ? "Median" : "";
 
-				stripLine = new StripLine();
-				stripLine.BackColor = Color.FromArgb(60, 252, 180, 65);
-				stripLine.IntervalOffset = chart1.Series["BoxPlotLabels"].Points[0].YValues[0];
-				stripLine.StripWidth = chart1.Series["BoxPlotLabels"].Points[1].YValues[0] - stripLine.IntervalOffset;
-				stripLine.ForeColor = Color.FromArgb(120, Color.Black);
-                stripLine.Text = (100 - whiskerPercentile * 2).ToString() + "% of data points";
-				stripLine.Font = new Font("Microsoft Sans Serif", 7);
+                // Add strip lines
+                chart1.ChartAreas["Data Chart Area"].AxisY.StripLines.Clear();
+                StripLine stripLine = new StripLine();
+                stripLine.BackColor = Color.FromArgb(60, 252, 180, 65);
+                stripLine.IntervalOffset = chart1.Series["BoxPlotLabels"].Points[2].YValues[0];
+                stripLine.StripWidth = chart1.Series["BoxPlotLabels"].Points[3].YValues[0] - stripLine.IntervalOffset;
+                stripLine.Text = "data points\n50% of";
+                stripLine.Font = new Font("Microsoft Sans Serif", 7);
                 stripLine.TextOrientation = TextOrientation.Rotated270;
                 stripLine.TextLineAlignment = StringAlignment.Center;
-				chart1.ChartAreas["Data Chart Area"].AxisY.StripLines.Add(stripLine);
+                stripLine.TextAlignment = StringAlignment.Near;
+                chart1.ChartAreas["Data Chart Area"].AxisY.StripLines.Add(stripLine);
 
-
-			}
-		}
-
-	}
+                stripLine = new StripLine();
+                stripLine.BackColor = Color.FromArgb(60, 252, 180, 65);
+                stripLine.IntervalOffset = chart1.Series["BoxPlotLabels"].Points[0].YValues[0];
+                stripLine.StripWidth = chart1.Series["BoxPlotLabels"].Points[1].YValues[0] - stripLine.IntervalOffset;
+                stripLine.ForeColor = Color.FromArgb(120, Color.Black);
+                stripLine.Text = (100 - whiskerPercentile * 2).ToString() + "% of data points";
+                stripLine.Font = new Font("Microsoft Sans Serif", 7);
+                stripLine.TextOrientation = TextOrientation.Rotated270;
+                stripLine.TextLineAlignment = StringAlignment.Center;
+                chart1.ChartAreas["Data Chart Area"].AxisY.StripLines.Add(stripLine);
+            }
+        }
+    }
 }

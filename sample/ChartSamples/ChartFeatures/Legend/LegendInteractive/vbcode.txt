@@ -19,15 +19,15 @@ Private Sub chart1_MouseDown(sender As Object, e As System.Windows.Forms.MouseEv
       If TypeOf result.Object Is LegendItem Then
          ' Legend item result
          Dim legendItem As LegendItem = CType(result.Object, LegendItem)
-         
-         ' series item selected
+        
+        ' series item selected
          Dim selectedSeries As Series = CType(legendItem.Tag, Series)
-         
-         If Not (selectedSeries Is Nothing) Then
+        
+        If Not (selectedSeries Is Nothing) Then
             If selectedSeries.Enabled Then
                selectedSeries.Enabled = False
-            
-            Else
+           
+           Else
                selectedSeries.Enabled = True
             End If
          End If

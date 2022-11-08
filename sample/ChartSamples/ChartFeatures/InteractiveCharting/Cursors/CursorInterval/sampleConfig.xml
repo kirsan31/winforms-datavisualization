@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "Cursors">
-  <Title>Cursor Intervals</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Setting Cursor Intervals</ShortBlurb> 
-  <SampleControl>CursorInterval</SampleControl> 
-  <InfoPages>
+  <Title>Cursor Intervals</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Setting Cursor Intervals</ShortBlurb>
+ <SampleControl>CursorInterval</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -13,15 +13,14 @@
     <Keyword>Cursor, Interval</Keyword>
     <Keyword>Interval, Cursor</Keyword>
   </Keywords>
-
 </SampleConfig>
 
 <SampleConfig ParentNodeID = "ChartArea">
-  <Title>Cursor Intervals</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Setting Cursor Intervals</ShortBlurb> 
-  <SampleControl>CursorInterval</SampleControl> 
-  <InfoPages>
+  <Title>Cursor Intervals</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Setting Cursor Intervals</ShortBlurb>
+ <SampleControl>CursorInterval</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -30,5 +29,4 @@
     <Keyword>Interval, Cursor</Keyword>
   </Keywords>
 </SampleConfig>
-
 </SampleConfigs>

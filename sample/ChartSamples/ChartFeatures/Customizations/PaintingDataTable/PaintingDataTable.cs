@@ -1,89 +1,84 @@
-using System;
 using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
-using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for PaintingDataTable.
-	/// </summary>
-	public class PaintingDataTable : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.CheckBox ShowTitle;
-		private System.Windows.Forms.ComboBox FontSize;
-		private System.Windows.Forms.ComboBox BorderColor;
-		private System.Windows.Forms.ComboBox TableColor;
-		private System.Windows.Forms.ComboBox RotateAxisLabel;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.CheckBox DataTable1;
-		private System.Windows.Forms.CheckBox IsPositionedInside;
-		private System.Windows.Forms.CheckBox EnableScrollBar;
+    /// <summary>
+    /// Summary description for PaintingDataTable.
+    /// </summary>
+    public class PaintingDataTable : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox ShowTitle;
+        private System.Windows.Forms.ComboBox FontSize;
+        private System.Windows.Forms.ComboBox BorderColor;
+        private System.Windows.Forms.ComboBox TableColor;
+        private System.Windows.Forms.ComboBox RotateAxisLabel;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox DataTable1;
+        private System.Windows.Forms.CheckBox IsPositionedInside;
+        private System.Windows.Forms.CheckBox EnableScrollBar;
 
-		private ChartDataTableHelper TableHelper = null;
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        private ChartDataTableHelper TableHelper = null;
 
-		public PaintingDataTable()
-		{
-			//
-			// Required for Windows Form Designer support
-			//
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			DataTable1.Checked = true;
-			ShowTitle.Checked = true;
-			FontSize.SelectedIndex = 0;
-			BorderColor.SelectedIndex = 1;
-			TableColor.SelectedIndex = 2;
-			RotateAxisLabel.SelectedIndex = 0;
+        public PaintingDataTable()
+        {
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
 
-			chart1.ChartAreas["Default"].AxisX.TitleFont = new Font("Arial", 8);
-			
-            if(DataTable1.Checked && TableHelper == null)
-			{
-				TableHelper = new ChartDataTableHelper();
-				TableHelper.Initialize(chart1);//, ShowTotals.Checked);
-				TableHelper.TableColor = Color.FromName(this.TableColor.SelectedText);
-				TableHelper.BorderColor = Color.FromName(this.BorderColor.SelectedText);
-			}
+            DataTable1.Checked = true;
+            ShowTitle.Checked = true;
+            FontSize.SelectedIndex = 0;
+            BorderColor.SelectedIndex = 1;
+            TableColor.SelectedIndex = 2;
+            RotateAxisLabel.SelectedIndex = 0;
 
-		}
+            chart1.ChartAreas["Default"].AxisX.TitleFont = new Font("Arial", 8);
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if (components != null) 
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            if (DataTable1.Checked && TableHelper == null)
+            {
+                TableHelper = new ChartDataTableHelper();
+                TableHelper.Initialize(chart1);//, ShowTotals.Checked);
+                TableHelper.TableColor = Color.FromName(this.TableColor.SelectedText);
+                TableHelper.BorderColor = Color.FromName(this.BorderColor.SelectedText);
+            }
+        }
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -130,10 +125,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -224,10 +219,10 @@ namespace ChartSamples
             this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(412, 296);
             this.chart1.TabIndex = 1;
-            // 
-            // ShowTitle
-            // 
-            this.ShowTitle.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // ShowTitle
+            //
+           this.ShowTitle.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ShowTitle.Location = new System.Drawing.Point(5, 37);
             this.ShowTitle.Name = "ShowTitle";
             this.ShowTitle.Size = new System.Drawing.Size(176, 24);
@@ -235,28 +230,28 @@ namespace ChartSamples
             this.ShowTitle.Text = "Show Axis T&itle:";
             this.ShowTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ShowTitle.Click += new System.EventHandler(this.ShowTitle_Click);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(11, 123);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(11, 123);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(152, 23);
             this.label1.TabIndex = 4;
             this.label1.Text = "&Rotate Labels:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(11, 149);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(11, 149);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(152, 23);
             this.label2.TabIndex = 6;
             this.label2.Text = "Title Si&ze:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // RotateAxisLabel
-            // 
-            this.RotateAxisLabel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // RotateAxisLabel
+            //
+           this.RotateAxisLabel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.RotateAxisLabel.Items.AddRange(new object[] {
             "0",
             "30",
@@ -268,28 +263,28 @@ namespace ChartSamples
             this.RotateAxisLabel.Size = new System.Drawing.Size(64, 22);
             this.RotateAxisLabel.TabIndex = 5;
             this.RotateAxisLabel.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(27, 175);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(27, 175);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(136, 23);
             this.label3.TabIndex = 8;
             this.label3.Text = "Table C&olor:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(19, 200);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(19, 200);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(144, 23);
             this.label4.TabIndex = 10;
             this.label4.Text = "Table &Border:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // FontSize
-            // 
-            this.FontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // FontSize
+            //
+           this.FontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.FontSize.Items.AddRange(new object[] {
             "8",
             "10",
@@ -301,10 +296,10 @@ namespace ChartSamples
             this.FontSize.Size = new System.Drawing.Size(64, 22);
             this.FontSize.TabIndex = 7;
             this.FontSize.SelectionChangeCommitted += new System.EventHandler(this.FontSize_SelectionChangeCommitted);
-            // 
-            // TableColor
-            // 
-            this.TableColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // TableColor
+            //
+           this.TableColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.TableColor.Items.AddRange(new object[] {
             "Control",
             "Yellow",
@@ -316,10 +311,10 @@ namespace ChartSamples
             this.TableColor.Size = new System.Drawing.Size(120, 22);
             this.TableColor.TabIndex = 9;
             this.TableColor.SelectedIndexChanged += new System.EventHandler(this.TableColor_SelectedIndexChanged);
-            // 
-            // BorderColor
-            // 
-            this.BorderColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // BorderColor
+            //
+           this.BorderColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BorderColor.Items.AddRange(new object[] {
             "Control",
             "Black",
@@ -333,10 +328,10 @@ namespace ChartSamples
             this.BorderColor.Size = new System.Drawing.Size(121, 22);
             this.BorderColor.TabIndex = 11;
             this.BorderColor.SelectedIndexChanged += new System.EventHandler(this.BorderColor_SelectedIndexChanged);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.EnableScrollBar);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.EnableScrollBar);
             this.panel1.Controls.Add(this.IsPositionedInside);
             this.panel1.Controls.Add(this.DataTable1);
             this.panel1.Controls.Add(this.RotateAxisLabel);
@@ -352,10 +347,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // EnableScrollBar
-            // 
-            this.EnableScrollBar.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // EnableScrollBar
+            //
+           this.EnableScrollBar.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.EnableScrollBar.Checked = true;
             this.EnableScrollBar.CheckState = System.Windows.Forms.CheckState.Checked;
             this.EnableScrollBar.Location = new System.Drawing.Point(5, 66);
@@ -365,10 +360,10 @@ namespace ChartSamples
             this.EnableScrollBar.Text = "Enable &ScrollBar:";
             this.EnableScrollBar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.EnableScrollBar.CheckedChanged += new System.EventHandler(this.EnableScrollBar_CheckedChanged);
-            // 
-            // IsPositionedInside
-            // 
-            this.IsPositionedInside.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // IsPositionedInside
+            //
+           this.IsPositionedInside.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.IsPositionedInside.Location = new System.Drawing.Point(13, 95);
             this.IsPositionedInside.Name = "IsPositionedInside";
             this.IsPositionedInside.Size = new System.Drawing.Size(168, 24);
@@ -376,10 +371,10 @@ namespace ChartSamples
             this.IsPositionedInside.Text = "ScrollBar I&nside:";
             this.IsPositionedInside.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.IsPositionedInside.CheckedChanged += new System.EventHandler(this.IsPositionedInside_CheckedChanged);
-            // 
-            // DataTable1
-            // 
-            this.DataTable1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // DataTable1
+            //
+           this.DataTable1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.DataTable1.Location = new System.Drawing.Point(5, 8);
             this.DataTable1.Name = "DataTable1";
             this.DataTable1.Size = new System.Drawing.Size(176, 24);
@@ -387,10 +382,10 @@ namespace ChartSamples
             this.DataTable1.Text = "Show Data &Table:";
             this.DataTable1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.DataTable1.CheckedChanged += new System.EventHandler(this.DataTable1_CheckedChanged_1);
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 37);
@@ -398,10 +393,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to draw a custom data table using the PrePaint and P" +
                 "ostPaint events.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // PaintingDataTable
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // PaintingDataTable
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label9);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.chart1);
@@ -412,84 +407,73 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Windows Form Designer generated code
 
+        private void PaintingDataTable_Load(object sender, System.EventArgs e)
+        {
+        }
 
-		private void PaintingDataTable_Load(object sender, System.EventArgs e)
-		{
-		
-		}
+        private void FontSize_SelectionChangeCommitted(object sender, System.EventArgs e)
+        {
+            chart1.ChartAreas["Default"].AxisX.TitleFont = new Font("Arial", float.Parse(FontSize.SelectedItem.ToString()));
+        }
 
+        private void TableColor_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            TableHelper.TableColor = Color.FromName(this.TableColor.SelectedItem.ToString());
+            chart1.Invalidate();
+        }
 
-		private void FontSize_SelectionChangeCommitted(object sender, System.EventArgs e)
-		{
-			chart1.ChartAreas["Default"].AxisX.TitleFont = new Font("Arial", float.Parse(FontSize.SelectedItem.ToString()));
-		}
+        private void BorderColor_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            TableHelper.BorderColor = Color.FromName(this.BorderColor.SelectedItem.ToString());
+            chart1.Invalidate();
+        }
 
-		private void TableColor_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			TableHelper.TableColor = Color.FromName(this.TableColor.SelectedItem.ToString());
-			chart1.Invalidate();		
-		}
+        private void comboBox1_SelectionChangeCommitted(object sender, System.EventArgs e)
+        {
+            chart1.ChartAreas["Default"].AxisX.LabelStyle.Angle = int.Parse(RotateAxisLabel.SelectedItem.ToString());
+        }
 
-		private void BorderColor_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			TableHelper.BorderColor = Color.FromName(this.BorderColor.SelectedItem.ToString());
-			chart1.Invalidate();		
-		}
+        private void ShowTitle_Click(object sender, System.EventArgs e)
+        {
+            if (ShowTitle.Checked)
+                chart1.ChartAreas["Default"].AxisX.Title = "This is the X Axis";
+            else
+                chart1.ChartAreas["Default"].AxisX.Title = "";
+        }
 
-		private void comboBox1_SelectionChangeCommitted(object sender, System.EventArgs e)
-		{
-			chart1.ChartAreas["Default"].AxisX.LabelStyle.Angle = int.Parse(RotateAxisLabel.SelectedItem.ToString());
-		}
+        private void DataTable1_CheckedChanged_1(object sender, System.EventArgs e)
+        {
+            if (TableHelper == null)
+            {
+                TableHelper = new ChartDataTableHelper();
+                TableHelper.Initialize(chart1);//, ShowTotals.Checked);
+                TableHelper.TableColor = Color.FromName(this.TableColor.SelectedText);
+                TableHelper.BorderColor = Color.FromName(this.BorderColor.SelectedText);
+            }
 
-		private void ShowTitle_Click(object sender, System.EventArgs e)
-		{
-			if(ShowTitle.Checked)
-				chart1.ChartAreas["Default"].AxisX.Title = "This is the X Axis";
-			else
-				chart1.ChartAreas["Default"].AxisX.Title = "";
-		}
+            if (DataTable1.Checked)
+                TableHelper.AddDataTable("Default");
+            else
+                TableHelper.RemoveDataTable("Default");
+        }
 
+        private void RemoveDataTable(string ChartAreaName)
+        {
+            TableHelper.RemoveDataTable(ChartAreaName);
+        }
 
-		private void DataTable1_CheckedChanged_1(object sender, System.EventArgs e)
-		{
-			if(TableHelper == null)
-			{
-				TableHelper = new ChartDataTableHelper();
-				TableHelper.Initialize(chart1);//, ShowTotals.Checked);
-				TableHelper.TableColor = Color.FromName(this.TableColor.SelectedText);
-				TableHelper.BorderColor = Color.FromName(this.BorderColor.SelectedText);
-			}
+        private void IsPositionedInside_CheckedChanged(object sender, System.EventArgs e)
+        {
+            chart1.ChartAreas[0].AxisX.ScrollBar.IsPositionedInside = IsPositionedInside.Checked;
+        }
 
-			if(DataTable1.Checked)
-				TableHelper.AddDataTable("Default");
-			else
-				TableHelper.RemoveDataTable("Default");
-
-		}
-
-
-		private void RemoveDataTable(string ChartAreaName)
-		{
-			TableHelper.RemoveDataTable(ChartAreaName);
-		}
-
-
-		private void IsPositionedInside_CheckedChanged(object sender, System.EventArgs e)
-		{
-			chart1.ChartAreas[0].AxisX.ScrollBar.IsPositionedInside = IsPositionedInside.Checked;
-		}
-
-		private void EnableScrollBar_CheckedChanged(object sender, System.EventArgs e)
-		{
-			chart1.ChartAreas[0].AxisX.ScrollBar.Enabled = EnableScrollBar.Checked;
-		}
-
-
-	}
+        private void EnableScrollBar_CheckedChanged(object sender, System.EventArgs e)
+        {
+            chart1.ChartAreas[0].AxisX.ScrollBar.Enabled = EnableScrollBar.Checked;
+        }
+    }
 }
-
-

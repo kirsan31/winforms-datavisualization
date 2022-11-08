@@ -1,8 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.Collections;
 using System.Drawing;
 
 namespace System.Windows.Forms.DataVisualization.Charting.Utilities
@@ -26,7 +22,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             //find the slope of series 1's line
             double m1 = (series1_Point2.YValues[0] - series1_Point1.YValues[0])
-                        /(series1_Point2.XValue - series1_Point1.XValue);
+                        / (series1_Point2.XValue - series1_Point1.XValue);
 
             //find the y intercept of series 1's line
             double b1 = series1_Point2.YValues[0] - m1 * series1_Point2.XValue;
@@ -46,12 +42,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             double b2 = series2_Point2.YValues[0] - m2 * series2_Point2.XValue;
 
             //find where the two lines intersect
-            double xIntersection = (b2 - b1) / (m1 - m2);  
-      
+            double xIntersection = (b2 - b1) / (m1 - m2);
+
             //find the max and min X interval of the two line segments
 
-            double xmin=0;
-            double xmax=0;
+            double xmin = 0;
+            double xmax = 0;
             if (series1_Point1.XValue >= series2_Point1.XValue)
             {
                 xmin = series1_Point1.XValue;
@@ -78,7 +74,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 double yIntersection = m1 * xIntersection + b1;
                 return new DataPoint(xIntersection, yIntersection);
             }
-          
+
             return null;
         }
 
@@ -91,9 +87,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         public static DataPoint[] GetAllIntersections(Series series1, Series series2)
         {
             List<DataPoint> intersections = new List<DataPoint>();
-            for(int i=0;i<series1.Points.Count - 1;i++)
+            for (int i = 0; i < series1.Points.Count - 1; i++)
             {
-                for(int j=0;j<series2.Points.Count - 1;j++)
+                for (int j = 0; j < series2.Points.Count - 1; j++)
                 {
                     DataPoint intersection = LineUtils.IsIntersect(
                         series1.Points[i], series1.Points[i + 1],
@@ -116,17 +112,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="endPoint">end X Value</param>
         /// <param name="series">input line</param>
         /// <returns>the filtered line</returns>
-        public static Series PointsInRange(DataPoint startPoint, DataPoint endPoint,Series inputLine)
+        public static Series PointsInRange(DataPoint startPoint, DataPoint endPoint, Series inputLine)
         {
             Series filteredSeries = new Series("Random");
             //programmatically filter
             for (int i = 0; i < inputLine.Points.Count; i++)
-            { 
-                DataPoint dp=inputLine.Points[i].Clone();
-                if(dp.XValue >= startPoint.XValue && dp.XValue <= endPoint.XValue)
+            {
+                DataPoint dp = inputLine.Points[i].Clone();
+                if (dp.XValue >= startPoint.XValue && dp.XValue <= endPoint.XValue)
                     filteredSeries.Points.Add(dp);
 
-                if(dp.XValue > endPoint.XValue)
+                if (dp.XValue > endPoint.XValue)
                     break;
             }
 
@@ -151,8 +147,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         }
 
         /// <summary>
-        /// Get the absolute location of dp 
-        /// </summary>
+        /// Get the absolute location of dp
+       /// </summary>
         /// <param name="cg">for finding the absolute location</param>
         /// <param name="dp"></param>
         /// <returns></returns>

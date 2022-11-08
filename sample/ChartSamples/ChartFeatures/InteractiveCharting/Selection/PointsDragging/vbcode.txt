@@ -7,16 +7,16 @@ Imports System.Windows.Forms.DataVisualization.Charting
 Private Sub Chart1_MouseDown(sender As Object, e As System.Windows.Forms.MouseEventArgs)  Handles Chart1.MouseDown
    ' Call Hit Test Method
    Dim hitResult As HitTestResult = Chart1.HitTest(e.X, e.Y)
-   
-   ' Initialize currently selected data point
+  
+  ' Initialize currently selected data point
    selectedDataPoint = Nothing
    If hitResult.ChartElementType = ChartElementType.DataPoint Then
       selectedDataPoint = CType(hitResult.Object, DataPoint)
-      
-      ' Show point value as label
+     
+     ' Show point value as label
       selectedDataPoint.IsValueShownAsLabel = True
-      
-      ' Set cursor shape
+     
+     ' Set cursor shape
       Chart1.Cursor = Cursors.SizeNS
    End If
 End Sub 'Chart1_MouseDown
@@ -28,23 +28,23 @@ End Sub 'Chart1_MouseDown
 Private Sub Chart1_MouseMove(sender As Object, e As System.Windows.Forms.MouseEventArgs)  Handles Chart1.MouseMove
    ' Check if data point selected
    If Not (selectedDataPoint Is Nothing) Then
-      ' Mouse coordinates should not be outside of the chart 
-      Dim coordinate As Integer = e.Y
+      ' Mouse coordinates should not be outside of the chart
+     Dim coordinate As Integer = e.Y
       If coordinate < 0 Then
          coordinate = 0
       End If
       If coordinate > Chart1.Size.Height - 1 Then
          coordinate = Chart1.Size.Height - 1
-      End If 
-      ' Calculate new Y value from current cursor position
+      End If
+     ' Calculate new Y value from current cursor position
       Dim yValue As Double = Chart1.ChartAreas("Default").AxisY.PixelPositionToValue(coordinate)
       yValue = Math.Min(yValue, Chart1.ChartAreas("Default").AxisY.Maximum)
       yValue = Math.Max(yValue, Chart1.ChartAreas("Default").AxisY.Minimum)
-      
-      ' Update selected point Y value
+     
+     ' Update selected point Y value
       selectedDataPoint.YValues(0) = yValue
-      
-      ' Invalidate chart
+     
+     ' Invalidate chart
       Chart1.Invalidate()
    Else
       ' Set different shape of cursor over the data points
@@ -65,14 +65,14 @@ Private Sub Chart1_MouseUp(sender As Object, e As System.Windows.Forms.MouseEven
    If Not (selectedDataPoint Is Nothing) Then
       ' Hide point label
       selectedDataPoint.IsValueShownAsLabel = False
-      
-      ' reset selected object
+     
+     ' reset selected object
       selectedDataPoint = Nothing
-      
-      ' Invalidate chart
+     
+     ' Invalidate chart
       Chart1.Invalidate()
-      
-      ' Reset cursor style
+     
+     ' Reset cursor style
       Chart1.Cursor = Cursors.Default
    End If
 End Sub 'Chart1_MouseUp

@@ -1,92 +1,88 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AxisAppearance.
-	/// </summary>
-	public class AxisAppearance : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.ComboBox LineColor;
-		private System.Windows.Forms.ComboBox LineDashStyle;
-		private System.Windows.Forms.ComboBox LineWidth;
-		private System.Windows.Forms.ComboBox ArrowStyleCombo;
-		private System.Windows.Forms.CheckBox AxisEnabledCheck;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.TextBox textBoxAxisTooltip;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AxisAppearance.
+    /// </summary>
+    public class AxisAppearance : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.ComboBox LineColor;
+        private System.Windows.Forms.ComboBox LineDashStyle;
+        private System.Windows.Forms.ComboBox LineWidth;
+        private System.Windows.Forms.ComboBox ArrowStyleCombo;
+        private System.Windows.Forms.CheckBox AxisEnabledCheck;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxAxisTooltip;
 
-		public AxisAppearance()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Add Chart Line styles to control.
+        public AxisAppearance()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+
+            // Add Chart Line styles to control.
             foreach (string arrowStyle in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle)))
-			{
-				this.ArrowStyleCombo.Items.Add(arrowStyle);
-			}
+            {
+                this.ArrowStyleCombo.Items.Add(arrowStyle);
+            }
             this.ArrowStyleCombo.SelectedIndex = 0;
 
-			
-			// Add Border styles to control.
-			foreach(string lineName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)))
-			{
-				this.LineDashStyle.Items.Add(lineName);
-			}
-			this.LineDashStyle.SelectedIndex = 5;
+            // Add Border styles to control.
+            foreach (string lineName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)))
+            {
+                this.LineDashStyle.Items.Add(lineName);
+            }
+            this.LineDashStyle.SelectedIndex = 5;
 
-			// Add Colors to controls.
-			foreach(String colorName in KnownColor.GetNames(typeof(KnownColor)))
-			{
-				this.LineColor.Items.Add(colorName);
-			}
+            // Add Colors to controls.
+            foreach (String colorName in KnownColor.GetNames(typeof(KnownColor)))
+            {
+                this.LineColor.Items.Add(colorName);
+            }
 
-			this.LineColor.SelectedIndex = this.LineColor.Items.IndexOf("DarkBlue");
+            this.LineColor.SelectedIndex = this.LineColor.Items.IndexOf("DarkBlue");
 
-			this.LineWidth.SelectedIndex = 1;
+            this.LineWidth.SelectedIndex = 1;
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -123,37 +119,37 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ArrowStyleCombo
-            // 
-            this.ArrowStyleCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // ArrowStyleCombo
+            //
+           this.ArrowStyleCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ArrowStyleCombo.Location = new System.Drawing.Point(168, 128);
             this.ArrowStyleCombo.Name = "ArrowStyleCombo";
             this.ArrowStyleCombo.Size = new System.Drawing.Size(121, 22);
             this.ArrowStyleCombo.TabIndex = 8;
             this.ArrowStyleCombo.SelectedIndexChanged += new System.EventHandler(this.ArrowStyleCombo_SelectedIndexChanged);
-            // 
-            // LineColor
-            // 
-            this.LineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // LineColor
+            //
+           this.LineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LineColor.Location = new System.Drawing.Point(168, 64);
             this.LineColor.Name = "LineColor";
             this.LineColor.Size = new System.Drawing.Size(121, 22);
             this.LineColor.TabIndex = 4;
             this.LineColor.SelectedIndexChanged += new System.EventHandler(this.LineColor_SelectedIndexChanged);
-            // 
-            // LineDashStyle
-            // 
-            this.LineDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // LineDashStyle
+            //
+           this.LineDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LineDashStyle.Location = new System.Drawing.Point(168, 96);
             this.LineDashStyle.Name = "LineDashStyle";
             this.LineDashStyle.Size = new System.Drawing.Size(121, 22);
             this.LineDashStyle.TabIndex = 6;
             this.LineDashStyle.SelectedIndexChanged += new System.EventHandler(this.LineDashStyle_SelectedIndexChanged);
-            // 
-            // LineWidth
-            // 
-            this.LineWidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // LineWidth
+            //
+           this.LineWidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LineWidth.Items.AddRange(new object[] {
             "1",
             "2",
@@ -164,56 +160,56 @@ namespace ChartSamples
             this.LineWidth.Size = new System.Drawing.Size(121, 22);
             this.LineWidth.TabIndex = 2;
             this.LineWidth.SelectedIndexChanged += new System.EventHandler(this.LineWidth_SelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(8, 128);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(8, 128);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(156, 16);
             this.label5.TabIndex = 7;
             this.label5.Text = "&Arrow Style:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(0, 96);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(0, 96);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(164, 16);
             this.label6.TabIndex = 5;
             this.label6.Text = "Axis &Line Style:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(8, 64);
+            //
+           // label7
+            //
+           this.label7.Location = new System.Drawing.Point(8, 64);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(156, 16);
             this.label7.TabIndex = 3;
             this.label7.Text = "Line &Color:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(8, 35);
+            //
+           // label8
+            //
+           this.label8.Location = new System.Drawing.Point(8, 35);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(156, 16);
             this.label8.TabIndex = 1;
             this.label8.Text = "Line &Width:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 34);
             this.label9.TabIndex = 1;
             this.label9.Text = "This sample demonstrates how to set the appearance of axis lines.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.textBoxAxisTooltip);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.textBoxAxisTooltip);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.AxisEnabledCheck);
             this.panel1.Controls.Add(this.LineDashStyle);
@@ -228,29 +224,29 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 296);
             this.panel1.TabIndex = 0;
-            // 
-            // textBoxAxisTooltip
-            // 
-            this.textBoxAxisTooltip.Location = new System.Drawing.Point(168, 160);
+            //
+           // textBoxAxisTooltip
+            //
+           this.textBoxAxisTooltip.Location = new System.Drawing.Point(168, 160);
             this.textBoxAxisTooltip.MaxLength = 15;
             this.textBoxAxisTooltip.Name = "textBoxAxisTooltip";
             this.textBoxAxisTooltip.Size = new System.Drawing.Size(120, 22);
             this.textBoxAxisTooltip.TabIndex = 10;
             this.textBoxAxisTooltip.Text = "Axis tooltip";
             this.textBoxAxisTooltip.TextChanged += new System.EventHandler(this.textBoxAxisTooltip_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(45, 162);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(45, 162);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(120, 16);
             this.label2.TabIndex = 9;
             this.label2.Text = "Axis &Tooltip:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // AxisEnabledCheck
-            // 
-            this.AxisEnabledCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // AxisEnabledCheck
+            //
+           this.AxisEnabledCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.AxisEnabledCheck.Checked = true;
             this.AxisEnabledCheck.CheckState = System.Windows.Forms.CheckState.Checked;
             this.AxisEnabledCheck.Location = new System.Drawing.Point(77, 4);
@@ -260,10 +256,10 @@ namespace ChartSamples
             this.AxisEnabledCheck.Text = "&Visible:";
             this.AxisEnabledCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.AxisEnabledCheck.CheckedChanged += new System.EventHandler(this.Enabled_CheckedChanged);
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -348,10 +344,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Chart Control for .NET Framework";
             this.Chart1.Titles.Add(title1);
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label1
+            //
+           this.label1.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(16, 352);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(702, 64);
@@ -359,10 +355,10 @@ namespace ChartSamples
             this.label1.Text = "Note that each axis can have different visual attributes, including visibility. I" +
                 "n this sample, changes are applied to the secondary Y axis.";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // AxisAppearance
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // AxisAppearance
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
@@ -374,23 +370,23 @@ namespace ChartSamples
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void LineWidth_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Chart1.ChartAreas["Default"].AxisY2.LineWidth = int.Parse(LineWidth.SelectedItem.ToString());
-		}
+        private void LineWidth_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Chart1.ChartAreas["Default"].AxisY2.LineWidth = int.Parse(LineWidth.SelectedItem.ToString());
+        }
 
-		private void LineDashStyle_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Chart1.ChartAreas["Default"].AxisY2.LineDashStyle = 
-				(ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), LineDashStyle.SelectedItem.ToString());
-		
-			LineWidth.Enabled = (LineDashStyle.SelectedIndex != 0);
-			LineColor.Enabled = (LineDashStyle.SelectedIndex != 0);
-		}
+        private void LineDashStyle_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Chart1.ChartAreas["Default"].AxisY2.LineDashStyle =
+                (ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), LineDashStyle.SelectedItem.ToString());
+
+            LineWidth.Enabled = (LineDashStyle.SelectedIndex != 0);
+            LineColor.Enabled = (LineDashStyle.SelectedIndex != 0);
+        }
 
         private AxisArrowStyle FindStyle(string inputStyle)
         {
@@ -401,35 +397,34 @@ namespace ChartSamples
             }
             return AxisArrowStyle.None;
         }
- 
-		private void ArrowStyleCombo_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Chart1.ChartAreas["Default"].AxisY2.ArrowStyle = 
-				FindStyle(ArrowStyleCombo.SelectedItem.ToString());
-		}
 
-		private void LineColor_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Chart1.ChartAreas["Default"].AxisY2.LineColor = Color.FromName(LineColor.SelectedItem.ToString());
-		}
+        private void ArrowStyleCombo_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Chart1.ChartAreas["Default"].AxisY2.ArrowStyle =
+                FindStyle(ArrowStyleCombo.SelectedItem.ToString());
+        }
 
-		private void Enabled_CheckedChanged(object sender, System.EventArgs e)
-		{
-			if(AxisEnabledCheck.Checked)
-				Chart1.ChartAreas["Default"].AxisY2.Enabled = AxisEnabled.True;
-			else
-				Chart1.ChartAreas["Default"].AxisY2.Enabled = AxisEnabled.False;
+        private void LineColor_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Chart1.ChartAreas["Default"].AxisY2.LineColor = Color.FromName(LineColor.SelectedItem.ToString());
+        }
 
-			LineWidth.Enabled = AxisEnabledCheck.Checked;
-			LineDashStyle.Enabled = AxisEnabledCheck.Checked;
-			ArrowStyleCombo.Enabled = AxisEnabledCheck.Checked;
-			LineColor.Enabled = AxisEnabledCheck.Checked;
-		}
+        private void Enabled_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (AxisEnabledCheck.Checked)
+                Chart1.ChartAreas["Default"].AxisY2.Enabled = AxisEnabled.True;
+            else
+                Chart1.ChartAreas["Default"].AxisY2.Enabled = AxisEnabled.False;
 
-		private void textBoxAxisTooltip_TextChanged(object sender, System.EventArgs e)
-		{
-			Chart1.ChartAreas["Default"].AxisY2.ToolTip = this.textBoxAxisTooltip.Text;
-		}
+            LineWidth.Enabled = AxisEnabledCheck.Checked;
+            LineDashStyle.Enabled = AxisEnabledCheck.Checked;
+            ArrowStyleCombo.Enabled = AxisEnabledCheck.Checked;
+            LineColor.Enabled = AxisEnabledCheck.Checked;
+        }
 
-	}
+        private void textBoxAxisTooltip_TextChanged(object sender, System.EventArgs e)
+        {
+            Chart1.ChartAreas["Default"].AxisY2.ToolTip = this.textBoxAxisTooltip.Text;
+        }
+    }
 }

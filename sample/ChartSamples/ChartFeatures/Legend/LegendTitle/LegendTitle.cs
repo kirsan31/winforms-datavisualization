@@ -1,71 +1,68 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for LegendCellColumns.
-	/// </summary>
-	public class LegendTitle : System.Windows.Forms.UserControl
-	{
-		#region Fields
+    /// <summary>
+    /// Summary description for LegendCellColumns.
+    /// </summary>
+    public class LegendTitle : System.Windows.Forms.UserControl
+    {
+        #region Fields
 
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.ComponentModel.Container components = null;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.TextBox tb_Text;
-		private System.Windows.Forms.ComboBox cb_Color;
-		private System.Windows.Forms.ComboBox cb_Separator;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.ComboBox cb_SeparatorColor;
-		private System.Windows.Forms.ComboBox cb_Alignment;
-		private System.Windows.Forms.ComboBox cb_Docking;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.ComponentModel.Container components = null;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox tb_Text;
+        private System.Windows.Forms.ComboBox cb_Color;
+        private System.Windows.Forms.ComboBox cb_Separator;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cb_SeparatorColor;
+        private System.Windows.Forms.ComboBox cb_Alignment;
+        private System.Windows.Forms.ComboBox cb_Docking;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label1;
 
-		#endregion
+        #endregion Fields
 
-		# region Constructor
+        #region Constructor
 
-		public LegendTitle()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
-		}
-		
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        public LegendTitle()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		#endregion
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #endregion Constructor
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -104,10 +101,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 16);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 24);
@@ -115,10 +112,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to set the font and color of the legend\'s title text" +
                 ".";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.cb_Docking);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.cb_Docking);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.cb_Alignment);
             this.panel1.Controls.Add(this.label1);
@@ -134,10 +131,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(320, 296);
             this.panel1.TabIndex = 0;
-            // 
-            // cb_Docking
-            // 
-            this.cb_Docking.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // cb_Docking
+            //
+           this.cb_Docking.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_Docking.Items.AddRange(new object[] {
             "Right",
             "Top",
@@ -148,37 +145,37 @@ namespace ChartSamples
             this.cb_Docking.Size = new System.Drawing.Size(142, 22);
             this.cb_Docking.TabIndex = 5;
             this.cb_Docking.SelectedIndexChanged += new System.EventHandler(this.cb_Docking_SelectedIndexChanged);
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(20, 177);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(20, 177);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(136, 16);
             this.label6.TabIndex = 10;
             this.label6.Text = "Legend Docking:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // cb_Alignment
-            // 
-            this.cb_Alignment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // cb_Alignment
+            //
+           this.cb_Alignment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_Alignment.Location = new System.Drawing.Point(168, 76);
             this.cb_Alignment.Name = "cb_Alignment";
             this.cb_Alignment.Size = new System.Drawing.Size(142, 22);
             this.cb_Alignment.TabIndex = 2;
             this.cb_Alignment.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(54, 77);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(54, 77);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(104, 23);
             this.label1.TabIndex = 8;
             this.label1.Text = "Title Alignment:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // cb_SeparatorColor
-            // 
-            this.cb_SeparatorColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // cb_SeparatorColor
+            //
+           this.cb_SeparatorColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_SeparatorColor.Items.AddRange(new object[] {
             "Black",
             "Blue",
@@ -189,28 +186,28 @@ namespace ChartSamples
             this.cb_SeparatorColor.Size = new System.Drawing.Size(142, 22);
             this.cb_SeparatorColor.TabIndex = 4;
             this.cb_SeparatorColor.SelectedIndexChanged += new System.EventHandler(this.cb_SeparatorColor_SelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(45, 141);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(45, 141);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(112, 24);
             this.label5.TabIndex = 6;
             this.label5.Text = "Separator Color:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // cb_Separator
-            // 
-            this.cb_Separator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // cb_Separator
+            //
+           this.cb_Separator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_Separator.Location = new System.Drawing.Point(168, 108);
             this.cb_Separator.Name = "cb_Separator";
             this.cb_Separator.Size = new System.Drawing.Size(142, 22);
             this.cb_Separator.TabIndex = 3;
             this.cb_Separator.SelectedIndexChanged += new System.EventHandler(this.cb_Separator_SelectedIndexChanged);
-            // 
-            // cb_Color
-            // 
-            this.cb_Color.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // cb_Color
+            //
+           this.cb_Color.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_Color.Items.AddRange(new object[] {
             "Black",
             "Blue",
@@ -221,47 +218,47 @@ namespace ChartSamples
             this.cb_Color.Size = new System.Drawing.Size(142, 22);
             this.cb_Color.TabIndex = 1;
             this.cb_Color.SelectedIndexChanged += new System.EventHandler(this.cb_Color_SelectedIndexChanged);
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(77, 43);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(77, 43);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(80, 23);
             this.label4.TabIndex = 3;
             this.label4.Text = "Title Color:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(53, 109);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(53, 109);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(104, 23);
             this.label3.TabIndex = 2;
             this.label3.Text = "Title Separator:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(77, 9);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(77, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(80, 23);
             this.label2.TabIndex = 1;
             this.label2.Text = "Title Text:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tb_Text
-            // 
-            this.tb_Text.Location = new System.Drawing.Point(168, 8);
+            //
+           // tb_Text
+            //
+           this.tb_Text.Location = new System.Drawing.Point(168, 8);
             this.tb_Text.MaxLength = 25;
             this.tb_Text.Name = "tb_Text";
             this.tb_Text.Size = new System.Drawing.Size(142, 22);
             this.tb_Text.TabIndex = 0;
             this.tb_Text.Text = "Chart\\n Control";
             this.tb_Text.TextChanged += new System.EventHandler(this.tb_Text_TextChanged);
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -386,10 +383,10 @@ namespace ChartSamples
             this.Chart1.Series.Add(series3);
             this.Chart1.Size = new System.Drawing.Size(412, 296);
             this.Chart1.TabIndex = 1;
-            // 
-            // LegendTitle
-            // 
-            this.Controls.Add(this.Chart1);
+            //
+           // LegendTitle
+            //
+           this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -400,85 +397,81 @@ namespace ChartSamples
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void LegendTitle_Load(object sender, System.EventArgs e)
-		{
-			this.tb_Text.Text = @"Chart Control";
-			this.cb_Color.SelectedIndex = 0;
+        private void LegendTitle_Load(object sender, System.EventArgs e)
+        {
+            this.tb_Text.Text = @"Chart Control";
+            this.cb_Color.SelectedIndex = 0;
 
-			foreach(string sepTypes in Enum.GetNames(typeof(LegendSeparatorStyle)))
-			{
-				this.cb_Separator.Items.Add(sepTypes);
-			}
+            foreach (string sepTypes in Enum.GetNames(typeof(LegendSeparatorStyle)))
+            {
+                this.cb_Separator.Items.Add(sepTypes);
+            }
 
-			foreach(string alignmentTypes in Enum.GetNames(typeof(StringAlignment)))
-			{
-				this.cb_Alignment.Items.Add(alignmentTypes);
-			}
+            foreach (string alignmentTypes in Enum.GetNames(typeof(StringAlignment)))
+            {
+                this.cb_Alignment.Items.Add(alignmentTypes);
+            }
 
-			this.cb_Separator.SelectedIndex = 3;
-			this.cb_SeparatorColor.SelectedIndex = 0;
-			this.cb_Alignment.SelectedIndex = 1;
-			this.cb_Docking.SelectedIndex = 2;
-		}
+            this.cb_Separator.SelectedIndex = 3;
+            this.cb_SeparatorColor.SelectedIndex = 0;
+            this.cb_Alignment.SelectedIndex = 1;
+            this.cb_Docking.SelectedIndex = 2;
+        }
 
-		private void cb_Color_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			this.Chart1.Legends["Default"].TitleForeColor = Color.FromName(this.cb_Color.SelectedItem.ToString());
-		}
+        private void cb_Color_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            this.Chart1.Legends["Default"].TitleForeColor = Color.FromName(this.cb_Color.SelectedItem.ToString());
+        }
 
-		private void tb_Text_TextChanged(object sender, System.EventArgs e)
-		{
-			string legendTitleText = this.tb_Text.Text;
-			this.Chart1.Legends["Default"].Title = legendTitleText;
+        private void tb_Text_TextChanged(object sender, System.EventArgs e)
+        {
+            string legendTitleText = this.tb_Text.Text;
+            this.Chart1.Legends["Default"].Title = legendTitleText;
 
-			if (legendTitleText == String.Empty) 
-			{
-				this.cb_Alignment.Enabled = false;
-				this.cb_Separator.Enabled = false;
-				this.cb_SeparatorColor.Enabled = false;
-				this.cb_Color.Enabled = false;
-			}
+            if (legendTitleText == String.Empty)
+            {
+                this.cb_Alignment.Enabled = false;
+                this.cb_Separator.Enabled = false;
+                this.cb_SeparatorColor.Enabled = false;
+                this.cb_Color.Enabled = false;
+            }
+            else
+            {
+                this.cb_Alignment.Enabled = true;
+                this.cb_Separator.Enabled = true;
+                this.cb_SeparatorColor.Enabled = true;
+                this.cb_Color.Enabled = true;
+            }
+        }
 
-			else
-			{
-				this.cb_Alignment.Enabled = true;
-				this.cb_Separator.Enabled = true;
-				this.cb_SeparatorColor.Enabled = true;				
-				this.cb_Color.Enabled = true;
-			}
-		
-			
-		}
+        private void cb_Separator_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            this.Chart1.Legends["Default"].TitleSeparator = (LegendSeparatorStyle)LegendSeparatorStyle.Parse(typeof(LegendSeparatorStyle), this.cb_Separator.SelectedItem.ToString());
+            if (this.cb_Separator.SelectedItem.ToString() == "None")
+            {
+                cb_SeparatorColor.Enabled = false;
+            }
+            else
+                cb_SeparatorColor.Enabled = true;
+        }
 
-		private void cb_Separator_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			this.Chart1.Legends["Default"].TitleSeparator = (LegendSeparatorStyle)LegendSeparatorStyle.Parse(typeof(LegendSeparatorStyle), this.cb_Separator.SelectedItem.ToString());
-			if (this.cb_Separator.SelectedItem.ToString() == "None") 
-			{
-				cb_SeparatorColor.Enabled = false;
-			}
+        private void cb_SeparatorColor_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            this.Chart1.Legends["Default"].TitleSeparatorColor = Color.FromName(this.cb_SeparatorColor.SelectedItem.ToString());
+        }
 
-			else 
-				cb_SeparatorColor.Enabled = true;
-		}
+        private void comboBox1_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            this.Chart1.Legends["Default"].TitleAlignment = (StringAlignment)StringAlignment.Parse(typeof(StringAlignment), this.cb_Alignment.SelectedItem.ToString());
+        }
 
-		private void cb_SeparatorColor_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			this.Chart1.Legends["Default"].TitleSeparatorColor = Color.FromName(this.cb_SeparatorColor.SelectedItem.ToString());		
-		}
-
-		private void comboBox1_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			this.Chart1.Legends["Default"].TitleAlignment = (StringAlignment)StringAlignment.Parse(typeof(StringAlignment), this.cb_Alignment.SelectedItem.ToString());
-		}
-
-		private void cb_Docking_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			this.Chart1.Legends["Default"].Docking = (Docking)Docking.Parse(typeof(Docking), this.cb_Docking.SelectedItem.ToString());
-		}
-	}
+        private void cb_Docking_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            this.Chart1.Legends["Default"].Docking = (Docking)Docking.Parse(typeof(Docking), this.cb_Docking.SelectedItem.ToString());
+        }
+    }
 }

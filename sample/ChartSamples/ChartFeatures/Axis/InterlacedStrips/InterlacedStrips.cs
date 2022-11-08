@@ -1,64 +1,60 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for InterlacedStrips.
-	/// </summary>
-	public class InterlacedStrips : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.ComboBox LineColor;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.CheckBox StripsEnabledCheck;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for InterlacedStrips.
+    /// </summary>
+    public class InterlacedStrips : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ComboBox LineColor;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.CheckBox StripsEnabledCheck;
 
-		public InterlacedStrips()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Add Colors to controls.
-			foreach(String colorName in KnownColor.GetNames(typeof(KnownColor)))
-			{
-				this.LineColor.Items.Add(colorName);
-			}
+        public InterlacedStrips()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		}
+            // Add Colors to controls.
+            foreach (String colorName in KnownColor.GetNames(typeof(KnownColor)))
+            {
+                this.LineColor.Items.Add(colorName);
+            }
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -89,28 +85,28 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // LineColor
-            // 
-            this.LineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // LineColor
+            //
+           this.LineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LineColor.Location = new System.Drawing.Point(168, 37);
             this.LineColor.Name = "LineColor";
             this.LineColor.Size = new System.Drawing.Size(121, 22);
             this.LineColor.TabIndex = 2;
             this.LineColor.SelectedIndexChanged += new System.EventHandler(this.LineColor_SelectedIndexChanged);
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(9, 40);
+            //
+           // label7
+            //
+           this.label7.Location = new System.Drawing.Point(9, 40);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(156, 16);
             this.label7.TabIndex = 1;
             this.label7.Text = "Strip &Color:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(24, 16);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 41);
@@ -118,20 +114,20 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to add interlaced strip lines to an axis, and how to" +
                 " set the appearance of strip lines.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.StripsEnabledCheck);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.StripsEnabledCheck);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.LineColor);
             this.panel1.Location = new System.Drawing.Point(432, 73);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 296);
             this.panel1.TabIndex = 2;
-            // 
-            // StripsEnabledCheck
-            // 
-            this.StripsEnabledCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // StripsEnabledCheck
+            //
+           this.StripsEnabledCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.StripsEnabledCheck.Checked = true;
             this.StripsEnabledCheck.CheckState = System.Windows.Forms.CheckState.Checked;
             this.StripsEnabledCheck.Location = new System.Drawing.Point(8, 8);
@@ -141,10 +137,10 @@ namespace ChartSamples
             this.StripsEnabledCheck.Text = "Show &Strips:";
             this.StripsEnabledCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.StripsEnabledCheck.CheckedChanged += new System.EventHandler(this.Enabled_CheckedChanged);
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -227,10 +223,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Interlaced Strips";
             this.Chart1.Titles.Add(title1);
-            // 
-            // InterlacedStrips
-            // 
-            this.Controls.Add(this.Chart1);
+            //
+           // InterlacedStrips
+            //
+           this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -239,21 +235,19 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void LineColor_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Chart1.ChartAreas["Default"].AxisY.InterlacedColor = Color.FromName(LineColor.SelectedItem.ToString());
-		}
+        private void LineColor_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Chart1.ChartAreas["Default"].AxisY.InterlacedColor = Color.FromName(LineColor.SelectedItem.ToString());
+        }
 
-		private void Enabled_CheckedChanged(object sender, System.EventArgs e)
-		{
-			Chart1.ChartAreas["Default"].AxisY.IsInterlaced = StripsEnabledCheck.Checked;
-			LineColor.Enabled = StripsEnabledCheck.Checked;
-		}
-
-
-	}
+        private void Enabled_CheckedChanged(object sender, System.EventArgs e)
+        {
+            Chart1.ChartAreas["Default"].AxisY.IsInterlaced = StripsEnabledCheck.Checked;
+            LineColor.Enabled = StripsEnabledCheck.Checked;
+        }
+    }
 }

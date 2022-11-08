@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "Annotations" Priority = "100">
-  <Title>Annotation Appearance</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Annotation Appearance</ShortBlurb> 
-  <SampleControl>AnnotationAppearance</SampleControl> 
-  <InfoPages>
+  <Title>Annotation Appearance</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Annotation Appearance</ShortBlurb>
+ <SampleControl>AnnotationAppearance</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -16,5 +16,4 @@
 	<Keyword>Annotations, Fonts</Keyword>
   </Keywords>
 </SampleConfig>
-
 </SampleConfigs>

@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Classes related to the Data Points:
 //				DataPointCollection - data points collection class
@@ -10,7 +9,6 @@
 //				DataPointCustomProperties - data point & series properties
 //				DataPointComparer - used for sorting data points in series
 //
-
 
 using System.Collections;
 using System.Collections.Generic;
@@ -84,7 +82,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         LabelBackColor,
     };
 
-    #endregion
+    #endregion CustomProperties enumeration
 
     /// <summary>
     /// Data points comparer class
@@ -102,7 +100,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Sorting value index
         private readonly int _sortingValueIndex = 1;
 
-        #endregion
+        #endregion Fields
 
         #region Constructors
 
@@ -155,7 +153,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this._sortingOrder = sortOrder;
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Comparing method
 
@@ -164,8 +162,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="x">First data point.</param>
         /// <param name="y">Second data point.</param>
-        /// <returns>If the two values are equal, it returns zero.  If point 1 is greater than point 2, 
-        /// it returns a positive integer; otherwise, it returns a negative integer.
+        /// <returns>If the two values are equal, it returns zero.  If point 1 is greater than point 2,
+       /// it returns a positive integer; otherwise, it returns a negative integer.
         /// </returns>
         public int Compare(DataPoint x, DataPoint y)
         {
@@ -196,7 +194,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return result;
         }
 
-        #endregion
+        #endregion Comparing method
     }
 
     /// <summary>
@@ -212,7 +210,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Reference to the sereies of data points
         internal Series series;
 
-        #endregion
+        #endregion Fields
 
         #region Constructors and Initialization
 
@@ -258,7 +256,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Constructors and Initialization
 
         #region Data point binding, adding and inserting methods
 
@@ -278,8 +276,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         /// <summary>
         /// Parse the input parameter with other point attribute binding rule
-        /// in format: PointProperty=Field[{Format}] [,PointProperty=Field[{Format}]]. 
-        /// For example: "Tooltip=Price{C1},Url=WebSiteName".
+        /// in format: PointProperty=Field[{Format}] [,PointProperty=Field[{Format}]].
+       /// For example: "Tooltip=Price{C1},Url=WebSiteName".
         /// </summary>
         /// <param name="otherFields">Other fields parameter.</param>
         /// <param name="otherAttributeNames">Returns array of attribute names.</param>
@@ -382,8 +380,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     enumerator.Reset();
                 }
-                // Some enumerators may not support Resetting 
-                catch (InvalidOperationException)
+                // Some enumerators may not support Resetting
+               catch (InvalidOperationException)
                 {
                 }
                 catch (NotImplementedException)
@@ -507,9 +505,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             this.Add(newDataPoint);
                         }
                     }
-
                 } while (valueExsist);
-
             }
             finally
             {
@@ -687,11 +683,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             DataPointInit(ref newDataPoint);
                             this.Add(newDataPoint);
                         }
-
                     }
-
                 } while (xValueExsist || yValueExsist);
-
             }
             finally
             {
@@ -828,7 +821,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 emptyValues = true;
                                 xValueObj = 0.0;
                             }
-
                         }
 
                         if (yFieldNames.Length == 0)
@@ -882,9 +874,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             this.Add(newDataPoint);
                         }
                     }
-
                 } while (xValueExsist || yValueExsist);
-
             }
             finally
             {
@@ -999,7 +989,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Justification = "X and Y are cartesian coordinates and well understood")]
         public int AddXY(object xValue, params object[] yValue)
         {
-
             // Auto detect DateTime and String values type
             if (this.series.XValueType == ChartValueType.Auto)
             {
@@ -1101,8 +1090,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Convert enumeration item object from DataRow and DataRowView 
-        /// to the actual value of specified column in row
+        /// Convert enumeration item object from DataRow and DataRowView
+       /// to the actual value of specified column in row
         /// </summary>
         /// <param name="item">Enumeration item.</param>
         /// <param name="fieldName">Converted item.</param>
@@ -1231,7 +1220,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         throw new ArgumentException(SR.ExceptionColumnNameNotFound(fieldName));
                     }
-
                 }
                 else
                 {
@@ -1248,13 +1236,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         result = descriptor.GetValue(item);
                         return result ?? null;
-
                     }
                 }
             }
 
             return result;
         }
+
         /// <summary>
         /// Auto detects the X and Y(s) values type
         /// </summary>
@@ -1317,7 +1305,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return type;
             }
 
-
             // If original object is DataRow
             if (enumerator.Current is DataRow)
             {
@@ -1351,7 +1338,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         throw new ArgumentException(SR.ExceptionColumnNameNotFound(field));
                     }
-
                 }
                 else if (((DataRow)enumerator.Current).Table.Columns.Count > 0)
                 {
@@ -1391,7 +1377,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         throw new ArgumentException(SR.ExceptionColumnNameNotFound(field));
                     }
-
                 }
                 else if (((DataRowView)enumerator.Current).DataView.Table.Columns.Count > 0)
                 {
@@ -1428,7 +1413,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         throw new ArgumentException(SR.ExceptionColumnNameNotFound(field));
                     }
-
                 }
                 else if (((DbDataRecord)enumerator.Current).FieldCount > 0)
                 {
@@ -1480,7 +1464,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return type;
         }
 
-        #endregion
+        #endregion Data point binding, adding and inserting methods
 
         #region DataPoint finding functions
 
@@ -1696,7 +1680,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return FindMinByValue("Y");
         }
 
-        #endregion
+        #endregion DataPoint finding functions
 
         #region Collection<T> overrides
 
@@ -1715,7 +1699,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
 		protected override void ClearItems()
         {
-
             // Refresh Minimum and Maximum from data
             // after recalc and set data			
             if (Common != null && Common.ChartPicture != null)
@@ -1726,7 +1709,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             base.ClearItems();
         }
 
-        #endregion
+        #endregion Collection<T> overrides
     }
 
     /// <summary>
@@ -1755,7 +1738,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // This variable will cache the label content taken just before drawing.
         internal string _lastLabelText = string.Empty;
 
-        #endregion
+        #endregion Fields
 
         #region Constructors
 
@@ -1841,7 +1824,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this._xValue = xValue;
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Data point methods
 
@@ -1932,7 +1915,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
         }
-
 
         /// <summary>
         /// Converts object to double.
@@ -2093,8 +2075,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (yValue == null)
                 throw new ArgumentNullException(nameof(yValue));
 
-            // Check number of parameters. Should be more than 0 and 
-            if (yValue.Length == 0 || (base.series != null && yValue.Length > base.series.YValuesPerPoint))
+            // Check number of parameters. Should be more than 0 and
+           if (yValue.Length == 0 || (base.series != null && yValue.Length > base.series.YValuesPerPoint))
                 throw new ArgumentOutOfRangeException(nameof(yValue), SR.ExceptionDataPointYValuesSettingCountMismatch(base.series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 
             // Check if there is a Null Y value
@@ -2149,7 +2131,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         throw new ArgumentException(SR.ExceptionDataPointYValueStringFormat);
                     }
                 }
-
             }
             else if (paramType == typeof(DateTime))
             {
@@ -2238,7 +2219,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
             }
-
         }
 
         /// <summary>
@@ -2496,11 +2476,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return result;
         }
 
-
         /// <summary>
-        /// Replaces all "#CUSTOMPROPERTY(XXX)" (where XXX is the custom attribute name) 
-        /// keywords in the string provided. 
-        /// </summary>
+        /// Replaces all "#CUSTOMPROPERTY(XXX)" (where XXX is the custom attribute name)
+       /// keywords in the string provided.
+       /// </summary>
         /// <param name="originalString">String where the keyword need to be replaced.</param>
         /// <param name="properties">DataPoint or Series properties class.</param>
         /// <returns>Converted string.</returns>
@@ -2585,10 +2564,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             sb.Append('}');
             return sb.ToString();
         }
-        #endregion
+
+        #endregion Data point methods
 
         #region	DataPoint Properties
-
 
         /// <summary>
 		/// X value of the data point.
@@ -2699,7 +2678,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         #endregion
-
     }
 
     /// <summary>
@@ -2828,8 +2806,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets the data point custom property with the specified name.
         /// </summary>
         /// <param name="name">Name of the property to get.</param>
-        /// <returns>Returns the data point custom property with the specified name.  If the requested one is not set, 
-        /// the default custom property of the data series will be returned.</returns>
+        /// <returns>Returns the data point custom property with the specified name.  If the requested one is not set,
+       /// the default custom property of the data series will be returned.</returns>
         public virtual string GetCustomProperty(string name)
         {
             if (!IsCustomPropertySet(name) && this.pointCustomProperties)
@@ -2844,7 +2822,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 if (!serializing)
                 {
-
                     if (this.isEmptyPoint)
                     {
                         // Return empty point properties from series
@@ -2863,7 +2840,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             return (string)properties[name];
         }
-
 
         /// <summary>
         /// Checks if data is currently serialized.
@@ -2933,8 +2909,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Sets a custom property of the data point. 
-        /// </summary>
+        /// Sets a custom property of the data point.
+       /// </summary>
         /// <param name="name">Property name.</param>
         /// <param name="propertyValue">Property value.</param>
         public virtual void SetCustomProperty(string name, string propertyValue)
@@ -2943,8 +2919,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Sets an attribute of the Data Point as an object. 
-        /// </summary>
+        /// Sets an attribute of the Data Point as an object.
+       /// </summary>
         /// <param name="attrib">Attribute name ID.</param>
         /// <param name="attributeValue">Attribute new value.</param>
         internal void SetAttributeObject(CommonCustomProperties attrib, object attributeValue)
@@ -2989,7 +2965,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     SetAttributeObject(CommonCustomProperties.BorderWidth, 1);
                 if (!IsCustomPropertySet(CommonCustomProperties.BorderDashStyle))
                     SetAttributeObject(CommonCustomProperties.BorderDashStyle, ChartDashStyle.Solid);
-
 
                 if (!IsCustomPropertySet(CommonCustomProperties.AxisLabel))
                     SetAttributeObject(CommonCustomProperties.AxisLabel, string.Empty);
@@ -3217,7 +3192,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.axisLabel;
-
                     }
                 }
                 else
@@ -3333,7 +3307,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.showLabelAsValue;
-
                     }
                 }
                 else
@@ -3489,7 +3462,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.borderDashStyle;
-
                     }
                 }
                 else
@@ -3537,7 +3509,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.borderWidth;
-
                     }
                 }
                 else
@@ -3590,7 +3561,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.backImage;
-
                     }
                 }
                 else
@@ -3618,8 +3588,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets the drawing mode of the background image.
         /// </summary>
         /// <value>
-        /// A <see cref="ChartImageWrapMode"/> value that defines the drawing mode of the image. 
-        /// </value>
+        /// A <see cref="ChartImageWrapMode"/> value that defines the drawing mode of the image.
+       /// </value>
 		[
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
@@ -3647,7 +3617,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.backImageWrapMode;
-
                     }
                 }
                 else
@@ -3701,7 +3670,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.backImageTransparentColor;
-
                     }
                 }
                 else
@@ -3750,7 +3718,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.backImageAlignment;
-
                     }
                 }
                 else
@@ -3799,7 +3766,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.backGradientStyle;
-
                     }
                 }
                 else
@@ -3849,7 +3815,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.backSecondaryColor;
-
                     }
                 }
                 else
@@ -3898,7 +3863,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.backHatchStyle;
-
                     }
                 }
                 else
@@ -4001,7 +3965,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.fontColor;
-
                     }
                 }
                 else
@@ -4049,7 +4012,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.fontAngle;
-
                     }
                 }
                 else
@@ -4103,7 +4065,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.markerStyle;
-
                     }
                 }
                 else
@@ -4158,7 +4119,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.markerSize;
-
                     }
                 }
                 else
@@ -4208,7 +4168,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.markerImage;
-
                     }
                 }
                 else
@@ -4265,7 +4224,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.markerImageTransparentColor;
-
                     }
                 }
                 else
@@ -4316,7 +4274,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.markerColor;
-
                     }
                 }
                 else
@@ -4367,7 +4324,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.markerBorderColor;
-
                     }
                 }
                 else
@@ -4384,8 +4340,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.Invalidate(true);
             }
         }
-
-
 
         /// <summary>
         /// Gets or sets the border width of the marker.
@@ -4418,7 +4372,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.markerBorderWidth;
-
                     }
                 }
                 else
@@ -4440,13 +4393,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
-
         /// <summary>
         /// Gets or sets the extended custom properties of the data point.
-        /// Extended custom properties can be specified in the following format: 
-        /// AttrName1=Value1, AttrName2=Value2, ...  
-        /// </summary>
+        /// Extended custom properties can be specified in the following format:
+       /// AttrName1=Value1, AttrName2=Value2, ... 
+       /// </summary>
         [
         SRCategory("CategoryAttributeMisc"),
         Bindable(false),
@@ -4474,9 +4425,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         /// <summary>
         /// Gets or sets the custom properties of the data point.
-        /// Custom properties can be specified in the following format: 
-        /// AttrName1=Value1, AttrName2=Value2, ...  
-        /// </summary>
+        /// Custom properties can be specified in the following format:
+       /// AttrName1=Value1, AttrName2=Value2, ... 
+       /// </summary>
         [
         SRCategory("CategoryAttributeMisc"),
         Bindable(true),
@@ -4585,7 +4536,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                         string newValue = values[1].Replace("\\x45", ",");
                         newAttributes[values[0]] = newValue.Replace("\\x46", "=");
-
                     }
                 }
                 properties = newAttributes;
@@ -4640,7 +4590,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.toolTip;
-
                     }
                 }
                 else
@@ -4802,7 +4751,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.legendToolTip;
-
                     }
                 }
                 else
@@ -4811,8 +4759,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
         }
-
-
 
         /// <summary>
         /// Background color of the data point label.
@@ -4952,7 +4898,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.labelBorderDashStyle;
-
                     }
                 }
                 else
@@ -5000,7 +4945,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.labelBorderWidth;
-
                     }
                 }
                 else
@@ -5065,7 +5009,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         return series.labelToolTip;
-
                     }
                 }
                 else
@@ -5078,8 +5021,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #endregion
 
         #region Serialization control
-
-
 
         private bool CheckIfSerializationRequired(CommonCustomProperties attribute)
         {
@@ -5459,8 +5400,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return !string.IsNullOrEmpty(series.legendToolTip);
         }
 
-
-
         /// <summary>
         /// Returns true if property should be serialized.
         /// </summary>
@@ -5520,7 +5459,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             else
                 return series.labelBorderWidth != 1;
         }
-
 
         /// <summary>
         /// Resets property to its default value.
@@ -5618,8 +5556,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 series.borderWidth = 1;
         }
 
-
-
         /// <summary>
         /// Resets property to its default value.
         /// </summary>
@@ -5631,8 +5567,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             else
                 series.markerBorderWidth = 1;
         }
-
-
 
         /// <summary>
         /// Resets property to its default value.
@@ -5707,7 +5641,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 series.font = series.FontCache.DefaultFont;
             }
         }
-
 
         /// <summary>
         /// Resets property to its default value.
@@ -5850,8 +5783,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
-
         /// <summary>
         /// Resets property to its default value.
         /// </summary>
@@ -5916,8 +5847,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 Chart.selection.enabledChecked = false;
             }
         }
-
-
 
         #endregion
 
@@ -6049,7 +5978,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 this.m_DataPointCustomProperties = value;
             }
-
         }
 
         #endregion //Properties
@@ -6159,9 +6087,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.DataPointCustomProperties.CustomProperties = properties;
         }
 
-
         #endregion // Methods
     }
 }
-
-

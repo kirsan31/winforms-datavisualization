@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	The ChartArea class represents one chart area within 
 //              a chart image, and is used to plot one or more chart 
@@ -10,33 +9,18 @@
 //              in a chart area is unlimited.
 //
 
-
-using System;
 using System.Collections;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
-using System.Globalization;
-using System.Diagnostics.CodeAnalysis;
-
-using System.Windows.Forms.DataVisualization.Charting.Data;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.DataVisualization.Charting.Borders3D;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.ComponentModel.Design.Serialization;
-using System.Reflection;
-using System.Windows.Forms.Design;
 using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
-    using FontStyle = System.Drawing.FontStyle;
-
     #region Chart area aligment enumerations
 
     /// <summary>
@@ -103,17 +87,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
         All = Position | PlotPosition | Cursor | AxesView
     }
 
-    #endregion
+    #endregion Chart area aligment enumerations
 
     /// <summary>
-    /// The ChartArea class is used to create and display a chart 
-    /// area within a chart image. The chart area is a rectangular 
-    /// area on a chart image.  It has 4 axes, horizontal and vertical grids. 
-    /// A chart area can contain more than one different chart type.  
-    /// The number of chart series that can be plotted in a chart area 
-    /// is unlimited.
-    /// 
-    /// ChartArea class exposes all the properties and methods
+    /// The ChartArea class is used to create and display a chart
+   /// area within a chart image. The chart area is a rectangular
+   /// area on a chart image.  It has 4 axes, horizontal and vertical grids.
+   /// A chart area can contain more than one different chart type. 
+   /// The number of chart series that can be plotted in a chart area
+   /// is unlimited.
+    ///
+   /// ChartArea class exposes all the properties and methods
     /// of its base ChartArea3D class.
     /// </summary>
     [
@@ -131,6 +115,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Private data members, which store properties values
         private Axis[] _axisArray = new Axis[4];
+
         private Color _backColor = Color.Empty;
         private bool _backColorIsSet;
         private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
@@ -170,7 +155,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Chart area position before adjustments
         internal RectangleF lastAreaPosition = RectangleF.Empty;
 
-
         // Center of the circulat chart area
         internal PointF circularCenter = PointF.Empty;
 
@@ -187,9 +171,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Gets or sets a flag that specifies whether the chart area is visible.
         private bool _visible = true;
+
         private bool _disposedValue;
 
-        #endregion
+        #endregion Chart Area Fields
 
         #region Chart Area Cursor properties
 
@@ -245,7 +230,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Chart Area Cursor properties
 
         #region Chart Area properties
 
@@ -253,8 +238,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets or sets a flag that specifies whether the chart area is visible.
         /// </summary>
         /// <remarks>
-        /// When this flag is set to false, all series, legends, titles and annotation objects 
-        /// associated with the chart area will also be hidden.
+        /// When this flag is set to false, all series, legends, titles and annotation objects
+       /// associated with the chart area will also be hidden.
         /// </remarks>
         /// <value>
         /// <b>True</b> if the chart area is visible; <b>false</b> otherwise.
@@ -338,7 +323,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Gets or sets the alignment style of the ChartArea.
         /// </summary>
@@ -401,8 +385,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets an Axis object that represents the primary Y-axis. 
-        /// </summary>
+        /// Gets or sets an Axis object that represents the primary Y-axis.
+       /// </summary>
         [
         SRCategory("CategoryAttributeAxis"),
         Bindable(true),
@@ -427,8 +411,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets an Axis object that represents the primary X-axis. 
-        /// </summary>
+        /// Gets or sets an Axis object that represents the primary X-axis.
+       /// </summary>
         [
         SRCategory("CategoryAttributeAxis"),
         Bindable(true),
@@ -453,8 +437,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets an Axis object that represents the secondary X-axis. 
-        /// </summary>
+        /// Gets or sets an Axis object that represents the secondary X-axis.
+       /// </summary>
         [
         SRCategory("CategoryAttributeAxis"),
         Bindable(true),
@@ -556,8 +540,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets an ElementPosition object, which defines the inner plot position of a chart area object.  
-        /// </summary>
+        /// Gets or sets an ElementPosition object, which defines the inner plot position of a chart area object. 
+       /// </summary>
         [
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
@@ -606,8 +590,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the background color of a ChartArea object. 
-        /// </summary>
+        /// Gets or sets the background color of a ChartArea object.
+       /// </summary>
         [
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
@@ -643,7 +627,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         [
 
-
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(ChartHatchStyle.None),
@@ -665,8 +648,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the background image of a ChartArea object. 
-        /// </summary>
+        /// Gets or sets the background image of a ChartArea object.
+       /// </summary>
         [
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
@@ -712,8 +695,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the color of a ChartArea object's background image that will be drawn as transparent.  
-        /// </summary>
+        /// Gets or sets the color of a ChartArea object's background image that will be drawn as transparent. 
+       /// </summary>
         [
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
@@ -737,8 +720,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the alignment of a ChartArea object. 
-        /// </summary>
+        /// Gets or sets the alignment of a ChartArea object.
+       /// </summary>
         [
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
@@ -760,9 +743,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the orientation of a chart element's gradient, 
-        /// and also determines whether or not a gradient is used.  
-        /// </summary>
+        /// Gets or sets the orientation of a chart element's gradient,
+       /// and also determines whether or not a gradient is used. 
+       /// </summary>
         [
 
         SRCategory("CategoryAttributeAppearance"),
@@ -812,8 +795,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the shadow color of a ChartArea object.  
-        /// </summary>
+        /// Gets or sets the shadow color of a ChartArea object. 
+       /// </summary>
         [
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
@@ -961,8 +944,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         /// <summary>
         /// Gets or sets a Boolean that determines if the labels of the axes for all chart area
-        /// , which have LabelsAutoFit property set to true, are of equal size.  
-        /// </summary>
+        /// , which have LabelsAutoFit property set to true, are of equal size. 
+       /// </summary>
         [
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
@@ -983,10 +966,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
-        #endregion
+        #endregion Chart Area properties
 
         #region Constructors
+
         /// <summary>
         /// ChartArea constructor.
         /// </summary>
@@ -1003,9 +986,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             Initialize();
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Chart Area Methods
+
         /// <summary>
         /// Restores series order and X axis reversed mode for the 3D charts.
         /// </summary>
@@ -1043,8 +1028,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 oldReverseY = this.AxisY.IsReversed;
                 oldYAngle = this.Area3DStyle.Rotation;
 
-                // Check if Y angle 
-                if (this.Area3DStyle.Rotation > 90 || this.Area3DStyle.Rotation < -90)
+                // Check if Y angle
+               if (this.Area3DStyle.Rotation > 90 || this.Area3DStyle.Rotation < -90)
                 {
                     // This method depends on the 'switchValueAxes' field which is calculated based on the chart types
                     // of the series associated with the chart area. We need to call SetData method to make sure this field
@@ -1181,11 +1166,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Minimum and maximum do not have to be calculated 
-        /// from data series every time. It is very time 
-        /// consuming. Minimum and maximum are buffered 
-        /// and only when this flags are set Minimum and 
-        /// Maximum are refreshed from data.
+        /// Minimum and maximum do not have to be calculated
+       /// from data series every time. It is very time
+       /// consuming. Minimum and maximum are buffered
+       /// and only when this flags are set Minimum and
+       /// Maximum are refreshed from data.
         /// </summary>
         internal void ResetMinMaxFromData()
         {
@@ -1212,8 +1197,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _axisArray[2].ReCalc(PlotAreaPosition);
             _axisArray[3].ReCalc(PlotAreaPosition);
 
-            // Find all Data and chart types which belong 
-            // to this chart area an set default values
+            // Find all Data and chart types which belong
+           // to this chart area an set default values
             SetData();
 
             Restore3DAnglesAndReverseMode();
@@ -1231,11 +1216,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _axisArray[2].ReCalc(PlotAreaPosition);
             _axisArray[3].ReCalc(PlotAreaPosition);
 
-            // Find all Data and chart types which belong 
-            // to this chart area an set default values
+            // Find all Data and chart types which belong
+           // to this chart area an set default values
             SetData();
         }
-
 
         /// <summary>
         /// Reset auto calculated chart area values.
@@ -1255,9 +1239,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Background rectangle</returns>
         internal RectangleF GetBackgroundPosition(bool withScrollBars)
         {
-            // For pie and doughnut, which do not have axes, the position 
-            // for the background is Chart area position not plotting 
-            // area position.
+            // For pie and doughnut, which do not have axes, the position
+           // for the background is Chart area position not plotting
+           // area position.
             RectangleF backgroundPosition = PlotAreaPosition.ToRectangleF();
             if (!requireAxes)
             {
@@ -1270,8 +1254,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return backgroundPosition;
             }
 
-            // Add scroll bar rectangles to the area background 
-            RectangleF backgroundPositionWithScrollBars = new RectangleF(backgroundPosition.Location, backgroundPosition.Size);
+            // Add scroll bar rectangles to the area background
+           RectangleF backgroundPositionWithScrollBars = new RectangleF(backgroundPosition.Location, backgroundPosition.Size);
 
             if (requireAxes)
             {
@@ -1359,7 +1343,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 verticalAxes = 1;
             }
 
-
             //******************************************************
             //** Find same auto-fit font size
             //******************************************************
@@ -1394,8 +1377,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             //******************************************************
-            //** Adjust plotting area position according to the axes 
-            //** elements (title, labels, tick marks) size.
+            //** Adjust plotting area position according to the axes
+           //** elements (title, labels, tick marks) size.
             //******************************************************
             RectangleF rectLabelSideSpacing = RectangleF.Empty;
             foreach (Axis axis in axisArray)
@@ -1508,10 +1491,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     axisSize = 0;
                 }
 
-
                 // Add axis title and scroll bar size (always outside of plotting area)
                 axisSize += axis.titleSize + axis.scrollBarSize;
-
 
                 // Calculate horizontal axes size for circualar area
                 if (this.chartAreaIsCurcular &&
@@ -1577,7 +1558,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
                             }
                         }
-
                         else
                         {
                             if (axis.labelNearOffset != 0 && axis.labelNearOffset < Position.Y)
@@ -1610,8 +1590,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             //******************************************************
-            //** Make sure there is enough space 
-            //** for labels on the chart sides
+            //** Make sure there is enough space
+           //** for labels on the chart sides
             //******************************************************
             if (!this.chartAreaIsCurcular)
             {
@@ -1638,8 +1618,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             //******************************************************
-            //** Plotting area must be square for the circular 
-            //** chart area (in pixels).
+            //** Plotting area must be square for the circular
+           //** chart area (in pixels).
             //******************************************************
             if (this.chartAreaIsCurcular)
             {
@@ -1696,11 +1676,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 (float)Math.Round(plottingRect.Width / (Position.Width / 100F), 5),
                 (float)Math.Round(plottingRect.Height / (Position.Height / 100F), 5));
 
-
             //******************************************************
-            //** Adjust label font size for axis, which were 
-            //** automatically calculated after the opposite axis 
-            //** change the size of plotting area.
+            //** Adjust label font size for axis, which were
+           //** automatically calculated after the opposite axis
+           //** change the size of plotting area.
             //******************************************************
             this.AxisY2.AdjustLabelFontAtSecondPass(chartGraph, InnerPlotPosition.Auto);
             this.AxisY.AdjustLabelFontAtSecondPass(chartGraph, InnerPlotPosition.Auto);
@@ -1709,7 +1688,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.AxisX2.AdjustLabelFontAtSecondPass(chartGraph, InnerPlotPosition.Auto);
                 this.AxisX.AdjustLabelFontAtSecondPass(chartGraph, InnerPlotPosition.Auto);
             }
-
         }
 
         /// <summary>
@@ -1840,10 +1818,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
             }
-
         }
 
-        #endregion
+        #endregion Chart Area Methods
 
         #region Painting and Selection Methods
 
@@ -1915,7 +1892,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             this.Area3DStyle.Enable3D);
                     }
                 }
-
             }
         }
 
@@ -1983,12 +1959,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return;
             }
 
-
-
-            // Reset Smart Labels 
-            this.smartLabels.Reset();
-
-
+            // Reset Smart Labels
+           this.smartLabels.Reset();
 
             // Set values for optimized drawing
             foreach (Axis currentAxis in this._axisArray)
@@ -2024,14 +1996,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool useScaleSegments;
             foreach (Axis currentAxis in axesArray)
             {
-
                 useScaleSegments = currentAxis.ScaleSegments.Count > 0;
 
                 if (!useScaleSegments)
                 {
                     currentAxis.PaintStrips(graph, false);
                 }
-
                 else
                 {
                     foreach (AxisScaleSegment scaleSegment in currentAxis.ScaleSegments)
@@ -2049,14 +2019,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             axesArray = new Axis[] { axisY, axisX2, axisY2, axisX };
             foreach (Axis currentAxis in axesArray)
             {
-
                 useScaleSegments = currentAxis.ScaleSegments.Count > 0;
 
                 if (!useScaleSegments)
                 {
                     currentAxis.PaintGrids(graph);
                 }
-
                 else
                 {
                     foreach (AxisScaleSegment scaleSegment in currentAxis.ScaleSegments)
@@ -2068,20 +2036,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         scaleSegment.RestoreAxisScaleAndInterval();
                     }
                 }
-
             }
 
             // Draw Axis Striplines (only when StripWidth == 0)
             foreach (Axis currentAxis in axesArray)
             {
-
                 useScaleSegments = currentAxis.ScaleSegments.Count > 0;
 
                 if (!useScaleSegments)
                 {
                     currentAxis.PaintStrips(graph, true);
                 }
-
                 else
                 {
                     foreach (AxisScaleSegment scaleSegment in currentAxis.ScaleSegments)
@@ -2093,7 +2058,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         scaleSegment.RestoreAxisScaleAndInterval();
                     }
                 }
-
             }
 
             // Draw Axis elements on the back of the 3D scene
@@ -2101,14 +2065,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 foreach (Axis currentAxis in axesArray)
                 {
-
                     useScaleSegments = currentAxis.ScaleSegments.Count > 0;
 
                     if (!useScaleSegments)
                     {
                         currentAxis.PrePaint(graph);
                     }
-
                     else
                     {
                         foreach (AxisScaleSegment scaleSegment in currentAxis.ScaleSegments)
@@ -2119,9 +2081,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                             scaleSegment.RestoreAxisScaleAndInterval();
                         }
-
                     }
-
                 }
             }
 
@@ -2169,7 +2129,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Draw Axis
             foreach (Axis currentAxis in axesArray)
             {
-
                 useScaleSegments = currentAxis.ScaleSegments.Count > 0;
 
                 if (!useScaleSegments)
@@ -2177,11 +2136,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Paint axis and Reset temp axis offset for side-by-side charts like column
                     currentAxis.Paint(graph);
                 }
-
                 else
                 {
-                    // Some of the axis elements like grid lines and tickmarks 
-                    // are drawn for each segment
+                    // Some of the axis elements like grid lines and tickmarks
+                   // are drawn for each segment
                     foreach (AxisScaleSegment scaleSegment in currentAxis.ScaleSegments)
                     {
                         scaleSegment.SetTempAxisScaleAndInterval();
@@ -2194,7 +2152,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Other elements like labels, title, axis line are drawn once
                     currentAxis.PaintOnSegmentedScalePassTwo(graph);
                 }
-
             }
 
             // Call Paint event
@@ -2207,7 +2164,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 for (int segmentIndex = 0; segmentIndex < (currentAxis.ScaleSegments.Count - 1); segmentIndex++)
                 {
                     currentAxis.ScaleSegments[segmentIndex].PaintBreakLine(graph, currentAxis.ScaleSegments[segmentIndex + 1]);
-
                 }
             }
 
@@ -2216,14 +2172,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 curentAxis.optimizedGetPosition = false;
 
-
                 // Reset preffered number of intervals on the axis
                 curentAxis.prefferedNumberofIntervals = 5;
 
                 // Reset flag that scale segments are used
                 curentAxis.scaleSegmentsUsed = false;
-
-
             }
         }
 
@@ -2241,8 +2194,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     // It is common for the Bubble and Point chart types to draw markers
                     // partially outside of the chart area. By drawing the border before
-                    // series we avoiding the possibility of drawing the border line on 
-                    // top of the marker.
+                    // series we avoiding the possibility of drawing the border line on
+                   // top of the marker.
                     if (series.ChartType == SeriesChartType.Bubble ||
                         series.ChartType == SeriesChartType.Point)
                     {
@@ -2306,7 +2259,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 !double.IsNaN(_cursorY.SelectionEnd) ||
                 !double.IsNaN(_cursorY.Position))
             {
-
                 if (!chartPicture.backgroundRestored &&
                     !chartPicture.isSelectionMode)
                 {
@@ -2337,7 +2289,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             chartPicture.nonTopLevelChartBuffer = null;
                         }
 
-
                         // Copy chart area plotting rectangle from the chart's dubble buffer image into area dubble buffer image
                         if (chart.paintBufferBitmap != null)
                         {
@@ -2352,7 +2303,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             chartPicture.nonTopLevelChartBuffer = chart.paintBufferBitmap.Clone(
                                 chartPosition, chart.paintBufferBitmap.PixelFormat);
                         }
-
                     }
                     else if (cursorOnly && chartPicture.nonTopLevelChartBuffer != null)
                     {
@@ -2367,12 +2317,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 _cursorY.Paint(graph);
                 _cursorX.Paint(graph);
-
             }
-
         }
 
-        #endregion
+        #endregion Painting and Selection Methods
 
         #region Circular chart area methods
 
@@ -2484,7 +2432,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             plotArea = chartGraph.GetRelativeRectangle(plotAreaRectAbs);
 
-
             //*****************************************************************
             //** Set axes labels size
             //*****************************************************************
@@ -2493,7 +2440,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.AxisX2.labelSize = relativeLabelSize.Height;
             this.AxisY.labelSize = relativeLabelSize.Width;
             this.AxisY2.labelSize = relativeLabelSize.Width;
-
         }
 
         /// <summary>
@@ -2542,7 +2488,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 textSize.Width = (float)Math.Ceiling(textSize.Width * 1.1f);
                 textSize.Height = (float)Math.Ceiling(textSize.Height * 1.1f);
 
-
                 //*****************************************************************
                 //** Calculate area size change depending on labels style
                 //*****************************************************************
@@ -2569,7 +2514,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         width = 0;
                     if (height < 0)
                         height = 0;
-
 
                     labelsSize = (float)Math.Max(
                         labelsSize,
@@ -2688,7 +2632,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(styleName, "CircularLabelsStyle"));
                     }
-
                 }
             }
 
@@ -2783,7 +2726,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Add axis into the list
                     _circularAxisList.Add(axis);
                 }
-
             }
             return _circularAxisList;
         }
@@ -2801,7 +2743,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return (float)(position * scaleRatio + this.AxisX.Crossing);
         }
 
-        #endregion
+        #endregion Circular chart area methods
 
         #region 2D Series drawing order methods
 
@@ -2810,9 +2752,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// This list is used for chart area series drawing in 2D mode. Each
         /// object may represent an individual series or all series that belong
         /// to one chart type.
-        /// 
-        /// This method is intended to fix issues #6443 and #5385 when area chart 
-        /// type incorrectly overlaps point or line chart type.
+        ///
+       /// This method is intended to fix issues #6443 and #5385 when area chart
+       /// type incorrectly overlaps point or line chart type.
         /// </summary>
         /// <returns>List of 'ChartTypeAndSeriesInfo' objects.</returns>
         private ArrayList GetChartTypesAndSeriesToDraw()
@@ -2858,8 +2800,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                             else
                             {
-                                // Check if curent chart type has more that 1 series and they are split 
-                                // by other series
+                                // Check if curent chart type has more that 1 series and they are split
+                               // by other series
                                 bool chartTypeIsSplit = false;
 
                                 if (splitChartType.Contains(series.ChartTypeName))
@@ -2955,10 +2897,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Series object. Can be set to NULL!
             internal Series Series;
-
         }
 
-        #endregion // 2D Series drawing order methods
+        #endregion 2D Series drawing order methods
 
         #region IDisposable Members
 
@@ -2981,25 +2922,25 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                         this._axisArray = null;
                     }
-                    
+
                     if (this.areaBufferBitmap != null)
                     {
                         this.areaBufferBitmap.Dispose();
                         this.areaBufferBitmap = null;
                     }
-                    
+
                     if (this._cursorX != null)
                     {
                         this._cursorX.Dispose();
                         this._cursorX = null;
                     }
-                    
+
                     if (this._cursorY != null)
                     {
                         this._cursorY.Dispose();
                         this._cursorY = null;
                     }
-                    
+
                     this._areaPosition = null;
                     this._innerPlotPosition = null;
                     this.PlotAreaPosition = null;
@@ -3021,7 +2962,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             GC.SuppressFinalize(this);
         }
 
-        #endregion
-
+        #endregion IDisposable Members
     }
 }

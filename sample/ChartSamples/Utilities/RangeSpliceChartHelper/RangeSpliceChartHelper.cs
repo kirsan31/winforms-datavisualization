@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms.DataVisualization.Charting;
 using System.Drawing;
 
 namespace System.Windows.Forms.DataVisualization.Charting.Utilities
@@ -11,14 +8,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     /// 1)  Finding all the RangePolygons given two lines
     /// 2)  Setting \ Getting tooltips for a RangePolygon
     /// 3)  Performing a Hit test for the RangePolgyons
-    /// 
-    /// NOTE: A line that is qualified as TOP is a line that has
+    ///
+   /// NOTE: A line that is qualified as TOP is a line that has
     /// the 'good' values.  A lline qualified as BOTTOM is a line with all the
     /// 'bad' values.
     /// </summary>
     public class RangeSpliceChartHelper
     {
         #region Fields
+
         /// <summary>
         /// All the RangePolygons for the two lines
         /// </summary>
@@ -50,7 +48,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         private Chart lineChart;
 
         //private System.Windows.Forms.ToolTip rpToolTip = new System.Windows.Forms.ToolTip();
-        #endregion
+
+        #endregion Fields
 
         /// <summary>
         /// Default Constructor
@@ -64,8 +63,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             topColor = Color.Transparent;
             this.lineChart = chart;
         }
-        
+
         #region Properties
+
         /// <summary>
         /// (READ ONLY) Get all the RangePolygons.  Mainly used for drawing them.
         /// </summary>
@@ -73,7 +73,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             get
             {
-                return rPolygons.ToArray() ;
+                return rPolygons.ToArray();
             }
         }
 
@@ -148,7 +148,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             {
                 if (value)
                 {
-                    this.lineChart.PostPaint +=new EventHandler<ChartPaintEventArgs>(lineChart_PostPaint);
+                    this.lineChart.PostPaint += new EventHandler<ChartPaintEventArgs>(lineChart_PostPaint);
                     this.lineChart.Resize += new System.EventHandler(lineChart_Resize);
                     this.lineChart.MouseMove += new System.Windows.Forms.MouseEventHandler(lineChart_MouseMove);
                 }
@@ -162,9 +162,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             }
         }
 
-        #endregion 
+        #endregion Properties
 
         #region Methods
+
         /// <summary>
         /// Gets all the RangePolygons between line1 and line2.
         /// </summary>
@@ -173,7 +174,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="line2">the line that has the 'bad' values </param>
         private void FillRangePolygons(ChartGraphics cg, Series line1, Series line2)
         {
-
             this.ClearRangePolygons();
             //System.Console.WriteLine("GetRangePolygons Start: " + DateTime.Now.Millisecond);
             DataPoint[] dpIntersections = LineUtils.GetAllIntersections(line1, line2);
@@ -186,6 +186,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     case 0:
                         //this is where tehre is no intersection
                         break;
+
                     case 1:
                         //this is the special case that there is only one intersection
                         RangePolygon sPolygon = GetStartPolygon(cg, line1, line2, dpIntersections[0], this.rPolygons.Count);
@@ -198,6 +199,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                             rPolygons.Add(ePolygon);
 
                         break;
+
                     default:
 
                         if (dpIntersections.Length >= 0)
@@ -259,8 +261,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         }
 
         /// <summary>
-        /// Gets the polygon that is the right most polygon.  
-        /// A RangePolygon will only be created if line1 and line2 have the same final XValues
+        /// Gets the polygon that is the right most polygon. 
+       /// A RangePolygon will only be created if line1 and line2 have the same final XValues
         /// </summary>
         /// <param name="cg">for finding the absolute coordinates</param>
         /// <param name="line1">line 1</param>
@@ -269,7 +271,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="pID">id to give the new polygon</param>
         /// <returns>a RangePolygon, null otherwise</returns>
         private RangePolygon GetEndPolygon(ChartGraphics cg, Series line1,
-                Series line2, DataPoint lastIntersection,int pID)
+                Series line2, DataPoint lastIntersection, int pID)
         {
             DataPoint line1X = line1.Points[line1.Points.Count - 1];
             DataPoint line2X = line2.Points[line2.Points.Count - 1];
@@ -295,7 +297,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             //System.Console.WriteLine("GetPolygonIntersection Start: " + DateTime.Now.Millisecond);
             Series tempLine1 = LineUtils.PointsInRange(startPoint,
                      endPoint, line1);
-
 
             Series tempLine2 = LineUtils.PointsInRange(startPoint,
                                 endPoint, line2);
@@ -362,17 +363,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="line2">line 2</param>
         /// <returns>a RangePolygon if line1 and line2 have the same initial x index, else null</returns>
         private RangePolygon GetStartPolygon(ChartGraphics cg, Series line1,
-            Series line2, DataPoint firstIntersection,int pID)
+            Series line2, DataPoint firstIntersection, int pID)
         {
             DataPoint line1X = line1.Points[0];
             DataPoint line2X = line2.Points[0];
             if (line1X.XValue == line2X.XValue)
             {
-                return GetPolygonOfIntersection(cg, line1, line2, line1X, firstIntersection,pID);
+                return GetPolygonOfIntersection(cg, line1, line2, line1X, firstIntersection, pID);
             }
             return null;
         }
-
 
         /// <summary>
         /// Gets the RangePolygon that has polygonID as its ID
@@ -418,7 +418,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 else
                     RangePolygons[i].FillColor = this.topColor;
 
-
                 SolidBrush fillBrush = new SolidBrush(RangePolygons[i].FillColor);
 
                 //do the actual drawing
@@ -426,9 +425,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             }
         }
 
-        #endregion
+        #endregion Methods
 
         #region EventHandlers
+
         /// <summary>
         /// This is used to show the tool tip for the polygon area
         /// </summary>
@@ -436,7 +436,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="e"></param>
         private void lineChart_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-
             //make sure the mouse has moved over a rangepolygon
             if (HitTest(e.Location) >= 0)
             {
@@ -453,7 +452,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             }
         }
 
-
         /// <summary>
         /// This insures that the range polygons are redrawn with the chart.
         /// </summary>
@@ -461,7 +459,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="e"></param>
         private void lineChart_Resize(object sender, System.EventArgs e)
         {
-
             this.lineChart.Invalidate();
         }
 
@@ -471,7 +468,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
                 throw new RangeSpliceChartHelperException("Not enough series (need at least two)");
 
-            if(lineChart.Series[0].ChartType != SeriesChartType.Line)
+            if (lineChart.Series[0].ChartType != SeriesChartType.Line)
                 throw new RangeSpliceChartHelperException("Series[0] is not a line! (Series[0], the Top Line, needs to be a line)");
 
             if (lineChart.Series[1].ChartType != SeriesChartType.Line)
@@ -479,11 +476,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             this.DrawPolygons(e.ChartGraphics, lineChart.Series[0], lineChart.Series[1]);
         }
 
-        #endregion
-
+        #endregion EventHandlers
     }
 
-    class RangeSpliceChartHelperException : System.Exception
+    internal class RangeSpliceChartHelperException : System.Exception
     {
         public RangeSpliceChartHelperException(string msg)
             : base(msg)

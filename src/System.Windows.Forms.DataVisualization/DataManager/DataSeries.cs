@@ -2,11 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Chart series collection class and series properties class.
 //
-
 
 using System.Collections;
 using System.Collections.Generic;
@@ -25,8 +23,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     #region Series enumerations
 
     /// <summary>
-    /// Chart axis type (Primary or Secondary). 
-    /// </summary>
+    /// Chart axis type (Primary or Secondary).
+   /// </summary>
     public enum AxisType
     {
         /// <summary>
@@ -56,7 +54,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Descending
     }
 
-    #endregion
+    #endregion Series enumerations
 
     /// <summary>
     /// Data series collection
@@ -78,7 +76,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Methods
 
@@ -112,9 +110,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
         }
-        #endregion
+
+        #endregion Methods
 
         #region Event handlers
+
         /// <summary>
         /// Updates the Series' references to ChartAreas.
         /// </summary>
@@ -138,7 +138,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (series.Legend == e.OldName)
                     series.Legend = e.NewName;
         }
-        #endregion
+
+        #endregion Event handlers
 
         #region IDisposable Members
 
@@ -150,7 +151,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (_disposedValue)
                 return;
-            
+
             if (disposing)
             {
                 // Dispose managed resources
@@ -159,7 +160,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     element.Dispose();
                 }
             }
-            
+
             _disposedValue = true;
         }
 
@@ -172,7 +173,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+        #endregion IDisposable Members
     }
 
     /// <summary>
@@ -188,6 +189,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Private data members, which store properties values
         private ChartValueType _xValueType = ChartValueType.Auto;
+
         private ChartValueType _yValueType = ChartValueType.Auto;
         private bool _isXValueIndexed;
         private int _yValuesPerPoint = 1;
@@ -220,6 +222,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Automatic values type flags
         internal bool autoXValueType;
+
         internal bool autoYValueType;
 
         // Total Y value of all data points
@@ -252,16 +255,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Indicates if check for series X zero values was done
         internal bool xValuesZerosChecked;
 
-
         // fake data points for selector service in design time.
-        // note: in design time fake points are generated 
-        // with short life time - during painting.
+        // note: in design time fake points are generated
+       // with short life time - during painting.
         // this collection keep a copy of design time datapoints.
         internal DataPointCollection fakeDataPoints;
+
         private bool _disposedValue;
 
-
-        #endregion
+        #endregion Fields
 
         #region Series properties fields
 
@@ -440,7 +442,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         internal string labelToolTip = "";
 
-        #endregion
+        #endregion Series properties fields
 
         #region Constructors and initialization
 
@@ -528,8 +530,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _emptyPointCustomProperties.SetDefault(true);
             _emptyPointCustomProperties.pointCustomProperties = true;
             //TODO : check if this is still needed.
-            //#if !SQLRS_CONTROL 
-            //			    // Use transparent colors for empty points
+            //#if !SQLRS_CONTROL
+           //			    // Use transparent colors for empty points
             //			    emptyPointAttributes.Color = Color.Transparent;
             //			    emptyPointAttributes.BorderColor = Color.Transparent;
             //			    emptyPointAttributes.FontColor = Color.Transparent;
@@ -539,10 +541,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Create SmartLabelStyle style object
             _smartLabelStyle = new SmartLabelStyle(this);
-
         }
 
-        #endregion
+        #endregion Constructors and initialization
 
         #region Helper methods
 
@@ -572,8 +573,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             ref double pointDepth,
             ref double pointGapDepth)
         {
-
-
             // Check if series provide custom value for point depth in pixels
             string attribValue = this[CustomPropertyName.PixelPointDepth];
             if (attribValue != null)
@@ -633,10 +632,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     pointGapDepth = relativeSize.Height;
                 }
             }
-
-
         }
-
 
         /// <summary>
         /// Gets data point width in relative coordinates.
@@ -669,7 +665,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 pixelPointWidth = pointSize.Height;
             }
-
 
             // Check if series provide custom value for Min point width in pixels
             bool usePixelWidth = false;
@@ -831,7 +826,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>True if series uses "Fast" mode chart type.</returns>
         internal bool IsFastChartType()
         {
-
             // Check if fast mode chart type is used in the series
             if (this.ChartType == SeriesChartType.FastLine)
             {
@@ -875,7 +869,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Unsupported parameter type
             throw new ArgumentException(SR.ExceptionDataSeriesPointTypeUnsupported(type.ToString()));
-
         }
 
         /// <summary>
@@ -933,8 +926,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 //TODO: Check, what is needed from here...
                 //#if !SQLRS_CONTROL
-                //				Random random2 = new Random(unchecked((int)DateTime.Now.Ticks + 
-                //					this.Color.B + this.Color.G + this.Color.R));
+                //				Random random2 = new Random(unchecked((int)DateTime.Now.Ticks +
+               //					this.Color.B + this.Color.G + this.Color.R));
                 //#else
                 int seed = 0;
                 for (int index = 0; index < this.Name.Length; index++)
@@ -1110,13 +1103,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.YValueType,
                 "");
 
-
             // #LEGENDTEXT - series name
             result = result.Replace(KeywordName.LegendText, this.LegendText);
 
             return result;
         }
-
 
         /// <summary>
         /// Helper function which replaces one keyword.
@@ -1243,7 +1234,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return result;
         }
 
-
         /// <summary>
         /// Helper function which replaces one keyword.
         /// </summary>
@@ -1290,8 +1280,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return result;
         }
 
-
-        #endregion
+        #endregion Helper methods
 
         #region Points sorting methods
 
@@ -1338,10 +1327,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Invalidate chart area only
             this.Invalidate(true, false);
-
         }
 
-        #endregion
+        #endregion Points sorting methods
 
         #region Series preparation/cleanup for drawing
 
@@ -1406,7 +1394,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 result = true;
             }
-
 
             // Reset original value type which was temp. set to String
             if (_isXValueIndexed)
@@ -1594,7 +1581,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             point.YValues[4] = point.YValues[2] + (point.YValues[3] - point.YValues[2]) / 2;
                             point.YValues[5] = point.YValues[2] + (point.YValues[3] - point.YValues[2]) / 3;
                         }
-
                     }
                 }
 
@@ -1672,7 +1658,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check if Collected slice should be displayed in Pie/Doughnut charts
             PieChart.PrepareData(this);
 
-
             // Apply palette colors to the data points
             if (applyPaletteColors)
             {
@@ -1680,7 +1665,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Series preparation/cleanup for drawing
 
         #region Series Properties
 
@@ -1737,7 +1722,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Common.ChartPicture.boundToDataSource = false;
                 }
-
             }
         }
 
@@ -1775,10 +1759,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Common.ChartPicture.boundToDataSource = false;
                 }
-
             }
         }
-
 
         /// <summary>
         /// Name of the Chart legend used by the series.
@@ -2084,7 +2066,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
 #if SUBAXES
 
 			/// <summary>
@@ -2133,6 +2114,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 #else // SUBAXES
+
         /// <summary>
         /// Name of the Y sub-axis this series is attached to.
         /// </summary>
@@ -2174,6 +2156,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
             }
         }
+
 #endif // SUBAXES
 
         /// <summary>
@@ -2354,7 +2337,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Chart area in which this series is drawn.
         /// </summary>
@@ -2384,6 +2366,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
         }
+
         /*
                 /// <summary>
                 /// If set to true, each data point of the series will use a random color from the palette.
@@ -2407,6 +2390,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
         */
+
         /// <summary>
         /// Text of X axis label.
         /// </summary>
@@ -2454,7 +2438,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Series font cache is reused by points.
         /// </summary>
@@ -2464,8 +2447,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             get { return _fontCache; }
         }
 
-
-        #endregion
+        #endregion Series Properties
 
         #region Invalidating method
 
@@ -2504,11 +2486,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Invalidating method
 
         #region Series Enumeration
-
-
 
         /// <summary>
         /// Series values formula type used in the keywords
@@ -2523,9 +2503,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Last
         }
 
-
-
-        #endregion // Series Enumeration
+        #endregion Series Enumeration
 
         #region IDisposable Members
 
@@ -2544,7 +2522,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         _fontCache.Dispose();
                         _fontCache = null;
                     }
-                    
+
                     this._points = null;
                     this.fakeDataPoints = null;
                     this._emptyPointCustomProperties = null;
@@ -2561,6 +2539,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        #endregion
+
+        #endregion IDisposable Members
     }
 }

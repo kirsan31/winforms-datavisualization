@@ -12,9 +12,7 @@
 // Copyright © Microsoft Corporation, all rights reserved
 //===================================================================
 
-using System;
 //using System.Collections.Generic;
-using System.Text;
 
 namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 {
@@ -22,9 +20,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     /// Helper class which implements the various window functions for determination of the filter
     /// coefficients.
     /// </summary>
-    class FFT
+    internal class FFT
     {
         #region Members
+
         /// <summary>
         /// Filter type enumeration for identification of what type of filter we want coefficients
         /// for.
@@ -48,9 +47,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// Shannon sampling frequency
         /// </summary>
         private float myFS;
-        #endregion
+
+        #endregion Members
 
         #region Properties
+
         /// <summary>
         /// Sampling rate
         /// </summary>
@@ -117,9 +118,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             get { return myOrder; }
             set { myOrder = value; }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Constructors
+
         /// <summary>
         /// Construct a FFT instance and initialize with default values.
         /// </summary>
@@ -140,9 +143,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             //default Alpha to 4
             this.myAlpha = 4;
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Mathematical Functions
+
         /// <summary>
         /// Bessel is the zeroth order Bessel function which is used in the Kaiser window.
         /// This is a polynomial approximation of the zeroth order modified Bessel function found in:
@@ -176,9 +181,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
             return (float)ans;
         }
-        #endregion
+
+        #endregion Mathematical Functions
 
         #region Generate Coefficients
+
         /// <summary>
         /// Calculate the coefficients to be used by the filter function.
         /// </summary>
@@ -306,7 +313,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             //Calculate coefficientsw
             for (int i = 1; i <= o2; i++)
             {
-                coEff[i] = window[i] * (float)System.Math.Sin(i * pe) * (float)System.Math.Cos(i * ps)  / (i * PI);
+                coEff[i] = window[i] * (float)System.Math.Sin(i * pe) * (float)System.Math.Cos(i * ps) / (i * PI);
             }
 
             //Shift Impulse
@@ -322,6 +329,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
             return coEff;
         }
-        #endregion
+
+        #endregion Generate Coefficients
     }
 }

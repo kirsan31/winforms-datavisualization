@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "Axis" Priority="200">
-  <Title>Axis Title</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Setting the Axis Title Appearance</ShortBlurb> 
-  <SampleControl>AxisTitle</SampleControl> 
-  <InfoPages>
+  <Title>Axis Title</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Setting the Axis Title Appearance</ShortBlurb>
+ <SampleControl>AxisTitle</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -16,11 +16,11 @@
 </SampleConfig>
 
 <SampleConfig ParentNodeID = "Titles">
-  <Title>Axis Title</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Setting Axis Title Appearance</ShortBlurb> 
-  <SampleControl>AxisTitle</SampleControl> 
-  <InfoPages>
+  <Title>Axis Title</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Setting Axis Title Appearance</ShortBlurb>
+ <SampleControl>AxisTitle</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -29,5 +29,4 @@
 	<Keyword>Title, Axis</Keyword>
   </Keywords> 
 </SampleConfig>
-
 </SampleConfigs>

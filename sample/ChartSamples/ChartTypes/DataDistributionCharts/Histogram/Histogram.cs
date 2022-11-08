@@ -1,64 +1,58 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for HistogramChart.
-	/// </summary>
-	public class HistogramChart: System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private bool		loadingData = false;
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.ComboBox comboBoxIntervalNumber;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.CheckBox checkBoxShowPercents;
+    /// <summary>
+    /// Summary description for HistogramChart.
+    /// </summary>
+    public class HistogramChart : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private bool loadingData = false;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.ComboBox comboBoxIntervalNumber;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBoxShowPercents;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public HistogramChart()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public HistogramChart()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// TODO: Add any initialization after the InitForm call
+            // TODO: Add any initialization after the InitForm call
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -74,10 +68,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 14);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 43);
@@ -85,20 +79,20 @@ namespace ChartSamples
             this.labelSampleComment.Text = "This sample demonstrates how to create a histogram chart that uses a given number" +
                 " of intervals. ";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.checkBoxShowPercents);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.checkBoxShowPercents);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.comboBoxIntervalNumber);
             this.panel1.Location = new System.Drawing.Point(432, 73);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 0;
-            // 
-            // checkBoxShowPercents
-            // 
-            this.checkBoxShowPercents.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // checkBoxShowPercents
+            //
+           this.checkBoxShowPercents.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShowPercents.Checked = true;
             this.checkBoxShowPercents.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxShowPercents.Location = new System.Drawing.Point(4, 40);
@@ -108,19 +102,19 @@ namespace ChartSamples
             this.checkBoxShowPercents.Text = "Show &Percent Axis:";
             this.checkBoxShowPercents.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShowPercents.CheckedChanged += new System.EventHandler(this.checkBoxShowPercents_CheckedChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(0, 8);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(0, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(164, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "&Number of Intervals:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // comboBoxIntervalNumber
-            // 
-            this.comboBoxIntervalNumber.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBoxIntervalNumber
+            //
+           this.comboBoxIntervalNumber.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxIntervalNumber.Items.AddRange(new object[] {
             "4",
             "10",
@@ -131,10 +125,10 @@ namespace ChartSamples
             this.comboBoxIntervalNumber.Size = new System.Drawing.Size(104, 22);
             this.comboBoxIntervalNumber.TabIndex = 1;
             this.comboBoxIntervalNumber.SelectedIndexChanged += new System.EventHandler(this.comboBoxIntervalNumber_SelectedIndexChanged);
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -254,10 +248,10 @@ namespace ChartSamples
             this.chart1.Series.Add(series3);
             this.chart1.Size = new System.Drawing.Size(412, 296);
             this.chart1.TabIndex = 1;
-            // 
-            // HistogramChart
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // HistogramChart
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
@@ -268,70 +262,69 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void UpdateChartSettings()
-		{
-			if(!this.loadingData)
-			{
-				// Create a histogram series
-				HistogramChartHelper histogramHelper = new HistogramChartHelper();
-				histogramHelper.SegmentIntervalNumber = int.Parse(comboBoxIntervalNumber.Text);
-				histogramHelper.ShowPercentOnSecondaryYAxis = checkBoxShowPercents.Checked;
-				// NOTE: Interval width may be specified instead of interval number
-				//histogramHelper.SegmentIntervalWidth = 15;
-				histogramHelper.CreateHistogram(chart1, "RawData", "Histogram");
+        private void UpdateChartSettings()
+        {
+            if (!this.loadingData)
+            {
+                // Create a histogram series
+                HistogramChartHelper histogramHelper = new HistogramChartHelper();
+                histogramHelper.SegmentIntervalNumber = int.Parse(comboBoxIntervalNumber.Text);
+                histogramHelper.ShowPercentOnSecondaryYAxis = checkBoxShowPercents.Checked;
+                // NOTE: Interval width may be specified instead of interval number
+                //histogramHelper.SegmentIntervalWidth = 15;
+                histogramHelper.CreateHistogram(chart1, "RawData", "Histogram");
 
-				// Set same X axis scale and interval in the single axis data distribution 
-				// chart area as in the histogram chart area.
-				chart1.ChartAreas["Default"].AxisX.Minimum = chart1.ChartAreas["HistogramArea"].AxisX.Minimum;
-				chart1.ChartAreas["Default"].AxisX.Maximum = chart1.ChartAreas["HistogramArea"].AxisX.Maximum;
-				chart1.ChartAreas["Default"].AxisX.Interval = chart1.ChartAreas["HistogramArea"].AxisX.Interval;
-			}
-		}
+                // Set same X axis scale and interval in the single axis data distribution
+               // chart area as in the histogram chart area.
+                chart1.ChartAreas["Default"].AxisX.Minimum = chart1.ChartAreas["HistogramArea"].AxisX.Minimum;
+                chart1.ChartAreas["Default"].AxisX.Maximum = chart1.ChartAreas["HistogramArea"].AxisX.Maximum;
+                chart1.ChartAreas["Default"].AxisX.Interval = chart1.ChartAreas["HistogramArea"].AxisX.Interval;
+            }
+        }
 
-		private void PieChartType_Load(object sender, System.EventArgs e)
-		{
-			// Populate chart with random data
-			Random rand = new Random();
-			for(int index = 1; index < 70; index++) 
-			{
-				int maxValue = (int)Math.Pow(rand.Next(100, 1000) / 100.0 , 2.0);
-				double newVal = 100 + rand.Next(0, (int)maxValue);
-				chart1.Series["RawData"].Points.AddY(newVal);
-				newVal = 100 + rand.Next(-(int)maxValue, 0);
-				chart1.Series["RawData"].Points.AddY(newVal);
-			}
+        private void PieChartType_Load(object sender, System.EventArgs e)
+        {
+            // Populate chart with random data
+            Random rand = new Random();
+            for (int index = 1; index < 70; index++)
+            {
+                int maxValue = (int)Math.Pow(rand.Next(100, 1000) / 100.0, 2.0);
+                double newVal = 100 + rand.Next(0, (int)maxValue);
+                chart1.Series["RawData"].Points.AddY(newVal);
+                newVal = 100 + rand.Next(-(int)maxValue, 0);
+                chart1.Series["RawData"].Points.AddY(newVal);
+            }
 
-			// Populate single axis data distribution series. Show Y value of the
-			// data series as X value and set all Y values to 1.
-			foreach(DataPoint dataPoint in chart1.Series["RawData"].Points)
-			{
-				chart1.Series["DataDistribution"].Points.AddXY(dataPoint.YValues[0], 1);
-			}
+            // Populate single axis data distribution series. Show Y value of the
+            // data series as X value and set all Y values to 1.
+            foreach (DataPoint dataPoint in chart1.Series["RawData"].Points)
+            {
+                chart1.Series["DataDistribution"].Points.AddXY(dataPoint.YValues[0], 1);
+            }
 
-			// Set current selection
-			this.loadingData = true;
-			comboBoxIntervalNumber.SelectedIndex = 1;
-			this.loadingData = false;
+            // Set current selection
+            this.loadingData = true;
+            comboBoxIntervalNumber.SelectedIndex = 1;
+            this.loadingData = false;
 
-			// Update chart
-			UpdateChartSettings();
-		}
+            // Update chart
+            UpdateChartSettings();
+        }
 
-		private void comboBoxIntervalNumber_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			// Update chart
-			UpdateChartSettings();
-		}
+        private void comboBoxIntervalNumber_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            // Update chart
+            UpdateChartSettings();
+        }
 
-		private void checkBoxShowPercents_CheckedChanged(object sender, System.EventArgs e)
-		{
-			// Update chart
-			UpdateChartSettings();
-		}
-
-	}
+        private void checkBoxShowPercents_CheckedChanged(object sender, System.EventArgs e)
+        {
+            // Update chart
+            UpdateChartSettings();
+        }
+    }
 }

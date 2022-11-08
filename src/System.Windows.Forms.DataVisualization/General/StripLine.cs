@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	StripLinesCollection class is used to expose stripes 
 //              or lines on the plotting area and is exposed through 
@@ -21,7 +20,6 @@
 //              of using strip lines with interval. 
 //
 
-
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -33,116 +31,120 @@ using System.Windows.Forms.Design.DataVisualization.Charting;
 namespace System.Windows.Forms.DataVisualization.Charting
 {
     /// <summary>
-    /// The StripLinesCollection class is a strongly typed collection of 
-    /// StripLine classes. 
-    /// </summary>
+    /// The StripLinesCollection class is a strongly typed collection of
+   /// StripLine classes.
+   /// </summary>
     [
-		SRDescription("DescriptionAttributeStripLinesCollection_StripLinesCollection"),
+        SRDescription("DescriptionAttributeStripLinesCollection_StripLinesCollection"),
 
-	]
+    ]
     public class StripLinesCollection : ChartElementCollection<StripLine>, IDisposable
     {
-		private bool _disposedValue;
+        private bool _disposedValue;
 
-		#region Constructor
-		/// <summary>
-		/// Legend item collection object constructor
-		/// </summary>
-		/// <param name="axis">Axis object reference.</param>
-		internal StripLinesCollection(Axis axis)
+        #region Constructor
+
+        /// <summary>
+        /// Legend item collection object constructor
+        /// </summary>
+        /// <param name="axis">Axis object reference.</param>
+        internal StripLinesCollection(Axis axis)
             : base(axis)
         {
         }
-		#endregion
 
-		#region IDisposable Members
+        #endregion Constructor
 
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources
-		/// </summary>
-		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-		protected virtual void Dispose(bool disposing)
-		{
-			if (_disposedValue)
-				return;
+        #region IDisposable Members
 
-			if (disposing)
-			{
-				// Dispose managed resources
-				foreach (var element in this)
-				{
-					element.Dispose();
-				}
-			}
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposedValue)
+                return;
 
-			_disposedValue = true;
-		}
+            if (disposing)
+            {
+                // Dispose managed resources
+                foreach (var element in this)
+                {
+                    element.Dispose();
+                }
+            }
 
-		/// <summary>
-		/// Performs freeing, releasing, or resetting managed resources.
-		/// </summary>
-		public void Dispose()
-		{
-			this.Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+            _disposedValue = true;
+        }
 
-		#endregion
-	}
+        /// <summary>
+        /// Performs freeing, releasing, or resetting managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-	/// <summary>
-	/// The StripLine class contains properties which define visual appearance 
-	/// of the stripe or line, its position according to the axis.  It 
-	/// may optionally contain the repeat interval. Text may associate 
-	/// with a strip or a line.  It also contains methods of drawing and hit 
-	/// testing.
-	/// </summary>
-	[
-		SRDescription("DescriptionAttributeStripLine_StripLine"),
-		DefaultProperty("IntervalOffset"),
-	]
-	public class StripLine : ChartElement, IDisposable
+        #endregion IDisposable Members
+    }
+
+    /// <summary>
+    /// The StripLine class contains properties which define visual appearance
+   /// of the stripe or line, its position according to the axis.  It
+   /// may optionally contain the repeat interval. Text may associate
+   /// with a strip or a line.  It also contains methods of drawing and hit
+   /// testing.
+    /// </summary>
+    [
+        SRDescription("DescriptionAttributeStripLine_StripLine"),
+        DefaultProperty("IntervalOffset"),
+    ]
+    public class StripLine : ChartElement, IDisposable
     {
+        #region Fields
 
-		#region Fields
+        // Private data members, which store properties values
+        private double _intervalOffset;
 
-		// Private data members, which store properties values
-		private double					_intervalOffset;
-        private double					_interval;
-        private DateTimeIntervalType	_intervalType = DateTimeIntervalType.Auto;
-		internal DateTimeIntervalType	intervalOffsetType = DateTimeIntervalType.Auto;
-		internal bool					interlaced;
-        private double					_stripWidth;
-        private DateTimeIntervalType	_stripWidthType = DateTimeIntervalType.Auto;
-		private Color					_backColor = Color.Empty;
-		private ChartHatchStyle			_backHatchStyle = ChartHatchStyle.None;
-		private string					_backImage = "";
-		private ChartImageWrapMode		_backImageWrapMode = ChartImageWrapMode.Tile;
-		private Color					_backImageTransparentColor = Color.Empty;
-		private ChartImageAlignmentStyle	_backImageAlignment = ChartImageAlignmentStyle.TopLeft;
-		private GradientStyle			_backGradientStyle = GradientStyle.None;
-		private Color					_backSecondaryColor = Color.Empty;
-		private Color					_borderColor = Color.Empty;
-		private int						_borderWidth = 1;
-		private ChartDashStyle			_borderDashStyle = ChartDashStyle.Solid;
+        private double _interval;
+        private DateTimeIntervalType _intervalType = DateTimeIntervalType.Auto;
+        internal DateTimeIntervalType intervalOffsetType = DateTimeIntervalType.Auto;
+        internal bool interlaced;
+        private double _stripWidth;
+        private DateTimeIntervalType _stripWidthType = DateTimeIntervalType.Auto;
+        private Color _backColor = Color.Empty;
+        private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
+        private string _backImage = "";
+        private ChartImageWrapMode _backImageWrapMode = ChartImageWrapMode.Tile;
+        private Color _backImageTransparentColor = Color.Empty;
+        private ChartImageAlignmentStyle _backImageAlignment = ChartImageAlignmentStyle.TopLeft;
+        private GradientStyle _backGradientStyle = GradientStyle.None;
+        private Color _backSecondaryColor = Color.Empty;
+        private Color _borderColor = Color.Empty;
+        private int _borderWidth = 1;
+        private ChartDashStyle _borderDashStyle = ChartDashStyle.Solid;
 
-		// Strip/Line title properties
-		private	string					_text = "";
-		private Color					_foreColor = Color.Black;
-        private FontCache               _fontCache = new FontCache();
-		private Font					_font;
-        private StringAlignment			_textAlignment = StringAlignment.Far;
-		private StringAlignment			_textLineAlignment = StringAlignment.Near;
+        // Strip/Line title properties
+        private string _text = "";
 
-		// Chart image map properties 
-		private	string					_toolTip = "";
+        private Color _foreColor = Color.Black;
+        private FontCache _fontCache = new FontCache();
+        private Font _font;
+        private StringAlignment _textAlignment = StringAlignment.Far;
+        private StringAlignment _textLineAlignment = StringAlignment.Near;
+
+        // Chart image map properties
+       private string _toolTip = "";
 
         // Default text orientation
         private TextOrientation _textOrientation = TextOrientation.Auto;
 
-		#endregion
+        #endregion Fields
 
         #region Properties
+
         /// <summary>
         /// Gets axes to which this object attached to.
         /// </summary>
@@ -157,22 +159,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     return null;
             }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Constructors
 
         /// <summary>
 		/// Strip line object constructor.
 		/// </summary>
-		public StripLine() 
+		public StripLine()
             : base()
-		{
+        {
             _font = _fontCache.DefaultFont;
-		}
+        }
 
-        #endregion
+        #endregion Constructors
 
-		#region Painting methods
+        #region Painting methods
 
         /// <summary>
         /// Checks if chart title is drawn vertically.
@@ -206,58 +209,58 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return this.TextOrientation;
         }
 
-		/// <summary>
-		/// Draw strip(s) or line(s).
-		/// </summary>
-		/// <param name="graph">Reference to the Chart Graphics object.</param>
-		/// <param name="common">Common objects.</param>
-		/// <param name="drawLinesOnly">Indicates if Lines or Stripes should be drawn.</param>
-		internal void Paint( 
-			ChartGraphics graph, 
-			CommonElements common,
-			bool drawLinesOnly)
-		{
-			// Strip lines are not supported in circular chart area
-			if(this.Axis.ChartArea.chartAreaIsCurcular)
-			{
-				return;
-			}
+        /// <summary>
+        /// Draw strip(s) or line(s).
+        /// </summary>
+        /// <param name="graph">Reference to the Chart Graphics object.</param>
+        /// <param name="common">Common objects.</param>
+        /// <param name="drawLinesOnly">Indicates if Lines or Stripes should be drawn.</param>
+        internal void Paint(
+            ChartGraphics graph,
+            CommonElements common,
+            bool drawLinesOnly)
+        {
+            // Strip lines are not supported in circular chart area
+            if (this.Axis.ChartArea.chartAreaIsCurcular)
+            {
+                return;
+            }
 
-			// Get plot area position
-			RectangleF	plotAreaPosition = this.Axis.ChartArea.PlotAreaPosition.ToRectangleF();
+            // Get plot area position
+            RectangleF plotAreaPosition = this.Axis.ChartArea.PlotAreaPosition.ToRectangleF();
 
-			// Detect if strip/line is horizontal or vertical
-			bool	horizontal = true;
-			if(this.Axis.AxisPosition == AxisPosition.Bottom || this.Axis.AxisPosition == AxisPosition.Top)
-			{
-				horizontal = false;
-			}
+            // Detect if strip/line is horizontal or vertical
+            bool horizontal = true;
+            if (this.Axis.AxisPosition == AxisPosition.Bottom || this.Axis.AxisPosition == AxisPosition.Top)
+            {
+                horizontal = false;
+            }
 
-			// Get first series attached to this axis
-			Series	axisSeries = null;			
-			if(Axis.axisType == AxisName.X || Axis.axisType == AxisName.X2)
-			{
-				List<string> seriesArray = Axis.ChartArea.GetXAxesSeries((Axis.axisType == AxisName.X) ? AxisType.Primary : AxisType.Secondary, Axis.SubAxisName);
-				if(seriesArray.Count > 0)
-				{
-					axisSeries = Axis.Common.DataManager.Series[seriesArray[0]];
-					if(axisSeries != null && !axisSeries.IsXValueIndexed)
-					{
-						axisSeries = null;
-					}
-				}
-			}
+            // Get first series attached to this axis
+            Series axisSeries = null;
+            if (Axis.axisType == AxisName.X || Axis.axisType == AxisName.X2)
+            {
+                List<string> seriesArray = Axis.ChartArea.GetXAxesSeries((Axis.axisType == AxisName.X) ? AxisType.Primary : AxisType.Secondary, Axis.SubAxisName);
+                if (seriesArray.Count > 0)
+                {
+                    axisSeries = Axis.Common.DataManager.Series[seriesArray[0]];
+                    if (axisSeries != null && !axisSeries.IsXValueIndexed)
+                    {
+                        axisSeries = null;
+                    }
+                }
+            }
 
-			// Get starting position from axis
-			// NOTE: Starting position was changed from "this.Axis.minimum" to 
-			// fix the minimum scaleView location to fix issue #5962 -- AG
+            // Get starting position from axis
+            // NOTE: Starting position was changed from "this.Axis.minimum" to
+           // fix the minimum scaleView location to fix issue #5962 -- AG
             double currentPosition = this.Axis.ViewMinimum;
 
-			// Adjust start position depending on the interval type
-			if(!Axis.ChartArea.chartAreaIsCurcular ||
-				Axis.axisType == AxisName.Y || 
-				Axis.axisType == AxisName.Y2 )
-			{
+            // Adjust start position depending on the interval type
+            if (!Axis.ChartArea.chartAreaIsCurcular ||
+                Axis.axisType == AxisName.Y ||
+                Axis.axisType == AxisName.Y2)
+            {
                 double intervalToUse = this.Interval;
 
                 // NOTE: fix for issue #5962
@@ -268,21 +271,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     intervalToUse /= 2.0;
                 }
                 currentPosition = ChartHelper.AlignIntervalStart(currentPosition, intervalToUse, this.IntervalType, axisSeries);
-			}
+            }
 
-			// Too many tick marks
-			if(this.Interval != 0)
-			{
-				if( ( Axis.ViewMaximum - Axis.ViewMinimum ) / ChartHelper.GetIntervalSize(currentPosition, this._interval, this._intervalType, axisSeries, 0, DateTimeIntervalType.Number, false) > ChartHelper.MaxNumOfGridlines)
-					return;
-			}
+            // Too many tick marks
+            if (this.Interval != 0)
+            {
+                if ((Axis.ViewMaximum - Axis.ViewMinimum) / ChartHelper.GetIntervalSize(currentPosition, this._interval, this._intervalType, axisSeries, 0, DateTimeIntervalType.Number, false) > ChartHelper.MaxNumOfGridlines)
+                    return;
+            }
 
-			DateTimeIntervalType offsetType = (IntervalOffsetType == DateTimeIntervalType.Auto) ? IntervalType : IntervalOffsetType;
-			if(this.Interval == 0)
-			{
-				currentPosition = this.IntervalOffset;
-			}
-			/******************************************************************
+            DateTimeIntervalType offsetType = (IntervalOffsetType == DateTimeIntervalType.Auto) ? IntervalType : IntervalOffsetType;
+            if (this.Interval == 0)
+            {
+                currentPosition = this.IntervalOffset;
+            }
+            /******************************************************************
 			 * Removed by AG. Causing issues with interalced strip lines.
 			 /******************************************************************
 			else if(axisSeries != null && axisSeries.IsXValueIndexed)
@@ -298,29 +301,29 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					false);
 			}
 			*/
-			else
-			{
-				if(this.IntervalOffset > 0)
-				{
-                    currentPosition += ChartHelper.GetIntervalSize(currentPosition, this.IntervalOffset, 
-						offsetType, axisSeries, 0, DateTimeIntervalType.Number, false);
-				}
-				else if(this.IntervalOffset < 0)
-				{
-                    currentPosition -= ChartHelper.GetIntervalSize(currentPosition, -this.IntervalOffset, 
-						offsetType, axisSeries, 0, DateTimeIntervalType.Number, false);
-				}
-			}
+            else
+            {
+                if (this.IntervalOffset > 0)
+                {
+                    currentPosition += ChartHelper.GetIntervalSize(currentPosition, this.IntervalOffset,
+                        offsetType, axisSeries, 0, DateTimeIntervalType.Number, false);
+                }
+                else if (this.IntervalOffset < 0)
+                {
+                    currentPosition -= ChartHelper.GetIntervalSize(currentPosition, -this.IntervalOffset,
+                        offsetType, axisSeries, 0, DateTimeIntervalType.Number, false);
+                }
+            }
 
-			// Draw several lines or strips if Interval property is set
-			int	counter = 0;
-			do
-			{
-				// Check if we do not exceed max number of elements
-				if(counter++ > ChartHelper.MaxNumOfGridlines)
-				{
-					break;
-				}
+            // Draw several lines or strips if Interval property is set
+            int counter = 0;
+            do
+            {
+                // Check if we do not exceed max number of elements
+                if (counter++ > ChartHelper.MaxNumOfGridlines)
+                {
+                    break;
+                }
 
                 // Draw strip
                 if (this.StripWidth > 0 && !drawLinesOnly)
@@ -355,7 +358,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                         if (rect.Width > 0 && rect.Height > 0)
                         {
-
                             // Start Svg Selection mode
                             graph.StartHotRegion("", this._toolTip);
                             if (!this.Axis.ChartArea.Area3DStyle.Enable3D)
@@ -387,7 +389,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
                             }
                         }
-
                     }
                 }
                 // Draw line
@@ -457,14 +458,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
 
-				// Go to the next line/strip
-				if(this.Interval > 0)
-				{
+                // Go to the next line/strip
+                if (this.Interval > 0)
+                {
                     currentPosition += ChartHelper.GetIntervalSize(currentPosition, this.Interval, this.IntervalType, axisSeries, this.IntervalOffset, offsetType, false);
-				}
-
-			} while(this.Interval > 0 && currentPosition <= this.Axis.ViewMaximum);
-		}
+                }
+            } while (this.Interval > 0 && currentPosition <= this.Axis.ViewMaximum);
+        }
 
         /// <summary>
         /// Draws strip line in 3d.
@@ -472,15 +472,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="graph">Chart graphics.</param>
         /// <param name="rect">Strip rectangle.</param>
         /// <param name="horizontal">Indicates that strip is horizontal</param>
-		private void Draw3DStrip(ChartGraphics graph, RectangleF rect, bool horizontal )
-		{
-			ChartArea	area = this.Axis.ChartArea;
+		private void Draw3DStrip(ChartGraphics graph, RectangleF rect, bool horizontal)
+        {
+            ChartArea area = this.Axis.ChartArea;
             DrawingOperationTypes operationType = DrawingOperationTypes.DrawElement;
 
-			if( this.Axis.Common.ProcessModeRegions )
-			{
-				operationType |= DrawingOperationTypes.CalcElementPath;
-			}
+            if (this.Axis.Common.ProcessModeRegions)
+            {
+                operationType |= DrawingOperationTypes.CalcElementPath;
+            }
 
             // Draw strip on the back/front wall
             GraphicsPath path = graph.Fill3DRectangle(
@@ -495,84 +495,83 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 BorderDashStyle,
                 operationType);
 
-            if ( this.Axis.Common.ProcessModeRegions )
-			{
-				this.Axis.Common.HotRegionsList.AddHotRegion( graph, path, false, this.ToolTip, null, null, null, this, ChartElementType.StripLines );
-			}
+            if (this.Axis.Common.ProcessModeRegions)
+            {
+                this.Axis.Common.HotRegionsList.AddHotRegion(graph, path, false, this.ToolTip, null, null, null, this, ChartElementType.StripLines);
+            }
 
-			if(horizontal)
-			{
-				// Draw strip on the side wall (left or right)
-				if(!area.IsSideSceneWallOnLeft())
-				{
-					rect.X = rect.Right;
-				}
-				rect.Width = 0f;
+            if (horizontal)
+            {
+                // Draw strip on the side wall (left or right)
+                if (!area.IsSideSceneWallOnLeft())
+                {
+                    rect.X = rect.Right;
+                }
+                rect.Width = 0f;
 
-				path = graph.Fill3DRectangle( 
-					rect, 
-                    0f, 
-                    area.areaSceneDepth, 
-                    area.matrix3D, 
-                    area.Area3DStyle.LightStyle,
-					this.BackColor, 
-                    this.BorderColor, 
-					this.BorderWidth, 
-                    this.BorderDashStyle, 
-					operationType );
-
-			}
-			else if(area.IsBottomSceneWallVisible())
-			{
-				// Draw strip on the bottom wall (if visible)
-				rect.Y = rect.Bottom;
-				rect.Height = 0f;
-
-				path = graph.Fill3DRectangle( 
-					rect,
-                    0f, 
+                path = graph.Fill3DRectangle(
+                    rect,
+                    0f,
                     area.areaSceneDepth,
                     area.matrix3D,
                     area.Area3DStyle.LightStyle,
-					this.BackColor,
-                    this.BorderColor, 
-					this.BorderWidth,
+                    this.BackColor,
+                    this.BorderColor,
+                    this.BorderWidth,
                     this.BorderDashStyle,
-					operationType );
-			}
+                    operationType);
+            }
+            else if (area.IsBottomSceneWallVisible())
+            {
+                // Draw strip on the bottom wall (if visible)
+                rect.Y = rect.Bottom;
+                rect.Height = 0f;
 
-			if( this.Axis.Common.ProcessModeRegions )
-			{
-				this.Axis.Common.HotRegionsList.AddHotRegion( graph, path, false, this.ToolTip, null, null, null, this, ChartElementType.StripLines );
-			}
+                path = graph.Fill3DRectangle(
+                    rect,
+                    0f,
+                    area.areaSceneDepth,
+                    area.matrix3D,
+                    area.Area3DStyle.LightStyle,
+                    this.BackColor,
+                    this.BorderColor,
+                    this.BorderWidth,
+                    this.BorderDashStyle,
+                    operationType);
+            }
+
+            if (this.Axis.Common.ProcessModeRegions)
+            {
+                this.Axis.Common.HotRegionsList.AddHotRegion(graph, path, false, this.ToolTip, null, null, null, this, ChartElementType.StripLines);
+            }
 
             if (path != null)
             {
                 path.Dispose();
             }
-		}
+        }
 
-		/// <summary>
-		/// Draw strip/line title text
-		/// </summary>
-		/// <param name="graph">Chart graphics object.</param>
-		/// <param name="point1">First line point.</param>
-		/// <param name="point2">Second line point.</param>
-		private void PaintTitle(ChartGraphics graph, PointF point1, PointF point2)
-		{
-			if(this.Text.Length > 0)
-			{
-				// Define a rectangle to draw the title
-				RectangleF rect = RectangleF.Empty;
-				rect.X = point1.X;
-				rect.Y = point1.Y;
-				rect.Height = point2.Y - rect.Y;
-				rect.Width = point2.X - rect.X;
+        /// <summary>
+        /// Draw strip/line title text
+        /// </summary>
+        /// <param name="graph">Chart graphics object.</param>
+        /// <param name="point1">First line point.</param>
+        /// <param name="point2">Second line point.</param>
+        private void PaintTitle(ChartGraphics graph, PointF point1, PointF point2)
+        {
+            if (this.Text.Length > 0)
+            {
+                // Define a rectangle to draw the title
+                RectangleF rect = RectangleF.Empty;
+                rect.X = point1.X;
+                rect.Y = point1.Y;
+                rect.Height = point2.Y - rect.Y;
+                rect.Width = point2.X - rect.X;
 
-				// Paint title using a rect
-				PaintTitle(graph, rect);
-			}
-		}
+                // Paint title using a rect
+                PaintTitle(graph, rect);
+            }
+        }
 
         /// <summary>
         /// Draw strip/line title text
@@ -580,11 +579,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="graph">Chart graphics object.</param>
         /// <param name="rect">Rectangle to draw in.</param>
 		private void PaintTitle(ChartGraphics graph, RectangleF rect)
-		{
-			if(this.Text.Length > 0)
-			{
-				// Get title text
-				string	titleText = this.Text;
+        {
+            if (this.Text.Length > 0)
+            {
+                // Get title text
+                string titleText = this.Text;
 
                 // Prepare string format
                 using StringFormat format = new StringFormat();
@@ -611,9 +610,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     case TextOrientation.Rotated90:
                         angle = 90;
                         break;
+
                     case TextOrientation.Rotated270:
                         angle = 270;
                         break;
+
                     case TextOrientation.Auto:
                         if (this.Axis.AxisPosition == AxisPosition.Bottom || this.Axis.AxisPosition == AxisPosition.Top)
                         {
@@ -656,7 +657,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     size.Width *= size.Width / (textSizeProjection[index].X - textSizeProjection[(index == 0) ? 1 : 0].X);
                     size.Height *= size.Height / (textSizeProjection[2].Y - textSizeProjection[0].Y);
                 }
-
 
                 // Get relative size of the border width
                 SizeF sizeBorder = graph.GetRelativeSize(new SizeF(this.BorderWidth, this.BorderWidth));
@@ -745,11 +745,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     angle,
                     this.GetTextOrientation());
             }
-		}
+        }
 
-		#endregion
+        #endregion Painting methods
 
-		#region	Strip line properties
+        #region	Strip line properties
 
         /// <summary>
         /// Gets or sets the text orientation.
@@ -774,333 +774,333 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-		/// <summary>
-		/// Gets or sets the strip or line starting position offset.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeData"),
-		Bindable(true),
-		DefaultValue(0.0),
-		SRDescription("DescriptionAttributeStripLine_IntervalOffset"),
-		TypeConverter(typeof(AxisLabelDateValueConverter))
-		]
-		public double IntervalOffset
-		{
-			get
-			{
-				return _intervalOffset;
-			}
-			set
-			{
-				_intervalOffset = value;
-				this.Invalidate(); 
-			}
-		}
+        /// <summary>
+        /// Gets or sets the strip or line starting position offset.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeData"),
+        Bindable(true),
+        DefaultValue(0.0),
+        SRDescription("DescriptionAttributeStripLine_IntervalOffset"),
+        TypeConverter(typeof(AxisLabelDateValueConverter))
+        ]
+        public double IntervalOffset
+        {
+            get
+            {
+                return _intervalOffset;
+            }
+            set
+            {
+                _intervalOffset = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the unit of measurement of the strip or line offset.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeData"),
-		Bindable(true),
-		DefaultValue(DateTimeIntervalType.Auto),
-		SRDescription("DescriptionAttributeStripLine_IntervalOffsetType"),
-		RefreshPropertiesAttribute(RefreshProperties.All)
-		]
-		public DateTimeIntervalType IntervalOffsetType
-		{
-			get
-			{
-				return intervalOffsetType;
-			}
-			set
-			{
-				intervalOffsetType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
-				this.Invalidate(); 
-			}
-		}
+        /// <summary>
+        /// Gets or sets the unit of measurement of the strip or line offset.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeData"),
+        Bindable(true),
+        DefaultValue(DateTimeIntervalType.Auto),
+        SRDescription("DescriptionAttributeStripLine_IntervalOffsetType"),
+        RefreshPropertiesAttribute(RefreshProperties.All)
+        ]
+        public DateTimeIntervalType IntervalOffsetType
+        {
+            get
+            {
+                return intervalOffsetType;
+            }
+            set
+            {
+                intervalOffsetType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the strip or line step size.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeData"),
-		Bindable(true),
-		DefaultValue(0.0),
-		RefreshPropertiesAttribute(RefreshProperties.All),
-		SRDescription("DescriptionAttributeStripLine_Interval")
-		]
-		public double Interval
-		{
-			get
-			{
-				return _interval;
-			}
-			set
-			{
-				_interval = value;
-				this.Invalidate(); 
-			}
-		}
+        /// <summary>
+        /// Gets or sets the strip or line step size.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeData"),
+        Bindable(true),
+        DefaultValue(0.0),
+        RefreshPropertiesAttribute(RefreshProperties.All),
+        SRDescription("DescriptionAttributeStripLine_Interval")
+        ]
+        public double Interval
+        {
+            get
+            {
+                return _interval;
+            }
+            set
+            {
+                _interval = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the unit of measurement of the strip or line step.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeData"),
-		Bindable(true),
-		DefaultValue(DateTimeIntervalType.Auto),
-		SRDescription("DescriptionAttributeStripLine_IntervalType"),
-		RefreshPropertiesAttribute(RefreshProperties.All)
-		]
-		public DateTimeIntervalType IntervalType
-		{
-			get
-			{
-				return _intervalType;
-			}
-			set
-			{
-				_intervalType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
-				this.Invalidate(); 
-			}
-		}
+        /// <summary>
+        /// Gets or sets the unit of measurement of the strip or line step.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeData"),
+        Bindable(true),
+        DefaultValue(DateTimeIntervalType.Auto),
+        SRDescription("DescriptionAttributeStripLine_IntervalType"),
+        RefreshPropertiesAttribute(RefreshProperties.All)
+        ]
+        public DateTimeIntervalType IntervalType
+        {
+            get
+            {
+                return _intervalType;
+            }
+            set
+            {
+                _intervalType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the strip width.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeData"),
-		Bindable(true),
-		DefaultValue(0.0),
-		SRDescription("DescriptionAttributeStripLine_StripWidth")
-		]
-		public double StripWidth
-		{
-			get
-			{
-				return _stripWidth;
-			}
-			set
-			{
-				if(value < 0)
-				{
+        /// <summary>
+        /// Gets or sets the strip width.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeData"),
+        Bindable(true),
+        DefaultValue(0.0),
+        SRDescription("DescriptionAttributeStripLine_StripWidth")
+        ]
+        public double StripWidth
+        {
+            get
+            {
+                return _stripWidth;
+            }
+            set
+            {
+                if (value < 0)
+                {
                     throw new ArgumentException(SR.ExceptionStripLineWidthIsNegative, nameof(value));
-				}
-				_stripWidth = value;
-				this.Invalidate(); 
-			}
-		}
+                }
+                _stripWidth = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the unit of measurement of the strip width.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeData"),
-		Bindable(true),
-		DefaultValue(DateTimeIntervalType.Auto),
-		SRDescription("DescriptionAttributeStripLine_StripWidthType"),
-		RefreshPropertiesAttribute(RefreshProperties.All)
-		]
-		public DateTimeIntervalType StripWidthType
-		{
-			get
-			{
-				return _stripWidthType;
-			}
-			set
-			{
-				_stripWidthType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
-				this.Invalidate(); 
-			}
-		}
+        /// <summary>
+        /// Gets or sets the unit of measurement of the strip width.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeData"),
+        Bindable(true),
+        DefaultValue(DateTimeIntervalType.Auto),
+        SRDescription("DescriptionAttributeStripLine_StripWidthType"),
+        RefreshPropertiesAttribute(RefreshProperties.All)
+        ]
+        public DateTimeIntervalType StripWidthType
+        {
+            get
+            {
+                return _stripWidthType;
+            }
+            set
+            {
+                _stripWidthType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the background color.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(typeof(Color), ""),
+        /// <summary>
+        /// Gets or sets the background color.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeBackColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
         public Color BackColor
-		{
-			get
-			{
-				return _backColor;
-			}
-			set
-			{
-				_backColor = value;
-				this.Invalidate(); 
-			}
-		}
+        {
+            get
+            {
+                return _backColor;
+            }
+            set
+            {
+                _backColor = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the border color.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
+        /// <summary>
+        /// Gets or sets the border color.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeBorderColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
         public Color BorderColor
-		{
-			get
-			{
-				return _borderColor;
-			}
-			set
-			{
-				_borderColor = value;
-				this.Invalidate(); 
-			}
-		}
+        {
+            get
+            {
+                return _borderColor;
+            }
+            set
+            {
+                _borderColor = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the border style.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(ChartDashStyle.Solid),
+        /// <summary>
+        /// Gets or sets the border style.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(ChartDashStyle.Solid),
         SRDescription("DescriptionAttributeBorderDashStyle")
-		]
-		public ChartDashStyle BorderDashStyle
-		{
-			get
-			{
-				return _borderDashStyle;
-			}
-			set
-			{
-				_borderDashStyle = value;
-				this.Invalidate(); 
-			}
-		}
+        ]
+        public ChartDashStyle BorderDashStyle
+        {
+            get
+            {
+                return _borderDashStyle;
+            }
+            set
+            {
+                _borderDashStyle = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the border width.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(1),
+        /// <summary>
+        /// Gets or sets the border width.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(1),
         SRDescription("DescriptionAttributeBorderWidth")
-		]
-		public int BorderWidth
-		{
-			get
-			{
-				return _borderWidth;
-			}
-			set
-			{
-				_borderWidth = value;
-				this.Invalidate(); 
-			}
-		}
-		
-		/// <summary>
-		/// Gets or sets the background image.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(""),
+        ]
+        public int BorderWidth
+        {
+            get
+            {
+                return _borderWidth;
+            }
+            set
+            {
+                _borderWidth = value;
+                this.Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the background image.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(""),
         SRDescription("DescriptionAttributeBackImage"),
         Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
         NotifyParentPropertyAttribute(true)
-		]
-		public string BackImage
-		{
-			get
-			{
-				return _backImage;
-			}
-			set
-			{
-				_backImage = value;
-				this.Invalidate(); 
-			}
-		}
+        ]
+        public string BackImage
+        {
+            get
+            {
+                return _backImage;
+            }
+            set
+            {
+                _backImage = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the background image drawing mode.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(ChartImageWrapMode.Tile),
-		NotifyParentPropertyAttribute(true),
+        /// <summary>
+        /// Gets or sets the background image drawing mode.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(ChartImageWrapMode.Tile),
+        NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeImageWrapMode")
-		]
-		public ChartImageWrapMode BackImageWrapMode
-		{
-			get
-			{
-				return _backImageWrapMode;
-			}
-			set
-			{
-				_backImageWrapMode = value;
-				this.Invalidate(); 
-			}
-		}
+        ]
+        public ChartImageWrapMode BackImageWrapMode
+        {
+            get
+            {
+                return _backImageWrapMode;
+            }
+            set
+            {
+                _backImageWrapMode = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets a color which will be replaced with a transparent color while drawing the background image.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(typeof(Color), ""),
-		NotifyParentPropertyAttribute(true),
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(typeof(Color), ""),
+        NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
         public Color BackImageTransparentColor
-		{
-			get
-			{
-				return _backImageTransparentColor;
-			}
-			set
-			{
-				_backImageTransparentColor = value;
-				this.Invalidate(); 
-			}
-		}
+        {
+            get
+            {
+                return _backImageTransparentColor;
+            }
+            set
+            {
+                _backImageTransparentColor = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the background image alignment used by unscale drawing mode.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(ChartImageAlignmentStyle.TopLeft),
-		NotifyParentPropertyAttribute(true),
+        /// <summary>
+        /// Gets or sets the background image alignment used by unscale drawing mode.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(ChartImageAlignmentStyle.TopLeft),
+        NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeBackImageAlign")
-		]
-		public ChartImageAlignmentStyle BackImageAlignment
-		{
-			get
-			{
-				return _backImageAlignment;
-			}
-			set
-			{
-				_backImageAlignment = value;
-				this.Invalidate(); 
-			}
-		}
+        ]
+        public ChartImageAlignmentStyle BackImageAlignment
+        {
+            get
+            {
+                return _backImageAlignment;
+            }
+            set
+            {
+                _backImageAlignment = value;
+                this.Invalidate();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the background gradient style.
@@ -1115,24 +1115,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Two colors are used to draw the gradient, <see cref="BackColor"/> and <see cref="BackSecondaryColor"/>.
         /// </remarks>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(GradientStyle.None),
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(GradientStyle.None),
         SRDescription("DescriptionAttributeBackGradientStyle"),
         Editor(typeof(GradientEditor), typeof(UITypeEditor))
         ]
         public GradientStyle BackGradientStyle
-		{
-			get
-			{
-				return _backGradientStyle;
-			}
-			set
-			{
-				_backGradientStyle = value;
-				this.Invalidate(); 
-			}
-		}
+        {
+            get
+            {
+                return _backGradientStyle;
+            }
+            set
+            {
+                _backGradientStyle = value;
+                this.Invalidate();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the secondary background color.
@@ -1141,33 +1141,33 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <seealso cref="BackGradientStyle"/>
         /// </summary>
         /// <value>
-        /// A <see cref="Color"/> value used for the secondary color of a background with 
-        /// hatching or gradient fill.
+        /// A <see cref="Color"/> value used for the secondary color of a background with
+       /// hatching or gradient fill.
         /// </value>
         /// <remarks>
         /// This color is used with <see cref="BackColor"/> when <see cref="BackHatchStyle"/> or
         /// <see cref="BackGradientStyle"/> are used.
         /// </remarks>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(typeof(Color), ""),
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeBackSecondaryColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
         public Color BackSecondaryColor
-		{
-			get
-			{
-				return _backSecondaryColor;
-			}
-			set
-			{
-				_backSecondaryColor = value;
-				this.Invalidate(); 
-			}
-		}
+        {
+            get
+            {
+                return _backSecondaryColor;
+            }
+            set
+            {
+                _backSecondaryColor = value;
+                this.Invalidate();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the background hatch style.
@@ -1182,203 +1182,201 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Two colors are used to draw the hatching, <see cref="BackColor"/> and <see cref="BackSecondaryColor"/>.
         /// </remarks>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(ChartHatchStyle.None),
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(ChartHatchStyle.None),
         SRDescription("DescriptionAttributeBackHatchStyle"),
         Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
         ]
         public ChartHatchStyle BackHatchStyle
-		{
-			get
-			{
-				return _backHatchStyle;
-			}
-			set
-			{
-				_backHatchStyle = value;
-				this.Invalidate(); 
-			}
-		}
+        {
+            get
+            {
+                return _backHatchStyle;
+            }
+            set
+            {
+                _backHatchStyle = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the name of the strip line.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(false),
-		Browsable(false),
-		DefaultValue("StripLine"),
-		SRDescription("DescriptionAttributeStripLine_Name"),
-		DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-		SerializationVisibilityAttribute(SerializationVisibility.Hidden)
-		]
-		public string Name
-		{
-			get
-			{
-				return "StripLine";
-			}
-		}
+        /// <summary>
+        /// Gets or sets the name of the strip line.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(false),
+        Browsable(false),
+        DefaultValue("StripLine"),
+        SRDescription("DescriptionAttributeStripLine_Name"),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+        ]
+        public string Name
+        {
+            get
+            {
+                return "StripLine";
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the title text of the strip line.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeTitle"),
-		Bindable(true),
-		DefaultValue(""),
-		SRDescription("DescriptionAttributeStripLine_Title"),
-		NotifyParentPropertyAttribute(true)
-		]
-		public string Text
-		{
-			get
-			{
-				return _text;
-			}
-			set
-			{
-				_text = value;
-				this.Invalidate(); 
-			}
-		}
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeTitle"),
+        Bindable(true),
+        DefaultValue(""),
+        SRDescription("DescriptionAttributeStripLine_Title"),
+        NotifyParentPropertyAttribute(true)
+        ]
+        public string Text
+        {
+            get
+            {
+                return _text;
+            }
+            set
+            {
+                _text = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the fore color of the strip line.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeTitle"),
-		Bindable(true),
-		DefaultValue(typeof(Color), "Black"),
-		SRDescription("DescriptionAttributeStripLine_TitleColor"),
-		NotifyParentPropertyAttribute(true),
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeTitle"),
+        Bindable(true),
+        DefaultValue(typeof(Color), "Black"),
+        SRDescription("DescriptionAttributeStripLine_TitleColor"),
+        NotifyParentPropertyAttribute(true),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
         public Color ForeColor
-		{
-			get
-			{
-				return _foreColor;
-			}
-			set
-			{
-				_foreColor = value;
-				this.Invalidate(); 
-			}
-		}
+        {
+            get
+            {
+                return _foreColor;
+            }
+            set
+            {
+                _foreColor = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the text alignment of the strip line.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeTitle"),
-		Bindable(true),
-		DefaultValue(typeof(StringAlignment), "Far"),
-		SRDescription("DescriptionAttributeStripLine_TitleAlignment"),
-		NotifyParentPropertyAttribute(true)
-		]
-		public StringAlignment TextAlignment
-		{
-			get
-			{
-				return _textAlignment;
-			}
-			set
-			{
-				_textAlignment = value;
-				this.Invalidate(); 
-			}
-		}
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeTitle"),
+        Bindable(true),
+        DefaultValue(typeof(StringAlignment), "Far"),
+        SRDescription("DescriptionAttributeStripLine_TitleAlignment"),
+        NotifyParentPropertyAttribute(true)
+        ]
+        public StringAlignment TextAlignment
+        {
+            get
+            {
+                return _textAlignment;
+            }
+            set
+            {
+                _textAlignment = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the text line alignment of the strip line.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeTitle"),
-		Bindable(true),
-		DefaultValue(typeof(StringAlignment), "Near"),
-		SRDescription("DescriptionAttributeStripLine_TitleLineAlignment"),
-		NotifyParentPropertyAttribute(true)
-		]
-		public StringAlignment TextLineAlignment
-		{
-			get
-			{
-				return _textLineAlignment;
-			}
-			set
-			{
-				_textLineAlignment = value;
-				this.Invalidate(); 
-			}
-		}
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeTitle"),
+        Bindable(true),
+        DefaultValue(typeof(StringAlignment), "Near"),
+        SRDescription("DescriptionAttributeStripLine_TitleLineAlignment"),
+        NotifyParentPropertyAttribute(true)
+        ]
+        public StringAlignment TextLineAlignment
+        {
+            get
+            {
+                return _textLineAlignment;
+            }
+            set
+            {
+                _textLineAlignment = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the title font.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeTitle"),
-		Bindable(true),
-		DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
+        /// <summary>
+        /// Gets or sets the title font.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeTitle"),
+        Bindable(true),
+        DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
         SRDescription("DescriptionAttributeTitleFont"),
-		NotifyParentPropertyAttribute(true)
-		]
-		public Font Font
-		{
-			get
-			{
-				return _font;
-			}
-			set
-			{
-				_font = value;
-				this.Invalidate(); 
-			}
-		}
+        NotifyParentPropertyAttribute(true)
+        ]
+        public Font Font
+        {
+            get
+            {
+                return _font;
+            }
+            set
+            {
+                _font = value;
+                this.Invalidate();
+            }
+        }
 
-
-		/// <summary>
-		/// Gets or sets the tooltip.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeMapArea"),
+        /// <summary>
+        /// Gets or sets the tooltip.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeMapArea"),
 
         Bindable(true),
         SRDescription("DescriptionAttributeToolTip"),
-		DefaultValue("")
-		]
-		public string ToolTip
-		{
-			set
-			{
-				this.Invalidate(); 
-				_toolTip = value;
-			}
-			get
-			{
-				return _toolTip;
-			}
-		}
+        DefaultValue("")
+        ]
+        public string ToolTip
+        {
+            set
+            {
+                this.Invalidate();
+                _toolTip = value;
+            }
+            get
+            {
+                return _toolTip;
+            }
+        }
 
         #endregion
 
+        #region Invalidation methods
 
-		#region Invalidation methods
+        /// <summary>
+        /// Invalidate chart area
+        /// </summary>
+        private new void Invalidate()
+        {
+            if (this.Axis != null)
+            {
+                Axis.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Invalidate chart area
-		/// </summary>
-		private new void Invalidate()
-		{
-			if(this.Axis != null)
-			{
-				Axis.Invalidate();
-			}
-		}
-
-		#endregion 
+        #endregion
 
         #region IDisposable Members
 
@@ -1398,16 +1396,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources.
-		/// </summary>
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-
-		#endregion
-	}
+        #endregion
+    }
 }

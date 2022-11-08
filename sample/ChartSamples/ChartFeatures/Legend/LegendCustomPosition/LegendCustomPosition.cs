@@ -1,66 +1,61 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for LegendCustomPosition.
-	/// </summary>
-	public class LegendCustomPosition : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.NumericUpDown XEdit;
-		private System.Windows.Forms.NumericUpDown YEdit;
-		private System.Windows.Forms.NumericUpDown WidthEdit;
-		private System.Windows.Forms.NumericUpDown HeightEdit;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for LegendCustomPosition.
+    /// </summary>
+    public class LegendCustomPosition : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown XEdit;
+        private System.Windows.Forms.NumericUpDown YEdit;
+        private System.Windows.Forms.NumericUpDown WidthEdit;
+        private System.Windows.Forms.NumericUpDown HeightEdit;
 
-		private bool suppressChanges = false;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public LegendCustomPosition()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        private bool suppressChanges = false;
 
-		}
+        public LegendCustomPosition()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -102,10 +97,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.YEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.XEdit)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 40);
@@ -113,10 +108,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to position the legend by setting the coordinates of" +
                 " its width and height, relative to the top left corner. ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -201,10 +196,10 @@ namespace ChartSamples
             title1.Text = "Legend Positioning";
             this.Chart1.Titles.Add(title1);
             this.Chart1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Chart1_MouseDown);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.HeightEdit);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.HeightEdit);
             this.panel1.Controls.Add(this.WidthEdit);
             this.panel1.Controls.Add(this.YEdit);
             this.panel1.Controls.Add(this.XEdit);
@@ -216,10 +211,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 296);
             this.panel1.TabIndex = 2;
-            // 
-            // HeightEdit
-            // 
-            this.HeightEdit.Location = new System.Drawing.Point(168, 104);
+            //
+           // HeightEdit
+            //
+           this.HeightEdit.Location = new System.Drawing.Point(168, 104);
             this.HeightEdit.Name = "HeightEdit";
             this.HeightEdit.Size = new System.Drawing.Size(80, 22);
             this.HeightEdit.TabIndex = 7;
@@ -229,10 +224,10 @@ namespace ChartSamples
             0,
             0});
             this.HeightEdit.ValueChanged += new System.EventHandler(this.Controls_ValueChanged);
-            // 
-            // WidthEdit
-            // 
-            this.WidthEdit.Location = new System.Drawing.Point(168, 72);
+            //
+           // WidthEdit
+            //
+           this.WidthEdit.Location = new System.Drawing.Point(168, 72);
             this.WidthEdit.Name = "WidthEdit";
             this.WidthEdit.Size = new System.Drawing.Size(80, 22);
             this.WidthEdit.TabIndex = 5;
@@ -242,10 +237,10 @@ namespace ChartSamples
             0,
             0});
             this.WidthEdit.ValueChanged += new System.EventHandler(this.Controls_ValueChanged);
-            // 
-            // YEdit
-            // 
-            this.YEdit.Location = new System.Drawing.Point(168, 40);
+            //
+           // YEdit
+            //
+           this.YEdit.Location = new System.Drawing.Point(168, 40);
             this.YEdit.Name = "YEdit";
             this.YEdit.Size = new System.Drawing.Size(80, 22);
             this.YEdit.TabIndex = 3;
@@ -255,10 +250,10 @@ namespace ChartSamples
             0,
             0});
             this.YEdit.ValueChanged += new System.EventHandler(this.Controls_ValueChanged);
-            // 
-            // XEdit
-            // 
-            this.XEdit.Location = new System.Drawing.Point(168, 8);
+            //
+           // XEdit
+            //
+           this.XEdit.Location = new System.Drawing.Point(168, 8);
             this.XEdit.Name = "XEdit";
             this.XEdit.Size = new System.Drawing.Size(80, 22);
             this.XEdit.TabIndex = 1;
@@ -268,56 +263,56 @@ namespace ChartSamples
             0,
             0});
             this.XEdit.ValueChanged += new System.EventHandler(this.Controls_ValueChanged);
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(16, 107);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(16, 107);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(148, 16);
             this.label5.TabIndex = 6;
             this.label5.Text = "&Height:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(16, 75);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(16, 75);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(148, 16);
             this.label4.TabIndex = 4;
             this.label4.Text = "&Width:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(16, 43);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(16, 43);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(148, 16);
             this.label3.TabIndex = 2;
             this.label3.Text = "&Y:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(16, 11);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(16, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(148, 16);
             this.label2.TabIndex = 0;
             this.label2.Text = "&X:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label1
+            //
+           this.label1.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(16, 360);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(712, 64);
             this.label1.TabIndex = 3;
             this.label1.Text = resources.GetString("label1.Text");
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // LegendCustomPosition
-            // 
-            this.Controls.Add(this.label1);
+            //
+           // LegendCustomPosition
+            //
+           this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.label9);
@@ -332,36 +327,35 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.YEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.XEdit)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void LegendCustomPosition_Load(object sender, System.EventArgs e)
+        {
+            this.AdjustLegendControls();
+        }
 
-		private void LegendCustomPosition_Load(object sender, System.EventArgs e)
-		{
-			this.AdjustLegendControls();
-		}
-
-		private void Chart1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			if(e.X != 0 && e.Y != 0)
-			{
+        private void Chart1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.X != 0 && e.Y != 0)
+            {
                 ElementPosition position = Chart1.Legends[0].Position;
-				// Conver pixels to percentage coordinates and set legend position
+                // Conver pixels to percentage coordinates and set legend position
                 position.X = e.X * 100F / ((float)(Chart1.Size.Width - 1));
-                position.Y = e.Y * 100F / ((float)(Chart1.Size.Height - 1)); 
-	
-				AdjustLegendControls();
+                position.Y = e.Y * 100F / ((float)(Chart1.Size.Height - 1));
 
-				Chart1.Invalidate();
-			}
-		}
+                AdjustLegendControls();
 
-		private void AdjustLegendControls()
-		{
-			try
-			{
-				this.suppressChanges = true;
+                Chart1.Invalidate();
+            }
+        }
+
+        private void AdjustLegendControls()
+        {
+            try
+            {
+                this.suppressChanges = true;
 
                 ElementPosition position = Chart1.Legends[0].Position;
 
@@ -375,19 +369,19 @@ namespace ChartSamples
                 YEdit.Value = (decimal)position.Y;
                 WidthEdit.Value = (decimal)position.Width;
                 HeightEdit.Value = (decimal)position.Height;
-			}
-			finally
-			{
-				this.suppressChanges = false;
-			}
-		}
+            }
+            finally
+            {
+                this.suppressChanges = false;
+            }
+        }
 
-		private void Controls_ValueChanged(object sender, System.EventArgs e)
-		{
-			if ( this.suppressChanges )
-			{
-				return;
-			}
+        private void Controls_ValueChanged(object sender, System.EventArgs e)
+        {
+            if (this.suppressChanges)
+            {
+                return;
+            }
 
             ElementPosition position = Chart1.Legends[0].Position;
             position.X = (float)XEdit.Value;
@@ -395,98 +389,96 @@ namespace ChartSamples
             position.Width = (float)WidthEdit.Value;
             position.Height = (float)HeightEdit.Value;
 
-			this.AdjustLegendControls();
+            this.AdjustLegendControls();
 
-			Chart1.Invalidate();
+            Chart1.Invalidate();
+        }
 
-		}
-
-//		private void Edit_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
-//		{
-//			if((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8 || e.KeyChar == 46 )
-//			{
-//				string editText = ((TextBox)(sender)).Text;
-//				if(e.KeyChar != 8)
-//				{
-//					TextBox textBox = (TextBox)sender;
-//					int selStart = textBox.SelectionStart;
-//					int selLength = textBox.SelectionLength;
-//	
-//					if(selLength > 0)
-//					{
-//						editText = editText.Remove(selStart, selLength);
-//						textBox.Text = editText;
-//						textBox.SelectionLength = 0;
-//						textBox.SelectionStart = selStart;
-//					}
-//
-//
-//					editText = editText.Insert(selStart,e.KeyChar.ToString());
-//
-//					try
-//					{
-//						double newValue = double.Parse(editText);
-//						if(newValue <= 100 && newValue >= 0)
-//						{
-//							e.Handled = false;
-//						}
-//						else
-//							e.Handled = true;
-//					}
-//					catch(Exception )
-//					{
-//						e.Handled = true;
-//					}
-//				}
-//				else
-//					e.Handled = false;
-//			}
-//			else
-//			{
-//				e.Handled = true;
-//			}
-//		
-//		}
-//
-//		private void XEdit_TextChanged(object sender, System.EventArgs e)
-//		{
-//			if(XEdit.Text != "")
-//				Chart1.Legends[0].Position.X = float.Parse(XEdit.Text);
-//			else
-//				Chart1.Legends[0].Position.X = 0;
-//
-//			AdjustLegendControls();
-//		}
-//
-//		private void YEdit_TextChanged(object sender, System.EventArgs e)
-//		{
-//			if(YEdit.Text != "")
-//				Chart1.Legends[0].Position.Y = float.Parse(YEdit.Text);
-//			else
-//				Chart1.Legends[0].Position.Y = 0;
-//
-//			AdjustLegendControls();
-//		}
-//
-//		private void WidthEdit_TextChanged(object sender, System.EventArgs e)
-//		{
-//			if(WidthEdit.Text != "")
-//				Chart1.Legends[0].Position.Width = float.Parse(WidthEdit.Text);
-//			else
-//				Chart1.Legends[0].Position.Width = 21;
-//
-//			AdjustLegendControls();
-//		}
-//
-//		private void HeightEdit_TextChanged(object sender, System.EventArgs e)
-//		{
-//			if(HeightEdit.Text != "")
-//				Chart1.Legends[0].Position.Height = float.Parse(HeightEdit.Text);
-//			else
-//				Chart1.Legends[0].Position.Height = 9;
-//
-//			AdjustLegendControls();
-//		}
-
-	}
+        //		private void Edit_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        //		{
+        //			if((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8 || e.KeyChar == 46 )
+        //			{
+        //				string editText = ((TextBox)(sender)).Text;
+        //				if(e.KeyChar != 8)
+        //				{
+        //					TextBox textBox = (TextBox)sender;
+        //					int selStart = textBox.SelectionStart;
+        //					int selLength = textBox.SelectionLength;
+        //	
+        //					if(selLength > 0)
+        //					{
+        //						editText = editText.Remove(selStart, selLength);
+        //						textBox.Text = editText;
+        //						textBox.SelectionLength = 0;
+        //						textBox.SelectionStart = selStart;
+        //					}
+        //
+        //
+        //					editText = editText.Insert(selStart,e.KeyChar.ToString());
+        //
+        //					try
+        //					{
+        //						double newValue = double.Parse(editText);
+        //						if(newValue <= 100 && newValue >= 0)
+        //						{
+        //							e.Handled = false;
+        //						}
+        //						else
+        //							e.Handled = true;
+        //					}
+        //					catch(Exception )
+        //					{
+        //						e.Handled = true;
+        //					}
+        //				}
+        //				else
+        //					e.Handled = false;
+        //			}
+        //			else
+        //			{
+        //				e.Handled = true;
+        //			}
+        //		
+        //		}
+        //
+        //		private void XEdit_TextChanged(object sender, System.EventArgs e)
+        //		{
+        //			if(XEdit.Text != "")
+        //				Chart1.Legends[0].Position.X = float.Parse(XEdit.Text);
+        //			else
+        //				Chart1.Legends[0].Position.X = 0;
+        //
+        //			AdjustLegendControls();
+        //		}
+        //
+        //		private void YEdit_TextChanged(object sender, System.EventArgs e)
+        //		{
+        //			if(YEdit.Text != "")
+        //				Chart1.Legends[0].Position.Y = float.Parse(YEdit.Text);
+        //			else
+        //				Chart1.Legends[0].Position.Y = 0;
+        //
+        //			AdjustLegendControls();
+        //		}
+        //
+        //		private void WidthEdit_TextChanged(object sender, System.EventArgs e)
+        //		{
+        //			if(WidthEdit.Text != "")
+        //				Chart1.Legends[0].Position.Width = float.Parse(WidthEdit.Text);
+        //			else
+        //				Chart1.Legends[0].Position.Width = 21;
+        //
+        //			AdjustLegendControls();
+        //		}
+        //
+        //		private void HeightEdit_TextChanged(object sender, System.EventArgs e)
+        //		{
+        //			if(HeightEdit.Text != "")
+        //				Chart1.Legends[0].Position.Height = float.Parse(HeightEdit.Text);
+        //			else
+        //				Chart1.Legends[0].Position.Height = 9;
+        //
+        //			AdjustLegendControls();
+        //		}
+    }
 }

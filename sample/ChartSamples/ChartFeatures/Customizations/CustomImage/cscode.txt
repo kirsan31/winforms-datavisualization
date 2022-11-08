@@ -17,8 +17,8 @@ private void chart1_PostPaint(object sender, System.Windows.Forms.DataVisualizat
             // Find data point with maximum Y value
             DataPoint	dataPoint = series.Points.FindMaxValue();
 
-            // Load bitmap from file 
-            System.Drawing.Image bitmap = Bitmap.FromFile(this.Page.MapPath("MaxValueMarker.bmp"));
+            // Load bitmap from file
+           System.Drawing.Image bitmap = Bitmap.FromFile(this.Page.MapPath("MaxValueMarker.bmp"));
 
             // Set Red color as transparent
             ImageAttributes attrib = new ImageAttributes();
@@ -37,11 +37,11 @@ private void chart1_PostPaint(object sender, System.Windows.Forms.DataVisualizat
             imagePosition.X -= 1;
 
             // Draw image
-            e.ChartGraphics.Graphics.DrawImage(bitmap, 
-                Rectangle.Round(imagePosition),
+            e.ChartGraphics.Graphics.DrawImage(bitmap,
+               Rectangle.Round(imagePosition),
                 0, 0, bitmap.Width, bitmap.Height,
-                GraphicsUnit.Pixel, 
-                attrib);
+                GraphicsUnit.Pixel,
+               attrib);
 
             // Dispose image object
             bitmap.Dispose();

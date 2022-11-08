@@ -2,11 +2,11 @@
 <SampleConfigs>
 
 <SampleConfig ParentNodeID = "ChartArea">
-  <Title>Alignment Types</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Chart Area Alignment</ShortBlurb> 
-  <SampleControl>AlignmentTypes</SampleControl> 
-  <InfoPages>
+  <Title>Alignment Types</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Chart Area Alignment</ShortBlurb>
+ <SampleControl>AlignmentTypes</SampleControl>
+ <InfoPages>
     <InfoPage Title="Overview">Overview.htm</InfoPage>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
@@ -17,5 +17,4 @@
 	<Keyword>Alignment, Area alignment types</Keyword>
   </Keywords>
 </SampleConfig>
-
 </SampleConfigs>

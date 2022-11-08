@@ -71,7 +71,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		internal double locationOffset = 0.0;
 
-#endregion // Fields
+#endregion Fields
 
 #region Constructor
 
@@ -92,7 +92,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			base.Name = name;
 		}
 
-#endregion
+#endregion Constructor
 
 #region Properties
 
@@ -140,7 +140,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				return this.parentAxis;
 			}
 		}
-
 
 		/// <summary>
 		/// Sub axis location offset relative to the previous axis.
@@ -313,7 +312,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 		}
 
-#endregion // Properties
+#endregion Properties
 
 #region Methods
 
@@ -353,7 +352,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			return 0.0;
 		}
 
-#endregion // Methods
+#endregion Methods
 
 #region Type converter
 
@@ -399,7 +398,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 		}
 
-#endregion
+#endregion Type converter
 	}
 
 	/// <summary>
@@ -418,7 +417,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		internal Axis parentAxis = null;
 
-#endregion
+#endregion Fields
 
 #region Construction and Initialization
 
@@ -447,7 +446,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			this.parentAxis = parentAxis;
 		}
 
-#endregion
+#endregion Construction and Initialization
 
 #region Indexer
 
@@ -547,7 +546,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 		}
 
-#endregion
+#endregion Indexer
 
 #region Collection Add and Insert methods
 
@@ -608,7 +607,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			this.List.Insert(index, SubAxis);
 		}
 
-#endregion
+#endregion Collection Add and Insert methods
 
 #region Items Inserting and Removing Notification methods
 
@@ -687,7 +686,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			this.Invalidate();
 		}
 
-#endregion
+#endregion Items Inserting and Removing Notification methods
 
 #region Helper Methods
 
@@ -743,9 +742,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			return result;
 		}
 
-#endregion 
+#endregion Helper Methods
 	}
 }
 
 #endif // SUBAXES
-

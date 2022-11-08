@@ -2,12 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Main windows forms chart control class.
 //
 
-
+using Microsoft.DotNet.DesignTools.Serialization;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,8 +25,6 @@ using System.Windows.Forms.DataVisualization.Charting.Data;
 using System.Windows.Forms.DataVisualization.Charting.Formulas;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 using System.Windows.Forms.Design.DataVisualization.Charting;
-
-using Microsoft.DotNet.DesignTools.Serialization;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -82,7 +79,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         EmfPlus,
     }
 
-    #endregion
+    #endregion Enumerations
 
     /// <summary>
     /// Chart windows forms control
@@ -103,6 +100,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Chart services components
         private ChartTypeRegistry _chartTypeRegistry;
+
         private BorderTypeRegistry _borderTypeRegistry;
         private CustomPropertyRegistry _customAttributeRegistry;
         private DataManager _dataManager;
@@ -118,10 +116,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Named images collection
         private NamedImagesCollection _namedImages;
 
-
         // Formula registry servise component
         private FormulaRegistry _formulaRegistry;
-
 
         // Indicates that control invalidation is temporary disabled
         internal bool disableInvalidates;
@@ -145,7 +141,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Indicates that some chart properties where changed (used for painting)
         internal bool dirtyFlag = true;
 
-
         // Chart default cursor
 #pragma warning disable CA2213 // Disposable fields should be disposed
         internal System.Windows.Forms.Cursor defaultCursor = Cursors.Default;
@@ -160,18 +155,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Vertical rendering resolution.
         static internal double renderingDpiY = 96.0;
 
-
-        #endregion
+        #endregion Control fields
 
         #region Component Designer generated code
+
         /// <summary>
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
         }
-        #endregion
+
+        #endregion Component Designer generated code
 
         #region Control constructors
 
@@ -180,7 +176,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         public Chart()
         {
-
             //*******************************************************
             //** Check control license
             //*******************************************************
@@ -235,7 +230,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Initialize objects
             _dataManager.Initialize();
 
-
             // Register known chart types
             _chartTypeRegistry.Register(ChartTypeNames.Bar, typeof(BarChart));
             _chartTypeRegistry.Register(ChartTypeNames.Column, typeof(ColumnChart));
@@ -257,8 +251,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _chartTypeRegistry.Register(ChartTypeNames.OneHundredPercentStackedBar, typeof(HundredPercentStackedBarChart));
             _chartTypeRegistry.Register(ChartTypeNames.OneHundredPercentStackedArea, typeof(HundredPercentStackedAreaChart));
 
-
-
             _chartTypeRegistry.Register(ChartTypeNames.Range, typeof(RangeChart));
             _chartTypeRegistry.Register(ChartTypeNames.SplineRange, typeof(SplineRangeChart));
             _chartTypeRegistry.Register(ChartTypeNames.RangeBar, typeof(RangeBarChart));
@@ -267,29 +259,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _chartTypeRegistry.Register(ChartTypeNames.ErrorBar, typeof(ErrorBarChart));
             _chartTypeRegistry.Register(ChartTypeNames.BoxPlot, typeof(BoxPlotChart));
 
-
-
             _chartTypeRegistry.Register(ChartTypeNames.Renko, typeof(RenkoChart));
             _chartTypeRegistry.Register(ChartTypeNames.ThreeLineBreak, typeof(ThreeLineBreakChart));
             _chartTypeRegistry.Register(ChartTypeNames.Kagi, typeof(KagiChart));
             _chartTypeRegistry.Register(ChartTypeNames.PointAndFigure, typeof(PointAndFigureChart));
-
-
-
-
 
             _chartTypeRegistry.Register(ChartTypeNames.Polar, typeof(PolarChart));
             _chartTypeRegistry.Register(ChartTypeNames.FastLine, typeof(FastLineChart));
             _chartTypeRegistry.Register(ChartTypeNames.Funnel, typeof(FunnelChart));
             _chartTypeRegistry.Register(ChartTypeNames.Pyramid, typeof(PyramidChart));
 
-
-
-
-
             _chartTypeRegistry.Register(ChartTypeNames.FastPoint, typeof(FastPointChart));
-
-
 
             // Register known formula modules
             _formulaRegistry.Register(SR.FormulaNamePriceIndicators, typeof(PriceIndicators));
@@ -299,8 +279,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _formulaRegistry.Register(SR.FormulaNameGeneralFormulas, typeof(GeneralFormulas));
             _formulaRegistry.Register(SR.FormulaNameTimeSeriesAndForecasting, typeof(TimeSeriesAndForecasting));
             _formulaRegistry.Register(SR.FormulaNameStatisticalAnalysis, typeof(StatisticalAnalysis));
-
-
 
             // Register known 3D border types
             _borderTypeRegistry.Register("Emboss", typeof(EmbossBorder));
@@ -339,9 +317,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Legends.NameReferenceChanged += new EventHandler<NameReferenceChangedEventArgs>(Series.LegendNameReferenceChanged);
         }
 
-
-
-        #endregion
+        #endregion Control constructors
 
         #region Control painting methods
 
@@ -351,7 +327,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="e">Paint event arguments.</param>
         protected override void OnPaint(PaintEventArgs e)
         {
-
             //*******************************************************
             //** Check control license
 
@@ -366,7 +341,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 !this.BackColor.IsEmpty &&
                 (this.BackColor == Color.Transparent || this.BackColor.A != 255))
             {
-
                 // Draw chart directly on the graphics
                 try
                 {
@@ -381,26 +355,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Draw exception method
                     DrawException(e.Graphics);
 
-
                     // Rethrow exception if not in design-time mode
                     if (!this.DesignMode)
                     {
                         throw;
                     }
-
                 }
-
             }
             else
             {
-
                 //*******************************************************
                 //** If nothing was changed in the chart and last image is stored in the buffer
                 //** there is no need to repaint the chart.
                 //*******************************************************
                 if (this.dirtyFlag || paintBufferBitmap == null)
                 {
-
                     // Get scaling component from the drawing graphics
                     using var mt = e.Graphics.Transform;
                     float scaleX = mt.Elements[0];
@@ -505,8 +474,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     chartPicture.BackColor = Color.Transparent;
                 }
 
-                // Call base class 
-                base.OnPaintBackground(pevent);
+                // Call base class
+               base.OnPaintBackground(pevent);
 
                 chartPicture.BackColor = oldBackColor;
             }
@@ -607,7 +576,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (!this.disableInvalidates)
             {
                 base.Invalidate(true);
-
             }
 
             // NOTE: Code below required for the Diagram integration. -AG
@@ -616,7 +584,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 InvalidateEventArgs e = new InvalidateEventArgs(Rectangle.Empty);
                 this.OnInvalidated(e);
             }
-
         }
 
         /// <summary>
@@ -629,7 +596,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (!this.disableInvalidates)
             {
                 base.Invalidate(rectangle);
-
             }
 
             // NOTE: Code below required for the Diagram integration. -AG
@@ -639,9 +605,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.OnInvalidated(e);
             }
         }
-
-
-
 
         /// <summary>
         /// Updates chart cursor and range selection only.
@@ -658,8 +621,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.paintTopLevelElementOnly = false;
         }
 
-
-
         /// <summary>
         /// Updates chart annotations only.
         /// </summary>
@@ -675,9 +636,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.paintTopLevelElementOnly = false;
         }
 
-
-
-        #endregion
+        #endregion Control painting methods
 
         #region Control size and location properties/methods
 
@@ -724,6 +683,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.ResetAccessibilityObject();
             base.OnResize(e);
         }
+
         /// <summary>
         /// Fires RightToLeftChanged event.
         /// </summary>
@@ -734,7 +694,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.Invalidate();
         }
 
-        #endregion
+        #endregion Control size and location properties/methods
 
         #region Chart image saving methods
 
@@ -870,15 +830,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     case ChartImageFormat.Bmp:
                         standardImageFormat = ImageFormat.Bmp;
                         break;
+
                     case ChartImageFormat.Gif:
                         standardImageFormat = ImageFormat.Gif;
                         break;
+
                     case ChartImageFormat.Jpeg:
                         standardImageFormat = ImageFormat.Jpeg;
                         break;
+
                     case ChartImageFormat.Png:
                         standardImageFormat = ImageFormat.Png;
                         break;
+
                     case ChartImageFormat.Tiff:
                         standardImageFormat = ImageFormat.Tiff;
                         break;
@@ -895,8 +859,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.chartPicture.isSavingAsImage = false;
         }
 
-
-        #endregion
+        #endregion Chart image saving methods
 
         #region Control public properties
 
@@ -973,7 +936,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// "The data source used to populate series data. Series ValueMember properties must be also set."
         /// </summary>
@@ -1015,7 +977,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Chart printing object.
         /// </summary>
@@ -1034,7 +995,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return _printingManager;
             }
         }
-
 
         /// <summary>
         /// Chart series collection.
@@ -1149,7 +1109,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1233,7 +1192,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1370,7 +1328,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Title font
         /// </summary>
@@ -1394,7 +1351,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 base.Font = value;
             }
         }
-
 
         /// <summary>
         /// Back Hatch style
@@ -1420,11 +1376,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
-
-
 
         /// <summary>
         /// Chart area background image
@@ -1451,7 +1404,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1479,7 +1431,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1509,7 +1460,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1537,7 +1487,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1565,7 +1514,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1594,7 +1542,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1627,7 +1574,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1658,7 +1604,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1689,7 +1634,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1718,7 +1662,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1745,7 +1688,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1772,10 +1714,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
-
 
         /// <summary>
         /// Chart border skin style.
@@ -1803,7 +1743,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Invalidate();
                 }
-
             }
         }
 
@@ -1894,8 +1833,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
-        #endregion
+        #endregion Control public properties
 
         #region Control public methods
 
@@ -1962,18 +1900,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         public void ResetAutoValues()
         {
-            // Reset auto calculated series properties values 
-            foreach (Series series in this.Series)
+            // Reset auto calculated series properties values
+           foreach (Series series in this.Series)
             {
                 series.ResetAutoValues();
             }
 
-            // Reset auto calculated axis properties values 
-            foreach (ChartArea chartArea in this.ChartAreas)
+            // Reset auto calculated axis properties values
+           foreach (ChartArea chartArea in this.ChartAreas)
             {
                 chartArea.ResetAutoValues();
             }
-
         }
 
         /// <summary>
@@ -2019,8 +1956,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         /// <summary>
         /// Call this method to determine the  chart element,
-        /// if any, that is located at a point defined by the given X and Y 
-        /// coordinates.
+        /// if any, that is located at a point defined by the given X and Y
+       /// coordinates.
         /// <seealso cref="HitTestResult"/></summary>
         /// <param name="x">The X coordinate for the point in question.
         /// Often obtained from a parameter in an event
@@ -2028,39 +1965,38 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="y">The Y coordinate for the point in question.
         /// Often obtained from a parameter in an event
         /// (e.g. the Y parameter value in the MouseDown event).</param>
-        /// <param name="ignoreTransparent">Indicates that transparent 
-        /// elements should be ignored.</param>
+        /// <param name="ignoreTransparent">Indicates that transparent
+       /// elements should be ignored.</param>
         /// <param name="requestedElement">
-        /// An array of type which specify the types                  
-        /// to test for, on order to filter the result. If omitted checking for                 
-        /// elementTypes will be ignored and all kind of elementTypes will be 
-        /// valid.
+        /// An array of type which specify the types                 
+       /// to test for, on order to filter the result. If omitted checking for                
+       /// elementTypes will be ignored and all kind of elementTypes will be
+       /// valid.
         ///  </param>
         /// <returns>
         /// A array of <see cref="HitTestResult"/> objects,
         /// which provides information concerning the  chart element
         /// (if any) that is at the specified location. Result contains at least
-        /// one element, which could be ChartElementType.Nothing. 
-        /// The objects in the result are sorted in from top to bottom of 
-        /// different layers of control. </returns>
+        /// one element, which could be ChartElementType.Nothing.
+       /// The objects in the result are sorted in from top to bottom of
+       /// different layers of control. </returns>
         /// <remarks>Call this method to determine the  gauge element
         /// (if any) that is located at a specified point. Often this method is used in
         /// some mouse-related event (e.g. MouseDown)
         /// to determine what  gauge element the end-user clicked on.
         /// The X and Y mouse coordinates obtained from the
-        /// event parameters are then used for the X and Y parameter              
-        /// values of this method call.   The returned 
-        /// <see cref="HitTestResult"/> object's properties
+        /// event parameters are then used for the X and Y parameter             
+       /// values of this method call.   The returned
+       /// <see cref="HitTestResult"/> object's properties
         /// can then be used to determine what  chart element was clicked on,
-        /// and also provides a reference to the actual object selected (if 
-        /// any).</remarks>
+        /// and also provides a reference to the actual object selected (if
+       /// any).</remarks>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
             Justification = "X and Y are cartesian coordinates and well understood")]
         public IList<HitTestResult> HitTest(int x, int y, bool ignoreTransparent, params ChartElementType[] requestedElement)
         {
             return this.selection.HitTest(x, y, ignoreTransparent, requestedElement);
         }
-
 
         /// <summary>
         /// Gets the chart element outline.
@@ -2072,16 +2008,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// 2) A GraphicsPath for drawing aouline around this chart emenent.
         /// </returns>
         /// <remarks>
-        /// If the <paramref name="element"/> is not part of the chart or <paramref name="elementType"/> cannot be combined 
-        /// with <paramref name="element"/> then the result will contain empty array of marker points. 
-        /// The marker points are sorted clockwize.
+        /// If the <paramref name="element"/> is not part of the chart or <paramref name="elementType"/> cannot be combined
+       /// with <paramref name="element"/> then the result will contain empty array of marker points.
+       /// The marker points are sorted clockwize.
         /// </remarks>
         public ChartElementOutline GetChartElementOutline(object element, ChartElementType elementType)
         {
             return this.selection.GetChartElementOutline(element, elementType);
         }
 
-        #endregion
+        #endregion Control public methods
 
         #region Control protected methods
 
@@ -2112,7 +2048,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             g.FillRectangle(b, leftBorder);
         }
 
-        #endregion
+        #endregion Control protected methods
 
         #region ISupportInitialize implementation
 
@@ -2138,10 +2074,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 base.Invalidate();
             }
-
         }
 
-        #endregion
+        #endregion ISupportInitialize implementation
 
         #region Control mouse events
 
@@ -2154,7 +2089,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.defaultCursor = this.Cursor;
             base.OnCursorChanged(e);
         }
-
 
         /// <summary>
         /// Mouse button pressed in the control.
@@ -2315,7 +2249,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             base.OnDoubleClick(e);
         }
 
-        #endregion
+        #endregion Control mouse events
 
         #region Chart get tool tip text events
 
@@ -2352,7 +2286,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Chart get tool tip text events
 
         #region Chart area cursor and selection events
 
@@ -2426,14 +2360,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="arguments">Cursor event arguments.</param>
         internal void OnSelectionRangeChanged(CursorEventArgs arguments)
         {
-
             if (SelectionRangeChanged != null)
             {
                 SelectionRangeChanged(this, arguments);
             }
         }
 
-        #endregion
+        #endregion Chart area cursor and selection events
 
         #region Axis data scaleView position/size changing events
 
@@ -2450,7 +2383,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [SRDescription("DescriptionAttributeChartEvent_AxisViewChanged"),
         SRCategory("CategoryAttributeAxisView")]
         public event EventHandler<ViewEventArgs> AxisViewChanged;
-
 
         /// <summary>
         /// Calls event delegate.
@@ -2476,7 +2408,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Axis data scaleView position/size changing events
 
         #region Axis scroll bar events
 
@@ -2486,7 +2418,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [SRDescription("DescriptionAttributeChartEvent_AxisScrollBarClicked"),
         SRCategory("CategoryAttributeAxisView")]
         public event EventHandler<ScrollBarEventArgs> AxisScrollBarClicked;
-
 
         /// <summary>
         /// Calls event delegate.
@@ -2500,7 +2431,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Axis scroll bar events
 
         #region Painting events
 
@@ -2519,8 +2450,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public event EventHandler<ChartPaintEventArgs> PrePaint;
 
         /// <summary>
-        /// Fires when chart element backround must be drawn. 
-        /// This event is fired for elements like: ChartPicture, ChartArea and Legend
+        /// Fires when chart element backround must be drawn.
+       /// This event is fired for elements like: ChartPicture, ChartArea and Legend
         /// </summary>
         /// <param name="e">Event arguments.</param>
         protected virtual void OnPrePaint(ChartPaintEventArgs e)
@@ -2532,8 +2463,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when chart element backround must be drawn. 
-        /// This event is fired for elements like: ChartPicture, ChartArea and Legend
+        /// Fires when chart element backround must be drawn.
+       /// This event is fired for elements like: ChartPicture, ChartArea and Legend
         /// </summary>
         /// <param name="e">Event arguments.</param>
         internal void CallOnPrePaint(ChartPaintEventArgs e)
@@ -2542,8 +2473,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when chart element must be drawn. 
-        /// This event is fired for elements like: ChartPicture, ChartArea and Legend
+        /// Fires when chart element must be drawn.
+       /// This event is fired for elements like: ChartPicture, ChartArea and Legend
         /// </summary>
         /// <param name="e">Event arguments.</param>
         protected virtual void OnPostPaint(ChartPaintEventArgs e)
@@ -2555,8 +2486,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when chart element must be drawn. 
-        /// This event is fired for elements like: ChartPicture, ChartArea and Legend
+        /// Fires when chart element must be drawn.
+       /// This event is fired for elements like: ChartPicture, ChartArea and Legend
         /// </summary>
         /// <param name="e">Event arguments.</param>
         internal void CallOnPostPaint(ChartPaintEventArgs e)
@@ -2564,7 +2495,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.OnPostPaint(e);
         }
 
-        #endregion
+        #endregion Painting events
 
         #region Customize event
 
@@ -2576,10 +2507,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public event EventHandler Customize;
 
-
         /// <summary>
-        /// Fires when all chart data is prepared to be customized before drawing. 
-        /// </summary>
+        /// Fires when all chart data is prepared to be customized before drawing.
+       /// </summary>
         [
         SRDescription("DescriptionAttributeChart_OnCustomize")
         ]
@@ -2592,8 +2522,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when all chart data is prepared to be customized before drawing. 
-        /// </summary>
+        /// Fires when all chart data is prepared to be customized before drawing.
+       /// </summary>
         internal void CallOnCustomize()
         {
             this.OnCustomize();
@@ -2607,10 +2537,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public event EventHandler<CustomizeLegendEventArgs> CustomizeLegend;
 
-
         /// <summary>
-        /// Fires when all chart data is prepared to be customized before drawing. 
-        /// </summary>
+        /// Fires when all chart data is prepared to be customized before drawing.
+       /// </summary>
         [
             SRDescription("DescriptionAttributeChart_OnCustomizeLegend")
         ]
@@ -2623,19 +2552,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when all chart data is prepared to be customized before drawing. 
-        /// </summary>
+        /// Fires when all chart data is prepared to be customized before drawing.
+       /// </summary>
         internal void CallOnCustomizeLegend(LegendItemsCollection legendItems, string legendName)
         {
             this.OnCustomizeLegend(legendItems, legendName);
         }
-        #endregion
+
+        #endregion Customize event
 
         #region Annotation events
 
         /// <summary>
-        /// Fires when annotation text was changed. 
-        /// </summary>
+        /// Fires when annotation text was changed.
+       /// </summary>
         [
         SRDescription("DescriptionAttributeChartEvent_AnnotationTextChanged"),
         SRCategory("CategoryAttributeAnnotation")
@@ -2655,13 +2585,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fires when selected annotation changes. 
-        /// </summary>
+        /// Fires when selected annotation changes.
+       /// </summary>
         [
         SRDescription("DescriptionAttributeChartEvent_AnnotationSelectionChanged"),
         SRCategory("CategoryAttributeAnnotation")
         ]
         public event EventHandler AnnotationSelectionChanged;
+
         /// <summary>
         /// Fires when annotation position was changed.
         /// </summary>
@@ -2681,14 +2612,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public event EventHandler<AnnotationPositionChangingEventArgs> AnnotationPositionChanging;
 
         /// <summary>
-        /// Fires when annotation is placed by the user on the chart. 
-        /// </summary>
+        /// Fires when annotation is placed by the user on the chart.
+       /// </summary>
         [
         SRDescription("DescriptionAttributeChartEvent_AnnotationPlaced"),
         SRCategory("CategoryAttributeAnnotation")
         ]
         public event EventHandler AnnotationPlaced;
-
 
         /// <summary>
         /// Fires when annotation is placed by the user on the chart.
@@ -2699,13 +2629,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (AnnotationPlaced != null)
             {
                 AnnotationPlaced(annotation, EventArgs.Empty);
-
             }
         }
 
         /// <summary>
-        /// Fires when selected annotation changes. 
-        /// </summary>
+        /// Fires when selected annotation changes.
+       /// </summary>
         /// <param name="annotation">Annotation which have it's selection changed.</param>
         internal void OnAnnotationSelectionChanged(Annotation annotation)
         {
@@ -2742,7 +2671,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return false;
         }
 
-        #endregion
+        #endregion Annotation events
 
         #region Control DataBind method
 
@@ -2817,10 +2746,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Automatically creates and binds series to specified data table. 
-        /// Each column of the table becomes a Y value in a separate series.
-        /// Series X value field may also be provided. 
-        /// </summary>
+        /// Automatically creates and binds series to specified data table.
+       /// Each column of the table becomes a Y value in a separate series.
+        /// Series X value field may also be provided.
+       /// </summary>
         /// <param name="dataSource">Data source.</param>
         /// <param name="xField">Name of the field for series X values.</param>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
@@ -2835,8 +2764,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Automatically creates and binds series to specified data table. 
-        /// Each column of the table becomes a Y value in a separate series.
+        /// Automatically creates and binds series to specified data table.
+       /// Each column of the table becomes a Y value in a separate series.
         /// </summary>
         /// <param name="dataSource">Data source.</param>
         public void DataBindTable(IEnumerable dataSource)
@@ -2906,10 +2835,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 sortingOrder);
         }
 
-        #endregion
+        #endregion Control DataBind method
 
         #region Special Extension Methods and Properties
-
 
         /// <summary>
         /// Gets the requested chart service.
@@ -2976,7 +2904,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.OnFormatNumber(caller, e);
         }
 
-        #endregion
+        #endregion Special Extension Methods and Properties
 
         #region Accessibility
 
@@ -3007,7 +2935,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion // Accessibility
+        #endregion Accessibility
 
         #region IDisposable override
 
@@ -3021,7 +2949,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (disposing)
             {
-
                 // Dispose managed objects here
                 if (_imageLoader != null)
                 {
@@ -3093,7 +3020,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
         }
-        #endregion
+
+        #endregion IDisposable override
     }
 
     #region Customize event delegate
@@ -3154,10 +3082,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return _legendItems;
             }
         }
-
     }
 
-    #endregion
+    #endregion Customize event delegate
 }
-
-

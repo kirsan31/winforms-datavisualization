@@ -1,54 +1,50 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for Borders.
-	/// </summary>
-	public class LegendCustomItems : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for Borders.
+    /// </summary>
+    public class LegendCustomItems : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
 
-		public LegendCustomItems()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		}
+        public LegendCustomItems()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -74,10 +70,10 @@ namespace ChartSamples
             this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 43);
@@ -85,10 +81,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to add custom items to the legend. These legend item" +
                 "s can be a strip line, custom image, or any custom drawn item.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -169,10 +165,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Custom Legend Items";
             this.Chart1.Titles.Add(title1);
-            // 
-            // LegendCustomItems
-            // 
-            this.Controls.Add(this.Chart1);
+            //
+           // LegendCustomItems
+            //
+           this.Controls.Add(this.Chart1);
             this.Controls.Add(this.label9);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "LegendCustomItems";
@@ -180,57 +176,55 @@ namespace ChartSamples
             this.Load += new System.EventHandler(this.LegendCustomItems_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void LegendCustomItems_Load(object sender, System.EventArgs e)
+        {
+            // Disable legend item for the first series
+            Chart1.Series[0].IsVisibleInLegend = false;
 
-		private void LegendCustomItems_Load(object sender, System.EventArgs e)
-		{
-			// Disable legend item for the first series
-			Chart1.Series[0].IsVisibleInLegend = false;
+            // Add simple custom legend item
+            Chart1.Legends["Default"].CustomItems.Add(Color.FromArgb(32, 120, 147, 190), "Critical Values");
 
-			// Add simple custom legend item
-			Chart1.Legends["Default"].CustomItems.Add(Color.FromArgb(32, 120,147,190), "Critical Values");
+            // Add custom legend item with line style
+            LegendItem legendItem = new LegendItem();
+            legendItem.Name = "Line Style Item";
+            legendItem.ImageStyle = LegendImageStyle.Line;
+            legendItem.ShadowOffset = 1;
+            legendItem.Color = Color.LightBlue;
+            legendItem.MarkerStyle = MarkerStyle.Circle;
+            Chart1.Legends["Default"].CustomItems.Add(legendItem);
 
-			// Add custom legend item with line style
-			LegendItem legendItem = new LegendItem();
-			legendItem.Name = "Line Style Item";
-			legendItem.ImageStyle = LegendImageStyle.Line;
-			legendItem.ShadowOffset = 1;
-			legendItem.Color = Color.LightBlue;
-			legendItem.MarkerStyle = MarkerStyle.Circle;
-			Chart1.Legends["Default"].CustomItems.Add(legendItem);
-
-			// Add custom legend item with marker style
-			legendItem = new LegendItem();
-			legendItem.Name = "Marker Style Item";
-			legendItem.ImageStyle = LegendImageStyle.Marker;
-			legendItem.ShadowOffset = 1;
-			legendItem.Color = Color.Yellow;
-			legendItem.MarkerStyle = MarkerStyle.Cross;
-			legendItem.MarkerSize = 10;
-			legendItem.MarkerBorderColor = Color.Black;
-			Chart1.Legends["Default"].CustomItems.Add(legendItem);
+            // Add custom legend item with marker style
+            legendItem = new LegendItem();
+            legendItem.Name = "Marker Style Item";
+            legendItem.ImageStyle = LegendImageStyle.Marker;
+            legendItem.ShadowOffset = 1;
+            legendItem.Color = Color.Yellow;
+            legendItem.MarkerStyle = MarkerStyle.Cross;
+            legendItem.MarkerSize = 10;
+            legendItem.MarkerBorderColor = Color.Black;
+            Chart1.Legends["Default"].CustomItems.Add(legendItem);
 
             // Add custom legend item with image
             MainForm mainForm = (MainForm)this.ParentForm;
             string imageFileName = mainForm.CurrentSamplePath;
-			imageFileName += "\\Flag.gif";
+            imageFileName += "\\Flag.gif";
 
-			legendItem = new LegendItem();
-			legendItem.Name = "Image Style Item";
-			legendItem.Image = imageFileName;
-			legendItem.BackImageTransparentColor = Color.White;
-			Chart1.Legends["Default"].CustomItems.Add(legendItem);
+            legendItem = new LegendItem();
+            legendItem.Name = "Image Style Item";
+            legendItem.Image = imageFileName;
+            legendItem.BackImageTransparentColor = Color.White;
+            Chart1.Legends["Default"].CustomItems.Add(legendItem);
 
-			// Add a strip line
-			StripLine stripLine = new StripLine();
-			stripLine.BackColor = Chart1.Legends["Default"].CustomItems[0].Color;
-			stripLine.IntervalOffset = 500;
-			stripLine.StripWidth = 300;
-			Chart1.ChartAreas["Default"].AxisY.StripLines.Add(stripLine);
-
-		}
-	}
+            // Add a strip line
+            StripLine stripLine = new StripLine();
+            stripLine.BackColor = Chart1.Legends["Default"].CustomItems[0].Color;
+            stripLine.IntervalOffset = 500;
+            stripLine.StripWidth = 300;
+            Chart1.ChartAreas["Default"].AxisY.StripLines.Add(stripLine);
+        }
+    }
 }

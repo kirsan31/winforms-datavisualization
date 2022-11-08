@@ -1,72 +1,68 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AxisAppearance.
-	/// </summary>
-	public class LabelsFormatting : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.CheckBox IsEndLabelVisible;
-		private System.Windows.Forms.ComboBox XAxisFormat;
-		private System.Windows.Forms.ComboBox YAxisFormat;
-		private System.Windows.Forms.ComboBox SeriesPointFormat;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AxisAppearance.
+    /// </summary>
+    public class LabelsFormatting : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox IsEndLabelVisible;
+        private System.Windows.Forms.ComboBox XAxisFormat;
+        private System.Windows.Forms.ComboBox YAxisFormat;
+        private System.Windows.Forms.ComboBox SeriesPointFormat;
 
-		public LabelsFormatting()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Initialize combo boxes
-			XAxisFormat.SelectedIndex = 0;
-			YAxisFormat.SelectedIndex = 0;
-			SeriesPointFormat.SelectedIndex = 4;
-		}
-		
+        public LabelsFormatting()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            // Initialize combo boxes
+            XAxisFormat.SelectedIndex = 0;
+            YAxisFormat.SelectedIndex = 0;
+            SeriesPointFormat.SelectedIndex = 4;
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -88,10 +84,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(8, 12);
@@ -101,10 +97,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to format axes and data point labels. Data point lab" +
                 "els can be set for an entire series or for an individual data point.";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.IsEndLabelVisible);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.IsEndLabelVisible);
             this.panel1.Controls.Add(this.SeriesPointFormat);
             this.panel1.Controls.Add(this.YAxisFormat);
             this.panel1.Controls.Add(this.XAxisFormat);
@@ -120,19 +116,19 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // IsEndLabelVisible
-            // 
-            this.IsEndLabelVisible.Location = new System.Drawing.Point(48, 148);
+            //
+           // IsEndLabelVisible
+            //
+           this.IsEndLabelVisible.Location = new System.Drawing.Point(48, 148);
             this.IsEndLabelVisible.Name = "IsEndLabelVisible";
             this.IsEndLabelVisible.Size = new System.Drawing.Size(192, 24);
             this.IsEndLabelVisible.TabIndex = 6;
             this.IsEndLabelVisible.Text = "Show X &Axis End Labels";
             this.IsEndLabelVisible.CheckedChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // SeriesPointFormat
-            // 
-            this.SeriesPointFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // SeriesPointFormat
+            //
+           this.SeriesPointFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SeriesPointFormat.Items.AddRange(new object[] {
             "Currency",
             "Currency Rounded",
@@ -145,10 +141,10 @@ namespace ChartSamples
             this.SeriesPointFormat.Size = new System.Drawing.Size(172, 22);
             this.SeriesPointFormat.TabIndex = 5;
             this.SeriesPointFormat.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // YAxisFormat
-            // 
-            this.YAxisFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // YAxisFormat
+            //
+           this.YAxisFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.YAxisFormat.Items.AddRange(new object[] {
             "Currency",
             "Currency Rounded",
@@ -161,10 +157,10 @@ namespace ChartSamples
             this.YAxisFormat.Size = new System.Drawing.Size(172, 22);
             this.YAxisFormat.TabIndex = 3;
             this.YAxisFormat.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // XAxisFormat
-            // 
-            this.XAxisFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // XAxisFormat
+            //
+           this.XAxisFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.XAxisFormat.Items.AddRange(new object[] {
             "Short Date",
             "Month Day",
@@ -177,74 +173,74 @@ namespace ChartSamples
             this.XAxisFormat.Size = new System.Drawing.Size(172, 22);
             this.XAxisFormat.TabIndex = 1;
             this.XAxisFormat.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(44, 100);
+            //
+           // label7
+            //
+           this.label7.Location = new System.Drawing.Point(44, 100);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(160, 23);
             this.label7.TabIndex = 4;
             this.label7.Text = "&Series Points Labels Format:";
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(48, 52);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(48, 52);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(156, 23);
             this.label2.TabIndex = 2;
             this.label2.Text = "&Y Axis Labels Format:";
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(48, 4);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(48, 4);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(156, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "&X Axis Labels Format:";
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(64, 403);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(64, 403);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 23);
             this.label6.TabIndex = 5;
             this.label6.Text = "Border Size:";
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(64, 380);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(64, 380);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(100, 23);
             this.label5.TabIndex = 4;
             this.label5.Text = "Border Color:";
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(64, 357);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(64, 357);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(100, 23);
             this.label4.TabIndex = 3;
             this.label4.Text = "Hatch Style:";
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(64, 334);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(64, 334);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 2;
             this.label3.Text = "Gradient:";
-            // 
-            // label15
-            // 
-            this.label15.Location = new System.Drawing.Point(64, 426);
+            //
+           // label15
+            //
+           this.label15.Location = new System.Drawing.Point(64, 426);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(100, 23);
             this.label15.TabIndex = 5;
             this.label15.Text = "Border Size:";
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -304,10 +300,10 @@ namespace ChartSamples
             this.Chart1.Series.Add(series1);
             this.Chart1.Size = new System.Drawing.Size(412, 296);
             this.Chart1.TabIndex = 1;
-            // 
-            // LabelsFormatting
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // LabelsFormatting
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
@@ -317,112 +313,123 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			Labels();
-		}
+        private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Labels();
+        }
 
-		private void Labels()
-		{
-			// Populate series data
-			Random		random = new Random(7259);
-			DateTime	dateCurrent = DateTime.Now.Date;
-			Chart1.Series["Series1"].Points.Clear();
-			for(int pointIndex = 0; pointIndex < 7; pointIndex++)
-			{
-				Chart1.Series["Series1"].Points.AddXY(dateCurrent.AddDays(pointIndex), random.Next(2000, 9000)/100.0);
-			}
+        private void Labels()
+        {
+            // Populate series data
+            Random random = new Random(7259);
+            DateTime dateCurrent = DateTime.Now.Date;
+            Chart1.Series["Series1"].Points.Clear();
+            for (int pointIndex = 0; pointIndex < 7; pointIndex++)
+            {
+                Chart1.Series["Series1"].Points.AddXY(dateCurrent.AddDays(pointIndex), random.Next(2000, 9000) / 100.0);
+            }
 
-			Chart1.ChartAreas["Default"].BackColor = Color.White;
-			
-			// Disable end labels for the X axis
-			if(!IsEndLabelVisible.Checked)
-			{
-				Chart1.ChartAreas["Default"].AxisX.LabelStyle.IsEndLabelVisible = false;
-			}
-			else
-			{
-				Chart1.ChartAreas["Default"].AxisX.LabelStyle.IsEndLabelVisible = true;
-			}
+            Chart1.ChartAreas["Default"].BackColor = Color.White;
 
-			// Set X axis labels format
-			Chart1.ChartAreas["Default"].AxisX.LabelStyle.Format = GetDateItem(XAxisFormat.SelectedIndex);
+            // Disable end labels for the X axis
+            if (!IsEndLabelVisible.Checked)
+            {
+                Chart1.ChartAreas["Default"].AxisX.LabelStyle.IsEndLabelVisible = false;
+            }
+            else
+            {
+                Chart1.ChartAreas["Default"].AxisX.LabelStyle.IsEndLabelVisible = true;
+            }
 
-			// Set Y axis labels format
-			Chart1.ChartAreas["Default"].AxisY.LabelStyle.Format = GetNumItem(YAxisFormat.SelectedIndex);
+            // Set X axis labels format
+            Chart1.ChartAreas["Default"].AxisX.LabelStyle.Format = GetDateItem(XAxisFormat.SelectedIndex);
 
-			// Set series point labels format
-			Chart1.Series["Series1"].LabelFormat = GetNumItem(SeriesPointFormat.SelectedIndex);
+            // Set Y axis labels format
+            Chart1.ChartAreas["Default"].AxisY.LabelStyle.Format = GetNumItem(YAxisFormat.SelectedIndex);
 
-			// Set series point labels color
-			Chart1.Series["Series1"].Color = Color.Navy;
-		}
+            // Set series point labels format
+            Chart1.Series["Series1"].LabelFormat = GetNumItem(SeriesPointFormat.SelectedIndex);
 
-		private string GetDateItem( int item )
-		{
-			string format;
-			switch( item )
-			{
-				case 0:
-					format = "d";
-					break;
-				case 1:
-					format = "M";
-					break;
-				case 2:
-					format = "Y";
-					break;
-				case 3:
-					format = "ddd,d";
-					break;
-				case 4:
-					format = "D";
-					break;
-				case 5:
-					format = "G";
-					break;
-				default: 
-					format = "";
-					break;
-			}
+            // Set series point labels color
+            Chart1.Series["Series1"].Color = Color.Navy;
+        }
 
-			return format;
-		}
+        private string GetDateItem(int item)
+        {
+            string format;
+            switch (item)
+            {
+                case 0:
+                    format = "d";
+                    break;
 
-		private string GetNumItem( int item )
-		{
-			string format;
-			switch( item )
-			{
-				case 0:
-					format = "C";
-					break;
-				case 1:
-					format = "C0";
-					break;
-				case 2:
-					format = "E";
-					break;
-				case 3:
-					format = "E0";
-					break;
-				case 4:
-					format = "P";
-					break;
-				case 5:
-					format = "P0";
-					break;
-				default: 
-					format = "";
-					break;
-			}
+                case 1:
+                    format = "M";
+                    break;
 
-			return format;
-		}
+                case 2:
+                    format = "Y";
+                    break;
 
-	}
+                case 3:
+                    format = "ddd,d";
+                    break;
+
+                case 4:
+                    format = "D";
+                    break;
+
+                case 5:
+                    format = "G";
+                    break;
+
+                default:
+                    format = "";
+                    break;
+            }
+
+            return format;
+        }
+
+        private string GetNumItem(int item)
+        {
+            string format;
+            switch (item)
+            {
+                case 0:
+                    format = "C";
+                    break;
+
+                case 1:
+                    format = "C0";
+                    break;
+
+                case 2:
+                    format = "E";
+                    break;
+
+                case 3:
+                    format = "E0";
+                    break;
+
+                case 4:
+                    format = "P";
+                    break;
+
+                case 5:
+                    format = "P0";
+                    break;
+
+                default:
+                    format = "";
+                    break;
+            }
+
+            return format;
+        }
+    }
 }

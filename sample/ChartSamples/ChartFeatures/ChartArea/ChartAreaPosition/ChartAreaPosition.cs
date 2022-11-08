@@ -1,80 +1,76 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for ChartAreaPosition.
-	/// </summary>
-	public class ChartAreaPosition : System.Windows.Forms.UserControl
-	{
-		# region Fields
+    /// <summary>
+    /// Summary description for ChartAreaPosition.
+    /// </summary>
+    public class ChartAreaPosition : System.Windows.Forms.UserControl
+    {
+        #region Fields
 
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.NumericUpDown ChartArea_X;
-		private System.Windows.Forms.NumericUpDown ChartArea_Y;
-		private System.Windows.Forms.NumericUpDown ChartArea_Width;
-		private System.Windows.Forms.NumericUpDown ChartArea_Height;
-		private System.Windows.Forms.NumericUpDown PlottingArea_X;
-		private System.Windows.Forms.NumericUpDown PlottingArea_Y;
-		private System.Windows.Forms.NumericUpDown PlottingArea_Width;
-		private System.Windows.Forms.NumericUpDown PlottingArea_Height;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown ChartArea_X;
+        private System.Windows.Forms.NumericUpDown ChartArea_Y;
+        private System.Windows.Forms.NumericUpDown ChartArea_Width;
+        private System.Windows.Forms.NumericUpDown ChartArea_Height;
+        private System.Windows.Forms.NumericUpDown PlottingArea_X;
+        private System.Windows.Forms.NumericUpDown PlottingArea_Y;
+        private System.Windows.Forms.NumericUpDown PlottingArea_Width;
+        private System.Windows.Forms.NumericUpDown PlottingArea_Height;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		#endregion
+        #endregion Fields
 
-		# region Constructor
+        #region Constructor
 
-		public ChartAreaPosition()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
-		}
+        public ChartAreaPosition()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel2 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
@@ -129,10 +125,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.ChartArea_X)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
@@ -142,10 +138,10 @@ namespace ChartSamples
             this.label9.Text = "This sample shows how to manually set the positions of the chart area and plot ar" +
                 "ea. ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.PlottingArea_Height);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.PlottingArea_Height);
             this.panel1.Controls.Add(this.PlottingArea_Width);
             this.panel1.Controls.Add(this.PlottingArea_Y);
             this.panel1.Controls.Add(this.PlottingArea_X);
@@ -167,10 +163,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 312);
             this.panel1.TabIndex = 19;
-            // 
-            // PlottingArea_Height
-            // 
-            this.PlottingArea_Height.Location = new System.Drawing.Point(176, 280);
+            //
+           // PlottingArea_Height
+            //
+           this.PlottingArea_Height.Location = new System.Drawing.Point(176, 280);
             this.PlottingArea_Height.Name = "PlottingArea_Height";
             this.PlottingArea_Height.Size = new System.Drawing.Size(112, 22);
             this.PlottingArea_Height.TabIndex = 21;
@@ -180,10 +176,10 @@ namespace ChartSamples
             0,
             0});
             this.PlottingArea_Height.ValueChanged += new System.EventHandler(this.PlottingArea_Height_ValueChanged);
-            // 
-            // PlottingArea_Width
-            // 
-            this.PlottingArea_Width.Location = new System.Drawing.Point(176, 248);
+            //
+           // PlottingArea_Width
+            //
+           this.PlottingArea_Width.Location = new System.Drawing.Point(176, 248);
             this.PlottingArea_Width.Name = "PlottingArea_Width";
             this.PlottingArea_Width.Size = new System.Drawing.Size(112, 22);
             this.PlottingArea_Width.TabIndex = 20;
@@ -193,10 +189,10 @@ namespace ChartSamples
             0,
             0});
             this.PlottingArea_Width.ValueChanged += new System.EventHandler(this.PlottingArea_Width_ValueChanged);
-            // 
-            // PlottingArea_Y
-            // 
-            this.PlottingArea_Y.Location = new System.Drawing.Point(176, 216);
+            //
+           // PlottingArea_Y
+            //
+           this.PlottingArea_Y.Location = new System.Drawing.Point(176, 216);
             this.PlottingArea_Y.Maximum = new decimal(new int[] {
             20,
             0,
@@ -211,10 +207,10 @@ namespace ChartSamples
             0,
             0});
             this.PlottingArea_Y.ValueChanged += new System.EventHandler(this.PlottingArea_Y_ValueChanged);
-            // 
-            // PlottingArea_X
-            // 
-            this.PlottingArea_X.Location = new System.Drawing.Point(176, 184);
+            //
+           // PlottingArea_X
+            //
+           this.PlottingArea_X.Location = new System.Drawing.Point(176, 184);
             this.PlottingArea_X.Maximum = new decimal(new int[] {
             20,
             0,
@@ -229,10 +225,10 @@ namespace ChartSamples
             0,
             0});
             this.PlottingArea_X.ValueChanged += new System.EventHandler(this.PlottingArea_X_ValueChanged);
-            // 
-            // ChartArea_Height
-            // 
-            this.ChartArea_Height.Location = new System.Drawing.Point(168, 128);
+            //
+           // ChartArea_Height
+            //
+           this.ChartArea_Height.Location = new System.Drawing.Point(168, 128);
             this.ChartArea_Height.Name = "ChartArea_Height";
             this.ChartArea_Height.Size = new System.Drawing.Size(112, 22);
             this.ChartArea_Height.TabIndex = 17;
@@ -242,10 +238,10 @@ namespace ChartSamples
             0,
             0});
             this.ChartArea_Height.ValueChanged += new System.EventHandler(this.ChartArea_Height_ValueChanged);
-            // 
-            // ChartArea_Width
-            // 
-            this.ChartArea_Width.Location = new System.Drawing.Point(168, 96);
+            //
+           // ChartArea_Width
+            //
+           this.ChartArea_Width.Location = new System.Drawing.Point(168, 96);
             this.ChartArea_Width.Name = "ChartArea_Width";
             this.ChartArea_Width.Size = new System.Drawing.Size(112, 22);
             this.ChartArea_Width.TabIndex = 16;
@@ -255,10 +251,10 @@ namespace ChartSamples
             0,
             0});
             this.ChartArea_Width.ValueChanged += new System.EventHandler(this.ChartArea_Width_ValueChanged);
-            // 
-            // ChartArea_Y
-            // 
-            this.ChartArea_Y.Location = new System.Drawing.Point(168, 64);
+            //
+           // ChartArea_Y
+            //
+           this.ChartArea_Y.Location = new System.Drawing.Point(168, 64);
             this.ChartArea_Y.Maximum = new decimal(new int[] {
             15,
             0,
@@ -278,10 +274,10 @@ namespace ChartSamples
             0,
             0});
             this.ChartArea_Y.ValueChanged += new System.EventHandler(this.ChartArea_Y_ValueChanged);
-            // 
-            // ChartArea_X
-            // 
-            this.ChartArea_X.Location = new System.Drawing.Point(168, 32);
+            //
+           // ChartArea_X
+            //
+           this.ChartArea_X.Location = new System.Drawing.Point(168, 32);
             this.ChartArea_X.Maximum = new decimal(new int[] {
             15,
             0,
@@ -301,100 +297,100 @@ namespace ChartSamples
             0,
             0});
             this.ChartArea_X.ValueChanged += new System.EventHandler(this.ChartArea_X_ValueChanged);
-            // 
-            // label11
-            // 
-            this.label11.Location = new System.Drawing.Point(16, 160);
+            //
+           // label11
+            //
+           this.label11.Location = new System.Drawing.Point(16, 160);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(144, 16);
             this.label11.TabIndex = 13;
             this.label11.Text = "Plotting Area Position:";
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(80, 280);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(80, 280);
             this.label6.Name = "label6";
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label6.Size = new System.Drawing.Size(88, 23);
             this.label6.TabIndex = 12;
             this.label6.Text = "Height:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(80, 248);
+            //
+           // label7
+            //
+           this.label7.Location = new System.Drawing.Point(80, 248);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(88, 23);
             this.label7.TabIndex = 11;
             this.label7.Text = "Width:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(80, 216);
+            //
+           // label8
+            //
+           this.label8.Location = new System.Drawing.Point(80, 216);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(88, 23);
             this.label8.TabIndex = 10;
             this.label8.Text = "Y:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label10
-            // 
-            this.label10.Location = new System.Drawing.Point(80, 184);
+            //
+           // label10
+            //
+           this.label10.Location = new System.Drawing.Point(80, 184);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(88, 23);
             this.label10.TabIndex = 9;
             this.label10.Text = "X:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(80, 131);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(80, 131);
             this.label5.Name = "label5";
             this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label5.Size = new System.Drawing.Size(80, 16);
             this.label5.TabIndex = 4;
             this.label5.Text = "Height:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(80, 99);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(80, 99);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(80, 16);
             this.label4.TabIndex = 3;
             this.label4.Text = "Width:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(80, 67);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(80, 67);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(80, 16);
             this.label3.TabIndex = 2;
             this.label3.Text = "Y:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(72, 35);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(72, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(88, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "X:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(8, 8);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(8, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(136, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Chart Area Position:";
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -501,10 +497,10 @@ namespace ChartSamples
             this.Chart1.Size = new System.Drawing.Size(412, 296);
             this.Chart1.TabIndex = 20;
             this.Chart1.PrePaint += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs>(this.Chart1_PrePaint);
-            // 
-            // label12
-            // 
-            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label12
+            //
+           this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(16, 368);
@@ -514,10 +510,10 @@ namespace ChartSamples
             this.label12.Text = "The plot area is the portion within a chart area that is used for plotting data, " +
                 "and does not include tick marks and axis labels.";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // ChartAreaPosition
-            // 
-            this.Controls.Add(this.label12);
+            //
+           // ChartAreaPosition
+            //
+           this.Controls.Add(this.label12);
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
@@ -536,87 +532,87 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.ChartArea_X)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		# endregion
+        #endregion Constructor
 
-		# region Methods
+        #region Methods
 
-		private void Positions()
-		{	
-			Chart1.ChartAreas["Default"].Position.Auto = false;
-			Chart1.ChartAreas["Default"].Position.X = (float)this.ChartArea_X.Value;
-			Chart1.ChartAreas["Default"].Position.Y = (float)this.ChartArea_Y.Value;
-			Chart1.ChartAreas["Default"].Position.Width = (float)this.ChartArea_Width.Value;
-			Chart1.ChartAreas["Default"].Position.Height= (float)this.ChartArea_Height.Value;
+        private void Positions()
+        {
+            Chart1.ChartAreas["Default"].Position.Auto = false;
+            Chart1.ChartAreas["Default"].Position.X = (float)this.ChartArea_X.Value;
+            Chart1.ChartAreas["Default"].Position.Y = (float)this.ChartArea_Y.Value;
+            Chart1.ChartAreas["Default"].Position.Width = (float)this.ChartArea_Width.Value;
+            Chart1.ChartAreas["Default"].Position.Height = (float)this.ChartArea_Height.Value;
 
-			Chart1.ChartAreas["Default"].InnerPlotPosition.Auto = false;
-			Chart1.ChartAreas["Default"].InnerPlotPosition.X = (float)this.PlottingArea_X.Value;
-			Chart1.ChartAreas["Default"].InnerPlotPosition.Y = (float)this.PlottingArea_Y.Value;
-			Chart1.ChartAreas["Default"].InnerPlotPosition.Width = (float)this.PlottingArea_Width.Value;
-			Chart1.ChartAreas["Default"].InnerPlotPosition.Height = (float)this.PlottingArea_Height.Value;
-		}	
+            Chart1.ChartAreas["Default"].InnerPlotPosition.Auto = false;
+            Chart1.ChartAreas["Default"].InnerPlotPosition.X = (float)this.PlottingArea_X.Value;
+            Chart1.ChartAreas["Default"].InnerPlotPosition.Y = (float)this.PlottingArea_Y.Value;
+            Chart1.ChartAreas["Default"].InnerPlotPosition.Width = (float)this.PlottingArea_Width.Value;
+            Chart1.ChartAreas["Default"].InnerPlotPosition.Height = (float)this.PlottingArea_Height.Value;
+        }
 
-		private void Chart1_PrePaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
-		{
-			if( sender is ChartArea )
-			{
-				RectangleF rect = e.ChartGraphics.GetAbsoluteRectangle( e.Chart.ChartAreas[0].Position.ToRectangleF() );
-				e.ChartGraphics.Graphics.DrawRectangle( new Pen(Color.Red), rect.X, rect.Y, rect.Width, rect.Height);
-			}
-		}
-		
-		# endregion	
+        private void Chart1_PrePaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
+        {
+            if (sender is ChartArea)
+            {
+                RectangleF rect = e.ChartGraphics.GetAbsoluteRectangle(e.Chart.ChartAreas[0].Position.ToRectangleF());
+                e.ChartGraphics.Graphics.DrawRectangle(new Pen(Color.Red), rect.X, rect.Y, rect.Width, rect.Height);
+            }
+        }
 
-		# region Event Handlers
+        #endregion Methods
 
-		private void ZOrder_Load(object sender, System.EventArgs e)
-		{
-			Positions();
-		}
+        #region Event Handlers
 
-		private void ChartArea_X_ValueChanged(object sender, System.EventArgs e)
-		{
-			Positions();		
-		}
+        private void ZOrder_Load(object sender, System.EventArgs e)
+        {
+            Positions();
+        }
 
-		private void ChartArea_Y_ValueChanged(object sender, System.EventArgs e)
-		{
-			Positions();	
-		}
+        private void ChartArea_X_ValueChanged(object sender, System.EventArgs e)
+        {
+            Positions();
+        }
 
-		private void ChartArea_Width_ValueChanged(object sender, System.EventArgs e)
-		{
-			Positions();	
-		}
+        private void ChartArea_Y_ValueChanged(object sender, System.EventArgs e)
+        {
+            Positions();
+        }
 
-		private void ChartArea_Height_ValueChanged(object sender, System.EventArgs e)
-		{
-			Positions();	
-		}
+        private void ChartArea_Width_ValueChanged(object sender, System.EventArgs e)
+        {
+            Positions();
+        }
 
-		private void PlottingArea_X_ValueChanged(object sender, System.EventArgs e)
-		{
-			Positions();	
-		}
+        private void ChartArea_Height_ValueChanged(object sender, System.EventArgs e)
+        {
+            Positions();
+        }
 
-		private void PlottingArea_Y_ValueChanged(object sender, System.EventArgs e)
-		{
-			Positions();	
-		}
+        private void PlottingArea_X_ValueChanged(object sender, System.EventArgs e)
+        {
+            Positions();
+        }
 
-		private void PlottingArea_Width_ValueChanged(object sender, System.EventArgs e)
-		{
-			Positions();	
-		}
+        private void PlottingArea_Y_ValueChanged(object sender, System.EventArgs e)
+        {
+            Positions();
+        }
 
-		private void PlottingArea_Height_ValueChanged(object sender, System.EventArgs e)
-		{
-			Positions();	
-		}
+        private void PlottingArea_Width_ValueChanged(object sender, System.EventArgs e)
+        {
+            Positions();
+        }
 
-		# endregion
-	}
+        private void PlottingArea_Height_ValueChanged(object sender, System.EventArgs e)
+        {
+            Positions();
+        }
+
+        #endregion Event Handlers
+    }
 }

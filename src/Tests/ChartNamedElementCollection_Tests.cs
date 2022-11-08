@@ -4,14 +4,15 @@ using System.Windows.Forms.DataVisualization.Charting;
 using Xunit;
 
 namespace Tests;
+
 public class ChartNamedElementCollection_Tests
-{    
+{
     [Theory]
     [InlineData(1, new string[] { })]
     [InlineData(1, new string[] { "test" })]
     [InlineData(1, new string[] { "test", "tes2" })]
-    [InlineData(1, new string[] { "test", "10", "20", "3", "4", "5" })]    
-    public void Insert_Test(int fakeParam, string [] names)
+    [InlineData(1, new string[] { "test", "10", "20", "3", "4", "5" })]
+    public void Insert_Test(int fakeParam, string[] names)
     {
         NamedClass ncl = new NamedClass(null);
         foreach (var n in names)
@@ -57,7 +58,7 @@ public class ChartNamedElementCollection_Tests
         foreach (var n in names)
             ncl.Insert(0, new DataPointCustomProperties() { Name = n });
 
-        while(ncl.Count > 0)
+        while (ncl.Count > 0)
         {
             ncl.Remove(ncl[0]);
             for (int j = 0; j < ncl.Count; j++)
@@ -81,7 +82,6 @@ public class ChartNamedElementCollection_Tests
 
         foreach (var n in names)
             Assert.Equal(-1, ncl.IndexOf(n));
-
     }
 
     [Theory]
@@ -120,6 +120,5 @@ internal class NamedClass : ChartNamedElementCollection<DataPointCustomPropertie
     /// <param name="parent">The parent chart element.</param>
     internal NamedClass(System.Windows.Forms.DataVisualization.Charting.IChartElement? parent) : base(parent)
     {
-
     }
 }

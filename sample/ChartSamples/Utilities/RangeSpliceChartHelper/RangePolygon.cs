@@ -1,18 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 
 namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 {
     /// <summary>
-    /// Class that represents the drawing area \ polygon of the Range in 
-    /// between two lines. Implements IDisposable so the graphicsPath is
-    /// disposed properly.  
-    /// </summary>
-    public class RangePolygon: IDisposable
+    /// Class that represents the drawing area \ polygon of the Range in
+   /// between two lines. Implements IDisposable so the graphicsPath is
+    /// disposed properly. 
+   /// </summary>
+    public class RangePolygon : IDisposable
     {
         #region Fields
+
         /// <summary>
         /// The Range Types
         /// </summary>
@@ -29,9 +27,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         private RANGETYPE rangeType;
 
         private System.Drawing.Drawing2D.GraphicsPath graphicsPath;
+
         /// <summary>
-        /// The fill color.  
-        /// By default the fill color is a transparent green if the rangeType is TOP
+        /// The fill color. 
+       /// By default the fill color is a transparent green if the rangeType is TOP
         /// or a transparent red if the rangeType is BOTTOM
         /// </summary>
         private Color fillColor;
@@ -41,24 +40,24 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// </summary>
         private int polygonID;
 
-        #endregion
+        #endregion Fields
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="points">points of the polygon</param>
         /// <param name="rType">Range Type</param>
-        public RangePolygon(PointF[] points, RANGETYPE rType,int id)
+        public RangePolygon(PointF[] points, RANGETYPE rType, int id)
         {
             this.rangeType = rType;
             this.polygonPoints = points;
-            if(rType == RANGETYPE.TOP)
+            if (rType == RANGETYPE.TOP)
             {
-                fillColor=Color.FromArgb(15,0,255,0);
+                fillColor = Color.FromArgb(15, 0, 255, 0);
             }
             else
             {
-                fillColor=Color.FromArgb(15,255,0,0);
+                fillColor = Color.FromArgb(15, 255, 0, 0);
             }
             this.polygonID = id;
             graphicsPath = new System.Drawing.Drawing2D.GraphicsPath();
@@ -66,6 +65,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         }
 
         #region Methods
+
         /// <summary>
         /// Performs a hit test on the polygon
         /// </summary>
@@ -75,12 +75,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             return graphicsPath.IsVisible(point);
         }
-        #endregion
+
+        #endregion Methods
 
         #region Properties
+
         /// <summary>
-        /// (READ ONLY) Range Type of the polygon, either TOP or BOTTOM 
-        /// </summary>
+        /// (READ ONLY) Range Type of the polygon, either TOP or BOTTOM
+       /// </summary>
         public RANGETYPE RangeType
         {
             get
@@ -101,8 +103,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         }
 
         /// <summary>
-        /// (READ ONLY)Points of the Polygon 
-        /// </summary>
+        /// (READ ONLY)Points of the Polygon
+       /// </summary>
         public PointF[] PolygonPoints
         {
             get
@@ -122,7 +124,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             }
         }
 
-
         /// <summary>
         /// Fill color of the polygon.
         /// By default, transparent green for TOP
@@ -139,7 +140,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 fillColor = value;
             }
         }
-#endregion
+
+        #endregion Properties
 
         #region IDisposable Members
 
@@ -151,6 +153,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             this.graphicsPath.Dispose();
         }
 
-        #endregion
+        #endregion IDisposable Members
     }
 }

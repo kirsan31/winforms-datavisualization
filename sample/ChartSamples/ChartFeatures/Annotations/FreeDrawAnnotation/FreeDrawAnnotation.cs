@@ -1,58 +1,55 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for AnnotationAppearance.
-	/// </summary>
-	public class FreeDrawAnnotation : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.CheckBox DrawingMode;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Button UndoButton;
+    /// <summary>
+    /// Summary description for AnnotationAppearance.
+    /// </summary>
+    public class FreeDrawAnnotation : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.CheckBox DrawingMode;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button UndoButton;
         private System.Windows.Forms.Button ClearAll;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
 
-		public FreeDrawAnnotation()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
-		}
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        public FreeDrawAnnotation()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FreeDrawAnnotation));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
@@ -91,20 +88,20 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // label9
+            //
+           this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 14);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(702, 56);
             this.label9.TabIndex = 1;
             this.label9.Text = resources.GetString("label9.Text");
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.ClearAll);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.ClearAll);
             this.panel1.Controls.Add(this.UndoButton);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.DrawingMode);
@@ -112,10 +109,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(288, 284);
             this.panel1.TabIndex = 19;
-            // 
-            // ClearAll
-            // 
-            this.ClearAll.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // ClearAll
+            //
+           this.ClearAll.BackColor = System.Drawing.SystemColors.Control;
             this.ClearAll.Enabled = false;
             this.ClearAll.Location = new System.Drawing.Point(48, 133);
             this.ClearAll.Name = "ClearAll";
@@ -124,10 +121,10 @@ namespace ChartSamples
             this.ClearAll.Text = "&Clear All";
             this.ClearAll.UseVisualStyleBackColor = false;
             this.ClearAll.Click += new System.EventHandler(this.ClearAll_Click);
-            // 
-            // UndoButton
-            // 
-            this.UndoButton.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // UndoButton
+            //
+           this.UndoButton.BackColor = System.Drawing.SystemColors.Control;
             this.UndoButton.Enabled = false;
             this.UndoButton.Location = new System.Drawing.Point(48, 88);
             this.UndoButton.Name = "UndoButton";
@@ -136,18 +133,18 @@ namespace ChartSamples
             this.UndoButton.Text = "&Undo";
             this.UndoButton.UseVisualStyleBackColor = false;
             this.UndoButton.Click += new System.EventHandler(this.UndoButton_Click);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(8, 16);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(8, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(224, 23);
             this.label1.TabIndex = 2;
             this.label1.Text = "Select to enable Drawing Mode:";
-            // 
-            // DrawingMode
-            // 
-            this.DrawingMode.Appearance = System.Windows.Forms.Appearance.Button;
+            //
+           // DrawingMode
+            //
+           this.DrawingMode.Appearance = System.Windows.Forms.Appearance.Button;
             this.DrawingMode.BackColor = System.Drawing.SystemColors.Control;
             this.DrawingMode.Location = new System.Drawing.Point(48, 48);
             this.DrawingMode.Name = "DrawingMode";
@@ -157,10 +154,10 @@ namespace ChartSamples
             this.DrawingMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.DrawingMode.UseVisualStyleBackColor = false;
             this.DrawingMode.CheckedChanged += new System.EventHandler(this.DrawingMode_CheckedChanged);
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -299,10 +296,10 @@ namespace ChartSamples
             title1.Text = "Chart Control for .NET Framework";
             this.Chart1.Titles.Add(title1);
             this.Chart1.AnnotationPlaced += new System.EventHandler(this.Chart1_AnnotationPlaced);
-            // 
-            // FreeDrawAnnotation
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // FreeDrawAnnotation
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
@@ -312,86 +309,84 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void DrawingMode_CheckedChanged(object sender, System.EventArgs e)
-		{
-			if(DrawingMode.Checked)
-			{
-				// enter the drawing mode
-				DrawAnnotation();
-			}
-			else
-			{
-				// end the placement of the annotation object...
-				Chart1.Annotations[Chart1.Annotations.Count-1].EndPlacement();
-			}
-		}
+        private void DrawingMode_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (DrawingMode.Checked)
+            {
+                // enter the drawing mode
+                DrawAnnotation();
+            }
+            else
+            {
+                // end the placement of the annotation object...
+                Chart1.Annotations[Chart1.Annotations.Count - 1].EndPlacement();
+            }
+        }
 
+        private void Chart1_AnnotationPlaced(object sender, System.EventArgs e)
+        {
+            if (DrawingMode.Checked)
+            {
+                DrawAnnotation();
+            }
+            EnableDisableButtons();
+        }
 
-		private void Chart1_AnnotationPlaced(object sender, System.EventArgs e)
-		{
-			if(DrawingMode.Checked)
-			{
-				DrawAnnotation();
-			}
-			EnableDisableButtons();
-		}
-
-		private void DrawAnnotation()
-		{
-			PolylineAnnotation polyline = new PolylineAnnotation();
-			polyline.LineColor = Color.FromArgb(255, 227, 130);
+        private void DrawAnnotation()
+        {
+            PolylineAnnotation polyline = new PolylineAnnotation();
+            polyline.LineColor = Color.FromArgb(255, 227, 130);
             polyline.LineWidth = 2;
-			polyline.ShadowOffset = 2;
+            polyline.ShadowOffset = 2;
             polyline.AllowPathEditing = true;
             polyline.AllowSelecting = true;
             polyline.AllowMoving = true;
             polyline.IsFreeDrawPlacement = true;
             Chart1.Annotations.Add(polyline);
-			polyline.BeginPlacement();
-		}
+            polyline.BeginPlacement();
+        }
 
-		private void UndoButton_Click(object sender, System.EventArgs e)
-		{
-			if(Chart1.Annotations.Count > 0)
-			{
-				// if in drawing mode, end the drawing mode...
-				if(DrawingMode.Checked)
-				{
-					// uncheck the drawing mode button, which will cause
-					// the end placement method to be called for the check changed event
-					DrawingMode.Checked = false;
+        private void UndoButton_Click(object sender, System.EventArgs e)
+        {
+            if (Chart1.Annotations.Count > 0)
+            {
+                // if in drawing mode, end the drawing mode...
+                if (DrawingMode.Checked)
+                {
+                    // uncheck the drawing mode button, which will cause
+                    // the end placement method to be called for the check changed event
+                    DrawingMode.Checked = false;
 
-					// Call self to remove the annotation... as simply removing the 
-					// annotation does not work 
-					UndoButton_Click(sender, e);
-				}
+                    // Call self to remove the annotation... as simply removing the
+                   // annotation does not work
+                   UndoButton_Click(sender, e);
+                }
 
-				// remove the last annotation object that was added
-				Chart1.Annotations.Remove(Chart1.Annotations[Chart1.Annotations.Count-1]);
-			}
-			EnableDisableButtons();
-		}
+                // remove the last annotation object that was added
+                Chart1.Annotations.Remove(Chart1.Annotations[Chart1.Annotations.Count - 1]);
+            }
+            EnableDisableButtons();
+        }
 
-		private void ClearAll_Click(object sender, System.EventArgs e)
-		{
-			// uncheck the drawing mode button, which will cause
-			// the end placement method to be called for the check changed event
-			DrawingMode.Checked = false;
+        private void ClearAll_Click(object sender, System.EventArgs e)
+        {
+            // uncheck the drawing mode button, which will cause
+            // the end placement method to be called for the check changed event
+            DrawingMode.Checked = false;
 
-			// remove all annotation objects
-			Chart1.Annotations.Clear();
-			EnableDisableButtons();
-		}
+            // remove all annotation objects
+            Chart1.Annotations.Clear();
+            EnableDisableButtons();
+        }
 
-		private void EnableDisableButtons()
-		{
-			UndoButton.Enabled = (Chart1.Annotations.Count > 0);
-			ClearAll.Enabled = (Chart1.Annotations.Count > 0);
-		}
-
-	}
+        private void EnableDisableButtons()
+        {
+            UndoButton.Enabled = (Chart1.Annotations.Count > 0);
+            ClearAll.Enabled = (Chart1.Annotations.Count > 0);
+        }
+    }
 }

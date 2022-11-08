@@ -58,8 +58,8 @@ void MakeParetoChart(Chart chart, string srcSeriesName, string destSeriesName)
         pos = destSeries.Points.Add(Math.Round(percentage,2));
 
     }
-    
-    // Set to 3D
+   
+   // Set to 3D
     chart.ChartAreas[strChartArea].Area3DStyle.Enable3D = true;
 }
 ...

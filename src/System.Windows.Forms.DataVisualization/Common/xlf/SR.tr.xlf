@@ -3903,8 +3903,8 @@ If a chart type supports more than one Y value, you can specify which Y value sh
       <trans-unit id="DescriptionToolTipCustomFormatCharacters">
         <source>Characters that can be used to create custom numeric format strings:
 
-    '0' - Zero placeholder, 
-    '#' - Digit placeholder,
+    '0' - Zero placeholder,
+   '#' - Digit placeholder,
     '.' - Decimal point,
     ',' - Thousand separator and number scaling,
     '%' - Percentage placeholder,
@@ -3915,8 +3915,8 @@ If a chart type supports more than one Y value, you can specify which Y value sh
 All other characters are copied to the output string as literals in the position they appear.</source>
         <target state="new">Characters that can be used to create custom numeric format strings:
 
-    '0' - Zero placeholder, 
-    '#' - Digit placeholder,
+    '0' - Zero placeholder,
+   '#' - Digit placeholder,
     '.' - Decimal point,
     ',' - Thousand separator and number scaling,
     '%' - Percentage placeholder,

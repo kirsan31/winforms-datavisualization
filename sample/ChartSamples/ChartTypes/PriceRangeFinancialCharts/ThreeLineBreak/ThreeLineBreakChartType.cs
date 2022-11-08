@@ -1,59 +1,55 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for ThreeLineBreakChartType.
-	/// </summary>
-	public class ThreeLineBreakChartType : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboNumberOfLines;
-		private System.Windows.Forms.Label label3;
+    /// <summary>
+    /// Summary description for ThreeLineBreakChartType.
+    /// </summary>
+    public class ThreeLineBreakChartType : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboNumberOfLines;
+        private System.Windows.Forms.Label label3;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public ThreeLineBreakChartType()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public ThreeLineBreakChartType()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -67,10 +63,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -126,29 +122,29 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Three Line Break Chart";
             this.chart1.Titles.Add(title1);
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 26);
             this.labelSampleComment.TabIndex = 2;
             this.labelSampleComment.Text = "This sample demonstrates the Three Line Break chart type.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.comboNumberOfLines);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.comboNumberOfLines);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(432, 48);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(296, 280);
             this.panel1.TabIndex = 1;
-            // 
-            // comboNumberOfLines
-            // 
-            this.comboNumberOfLines.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboNumberOfLines
+            //
+           this.comboNumberOfLines.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboNumberOfLines.Items.AddRange(new object[] {
             "1",
             "2",
@@ -160,19 +156,19 @@ namespace ChartSamples
             this.comboNumberOfLines.Size = new System.Drawing.Size(104, 22);
             this.comboNumberOfLines.TabIndex = 0;
             this.comboNumberOfLines.SelectedIndexChanged += new System.EventHandler(this.comboNumberOfLines_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(8, 8);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(8, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(152, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "Number of &Lines in Break:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label3
+            //
+           this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.Font = new System.Drawing.Font("Verdana", 11F);
             this.label3.Location = new System.Drawing.Point(13, 342);
@@ -182,10 +178,10 @@ namespace ChartSamples
             this.label3.Text = "The sensitivity of the reversal criteria can be adjusted by changing the number o" +
                 "f lines in break.";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // ThreeLineBreakChartType
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // ThreeLineBreakChartType
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
@@ -197,72 +193,68 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void UpdateChartSettings()
+        {
+            string numberOfLines = comboNumberOfLines.Text;
 
-		private void UpdateChartSettings()
-		{
-			
-			string numberOfLines = comboNumberOfLines.Text;
+            // set series type
+            chart1.Series["Default"].ChartType = SeriesChartType.ThreeLineBreak;
 
-			// set series type
-			chart1.Series["Default"].ChartType = SeriesChartType.ThreeLineBreak;
+            // set the PriceUpColor attribute			
+            chart1.Series["Default"]["PriceUpColor"] = "White";
 
-			// set the PriceUpColor attribute			
-			chart1.Series["Default"]["PriceUpColor"] = "White";
+            // set the default color
+            chart1.Series["Default"].Color = Color.Black;
 
-			// set the default color
-			chart1.Series["Default"].Color = Color.Black;
+            if (numberOfLines == "Default")
+            {
+                // clear attribute, let the default NumberOfLinesInBreak to be calculated
+                chart1.Series["Default"].DeleteCustomProperty("NumberOfLinesInBreak");
+            }
+            else
+            {
+                // set the NumberOfLinesInBreak attribute
+                chart1.Series["Default"]["NumberOfLinesInBreak"] = numberOfLines;
+            }
+        }
 
-			if ( numberOfLines == "Default")
-			{
-				// clear attribute, let the default NumberOfLinesInBreak to be calculated
-				chart1.Series["Default"].DeleteCustomProperty("NumberOfLinesInBreak");
-			}
-			else
-			{
-				// set the NumberOfLinesInBreak attribute
-				chart1.Series["Default"]["NumberOfLinesInBreak"] = numberOfLines;
-			}
-			
-		}
+        private void ThreeLineBreakChartType_Load(object sender, System.EventArgs e)
+        {
+            comboNumberOfLines.Text = "1";
 
-		private void ThreeLineBreakChartType_Load(object sender, System.EventArgs e)
-		{
+            // load series data
+            FillData();
 
-			comboNumberOfLines.Text = "1";
-			
-			// load series data
-			FillData();	
-			
-			// set up appearance
-			UpdateChartSettings();
-		}
+            // set up appearance
+            UpdateChartSettings();
+        }
 
-		private void FillData() 
-		{
-			double[] points = {   27.375,26.375,26.062,25.750,26.125,25.875,25.750,25.250,24.375,24.000, 
-								  23.625,23.875,26.500,26.750,27.375,27.375,26.825,27.000,26.875,26.625,
-								  27.627,28.000,27.125,25.875,27.250,25.500,24.875,24.875,24.125,25.000,
-								  26.250,27.375,27.500,28.000,27.625,27.125,26.250,26.250,26.250,26.375,
-								  26.625,27.375,28.500,27.250,26.250,26.500,26.125,25.750,26.000,26.625,
-								  26.125,26.250,25.750,25.375,25.375,24.750,23.500,24.062,23.250,23.500,24.125,24.625,24.625};
+        private void FillData()
+        {
+            double[] points = {   27.375,26.375,26.062,25.750,26.125,25.875,25.750,25.250,24.375,24.000,
+                                  23.625,23.875,26.500,26.750,27.375,27.375,26.825,27.000,26.875,26.625,
+                                  27.627,28.000,27.125,25.875,27.250,25.500,24.875,24.875,24.125,25.000,
+                                  26.250,27.375,27.500,28.000,27.625,27.125,26.250,26.250,26.250,26.375,
+                                  26.625,27.375,28.500,27.250,26.250,26.500,26.125,25.750,26.000,26.625,
+                                  26.125,26.250,25.750,25.375,25.375,24.750,23.500,24.062,23.250,23.500,24.125,24.625,24.625};
 
-			DateTime date   = DateTime.Today.AddDays( -points.Length);
-			
-			chart1.Series["Default"].Points.Clear();
-			
-			for( int day = 0; day < points.Length; day++) 
-			{
-				chart1.Series["Default"].Points.AddXY( date.AddDays( day), points[day]);
-			}
-		}
+            DateTime date = DateTime.Today.AddDays(-points.Length);
 
-		private void comboNumberOfLines_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
-	}
+            chart1.Series["Default"].Points.Clear();
+
+            for (int day = 0; day < points.Length; day++)
+            {
+                chart1.Series["Default"].Points.AddXY(date.AddDays(day), points[day]);
+            }
+        }
+
+        private void comboNumberOfLines_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
+    }
 }

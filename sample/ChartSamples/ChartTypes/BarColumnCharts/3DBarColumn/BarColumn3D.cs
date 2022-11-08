@@ -1,64 +1,59 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for BarColumn3D.
-	/// </summary>
-	public class BarColumn3D : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.CheckBox checkBoxShowMargin;
-		private System.Windows.Forms.RadioButton radioButtonColumn;
-		private System.Windows.Forms.RadioButton radioButtonBar;
-		private System.Windows.Forms.CheckBox RightAngleAxis;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.NumericUpDown Rotation;
-		private System.Windows.Forms.NumericUpDown Inclination;
-		private System.Windows.Forms.CheckBox checkClustered;
+    /// <summary>
+    /// Summary description for BarColumn3D.
+    /// </summary>
+    public class BarColumn3D : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox checkBoxShowMargin;
+        private System.Windows.Forms.RadioButton radioButtonColumn;
+        private System.Windows.Forms.RadioButton radioButtonBar;
+        private System.Windows.Forms.CheckBox RightAngleAxis;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown Rotation;
+        private System.Windows.Forms.NumericUpDown Inclination;
+        private System.Windows.Forms.CheckBox checkClustered;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public BarColumn3D()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
-		}
+        public BarColumn3D()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -109,10 +104,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.Rotation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Inclination)).BeginInit();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -200,10 +195,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "3D Bar and Column charts.";
             this.chart1.Titles.Add(title1);
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 42);
@@ -211,10 +206,10 @@ namespace ChartSamples
             this.labelSampleComment.Text = "This sample demonstrates 3D Column and Bar charts. It also shows chart area rotat" +
                 "ion and isometric projection, as well as clustering of series. ";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.checkClustered);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.checkClustered);
             this.panel1.Controls.Add(this.Rotation);
             this.panel1.Controls.Add(this.Inclination);
             this.panel1.Controls.Add(this.label2);
@@ -227,10 +222,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // checkClustered
-            // 
-            this.checkClustered.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // checkClustered
+            //
+           this.checkClustered.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkClustered.Checked = true;
             this.checkClustered.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkClustered.Location = new System.Drawing.Point(37, 136);
@@ -240,10 +235,10 @@ namespace ChartSamples
             this.checkClustered.Text = "&Clustered:";
             this.checkClustered.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkClustered.CheckedChanged += new System.EventHandler(this.checkClustered_CheckedChanged);
-            // 
-            // Rotation
-            // 
-            this.Rotation.Increment = new decimal(new int[] {
+            //
+           // Rotation
+            //
+           this.Rotation.Increment = new decimal(new int[] {
             10,
             0,
             0,
@@ -268,10 +263,10 @@ namespace ChartSamples
             0,
             0});
             this.Rotation.ValueChanged += new System.EventHandler(this.Rotation_ValueChanged);
-            // 
-            // Inclination
-            // 
-            this.Inclination.Increment = new decimal(new int[] {
+            //
+           // Inclination
+            //
+           this.Inclination.Increment = new decimal(new int[] {
             10,
             0,
             0,
@@ -296,28 +291,28 @@ namespace ChartSamples
             0,
             0});
             this.Inclination.ValueChanged += new System.EventHandler(this.Inclination_ValueChanged);
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(61, 200);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(61, 200);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 23);
             this.label2.TabIndex = 7;
             this.label2.Text = "Rotate &Y:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(69, 168);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(69, 168);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(96, 23);
             this.label1.TabIndex = 5;
             this.label1.Text = "Rotate &X:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // RightAngleAxis
-            // 
-            this.RightAngleAxis.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // RightAngleAxis
+            //
+           this.RightAngleAxis.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.RightAngleAxis.Location = new System.Drawing.Point(37, 104);
             this.RightAngleAxis.Name = "RightAngleAxis";
             this.RightAngleAxis.Size = new System.Drawing.Size(144, 24);
@@ -325,10 +320,10 @@ namespace ChartSamples
             this.RightAngleAxis.Text = "&Right Angle Axes:";
             this.RightAngleAxis.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.RightAngleAxis.CheckedChanged += new System.EventHandler(this.RightAngleAxis_CheckedChanged);
-            // 
-            // checkBoxShowMargin
-            // 
-            this.checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // checkBoxShowMargin
+            //
+           this.checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShowMargin.Checked = true;
             this.checkBoxShowMargin.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxShowMargin.Location = new System.Drawing.Point(5, 72);
@@ -338,10 +333,10 @@ namespace ChartSamples
             this.checkBoxShowMargin.Text = "Show X Axis &Margin:";
             this.checkBoxShowMargin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShowMargin.CheckedChanged += new System.EventHandler(this.checkBoxShowMargin_CheckedChanged);
-            // 
-            // radioButtonColumn
-            // 
-            this.radioButtonColumn.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // radioButtonColumn
+            //
+           this.radioButtonColumn.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.radioButtonColumn.Checked = true;
             this.radioButtonColumn.Location = new System.Drawing.Point(27, 40);
             this.radioButtonColumn.Name = "radioButtonColumn";
@@ -351,10 +346,10 @@ namespace ChartSamples
             this.radioButtonColumn.Text = "3D C&olumn Chart:";
             this.radioButtonColumn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.radioButtonColumn.CheckedChanged += new System.EventHandler(this.radioButtonColumn_CheckedChanged);
-            // 
-            // radioButtonBar
-            // 
-            this.radioButtonBar.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // radioButtonBar
+            //
+           this.radioButtonBar.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.radioButtonBar.Location = new System.Drawing.Point(43, 8);
             this.radioButtonBar.Name = "radioButtonBar";
             this.radioButtonBar.Size = new System.Drawing.Size(136, 24);
@@ -362,10 +357,10 @@ namespace ChartSamples
             this.radioButtonBar.Text = "3D &Bar Chart:";
             this.radioButtonBar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.radioButtonBar.CheckedChanged += new System.EventHandler(this.radioButtonBar_CheckedChanged);
-            // 
-            // BarColumn3D
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // BarColumn3D
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
@@ -378,97 +373,94 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.Rotation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Inclination)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void UpdateChartSettings()
-		{
-			if(radioButtonBar.Checked)
-			{
-				// Set chart type to Bar
-				chart1.Series["Default"].ChartType = SeriesChartType.Bar;
-				chart1.Series["Series2"].ChartType = SeriesChartType.Bar;
-				chart1.Series["Series3"].ChartType = SeriesChartType.Bar;
-			}
-			else
-			{
-				// Set chart type to Column
-				chart1.Series["Default"].ChartType = SeriesChartType.Column;
-				chart1.Series["Series2"].ChartType = SeriesChartType.Column;
-				chart1.Series["Series3"].ChartType = SeriesChartType.Column;
-			}
+        private void UpdateChartSettings()
+        {
+            if (radioButtonBar.Checked)
+            {
+                // Set chart type to Bar
+                chart1.Series["Default"].ChartType = SeriesChartType.Bar;
+                chart1.Series["Series2"].ChartType = SeriesChartType.Bar;
+                chart1.Series["Series3"].ChartType = SeriesChartType.Bar;
+            }
+            else
+            {
+                // Set chart type to Column
+                chart1.Series["Default"].ChartType = SeriesChartType.Column;
+                chart1.Series["Series2"].ChartType = SeriesChartType.Column;
+                chart1.Series["Series3"].ChartType = SeriesChartType.Column;
+            }
 
-			// Disable/enable X axis margin
-			chart1.ChartAreas["Default"].AxisX.IsMarginVisible = checkBoxShowMargin.Checked;
+            // Disable/enable X axis margin
+            chart1.ChartAreas["Default"].AxisX.IsMarginVisible = checkBoxShowMargin.Checked;
 
-			// Disable/enable right angle axis
-			chart1.ChartAreas["Default"].Area3DStyle.IsRightAngleAxes = RightAngleAxis.Checked;
+            // Disable/enable right angle axis
+            chart1.ChartAreas["Default"].Area3DStyle.IsRightAngleAxes = RightAngleAxis.Checked;
 
-			// Disable/enable clustered series
-			chart1.ChartAreas["Default"].Area3DStyle.IsClustered = checkClustered.Checked;
+            // Disable/enable clustered series
+            chart1.ChartAreas["Default"].Area3DStyle.IsClustered = checkClustered.Checked;
+        }
 
-		}
+        private void radioButtonBar_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void radioButtonBar_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
+        private void radioButtonColumn_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void radioButtonColumn_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
+        private void checkBoxShowMargin_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void checkBoxShowMargin_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
+        private void checkBoxShowMarkers_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void checkBoxShowMarkers_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();
-		}
+        private void comboBoxTension_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void comboBoxTension_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();		
-		}
+        private void RightAngleAxis_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void RightAngleAxis_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();		
-		}
+        private void Inclination_ValueChanged(object sender, System.EventArgs e)
+        {
+            if (Inclination.Value > 90)
+                Inclination.Value = -90;
+            if (Inclination.Value < -90)
+                Inclination.Value = 90;
 
-		private void Inclination_ValueChanged(object sender, System.EventArgs e)
-		{
-			if(Inclination.Value > 90)
-				Inclination.Value = -90;
-			if(Inclination.Value < -90)
-				Inclination.Value = 90;
+            chart1.ChartAreas["Default"].Area3DStyle.Inclination = (int)Inclination.Value;
+        }
 
-			chart1.ChartAreas["Default"].Area3DStyle.Inclination = (int)Inclination.Value;
-		}
+        private void Rotation_ValueChanged(object sender, System.EventArgs e)
+        {
+            if (Rotation.Value > 180)
+                Rotation.Value = -180;
+            if (Rotation.Value < -180)
+                Rotation.Value = 180;
 
-		private void Rotation_ValueChanged(object sender, System.EventArgs e)
-		{
-			if(Rotation.Value > 180)
-				Rotation.Value = -180;
-			if(Rotation.Value < -180)
-				Rotation.Value = 180;
+            chart1.ChartAreas["Default"].Area3DStyle.Rotation = (int)Rotation.Value;
+        }
 
-			chart1.ChartAreas["Default"].Area3DStyle.Rotation = (int)Rotation.Value;
-		}
+        private void checkClustered_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void checkClustered_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();		
-		}
-
-		private void BarColumn3D_Load(object sender, System.EventArgs e)
-		{
-		
-		}
-
-	}
+        private void BarColumn3D_Load(object sender, System.EventArgs e)
+        {
+        }
+    }
 }

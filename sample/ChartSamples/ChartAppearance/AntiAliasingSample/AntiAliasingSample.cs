@@ -1,58 +1,55 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for ChartAppearance.
-	/// </summary>
-	public class AntiAliasingSample : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox TextAntiAliasing;
-		private System.Windows.Forms.ComboBox GraphicsAntiAliasing;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for ChartAppearance.
+    /// </summary>
+    public class AntiAliasingSample : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox TextAntiAliasing;
+        private System.Windows.Forms.ComboBox GraphicsAntiAliasing;
 
-		public AntiAliasingSample()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
-		}
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        public AntiAliasingSample()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
             System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel2 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
@@ -90,10 +87,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            //
+           // label9
+            //
+           this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 8);
@@ -103,10 +100,10 @@ namespace ChartSamples
             this.label9.Text = "This sample demonstrates how to set the anti aliasing mode for graphics and text." +
                 "";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.label2);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.GraphicsAntiAliasing);
             this.panel1.Controls.Add(this.TextAntiAliasing);
@@ -114,28 +111,28 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(0, 11);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(0, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(160, 16);
             this.label2.TabIndex = 0;
             this.label2.Text = "&Graphics Anti Aliasing:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(8, 43);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(8, 43);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(152, 16);
             this.label1.TabIndex = 2;
             this.label1.Text = "&Text Anti Aliasing:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // GraphicsAntiAliasing
-            // 
-            this.GraphicsAntiAliasing.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // GraphicsAntiAliasing
+            //
+           this.GraphicsAntiAliasing.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.GraphicsAntiAliasing.Items.AddRange(new object[] {
             "Text",
             "Graphics",
@@ -146,10 +143,10 @@ namespace ChartSamples
             this.GraphicsAntiAliasing.Size = new System.Drawing.Size(121, 22);
             this.GraphicsAntiAliasing.TabIndex = 1;
             this.GraphicsAntiAliasing.SelectedIndexChanged += new System.EventHandler(this.GraphicsAntiAliasing_SelectedIndexChanged);
-            // 
-            // TextAntiAliasing
-            // 
-            this.TextAntiAliasing.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // TextAntiAliasing
+            //
+           this.TextAntiAliasing.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.TextAntiAliasing.Items.AddRange(new object[] {
             "Normal",
             "High",
@@ -159,10 +156,10 @@ namespace ChartSamples
             this.TextAntiAliasing.Size = new System.Drawing.Size(120, 22);
             this.TextAntiAliasing.TabIndex = 3;
             this.TextAntiAliasing.SelectedIndexChanged += new System.EventHandler(this.TextAntiAliasing_SelectedIndexChanged);
-            // 
-            // Chart1
-            // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // Chart1
+            //
+           this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -299,10 +296,10 @@ namespace ChartSamples
             title1.Text = "Chart Control for .NET Framework";
             this.Chart1.Titles.Add(title1);
             this.Chart1.Click += new System.EventHandler(this.Chart1_Click);
-            // 
-            // AntiAliasingSample
-            // 
-            this.Controls.Add(this.Chart1);
+            //
+           // AntiAliasingSample
+            //
+           this.Controls.Add(this.Chart1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label9);
             this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -312,52 +309,51 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
-		
-		private void SetAntiAliasing()
-		{
-			// If Antialiasing is not set get out.
-			if( this.TextAntiAliasing.Text == "" )
-			{
-				return;
-			}
+        #endregion Component Designer generated code
 
-			// Enable or disable control Antialiasing for text 
-			if( this.GraphicsAntiAliasing.Text == "Graphics" || this.GraphicsAntiAliasing.Text == "None" )
-			{
-				this.TextAntiAliasing.Enabled = false;
-			}
-			else
-			{
-				this.TextAntiAliasing.Enabled = true;
-			}
-			
-			// Set Antialiasing mode
+        private void SetAntiAliasing()
+        {
+            // If Antialiasing is not set get out.
+            if (this.TextAntiAliasing.Text == "")
+            {
+                return;
+            }
+
+            // Enable or disable control Antialiasing for text
+           if (this.GraphicsAntiAliasing.Text == "Graphics" || this.GraphicsAntiAliasing.Text == "None")
+            {
+                this.TextAntiAliasing.Enabled = false;
+            }
+            else
+            {
+                this.TextAntiAliasing.Enabled = true;
+            }
+
+            // Set Antialiasing mode
             Chart1.AntiAliasing = (AntiAliasingStyles)Enum.Parse(typeof(AntiAliasingStyles), this.GraphicsAntiAliasing.Text, true);
-			Chart1.TextAntiAliasingQuality = (TextAntiAliasingQuality) Enum.Parse( typeof(TextAntiAliasingQuality), this.TextAntiAliasing.Text, true );
-		}
+            Chart1.TextAntiAliasingQuality = (TextAntiAliasingQuality)Enum.Parse(typeof(TextAntiAliasingQuality), this.TextAntiAliasing.Text, true);
+        }
 
-		private void GraphicsAntiAliasing_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			SetAntiAliasing();
-		}
+        private void GraphicsAntiAliasing_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            SetAntiAliasing();
+        }
 
-		private void TextAntiAliasing_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			SetAntiAliasing();
-		}
+        private void TextAntiAliasing_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            SetAntiAliasing();
+        }
 
-		private void Chart1_Click(object sender, System.EventArgs e)
-		{
-		
-		}
+        private void Chart1_Click(object sender, System.EventArgs e)
+        {
+        }
 
-		private void AntiAliasingSample_Load(object sender, System.EventArgs e)
-		{
-			this.GraphicsAntiAliasing.SelectedIndex = 2;
-			this.TextAntiAliasing.SelectedIndex = 0;
-		}
-	}
+        private void AntiAliasingSample_Load(object sender, System.EventArgs e)
+        {
+            this.GraphicsAntiAliasing.SelectedIndex = 2;
+            this.TextAntiAliasing.SelectedIndex = 0;
+        }
+    }
 }

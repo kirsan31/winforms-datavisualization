@@ -4,19 +4,17 @@
 <SampleConfig ParentNodeID = "Customizations" Priority = "900">
   <Title>AxisViewChanged Event</Title>
   <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Axis View Changed Event</ShortBlurb> 
-  <SampleControl>ViewChangedEvent</SampleControl> 
-  <InfoPages>
+  <ShortBlurb>Axis View Changed Event</ShortBlurb>
+ <SampleControl>ViewChangedEvent</SampleControl>
+ <InfoPages>
     <InfoPage Title="Overview">Overview.htm</InfoPage>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
-    <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>  
-  </InfoPages>
+    <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage> 
+ </InfoPages>
 
   <Keywords>
 	<Keyword>Events, Data view changed</Keyword>
 	<Keyword>Data view, Events</Keyword>
   </Keywords>    
-
 </SampleConfig>
-
 </SampleConfigs>

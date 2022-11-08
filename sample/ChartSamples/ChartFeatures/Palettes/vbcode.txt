@@ -1,8 +1,8 @@
  
 Imports System.Windows.Forms.DataVisualization.Charting
   ...
- 
- ' Standard palette
+
+' Standard palette
 chart2.Palette = ChartColorPalette.BrightPastel
 
 ' Use a custom palette

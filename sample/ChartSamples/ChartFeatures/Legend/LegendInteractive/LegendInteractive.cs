@@ -1,63 +1,60 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for MovingAverages.
-	/// </summary>
-	public class LegendInteractive : System.Windows.Forms.UserControl
-	{
-		private	int		randomSeed = 0;
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
+    /// <summary>
+    /// Summary description for MovingAverages.
+    /// </summary>
+    public class LegendInteractive : System.Windows.Forms.UserControl
+    {
+        private int randomSeed = 0;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
         private System.Windows.Forms.Panel panel1;
         private Button buttonRandomData;
-        Random rand;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        private Random rand;
+
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
         public LegendInteractive()
-		{
+        {
             rand = new Random(randomSeed);
 
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+            // TODO: Add any initialization after the InitForm call
+        }
 
-			// TODO: Add any initialization after the InitForm call
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		}
+        #region Component Designer generated code
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
-
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LegendInteractive));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -209,10 +206,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.AccessibleDescription = null;
+            //
+           // chart1
+            //
+           this.chart1.AccessibleDescription = null;
             this.chart1.AccessibleName = null;
             resources.ApplyResources(this.chart1, "chart1");
             this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
@@ -529,27 +526,27 @@ namespace ChartSamples
             title2.Text = "Interactive Legend";
             this.chart1.Titles.Add(title2);
             this.chart1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chart1_MouseDown);
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.AccessibleDescription = null;
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.AccessibleDescription = null;
             this.labelSampleComment.AccessibleName = null;
             resources.ApplyResources(this.labelSampleComment, "labelSampleComment");
             this.labelSampleComment.Name = "labelSampleComment";
-            // 
-            // panel1
-            // 
-            this.panel1.AccessibleDescription = null;
+            //
+           // panel1
+            //
+           this.panel1.AccessibleDescription = null;
             this.panel1.AccessibleName = null;
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackgroundImage = null;
             this.panel1.Controls.Add(this.buttonRandomData);
             this.panel1.Font = null;
             this.panel1.Name = "panel1";
-            // 
-            // buttonRandomData
-            // 
-            this.buttonRandomData.AccessibleDescription = null;
+            //
+           // buttonRandomData
+            //
+           this.buttonRandomData.AccessibleDescription = null;
             this.buttonRandomData.AccessibleName = null;
             resources.ApplyResources(this.buttonRandomData, "buttonRandomData");
             this.buttonRandomData.BackColor = System.Drawing.SystemColors.Control;
@@ -558,10 +555,10 @@ namespace ChartSamples
             this.buttonRandomData.Name = "buttonRandomData";
             this.buttonRandomData.UseVisualStyleBackColor = false;
             this.buttonRandomData.Click += new System.EventHandler(this.buttonRandomData_Click);
-            // 
-            // LegendInteractive
-            // 
-            this.AccessibleDescription = null;
+            //
+           // LegendInteractive
+            //
+           this.AccessibleDescription = null;
             this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.Color.White;
@@ -574,147 +571,138 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void TemplateSampleControl_Load(object sender, System.EventArgs e)
-		{
-			// Generate rundom data
+        private void TemplateSampleControl_Load(object sender, System.EventArgs e)
+        {
+            // Generate rundom data
             // Generate rundom data
             GenerateRandomData(chart1.Series["Series1"]);
             GenerateRandomData(chart1.Series["Series2"]);
             GenerateRandomData(chart1.Series["Series3"]);
             GenerateRandomData(chart1.Series["Series4"]);
 
-			// Set all cells image transp color to red
-			for (int i = 1; i < 4; i++) 
-			{
-				chart1.Legends["Default"].CustomItems[i].Cells[0].ImageTransparentColor = Color.Red;
-			}
+            // Set all cells image transp color to red
+            for (int i = 1; i < 4; i++)
+            {
+                chart1.Legends["Default"].CustomItems[i].Cells[0].ImageTransparentColor = Color.Red;
+            }
 
-			MainForm mainForm = (MainForm)this.ParentForm;
-			
-			// Set image for all custom items
-			chart1.Legends["Default"].CustomItems[0].Cells[0].Image = mainForm.CurrentSamplePath + @"\chk_checked.png";
-			chart1.Legends["Default"].CustomItems[1].Cells[0].Image = mainForm.CurrentSamplePath + @"\chk_checked.png";
-			chart1.Legends["Default"].CustomItems[2].Cells[0].Image = mainForm.CurrentSamplePath + @"\chk_checked.png";
-			chart1.Legends["Default"].CustomItems[3].Cells[0].Image = mainForm.CurrentSamplePath + @"\chk_checked.png";
+            MainForm mainForm = (MainForm)this.ParentForm;
 
-			// Set tag property for all custom items to appropriate series
-			chart1.Legends["Default"].CustomItems[0].Tag = chart1.Series["Series1"];
+            // Set image for all custom items
+            chart1.Legends["Default"].CustomItems[0].Cells[0].Image = mainForm.CurrentSamplePath + @"\chk_checked.png";
+            chart1.Legends["Default"].CustomItems[1].Cells[0].Image = mainForm.CurrentSamplePath + @"\chk_checked.png";
+            chart1.Legends["Default"].CustomItems[2].Cells[0].Image = mainForm.CurrentSamplePath + @"\chk_checked.png";
+            chart1.Legends["Default"].CustomItems[3].Cells[0].Image = mainForm.CurrentSamplePath + @"\chk_checked.png";
+
+            // Set tag property for all custom items to appropriate series
+            chart1.Legends["Default"].CustomItems[0].Tag = chart1.Series["Series1"];
             chart1.Legends["Default"].CustomItems[1].Tag = chart1.Series["Series2"];
             chart1.Legends["Default"].CustomItems[2].Tag = chart1.Series["Series3"];
-            chart1.Legends["Default"].CustomItems[3].Tag = chart1.Series["Series4"];			
-		}
+            chart1.Legends["Default"].CustomItems[3].Tag = chart1.Series["Series4"];
+        }
 
-		# region Methods
+        #region Methods
 
-		// Helper method for setting series appearance
-		private void SetSeriesAppearance(string seriesName) 
-		{
-			chart1.Series[seriesName].ChartArea = "Default";
-			chart1.Series[seriesName].ChartType = SeriesChartType.Line;
-			chart1.Series[seriesName].BorderWidth = 2;
-			chart1.Series[seriesName].ShadowOffset = 1;				
-			chart1.Series[seriesName].IsVisibleInLegend = false;
-		}
+        // Helper method for setting series appearance
+        private void SetSeriesAppearance(string seriesName)
+        {
+            chart1.Series[seriesName].ChartArea = "Default";
+            chart1.Series[seriesName].ChartType = SeriesChartType.Line;
+            chart1.Series[seriesName].BorderWidth = 2;
+            chart1.Series[seriesName].ShadowOffset = 1;
+            chart1.Series[seriesName].IsVisibleInLegend = false;
+        }
 
-		/// <summary>
-		/// This method calculates different Moving Averages.
-		/// </summary>
-		private void UpdateChart()
-		{
+        /// <summary>
+        /// This method calculates different Moving Averages.
+        /// </summary>
+        private void UpdateChart()
+        {
+            chart1.Invalidate();
+        }
 
-			chart1.Invalidate();
-		}
+        /// <summary>
+        /// This method generates random data.
+        /// </summary>
+        /// <param name="series"></param>
+        private void GenerateRandomData(Series series)
+        {
+            // Generate 30 random y values.
+            series.Points.Clear();
+            for (int index = 0; index < 30; index++)
+            {
+                // Generate the first point
+                series.Points.AddXY(index + 1, 0);
+                series.Points[index].YValues[0] = 10;
 
-		/// <summary>
-		/// This method generates random data.
-		/// </summary>
-		/// <param name="series"></param>
-		private void GenerateRandomData( Series series )
-		{
-			
+                // Use previous point to calculate a next one.
+                if (index > 0)
+                {
+                    series.Points[index].YValues[0] = series.Points[index - 1].YValues[0] + 4 * rand.NextDouble() - 2;
+                }
+            }
 
-			// Generate 30 random y values.
-			series.Points.Clear();
-			for( int index = 0; index < 30; index++ )
-			{
-				// Generate the first point
-				series.Points.AddXY(index+1,0);
-				series.Points[index].YValues[0] = 10;
+            chart1.Invalidate();
+        }
 
-				// Use previous point to calculate a next one.
-				if( index > 0 )
-				{
-					series.Points[index].YValues[0] = series.Points[index-1].YValues[0] + 4*rand.NextDouble() - 2;
-				}
-			}
+        #endregion Methods
 
-			chart1.Invalidate();
-		}
-		#endregion
+        #region UI Event Handlers
 
-		# region UI Event Handlers
+        private void buttonRandomData_Click(object sender, System.EventArgs e)
+        {
+            Random rand = new Random();
+            randomSeed = rand.Next();
 
-
-
-
-		private void buttonRandomData_Click(object sender, System.EventArgs e)
-		{
-			Random rand = new Random();
-			randomSeed = rand.Next();
-
-			// Generate rundom data
-			GenerateRandomData(chart1.Series["Series1"] );
+            // Generate rundom data
+            GenerateRandomData(chart1.Series["Series1"]);
             GenerateRandomData(chart1.Series["Series2"]);
             GenerateRandomData(chart1.Series["Series3"]);
             GenerateRandomData(chart1.Series["Series4"]);
 
-			// Calculate Moving Averages
-			UpdateChart();
-		}
+            // Calculate Moving Averages
+            UpdateChart();
+        }
 
+        private void chart1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            HitTestResult result = chart1.HitTest(e.X, e.Y);
+            if (result != null && result.Object != null)
+            {
+                // When user hits the LegendItem
+                if (result.Object is LegendItem)
+                {
+                    // Legend item result
+                    LegendItem legendItem = (LegendItem)result.Object;
 
+                    // series item selected
+                    Series selectedSeries = (Series)legendItem.Tag;
 
-		private void chart1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			HitTestResult result = chart1.HitTest(e.X, e.Y);
-			if(result != null && result.Object != null)
-			{					
-				// When user hits the LegendItem
-				if (result.Object is LegendItem) 
-				{
-					// Legend item result
-					LegendItem legendItem = (LegendItem)result.Object;
-					
-					// series item selected
-					Series selectedSeries = (Series)legendItem.Tag;
+                    if (selectedSeries != null)
+                    {
+                        MainForm mainForm = (MainForm)this.ParentForm;
 
-					if (selectedSeries !=null) 
-					{
+                        if (selectedSeries.Enabled)
+                        {
+                            selectedSeries.Enabled = false;
+                            legendItem.Cells[0].Image = string.Format(mainForm.CurrentSamplePath + @"\chk_unchecked.png");
+                            legendItem.Cells[0].ImageTransparentColor = Color.Red;
+                        }
+                        else
+                        {
+                            selectedSeries.Enabled = true;
+                            legendItem.Cells[0].Image = string.Format(mainForm.CurrentSamplePath + @"\chk_checked.png");
+                            legendItem.Cells[0].ImageTransparentColor = Color.Red;
+                        }
+                    }
+                }
+            }
 
-						MainForm mainForm = (MainForm)this.ParentForm;
-			
-						if (selectedSeries.Enabled) 
-						{
-							selectedSeries.Enabled = false;
-							legendItem.Cells[0].Image = string.Format(mainForm.CurrentSamplePath + @"\chk_unchecked.png");
-							legendItem.Cells[0].ImageTransparentColor = Color.Red;
-						}
-
-						else 
-						{
-							selectedSeries.Enabled = true;
-							legendItem.Cells[0].Image = string.Format(mainForm.CurrentSamplePath + @"\chk_checked.png");
-							legendItem.Cells[0].ImageTransparentColor = Color.Red;
-						}
-					}
-				}
-			}
-
-			#endregion
-		}
-	}
+            #endregion UI Event Handlers
+        }
+    }
 }

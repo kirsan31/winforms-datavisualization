@@ -1,67 +1,62 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Drawing.Printing;
-using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for PrintingSettings.
-	/// </summary>
-	public class PrintingSettings : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Button buttonPreview;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboBoxOrientation;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox comboBoxMargin;
-		private System.Windows.Forms.ComboBox comboBoxResolution;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Button buttonPrint;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for PrintingSettings.
+    /// </summary>
+    public class PrintingSettings : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Button buttonPreview;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBoxOrientation;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboBoxMargin;
+        private System.Windows.Forms.ComboBox comboBoxResolution;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button buttonPrint;
 
-		public PrintingSettings()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Initialize combo boxes
-		
-		}
-		
+        public PrintingSettings()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            // Initialize combo boxes
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -102,10 +97,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -186,10 +181,10 @@ namespace ChartSamples
             this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(412, 296);
             this.chart1.TabIndex = 1;
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 64);
@@ -198,10 +193,10 @@ namespace ChartSamples
                 "ation and margins. Note that reducing page resolution also reduces the size of d" +
                 "ata send to the printer.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // buttonPreview
-            // 
-            this.buttonPreview.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // buttonPreview
+            //
+           this.buttonPreview.BackColor = System.Drawing.SystemColors.Control;
             this.buttonPreview.Location = new System.Drawing.Point(96, 128);
             this.buttonPreview.Name = "buttonPreview";
             this.buttonPreview.Size = new System.Drawing.Size(120, 23);
@@ -209,10 +204,10 @@ namespace ChartSamples
             this.buttonPreview.Text = "Print Previe&w";
             this.buttonPreview.UseVisualStyleBackColor = false;
             this.buttonPreview.Click += new System.EventHandler(this.buttonPreview_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.buttonPrint);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.buttonPrint);
             this.panel1.Controls.Add(this.comboBoxResolution);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.comboBoxMargin);
@@ -224,10 +219,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // buttonPrint
-            // 
-            this.buttonPrint.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // buttonPrint
+            //
+           this.buttonPrint.BackColor = System.Drawing.SystemColors.Control;
             this.buttonPrint.Location = new System.Drawing.Point(96, 168);
             this.buttonPrint.Name = "buttonPrint";
             this.buttonPrint.Size = new System.Drawing.Size(120, 23);
@@ -235,10 +230,10 @@ namespace ChartSamples
             this.buttonPrint.Text = "&Print";
             this.buttonPrint.UseVisualStyleBackColor = false;
             this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
-            // 
-            // comboBoxResolution
-            // 
-            this.comboBoxResolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBoxResolution
+            //
+           this.comboBoxResolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxResolution.Items.AddRange(new object[] {
             "Low",
             "Medium",
@@ -247,19 +242,19 @@ namespace ChartSamples
             this.comboBoxResolution.Name = "comboBoxResolution";
             this.comboBoxResolution.Size = new System.Drawing.Size(120, 22);
             this.comboBoxResolution.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(8, 72);
+            //
+           // label3
+            //
+           this.label3.Location = new System.Drawing.Point(8, 72);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(152, 23);
             this.label3.TabIndex = 4;
             this.label3.Text = "&Resolution:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // comboBoxMargin
-            // 
-            this.comboBoxMargin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBoxMargin
+            //
+           this.comboBoxMargin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMargin.Items.AddRange(new object[] {
             "0.5",
             "1",
@@ -269,19 +264,19 @@ namespace ChartSamples
             this.comboBoxMargin.Name = "comboBoxMargin";
             this.comboBoxMargin.Size = new System.Drawing.Size(120, 22);
             this.comboBoxMargin.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(8, 40);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(8, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(152, 23);
             this.label2.TabIndex = 2;
             this.label2.Text = "All Side &Margin (inch):";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // comboBoxOrientation
-            // 
-            this.comboBoxOrientation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBoxOrientation
+            //
+           this.comboBoxOrientation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxOrientation.Items.AddRange(new object[] {
             "Portrait",
             "Landscape"});
@@ -289,19 +284,19 @@ namespace ChartSamples
             this.comboBoxOrientation.Name = "comboBoxOrientation";
             this.comboBoxOrientation.Size = new System.Drawing.Size(120, 22);
             this.comboBoxOrientation.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(8, 8);
+            //
+           // label1
+            //
+           this.label1.Location = new System.Drawing.Point(8, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(152, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Page &Orientation:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // PrintingSettings
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // PrintingSettings
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
@@ -312,75 +307,74 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void SetPrintingSettings()
-		{
-			// Set page orientation
-			if(comboBoxOrientation.Text == "Landscape")
-			{
-				chart1.Printing.PrintDocument.DefaultPageSettings.Landscape = true;
-			}
-			else
-			{
-				chart1.Printing.PrintDocument.DefaultPageSettings.Landscape = false;
-			}
+        private void SetPrintingSettings()
+        {
+            // Set page orientation
+            if (comboBoxOrientation.Text == "Landscape")
+            {
+                chart1.Printing.PrintDocument.DefaultPageSettings.Landscape = true;
+            }
+            else
+            {
+                chart1.Printing.PrintDocument.DefaultPageSettings.Landscape = false;
+            }
 
-			// Set page margins
-			int	margin = (int)(float.Parse(comboBoxMargin.Text) * 100f);
-			chart1.Printing.PrintDocument.DefaultPageSettings.Margins =
+            // Set page margins
+            int margin = (int)(float.Parse(comboBoxMargin.Text) * 100f);
+            chart1.Printing.PrintDocument.DefaultPageSettings.Margins =
                 new System.Drawing.Printing.Margins(margin, margin, margin, margin);
 
-			// Set printer resolution
-			foreach(PrinterResolution pr in chart1.Printing.PrintDocument.PrinterSettings.PrinterResolutions)
-			{
-				if(pr.Kind.ToString() == comboBoxResolution.Text)
-				{
-					chart1.Printing.PrintDocument.DefaultPageSettings.PrinterResolution = pr;
-				}
-			}
-		}
+            // Set printer resolution
+            foreach (PrinterResolution pr in chart1.Printing.PrintDocument.PrinterSettings.PrinterResolutions)
+            {
+                if (pr.Kind.ToString() == comboBoxResolution.Text)
+                {
+                    chart1.Printing.PrintDocument.DefaultPageSettings.PrinterResolution = pr;
+                }
+            }
+        }
 
-		private void buttonPreview_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				// Set settings
-				SetPrintingSettings();
+        private void buttonPreview_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                // Set settings
+                SetPrintingSettings();
 
-				// Print preview chart
-				chart1.Printing.PrintPreview();
-			}
-			catch(Exception ex)
-			{
-				MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-		}
+                // Print preview chart
+                chart1.Printing.PrintPreview();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
 
-		private void buttonPrint_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				// Set settings
-				SetPrintingSettings();
+        private void buttonPrint_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                // Set settings
+                SetPrintingSettings();
 
-				// Print chart
-				chart1.Printing.Print(true);
-			}
-			catch(Exception ex)
-			{
-				MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-		}
+                // Print chart
+                chart1.Printing.Print(true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
 
-		private void PrintingSettings_Load(object sender, System.EventArgs e)
-		{
-			comboBoxOrientation.SelectedIndex = 0;
-			comboBoxMargin.SelectedIndex = 1;
-			comboBoxResolution.SelectedIndex = 1;
-		}
-
-	}
+        private void PrintingSettings_Load(object sender, System.EventArgs e)
+        {
+            comboBoxOrientation.SelectedIndex = 0;
+            comboBoxMargin.SelectedIndex = 1;
+            comboBoxResolution.SelectedIndex = 1;
+        }
+    }
 }

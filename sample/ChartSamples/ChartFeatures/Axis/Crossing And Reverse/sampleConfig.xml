@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "Axis" Priority="500">
-  <Title>Crossing and Reverse Axis Properties</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Using Crossing and Reverse Axis Properties</ShortBlurb> 
-  <SampleControl>AxisCrossing</SampleControl> 
-  <InfoPages>
+  <Title>Crossing and Reverse Axis Properties</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Using Crossing and Reverse Axis Properties</ShortBlurb>
+ <SampleControl>AxisCrossing</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -15,6 +15,5 @@
 	<Keyword>Reversing</Keyword>
 	<Keyword>Axis, Reversing</Keyword>
   </Keywords> 
-
 </SampleConfig>
 </SampleConfigs>

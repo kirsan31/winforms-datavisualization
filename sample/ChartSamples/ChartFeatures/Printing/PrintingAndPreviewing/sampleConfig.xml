@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "Printing" Priority="100">
-  <Title>Printing and Previewing</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Printing and Previewing</ShortBlurb> 
-  <SampleControl>PrintPreview</SampleControl> 
-  <InfoPages>
+  <Title>Printing and Previewing</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Printing and Previewing</ShortBlurb>
+ <SampleControl>PrintPreview</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -14,5 +14,4 @@
     <Keyword>Printing, Print preview</Keyword>
   </Keywords> 
 </SampleConfig>
-
 </SampleConfigs>

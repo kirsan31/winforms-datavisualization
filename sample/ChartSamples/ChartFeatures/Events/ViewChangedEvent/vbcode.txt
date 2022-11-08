@@ -14,17 +14,17 @@ Private Sub chart1_AxisViewChanged(sender As Object, e As System.Windows.Forms.D
 End Sub 'chart1_AxisViewChanged 
 
 Private Sub SetTitle(position As Double, size As Double)
-   
-   ' Convert Double to DateTime.
+  
+  ' Convert Double to DateTime.
    Dim dateTime As DateTime = DateTime.FromOADate(position)
-   
-   ' Convert DateTime to string.
+  
+  ' Convert DateTime to string.
    chart1.Title = "Start Date: "
-   
-   ' Set view position to the title
+  
+  ' Set view position to the title
    chart1.Title += dateTime.ToLongDateString()
-   
-   ' Set view size to the title
+  
+  ' Set view size to the title
    chart1.Title += ControlChars.Lf + " Number of Days: "
    chart1.Title += size.ToString()
 End Sub 'SetTitle 

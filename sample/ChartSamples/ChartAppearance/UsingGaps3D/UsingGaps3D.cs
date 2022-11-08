@@ -1,64 +1,56 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for UsingGaps3D.
-	/// </summary>
-	public class UsingGaps3D : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.NumericUpDown Rotation;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.NumericUpDown pointGapDepth;
-		private System.Windows.Forms.NumericUpDown pointDepth;
+    /// <summary>
+    /// Summary description for UsingGaps3D.
+    /// </summary>
+    public class UsingGaps3D : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.NumericUpDown Rotation;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown pointGapDepth;
+        private System.Windows.Forms.NumericUpDown pointDepth;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public UsingGaps3D()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public UsingGaps3D()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// TODO: Add any initialization after the InitForm call
+            // TODO: Add any initialization after the InitForm call
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -92,10 +84,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.pointDepth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Rotation)).BeginInit();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -191,10 +183,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "3D Z Space Control";
             this.chart1.Titles.Add(title1);
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 45);
@@ -203,10 +195,10 @@ namespace ChartSamples
                 "rties, which are used to control the depth of each plotted series in a 3D chart " +
                 "area.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            //
+           // panel1
+            //
+           this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.pointGapDepth);
             this.panel1.Controls.Add(this.label5);
@@ -217,19 +209,19 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(8, 40);
+            //
+           // label6
+            //
+           this.label6.Location = new System.Drawing.Point(8, 40);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(160, 16);
             this.label6.TabIndex = 2;
             this.label6.Text = "Point &Gap Depth:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // pointGapDepth
-            // 
-            this.pointGapDepth.Increment = new decimal(new int[] {
+            //
+           // pointGapDepth
+            //
+           this.pointGapDepth.Increment = new decimal(new int[] {
             25,
             0,
             0,
@@ -249,19 +241,19 @@ namespace ChartSamples
             0,
             0});
             this.pointGapDepth.ValueChanged += new System.EventHandler(this.pointGapDepth_ValueChanged);
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(16, 8);
+            //
+           // label5
+            //
+           this.label5.Location = new System.Drawing.Point(16, 8);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(152, 16);
             this.label5.TabIndex = 0;
             this.label5.Text = "Point &Depth:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // pointDepth
-            // 
-            this.pointDepth.Increment = new decimal(new int[] {
+            //
+           // pointDepth
+            //
+           this.pointDepth.Increment = new decimal(new int[] {
             25,
             0,
             0,
@@ -281,10 +273,10 @@ namespace ChartSamples
             0,
             0});
             this.pointDepth.ValueChanged += new System.EventHandler(this.pointDepth_ValueChanged);
-            // 
-            // Rotation
-            // 
-            this.Rotation.Increment = new decimal(new int[] {
+            //
+           // Rotation
+            //
+           this.Rotation.Increment = new decimal(new int[] {
             10,
             0,
             0,
@@ -309,19 +301,19 @@ namespace ChartSamples
             0,
             0});
             this.Rotation.ValueChanged += new System.EventHandler(this.Rotation_ValueChanged);
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(24, 72);
+            //
+           // label4
+            //
+           this.label4.Location = new System.Drawing.Point(24, 72);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(144, 23);
             this.label4.TabIndex = 4;
             this.label4.Text = "Rotate &Y:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // UsingGaps3D
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // UsingGaps3D
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
@@ -335,34 +327,32 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.pointDepth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Rotation)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
+        private void BarColumnChartType_Load(object sender, System.EventArgs e)
+        {
+        }
 
-		private void BarColumnChartType_Load(object sender, System.EventArgs e)
-		{
-		}
+        private void Rotation_ValueChanged(object sender, System.EventArgs e)
+        {
+            if (Rotation.Value > 180)
+                Rotation.Value = -180;
+            if (Rotation.Value < -180)
+                Rotation.Value = 180;
 
-		private void Rotation_ValueChanged(object sender, System.EventArgs e)
-		{
-			if(Rotation.Value > 180)
-				Rotation.Value = -180;
-			if(Rotation.Value < -180)
-				Rotation.Value = 180;
+            chart1.ChartAreas["Default"].Area3DStyle.Rotation = (int)Rotation.Value;
+        }
 
-			chart1.ChartAreas["Default"].Area3DStyle.Rotation = (int)Rotation.Value;
-		}
+        private void pointDepth_ValueChanged(object sender, System.EventArgs e)
+        {
+            chart1.ChartAreas[0].Area3DStyle.PointDepth = (int)pointDepth.Value;
+        }
 
-		private void pointDepth_ValueChanged(object sender, System.EventArgs e)
-		{
-			chart1.ChartAreas[0].Area3DStyle.PointDepth = (int)pointDepth.Value;
-		}
-
-		private void pointGapDepth_ValueChanged(object sender, System.EventArgs e)
-		{
-			chart1.ChartAreas[0].Area3DStyle.PointGapDepth = (int)pointGapDepth.Value;
-		}
-
-	}
+        private void pointGapDepth_ValueChanged(object sender, System.EventArgs e)
+        {
+            chart1.ChartAreas[0].Area3DStyle.PointGapDepth = (int)pointGapDepth.Value;
+        }
+    }
 }

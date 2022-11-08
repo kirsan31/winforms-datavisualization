@@ -2,11 +2,11 @@
 <SampleConfigs>
 
 <SampleConfig ParentNodeID = "Customizations" Priority = "1000">
-  <Title>CursorPositionChanged Event</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Using CursorPositionChanged Event</ShortBlurb> 
-  <SampleControl>CursorPositionChanged</SampleControl> 
-  <InfoPages>
+  <Title>CursorPositionChanged Event</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Using CursorPositionChanged Event</ShortBlurb>
+ <SampleControl>CursorPositionChanged</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -14,16 +14,16 @@
   <Keywords>
 	<Keyword>Events, Cursor position</Keyword>
 	<Keyword>Cursor, Position change event</Keyword>
-  </Keywords>    
-    
+  </Keywords>   
+   
 </SampleConfig>
 
 <SampleConfig ParentNodeID = "ChartArea">
-  <Title>Cursor Position Changed</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Using CursorPositionChanged Event</ShortBlurb> 
-  <SampleControl>CursorPositionChanged</SampleControl> 
-  <InfoPages>
+  <Title>Cursor Position Changed</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Using CursorPositionChanged Event</ShortBlurb>
+ <SampleControl>CursorPositionChanged</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -32,7 +32,5 @@
 	<Keyword>Events, Cursor position</Keyword>
 	<Keyword>Cursor, Position change event</Keyword>
   </Keywords>    
-
 </SampleConfig>
-
 </SampleConfigs>

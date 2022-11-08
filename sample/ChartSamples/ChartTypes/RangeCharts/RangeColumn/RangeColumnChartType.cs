@@ -1,62 +1,56 @@
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for RangeColumnChartType.
-	/// </summary>
-	public class RangeColumnChartType : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.CheckBox checkBoxShow3D;
-		private System.Windows.Forms.CheckBox checkBoxDrawSideBySide;
-		private System.Windows.Forms.ComboBox comboBoxDrawingStyle;
-		private System.Windows.Forms.Label label2;
+    /// <summary>
+    /// Summary description for RangeColumnChartType.
+    /// </summary>
+    public class RangeColumnChartType : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox checkBoxShow3D;
+        private System.Windows.Forms.CheckBox checkBoxDrawSideBySide;
+        private System.Windows.Forms.ComboBox comboBoxDrawingStyle;
+        private System.Windows.Forms.Label label2;
 
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public RangeColumnChartType()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        public RangeColumnChartType()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-			// TODO: Add any initialization after the InitForm call
+            // TODO: Add any initialization after the InitForm call
+        }
 
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        #region Component Designer generated code
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -84,10 +78,10 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -166,10 +160,10 @@ namespace ChartSamples
             title1.ShadowOffset = 3;
             title1.Text = "Range Column Chart";
             this.chart1.Titles.Add(title1);
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(720, 37);
@@ -177,10 +171,10 @@ namespace ChartSamples
             this.labelSampleComment.Text = "A Range Column chart is similar to the Column chart, except the Range Column char" +
                 "t uses two Y values to define the start and end position of each column.";
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.comboBoxDrawingStyle);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.comboBoxDrawingStyle);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.checkBoxDrawSideBySide);
             this.panel1.Controls.Add(this.checkBoxShow3D);
@@ -188,10 +182,10 @@ namespace ChartSamples
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(304, 288);
             this.panel1.TabIndex = 2;
-            // 
-            // comboBoxDrawingStyle
-            // 
-            this.comboBoxDrawingStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //
+           // comboBoxDrawingStyle
+            //
+           this.comboBoxDrawingStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDrawingStyle.Items.AddRange(new object[] {
             "Default",
             "Emboss",
@@ -203,19 +197,19 @@ namespace ChartSamples
             this.comboBoxDrawingStyle.Size = new System.Drawing.Size(112, 22);
             this.comboBoxDrawingStyle.TabIndex = 13;
             this.comboBoxDrawingStyle.SelectedIndexChanged += new System.EventHandler(this.comboBoxDrawingStyle_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(64, 76);
+            //
+           // label2
+            //
+           this.label2.Location = new System.Drawing.Point(64, 76);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(112, 23);
             this.label2.TabIndex = 12;
             this.label2.Text = "Drawing Style:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // checkBoxDrawSideBySide
-            // 
-            this.checkBoxDrawSideBySide.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // checkBoxDrawSideBySide
+            //
+           this.checkBoxDrawSideBySide.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxDrawSideBySide.Checked = true;
             this.checkBoxDrawSideBySide.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxDrawSideBySide.Location = new System.Drawing.Point(8, 16);
@@ -225,10 +219,10 @@ namespace ChartSamples
             this.checkBoxDrawSideBySide.Text = "Show &Side-by-Side:";
             this.checkBoxDrawSideBySide.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxDrawSideBySide.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // checkBoxShow3D
-            // 
-            this.checkBoxShow3D.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+           // checkBoxShow3D
+            //
+           this.checkBoxShow3D.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShow3D.Location = new System.Drawing.Point(8, 45);
             this.checkBoxShow3D.Name = "checkBoxShow3D";
             this.checkBoxShow3D.Size = new System.Drawing.Size(184, 24);
@@ -236,10 +230,10 @@ namespace ChartSamples
             this.checkBoxShow3D.Text = "Show as 3&D:";
             this.checkBoxShow3D.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBoxShow3D.CheckedChanged += new System.EventHandler(this.checkBoxShow3D_CheckedChanged);
-            // 
-            // RangeColumnChartType
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // RangeColumnChartType
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
             this.Controls.Add(this.chart1);
@@ -250,53 +244,52 @@ namespace ChartSamples
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void UpdateChartSettings()
-		{
-			// Show as 2D or 3D
-			chart1.ChartAreas["Default"].Area3DStyle.Enable3D = checkBoxShow3D.Checked;
+        private void UpdateChartSettings()
+        {
+            // Show as 2D or 3D
+            chart1.ChartAreas["Default"].Area3DStyle.Enable3D = checkBoxShow3D.Checked;
 
-			// Set drawing style
-			chart1.Series["Series1"]["DrawingStyle"] = this.comboBoxDrawingStyle.SelectedItem.ToString();
-			chart1.Series["Series2"]["DrawingStyle"] = this.comboBoxDrawingStyle.SelectedItem.ToString();
+            // Set drawing style
+            chart1.Series["Series1"]["DrawingStyle"] = this.comboBoxDrawingStyle.SelectedItem.ToString();
+            chart1.Series["Series2"]["DrawingStyle"] = this.comboBoxDrawingStyle.SelectedItem.ToString();
 
-			// Set range column chart type
-			chart1.Series["Series1"].ChartType = SeriesChartType.RangeColumn;
-			chart1.Series["Series2"].ChartType = SeriesChartType.RangeColumn;
+            // Set range column chart type
+            chart1.Series["Series1"].ChartType = SeriesChartType.RangeColumn;
+            chart1.Series["Series2"].ChartType = SeriesChartType.RangeColumn;
 
-			// Set the side-by-side drawing style
-			chart1.Series["Series1"]["DrawSideBySide"] = (checkBoxDrawSideBySide.Checked) ? "true" : "false";
-			chart1.Series["Series2"]["DrawSideBySide"] = (checkBoxDrawSideBySide.Checked) ? "true" : "false";
-			
-		}
+            // Set the side-by-side drawing style
+            chart1.Series["Series1"]["DrawSideBySide"] = (checkBoxDrawSideBySide.Checked) ? "true" : "false";
+            chart1.Series["Series2"]["DrawSideBySide"] = (checkBoxDrawSideBySide.Checked) ? "true" : "false";
+        }
 
-		private void PieChartType_Load(object sender, System.EventArgs e)
-		{			
-			this.comboBoxDrawingStyle.SelectedIndex = 0;
-			UpdateChartSettings();	
-		}
+        private void PieChartType_Load(object sender, System.EventArgs e)
+        {
+            this.comboBoxDrawingStyle.SelectedIndex = 0;
+            UpdateChartSettings();
+        }
 
-		private void checkBoxShow3D_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();	
-		}
+        private void checkBoxShow3D_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void checkBox1_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();	
-		}
+        private void checkBox1_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void checkBox2_CheckedChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();	
-		}
+        private void checkBox2_CheckedChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
 
-		private void comboBoxDrawingStyle_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			UpdateChartSettings();		
-		}
-	}
+        private void comboBoxDrawingStyle_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdateChartSettings();
+        }
+    }
 }

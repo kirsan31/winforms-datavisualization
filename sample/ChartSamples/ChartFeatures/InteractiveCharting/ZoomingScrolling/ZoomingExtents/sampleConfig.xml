@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "Zooming and Scrolling" Priority="500">
-  <Title>Limiting View Size</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Limiting Axis View Size</ShortBlurb> 
-  <SampleControl>ZoomingExtents</SampleControl> 
-  <InfoPages>
+  <Title>Limiting View Size</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Limiting Axis View Size</ShortBlurb>
+ <SampleControl>ZoomingExtents</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -14,7 +14,5 @@
 	<Keyword>Zooming, Min size</Keyword>
 	<Keyword>Data view, Min size</Keyword>
   </Keywords> 
-
 </SampleConfig>
-
 </SampleConfigs>

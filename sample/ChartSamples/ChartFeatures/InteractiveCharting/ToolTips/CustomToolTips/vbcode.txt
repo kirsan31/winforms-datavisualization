@@ -3,8 +3,8 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 ' Tooltip Event
 Private Sub Chart1_GetToolTipText(sender As Object, e As System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs) Handles Chart1.GetToolTipText
-   
-   ' Check selected chart element and set tooltip text
+  
+  ' Check selected chart element and set tooltip text
    Select Case e.HitTestResult.ChartElementType
       Case ChartElementType.Axis
          e.Text = e.HitTestResult.Axis.Name

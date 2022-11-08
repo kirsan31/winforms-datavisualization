@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Chart graphic class is used for drawing Chart 
 //				elements as Rectangles, Pie slices, lines, areas 
@@ -11,7 +10,6 @@
 //				used throw this class. Encapsulates a GDI+ chart 
 //				drawing functionality
 //
-
 
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
@@ -30,396 +28,401 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// Defines the style how the bars/columns are drawn.
     /// </summary>
     internal enum BarDrawingStyle
-	{
-		/// <summary>
-		/// Default bar/column style.
-		/// </summary>
-		Default,
+    {
+        /// <summary>
+        /// Default bar/column style.
+        /// </summary>
+        Default,
 
-		/// <summary>
-		/// Cylinder bar/column style.
-		/// </summary>
-		Cylinder,
+        /// <summary>
+        /// Cylinder bar/column style.
+        /// </summary>
+        Cylinder,
 
-		/// <summary>
-		/// Emboss bar/column style.
-		/// </summary>
-		Emboss,
+        /// <summary>
+        /// Emboss bar/column style.
+        /// </summary>
+        Emboss,
 
-		/// <summary>
-		/// LightToDark bar/column style.
-		/// </summary>
-		LightToDark,
-		
-		/// <summary>
-		/// Wedge bar/column style.
-		/// </summary>
-		Wedge,
-	}
+        /// <summary>
+        /// LightToDark bar/column style.
+        /// </summary>
+        LightToDark,
 
-	/// <summary>
-	/// Defines the style how the pie and doughnut charts are drawn.
-	/// </summary>
+        /// <summary>
+        /// Wedge bar/column style.
+        /// </summary>
+        Wedge,
+    }
+
+    /// <summary>
+    /// Defines the style how the pie and doughnut charts are drawn.
+    /// </summary>
     internal enum PieDrawingStyle
-	{
-		/// <summary>
-		/// Default pie/doughnut drawing style.
-		/// </summary>
-		Default,
+    {
+        /// <summary>
+        /// Default pie/doughnut drawing style.
+        /// </summary>
+        Default,
 
         /// <summary>
         /// Soft edge shadow is drawn on the edges of the pie/doughnut slices.
         /// </summary>
 		SoftEdge,
 
-		/// <summary>
-		/// A shadow is drawn from the top to the bottom of the pie/doughnut chart.
-		/// </summary>
-		Concave,
-	}
+        /// <summary>
+        /// A shadow is drawn from the top to the bottom of the pie/doughnut chart.
+        /// </summary>
+        Concave,
+    }
 
-	/// <summary>
-	/// An enumeration of line styles.
-	/// </summary>
-	public enum ChartDashStyle
-	{
-		/// <summary>
-		/// Line style not set
-		/// </summary>
-		NotSet,
-		/// <summary>
-		/// Specifies a line consisting of dashes. 
-		/// </summary>
-		Dash,
-		/// <summary>
-		/// Specifies a line consisting of a repeating pattern of dash-dot. 
-		/// </summary>
-		DashDot,
-		/// <summary>
-		/// Specifies a line consisting of a repeating pattern of dash-dot-dot. 
-		/// </summary>
-		DashDotDot,
-		/// <summary>
-		/// Specifies a line consisting of dots. 
-		/// </summary>
-		Dot,
-		/// <summary>
-		/// Specifies a solid line. 
-		/// </summary>
-		Solid,
-	}
+    /// <summary>
+    /// An enumeration of line styles.
+    /// </summary>
+    public enum ChartDashStyle
+    {
+        /// <summary>
+        /// Line style not set
+        /// </summary>
+        NotSet,
 
-	#endregion
+        /// <summary>
+        /// Specifies a line consisting of dashes.
+       /// </summary>
+        Dash,
 
-	/// <summary>
-    /// The ChartGraphics class provides all chart drawing capabilities. 
-    /// It contains methods for drawing 2D primitives and also exposes 
-    /// all ChartGraphics3D class methods for 3D shapes. Only this 
-    /// class should be used for any drawing in the chart.
-	/// </summary>
+        /// <summary>
+        /// Specifies a line consisting of a repeating pattern of dash-dot.
+       /// </summary>
+        DashDot,
+
+        /// <summary>
+        /// Specifies a line consisting of a repeating pattern of dash-dot-dot.
+       /// </summary>
+        DashDotDot,
+
+        /// <summary>
+        /// Specifies a line consisting of dots.
+       /// </summary>
+        Dot,
+
+        /// <summary>
+        /// Specifies a solid line.
+       /// </summary>
+        Solid,
+    }
+
+    #endregion Enumerations
+
+    /// <summary>
+    /// The ChartGraphics class provides all chart drawing capabilities.
+   /// It contains methods for drawing 2D primitives and also exposes
+   /// all ChartGraphics3D class methods for 3D shapes. Only this
+   /// class should be used for any drawing in the chart.
+    /// </summary>
     public partial class ChartGraphics : ChartElement, IDisposable
-	{
-		#region Fields
+    {
+        #region Fields
 
-		// Common Elements
-		private CommonElements		_common;
+        // Common Elements
+        private CommonElements _common;
 
-		// Reusable objects
-		private Pen                 _pen;
-		private SolidBrush			_solidBrush;
-		private Matrix				_myMatrix;
-	
-		// Private fields which represents picture size
-		private int					_width;
-		private int					_height;
-		
-		// Indicates that smoothing is applied while drawing shadows
-		internal bool				softShadows = true;
+        // Reusable objects
+        private Pen _pen;
 
-		// Anti aliasing flags
-		private	AntiAliasingStyles		_antiAliasing = AntiAliasingStyles.All;
+        private SolidBrush _solidBrush;
+        private Matrix _myMatrix;
 
-		// True if rendering into the metafile
-		internal bool				IsMetafile;
-		private bool _disposedValue;
+        // Private fields which represents picture size
+        private int _width;
 
-		#endregion
+        private int _height;
 
-		#region Lines Methods
+        // Indicates that smoothing is applied while drawing shadows
+        internal bool softShadows = true;
 
-		/// <summary>
-		/// Draws a line connecting the two specified points.
-		/// </summary>
-		/// <param name="color">Line color.</param>
-		/// <param name="width">Line width.</param>
-		/// <param name="style">Line style.</param>
-		/// <param name="firstPointF">A Point that represents the first point to connect.</param>
-		/// <param name="secondPointF">A Point that represents the second point to connect.</param>
-		internal void DrawLineRel( 
-			Color color, 
-			int width, 
-			ChartDashStyle style, 
-			PointF firstPointF, 
-			PointF secondPointF 
-			)
-		{
-			DrawLineAbs(
-				color, 
-				width, 
-				style, 
-				GetAbsolutePoint(firstPointF), 
-				GetAbsolutePoint(secondPointF) );
-		}
+        // Anti aliasing flags
+        private AntiAliasingStyles _antiAliasing = AntiAliasingStyles.All;
 
-		/// <summary>
-		/// Draws a line connecting the two specified points using absolute coordinates.
-		/// </summary>
-		/// <param name="color">Line color.</param>
-		/// <param name="width">Line width.</param>
-		/// <param name="style">Line style.</param>
-		/// <param name="firstPoint">A Point that represents the first point to connect.</param>
-		/// <param name="secondPoint">A Point that represents the second point to connect.</param>
-		internal void DrawLineAbs( 
-			Color color, 
-			int width, 
-			ChartDashStyle style, 
-			PointF firstPoint, 
-			PointF secondPoint 
-			)
-		{
-			// Do not draw line if width is 0 or style not set
-			if( width == 0 || style == ChartDashStyle.NotSet )
-			{
-				return;
-			}
+        // True if rendering into the metafile
+        internal bool IsMetafile;
 
-			// Set a line color
-			if(_pen.Color != color)
-			{
-				_pen.Color = color;
-			}
+        private bool _disposedValue;
 
-			// Set a line width
-			if(_pen.Width != width)
-			{
-				_pen.Width = width;
-			}
+        #endregion Fields
 
-			// Set a line style
-			if(_pen.DashStyle != GetPenStyle( style ))
-			{
-				_pen.DashStyle = GetPenStyle( style );
-			}
+        #region Lines Methods
 
-			// Remember SmoothingMode and turn off anti aliasing for 
-			// vertical or horizontal lines usinig 1 pixel dashed pen.
-			// This prevents anialiasing from completly smoothing the 
-			// dashed line.
-			SmoothingMode oldSmoothingMode = this.SmoothingMode;
-			if(width <= 1 && style != ChartDashStyle.Solid)
-			{
-				if(firstPoint.X == secondPoint.X ||
-					firstPoint.Y == secondPoint.Y)
-				{
+        /// <summary>
+        /// Draws a line connecting the two specified points.
+        /// </summary>
+        /// <param name="color">Line color.</param>
+        /// <param name="width">Line width.</param>
+        /// <param name="style">Line style.</param>
+        /// <param name="firstPointF">A Point that represents the first point to connect.</param>
+        /// <param name="secondPointF">A Point that represents the second point to connect.</param>
+        internal void DrawLineRel(
+            Color color,
+            int width,
+            ChartDashStyle style,
+            PointF firstPointF,
+            PointF secondPointF
+            )
+        {
+            DrawLineAbs(
+                color,
+                width,
+                style,
+                GetAbsolutePoint(firstPointF),
+                GetAbsolutePoint(secondPointF));
+        }
+
+        /// <summary>
+        /// Draws a line connecting the two specified points using absolute coordinates.
+        /// </summary>
+        /// <param name="color">Line color.</param>
+        /// <param name="width">Line width.</param>
+        /// <param name="style">Line style.</param>
+        /// <param name="firstPoint">A Point that represents the first point to connect.</param>
+        /// <param name="secondPoint">A Point that represents the second point to connect.</param>
+        internal void DrawLineAbs(
+            Color color,
+            int width,
+            ChartDashStyle style,
+            PointF firstPoint,
+            PointF secondPoint
+            )
+        {
+            // Do not draw line if width is 0 or style not set
+            if (width == 0 || style == ChartDashStyle.NotSet)
+            {
+                return;
+            }
+
+            // Set a line color
+            if (_pen.Color != color)
+            {
+                _pen.Color = color;
+            }
+
+            // Set a line width
+            if (_pen.Width != width)
+            {
+                _pen.Width = width;
+            }
+
+            // Set a line style
+            if (_pen.DashStyle != GetPenStyle(style))
+            {
+                _pen.DashStyle = GetPenStyle(style);
+            }
+
+            // Remember SmoothingMode and turn off anti aliasing for
+           // vertical or horizontal lines usinig 1 pixel dashed pen.
+            // This prevents anialiasing from completly smoothing the
+           // dashed line.
+            SmoothingMode oldSmoothingMode = this.SmoothingMode;
+            if (width <= 1 && style != ChartDashStyle.Solid)
+            {
+                if (firstPoint.X == secondPoint.X ||
+                    firstPoint.Y == secondPoint.Y)
+                {
                     this.SmoothingMode = SmoothingMode.Default;
-				}
-			}
+                }
+            }
 
-			// Draw a line
-            this.DrawLine(_pen, 
-				(float)Math.Round(firstPoint.X), 
-				(float)Math.Round(firstPoint.Y), 
-				(float)Math.Round(secondPoint.X), 
-				(float)Math.Round(secondPoint.Y) );
+            // Draw a line
+            this.DrawLine(_pen,
+                (float)Math.Round(firstPoint.X),
+                (float)Math.Round(firstPoint.Y),
+                (float)Math.Round(secondPoint.X),
+                (float)Math.Round(secondPoint.Y));
 
-			// Return old smoothing mode
+            // Return old smoothing mode
             this.SmoothingMode = oldSmoothingMode;
-		}
+        }
 
-		/// <summary>
-		/// Draws a line with shadow connecting the two specified points.
-		/// </summary>
-		/// <param name="color">Line color.</param>
-		/// <param name="width">Line width.</param>
-		/// <param name="style">Line style.</param>
-		/// <param name="firstPoint">A Point that represents the first point to connect.</param>
-		/// <param name="secondPoint">A Point that represents the second point to connect.</param>		
-		/// <param name="shadowColor">Shadow Color.</param>
-		/// <param name="shadowOffset">Shadow Offset.</param>
-		internal void DrawLineRel(	
-			Color color, 
-			int width, 
-			ChartDashStyle style, 
-			PointF firstPoint, 
-			PointF secondPoint, 
-			Color shadowColor, 
-			int shadowOffset  
-			)
-		{
-			DrawLineAbs(	
-				color, 
-				width, 
-				style, 
-				GetAbsolutePoint(firstPoint), 
-				GetAbsolutePoint(secondPoint), 
-				shadowColor, 
-				shadowOffset );
-		}
+        /// <summary>
+        /// Draws a line with shadow connecting the two specified points.
+        /// </summary>
+        /// <param name="color">Line color.</param>
+        /// <param name="width">Line width.</param>
+        /// <param name="style">Line style.</param>
+        /// <param name="firstPoint">A Point that represents the first point to connect.</param>
+        /// <param name="secondPoint">A Point that represents the second point to connect.</param>		
+        /// <param name="shadowColor">Shadow Color.</param>
+        /// <param name="shadowOffset">Shadow Offset.</param>
+        internal void DrawLineRel(
+            Color color,
+            int width,
+            ChartDashStyle style,
+            PointF firstPoint,
+            PointF secondPoint,
+            Color shadowColor,
+            int shadowOffset
+            )
+        {
+            DrawLineAbs(
+                color,
+                width,
+                style,
+                GetAbsolutePoint(firstPoint),
+                GetAbsolutePoint(secondPoint),
+                shadowColor,
+                shadowOffset);
+        }
 
-		/// <summary>
-		/// Draws a line with shadow connecting the two specified points.
-		/// </summary>
-		/// <param name="color">Line color.</param>
-		/// <param name="width">Line width.</param>
-		/// <param name="style">Line style.</param>
-		/// <param name="firstPoint">A Point that represents the first point to connect.</param>
-		/// <param name="secondPoint">A Point that represents the second point to connect.</param>		
-		/// <param name="shadowColor">Shadow Color.</param>
-		/// <param name="shadowOffset">Shadow Offset.</param>
-		internal void DrawLineAbs(	
-			Color color, 
-			int width, 
-			ChartDashStyle style, 
-			PointF firstPoint, 
-			PointF secondPoint, 
-			Color shadowColor, 
-			int shadowOffset  
-			)
-		{
-			if(shadowOffset != 0)
-			{
-				// Shadow color
-				Color shColor;
+        /// <summary>
+        /// Draws a line with shadow connecting the two specified points.
+        /// </summary>
+        /// <param name="color">Line color.</param>
+        /// <param name="width">Line width.</param>
+        /// <param name="style">Line style.</param>
+        /// <param name="firstPoint">A Point that represents the first point to connect.</param>
+        /// <param name="secondPoint">A Point that represents the second point to connect.</param>		
+        /// <param name="shadowColor">Shadow Color.</param>
+        /// <param name="shadowOffset">Shadow Offset.</param>
+        internal void DrawLineAbs(
+            Color color,
+            int width,
+            ChartDashStyle style,
+            PointF firstPoint,
+            PointF secondPoint,
+            Color shadowColor,
+            int shadowOffset
+            )
+        {
+            if (shadowOffset != 0)
+            {
+                // Shadow color
+                Color shColor;
 
-				// Make shadow semi transparent 
-				// if alpha value not used
-				if( shadowColor.A != 255 )
-					shColor = shadowColor;
-				else
-					shColor = Color.FromArgb(color.A/2, shadowColor);
+                // Make shadow semi transparent
+               // if alpha value not used
+                if (shadowColor.A != 255)
+                    shColor = shadowColor;
+                else
+                    shColor = Color.FromArgb(color.A / 2, shadowColor);
 
-				// Set shadow line position
-				PointF firstShadow = new PointF( firstPoint.X + shadowOffset, firstPoint.Y + shadowOffset);
-				PointF secondShadow = new PointF( secondPoint.X + shadowOffset, secondPoint.Y + shadowOffset );
+                // Set shadow line position
+                PointF firstShadow = new PointF(firstPoint.X + shadowOffset, firstPoint.Y + shadowOffset);
+                PointF secondShadow = new PointF(secondPoint.X + shadowOffset, secondPoint.Y + shadowOffset);
 
-				// Draw Shadow of Line
-				DrawLineAbs( shColor, width, style, firstShadow, secondShadow );
-			}
+                // Draw Shadow of Line
+                DrawLineAbs(shColor, width, style, firstShadow, secondShadow);
+            }
 
-			// Draw Line
-			DrawLineAbs( color, width, style, firstPoint, secondPoint );
-		}
+            // Draw Line
+            DrawLineAbs(color, width, style, firstPoint, secondPoint);
+        }
 
-		#endregion
+        #endregion Lines Methods
 
-		#region Pen and Brush Methods
+        #region Pen and Brush Methods
 
-		/// <summary>
-		/// Creates a Hatch Brush.
-		/// </summary>
-		/// <param name="hatchStyle">Chart Hatch style.</param>
-		/// <param name="backColor">Back Color.</param>
-		/// <param name="foreColor">Fore Color.</param>
-		/// <returns>Brush</returns>
-        internal Brush GetHatchBrush( 
-			ChartHatchStyle hatchStyle, 
-			Color backColor, 
-			Color foreColor 
-			)
-		{
-			// Convert Chart Hatch Style enum 
-			// to Hatch Style enum.
-			HatchStyle hatch;
-			hatch = (HatchStyle)Enum.Parse(typeof(HatchStyle),hatchStyle.ToString());
-			
-			// Create Hatch Brush
-			return new HatchBrush( hatch, foreColor, backColor );
-		}
+        /// <summary>
+        /// Creates a Hatch Brush.
+        /// </summary>
+        /// <param name="hatchStyle">Chart Hatch style.</param>
+        /// <param name="backColor">Back Color.</param>
+        /// <param name="foreColor">Fore Color.</param>
+        /// <returns>Brush</returns>
+        internal Brush GetHatchBrush(
+            ChartHatchStyle hatchStyle,
+            Color backColor,
+            Color foreColor
+            )
+        {
+            // Convert Chart Hatch Style enum
+           // to Hatch Style enum.
+            HatchStyle hatch;
+            hatch = (HatchStyle)Enum.Parse(typeof(HatchStyle), hatchStyle.ToString());
 
-		/// <summary>
-		/// Creates a textured brush.
-		/// </summary>
-		/// <param name="name">Image file name or URL.</param>
-		/// <param name="backImageTransparentColor">Image transparent color.</param>
-		/// <param name="mode">Wrap mode.</param>
-		/// <param name="backColor">Image background color.</param>
-		/// <returns>Textured brush.</returns>
-		internal Brush GetTextureBrush(
-			string name, 
-			Color backImageTransparentColor, 
-			ChartImageWrapMode mode,
-			Color backColor
-			)
-		{
-			// Load a image
-           System.Drawing.Image image = _common.ImageLoader.LoadImage( name );
+            // Create Hatch Brush
+            return new HatchBrush(hatch, foreColor, backColor);
+        }
 
-			// Create a brush
-			using ImageAttributes attrib = new ImageAttributes();
-			attrib.SetWrapMode((mode == ChartImageWrapMode.Unscaled) ? WrapMode.Clamp : ((WrapMode)mode));
-			if(backImageTransparentColor != Color.Empty)
-			{
-				attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
-			}
+        /// <summary>
+        /// Creates a textured brush.
+        /// </summary>
+        /// <param name="name">Image file name or URL.</param>
+        /// <param name="backImageTransparentColor">Image transparent color.</param>
+        /// <param name="mode">Wrap mode.</param>
+        /// <param name="backColor">Image background color.</param>
+        /// <returns>Textured brush.</returns>
+        internal Brush GetTextureBrush(
+            string name,
+            Color backImageTransparentColor,
+            ChartImageWrapMode mode,
+            Color backColor
+            )
+        {
+            // Load a image
+            System.Drawing.Image image = _common.ImageLoader.LoadImage(name);
 
-			// If image is a metafile background must be filled first
-			// Solves issue that background is not cleared correctly
-			if(backImageTransparentColor == Color.Empty &&
-				image is Metafile &&
-				backColor != Color.Transparent)
-			{
-				TextureBrush backFilledBrush = null;
-				using Bitmap bitmap = new Bitmap(image.Width, image.Height);
-				using(Graphics graphics = Graphics.FromImage(bitmap))
-				{
+            // Create a brush
+            using ImageAttributes attrib = new ImageAttributes();
+            attrib.SetWrapMode((mode == ChartImageWrapMode.Unscaled) ? WrapMode.Clamp : ((WrapMode)mode));
+            if (backImageTransparentColor != Color.Empty)
+            {
+                attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
+            }
+
+            // If image is a metafile background must be filled first
+            // Solves issue that background is not cleared correctly
+            if (backImageTransparentColor == Color.Empty &&
+                image is Metafile &&
+                backColor != Color.Transparent)
+            {
+                TextureBrush backFilledBrush = null;
+                using Bitmap bitmap = new Bitmap(image.Width, image.Height);
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
                     using SolidBrush backBrush = new SolidBrush(backColor);
                     graphics.FillRectangle(backBrush, 0, 0, image.Width, image.Height);
                     graphics.DrawImageUnscaled(image, 0, 0);
                     backFilledBrush = new TextureBrush(bitmap, new RectangleF(0, 0, image.Width, image.Height), attrib);
                 }
 
-				return backFilledBrush;
-			}
-                       
-            
+                return backFilledBrush;
+            }
+
             TextureBrush textureBrush;
 
             if (ImageLoader.DoDpisMatch(image, this.Graphics))
                 textureBrush = new TextureBrush(image, new RectangleF(0, 0, image.Width, image.Height), attrib);
-            else  // if the image dpi does not match the graphics dpi we have to scale the image    
-            {
+            else  // if the image dpi does not match the graphics dpi we have to scale the image   
+           {
                 Image scaledImage = ImageLoader.GetScaledImage(image, this.Graphics);
                 textureBrush = new TextureBrush(scaledImage, new RectangleF(0, 0, scaledImage.Width, scaledImage.Height), attrib);
                 scaledImage.Dispose();
             }
-            
-            return textureBrush;
 
-		}
-                
-		/// <summary>
-		/// This method creates a gradient brush.
-		/// </summary>
-		/// <param name="rectangle">A rectangle which has to be filled with a gradient color.</param>
-		/// <param name="firstColor">First color.</param>
-		/// <param name="secondColor">Second color.</param>
-		/// <param name="type ">Gradient type .</param>
-		/// <returns>Gradient Brush</returns>
-        internal Brush GetGradientBrush( 
-			RectangleF rectangle, 
-			Color firstColor, 
-			Color secondColor, 
-			GradientStyle type
-			)
-		{
-			// Increse the brush rectangle by 1 pixel to ensure the fit
-			rectangle.Inflate(1f, 1f);
+            return textureBrush;
+        }
+
+        /// <summary>
+        /// This method creates a gradient brush.
+        /// </summary>
+        /// <param name="rectangle">A rectangle which has to be filled with a gradient color.</param>
+        /// <param name="firstColor">First color.</param>
+        /// <param name="secondColor">Second color.</param>
+        /// <param name="type ">Gradient type .</param>
+        /// <returns>Gradient Brush</returns>
+        internal Brush GetGradientBrush(
+            RectangleF rectangle,
+            Color firstColor,
+            Color secondColor,
+            GradientStyle type
+            )
+        {
+            // Increse the brush rectangle by 1 pixel to ensure the fit
+            rectangle.Inflate(1f, 1f);
             float angle = 0;
 
-
             Brush gradientBrush;
-            // Function which create gradient brush fires exception if 
-            // rectangle size is zero.
+            // Function which create gradient brush fires exception if
+           // rectangle size is zero.
             if (rectangle.Height == 0 || rectangle.Width == 0)
             {
                 gradientBrush = new SolidBrush(Color.Black);
@@ -430,156 +433,158 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Linear Gradient
             // *******************************************
             // Check linear type .
-            if ( type == GradientStyle.LeftRight || type == GradientStyle.VerticalCenter )
-			{
-				angle = 0;
-			}
-			else if( type == GradientStyle.TopBottom || type == GradientStyle.HorizontalCenter )
-			{
-				angle = 90;
-			}
-			else if(  type == GradientStyle.DiagonalLeft )
-			{
-				angle = (float)(Math.Atan(rectangle.Width / rectangle.Height)* 180 / Math.PI); 
-			}
-			else if(  type == GradientStyle.DiagonalRight )
-			{
-				angle = (float)(180 - Math.Atan(rectangle.Width / rectangle.Height)* 180 / Math.PI); 
-			}
-			
-			// Create a linear gradient brush
-			if( type == GradientStyle.TopBottom || type == GradientStyle.LeftRight 
-				|| type == GradientStyle.DiagonalLeft || type == GradientStyle.DiagonalRight
-				|| type == GradientStyle.HorizontalCenter || type == GradientStyle.VerticalCenter )
-			{
-				RectangleF tempRect = new RectangleF(rectangle.X,rectangle.Y,rectangle.Width,rectangle.Height);
-				// For Horizontal and vertical center gradient types
-				if( type == GradientStyle.HorizontalCenter )
-				{
-					// Resize and wrap gradient
-					tempRect.Height /= 2F;
-                    LinearGradientBrush linearGradientBrush = new LinearGradientBrush(tempRect, firstColor, secondColor, angle);
-                    gradientBrush = linearGradientBrush;
-					linearGradientBrush.WrapMode = WrapMode.TileFlipX;
-				}
-				else if( type == GradientStyle.VerticalCenter )
-				{
-					// Resize and wrap gradient
-					tempRect.Width /= 2F;
+            if (type == GradientStyle.LeftRight || type == GradientStyle.VerticalCenter)
+            {
+                angle = 0;
+            }
+            else if (type == GradientStyle.TopBottom || type == GradientStyle.HorizontalCenter)
+            {
+                angle = 90;
+            }
+            else if (type == GradientStyle.DiagonalLeft)
+            {
+                angle = (float)(Math.Atan(rectangle.Width / rectangle.Height) * 180 / Math.PI);
+            }
+            else if (type == GradientStyle.DiagonalRight)
+            {
+                angle = (float)(180 - Math.Atan(rectangle.Width / rectangle.Height) * 180 / Math.PI);
+            }
+
+            // Create a linear gradient brush
+            if (type == GradientStyle.TopBottom || type == GradientStyle.LeftRight
+                || type == GradientStyle.DiagonalLeft || type == GradientStyle.DiagonalRight
+                || type == GradientStyle.HorizontalCenter || type == GradientStyle.VerticalCenter)
+            {
+                RectangleF tempRect = new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+                // For Horizontal and vertical center gradient types
+                if (type == GradientStyle.HorizontalCenter)
+                {
+                    // Resize and wrap gradient
+                    tempRect.Height /= 2F;
                     LinearGradientBrush linearGradientBrush = new LinearGradientBrush(tempRect, firstColor, secondColor, angle);
                     gradientBrush = linearGradientBrush;
                     linearGradientBrush.WrapMode = WrapMode.TileFlipX;
-				}
-				else
-				{
-					gradientBrush = new LinearGradientBrush( rectangle, firstColor, secondColor, angle );
-				}
-				return gradientBrush;
-			}
+                }
+                else if (type == GradientStyle.VerticalCenter)
+                {
+                    // Resize and wrap gradient
+                    tempRect.Width /= 2F;
+                    LinearGradientBrush linearGradientBrush = new LinearGradientBrush(tempRect, firstColor, secondColor, angle);
+                    gradientBrush = linearGradientBrush;
+                    linearGradientBrush.WrapMode = WrapMode.TileFlipX;
+                }
+                else
+                {
+                    gradientBrush = new LinearGradientBrush(rectangle, firstColor, secondColor, angle);
+                }
+                return gradientBrush;
+            }
 
-			// *******************************************
-			// Gradient is not linear : From Center.
-			// *******************************************
-			
-			// Create a path
-			GraphicsPath path = new GraphicsPath();
+            // *******************************************
+            // Gradient is not linear : From Center.
+            // *******************************************
 
-			// Add a rectangle to the path
-			path.AddRectangle( rectangle );
+            // Create a path
+            GraphicsPath path = new GraphicsPath();
 
-			// Create a gradient brush
+            // Add a rectangle to the path
+            path.AddRectangle(rectangle);
+
+            // Create a gradient brush
             PathGradientBrush pathGradientBrush = new PathGradientBrush(path);
             gradientBrush = pathGradientBrush;
 
-			// Set the center color
+            // Set the center color
             pathGradientBrush.CenterColor = firstColor;
 
-			// Set the Surround color
-			Color[] colors = {secondColor};
+            // Set the Surround color
+            Color[] colors = { secondColor };
             pathGradientBrush.SurroundColors = colors;
-			
-			if( path != null )
-			{
-				path.Dispose();
-			}
 
-			return gradientBrush;
-		}
+            if (path != null)
+            {
+                path.Dispose();
+            }
 
-		/// <summary>
-		/// This method creates a gradient brush for pie. This gradient is one 
-		/// of the types used only with pie and doughnut.
-		/// </summary>
-		/// <param name="rectangle">A rectangle which has to be filled with a gradient color</param>
-		/// <param name="firstColor">First color</param>
-		/// <param name="secondColor">Second color</param>
-		/// <returns>Gradient Brush</returns>
-		internal Brush GetPieGradientBrush( 
-			RectangleF rectangle, 
-			Color firstColor, 
-			Color secondColor 
-			)
-		{
-			// Create a path that consists of a single ellipse.
-			GraphicsPath path = new GraphicsPath();
-			path.AddEllipse( rectangle );
+            return gradientBrush;
+        }
 
-			// Use the path to construct a brush.
-			PathGradientBrush gradientBrush = new PathGradientBrush(path);
+        /// <summary>
+        /// This method creates a gradient brush for pie. This gradient is one
+       /// of the types used only with pie and doughnut.
+        /// </summary>
+        /// <param name="rectangle">A rectangle which has to be filled with a gradient color</param>
+        /// <param name="firstColor">First color</param>
+        /// <param name="secondColor">Second color</param>
+        /// <returns>Gradient Brush</returns>
+        internal Brush GetPieGradientBrush(
+            RectangleF rectangle,
+            Color firstColor,
+            Color secondColor
+            )
+        {
+            // Create a path that consists of a single ellipse.
+            GraphicsPath path = new GraphicsPath();
+            path.AddEllipse(rectangle);
 
-			// Set the color at the center of the path.
-			gradientBrush.CenterColor = firstColor;
+            // Use the path to construct a brush.
+            PathGradientBrush gradientBrush = new PathGradientBrush(path);
 
-			// Set the color along the entire boundary 
-			// of the path to aqua.
-			Color[] colors = {secondColor};
+            // Set the color at the center of the path.
+            gradientBrush.CenterColor = firstColor;
 
-			gradientBrush.SurroundColors = colors;
+            // Set the color along the entire boundary
+           // of the path to aqua.
+            Color[] colors = { secondColor };
 
-			if( path != null )
-			{
-				path.Dispose();
-			}
+            gradientBrush.SurroundColors = colors;
 
-			return gradientBrush;
+            if (path != null)
+            {
+                path.Dispose();
+            }
 
-		}
+            return gradientBrush;
+        }
 
-		/// <summary>
-		/// Converts GDI+ line style to Chart Graph line style.
-		/// </summary>
-		/// <param name="style">Chart Line style.</param>
-		/// <returns>GDI+ line style.</returns>
-		internal DashStyle GetPenStyle( ChartDashStyle style )
-		{
-			// Convert to chart line styles. The custom style doesn’t exist.
-			switch( style )
-			{
-				case ChartDashStyle.Dash:
-					return DashStyle.Dash;
-				case ChartDashStyle.DashDot:
-					return DashStyle.DashDot;
-				case ChartDashStyle.DashDotDot:
-					return DashStyle.DashDotDot;
-				case ChartDashStyle.Dot:
-					return DashStyle.Dot;
-			}
+        /// <summary>
+        /// Converts GDI+ line style to Chart Graph line style.
+        /// </summary>
+        /// <param name="style">Chart Line style.</param>
+        /// <returns>GDI+ line style.</returns>
+        internal DashStyle GetPenStyle(ChartDashStyle style)
+        {
+            // Convert to chart line styles. The custom style doesn’t exist.
+            switch (style)
+            {
+                case ChartDashStyle.Dash:
+                    return DashStyle.Dash;
 
-			return DashStyle.Solid;
-		}
+                case ChartDashStyle.DashDot:
+                    return DashStyle.DashDot;
 
-		#endregion
+                case ChartDashStyle.DashDotDot:
+                    return DashStyle.DashDotDot;
 
-		#region Markers
+                case ChartDashStyle.Dot:
+                    return DashStyle.Dot;
+            }
 
-		/// <summary>
-		/// Creates polygon for multi-corner star marker.
-		/// </summary>
-		/// <param name="rect">Marker rectangle.</param>
-		/// <param name="numberOfCorners">Number of corners (4 and up).</param>
-		/// <returns>Array of points.</returns>
-		internal PointF[] CreateStarPolygon(RectangleF rect, int numberOfCorners)
-		{
+            return DashStyle.Solid;
+        }
+
+        #endregion Pen and Brush Methods
+
+        #region Markers
+
+        /// <summary>
+        /// Creates polygon for multi-corner star marker.
+        /// </summary>
+        /// <param name="rect">Marker rectangle.</param>
+        /// <param name="numberOfCorners">Number of corners (4 and up).</param>
+        /// <returns>Array of points.</returns>
+        internal PointF[] CreateStarPolygon(RectangleF rect, int numberOfCorners)
+        {
             int numberOfCornersX2;
             checked
             {
@@ -589,99 +594,99 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool outside = true;
             PointF[] points = new PointF[numberOfCornersX2];
             PointF[] tempPoints = new PointF[1];
-			Matrix matrix = null;
+            Matrix matrix = null;
 
-			// overflow check
-			for (int pointIndex = 0; pointIndex < numberOfCornersX2; pointIndex++)
-			{				
-				if (matrix is null)
-					matrix = new Matrix();
-				else
-					matrix.Reset();
+            // overflow check
+            for (int pointIndex = 0; pointIndex < numberOfCornersX2; pointIndex++)
+            {
+                if (matrix is null)
+                    matrix = new Matrix();
+                else
+                    matrix.Reset();
 
-				tempPoints[0] = new PointF(rect.X + rect.Width / 2f, (outside == true) ? rect.Y : rect.Y + rect.Height / 4f);
-				matrix.RotateAt(pointIndex*(360f/(numberOfCorners*2f)), new PointF(rect.X + rect.Width/2f, rect.Y + rect.Height/2f));
-				matrix.TransformPoints(tempPoints);
-				points[pointIndex] = tempPoints[0];
-				outside = !outside;
-			}
+                tempPoints[0] = new PointF(rect.X + rect.Width / 2f, (outside == true) ? rect.Y : rect.Y + rect.Height / 4f);
+                matrix.RotateAt(pointIndex * (360f / (numberOfCorners * 2f)), new PointF(rect.X + rect.Width / 2f, rect.Y + rect.Height / 2f));
+                matrix.TransformPoints(tempPoints);
+                points[pointIndex] = tempPoints[0];
+                outside = !outside;
+            }
 
-			matrix?.Dispose();
-			return points;
-		}
+            matrix?.Dispose();
+            return points;
+        }
 
-		/// <summary>
-		/// Draw marker using relative coordinates of the center.
-		/// </summary>
-		/// <param name="point">Coordinates of the center.</param>
-		/// <param name="markerStyle">Marker style.</param>
-		/// <param name="markerSize">Marker size.</param>
-		/// <param name="markerColor">Marker color.</param>
-		/// <param name="markerBorderColor">Marker border color.</param>
-		/// <param name="markerBorderSize">Marker border size.</param>
-		/// <param name="markerImage">Marker image name.</param>
-		/// <param name="markerImageTransparentColor">Marker image transparent color.</param>
-		/// <param name="shadowSize">Marker shadow size.</param>
-		/// <param name="shadowColor">Marker shadow color.</param>
-		/// <param name="imageScaleRect">Rectangle to which marker image should be scaled.</param>
-		internal void DrawMarkerRel(
-			PointF point, 
-			MarkerStyle markerStyle, 
-			int markerSize, 
-			Color markerColor, 
-			Color markerBorderColor, 
-			int markerBorderSize, 
-			string markerImage, 
-			Color markerImageTransparentColor, 
-			int shadowSize, 
-			Color shadowColor, 
-			RectangleF imageScaleRect
-			)
-		{
-			DrawMarkerAbs(this.GetAbsolutePoint(point), markerStyle, markerSize, markerColor, markerBorderColor, markerBorderSize, markerImage, markerImageTransparentColor, shadowSize, shadowColor, imageScaleRect, false);
-		}
+        /// <summary>
+        /// Draw marker using relative coordinates of the center.
+        /// </summary>
+        /// <param name="point">Coordinates of the center.</param>
+        /// <param name="markerStyle">Marker style.</param>
+        /// <param name="markerSize">Marker size.</param>
+        /// <param name="markerColor">Marker color.</param>
+        /// <param name="markerBorderColor">Marker border color.</param>
+        /// <param name="markerBorderSize">Marker border size.</param>
+        /// <param name="markerImage">Marker image name.</param>
+        /// <param name="markerImageTransparentColor">Marker image transparent color.</param>
+        /// <param name="shadowSize">Marker shadow size.</param>
+        /// <param name="shadowColor">Marker shadow color.</param>
+        /// <param name="imageScaleRect">Rectangle to which marker image should be scaled.</param>
+        internal void DrawMarkerRel(
+            PointF point,
+            MarkerStyle markerStyle,
+            int markerSize,
+            Color markerColor,
+            Color markerBorderColor,
+            int markerBorderSize,
+            string markerImage,
+            Color markerImageTransparentColor,
+            int shadowSize,
+            Color shadowColor,
+            RectangleF imageScaleRect
+            )
+        {
+            DrawMarkerAbs(this.GetAbsolutePoint(point), markerStyle, markerSize, markerColor, markerBorderColor, markerBorderSize, markerImage, markerImageTransparentColor, shadowSize, shadowColor, imageScaleRect, false);
+        }
 
-		/// <summary>
-		/// Draw marker using absolute coordinates of the center.
-		/// </summary>
-		/// <param name="point">Coordinates of the center.</param>
-		/// <param name="markerStyle">Marker style.</param>
-		/// <param name="markerSize">Marker size.</param>
-		/// <param name="markerColor">Marker color.</param>
-		/// <param name="markerBorderColor">Marker border color.</param>
-		/// <param name="markerBorderSize">Marker border size.</param>
-		/// <param name="markerImage">Marker image name.</param>
-		/// <param name="markerImageTransparentColor">Marker image transparent color.</param>
-		/// <param name="shadowSize">Marker shadow size.</param>
-		/// <param name="shadowColor">Marker shadow color.</param>
-		/// <param name="imageScaleRect">Rectangle to which marker image should be scaled.</param>
-		/// <param name="forceAntiAlias">Always use anti aliasing when drawing the marker.</param>
-		internal void DrawMarkerAbs(
-			PointF point, 
-			MarkerStyle markerStyle, 
-			int markerSize, 
-			Color markerColor, 
-			Color markerBorderColor, 
-			int markerBorderSize, 
-			string markerImage, 
-			Color markerImageTransparentColor, 
-			int shadowSize, 
-			Color shadowColor, 
-			RectangleF imageScaleRect, 
-			bool forceAntiAlias
-			)
-		{
-			// Hide border when zero width specified
-			if(markerBorderSize <= 0)
-			{
-				markerBorderColor = Color.Transparent;
-			}
+        /// <summary>
+        /// Draw marker using absolute coordinates of the center.
+        /// </summary>
+        /// <param name="point">Coordinates of the center.</param>
+        /// <param name="markerStyle">Marker style.</param>
+        /// <param name="markerSize">Marker size.</param>
+        /// <param name="markerColor">Marker color.</param>
+        /// <param name="markerBorderColor">Marker border color.</param>
+        /// <param name="markerBorderSize">Marker border size.</param>
+        /// <param name="markerImage">Marker image name.</param>
+        /// <param name="markerImageTransparentColor">Marker image transparent color.</param>
+        /// <param name="shadowSize">Marker shadow size.</param>
+        /// <param name="shadowColor">Marker shadow color.</param>
+        /// <param name="imageScaleRect">Rectangle to which marker image should be scaled.</param>
+        /// <param name="forceAntiAlias">Always use anti aliasing when drawing the marker.</param>
+        internal void DrawMarkerAbs(
+            PointF point,
+            MarkerStyle markerStyle,
+            int markerSize,
+            Color markerColor,
+            Color markerBorderColor,
+            int markerBorderSize,
+            string markerImage,
+            Color markerImageTransparentColor,
+            int shadowSize,
+            Color shadowColor,
+            RectangleF imageScaleRect,
+            bool forceAntiAlias
+            )
+        {
+            // Hide border when zero width specified
+            if (markerBorderSize <= 0)
+            {
+                markerBorderColor = Color.Transparent;
+            }
 
-			// Draw image instead of standart markers
-			if(markerImage.Length > 0)
-			{
-				// Get image
-                System.Drawing.Image image = _common.ImageLoader.LoadImage( markerImage );
+            // Draw image instead of standart markers
+            if (markerImage.Length > 0)
+            {
+                // Get image
+                System.Drawing.Image image = _common.ImageLoader.LoadImage(markerImage);
 
                 if (image != null)
                 {
@@ -734,20 +739,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         GraphicsUnit.Pixel,
                         attrib);
                 }
-			}
+            }
 
-			// Draw standart marker using style, size and color
-			else if(markerStyle != MarkerStyle.None && markerSize > 0 && markerColor != Color.Empty)
-			{
+            // Draw standart marker using style, size and color
+            else if (markerStyle != MarkerStyle.None && markerSize > 0 && markerColor != Color.Empty)
+            {
                 Pen pen;
-				// Enable antialising
+                // Enable antialising
                 SmoothingMode oldSmoothingMode = this.SmoothingMode;
-				if(forceAntiAlias)
-				{
+                if (forceAntiAlias)
+                {
                     this.SmoothingMode = SmoothingMode.AntiAlias;
-				}
-				
-				// Create solid color brush
+                }
+
+                // Create solid color brush
                 using (SolidBrush brush = new SolidBrush(markerColor))
                 {
                     // Calculate marker rectangle
@@ -1012,13 +1017,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         diamondRect.Width = diamondSize;
                                         diamondRect.Height = diamondSize;
 
-                                        // Set rotation matrix to 45 
-                                        translateMatrix.RotateAt(45, point);
+                                        // Set rotation matrix to 45
+                                       translateMatrix.RotateAt(45, point);
                                         this.Transform = translateMatrix;
 
                                         FillRectangleShadowAbs(diamondRect, shadowColor, shadowSize, shadowColor);
                                     }
-
 
                                     this.Transform = oldMatrix;
                                 }
@@ -1090,8 +1094,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 this.FillPolygon(brush, points);
                                 pen = new Pen(markerBorderColor, markerBorderSize);
                                 this.DrawPolygon(pen, points);
-								pen.Dispose();
-								break;
+                                pen.Dispose();
+                                break;
                             }
                         default:
                             {
@@ -1100,21 +1104,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
 
-				// Restore SmoothingMode
-				if(forceAntiAlias)
-				{
-					this.SmoothingMode = oldSmoothingMode;
-				}
-			}
-		}
+                // Restore SmoothingMode
+                if (forceAntiAlias)
+                {
+                    this.SmoothingMode = oldSmoothingMode;
+                }
+            }
+        }
 
-		#endregion
-	
-		#region String Methods
+        #endregion Markers
+
+        #region String Methods
 
         /// <summary>
-        /// Measures the specified string when drawn with the specified 
-        /// Font object and formatted with the specified StringFormat object.
+        /// Measures the specified string when drawn with the specified
+       /// Font object and formatted with the specified StringFormat object.
         /// </summary>
         /// <param name="text">String to measure.</param>
         /// <param name="font">Font object defines the text format of the string.</param>
@@ -1132,9 +1136,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Current implementation of the stacked text will simply insert a new
             // line character between all characters in the original string. This
-            // apporach will not allow to show multiple lines of stacked text or 
-            // correctly handle text wrapping. 
-            if (textOrientation == TextOrientation.Stacked)
+            // apporach will not allow to show multiple lines of stacked text or
+           // correctly handle text wrapping.
+           if (textOrientation == TextOrientation.Stacked)
             {
                 text = GetStackedText(text);
             }
@@ -1142,9 +1146,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Measures the specified text string when drawn with 
-        /// the specified Font object and formatted with the 
-        /// specified StringFormat object.
+        /// Measures the specified text string when drawn with
+       /// the specified Font object and formatted with the
+       /// specified StringFormat object.
         /// </summary>
         /// <param name="text">The string to measure</param>
         /// <param name="font">The Font object used to determine the size of the text string. </param>
@@ -1153,31 +1157,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="textOrientation">Text orientation.</param>
         /// <returns>A SizeF structure that represents the size of text as drawn with font.</returns>
         internal SizeF MeasureStringRel(
-            string text, 
-            Font font, 
-            SizeF layoutArea, 
+            string text,
+            Font font,
+            SizeF layoutArea,
             StringFormat stringFormat,
             TextOrientation textOrientation)
         {
             // Current implementation of the stacked text will simply insert a new
             // line character between all characters in the original string. This
-            // apporach will not allow to show multiple lines of stacked text or 
-            // correctly handle text wrapping. 
-            if (textOrientation == TextOrientation.Stacked)
+            // apporach will not allow to show multiple lines of stacked text or
+           // correctly handle text wrapping.
+           if (textOrientation == TextOrientation.Stacked)
             {
                 text = GetStackedText(text);
             }
             return this.MeasureStringRel(text, font, layoutArea, stringFormat);
         }
 
-		/// <summary>
-		/// Draws the specified text string at the specified location with the specified Brush and Font objects using the formatting properties of the specified StringFormat object.
-		/// </summary>
-		/// <param name="text">String to draw.</param>
-		/// <param name="font">Font object that defines the text format of the string.</param>
-		/// <param name="brush">Brush object that determines the color and texture of the drawn text.</param>
+        /// <summary>
+        /// Draws the specified text string at the specified location with the specified Brush and Font objects using the formatting properties of the specified StringFormat object.
+        /// </summary>
+        /// <param name="text">String to draw.</param>
+        /// <param name="font">Font object that defines the text format of the string.</param>
+        /// <param name="brush">Brush object that determines the color and texture of the drawn text.</param>
         /// <param name="rect">Position of the drawn text in pixels.</param>
-		/// <param name="format">StringFormat object that specifies formatting properties, such as line spacing and alignment, that are applied to the drawn text.</param>
+        /// <param name="format">StringFormat object that specifies formatting properties, such as line spacing and alignment, that are applied to the drawn text.</param>
         /// <param name="textOrientation">Text orientation.</param>
         internal void DrawString(
             string text,
@@ -1190,9 +1194,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Current implementation of the stacked text will simply insert a new
             // line character between all characters in the original string. This
-            // apporach will not allow to show multiple lines of stacked text or 
-            // correctly handle text wrapping. 
-            if (textOrientation == TextOrientation.Stacked)
+            // apporach will not allow to show multiple lines of stacked text or
+           // correctly handle text wrapping.
+           if (textOrientation == TextOrientation.Stacked)
             {
                 text = GetStackedText(text);
             }
@@ -1221,9 +1225,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Current implementation of the stacked text will simply insert a new
             // line character between all characters in the original string. This
-            // apporach will not allow to show multiple lines of stacked text or 
-            // correctly handle text wrapping. 
-            if (textOrientation == TextOrientation.Stacked)
+            // apporach will not allow to show multiple lines of stacked text or
+           // correctly handle text wrapping.
+           if (textOrientation == TextOrientation.Stacked)
             {
                 text = GetStackedText(text);
             }
@@ -1251,9 +1255,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Current implementation of the stacked text will simply insert a new
             // line character between all characters in the original string. This
-            // apporach will not allow to show multiple lines of stacked text or 
-            // correctly handle text wrapping. 
-            if (textOrientation == TextOrientation.Stacked)
+            // apporach will not allow to show multiple lines of stacked text or
+           // correctly handle text wrapping.
+           if (textOrientation == TextOrientation.Stacked)
             {
                 text = GetStackedText(text);
             }
@@ -1281,61 +1285,61 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return result;
         }
 
-		/// <summary>
-		/// Draw a string and fills it's background
-		/// </summary>
-		/// <param name="common">The Common elements object.</param>
-		/// <param name="text">Text.</param>
-		/// <param name="font">Text Font.</param>
-		/// <param name="brush">Text Brush.</param>
-		/// <param name="position">Text Position.</param>
-		/// <param name="format">Format and text alignment.</param>
-		/// <param name="angle">Text angle.</param>
-		/// <param name="backPosition">Text background position.</param>
-		/// <param name="backColor">Back Color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		/// <param name="series">Series</param>
-		/// <param name="point">Point</param>
-		/// <param name="pointIndex">Point index in series</param>
-		internal void DrawPointLabelStringRel( 
-			CommonElements common,
-			string text, 
-			System.Drawing.Font font, 
-			System.Drawing.Brush brush, 
-			RectangleF position, 
-			System.Drawing.StringFormat format, 
-			int angle,
-			RectangleF backPosition,
-			Color backColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle,
-			Series series,
-			DataPoint point,
-			int pointIndex)
-		{
-			// Start Svg/Flash Selection mode
-			this.StartHotRegion( point, true );
+        /// <summary>
+        /// Draw a string and fills it's background
+        /// </summary>
+        /// <param name="common">The Common elements object.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="font">Text Font.</param>
+        /// <param name="brush">Text Brush.</param>
+        /// <param name="position">Text Position.</param>
+        /// <param name="format">Format and text alignment.</param>
+        /// <param name="angle">Text angle.</param>
+        /// <param name="backPosition">Text background position.</param>
+        /// <param name="backColor">Back Color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        /// <param name="series">Series</param>
+        /// <param name="point">Point</param>
+        /// <param name="pointIndex">Point index in series</param>
+        internal void DrawPointLabelStringRel(
+            CommonElements common,
+            string text,
+            System.Drawing.Font font,
+            System.Drawing.Brush brush,
+            RectangleF position,
+            System.Drawing.StringFormat format,
+            int angle,
+            RectangleF backPosition,
+            Color backColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle,
+            Series series,
+            DataPoint point,
+            int pointIndex)
+        {
+            // Start Svg/Flash Selection mode
+            this.StartHotRegion(point, true);
 
-			// Draw background
-			DrawPointLabelBackground( 
-				common,
-				angle,
-				PointF.Empty,
-				backPosition,
-				backColor, 
-				borderColor, 
-				borderWidth, 
-				borderDashStyle,
-				series,
-				point,
-				pointIndex);
+            // Draw background
+            DrawPointLabelBackground(
+                common,
+                angle,
+                PointF.Empty,
+                backPosition,
+                backColor,
+                borderColor,
+                borderWidth,
+                borderDashStyle,
+                series,
+                point,
+                pointIndex);
 
-			// End Svg/Flash Selection mode
-			this.EndHotRegion( );
-            
+            // End Svg/Flash Selection mode
+            this.EndHotRegion();
+
             point._lastLabelText = text;
             // Draw text
             if (IsRightToLeft)
@@ -1354,62 +1358,62 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else
                 DrawStringRel(text, font, brush, position, format, angle);
-		}
+        }
 
-		/// <summary>
-		/// Draw a string and fills it's background
-		/// </summary>
-		/// <param name="common">The Common elements object.</param>
-		/// <param name="text">Text.</param>
-		/// <param name="font">Text Font.</param>
-		/// <param name="brush">Text Brush.</param>
-		/// <param name="position">Text Position.</param>
-		/// <param name="format">Format and text alignment.</param>
-		/// <param name="angle">Text angle.</param>
-		/// <param name="backPosition">Text background position.</param>
-		/// <param name="backColor">Back Color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		/// <param name="series">Series</param>
-		/// <param name="point">Point</param>
-		/// <param name="pointIndex">Point index in series</param>
-		internal void DrawPointLabelStringRel( 
-			CommonElements common,
-			string text, 
-			System.Drawing.Font font, 
-			System.Drawing.Brush brush, 
-			PointF position, 
-			System.Drawing.StringFormat format, 
-			int angle,
-			RectangleF backPosition,
-			Color backColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle,
-			Series series,
-			DataPoint point,
-			int pointIndex)
-		{
-			// Start Svg/Flash Selection mode
-			this.StartHotRegion( point, true );
+        /// <summary>
+        /// Draw a string and fills it's background
+        /// </summary>
+        /// <param name="common">The Common elements object.</param>
+        /// <param name="text">Text.</param>
+        /// <param name="font">Text Font.</param>
+        /// <param name="brush">Text Brush.</param>
+        /// <param name="position">Text Position.</param>
+        /// <param name="format">Format and text alignment.</param>
+        /// <param name="angle">Text angle.</param>
+        /// <param name="backPosition">Text background position.</param>
+        /// <param name="backColor">Back Color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        /// <param name="series">Series</param>
+        /// <param name="point">Point</param>
+        /// <param name="pointIndex">Point index in series</param>
+        internal void DrawPointLabelStringRel(
+            CommonElements common,
+            string text,
+            System.Drawing.Font font,
+            System.Drawing.Brush brush,
+            PointF position,
+            System.Drawing.StringFormat format,
+            int angle,
+            RectangleF backPosition,
+            Color backColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle,
+            Series series,
+            DataPoint point,
+            int pointIndex)
+        {
+            // Start Svg/Flash Selection mode
+            this.StartHotRegion(point, true);
 
-			// Draw background
-			DrawPointLabelBackground( 
-				common,
-				angle,
-				position, 
-				backPosition,
-				backColor, 
-				borderColor, 
-				borderWidth, 
-				borderDashStyle,
-				series,
-				point,
-				pointIndex);
+            // Draw background
+            DrawPointLabelBackground(
+                common,
+                angle,
+                position,
+                backPosition,
+                backColor,
+                borderColor,
+                borderWidth,
+                borderDashStyle,
+                series,
+                point,
+                pointIndex);
 
-			// End Svg/Flash Selection mode
-			this.EndHotRegion( );
+            // End Svg/Flash Selection mode
+            this.EndHotRegion();
 
             point._lastLabelText = text;
             // Draw text
@@ -1428,78 +1432,78 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 DrawStringRel(text, font, brush, position, fmt, angle);
             }
             else
-                DrawStringRel(text,font,brush,position,format,angle);
-		}
+                DrawStringRel(text, font, brush, position, format, angle);
+        }
 
-		/// <summary>
-		/// Draw a string and fills it's background
-		/// </summary>
-		/// <param name="common">The Common elements object.</param>
-		/// <param name="angle">Text angle.</param>
-		/// <param name="textPosition">Text position.</param>
-		/// <param name="backPosition">Text background position.</param>
-		/// <param name="backColor">Back Color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		/// <param name="series">Series</param>
-		/// <param name="point">Point</param>
-		/// <param name="pointIndex">Point index in series</param>
-		private void DrawPointLabelBackground( 
-			CommonElements common,
-			int angle,
-			PointF textPosition,
-			RectangleF backPosition,
-			Color backColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle,
-			Series series,
-			DataPoint point,
-			int pointIndex)
-		{
-			// Draw background
-			if(!backPosition.IsEmpty)
-			{
-				RectangleF backPositionAbs = this.Round(this.GetAbsoluteRectangle(backPosition));
+        /// <summary>
+        /// Draw a string and fills it's background
+        /// </summary>
+        /// <param name="common">The Common elements object.</param>
+        /// <param name="angle">Text angle.</param>
+        /// <param name="textPosition">Text position.</param>
+        /// <param name="backPosition">Text background position.</param>
+        /// <param name="backColor">Back Color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        /// <param name="series">Series</param>
+        /// <param name="point">Point</param>
+        /// <param name="pointIndex">Point index in series</param>
+        private void DrawPointLabelBackground(
+            CommonElements common,
+            int angle,
+            PointF textPosition,
+            RectangleF backPosition,
+            Color backColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle,
+            Series series,
+            DataPoint point,
+            int pointIndex)
+        {
+            // Draw background
+            if (!backPosition.IsEmpty)
+            {
+                RectangleF backPositionAbs = this.Round(this.GetAbsoluteRectangle(backPosition));
 
                 // Get rotation point
                 PointF rotationPoint;
                 if (textPosition.IsEmpty)
-				{
-					rotationPoint = new PointF(backPositionAbs.X + backPositionAbs.Width/2f, backPositionAbs.Y + backPositionAbs.Height/2f);
-				}
-				else
-				{
-					rotationPoint = this.GetAbsolutePoint(textPosition);
-				}
+                {
+                    rotationPoint = new PointF(backPositionAbs.X + backPositionAbs.Width / 2f, backPositionAbs.Y + backPositionAbs.Height / 2f);
+                }
+                else
+                {
+                    rotationPoint = this.GetAbsolutePoint(textPosition);
+                }
 
-				// Create a matrix and rotate it.
-				_myMatrix?.Dispose();
-				_myMatrix = this.Transform;
-				_myMatrix.RotateAt( angle, rotationPoint );
+                // Create a matrix and rotate it.
+                _myMatrix?.Dispose();
+                _myMatrix = this.Transform;
+                _myMatrix.RotateAt(angle, rotationPoint);
 
-				// Save old state
-				GraphicsState graphicsState = this.Save();
+                // Save old state
+                GraphicsState graphicsState = this.Save();
 
-				// Set transformation
-				this.Transform = _myMatrix;
+                // Set transformation
+                this.Transform = _myMatrix;
 
                 // Check for empty colors
-				if( !backColor.IsEmpty ||
-					!borderColor.IsEmpty)
-				{
-					// Fill box around the label
-					using(Brush	brush = new SolidBrush(backColor))
-					{
-						this.FillRectangle(brush, backPositionAbs);
-					}
+                if (!backColor.IsEmpty ||
+                    !borderColor.IsEmpty)
+                {
+                    // Fill box around the label
+                    using (Brush brush = new SolidBrush(backColor))
+                    {
+                        this.FillRectangle(brush, backPositionAbs);
+                    }
 
                     // deliant: Fix VSTS #156433	(2)	Data Label Border in core always shows when the style is set to NotSet	
                     // Draw box border
-					if(  borderWidth > 0 &&
+                    if (borderWidth > 0 &&
                         !borderColor.IsEmpty && borderDashStyle != ChartDashStyle.NotSet)
-					{
+                    {
                         AntiAliasingStyles saveAntiAliasing = this.AntiAliasing;
                         try
                         {
@@ -1517,34 +1521,33 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             this.AntiAliasing = saveAntiAliasing;
                         }
-					}
-				}
-				else
-				{
+                    }
+                }
+                else
+                {
                     // Draw invisible rectangle to handle tooltips
                     using Brush brush = new SolidBrush(Color.Transparent);
                     this.FillRectangle(brush, backPositionAbs);
                 }
-			
 
-				// Restore old state
-				this.Restore(graphicsState);
+                // Restore old state
+                this.Restore(graphicsState);
 
-				// Add point label hot region
-				if( common != null &&
-					common.ProcessModeRegions)
-				{
+                // Add point label hot region
+                if (common != null &&
+                    common.ProcessModeRegions)
+                {
                     // Insert area
-					if(angle == 0)
-					{
-						common.HotRegionsList.AddHotRegion( 
-							backPosition,
-							point,
-							series.Name,
-							pointIndex );
-					}
-					else
-					{
+                    if (angle == 0)
+                    {
+                        common.HotRegionsList.AddHotRegion(
+                            backPosition,
+                            point,
+                            series.Name,
+                            pointIndex);
+                    }
+                    else
+                    {
                         // Convert rectangle to the graphics path and apply rotation transformation
                         using GraphicsPath path = new GraphicsPath();
                         path.AddRectangle(backPositionAbs);
@@ -1560,90 +1563,90 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             pointIndex);
                     }
 
-					// Set new hot region element type 
-                    if (common.HotRegionsList.List != null && common.HotRegionsList.List.Count > 0)
-					{
-                        common.HotRegionsList.List[common.HotRegionsList.List.Count - 1].Type = 
-							ChartElementType.DataPointLabel;
-					}
-				}
-			}
-		}
+                    // Set new hot region element type
+                   if (common.HotRegionsList.List != null && common.HotRegionsList.List.Count > 0)
+                    {
+                        common.HotRegionsList.List[common.HotRegionsList.List.Count - 1].Type =
+                            ChartElementType.DataPointLabel;
+                    }
+                }
+            }
+        }
 
-		/// <summary>
-		/// Draw a string.
-		/// </summary>
-		/// <param name="text">Text.</param>
-		/// <param name="font">Text Font.</param>
-		/// <param name="brush">Text Brush.</param>
-		/// <param name="position">Text Position.</param>
-		/// <param name="format">Format and text alignment.</param>
-		/// <param name="angle">Text angle.</param>
-		internal void DrawStringRel( 
-			string text, 
-			System.Drawing.Font font, 
-			System.Drawing.Brush brush, 
-			PointF position, 
-			System.Drawing.StringFormat format, 
-			int angle 
-			)
-		{
-			DrawStringAbs( 
-				text, 
-				font, 
-				brush, 
-				GetAbsolutePoint(position), 
-				format, 
-				angle);
-		}
+        /// <summary>
+        /// Draw a string.
+        /// </summary>
+        /// <param name="text">Text.</param>
+        /// <param name="font">Text Font.</param>
+        /// <param name="brush">Text Brush.</param>
+        /// <param name="position">Text Position.</param>
+        /// <param name="format">Format and text alignment.</param>
+        /// <param name="angle">Text angle.</param>
+        internal void DrawStringRel(
+            string text,
+            System.Drawing.Font font,
+            System.Drawing.Brush brush,
+            PointF position,
+            System.Drawing.StringFormat format,
+            int angle
+            )
+        {
+            DrawStringAbs(
+                text,
+                font,
+                brush,
+                GetAbsolutePoint(position),
+                format,
+                angle);
+        }
 
-		/// <summary>
-		/// Draw a string.
-		/// </summary>
-		/// <param name="text">Text.</param>
-		/// <param name="font">Text Font.</param>
-		/// <param name="brush">Text Brush.</param>
-		/// <param name="absPosition">Text Position.</param>
-		/// <param name="format">Format and text alignment.</param>
-		/// <param name="angle">Text angle.</param>
-		internal void DrawStringAbs( 
-			string text, 
-			System.Drawing.Font font, 
-			System.Drawing.Brush brush, 
-			PointF absPosition, 
-			System.Drawing.StringFormat format, 
-			int angle 
-			)
-		{
-			// Create a matrix and rotate it.
-			_myMatrix?.Dispose();
-			_myMatrix = this.Transform;
-			_myMatrix.RotateAt(angle, absPosition);
-    
-			// Save aold state
-			GraphicsState graphicsState = this.Save();
+        /// <summary>
+        /// Draw a string.
+        /// </summary>
+        /// <param name="text">Text.</param>
+        /// <param name="font">Text Font.</param>
+        /// <param name="brush">Text Brush.</param>
+        /// <param name="absPosition">Text Position.</param>
+        /// <param name="format">Format and text alignment.</param>
+        /// <param name="angle">Text angle.</param>
+        internal void DrawStringAbs(
+            string text,
+            System.Drawing.Font font,
+            System.Drawing.Brush brush,
+            PointF absPosition,
+            System.Drawing.StringFormat format,
+            int angle
+            )
+        {
+            // Create a matrix and rotate it.
+            _myMatrix?.Dispose();
+            _myMatrix = this.Transform;
+            _myMatrix.RotateAt(angle, absPosition);
 
-			// Set Angle
-			this.Transform = _myMatrix;
+            // Save aold state
+            GraphicsState graphicsState = this.Save();
 
-			// Draw text with anti-aliasing
-			/*
+            // Set Angle
+            this.Transform = _myMatrix;
+
+            // Draw text with anti-aliasing
+            /*
 			if( (AntiAliasing & AntiAliasing.Text) == AntiAliasing.Text )
 				this.TextRenderingHint = TextRenderingHint.AntiAlias;
 			else
 				this.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
 			*/
 
-			// Draw a string
-			this.DrawString( text, font, brush, absPosition , format );
+            // Draw a string
+            this.DrawString(text, font, brush, absPosition, format);
 
-			// Restore old state
-			this.Restore(graphicsState);
-		}
+            // Restore old state
+            this.Restore(graphicsState);
+        }
 
         /// <summary>
-        /// This method is used by the axis title hot region generation code. 
-        /// It transforms the centered rectangle the same way as the Axis title text.
+        /// This method is used by the axis title hot region generation code.
+       /// It transforms the centered rectangle the same way as the Axis title text.
         /// </summary>
         /// <param name="center">Title center</param>
         /// <param name="size">Title text size</param>
@@ -1652,15 +1655,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal GraphicsPath GetTranformedTextRectPath(PointF center, SizeF size, int angle)
         {
             // Text hot area is 10px greater than the size of text
-            size.Width += 10; 
+            size.Width += 10;
             size.Height += 10;
-            
+
             // Get the absolute center and create the centered rectangle points
-            PointF absCenter = GetAbsolutePoint(center);            
+            PointF absCenter = GetAbsolutePoint(center);
             PointF[] points = new PointF[] {
-                new PointF(absCenter.X - size.Width / 2f, absCenter.Y - size.Height / 2f), 
-                new PointF(absCenter.X + size.Width / 2f, absCenter.Y - size.Height / 2f), 
-                new PointF(absCenter.X + size.Width / 2f, absCenter.Y + size.Height / 2f), 
+                new PointF(absCenter.X - size.Width / 2f, absCenter.Y - size.Height / 2f),
+                new PointF(absCenter.X + size.Width / 2f, absCenter.Y - size.Height / 2f),
+                new PointF(absCenter.X + size.Width / 2f, absCenter.Y + size.Height / 2f),
                 new PointF(absCenter.X - size.Width / 2f, absCenter.Y + size.Height / 2f)};
 
             //Prepare the same transformation matrix as used for the axis title
@@ -1676,47 +1679,44 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return path;
         }
 
-
-
-
-		/// <summary>
-		/// Draw label string.
-		/// </summary>
-		/// <param name="axis">Label axis.</param>
-		/// <param name="labelRowIndex">Label text row index (0-10).</param>
-		/// <param name="labelMark">Second row labels mark style.</param>
-		/// <param name="markColor">Label mark line color.</param>
-		/// <param name="text">Label text.</param>
-		/// <param name="image">Label image name.</param>
-		/// <param name="imageTransparentColor">Label image transparent color.</param>
-		/// <param name="font">Text bont.</param>
-		/// <param name="brush">Text brush.</param>
-		/// <param name="position">Text position rectangle.</param>
-		/// <param name="format">Label text format.</param>
-		/// <param name="angle">Label text angle.</param>
-		/// <param name="boundaryRect">Specifies the rectangle where the label text MUST be fitted.</param>
-		/// <param name="label">Custom Label Item</param>
-		/// <param name="truncatedLeft">Label is truncated on the left.</param>
-		/// <param name="truncatedRight">Label is truncated on the right.</param>
-		internal void DrawLabelStringRel( 
-			Axis axis, 
-			int labelRowIndex, 
-			LabelMarkStyle labelMark, 
-			Color markColor,
-			string text, 
-			string image,
-			Color imageTransparentColor,
-			System.Drawing.Font font, 
-			System.Drawing.Brush brush, 
-			RectangleF position, 
-			System.Drawing.StringFormat format, 
-			int angle, 
-			RectangleF boundaryRect,
-			CustomLabel label,
-			bool truncatedLeft,
-			bool truncatedRight)
-		{
-			Matrix oldTransform;
+        /// <summary>
+        /// Draw label string.
+        /// </summary>
+        /// <param name="axis">Label axis.</param>
+        /// <param name="labelRowIndex">Label text row index (0-10).</param>
+        /// <param name="labelMark">Second row labels mark style.</param>
+        /// <param name="markColor">Label mark line color.</param>
+        /// <param name="text">Label text.</param>
+        /// <param name="image">Label image name.</param>
+        /// <param name="imageTransparentColor">Label image transparent color.</param>
+        /// <param name="font">Text bont.</param>
+        /// <param name="brush">Text brush.</param>
+        /// <param name="position">Text position rectangle.</param>
+        /// <param name="format">Label text format.</param>
+        /// <param name="angle">Label text angle.</param>
+        /// <param name="boundaryRect">Specifies the rectangle where the label text MUST be fitted.</param>
+        /// <param name="label">Custom Label Item</param>
+        /// <param name="truncatedLeft">Label is truncated on the left.</param>
+        /// <param name="truncatedRight">Label is truncated on the right.</param>
+        internal void DrawLabelStringRel(
+            Axis axis,
+            int labelRowIndex,
+            LabelMarkStyle labelMark,
+            Color markColor,
+            string text,
+            string image,
+            Color imageTransparentColor,
+            System.Drawing.Font font,
+            System.Drawing.Brush brush,
+            RectangleF position,
+            System.Drawing.StringFormat format,
+            int angle,
+            RectangleF boundaryRect,
+            CustomLabel label,
+            bool truncatedLeft,
+            bool truncatedRight)
+        {
+            Matrix oldTransform;
             using (StringFormat drawingFormat = (StringFormat)format.Clone())
             {
                 SizeF labelSize = SizeF.Empty;
@@ -1904,8 +1904,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 oldTransform = null;
                 if (angle != 0)
                 {
-					_myMatrix?.Dispose();
-					_myMatrix = this.Transform;
+                    _myMatrix?.Dispose();
+                    _myMatrix = this.Transform;
                     _myMatrix.RotateAt(angle, rotationPoint);
 
                     // Old angle
@@ -1921,7 +1921,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 RectangleF labelRect = Rectangle.Empty;
                 float offsetY = 0f;
                 float offsetX = 0f;
-                
+
                 // Measure text size
                 labelSize = this.MeasureString(text.Replace("\\n", "\n"), font, absPosition.Size, drawingFormat);
 
@@ -2057,13 +2057,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     // Update transformation matrix
                     this.Transform = _myMatrix;
-				}
+                }
 
                 //********************************************************************
                 //** Reserve space on the left for the label iamge
                 //********************************************************************
                 RectangleF absPositionWithoutImage = new RectangleF(absPosition.Location, absPosition.Size);
-                
+
                 System.Drawing.Image labelImage = null;
                 SizeF imageAbsSize = new SizeF();
 
@@ -2084,7 +2084,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         absPositionWithoutImage.Width = 1f;
                     }
-
                 }
 
                 //********************************************************************
@@ -2162,8 +2161,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 //********************************************************************
                 if (IsRightToLeft)
                 {
-                    // label alignment on the axis should appear as not RTL. 
-                    using StringFormat fmt = (StringFormat)drawingFormat.Clone();
+                    // label alignment on the axis should appear as not RTL.
+                   using StringFormat fmt = (StringFormat)drawingFormat.Clone();
 
                     if (fmt.Alignment == StringAlignment.Far)
                     {
@@ -2291,369 +2290,366 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-			// Set Old Angle
-			if(oldTransform != null)
-			{
-				this.Transform = oldTransform;
-				oldTransform.Dispose();
-			}
-		}
+            // Set Old Angle
+            if (oldTransform != null)
+            {
+                this.Transform = oldTransform;
+                oldTransform.Dispose();
+            }
+        }
 
-		/// <summary>
-		/// Draw box marks for the labels in second row
-		/// </summary>
-		/// <param name="axis">Axis object.</param>
-		/// <param name="markColor">Label mark color.</param>
-		/// <param name="absPosition">Absolute position of the text.</param>
-		/// <param name="truncatedLeft">Label is truncated on the left.</param>
-		/// <param name="truncatedRight">Label is truncated on the right.</param>
-		/// <param name="originalTransform">Original transformation matrix.</param>
-		private void DrawSecondRowLabelBoxMark(
-			Axis axis, 
-			Color markColor,
-			RectangleF absPosition, 
-			bool truncatedLeft,
-			bool truncatedRight,
-			Matrix originalTransform)
-		{
-			// Remember current and then reset original matrix
-			Matrix curentMatrix = null;
-			if(originalTransform != null)
-			{
-				curentMatrix = this.Transform;
-				this.Transform = originalTransform;				
-			}
+        /// <summary>
+        /// Draw box marks for the labels in second row
+        /// </summary>
+        /// <param name="axis">Axis object.</param>
+        /// <param name="markColor">Label mark color.</param>
+        /// <param name="absPosition">Absolute position of the text.</param>
+        /// <param name="truncatedLeft">Label is truncated on the left.</param>
+        /// <param name="truncatedRight">Label is truncated on the right.</param>
+        /// <param name="originalTransform">Original transformation matrix.</param>
+        private void DrawSecondRowLabelBoxMark(
+            Axis axis,
+            Color markColor,
+            RectangleF absPosition,
+            bool truncatedLeft,
+            bool truncatedRight,
+            Matrix originalTransform)
+        {
+            // Remember current and then reset original matrix
+            Matrix curentMatrix = null;
+            if (originalTransform != null)
+            {
+                curentMatrix = this.Transform;
+                this.Transform = originalTransform;
+            }
 
-			// Calculate center of the text rectangle
-			PointF	centerNotRound = new PointF(absPosition.X + absPosition.Width/2F, absPosition.Y + absPosition.Height/2F);
+            // Calculate center of the text rectangle
+            PointF centerNotRound = new PointF(absPosition.X + absPosition.Width / 2F, absPosition.Y + absPosition.Height / 2F);
 
-			// Rotate rectangle 90 degrees
-			if( axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
-			{
-				RectangleF newRect = RectangleF.Empty;
-				newRect.X = centerNotRound.X - absPosition.Height / 2F;
-				newRect.Y = centerNotRound.Y - absPosition.Width / 2F;
-				newRect.Height = absPosition.Width;
-				newRect.Width = absPosition.Height;
-				absPosition = newRect;
-			}
+            // Rotate rectangle 90 degrees
+            if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
+            {
+                RectangleF newRect = RectangleF.Empty;
+                newRect.X = centerNotRound.X - absPosition.Height / 2F;
+                newRect.Y = centerNotRound.Y - absPosition.Width / 2F;
+                newRect.Height = absPosition.Width;
+                newRect.Width = absPosition.Height;
+                absPosition = newRect;
+            }
 
-			// Get axis position
-			float axisPosRelative = (float)axis.GetAxisPosition(true);
-			PointF axisPositionAbs = new PointF(axisPosRelative, axisPosRelative);
-			axisPositionAbs = this.GetAbsolutePoint(axisPositionAbs);
+            // Get axis position
+            float axisPosRelative = (float)axis.GetAxisPosition(true);
+            PointF axisPositionAbs = new PointF(axisPosRelative, axisPosRelative);
+            axisPositionAbs = this.GetAbsolutePoint(axisPositionAbs);
 
-			// Round position to achieve crisp lines with antialiasing
-			Rectangle absPositionRounded = Rectangle.Round(absPosition);
+            // Round position to achieve crisp lines with antialiasing
+            Rectangle absPositionRounded = Rectangle.Round(absPosition);
 
-			// Make sure the right and bottom position is not shifted during rounding
-			absPositionRounded.Width = (int)Math.Round(absPosition.Right) - absPositionRounded.X;
-			absPositionRounded.Height = (int)Math.Round(absPosition.Bottom) - absPositionRounded.Y;
+            // Make sure the right and bottom position is not shifted during rounding
+            absPositionRounded.Width = (int)Math.Round(absPosition.Right) - absPositionRounded.X;
+            absPositionRounded.Height = (int)Math.Round(absPosition.Bottom) - absPositionRounded.Y;
 
-			// Create pen
-			Pen	markPen = new Pen(
-				markColor.IsEmpty ? axis.MajorTickMark.LineColor : markColor, 
-				axis.MajorTickMark.LineWidth);
+            // Create pen
+            Pen markPen = new Pen(
+                markColor.IsEmpty ? axis.MajorTickMark.LineColor : markColor,
+                axis.MajorTickMark.LineWidth);
 
-			// Set pen style
-			markPen.DashStyle = GetPenStyle( axis.MajorTickMark.LineDashStyle );
+            // Set pen style
+            markPen.DashStyle = GetPenStyle(axis.MajorTickMark.LineDashStyle);
 
-			// Draw top/bottom lines
-			if( axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
-			{
-				this.DrawLine(markPen, absPositionRounded.Left, absPositionRounded.Top, absPositionRounded.Left, absPositionRounded.Bottom);
-				this.DrawLine(markPen, absPositionRounded.Right, absPositionRounded.Top, absPositionRounded.Right, absPositionRounded.Bottom);
-			}
-			else
-			{
-				this.DrawLine(markPen, absPositionRounded.Left, absPositionRounded.Top, absPositionRounded.Right, absPositionRounded.Top);
-				this.DrawLine(markPen, absPositionRounded.Left, absPositionRounded.Bottom, absPositionRounded.Right, absPositionRounded.Bottom);
-			}
+            // Draw top/bottom lines
+            if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
+            {
+                this.DrawLine(markPen, absPositionRounded.Left, absPositionRounded.Top, absPositionRounded.Left, absPositionRounded.Bottom);
+                this.DrawLine(markPen, absPositionRounded.Right, absPositionRounded.Top, absPositionRounded.Right, absPositionRounded.Bottom);
+            }
+            else
+            {
+                this.DrawLine(markPen, absPositionRounded.Left, absPositionRounded.Top, absPositionRounded.Right, absPositionRounded.Top);
+                this.DrawLine(markPen, absPositionRounded.Left, absPositionRounded.Bottom, absPositionRounded.Right, absPositionRounded.Bottom);
+            }
 
-			// Draw left line
-			if(!truncatedLeft)
-			{
-				if( axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
-				{
-					this.DrawLine(
-						markPen, 
-						(axis.AxisPosition == AxisPosition.Left) ? absPositionRounded.Left : absPositionRounded.Right, 
-						absPositionRounded.Bottom, 
-						axisPositionAbs.X, 
-						absPositionRounded.Bottom);
-				}
-				else
-				{
-					this.DrawLine(
-						markPen, 
-						absPositionRounded.Left, 
-						(axis.AxisPosition == AxisPosition.Top) ? absPositionRounded.Top : absPositionRounded.Bottom, 
-						absPositionRounded.Left, 
-						axisPositionAbs.Y);
-				}
-			}
+            // Draw left line
+            if (!truncatedLeft)
+            {
+                if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
+                {
+                    this.DrawLine(
+                        markPen,
+                        (axis.AxisPosition == AxisPosition.Left) ? absPositionRounded.Left : absPositionRounded.Right,
+                        absPositionRounded.Bottom,
+                        axisPositionAbs.X,
+                        absPositionRounded.Bottom);
+                }
+                else
+                {
+                    this.DrawLine(
+                        markPen,
+                        absPositionRounded.Left,
+                        (axis.AxisPosition == AxisPosition.Top) ? absPositionRounded.Top : absPositionRounded.Bottom,
+                        absPositionRounded.Left,
+                        axisPositionAbs.Y);
+                }
+            }
 
-			// Draw right line
-			if(!truncatedRight)
-			{
-				if( axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
-				{
-					this.DrawLine(
-						markPen, 
-						(axis.AxisPosition == AxisPosition.Left) ? absPositionRounded.Left : absPositionRounded.Right, 
-						absPositionRounded.Top, 
-						axisPositionAbs.X, 
-						absPositionRounded.Top);
-				}
-				else
-				{
-					this.DrawLine(
-						markPen, 
-						absPositionRounded.Right, 
-						(axis.AxisPosition == AxisPosition.Top) ? absPositionRounded.Top : absPositionRounded.Bottom, 
-						absPositionRounded.Right, 
-						axisPositionAbs.Y);
-				}
-			}
+            // Draw right line
+            if (!truncatedRight)
+            {
+                if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
+                {
+                    this.DrawLine(
+                        markPen,
+                        (axis.AxisPosition == AxisPosition.Left) ? absPositionRounded.Left : absPositionRounded.Right,
+                        absPositionRounded.Top,
+                        axisPositionAbs.X,
+                        absPositionRounded.Top);
+                }
+                else
+                {
+                    this.DrawLine(
+                        markPen,
+                        absPositionRounded.Right,
+                        (axis.AxisPosition == AxisPosition.Top) ? absPositionRounded.Top : absPositionRounded.Bottom,
+                        absPositionRounded.Right,
+                        axisPositionAbs.Y);
+                }
+            }
 
-			// Dispose Pen
-			if( markPen != null )
-			{
-				markPen.Dispose();
-			}
+            // Dispose Pen
+            if (markPen != null)
+            {
+                markPen.Dispose();
+            }
 
-			// Restore current matrix
-			if(originalTransform != null)
-			{
-				this.Transform = curentMatrix;
-				curentMatrix.Dispose();
-			}
-		}
+            // Restore current matrix
+            if (originalTransform != null)
+            {
+                this.Transform = curentMatrix;
+                curentMatrix.Dispose();
+            }
+        }
 
+        /// <summary>
+        /// Draw marks for the labels in second row
+        /// </summary>
+        /// <param name="axis">Axis object.</param>
+        /// <param name="markColor">Label mark color.</param>
+        /// <param name="absPosition">Absolute position of the text.</param>
+        /// <param name="labelSize">Exact mesured size of the text.</param>
+        /// <param name="labelMark">Label mark style to draw.</param>
+        /// <param name="truncatedLeft">Label is truncated on the left.</param>
+        /// <param name="truncatedRight">Label is truncated on the right.</param>
+        /// <param name="oldTransform">Original transformation matrix.</param>
+        private void DrawSecondRowLabelMark(
+            Axis axis,
+            Color markColor,
+            RectangleF absPosition,
+            SizeF labelSize,
+            LabelMarkStyle labelMark,
+            bool truncatedLeft,
+            bool truncatedRight,
+            Matrix oldTransform)
+        {
+            // Do not draw marking line if width is 0 and style or color are not set
+            if (axis.MajorTickMark.LineWidth == 0 ||
+                axis.MajorTickMark.LineDashStyle == ChartDashStyle.NotSet ||
+                axis.MajorTickMark.LineColor == Color.Empty)
+            {
+                return;
+            }
 
-		/// <summary>
-		/// Draw marks for the labels in second row
-		/// </summary>
-		/// <param name="axis">Axis object.</param>
-		/// <param name="markColor">Label mark color.</param>
-		/// <param name="absPosition">Absolute position of the text.</param>
-		/// <param name="labelSize">Exact mesured size of the text.</param>
-		/// <param name="labelMark">Label mark style to draw.</param>
-		/// <param name="truncatedLeft">Label is truncated on the left.</param>
-		/// <param name="truncatedRight">Label is truncated on the right.</param>
-		/// <param name="oldTransform">Original transformation matrix.</param>
-		private void DrawSecondRowLabelMark(
-			Axis axis, 
-			Color markColor,
-			RectangleF absPosition, 
-			SizeF labelSize, 
-			LabelMarkStyle labelMark,
-			bool truncatedLeft,
-			bool truncatedRight,
-			Matrix oldTransform)
-		{
-			// Do not draw marking line if width is 0 and style or color are not set
-			if( axis.MajorTickMark.LineWidth == 0 || 
-				axis.MajorTickMark.LineDashStyle == ChartDashStyle.NotSet ||
-				axis.MajorTickMark.LineColor == Color.Empty)
-			{
-				return;
-			}
+            // Remember SmoothingMode and turn off anti aliasing for
+           // vertical or horizontal lines of the label markers.
+            SmoothingMode oldSmoothingMode = this.SmoothingMode;
+            this.SmoothingMode = SmoothingMode.None;
 
-			// Remember SmoothingMode and turn off anti aliasing for 
-			// vertical or horizontal lines of the label markers.
-			SmoothingMode oldSmoothingMode = this.SmoothingMode;
-			this.SmoothingMode = SmoothingMode.None;
+            // Draw box marker
+            if (labelMark == LabelMarkStyle.Box)
+            {
+                DrawSecondRowLabelBoxMark(
+                    axis,
+                    markColor,
+                    absPosition,
+                    truncatedLeft,
+                    truncatedRight,
+                    oldTransform);
+            }
+            else
 
+            {
+                // Calculate center of the text rectangle
+                System.Drawing.Point center = System.Drawing.Point.Round(new PointF(absPosition.X + absPosition.Width / 2F, absPosition.Y + absPosition.Height / 2F));
 
-			// Draw box marker
-			if(labelMark == LabelMarkStyle.Box)
-			{
-				DrawSecondRowLabelBoxMark(
-					axis, 
-					markColor,
-					absPosition, 
-					truncatedLeft,
-					truncatedRight,
-					oldTransform);
-			}
-			else
+                // Round position to achieve crisp lines with antialiasing
+                Rectangle absPositionRounded = Rectangle.Round(absPosition);
 
-			{
-				// Calculate center of the text rectangle
-				System.Drawing.Point	center = System.Drawing.Point.Round(new PointF(absPosition.X + absPosition.Width/2F, absPosition.Y + absPosition.Height/2F));
+                // Make sure the right and bottom position is not shifted during rounding
+                absPositionRounded.Width = (int)Math.Round(absPosition.Right) - absPositionRounded.X;
+                absPositionRounded.Height = (int)Math.Round(absPosition.Bottom) - absPositionRounded.Y;
 
-				// Round position to achieve crisp lines with antialiasing
-				Rectangle absPositionRounded = Rectangle.Round(absPosition);
+                // Arrays of points for the left and right marking lines
+                PointF[] leftLine = new PointF[3];
+                PointF[] rightLine = new PointF[3];
 
-				// Make sure the right and bottom position is not shifted during rounding
-				absPositionRounded.Width = (int)Math.Round(absPosition.Right) - absPositionRounded.X;
-				absPositionRounded.Height = (int)Math.Round(absPosition.Bottom) - absPositionRounded.Y;
+                // Calculate marking lines coordinates
+                leftLine[0].X = absPositionRounded.Left;
+                leftLine[0].Y = absPositionRounded.Bottom;
+                leftLine[1].X = absPositionRounded.Left;
+                leftLine[1].Y = center.Y;
+                leftLine[2].X = (float)Math.Round((double)center.X - labelSize.Width / 2F - 1F);
+                leftLine[2].Y = center.Y;
 
+                rightLine[0].X = absPositionRounded.Right;
+                rightLine[0].Y = absPositionRounded.Bottom;
+                rightLine[1].X = absPositionRounded.Right;
+                rightLine[1].Y = center.Y;
+                rightLine[2].X = (float)Math.Round((double)center.X + labelSize.Width / 2F - 1F);
+                rightLine[2].Y = center.Y;
 
-				// Arrays of points for the left and right marking lines
-				PointF[]	leftLine = new PointF[3];
-				PointF[]	rightLine = new PointF[3];
+                if (axis.AxisPosition == AxisPosition.Bottom)
+                {
+                    leftLine[0].Y = absPositionRounded.Top;
+                    rightLine[0].Y = absPositionRounded.Top;
+                }
 
-				// Calculate marking lines coordinates
-				leftLine[0].X = absPositionRounded.Left;
-				leftLine[0].Y = absPositionRounded.Bottom;
-				leftLine[1].X = absPositionRounded.Left;
-				leftLine[1].Y = center.Y;
-				leftLine[2].X = (float)Math.Round((double)center.X - labelSize.Width/2F - 1F);
-				leftLine[2].Y = center.Y;
+                // Remove third point to draw only side marks
+                if (labelMark == LabelMarkStyle.SideMark)
+                {
+                    leftLine[2] = leftLine[1];
+                    rightLine[2] = rightLine[1];
+                }
 
-				rightLine[0].X = absPositionRounded.Right;
-				rightLine[0].Y = absPositionRounded.Bottom;
-				rightLine[1].X = absPositionRounded.Right;
-				rightLine[1].Y = center.Y;
-				rightLine[2].X = (float)Math.Round((double)center.X + labelSize.Width/2F - 1F);
-				rightLine[2].Y = center.Y;
+                if (truncatedLeft)
+                {
+                    leftLine[0] = leftLine[1];
+                }
+                if (truncatedRight)
+                {
+                    rightLine[0] = rightLine[1];
+                }
 
-				if(axis.AxisPosition == AxisPosition.Bottom)
-				{
-					leftLine[0].Y = absPositionRounded.Top;
-					rightLine[0].Y = absPositionRounded.Top;
-				}
+                // Create pen
+                Pen markPen = new Pen(
+                    markColor.IsEmpty ? axis.MajorTickMark.LineColor : markColor,
+                    axis.MajorTickMark.LineWidth);
 
-				// Remove third point to draw only side marks
-				if(labelMark == LabelMarkStyle.SideMark)
-				{
-					leftLine[2] = leftLine[1];
-					rightLine[2] = rightLine[1];
-				}
+                // Set pen style
+                markPen.DashStyle = GetPenStyle(axis.MajorTickMark.LineDashStyle);
 
-				if(truncatedLeft)
-				{
-					leftLine[0] = leftLine[1];
-				}
-				if(truncatedRight)
-				{
-					rightLine[0] = rightLine[1];
-				}
+                // Draw marking lines
+                this.DrawLines(markPen, leftLine);
+                this.DrawLines(markPen, rightLine);
 
-				// Create pen
-				Pen	markPen = new Pen(
-					markColor.IsEmpty ? axis.MajorTickMark.LineColor : markColor, 
-					axis.MajorTickMark.LineWidth);
+                // Dispose Pen
+                if (markPen != null)
+                {
+                    markPen.Dispose();
+                }
+            }
 
-				// Set pen style
-				markPen.DashStyle = GetPenStyle( axis.MajorTickMark.LineDashStyle );
+            // Restore previous SmoothingMode
+            this.SmoothingMode = oldSmoothingMode;
+        }
 
-				// Draw marking lines
-				this.DrawLines(markPen, leftLine);
-				this.DrawLines(markPen, rightLine);
+        /// <summary>
+        /// Measures the specified text string when drawn with
+       /// the specified Font object and formatted with the
+       /// specified StringFormat object.
+        /// </summary>
+        /// <param name="text">The string to measure</param>
+        /// <param name="font">The Font object used to determine the size of the text string. </param>
+        /// <returns>A SizeF structure that represents the size of text as drawn with font.</returns>
+        internal SizeF MeasureStringRel(string text, Font font)
+        {
+            SizeF newSize;
 
-				// Dispose Pen
-				if( markPen != null )
-				{
-					markPen.Dispose();
-				}
-			}
+            // Measure string
+            newSize = this.MeasureString(text, font);
 
-			// Restore previous SmoothingMode
-			this.SmoothingMode = oldSmoothingMode;
-		}
+            // Convert to relative Coordinates
+            return GetRelativeSize(newSize);
+        }
 
-		/// <summary>
-		/// Measures the specified text string when drawn with 
-		/// the specified Font object and formatted with the 
-		/// specified StringFormat object.
-		/// </summary>
-		/// <param name="text">The string to measure</param>
-		/// <param name="font">The Font object used to determine the size of the text string. </param>
-		/// <returns>A SizeF structure that represents the size of text as drawn with font.</returns>
-		internal SizeF MeasureStringRel( string text, Font font )
-		{
-			SizeF newSize;
+        /// <summary>
+        /// Measures the specified text string when drawn with
+       /// the specified Font object and formatted with the
+       /// specified StringFormat object.
+        /// </summary>
+        /// <param name="text">The string to measure</param>
+        /// <param name="font">The Font object used to determine the size of the text string. </param>
+        /// <param name="layoutArea">A SizeF structure that specifies the layout rectangle for the text. </param>
+        /// <param name="stringFormat">A StringFormat object that represents formatting information, such as line spacing, for the text string. </param>
+        /// <returns>A SizeF structure that represents the size of text as drawn with font.</returns>
+        internal SizeF MeasureStringRel(string text, Font font, SizeF layoutArea, StringFormat stringFormat)
+        {
+            SizeF size, newSize;
 
-			// Measure string
-			newSize = this.MeasureString( text, font );
+            // Get absolute coordinates
+            size = GetAbsoluteSize(layoutArea);
 
-			// Convert to relative Coordinates
-			return GetRelativeSize( newSize );
-		}
+            newSize = this.MeasureString(text, font, size, stringFormat);
 
-		/// <summary>
-		/// Measures the specified text string when drawn with 
-		/// the specified Font object and formatted with the 
-		/// specified StringFormat object.
-		/// </summary>
-		/// <param name="text">The string to measure</param>
-		/// <param name="font">The Font object used to determine the size of the text string. </param>
-		/// <param name="layoutArea">A SizeF structure that specifies the layout rectangle for the text. </param>
-		/// <param name="stringFormat">A StringFormat object that represents formatting information, such as line spacing, for the text string. </param>
-		/// <returns>A SizeF structure that represents the size of text as drawn with font.</returns>
-		internal SizeF MeasureStringRel( string text, Font font, SizeF layoutArea, StringFormat stringFormat )
-		{
-			SizeF size, newSize;
+            // Convert to relative Coordinates
+            return GetRelativeSize(newSize);
+        }
 
-			// Get absolute coordinates
-			size = GetAbsoluteSize( layoutArea );
+        /// <summary>
+        /// Measures the specified text string when drawn with
+       /// the specified Font object and formatted with the
+       /// specified StringFormat object.
+        /// </summary>
+        /// <param name="text">The string to measure</param>
+        /// <param name="font">The Font object used to determine the size of the text string. </param>
+        /// <returns>A SizeF structure that represents the size of text as drawn with font.</returns>
+        internal Size MeasureStringAbs(string text, Font font)
+        {
+            // Measure string
+            SizeF size = this.MeasureString(text, font);
+            return new Size((int)Math.Ceiling(size.Width), (int)Math.Ceiling(size.Height));
+        }
 
-			newSize = this.MeasureString( text, font, size, stringFormat );
+        /// <summary>
+        /// Measures the specified text string when drawn with
+       /// the specified Font object and formatted with the
+       /// specified StringFormat object.
+        /// </summary>
+        /// <param name="text">The string to measure</param>
+        /// <param name="font">The Font object used to determine the size of the text string. </param>
+        /// <param name="layoutArea">A SizeF structure that specifies the layout rectangle for the text. </param>
+        /// <param name="stringFormat">A StringFormat object that represents formatting information, such as line spacing, for the text string. </param>
+        /// <returns>A SizeF structure that represents the size of text as drawn with font.</returns>
+        internal Size MeasureStringAbs(string text, Font font, SizeF layoutArea, StringFormat stringFormat)
+        {
+            SizeF size = this.MeasureString(text, font, layoutArea, stringFormat);
+            return new Size((int)Math.Ceiling(size.Width), (int)Math.Ceiling(size.Height));
+        }
 
-			// Convert to relative Coordinates
-			return GetRelativeSize( newSize );
-		}
+        /// <summary>
+        /// Draws the specified text string at the specified location
+       /// with the specified Brush object and font. The formatting
+       /// properties in the specified StringFormat object are applied
+       /// to the text.
+        /// </summary>
+        /// <param name="text">A string object that specifies the text to draw.</param>
+        /// <param name="font">A Font object that specifies the font face and size with which to draw the text.</param>
+        /// <param name="brush">A Brush object that determines the color and/or texture of the drawn text.</param>
+        /// <param name="layoutRectangle">A RectangleF structure that specifies the location of the drawn text.</param>
+        /// <param name="format">A StringFormat object that specifies formatting properties, such as line spacing and alignment, that are applied to the drawn text.</param>
+        internal void DrawStringRel(string text, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format)
+        {
+            RectangleF rect;
 
-		/// <summary>
-		/// Measures the specified text string when drawn with 
-		/// the specified Font object and formatted with the 
-		/// specified StringFormat object.
-		/// </summary>
-		/// <param name="text">The string to measure</param>
-		/// <param name="font">The Font object used to determine the size of the text string. </param>
-		/// <returns>A SizeF structure that represents the size of text as drawn with font.</returns>
-		internal Size MeasureStringAbs( string text, Font font )
-		{
-			// Measure string
-			SizeF size = this.MeasureString( text, font );
-			return new Size( (int)Math.Ceiling(size.Width), (int)Math.Ceiling(size.Height));
-		}
+            // Check that rectangle is not empty
+            if (layoutRectangle.Width == 0 || layoutRectangle.Height == 0)
+            {
+                return;
+            }
 
-		/// <summary>
-		/// Measures the specified text string when drawn with 
-		/// the specified Font object and formatted with the 
-		/// specified StringFormat object.
-		/// </summary>
-		/// <param name="text">The string to measure</param>
-		/// <param name="font">The Font object used to determine the size of the text string. </param>
-		/// <param name="layoutArea">A SizeF structure that specifies the layout rectangle for the text. </param>
-		/// <param name="stringFormat">A StringFormat object that represents formatting information, such as line spacing, for the text string. </param>
-		/// <returns>A SizeF structure that represents the size of text as drawn with font.</returns>
-		internal Size MeasureStringAbs( string text, Font font, SizeF layoutArea, StringFormat stringFormat )
-		{
-			SizeF size = this.MeasureString( text, font, layoutArea, stringFormat );
-			return new Size( (int)Math.Ceiling(size.Width), (int)Math.Ceiling(size.Height));
-		}
+            // Get absolute coordinates
+            rect = GetAbsoluteRectangle(layoutRectangle);
 
-		/// <summary>
-		/// Draws the specified text string at the specified location 
-		/// with the specified Brush object and font. The formatting 
-		/// properties in the specified StringFormat object are applied 
-		/// to the text.
-		/// </summary>
-		/// <param name="text">A string object that specifies the text to draw.</param>
-		/// <param name="font">A Font object that specifies the font face and size with which to draw the text.</param>
-		/// <param name="brush">A Brush object that determines the color and/or texture of the drawn text.</param>
-		/// <param name="layoutRectangle">A RectangleF structure that specifies the location of the drawn text.</param>
-		/// <param name="format">A StringFormat object that specifies formatting properties, such as line spacing and alignment, that are applied to the drawn text.</param>
-		internal void DrawStringRel( string text, Font font, Brush brush,	RectangleF layoutRectangle,	StringFormat format	)
-		{
-			RectangleF rect;
-
-			// Check that rectangle is not empty
-			if(layoutRectangle.Width == 0 || layoutRectangle.Height == 0)
-			{
-				return;
-			}
-
-			// Get absolute coordinates
-			rect = GetAbsoluteRectangle( layoutRectangle );
-
-			// Draw text with anti-aliasing
-			/*
+            // Draw text with anti-aliasing
+            /*
 			if( (this.AntiAliasing & AntiAliasing.Text) == AntiAliasing.Text )
 			{
 				this.TextRenderingHint = TextRenderingHint.AntiAlias;
@@ -2664,77 +2660,75 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 			*/
 
-			this.DrawString( text, font, brush, rect, format );
-		}
+            this.DrawString(text, font, brush, rect, format);
+        }
 
-		
-		/// <summary>
-		/// Draws the specified text string at the specified location 
-		/// with the specified angle and with the specified Brush object and font. The 
-		/// formatting properties in the specified StringFormat object are applied 
-		/// to the text.
-		/// </summary>
-		/// <param name="text">A string object that specifies the text to draw.</param>
-		/// <param name="font">A Font object that specifies the font face and size with which to draw the text.</param>
-		/// <param name="brush">A Brush object that determines the color and/or texture of the drawn text.</param>
-		/// <param name="layoutRectangle">A RectangleF structure that specifies the location of the drawn text.</param>
-		/// <param name="format">A StringFormat object that specifies formatting properties, such as line spacing and alignment, that are applied to the drawn text.</param>
-		/// <param name="angle">A angle of the text</param>
-		internal void DrawStringRel( 
-			string text, 
-			Font font, 
-			Brush brush,	
-			RectangleF layoutRectangle,	
-			StringFormat format, 
-			int angle	
-			)
-		{
-			RectangleF rect;
-			SizeF size;
-			PointF rotationCenter = PointF.Empty;
+        /// <summary>
+        /// Draws the specified text string at the specified location
+       /// with the specified angle and with the specified Brush object and font. The
+       /// formatting properties in the specified StringFormat object are applied
+       /// to the text.
+        /// </summary>
+        /// <param name="text">A string object that specifies the text to draw.</param>
+        /// <param name="font">A Font object that specifies the font face and size with which to draw the text.</param>
+        /// <param name="brush">A Brush object that determines the color and/or texture of the drawn text.</param>
+        /// <param name="layoutRectangle">A RectangleF structure that specifies the location of the drawn text.</param>
+        /// <param name="format">A StringFormat object that specifies formatting properties, such as line spacing and alignment, that are applied to the drawn text.</param>
+        /// <param name="angle">A angle of the text</param>
+        internal void DrawStringRel(
+            string text,
+            Font font,
+            Brush brush,
+            RectangleF layoutRectangle,
+            StringFormat format,
+            int angle
+            )
+        {
+            RectangleF rect;
+            SizeF size;
+            PointF rotationCenter = PointF.Empty;
 
-			// Check that rectangle is not empty
-			if(layoutRectangle.Width == 0 || layoutRectangle.Height == 0)
-			{
-				return;
-			}
+            // Check that rectangle is not empty
+            if (layoutRectangle.Width == 0 || layoutRectangle.Height == 0)
+            {
+                return;
+            }
 
-			// Get absolute coordinates
-			rect = GetAbsoluteRectangle( layoutRectangle );
+            // Get absolute coordinates
+            rect = GetAbsoluteRectangle(layoutRectangle);
 
-			size = this.MeasureString( text, font, rect.Size, format );
+            size = this.MeasureString(text, font, rect.Size, format);
 
+            // Find the center of rotation
+            if (format.Alignment == StringAlignment.Near)
+            { // Near
+                rotationCenter.X = rect.X + size.Width / 2;
+                rotationCenter.Y = (rect.Bottom + rect.Top) / 2;
+            }
+            else if (format.Alignment == StringAlignment.Far)
+            { // Far
+                rotationCenter.X = rect.Right - size.Width / 2;
+                rotationCenter.Y = (rect.Bottom + rect.Top) / 2;
+            }
+            else
+            { // Center
+                rotationCenter.X = (rect.Left + rect.Right) / 2;
+                rotationCenter.Y = (rect.Bottom + rect.Top) / 2;
+            }
 
-			// Find the center of rotation
-			if( format.Alignment == StringAlignment.Near )
-			{ // Near
-				rotationCenter.X = rect.X + size.Width / 2;
-				rotationCenter.Y = ( rect.Bottom + rect.Top ) / 2;
-			}
-			else if( format.Alignment == StringAlignment.Far )
-			{ // Far
-				rotationCenter.X = rect.Right - size.Width / 2;
-				rotationCenter.Y = ( rect.Bottom + rect.Top ) / 2;
-			}
-			else
-			{ // Center
-				rotationCenter.X = ( rect.Left + rect.Right ) / 2;
-				rotationCenter.Y = ( rect.Bottom + rect.Top ) / 2;
-			}
+            // Create a matrix and rotate it.
+            _myMatrix?.Dispose();
+            _myMatrix = this.Transform;
+            _myMatrix.RotateAt(angle, rotationCenter);
 
-			// Create a matrix and rotate it.
-			_myMatrix?.Dispose();
-			_myMatrix = this.Transform;
-			_myMatrix.RotateAt( angle, rotationCenter);
+            // Old angle
+            using var oldTransform = this.Transform;
 
-			// Old angle
-			using var oldTransform = this.Transform;
+            // Set Angle
+            this.Transform = _myMatrix;
 
-			// Set Angle
-			this.Transform = _myMatrix;
-
-			// Draw text with anti-aliasing
-			/*
+            // Draw text with anti-aliasing
+            /*
 			if( (AntiAliasing & AntiAliasing.Text) == AntiAliasing.Text )
 			{
 				this.TextRenderingHint = TextRenderingHint.AntiAlias;
@@ -2745,114 +2739,112 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 			*/
 
-			this.DrawString( text, font, brush, rect, format );
+            this.DrawString(text, font, brush, rect, format);
 
-			// Set Old Angle
-			this.Transform = oldTransform;
-		}
+            // Set Old Angle
+            this.Transform = oldTransform;
+        }
 
-		#endregion
+        #endregion String Methods
 
-		#region Rectangle Methods
+        #region Rectangle Methods
 
-		/// <summary>
-		/// Draws different shadows to create bar styles.
-		/// </summary>
-		/// <param name="barDrawingStyle">Bar drawing style.</param>
-		/// <param name="isVertical">True if a vertical bar.</param>
-		/// <param name="rect">Rectangle position.</param>
-		internal void DrawRectangleBarStyle(BarDrawingStyle barDrawingStyle, bool isVertical, RectangleF rect)
-		{
-			// Check if non-default bar drawing style is specified
-			if(barDrawingStyle != BarDrawingStyle.Default)
-			{
-				// Check column/bar size
-				if(rect.Width > 0 && rect.Height > 0)
-				{
-					// Draw gradient(s)
-					if(barDrawingStyle == BarDrawingStyle.Cylinder)
-					{
-						// Calculate gradient position
-						RectangleF gradientRect = rect;
-						if(isVertical)
-						{
-							gradientRect.Width *= 0.3f;
-						}
-						else
-						{
-							gradientRect.Height *= 0.3f;
-						}
-						if(gradientRect.Width > 0 && gradientRect.Height > 0)
-						{
-							this.FillRectangleAbs( 
-								gradientRect, 
-								Color.Transparent,
-								ChartHatchStyle.None, 
-								string.Empty, 
-								ChartImageWrapMode.Scaled, 
-								Color.Empty,
-								ChartImageAlignmentStyle.Center,
-								isVertical ? GradientStyle.LeftRight : GradientStyle.TopBottom, 
-								Color.FromArgb(120, Color.White),
-								Color.Empty, 
-								0, 
-								ChartDashStyle.NotSet, 
-								PenAlignment.Inset );
+        /// <summary>
+        /// Draws different shadows to create bar styles.
+        /// </summary>
+        /// <param name="barDrawingStyle">Bar drawing style.</param>
+        /// <param name="isVertical">True if a vertical bar.</param>
+        /// <param name="rect">Rectangle position.</param>
+        internal void DrawRectangleBarStyle(BarDrawingStyle barDrawingStyle, bool isVertical, RectangleF rect)
+        {
+            // Check if non-default bar drawing style is specified
+            if (barDrawingStyle != BarDrawingStyle.Default)
+            {
+                // Check column/bar size
+                if (rect.Width > 0 && rect.Height > 0)
+                {
+                    // Draw gradient(s)
+                    if (barDrawingStyle == BarDrawingStyle.Cylinder)
+                    {
+                        // Calculate gradient position
+                        RectangleF gradientRect = rect;
+                        if (isVertical)
+                        {
+                            gradientRect.Width *= 0.3f;
+                        }
+                        else
+                        {
+                            gradientRect.Height *= 0.3f;
+                        }
+                        if (gradientRect.Width > 0 && gradientRect.Height > 0)
+                        {
+                            this.FillRectangleAbs(
+                                gradientRect,
+                                Color.Transparent,
+                                ChartHatchStyle.None,
+                                string.Empty,
+                                ChartImageWrapMode.Scaled,
+                                Color.Empty,
+                                ChartImageAlignmentStyle.Center,
+                                isVertical ? GradientStyle.LeftRight : GradientStyle.TopBottom,
+                                Color.FromArgb(120, Color.White),
+                                Color.Empty,
+                                0,
+                                ChartDashStyle.NotSet,
+                                PenAlignment.Inset);
 
-						
-							if(isVertical)
-							{
-								gradientRect.X += gradientRect.Width + 1f;
-								gradientRect.Width = rect.Right - gradientRect.X;
-							}
-							else
-							{
-								gradientRect.Y += gradientRect.Height + 1f;
-								gradientRect.Height = rect.Bottom - gradientRect.Y;
-							}
+                            if (isVertical)
+                            {
+                                gradientRect.X += gradientRect.Width + 1f;
+                                gradientRect.Width = rect.Right - gradientRect.X;
+                            }
+                            else
+                            {
+                                gradientRect.Y += gradientRect.Height + 1f;
+                                gradientRect.Height = rect.Bottom - gradientRect.Y;
+                            }
 
-							this.FillRectangleAbs( 
-								gradientRect, 
-								Color.FromArgb(120, Color.White),
-								ChartHatchStyle.None, 
-								string.Empty, 
-								ChartImageWrapMode.Scaled, 
-								Color.Empty,
-								ChartImageAlignmentStyle.Center,
-								isVertical ? GradientStyle.LeftRight : GradientStyle.TopBottom, 
-								Color.FromArgb(150, Color.Black),
-								Color.Empty, 
-								0, 
-								ChartDashStyle.NotSet, 
-								PenAlignment.Inset );
+                            this.FillRectangleAbs(
+                                gradientRect,
+                                Color.FromArgb(120, Color.White),
+                                ChartHatchStyle.None,
+                                string.Empty,
+                                ChartImageWrapMode.Scaled,
+                                Color.Empty,
+                                ChartImageAlignmentStyle.Center,
+                                isVertical ? GradientStyle.LeftRight : GradientStyle.TopBottom,
+                                Color.FromArgb(150, Color.Black),
+                                Color.Empty,
+                                0,
+                                ChartDashStyle.NotSet,
+                                PenAlignment.Inset);
+                        }
+                    }
+                    else if (barDrawingStyle == BarDrawingStyle.Emboss)
+                    {
+                        // Calculate width of shadows used to create the effect
+                        float shadowSize = 3f;
+                        if (rect.Width < 6f || rect.Height < 6f)
+                        {
+                            shadowSize = 1f;
+                        }
+                        else if (rect.Width < 15f || rect.Height < 15f)
+                        {
+                            shadowSize = 2f;
+                        }
 
-						}
-					}
-					else if(barDrawingStyle == BarDrawingStyle.Emboss)
-					{
-						// Calculate width of shadows used to create the effect
-						float shadowSize = 3f;
-						if(rect.Width < 6f || rect.Height < 6f)
-						{
-							shadowSize = 1f;
-						}
-						else if(rect.Width < 15f || rect.Height < 15f)
-						{
-							shadowSize = 2f;
-						}
-
-						// Create and draw left/top path
-						using(GraphicsPath path = new GraphicsPath())
-						{
-							// Add shadow polygon to the path
-							PointF[] points = new PointF[] {
-															   new PointF(rect.Left, rect.Bottom),
-															   new PointF(rect.Left, rect.Top),
-															   new PointF(rect.Right, rect.Top),
-															   new PointF(rect.Right - shadowSize, rect.Top + shadowSize),
-															   new PointF(rect.Left + shadowSize, rect.Top + shadowSize),
-															   new PointF(rect.Left + shadowSize, rect.Bottom - shadowSize) };
-							path.AddPolygon(points);
+                        // Create and draw left/top path
+                        using (GraphicsPath path = new GraphicsPath())
+                        {
+                            // Add shadow polygon to the path
+                            PointF[] points = new PointF[] {
+                                                               new PointF(rect.Left, rect.Bottom),
+                                                               new PointF(rect.Left, rect.Top),
+                                                               new PointF(rect.Right, rect.Top),
+                                                               new PointF(rect.Right - shadowSize, rect.Top + shadowSize),
+                                                               new PointF(rect.Left + shadowSize, rect.Top + shadowSize),
+                                                               new PointF(rect.Left + shadowSize, rect.Bottom - shadowSize) };
+                            path.AddPolygon(points);
 
                             // Create brush
                             using SolidBrush leftTopBrush = new SolidBrush(Color.FromArgb(100, Color.White));
@@ -2860,146 +2852,144 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             this.FillPath(leftTopBrush, path);
                         }
 
-						// Create and draw top/right path
-						using(GraphicsPath path = new GraphicsPath())
-						{
-							// Add shadow polygon to the path
-							PointF[] points = new PointF[] {
-															   new PointF(rect.Right, rect.Top),
-															   new PointF(rect.Right, rect.Bottom),
-															   new PointF(rect.Left, rect.Bottom),
-															   new PointF(rect.Left + shadowSize, rect.Bottom - shadowSize),
-															   new PointF(rect.Right - shadowSize, rect.Bottom - shadowSize),
-															   new PointF(rect.Right - shadowSize, rect.Top + shadowSize) };
-							path.AddPolygon(points);
+                        // Create and draw top/right path
+                        using (GraphicsPath path = new GraphicsPath())
+                        {
+                            // Add shadow polygon to the path
+                            PointF[] points = new PointF[] {
+                                                               new PointF(rect.Right, rect.Top),
+                                                               new PointF(rect.Right, rect.Bottom),
+                                                               new PointF(rect.Left, rect.Bottom),
+                                                               new PointF(rect.Left + shadowSize, rect.Bottom - shadowSize),
+                                                               new PointF(rect.Right - shadowSize, rect.Bottom - shadowSize),
+                                                               new PointF(rect.Right - shadowSize, rect.Top + shadowSize) };
+                            path.AddPolygon(points);
 
                             // Create brush
                             using SolidBrush bottomRightBrush = new SolidBrush(Color.FromArgb(80, Color.Black));
                             // Fill shadow path on the left-bottom side of the bar
                             this.FillPath(bottomRightBrush, path);
                         }
-					}
-					else if(barDrawingStyle == BarDrawingStyle.LightToDark)
-					{
-						// Calculate width of shadows used to create the effect
-						float shadowSize = 4f;
-						if(rect.Width < 6f || rect.Height < 6f)
-						{
-							shadowSize = 2f;
-						}
-						else if(rect.Width < 15f || rect.Height < 15f)
-						{
-							shadowSize = 3f;
-						}
+                    }
+                    else if (barDrawingStyle == BarDrawingStyle.LightToDark)
+                    {
+                        // Calculate width of shadows used to create the effect
+                        float shadowSize = 4f;
+                        if (rect.Width < 6f || rect.Height < 6f)
+                        {
+                            shadowSize = 2f;
+                        }
+                        else if (rect.Width < 15f || rect.Height < 15f)
+                        {
+                            shadowSize = 3f;
+                        }
 
-						// Calculate gradient position
-						RectangleF gradientRect = rect;
-						gradientRect.Inflate(-shadowSize, -shadowSize);
-						if(isVertical)
-						{
-							gradientRect.Height = (float)Math.Floor(gradientRect.Height / 3f);
-						}
-						else
-						{
-							gradientRect.X = gradientRect.Right - (float)Math.Floor(gradientRect.Width / 3f);
-							gradientRect.Width = (float)Math.Floor(gradientRect.Width / 3f);
-						}
-						if(gradientRect.Width > 0 && gradientRect.Height > 0)
-						{
-							this.FillRectangleAbs( 
-								gradientRect, 
-								isVertical ? Color.FromArgb(120, Color.White) : Color.Transparent, 
-								ChartHatchStyle.None, 
-								string.Empty, 
-								ChartImageWrapMode.Scaled, 
-								Color.Empty,
-								ChartImageAlignmentStyle.Center,
-								isVertical ? GradientStyle.TopBottom : GradientStyle.LeftRight, 
-								isVertical ? Color.Transparent : Color.FromArgb(120, Color.White), 
-								Color.Empty, 
-								0, 
-								ChartDashStyle.NotSet, 
-								PenAlignment.Inset );
+                        // Calculate gradient position
+                        RectangleF gradientRect = rect;
+                        gradientRect.Inflate(-shadowSize, -shadowSize);
+                        if (isVertical)
+                        {
+                            gradientRect.Height = (float)Math.Floor(gradientRect.Height / 3f);
+                        }
+                        else
+                        {
+                            gradientRect.X = gradientRect.Right - (float)Math.Floor(gradientRect.Width / 3f);
+                            gradientRect.Width = (float)Math.Floor(gradientRect.Width / 3f);
+                        }
+                        if (gradientRect.Width > 0 && gradientRect.Height > 0)
+                        {
+                            this.FillRectangleAbs(
+                                gradientRect,
+                                isVertical ? Color.FromArgb(120, Color.White) : Color.Transparent,
+                                ChartHatchStyle.None,
+                                string.Empty,
+                                ChartImageWrapMode.Scaled,
+                                Color.Empty,
+                                ChartImageAlignmentStyle.Center,
+                                isVertical ? GradientStyle.TopBottom : GradientStyle.LeftRight,
+                                isVertical ? Color.Transparent : Color.FromArgb(120, Color.White),
+                                Color.Empty,
+                                0,
+                                ChartDashStyle.NotSet,
+                                PenAlignment.Inset);
 
-							gradientRect = rect;
-							gradientRect.Inflate(-shadowSize, -shadowSize);
-							if(isVertical)
-							{
-								gradientRect.Y = gradientRect.Bottom - (float)Math.Floor(gradientRect.Height / 3f);
-								gradientRect.Height = (float)Math.Floor(gradientRect.Height / 3f);
-							}
-							else
-							{
-								gradientRect.Width = (float)Math.Floor(gradientRect.Width / 3f);
-							}
+                            gradientRect = rect;
+                            gradientRect.Inflate(-shadowSize, -shadowSize);
+                            if (isVertical)
+                            {
+                                gradientRect.Y = gradientRect.Bottom - (float)Math.Floor(gradientRect.Height / 3f);
+                                gradientRect.Height = (float)Math.Floor(gradientRect.Height / 3f);
+                            }
+                            else
+                            {
+                                gradientRect.Width = (float)Math.Floor(gradientRect.Width / 3f);
+                            }
 
+                            this.FillRectangleAbs(
+                                gradientRect,
+                                (!isVertical) ? Color.FromArgb(80, Color.Black) : Color.Transparent,
+                                ChartHatchStyle.None,
+                                string.Empty,
+                                ChartImageWrapMode.Scaled,
+                                Color.Empty,
+                                ChartImageAlignmentStyle.Center,
+                                isVertical ? GradientStyle.TopBottom : GradientStyle.LeftRight,
+                                (!isVertical) ? Color.Transparent : Color.FromArgb(80, Color.Black),
+                                Color.Empty,
+                                0,
+                                ChartDashStyle.NotSet,
+                                PenAlignment.Inset);
+                        }
+                    }
+                    else if (barDrawingStyle == BarDrawingStyle.Wedge)
+                    {
+                        // Calculate wedge size to fit the rectangle
+                        float size = isVertical ? rect.Width / 2f : rect.Height / 2f;
+                        if (isVertical && 2f * size > rect.Height)
+                        {
+                            size = rect.Height / 2f;
+                        }
+                        if (!isVertical && 2f * size > rect.Width)
+                        {
+                            size = rect.Width / 2f;
+                        }
 
-							this.FillRectangleAbs( 
-								gradientRect, 
-								(!isVertical) ? Color.FromArgb(80, Color.Black) : Color.Transparent, 
-								ChartHatchStyle.None, 
-								string.Empty, 
-								ChartImageWrapMode.Scaled, 
-								Color.Empty,
-								ChartImageAlignmentStyle.Center,
-								isVertical ? GradientStyle.TopBottom : GradientStyle.LeftRight, 
-								(!isVertical) ? Color.Transparent : Color.FromArgb(80, Color.Black), 
-								Color.Empty, 
-								0, 
-								ChartDashStyle.NotSet, 
-								PenAlignment.Inset );
-
-						}
-					}
-					else if(barDrawingStyle == BarDrawingStyle.Wedge)
-					{
-						// Calculate wedge size to fit the rectangle
-						float size = isVertical ? rect.Width / 2f : rect.Height / 2f;
-						if(isVertical && 2f * size > rect.Height)
-						{
-							size = rect.Height/2f;
-						}
-						if(!isVertical && 2f * size > rect.Width)
-						{
-							size = rect.Width/2f;
-						}
-
-						// Draw left/bottom shadow
-						RectangleF gradientRect = rect;
-						using(GraphicsPath path = new GraphicsPath())
-						{
-							if(isVertical)
-							{
-								path.AddLine(gradientRect.X + gradientRect.Width/2f, gradientRect.Y + size, gradientRect.X + gradientRect.Width/2f, gradientRect.Bottom - size);
-								path.AddLine(gradientRect.X + gradientRect.Width/2f, gradientRect.Bottom - size, gradientRect.Right, gradientRect.Bottom);
-								path.AddLine(gradientRect.Right, gradientRect.Bottom, gradientRect.Right, gradientRect.Y);
-							}
-							else
-							{
-								path.AddLine(gradientRect.X + size, gradientRect.Y + gradientRect.Height/2f, gradientRect.Right - size, gradientRect.Y + gradientRect.Height/2f);
-								path.AddLine(gradientRect.Right - size, gradientRect.Y + gradientRect.Height/2f, gradientRect.Right, gradientRect.Bottom);
-								path.AddLine(gradientRect.Right, gradientRect.Bottom, gradientRect.Left, gradientRect.Bottom);
-							}
-							path.CloseAllFigures();
+                        // Draw left/bottom shadow
+                        RectangleF gradientRect = rect;
+                        using (GraphicsPath path = new GraphicsPath())
+                        {
+                            if (isVertical)
+                            {
+                                path.AddLine(gradientRect.X + gradientRect.Width / 2f, gradientRect.Y + size, gradientRect.X + gradientRect.Width / 2f, gradientRect.Bottom - size);
+                                path.AddLine(gradientRect.X + gradientRect.Width / 2f, gradientRect.Bottom - size, gradientRect.Right, gradientRect.Bottom);
+                                path.AddLine(gradientRect.Right, gradientRect.Bottom, gradientRect.Right, gradientRect.Y);
+                            }
+                            else
+                            {
+                                path.AddLine(gradientRect.X + size, gradientRect.Y + gradientRect.Height / 2f, gradientRect.Right - size, gradientRect.Y + gradientRect.Height / 2f);
+                                path.AddLine(gradientRect.Right - size, gradientRect.Y + gradientRect.Height / 2f, gradientRect.Right, gradientRect.Bottom);
+                                path.AddLine(gradientRect.Right, gradientRect.Bottom, gradientRect.Left, gradientRect.Bottom);
+                            }
+                            path.CloseAllFigures();
 
                             // Create brush and fill path
                             using SolidBrush brush = new SolidBrush(Color.FromArgb(90, Color.Black));
                             this.FillPath(brush, path);
                         }
 
-						// Draw top/right triangle
-						using(GraphicsPath path = new GraphicsPath())
-						{
-							if(isVertical)
-							{
-								path.AddLine(gradientRect.X, gradientRect.Y, gradientRect.X + gradientRect.Width/2f, gradientRect.Y + size);
-								path.AddLine(gradientRect.X + gradientRect.Width/2f, gradientRect.Y + size, gradientRect.Right, gradientRect.Y);
-							}
-							else
-							{
-								path.AddLine(gradientRect.Right, gradientRect.Y, gradientRect.Right - size, gradientRect.Y + gradientRect.Height / 2f);
-								path.AddLine(gradientRect.Right - size, gradientRect.Y + gradientRect.Height / 2f, gradientRect.Right, gradientRect.Bottom);
-							}
+                        // Draw top/right triangle
+                        using (GraphicsPath path = new GraphicsPath())
+                        {
+                            if (isVertical)
+                            {
+                                path.AddLine(gradientRect.X, gradientRect.Y, gradientRect.X + gradientRect.Width / 2f, gradientRect.Y + size);
+                                path.AddLine(gradientRect.X + gradientRect.Width / 2f, gradientRect.Y + size, gradientRect.Right, gradientRect.Y);
+                            }
+                            else
+                            {
+                                path.AddLine(gradientRect.Right, gradientRect.Y, gradientRect.Right - size, gradientRect.Y + gradientRect.Height / 2f);
+                                path.AddLine(gradientRect.Right - size, gradientRect.Y + gradientRect.Height / 2f, gradientRect.Right, gradientRect.Bottom);
+                            }
 
                             // Create brush and fill path
                             using SolidBrush brush = new SolidBrush(Color.FromArgb(50, Color.Black));
@@ -3053,19 +3043,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                         }
 
-						// Draw bottom/left triangle
-						using(GraphicsPath path = new GraphicsPath())
-						{
-							if(isVertical)
-							{
-								path.AddLine(gradientRect.X, gradientRect.Bottom, gradientRect.X + gradientRect.Width/2f, gradientRect.Bottom - size);
-								path.AddLine(gradientRect.X + gradientRect.Width/2f, gradientRect.Bottom - size, gradientRect.Right, gradientRect.Bottom);
-							}
-							else
-							{
-								path.AddLine(gradientRect.X, gradientRect.Y, gradientRect.X + size, gradientRect.Y + gradientRect.Height / 2f);
-								path.AddLine(gradientRect.X + size, gradientRect.Y + gradientRect.Height / 2f, gradientRect.X, gradientRect.Bottom);
-							}
+                        // Draw bottom/left triangle
+                        using (GraphicsPath path = new GraphicsPath())
+                        {
+                            if (isVertical)
+                            {
+                                path.AddLine(gradientRect.X, gradientRect.Bottom, gradientRect.X + gradientRect.Width / 2f, gradientRect.Bottom - size);
+                                path.AddLine(gradientRect.X + gradientRect.Width / 2f, gradientRect.Bottom - size, gradientRect.Right, gradientRect.Bottom);
+                            }
+                            else
+                            {
+                                path.AddLine(gradientRect.X, gradientRect.Y, gradientRect.X + size, gradientRect.Y + gradientRect.Height / 2f);
+                                path.AddLine(gradientRect.X + size, gradientRect.Y + gradientRect.Height / 2f, gradientRect.X, gradientRect.Bottom);
+                            }
 
                             // Create brush
                             using SolidBrush brush = new SolidBrush(Color.FromArgb(50, Color.Black));
@@ -3080,546 +3070,543 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             using Pen pen = new Pen(Color.FromArgb(40, Color.White), 1);
                             this.DrawPath(pen, path);
                         }
-					}
-				}
-			}
-		}
+                    }
+                }
+            }
+        }
 
-		/// <summary>
-		/// Draw a bar with shadow.
-		/// </summary>
-		/// <param name="rectF">Size of rectangle</param>
-		/// <param name="backColor">Color of rectangle</param>
-		/// <param name="backHatchStyle">Hatch style</param>
-		/// <param name="backImage">Back Image</param>
-		/// <param name="backImageWrapMode">Image mode</param>
-		/// <param name="backImageTransparentColor">Image transparent color.</param>
+        /// <summary>
+        /// Draw a bar with shadow.
+        /// </summary>
+        /// <param name="rectF">Size of rectangle</param>
+        /// <param name="backColor">Color of rectangle</param>
+        /// <param name="backHatchStyle">Hatch style</param>
+        /// <param name="backImage">Back Image</param>
+        /// <param name="backImageWrapMode">Image mode</param>
+        /// <param name="backImageTransparentColor">Image transparent color.</param>
         /// <param name="backImageAlign">Image alignment</param>
-		/// <param name="backGradientStyle">Gradient type </param>
-		/// <param name="backSecondaryColor">Gradient End Color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		/// <param name="shadowColor">Shadow Color</param>
-		/// <param name="shadowOffset">Shadow Offset</param>
-		/// <param name="penAlignment">Pen Alignment</param>
-		/// <param name="barDrawingStyle">Bar drawing style.</param>
-		/// <param name="isVertical">True if a vertical bar.</param>
-		internal void FillRectangleRel( RectangleF rectF, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
-			Color shadowColor, 
-			int shadowOffset,
-			PenAlignment penAlignment,
-			BarDrawingStyle barDrawingStyle,
-			bool isVertical)
-		{
-			this.FillRectangleRel( 
-				rectF, 
-				backColor, 
-				backHatchStyle, 
-				backImage, 
-				backImageWrapMode, 
-				backImageTransparentColor,
-				backImageAlign,
-				backGradientStyle, 
-				backSecondaryColor, 
-				borderColor, 
-				borderWidth, 
-				borderDashStyle, 
-				shadowColor, 
-				shadowOffset,
-				penAlignment,
-				false,
-				0,
-				false,
-				barDrawingStyle,
-				isVertical);
-		}
+        /// <param name="backGradientStyle">Gradient type </param>
+        /// <param name="backSecondaryColor">Gradient End Color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        /// <param name="shadowColor">Shadow Color</param>
+        /// <param name="shadowOffset">Shadow Offset</param>
+        /// <param name="penAlignment">Pen Alignment</param>
+        /// <param name="barDrawingStyle">Bar drawing style.</param>
+        /// <param name="isVertical">True if a vertical bar.</param>
+        internal void FillRectangleRel(RectangleF rectF,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            ChartImageAlignmentStyle backImageAlign,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle,
+            Color shadowColor,
+            int shadowOffset,
+            PenAlignment penAlignment,
+            BarDrawingStyle barDrawingStyle,
+            bool isVertical)
+        {
+            this.FillRectangleRel(
+                rectF,
+                backColor,
+                backHatchStyle,
+                backImage,
+                backImageWrapMode,
+                backImageTransparentColor,
+                backImageAlign,
+                backGradientStyle,
+                backSecondaryColor,
+                borderColor,
+                borderWidth,
+                borderDashStyle,
+                shadowColor,
+                shadowOffset,
+                penAlignment,
+                false,
+                0,
+                false,
+                barDrawingStyle,
+                isVertical);
+        }
 
-		/// <summary>
-		/// Draw a bar with shadow.
-		/// </summary>
-		/// <param name="rectF">Size of rectangle</param>
-		/// <param name="backColor">Color of rectangle</param>
-		/// <param name="backHatchStyle">Hatch style</param>
-		/// <param name="backImage">Back Image</param>
-		/// <param name="backImageWrapMode">Image mode</param>
-		/// <param name="backImageTransparentColor">Image transparent color.</param>
+        /// <summary>
+        /// Draw a bar with shadow.
+        /// </summary>
+        /// <param name="rectF">Size of rectangle</param>
+        /// <param name="backColor">Color of rectangle</param>
+        /// <param name="backHatchStyle">Hatch style</param>
+        /// <param name="backImage">Back Image</param>
+        /// <param name="backImageWrapMode">Image mode</param>
+        /// <param name="backImageTransparentColor">Image transparent color.</param>
         /// <param name="backImageAlign">Image alignment</param>
-		/// <param name="backGradientStyle">Gradient type </param>
-		/// <param name="backSecondaryColor">Gradient End Color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		/// <param name="shadowColor">Shadow Color</param>
-		/// <param name="shadowOffset">Shadow Offset</param>
-		/// <param name="penAlignment">Pen Alignment</param>
-		internal void FillRectangleRel( RectangleF rectF, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
-			Color shadowColor, 
-			int shadowOffset,
-			PenAlignment penAlignment )
-		{
-			this.FillRectangleRel( 
-				rectF, 
-				backColor, 
-				backHatchStyle, 
-				backImage, 
-				backImageWrapMode, 
-				backImageTransparentColor,
-				backImageAlign,
-				backGradientStyle, 
-				backSecondaryColor, 
-				borderColor, 
-				borderWidth, 
-				borderDashStyle, 
-				shadowColor, 
-				shadowOffset,
-				penAlignment,
-				false,
-				0,
-				false,
-				BarDrawingStyle.Default,
-				true);
-		}
+        /// <param name="backGradientStyle">Gradient type </param>
+        /// <param name="backSecondaryColor">Gradient End Color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        /// <param name="shadowColor">Shadow Color</param>
+        /// <param name="shadowOffset">Shadow Offset</param>
+        /// <param name="penAlignment">Pen Alignment</param>
+        internal void FillRectangleRel(RectangleF rectF,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            ChartImageAlignmentStyle backImageAlign,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle,
+            Color shadowColor,
+            int shadowOffset,
+            PenAlignment penAlignment)
+        {
+            this.FillRectangleRel(
+                rectF,
+                backColor,
+                backHatchStyle,
+                backImage,
+                backImageWrapMode,
+                backImageTransparentColor,
+                backImageAlign,
+                backGradientStyle,
+                backSecondaryColor,
+                borderColor,
+                borderWidth,
+                borderDashStyle,
+                shadowColor,
+                shadowOffset,
+                penAlignment,
+                false,
+                0,
+                false,
+                BarDrawingStyle.Default,
+                true);
+        }
 
-		/// <summary>
-		/// Draws rectangle or circle (inside rectangle) with shadow.
-		/// </summary>
-		/// <param name="rectF">Size of rectangle</param>
-		/// <param name="backColor">Color of rectangle</param>
-		/// <param name="backHatchStyle">Hatch style</param>
-		/// <param name="backImage">Back Image</param>
-		/// <param name="backImageWrapMode">Image mode</param>
-		/// <param name="backImageTransparentColor">Image transparent color.</param>
+        /// <summary>
+        /// Draws rectangle or circle (inside rectangle) with shadow.
+        /// </summary>
+        /// <param name="rectF">Size of rectangle</param>
+        /// <param name="backColor">Color of rectangle</param>
+        /// <param name="backHatchStyle">Hatch style</param>
+        /// <param name="backImage">Back Image</param>
+        /// <param name="backImageWrapMode">Image mode</param>
+        /// <param name="backImageTransparentColor">Image transparent color.</param>
         /// <param name="backImageAlign">Image alignment</param>
-		/// <param name="backGradientStyle">Gradient type </param>
-		/// <param name="backSecondaryColor">Gradient End Color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		/// <param name="shadowColor">Shadow Color</param>
-		/// <param name="shadowOffset">Shadow Offset</param>
-		/// <param name="penAlignment">Pen Alignment</param>
-		/// <param name="circular">Draw circular shape inside the rectangle.</param>
-		/// <param name="circularSectorsCount">Number of sectors in circle when drawing the polygon.</param>
-		/// <param name="circle3D">3D Circle must be drawn.</param>
-		internal void FillRectangleRel( RectangleF rectF, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
-			Color shadowColor, 
-			int shadowOffset,
-			PenAlignment penAlignment,
-			bool circular,
-			int	circularSectorsCount,
-			bool circle3D)
-		{
-			this.FillRectangleRel( 
-				rectF, 
-				backColor, 
-				backHatchStyle, 
-				backImage, 
-				backImageWrapMode, 
-				backImageTransparentColor,
-				backImageAlign,
-				backGradientStyle, 
-				backSecondaryColor, 
-				borderColor, 
-				borderWidth, 
-				borderDashStyle, 
-				shadowColor, 
-				shadowOffset,
-				penAlignment,
+        /// <param name="backGradientStyle">Gradient type </param>
+        /// <param name="backSecondaryColor">Gradient End Color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        /// <param name="shadowColor">Shadow Color</param>
+        /// <param name="shadowOffset">Shadow Offset</param>
+        /// <param name="penAlignment">Pen Alignment</param>
+        /// <param name="circular">Draw circular shape inside the rectangle.</param>
+        /// <param name="circularSectorsCount">Number of sectors in circle when drawing the polygon.</param>
+        /// <param name="circle3D">3D Circle must be drawn.</param>
+        internal void FillRectangleRel(RectangleF rectF,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            ChartImageAlignmentStyle backImageAlign,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle,
+            Color shadowColor,
+            int shadowOffset,
+            PenAlignment penAlignment,
+            bool circular,
+            int circularSectorsCount,
+            bool circle3D)
+        {
+            this.FillRectangleRel(
+                rectF,
+                backColor,
+                backHatchStyle,
+                backImage,
+                backImageWrapMode,
+                backImageTransparentColor,
+                backImageAlign,
+                backGradientStyle,
+                backSecondaryColor,
+                borderColor,
+                borderWidth,
+                borderDashStyle,
+                shadowColor,
+                shadowOffset,
+                penAlignment,
                 circular,
                 circularSectorsCount,
                 circle3D,
-				BarDrawingStyle.Default,
-				true);
-		}
+                BarDrawingStyle.Default,
+                true);
+        }
 
-		
-		/// <summary>
-		/// Draws rectangle or circle (inside rectangle) with shadow.
-		/// </summary>
-		/// <param name="rectF">Size of rectangle</param>
-		/// <param name="backColor">Color of rectangle</param>
-		/// <param name="backHatchStyle">Hatch style</param>
-		/// <param name="backImage">Back Image</param>
-		/// <param name="backImageWrapMode">Image mode</param>
-		/// <param name="backImageTransparentColor">Image transparent color.</param>
+        /// <summary>
+        /// Draws rectangle or circle (inside rectangle) with shadow.
+        /// </summary>
+        /// <param name="rectF">Size of rectangle</param>
+        /// <param name="backColor">Color of rectangle</param>
+        /// <param name="backHatchStyle">Hatch style</param>
+        /// <param name="backImage">Back Image</param>
+        /// <param name="backImageWrapMode">Image mode</param>
+        /// <param name="backImageTransparentColor">Image transparent color.</param>
         /// <param name="backImageAlign">Image alignment</param>
-		/// <param name="backGradientStyle">Gradient type </param>
-		/// <param name="backSecondaryColor">Gradient End Color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		/// <param name="shadowColor">Shadow Color</param>
-		/// <param name="shadowOffset">Shadow Offset</param>
-		/// <param name="penAlignment">Pen Alignment</param>
-		/// <param name="circular">Draw circular shape inside the rectangle.</param>
-		/// <param name="circularSectorsCount">Number of sectors in circle when drawing the polygon.</param>
-		/// <param name="circle3D">3D Circle must be drawn.</param>
-		/// <param name="barDrawingStyle">Bar drawing style.</param>
-		/// <param name="isVertical">True if a vertical bar.</param>
-		internal void FillRectangleRel( RectangleF rectF, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
-			Color shadowColor, 
-			int shadowOffset,
-			PenAlignment penAlignment,
-			bool circular,
-			int	circularSectorsCount,
-			bool circle3D,
-			BarDrawingStyle barDrawingStyle,
-			bool isVertical)
-		{
-			Brush brush = null;
-			Brush backBrush = null;
+        /// <param name="backGradientStyle">Gradient type </param>
+        /// <param name="backSecondaryColor">Gradient End Color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        /// <param name="shadowColor">Shadow Color</param>
+        /// <param name="shadowOffset">Shadow Offset</param>
+        /// <param name="penAlignment">Pen Alignment</param>
+        /// <param name="circular">Draw circular shape inside the rectangle.</param>
+        /// <param name="circularSectorsCount">Number of sectors in circle when drawing the polygon.</param>
+        /// <param name="circle3D">3D Circle must be drawn.</param>
+        /// <param name="barDrawingStyle">Bar drawing style.</param>
+        /// <param name="isVertical">True if a vertical bar.</param>
+        internal void FillRectangleRel(RectangleF rectF,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            ChartImageAlignmentStyle backImageAlign,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle,
+            Color shadowColor,
+            int shadowOffset,
+            PenAlignment penAlignment,
+            bool circular,
+            int circularSectorsCount,
+            bool circle3D,
+            BarDrawingStyle barDrawingStyle,
+            bool isVertical)
+        {
+            Brush brush = null;
+            Brush backBrush = null;
 
-			// Remember SmoothingMode and turn off anti aliasing
-			SmoothingMode oldSmoothingMode = this.SmoothingMode;
-			if(!circular)
-			{
-				this.SmoothingMode = SmoothingMode.Default;
-			}
+            // Remember SmoothingMode and turn off anti aliasing
+            SmoothingMode oldSmoothingMode = this.SmoothingMode;
+            if (!circular)
+            {
+                this.SmoothingMode = SmoothingMode.Default;
+            }
 
-			// Color is empty
-			if( backColor.IsEmpty ) 
-			{
-				backColor = Color.White;
-			}
+            // Color is empty
+            if (backColor.IsEmpty)
+            {
+                backColor = Color.White;
+            }
 
-			if( backSecondaryColor.IsEmpty ) 
-			{
-				backSecondaryColor = Color.White;
-			}
+            if (backSecondaryColor.IsEmpty)
+            {
+                backSecondaryColor = Color.White;
+            }
 
-			if( borderColor.IsEmpty || borderDashStyle == ChartDashStyle.NotSet) 
-			{
-				borderWidth = 0;
-			}
-		
-			// Get absolute coordinates
-			RectangleF rect = GetAbsoluteRectangle( rectF );
-			
-			// Rectangle width and height can not be very small value
-			if( rect.Width < 1.0F && rect.Width > 0.0F )
-			{
-				rect.Width = 1.0F;
-			}
+            if (borderColor.IsEmpty || borderDashStyle == ChartDashStyle.NotSet)
+            {
+                borderWidth = 0;
+            }
 
-			if( rect.Height < 1.0F && rect.Height > 0.0F )
-			{
-				rect.Height = 1.0F;
-			}
+            // Get absolute coordinates
+            RectangleF rect = GetAbsoluteRectangle(rectF);
 
-			// Round the values
-			rect = Round( rect );
+            // Rectangle width and height can not be very small value
+            if (rect.Width < 1.0F && rect.Width > 0.0F)
+            {
+                rect.Width = 1.0F;
+            }
 
-			// For inset alignment resize fill rectangle
-			RectangleF fillRect;
-			if( penAlignment == PenAlignment.Inset  && borderWidth > 0)
-			{
-				// SVG and Meta files do not support inset pen styles - use same rectangle
-				if (this.ActiveRenderingType == RenderingType.Svg || this.IsMetafile)
-				{
-					fillRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
-				}
-				else
-				{
-					using var mt = this.Graphics.Transform;
-					if (mt.Elements[0] != 1f || mt.Elements[3] != 1f)
-					{
-						// Do not reduce filling rectangle if scaling is used in the graphics
-						// transformations. Rounding may cause a 1 pixel gap between the border 
-						// and the filling.
-						fillRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
-					}
-					else
-					{
-						// The fill rectangle is resized because of border size.
-						fillRect = new RectangleF(
-							rect.X + borderWidth,
-							rect.Y + borderWidth,
-							rect.Width - borderWidth * 2f + 1,
-							rect.Height - borderWidth * 2f + 1);
-					}
-				}
-			}
-			else
-			{
-				// The fill rectangle is same
-				fillRect = rect;
-			}
+            if (rect.Height < 1.0F && rect.Height > 0.0F)
+            {
+                rect.Height = 1.0F;
+            }
 
-			// Fix for issue #6714:
-			// Make sure the rectangle coordinates fit the control. In same cases rectangle width or
-			// hight ca be extremly large. Drawing such a rectangle may cause an overflow exception. 
-			// The code below restricts the maximum size to double the chart size. See issue 
-			// description for more information. -AG.
-			if(fillRect.Width > 2f * this._width)
-			{
-				fillRect.Width = 2f * this._width;
-			}
-			if(fillRect.Height > 2f * this._height)
-			{
-				fillRect.Height = 2f * this._height;
-			}
+            // Round the values
+            rect = Round(rect);
 
+            // For inset alignment resize fill rectangle
+            RectangleF fillRect;
+            if (penAlignment == PenAlignment.Inset && borderWidth > 0)
+            {
+                // SVG and Meta files do not support inset pen styles - use same rectangle
+                if (this.ActiveRenderingType == RenderingType.Svg || this.IsMetafile)
+                {
+                    fillRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+                }
+                else
+                {
+                    using var mt = this.Graphics.Transform;
+                    if (mt.Elements[0] != 1f || mt.Elements[3] != 1f)
+                    {
+                        // Do not reduce filling rectangle if scaling is used in the graphics
+                        // transformations. Rounding may cause a 1 pixel gap between the border
+                       // and the filling.
+                        fillRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+                    }
+                    else
+                    {
+                        // The fill rectangle is resized because of border size.
+                        fillRect = new RectangleF(
+                            rect.X + borderWidth,
+                            rect.Y + borderWidth,
+                            rect.Width - borderWidth * 2f + 1,
+                            rect.Height - borderWidth * 2f + 1);
+                    }
+                }
+            }
+            else
+            {
+                // The fill rectangle is same
+                fillRect = rect;
+            }
 
-			if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
-			{
-				backBrush = brush;
-				brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor);
-			}
-			else if( backHatchStyle != ChartHatchStyle.None )
-			{
-				brush = GetHatchBrush( backHatchStyle, backColor, backSecondaryColor );
-			}
-			else if( backGradientStyle != GradientStyle.None )
-			{
-				// If a gradient type  is set create a brush with gradient
-				brush = GetGradientBrush( rect, backColor, backSecondaryColor, backGradientStyle );
-			}
-			else
-			{
-				// Set a bar color.
-				if(backColor == Color.Empty || backColor == Color.Transparent)
-				{
-					brush = null;
-				}
-				else
-				{
-					brush = new SolidBrush(backColor);
-				}
-			}
+            // Fix for issue #6714:
+            // Make sure the rectangle coordinates fit the control. In same cases rectangle width or
+            // hight ca be extremly large. Drawing such a rectangle may cause an overflow exception.
+           // The code below restricts the maximum size to double the chart size. See issue
+           // description for more information. -AG.
+            if (fillRect.Width > 2f * this._width)
+            {
+                fillRect.Width = 2f * this._width;
+            }
+            if (fillRect.Height > 2f * this._height)
+            {
+                fillRect.Height = 2f * this._height;
+            }
 
-			// Draw shadow
-			FillRectangleShadowAbs( rect, shadowColor, shadowOffset, backColor, circular, circularSectorsCount );
+            if (backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
+            {
+                backBrush = brush;
+                brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor);
+            }
+            else if (backHatchStyle != ChartHatchStyle.None)
+            {
+                brush = GetHatchBrush(backHatchStyle, backColor, backSecondaryColor);
+            }
+            else if (backGradientStyle != GradientStyle.None)
+            {
+                // If a gradient type  is set create a brush with gradient
+                brush = GetGradientBrush(rect, backColor, backSecondaryColor, backGradientStyle);
+            }
+            else
+            {
+                // Set a bar color.
+                if (backColor == Color.Empty || backColor == Color.Transparent)
+                {
+                    brush = null;
+                }
+                else
+                {
+                    brush = new SolidBrush(backColor);
+                }
+            }
 
-			// Draw rectangle image
-			if( backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
-			{
-				// Load image
-                System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
+            // Draw shadow
+            FillRectangleShadowAbs(rect, shadowColor, shadowOffset, backColor, circular, circularSectorsCount);
 
-				// Prepare image properties (transparent color)
-				using ImageAttributes attrib = new ImageAttributes();
-				if(backImageTransparentColor != Color.Empty)
-				{
-					attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
-				}
+            // Draw rectangle image
+            if (backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
+            {
+                // Load image
+                System.Drawing.Image image = _common.ImageLoader.LoadImage(backImage);
 
-				// Draw scaled image
-				RectangleF imageRect = new RectangleF();
-				imageRect.X = fillRect.X;
-				imageRect.Y = fillRect.Y;
-				imageRect.Width = fillRect.Width;
-				imageRect.Height = fillRect.Height;
+                // Prepare image properties (transparent color)
+                using ImageAttributes attrib = new ImageAttributes();
+                if (backImageTransparentColor != Color.Empty)
+                {
+                    attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
+                }
+
+                // Draw scaled image
+                RectangleF imageRect = new RectangleF();
+                imageRect.X = fillRect.X;
+                imageRect.Y = fillRect.Y;
+                imageRect.Width = fillRect.Width;
+                imageRect.Height = fillRect.Height;
 
                 SizeF imageAbsSize = new SizeF();
 
-				// Calculate unscaled image position
-				if(backImageWrapMode == ChartImageWrapMode.Unscaled)
-				{
+                // Calculate unscaled image position
+                if (backImageWrapMode == ChartImageWrapMode.Unscaled)
+                {
                     ImageLoader.GetAdjustedImageSize(image, this.Graphics, ref imageAbsSize);
 
                     // Calculate image position
                     imageRect.Width = Math.Min(fillRect.Width, imageAbsSize.Width);
                     imageRect.Height = Math.Min(fillRect.Height, imageAbsSize.Height);
 
-                   	// Adjust position with alignment property
-					if(imageRect.Width < fillRect.Width)
-					{
-						if(backImageAlign == ChartImageAlignmentStyle.BottomRight ||
-							backImageAlign == ChartImageAlignmentStyle.Right ||
-							backImageAlign == ChartImageAlignmentStyle.TopRight)
-						{
-							imageRect.X = fillRect.Right - imageRect.Width;
-						}
-						else if(backImageAlign == ChartImageAlignmentStyle.Bottom ||
-							backImageAlign == ChartImageAlignmentStyle.Center ||
-							backImageAlign == ChartImageAlignmentStyle.Top)
-						{
-							imageRect.X = fillRect.X + (fillRect.Width - imageRect.Width)/2;
-						}
-					}
-					if(imageRect.Height < fillRect.Height)
-					{
-						if(backImageAlign == ChartImageAlignmentStyle.BottomRight ||
-							backImageAlign == ChartImageAlignmentStyle.Bottom ||
-							backImageAlign == ChartImageAlignmentStyle.BottomLeft)
-						{
-							imageRect.Y = fillRect.Bottom - imageRect.Height;
-						}
-						else if(backImageAlign == ChartImageAlignmentStyle.Left ||
-							backImageAlign == ChartImageAlignmentStyle.Center ||
-							backImageAlign == ChartImageAlignmentStyle.Right)
-						{
-							imageRect.Y = fillRect.Y + (fillRect.Height - imageRect.Height)/2;
-						}
-					}
+                    // Adjust position with alignment property
+                    if (imageRect.Width < fillRect.Width)
+                    {
+                        if (backImageAlign == ChartImageAlignmentStyle.BottomRight ||
+                            backImageAlign == ChartImageAlignmentStyle.Right ||
+                            backImageAlign == ChartImageAlignmentStyle.TopRight)
+                        {
+                            imageRect.X = fillRect.Right - imageRect.Width;
+                        }
+                        else if (backImageAlign == ChartImageAlignmentStyle.Bottom ||
+                            backImageAlign == ChartImageAlignmentStyle.Center ||
+                            backImageAlign == ChartImageAlignmentStyle.Top)
+                        {
+                            imageRect.X = fillRect.X + (fillRect.Width - imageRect.Width) / 2;
+                        }
+                    }
+                    if (imageRect.Height < fillRect.Height)
+                    {
+                        if (backImageAlign == ChartImageAlignmentStyle.BottomRight ||
+                            backImageAlign == ChartImageAlignmentStyle.Bottom ||
+                            backImageAlign == ChartImageAlignmentStyle.BottomLeft)
+                        {
+                            imageRect.Y = fillRect.Bottom - imageRect.Height;
+                        }
+                        else if (backImageAlign == ChartImageAlignmentStyle.Left ||
+                            backImageAlign == ChartImageAlignmentStyle.Center ||
+                            backImageAlign == ChartImageAlignmentStyle.Right)
+                        {
+                            imageRect.Y = fillRect.Y + (fillRect.Height - imageRect.Height) / 2;
+                        }
+                    }
+                }
 
-				}
+                // Fill background with brush
+                if (brush != null)
+                {
+                    if (circular)
+                        this.DrawCircleAbs(null, brush, fillRect, circularSectorsCount, circle3D);
+                    else
+                        this.FillRectangle(brush, fillRect);
+                }
 
-				// Fill background with brush
-				if(brush != null)
-				{
-					if(circular)
-						this.DrawCircleAbs( null, brush, fillRect, circularSectorsCount, circle3D );
-					else
-						this.FillRectangle( brush, fillRect );
-				}
-                 
                 // Draw image
-				this.DrawImage(image, 
-					new Rectangle((int)Math.Round(imageRect.X),(int)Math.Round(imageRect.Y), (int)Math.Round(imageRect.Width), (int)Math.Round(imageRect.Height)),
-					0, 0,
+                this.DrawImage(image,
+                    new Rectangle((int)Math.Round(imageRect.X), (int)Math.Round(imageRect.Y), (int)Math.Round(imageRect.Width), (int)Math.Round(imageRect.Height)),
+                    0, 0,
                     (backImageWrapMode == ChartImageWrapMode.Unscaled) ? imageRect.Width * image.Width / imageAbsSize.Width : image.Width,
                     (backImageWrapMode == ChartImageWrapMode.Unscaled) ? imageRect.Height * image.Height / imageAbsSize.Height : image.Height,
-					GraphicsUnit.Pixel, 
-					attrib);
-			}
-				// Draw rectangle
-			else
-			{
-				if(backBrush != null && backImageTransparentColor != Color.Empty)
-				{
-					// Fill background with brush
-					if(circular)
-						this.DrawCircleAbs( null, backBrush, fillRect, circularSectorsCount, circle3D );
-					else
-						this.FillRectangle( backBrush, fillRect );
-				}
+                    GraphicsUnit.Pixel,
+                    attrib);
+            }
+            // Draw rectangle
+            else
+            {
+                if (backBrush != null && backImageTransparentColor != Color.Empty)
+                {
+                    // Fill background with brush
+                    if (circular)
+                        this.DrawCircleAbs(null, backBrush, fillRect, circularSectorsCount, circle3D);
+                    else
+                        this.FillRectangle(backBrush, fillRect);
+                }
 
-				if(brush != null)
-				{
-					if(circular)
-						this.DrawCircleAbs( null, brush, fillRect, circularSectorsCount, circle3D );
-					else
-						this.FillRectangle( brush, fillRect );
-				}
-			}
+                if (brush != null)
+                {
+                    if (circular)
+                        this.DrawCircleAbs(null, brush, fillRect, circularSectorsCount, circle3D);
+                    else
+                        this.FillRectangle(brush, fillRect);
+                }
+            }
 
-			// Draw different bar style
-			this.DrawRectangleBarStyle(barDrawingStyle, isVertical, fillRect);
+            // Draw different bar style
+            this.DrawRectangleBarStyle(barDrawingStyle, isVertical, fillRect);
 
-			// Draw border
-			if( borderWidth > 0 && borderDashStyle != ChartDashStyle.NotSet)
-			{
-				// Set a border line color
-				if(_pen.Color != borderColor)
-				{
-					_pen.Color = borderColor;
-				}
-			
-				// Set a border line width
-				if(_pen.Width != borderWidth)
-				{
-					_pen.Width = borderWidth;
-				}
+            // Draw border
+            if (borderWidth > 0 && borderDashStyle != ChartDashStyle.NotSet)
+            {
+                // Set a border line color
+                if (_pen.Color != borderColor)
+                {
+                    _pen.Color = borderColor;
+                }
 
-				// Set pen alignment
-				if(_pen.Alignment != penAlignment)
-				{
-					_pen.Alignment = penAlignment;
-				}
+                // Set a border line width
+                if (_pen.Width != borderWidth)
+                {
+                    _pen.Width = borderWidth;
+                }
 
-				// Set a border line style
-				if(_pen.DashStyle != GetPenStyle( borderDashStyle ))
-				{
-					_pen.DashStyle = GetPenStyle( borderDashStyle );
-				}
+                // Set pen alignment
+                if (_pen.Alignment != penAlignment)
+                {
+                    _pen.Alignment = penAlignment;
+                }
 
-				// Draw border
-				if(circular)
-				{
-					this.DrawCircleAbs( _pen, null, rect, circularSectorsCount, false );
-				}
-				else
-				{
-					// NOTE: Rectangle with single pixel inset border is drawn 1 pixel larger 
-					// in the .Net Framework. Increase size by 1 pixel to solve the issue.
-					if(_pen.Alignment == PenAlignment.Inset && _pen.Width > 1f)
-					{
-						rect.Width += 1;
-						rect.Height += 1;
-					}
+                // Set a border line style
+                if (_pen.DashStyle != GetPenStyle(borderDashStyle))
+                {
+                    _pen.DashStyle = GetPenStyle(borderDashStyle);
+                }
 
-					// Draw rectangle
-					this.DrawRectangle( _pen, rect.X, rect.Y, rect.Width, rect.Height );
-				}
-			}
+                // Draw border
+                if (circular)
+                {
+                    this.DrawCircleAbs(_pen, null, rect, circularSectorsCount, false);
+                }
+                else
+                {
+                    // NOTE: Rectangle with single pixel inset border is drawn 1 pixel larger
+                   // in the .Net Framework. Increase size by 1 pixel to solve the issue.
+                    if (_pen.Alignment == PenAlignment.Inset && _pen.Width > 1f)
+                    {
+                        rect.Width += 1;
+                        rect.Height += 1;
+                    }
 
-			// Dispose Image and Gradient
-			if(brush != null)
-			{
-				brush.Dispose();
-			}
+                    // Draw rectangle
+                    this.DrawRectangle(_pen, rect.X, rect.Y, rect.Width, rect.Height);
+                }
+            }
 
-			// Return old smoothing mode
-			this.SmoothingMode = oldSmoothingMode;
-		}
+            // Dispose Image and Gradient
+            if (brush != null)
+            {
+                brush.Dispose();
+            }
 
-		/// <summary>
-		/// Draw Shadow for a bar
-		/// </summary>
-		/// <param name="rect">Bar rectangle</param>
-		/// <param name="shadowColor">Shadow Color</param>
-		/// <param name="shadowOffset">Shadow Offset</param>
-		/// <param name="backColor">Back Color</param>
-        internal void FillRectangleShadowAbs( 
-			RectangleF rect, 
-			Color shadowColor, 
-			float shadowOffset, 
-			Color backColor)
-		{
-			FillRectangleShadowAbs( 
-				rect, 
-				shadowColor, 
-				shadowOffset, 
-				backColor,
-				false,
-				0);
-		}
+            // Return old smoothing mode
+            this.SmoothingMode = oldSmoothingMode;
+        }
+
+        /// <summary>
+        /// Draw Shadow for a bar
+        /// </summary>
+        /// <param name="rect">Bar rectangle</param>
+        /// <param name="shadowColor">Shadow Color</param>
+        /// <param name="shadowOffset">Shadow Offset</param>
+        /// <param name="backColor">Back Color</param>
+        internal void FillRectangleShadowAbs(
+            RectangleF rect,
+            Color shadowColor,
+            float shadowOffset,
+            Color backColor)
+        {
+            FillRectangleShadowAbs(
+                rect,
+                shadowColor,
+                shadowOffset,
+                backColor,
+                false,
+                0);
+        }
 
         /// <summary>
         /// Draw Shadow for a bar
@@ -3630,19 +3617,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="backColor">Back Color</param>
         /// <param name="circular">Draw circular shape inside the rectangle.</param>
         /// <param name="circularSectorsCount">Number of sectors in circle when drawing the polygon.</param>
-		internal void FillRectangleShadowAbs( 
-			RectangleF rect, 
-			Color shadowColor, 
-			float shadowOffset, 
-			Color backColor,
-			bool circular,
-			int	circularSectorsCount)
-		{
-			// Do not draw shadoe for empty rectangle
-			if(rect.Height == 0 || rect.Width == 0 || shadowOffset == 0)
-			{
-				return;
-			}
+		internal void FillRectangleShadowAbs(
+            RectangleF rect,
+            Color shadowColor,
+            float shadowOffset,
+            Color backColor,
+            bool circular,
+            int circularSectorsCount)
+        {
+            // Do not draw shadoe for empty rectangle
+            if (rect.Height == 0 || rect.Width == 0 || shadowOffset == 0)
+            {
+                return;
+            }
 
             // Do not draw  shadow if color is IsEmpty or offset is 0
             if (shadowOffset == 0 || shadowColor == Color.Empty)
@@ -3662,14 +3649,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 region.Xor(rect);
                 this.Clip = region;
             }
-            
-			// Draw usual or "soft" shadows
-			if(!softShadows || circularSectorsCount > 2)
-			{
-				RectangleF absolute;
-				RectangleF offset = RectangleF.Empty;
 
-				absolute = Round( rect );
+            // Draw usual or "soft" shadows
+            if (!softShadows || circularSectorsCount > 2)
+            {
+                RectangleF absolute;
+                RectangleF offset = RectangleF.Empty;
+
+                absolute = Round(rect);
 
                 // Change shadow color
                 using SolidBrush shadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(backColor.A / 2, shadowColor));
@@ -3685,78 +3672,76 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 else
                     this.FillRectangle(shadowBrush, offset);
             }
-			else
-			{
+            else
+            {
+                RectangleF absolute;
+                RectangleF offset = RectangleF.Empty;
 
-				RectangleF absolute;
-				RectangleF offset = RectangleF.Empty;
+                absolute = Round(rect);
 
-				absolute = Round( rect );
-				
+                // Shadow Position
+                offset.X = absolute.X + shadowOffset - 1;
+                offset.Y = absolute.Y + shadowOffset - 1;
+                offset.Width = absolute.Width + 2;
+                offset.Height = absolute.Height + 2;
 
-				// Shadow Position
-				offset.X = absolute.X + shadowOffset - 1;
-				offset.Y = absolute.Y + shadowOffset - 1;
-				offset.Width = absolute.Width + 2;
-				offset.Height = absolute.Height + 2;
-				
-				// Calculate rounded rect radius
-				float	radius = shadowOffset * 0.7f;
-				radius = (float)Math.Max(radius, 2f);
-				radius = (float)Math.Min(radius, offset.Width/4f);
-				radius = (float)Math.Min(radius, offset.Height/4f);
-				radius = (float)Math.Ceiling(radius);
-				if(circular)
-				{
-					radius = offset.Width/2f;
-				}
+                // Calculate rounded rect radius
+                float radius = shadowOffset * 0.7f;
+                radius = (float)Math.Max(radius, 2f);
+                radius = (float)Math.Min(radius, offset.Width / 4f);
+                radius = (float)Math.Min(radius, offset.Height / 4f);
+                radius = (float)Math.Ceiling(radius);
+                if (circular)
+                {
+                    radius = offset.Width / 2f;
+                }
 
-				// Create rounded rectangle path
-				using GraphicsPath path = new GraphicsPath();
-				if(circular && offset.Width != offset.Height)
-				{
-					float	radiusX = offset.Width/2f;
-					float	radiusY = offset.Height/2f;
-					path.AddLine(offset.X+radiusX, offset.Y, offset.Right-radiusX, offset.Y);
-					path.AddArc(offset.Right-2f*radiusX, offset.Y, 2f*radiusX, 2f*radiusY, 270, 90);
-					path.AddLine(offset.Right, offset.Y + radiusY, offset.Right, offset.Bottom - radiusY);
-					path.AddArc(offset.Right-2f*radiusX, offset.Bottom-2f*radiusY, 2f*radiusX, 2f*radiusY, 0, 90);
-					path.AddLine(offset.Right-radiusX, offset.Bottom, offset.X + radiusX, offset.Bottom);
-					path.AddArc(offset.X, offset.Bottom-2f*radiusY, 2f*radiusX, 2f*radiusY, 90, 90);
-					path.AddLine(offset.X, offset.Bottom-radiusY, offset.X, offset.Y+radiusY);
-					path.AddArc(offset.X, offset.Y, 2f*radiusX, 2f*radiusY, 180, 90);
-				}
-				else
-				{
-					path.AddLine(offset.X+radius, offset.Y, offset.Right-radius, offset.Y);
-					path.AddArc(offset.Right-2f*radius, offset.Y, 2f*radius, 2f*radius, 270, 90);
-					path.AddLine(offset.Right, offset.Y + radius, offset.Right, offset.Bottom - radius);
-					path.AddArc(offset.Right-2f*radius, offset.Bottom-2f*radius, 2f*radius, 2f*radius, 0, 90);
-					path.AddLine(offset.Right-radius, offset.Bottom, offset.X + radius, offset.Bottom);
-					path.AddArc(offset.X, offset.Bottom-2f*radius, 2f*radius, 2f*radius, 90, 90);
-					path.AddLine(offset.X, offset.Bottom-radius, offset.X, offset.Y+radius);
-					path.AddArc(offset.X, offset.Y, 2f*radius, 2f*radius, 180, 90);
-				}
+                // Create rounded rectangle path
+                using GraphicsPath path = new GraphicsPath();
+                if (circular && offset.Width != offset.Height)
+                {
+                    float radiusX = offset.Width / 2f;
+                    float radiusY = offset.Height / 2f;
+                    path.AddLine(offset.X + radiusX, offset.Y, offset.Right - radiusX, offset.Y);
+                    path.AddArc(offset.Right - 2f * radiusX, offset.Y, 2f * radiusX, 2f * radiusY, 270, 90);
+                    path.AddLine(offset.Right, offset.Y + radiusY, offset.Right, offset.Bottom - radiusY);
+                    path.AddArc(offset.Right - 2f * radiusX, offset.Bottom - 2f * radiusY, 2f * radiusX, 2f * radiusY, 0, 90);
+                    path.AddLine(offset.Right - radiusX, offset.Bottom, offset.X + radiusX, offset.Bottom);
+                    path.AddArc(offset.X, offset.Bottom - 2f * radiusY, 2f * radiusX, 2f * radiusY, 90, 90);
+                    path.AddLine(offset.X, offset.Bottom - radiusY, offset.X, offset.Y + radiusY);
+                    path.AddArc(offset.X, offset.Y, 2f * radiusX, 2f * radiusY, 180, 90);
+                }
+                else
+                {
+                    path.AddLine(offset.X + radius, offset.Y, offset.Right - radius, offset.Y);
+                    path.AddArc(offset.Right - 2f * radius, offset.Y, 2f * radius, 2f * radius, 270, 90);
+                    path.AddLine(offset.Right, offset.Y + radius, offset.Right, offset.Bottom - radius);
+                    path.AddArc(offset.Right - 2f * radius, offset.Bottom - 2f * radius, 2f * radius, 2f * radius, 0, 90);
+                    path.AddLine(offset.Right - radius, offset.Bottom, offset.X + radius, offset.Bottom);
+                    path.AddArc(offset.X, offset.Bottom - 2f * radius, 2f * radius, 2f * radius, 90, 90);
+                    path.AddLine(offset.X, offset.Bottom - radius, offset.X, offset.Y + radius);
+                    path.AddArc(offset.X, offset.Y, 2f * radius, 2f * radius, 180, 90);
+                }
 
-				using PathGradientBrush shadowBrush = new PathGradientBrush(path);
-				shadowBrush.CenterColor = shadowColor;
+                using PathGradientBrush shadowBrush = new PathGradientBrush(path);
+                shadowBrush.CenterColor = shadowColor;
 
-				// Set the color along the entire boundary of the path
-				Color[] colors = {Color.Transparent};
-				shadowBrush.SurroundColors = colors;
-				shadowBrush.CenterPoint = new PointF(offset.X + offset.Width/2f, offset.Y + offset.Height/2f);
+                // Set the color along the entire boundary of the path
+                Color[] colors = { Color.Transparent };
+                shadowBrush.SurroundColors = colors;
+                shadowBrush.CenterPoint = new PointF(offset.X + offset.Width / 2f, offset.Y + offset.Height / 2f);
 
-				// Define brush focus scale
-				PointF focusScale = new PointF(1-2f*shadowOffset/offset.Width, 1-2f*shadowOffset/offset.Height);
-				if(focusScale.X < 0)
-					focusScale.X = 0;
-				if(focusScale.Y < 0)
-					focusScale.Y = 0;
-				shadowBrush.FocusScales = focusScale;
+                // Define brush focus scale
+                PointF focusScale = new PointF(1 - 2f * shadowOffset / offset.Width, 1 - 2f * shadowOffset / offset.Height);
+                if (focusScale.X < 0)
+                    focusScale.X = 0;
+                if (focusScale.Y < 0)
+                    focusScale.Y = 0;
+                shadowBrush.FocusScales = focusScale;
 
                 // Draw rectangle
-				this.FillPath(shadowBrush, path);
-			}
+                this.FillPath(shadowBrush, path);
+            }
 
             // Reset clip region
             if (clippingUsed)
@@ -3765,20 +3750,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.Clip = oldClipRegion;
                 region.Dispose();
             }
-		}
+        }
 
-		/// <summary>
-		/// Gets the path of the polygon which represent the circular area.
-		/// </summary>
-		/// <param name="position">Circle position.</param>
-		/// <param name="polygonSectorsNumber">Number of sectors for the polygon.</param>
-		/// <returns>Graphics path of the polygon circle.</returns>
-		internal GraphicsPath GetPolygonCirclePath(RectangleF position, int polygonSectorsNumber)
-		{
-			PointF			firstPoint = new PointF(position.X + position.Width/2f, position.Y);
-			PointF			centerPoint = new PointF(position.X + position.Width/2f, position.Y + position.Height/2f);
+        /// <summary>
+        /// Gets the path of the polygon which represent the circular area.
+        /// </summary>
+        /// <param name="position">Circle position.</param>
+        /// <param name="polygonSectorsNumber">Number of sectors for the polygon.</param>
+        /// <returns>Graphics path of the polygon circle.</returns>
+        internal GraphicsPath GetPolygonCirclePath(RectangleF position, int polygonSectorsNumber)
+        {
+            PointF firstPoint = new PointF(position.X + position.Width / 2f, position.Y);
+            PointF centerPoint = new PointF(position.X + position.Width / 2f, position.Y + position.Height / 2f);
             GraphicsPath path = new GraphicsPath();
-            PointF			prevPoint = PointF.Empty;
+            PointF prevPoint = PointF.Empty;
             float sectorSize;
             // Get sector size
             if (polygonSectorsNumber <= 2)
@@ -3821,40 +3806,40 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             matrix?.Dispose();
-			path.CloseAllFigures();
-			return path;
-		}
+            path.CloseAllFigures();
+            return path;
+        }
 
-		/// <summary>
-		/// Fills and/or draws border as circle or polygon.
-		/// </summary>
-		/// <param name="pen">Border pen.</param>
-		/// <param name="brush">Border brush.</param>
-		/// <param name="position">Circle position.</param>
-		/// <param name="polygonSectorsNumber">Number of sectors for the polygon.</param>
-		/// <param name="circle3D">Indicates that circle should be 3D..</param>
-		internal void DrawCircleAbs(Pen pen, Brush brush, RectangleF position, int polygonSectorsNumber, bool circle3D)
-		{
-			bool	fill3DCircle = circle3D && brush != null;
+        /// <summary>
+        /// Fills and/or draws border as circle or polygon.
+        /// </summary>
+        /// <param name="pen">Border pen.</param>
+        /// <param name="brush">Border brush.</param>
+        /// <param name="position">Circle position.</param>
+        /// <param name="polygonSectorsNumber">Number of sectors for the polygon.</param>
+        /// <param name="circle3D">Indicates that circle should be 3D..</param>
+        internal void DrawCircleAbs(Pen pen, Brush brush, RectangleF position, int polygonSectorsNumber, bool circle3D)
+        {
+            bool fill3DCircle = circle3D && brush != null;
 
-			// Draw 2D circle
-			if(polygonSectorsNumber <= 2 && !fill3DCircle)
-			{
-				if(brush != null)
-				{
-					this.FillEllipse(brush, position);
-				}
-				if(pen != null)
-				{
-					this.DrawEllipse(pen, position);
-				}
-			}
+            // Draw 2D circle
+            if (polygonSectorsNumber <= 2 && !fill3DCircle)
+            {
+                if (brush != null)
+                {
+                    this.FillEllipse(brush, position);
+                }
+                if (pen != null)
+                {
+                    this.DrawEllipse(pen, position);
+                }
+            }
 
-				// Draw circle as polygon with specified number of sectors
-			else
-			{
-				PointF			firstPoint = new PointF(position.X + position.Width/2f, position.Y);
-				PointF			centerPoint = new PointF(position.X + position.Width/2f, position.Y + position.Height/2f);
+            // Draw circle as polygon with specified number of sectors
+            else
+            {
+                PointF firstPoint = new PointF(position.X + position.Width / 2f, position.Y);
+                PointF centerPoint = new PointF(position.X + position.Width / 2f, position.Y + position.Height / 2f);
                 PointF prevPoint = PointF.Empty;
                 using GraphicsPath path = new GraphicsPath();
                 // Remember current smoothing mode
@@ -3948,7 +3933,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this.DrawPath(pen, path);
                 }
             }
-		}
+        }
 
         /// <summary>
         /// Creates 3D sector brush.
@@ -3959,50 +3944,50 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>3D brush.</returns>
         [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
             Justification = "Too large of a code change to justify making this change")]
-		internal Brush GetSector3DBrush(Brush brush, float curentSector, float sectorSize)
-		{
-			// Get color from the brush
-			Color	brushColor = Color.Gray;
-			if(brush is HatchBrush)
-			{
-				brushColor = ((HatchBrush)brush).BackgroundColor;
-			}
-			else if(brush is LinearGradientBrush)
-			{
-				brushColor = ((LinearGradientBrush)brush).LinearColors[0];
-			}
-			else if(brush is PathGradientBrush)
-			{
-				brushColor = ((PathGradientBrush)brush).CenterColor;
-			}
-			else if(brush is SolidBrush)
-			{
-				brushColor = ((SolidBrush)brush).Color;
-			}
+        internal Brush GetSector3DBrush(Brush brush, float curentSector, float sectorSize)
+        {
+            // Get color from the brush
+            Color brushColor = Color.Gray;
+            if (brush is HatchBrush)
+            {
+                brushColor = ((HatchBrush)brush).BackgroundColor;
+            }
+            else if (brush is LinearGradientBrush)
+            {
+                brushColor = ((LinearGradientBrush)brush).LinearColors[0];
+            }
+            else if (brush is PathGradientBrush)
+            {
+                brushColor = ((PathGradientBrush)brush).CenterColor;
+            }
+            else if (brush is SolidBrush)
+            {
+                brushColor = ((SolidBrush)brush).Color;
+            }
 
-			// Adjust sector angle
-			curentSector -= sectorSize / 2f;
+            // Adjust sector angle
+            curentSector -= sectorSize / 2f;
 
-			// Make adjustment for polygon circle with 5 segments
-			// to avoid the issue that bottom segment is too dark
-			if(sectorSize == 72f && curentSector == 180f)
-			{
+            // Make adjustment for polygon circle with 5 segments
+            // to avoid the issue that bottom segment is too dark
+            if (sectorSize == 72f && curentSector == 180f)
+            {
                 curentSector *= 0.8f;
-			}
+            }
 
-			// No angles more than 180 
-			if(curentSector > 180)
-			{
-				curentSector = 360f - curentSector;
-			}
-			curentSector /= 180F;
+            // No angles more than 180
+           if (curentSector > 180)
+            {
+                curentSector = 360f - curentSector;
+            }
+            curentSector /= 180F;
 
-			// Get brush
-			brushColor = GetBrightGradientColor( brushColor, curentSector);
+            // Get brush
+            brushColor = GetBrightGradientColor(brushColor, curentSector);
 
-			// Get brush
-			return new SolidBrush(brushColor);
-		}
+            // Get brush
+            return new SolidBrush(brushColor);
+        }
 
         /// <summary>
         /// This method creates gradient color with brightness
@@ -4010,415 +3995,413 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="beginColor">Start color for gradient.</param>
         /// <param name="position">Position used between Start and end color.</param>
         /// <returns>Calculated Gradient color from gradient position</returns>
-		internal Color GetBrightGradientColor( Color beginColor, double position )
-		{
-			double brightness = 0.5;
-			if( position < brightness )
-			{
-				return GetGradientColor( Color.FromArgb(beginColor.A,255,255,255), beginColor, 1 - brightness + position );
-			}
-			else if( -brightness + position < 1 )
-			{
-				return GetGradientColor( beginColor, Color.Black, -brightness + position);
-			}
-			else
-			{
-				return Color.FromArgb( beginColor.A, 0, 0, 0 );
-			}
-		}
+		internal Color GetBrightGradientColor(Color beginColor, double position)
+        {
+            double brightness = 0.5;
+            if (position < brightness)
+            {
+                return GetGradientColor(Color.FromArgb(beginColor.A, 255, 255, 255), beginColor, 1 - brightness + position);
+            }
+            else if (-brightness + position < 1)
+            {
+                return GetGradientColor(beginColor, Color.Black, -brightness + position);
+            }
+            else
+            {
+                return Color.FromArgb(beginColor.A, 0, 0, 0);
+            }
+        }
 
-		/// <summary>
-		/// Draw Rectangle using absolute coordinates.
-		/// </summary>
-		/// <param name="rect">Size of rectangle</param>
-		/// <param name="backColor">Color of rectangle</param>
-		/// <param name="backHatchStyle">Hatch Style</param>
-		/// <param name="backImage">Image URL</param>
-		/// <param name="backImageWrapMode">Image Mode</param>
-		/// <param name="backImageTransparentColor">Image transparent color.</param>
+        /// <summary>
+        /// Draw Rectangle using absolute coordinates.
+        /// </summary>
+        /// <param name="rect">Size of rectangle</param>
+        /// <param name="backColor">Color of rectangle</param>
+        /// <param name="backHatchStyle">Hatch Style</param>
+        /// <param name="backImage">Image URL</param>
+        /// <param name="backImageWrapMode">Image Mode</param>
+        /// <param name="backImageTransparentColor">Image transparent color.</param>
         /// <param name="backImageAlign">Image alignment.</param>
-		/// <param name="backGradientStyle">Gradient AxisName</param>
-		/// <param name="backSecondaryColor">End Gradient color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		/// <param name="penAlignment">Border is outside or inside rectangle</param>
-		internal void FillRectangleAbs( RectangleF rect, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
-			PenAlignment penAlignment )
-		{
-			Brush brush;
-			Brush backBrush = null;
-			Brush OldBrush = null;
+        /// <param name="backGradientStyle">Gradient AxisName</param>
+        /// <param name="backSecondaryColor">End Gradient color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        /// <param name="penAlignment">Border is outside or inside rectangle</param>
+        internal void FillRectangleAbs(RectangleF rect,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            ChartImageAlignmentStyle backImageAlign,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle,
+            PenAlignment penAlignment)
+        {
+            Brush brush;
+            Brush backBrush = null;
+            Brush OldBrush = null;
 
-			// Turn off Antialias
-			SmoothingMode oldMode = this.SmoothingMode;
-			this.SmoothingMode = SmoothingMode.None;
+            // Turn off Antialias
+            SmoothingMode oldMode = this.SmoothingMode;
+            this.SmoothingMode = SmoothingMode.None;
 
-			// Color is empty
-			if( backColor.IsEmpty ) 
-				backColor = Color.White;
+            // Color is empty
+            if (backColor.IsEmpty)
+                backColor = Color.White;
 
-			if( backSecondaryColor.IsEmpty ) 
-				backSecondaryColor = Color.White;
+            if (backSecondaryColor.IsEmpty)
+                backSecondaryColor = Color.White;
 
-			if( borderColor.IsEmpty ) 
-			{
-				borderColor = Color.White;
-				borderWidth = 0;
-			}
-		
-			// Set a border line color
-			_pen.Color = borderColor;
+            if (borderColor.IsEmpty)
+            {
+                borderColor = Color.White;
+                borderWidth = 0;
+            }
 
-			// Set a border line width
-			_pen.Width = borderWidth;
+            // Set a border line color
+            _pen.Color = borderColor;
 
-			// Set pen alignment
-			_pen.Alignment = penAlignment;
+            // Set a border line width
+            _pen.Width = borderWidth;
 
-			// Set a border line style
-			_pen.DashStyle = GetPenStyle( borderDashStyle );
+            // Set pen alignment
+            _pen.Alignment = penAlignment;
 
-			if( backGradientStyle == GradientStyle.None )
-			{
-				// Set a bar color.
-				_solidBrush.Color = backColor;
-				brush = _solidBrush;
-			}
-			else
-			{
-				// If a gradient type  is set create a brush with gradient
-				brush = GetGradientBrush(rect, backColor, backSecondaryColor, backGradientStyle);
-			}
+            // Set a border line style
+            _pen.DashStyle = GetPenStyle(borderDashStyle);
 
-			if( backHatchStyle != ChartHatchStyle.None )
-			{
-				if (brush != null && brush != _solidBrush)
-					brush.Dispose();
-				brush = GetHatchBrush(backHatchStyle, backColor, backSecondaryColor);
-			}
+            if (backGradientStyle == GradientStyle.None)
+            {
+                // Set a bar color.
+                _solidBrush.Color = backColor;
+                brush = _solidBrush;
+            }
+            else
+            {
+                // If a gradient type  is set create a brush with gradient
+                brush = GetGradientBrush(rect, backColor, backSecondaryColor, backGradientStyle);
+            }
 
-			if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
-			{
-				backBrush = brush;
-				if (brush != _solidBrush)
-					OldBrush = brush;
+            if (backHatchStyle != ChartHatchStyle.None)
+            {
+                if (brush != null && brush != _solidBrush)
+                    brush.Dispose();
+                brush = GetHatchBrush(backHatchStyle, backColor, backSecondaryColor);
+            }
+
+            if (backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
+            {
+                backBrush = brush;
+                if (brush != _solidBrush)
+                    OldBrush = brush;
 #pragma warning disable CA2000 // Dispose objects before losing scope
                 brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor);
 #pragma warning restore CA2000 // Dispose objects before losing scope
             }
 
-			// For inset alignment resize fill rectangle
-			RectangleF fillRect;
-			
-			// The fill rectangle is same
-			fillRect = new RectangleF(rect.X + borderWidth, rect.Y + borderWidth, rect.Width - borderWidth * 2, rect.Height - borderWidth * 2);
+            // For inset alignment resize fill rectangle
+            RectangleF fillRect;
 
-			// FillRectangle and DrawRectangle works differently with RectangleF.
-			fillRect.Width += 1;
-			fillRect.Height += 1;
+            // The fill rectangle is same
+            fillRect = new RectangleF(rect.X + borderWidth, rect.Y + borderWidth, rect.Width - borderWidth * 2, rect.Height - borderWidth * 2);
 
-			// Draw rectangle image
-			if( backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
-			{
-				// Load image
-                Image image = _common.ImageLoader.LoadImage( backImage );
-                                
+            // FillRectangle and DrawRectangle works differently with RectangleF.
+            fillRect.Width += 1;
+            fillRect.Height += 1;
 
-				// Prepare image properties (transparent color)
-				using ImageAttributes attrib = new ImageAttributes();
-				if(backImageTransparentColor != Color.Empty)
-				{
-					attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
-				}
+            // Draw rectangle image
+            if (backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
+            {
+                // Load image
+                Image image = _common.ImageLoader.LoadImage(backImage);
 
-				// Draw scaled image
-				RectangleF imageRect = new RectangleF();
-				imageRect.X = fillRect.X;
-				imageRect.Y = fillRect.Y;
-				imageRect.Width = fillRect.Width;
-				imageRect.Height = fillRect.Height;
+                // Prepare image properties (transparent color)
+                using ImageAttributes attrib = new ImageAttributes();
+                if (backImageTransparentColor != Color.Empty)
+                {
+                    attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
+                }
 
-				// Draw unscaled image using align property
-				if(backImageWrapMode == ChartImageWrapMode.Unscaled)
-				{
+                // Draw scaled image
+                RectangleF imageRect = new RectangleF();
+                imageRect.X = fillRect.X;
+                imageRect.Y = fillRect.Y;
+                imageRect.Width = fillRect.Width;
+                imageRect.Height = fillRect.Height;
+
+                // Draw unscaled image using align property
+                if (backImageWrapMode == ChartImageWrapMode.Unscaled)
+                {
                     SizeF imageAbsSize = new SizeF();
 
                     ImageLoader.GetAdjustedImageSize(image, this.Graphics, ref imageAbsSize);
 
-					// Calculate image position
+                    // Calculate image position
                     imageRect.Width = imageAbsSize.Width;
                     imageRect.Height = imageAbsSize.Height;
 
-					// Adjust position with alignment property
-					if(imageRect.Width < fillRect.Width)
-					{
-						if(backImageAlign == ChartImageAlignmentStyle.BottomRight ||
-							backImageAlign == ChartImageAlignmentStyle.Right ||
-							backImageAlign == ChartImageAlignmentStyle.TopRight)
-						{
-							imageRect.X = fillRect.Right - imageRect.Width;
-						}
-						else if(backImageAlign == ChartImageAlignmentStyle.Bottom ||
-							backImageAlign == ChartImageAlignmentStyle.Center ||
-							backImageAlign == ChartImageAlignmentStyle.Top)
-						{
-							imageRect.X = fillRect.X + (fillRect.Width - imageRect.Width)/2;
-						}
-					}
-					if(imageRect.Height < fillRect.Height)
-					{
-						if(backImageAlign == ChartImageAlignmentStyle.BottomRight ||
-							backImageAlign == ChartImageAlignmentStyle.Bottom ||
-							backImageAlign == ChartImageAlignmentStyle.BottomLeft)
-						{
-							imageRect.Y = fillRect.Bottom - imageRect.Height;
-						}
-						else if(backImageAlign == ChartImageAlignmentStyle.Left ||
-							backImageAlign == ChartImageAlignmentStyle.Center ||
-							backImageAlign == ChartImageAlignmentStyle.Right)
-						{
-							imageRect.Y = fillRect.Y + (fillRect.Height - imageRect.Height)/2;
-						}
-					}
+                    // Adjust position with alignment property
+                    if (imageRect.Width < fillRect.Width)
+                    {
+                        if (backImageAlign == ChartImageAlignmentStyle.BottomRight ||
+                            backImageAlign == ChartImageAlignmentStyle.Right ||
+                            backImageAlign == ChartImageAlignmentStyle.TopRight)
+                        {
+                            imageRect.X = fillRect.Right - imageRect.Width;
+                        }
+                        else if (backImageAlign == ChartImageAlignmentStyle.Bottom ||
+                            backImageAlign == ChartImageAlignmentStyle.Center ||
+                            backImageAlign == ChartImageAlignmentStyle.Top)
+                        {
+                            imageRect.X = fillRect.X + (fillRect.Width - imageRect.Width) / 2;
+                        }
+                    }
+                    if (imageRect.Height < fillRect.Height)
+                    {
+                        if (backImageAlign == ChartImageAlignmentStyle.BottomRight ||
+                            backImageAlign == ChartImageAlignmentStyle.Bottom ||
+                            backImageAlign == ChartImageAlignmentStyle.BottomLeft)
+                        {
+                            imageRect.Y = fillRect.Bottom - imageRect.Height;
+                        }
+                        else if (backImageAlign == ChartImageAlignmentStyle.Left ||
+                            backImageAlign == ChartImageAlignmentStyle.Center ||
+                            backImageAlign == ChartImageAlignmentStyle.Right)
+                        {
+                            imageRect.Y = fillRect.Y + (fillRect.Height - imageRect.Height) / 2;
+                        }
+                    }
+                }
 
-				}
+                // Fill background with brush
+                this.FillRectangle(brush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
 
-				// Fill background with brush
-				this.FillRectangle( brush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
+                // Draw image
+                this.DrawImage(image,
+                    new Rectangle((int)Math.Round(imageRect.X), (int)Math.Round(imageRect.Y), (int)Math.Round(imageRect.Width), (int)Math.Round(imageRect.Height)),
+                    0, 0, image.Width, image.Height,
+                    GraphicsUnit.Pixel,
+                    attrib);
+            }
+            // Draw rectangle
+            else
+            {
+                if (backBrush != null && backImageTransparentColor != Color.Empty)
+                {
+                    // Fill background with brush
+                    this.FillRectangle(backBrush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
+                }
+                this.FillRectangle(brush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
+            }
 
-				// Draw image
-				this.DrawImage(image, 
-					new Rectangle((int)Math.Round(imageRect.X),(int)Math.Round(imageRect.Y), (int)Math.Round(imageRect.Width), (int)Math.Round(imageRect.Height)),
-					0, 0, image.Width, image.Height,
-					GraphicsUnit.Pixel, 
-					attrib);
-			}
-				// Draw rectangle
-			else
-			{
-				if(backBrush != null && backImageTransparentColor != Color.Empty)
-				{
-					// Fill background with brush
-					this.FillRectangle( backBrush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1 );
-				}
-				this.FillRectangle( brush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1 );
-			}
+            // Set pen alignment
+            if (borderDashStyle != ChartDashStyle.NotSet)
+            {
+                if (borderWidth > 1)
+                    this.DrawRectangle(_pen, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
+                else if (borderWidth == 1)
+                    this.DrawRectangle(_pen, rect.X, rect.Y, rect.Width, rect.Height);
+            }
 
-			// Set pen alignment
-			if(borderDashStyle != ChartDashStyle.NotSet)
-			{
-				if( borderWidth > 1 )
-					this.DrawRectangle( _pen, rect.X, rect.Y, rect.Width + 1, rect.Height + 1 );
-				else if( borderWidth == 1 )
-					this.DrawRectangle( _pen, rect.X, rect.Y, rect.Width, rect.Height );
-			}
+            // Dispose Image and Gradient
+            if (brush != null && brush != _solidBrush)
+                brush.Dispose();
+            OldBrush?.Dispose();
 
-			// Dispose Image and Gradient
-			if (brush != null && brush != _solidBrush)
-				brush.Dispose();
-			OldBrush?.Dispose();
+            // Set Old Smoothing Mode
+            this.SmoothingMode = oldMode;
+        }
 
-			// Set Old Smoothing Mode
-			this.SmoothingMode = oldMode;
-		}
-
-		/// <summary>
-		/// Fills graphics path with shadow using absolute coordinates.
-		/// </summary>
-		/// <param name="path">Graphics path to fill.</param>
-		/// <param name="backColor">Color of rectangle</param>
-		/// <param name="backHatchStyle">Hatch Style</param>
-		/// <param name="backImage">Image URL</param>
-		/// <param name="backImageWrapMode">Image Mode</param>
-		/// <param name="backImageTransparentColor">Image transparent color.</param>
+        /// <summary>
+        /// Fills graphics path with shadow using absolute coordinates.
+        /// </summary>
+        /// <param name="path">Graphics path to fill.</param>
+        /// <param name="backColor">Color of rectangle</param>
+        /// <param name="backHatchStyle">Hatch Style</param>
+        /// <param name="backImage">Image URL</param>
+        /// <param name="backImageWrapMode">Image Mode</param>
+        /// <param name="backImageTransparentColor">Image transparent color.</param>
         /// <param name="backImageAlign">Image alignment.</param>
-		/// <param name="backGradientStyle">Gradient AxisName</param>
-		/// <param name="backSecondaryColor">End Gradient color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		/// <param name="penAlignment">Border is outside or inside rectangle</param>
-		/// <param name="shadowOffset">Shadow offset.</param>
-		/// <param name="shadowColor">Shadow color.</param>
-		internal void DrawPathAbs( 
-			GraphicsPath path, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
-			PenAlignment penAlignment,
-			int shadowOffset,
-			Color shadowColor)
-		{
-			// Draw patj shadow
-			if(shadowOffset != 0 && shadowColor != Color.Transparent)
-			{
-				// Save graphics state and apply translate transformation
-				GraphicsState graphicsState = this.Save();
-				this.TranslateTransform(shadowOffset, shadowOffset);
+        /// <param name="backGradientStyle">Gradient AxisName</param>
+        /// <param name="backSecondaryColor">End Gradient color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        /// <param name="penAlignment">Border is outside or inside rectangle</param>
+        /// <param name="shadowOffset">Shadow offset.</param>
+        /// <param name="shadowColor">Shadow color.</param>
+        internal void DrawPathAbs(
+            GraphicsPath path,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            ChartImageAlignmentStyle backImageAlign,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle,
+            PenAlignment penAlignment,
+            int shadowOffset,
+            Color shadowColor)
+        {
+            // Draw patj shadow
+            if (shadowOffset != 0 && shadowColor != Color.Transparent)
+            {
+                // Save graphics state and apply translate transformation
+                GraphicsState graphicsState = this.Save();
+                this.TranslateTransform(shadowOffset, shadowOffset);
 
-				if(backColor == Color.Transparent &&
-					backSecondaryColor.IsEmpty )
-				{
-					this.DrawPathAbs(
-						path,
-						Color.Transparent,
-						ChartHatchStyle.None,
-						String.Empty,
-						ChartImageWrapMode.Scaled,
-						Color.Empty,
-						ChartImageAlignmentStyle.Center,
-						GradientStyle.None,
-						Color.Empty,
-						shadowColor,
-						borderWidth,
-						borderDashStyle,
-						PenAlignment.Center);
-				}
-				else
-				{
-					this.DrawPathAbs(
-						path,
-						shadowColor,
-						ChartHatchStyle.None,
-						String.Empty,
-						ChartImageWrapMode.Scaled,
-						Color.Empty,
-						ChartImageAlignmentStyle.Center,
-						GradientStyle.None,
-						Color.Empty,
-						Color.Transparent,
-						0,
-						ChartDashStyle.NotSet,
-						PenAlignment.Center);
-				}
+                if (backColor == Color.Transparent &&
+                    backSecondaryColor.IsEmpty)
+                {
+                    this.DrawPathAbs(
+                        path,
+                        Color.Transparent,
+                        ChartHatchStyle.None,
+                        String.Empty,
+                        ChartImageWrapMode.Scaled,
+                        Color.Empty,
+                        ChartImageAlignmentStyle.Center,
+                        GradientStyle.None,
+                        Color.Empty,
+                        shadowColor,
+                        borderWidth,
+                        borderDashStyle,
+                        PenAlignment.Center);
+                }
+                else
+                {
+                    this.DrawPathAbs(
+                        path,
+                        shadowColor,
+                        ChartHatchStyle.None,
+                        String.Empty,
+                        ChartImageWrapMode.Scaled,
+                        Color.Empty,
+                        ChartImageAlignmentStyle.Center,
+                        GradientStyle.None,
+                        Color.Empty,
+                        Color.Transparent,
+                        0,
+                        ChartDashStyle.NotSet,
+                        PenAlignment.Center);
+                }
 
-				// Restore graphics state
-				this.Restore(graphicsState);
-			}
+                // Restore graphics state
+                this.Restore(graphicsState);
+            }
 
-			// Draw path
-			this.DrawPathAbs(
-				path,
-				backColor, 
-				backHatchStyle, 
-				backImage, 
-				backImageWrapMode, 
-				backImageTransparentColor,
-				backImageAlign,
-				backGradientStyle, 
-				backSecondaryColor, 
-				borderColor, 
-				borderWidth, 
-				borderDashStyle, 
-				penAlignment);
-		}
+            // Draw path
+            this.DrawPathAbs(
+                path,
+                backColor,
+                backHatchStyle,
+                backImage,
+                backImageWrapMode,
+                backImageTransparentColor,
+                backImageAlign,
+                backGradientStyle,
+                backSecondaryColor,
+                borderColor,
+                borderWidth,
+                borderDashStyle,
+                penAlignment);
+        }
 
-		/// <summary>
-		/// Fills graphics path using absolute coordinates.
-		/// </summary>
-		/// <param name="path">Graphics path to fill.</param>
-		/// <param name="backColor">Color of rectangle</param>
-		/// <param name="backHatchStyle">Hatch Style</param>
-		/// <param name="backImage">Image URL</param>
-		/// <param name="backImageWrapMode">Image Mode</param>
-		/// <param name="backImageTransparentColor">Image transparent color.</param>
+        /// <summary>
+        /// Fills graphics path using absolute coordinates.
+        /// </summary>
+        /// <param name="path">Graphics path to fill.</param>
+        /// <param name="backColor">Color of rectangle</param>
+        /// <param name="backHatchStyle">Hatch Style</param>
+        /// <param name="backImage">Image URL</param>
+        /// <param name="backImageWrapMode">Image Mode</param>
+        /// <param name="backImageTransparentColor">Image transparent color.</param>
         /// <param name="backImageAlign">Image alignment.</param>
-		/// <param name="backGradientStyle">Gradient AxisName</param>
-		/// <param name="backSecondaryColor">End Gradient color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		/// <param name="penAlignment">Border is outside or inside rectangle</param>
-		internal void DrawPathAbs( GraphicsPath path, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
-			PenAlignment penAlignment )
-		{
-			Brush brush;
-			Brush backBrush = null;
+        /// <param name="backGradientStyle">Gradient AxisName</param>
+        /// <param name="backSecondaryColor">End Gradient color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        /// <param name="penAlignment">Border is outside or inside rectangle</param>
+        internal void DrawPathAbs(GraphicsPath path,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            ChartImageAlignmentStyle backImageAlign,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle,
+            PenAlignment penAlignment)
+        {
+            Brush brush;
+            Brush backBrush = null;
             Brush OldBrush = null;
 
             // Color is empty
-            if ( backColor.IsEmpty ) 
-				backColor = Color.White;
+            if (backColor.IsEmpty)
+                backColor = Color.White;
 
-			if( backSecondaryColor.IsEmpty ) 
-				backSecondaryColor = Color.White;
+            if (backSecondaryColor.IsEmpty)
+                backSecondaryColor = Color.White;
 
-			if( borderColor.IsEmpty ) 
-			{
-				borderColor = Color.White;
-				borderWidth = 0;
-			}
-		
-			// Set pen properties
-			_pen.Color = borderColor;
-			_pen.Width = borderWidth;
-			_pen.Alignment = penAlignment;
-			_pen.DashStyle = GetPenStyle( borderDashStyle );
+            if (borderColor.IsEmpty)
+            {
+                borderColor = Color.White;
+                borderWidth = 0;
+            }
 
-			if( backGradientStyle == GradientStyle.None )
-			{
-				// Set solid brush color.
-				_solidBrush.Color = backColor;
-				brush = _solidBrush;
-			}
-			else
-			{
-				// If a gradient type  is set create a brush with gradient
-				RectangleF pathRect = path.GetBounds();
-				pathRect.Inflate(new SizeF(2,2));
+            // Set pen properties
+            _pen.Color = borderColor;
+            _pen.Width = borderWidth;
+            _pen.Alignment = penAlignment;
+            _pen.DashStyle = GetPenStyle(borderDashStyle);
+
+            if (backGradientStyle == GradientStyle.None)
+            {
+                // Set solid brush color.
+                _solidBrush.Color = backColor;
+                brush = _solidBrush;
+            }
+            else
+            {
+                // If a gradient type  is set create a brush with gradient
+                RectangleF pathRect = path.GetBounds();
+                pathRect.Inflate(new SizeF(2, 2));
 #pragma warning disable CA2000 // Dispose objects before losing scope
-                brush = GetGradientBrush( 
-					pathRect, 
-					backColor,
+                brush = GetGradientBrush(
+                    pathRect,
+                    backColor,
                     backSecondaryColor,
                     backGradientStyle);
 #pragma warning restore CA2000 // Dispose objects before losing scope
             }
 
-            if ( backHatchStyle != ChartHatchStyle.None )
-			{
+            if (backHatchStyle != ChartHatchStyle.None)
+            {
                 if (brush != null && brush != _solidBrush)
                     brush.Dispose();
 
 #pragma warning disable CA2000 // Dispose objects before losing scope
-                brush = GetHatchBrush( backHatchStyle, backColor, backSecondaryColor );
+                brush = GetHatchBrush(backHatchStyle, backColor, backSecondaryColor);
 #pragma warning restore CA2000 // Dispose objects before losing scope
             }
 
-            if ( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
-			{
-				backBrush = brush;
+            if (backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
+            {
+                backBrush = brush;
                 if (brush != _solidBrush)
                     OldBrush = brush;
 
@@ -4427,552 +4410,548 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #pragma warning restore CA2000 // Dispose objects before losing scope
             }
 
-			// For inset alignment resize fill rectangle
-			RectangleF fillRect = path.GetBounds();
-			
-			// Draw rectangle image
-			if( backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
-			{
-				// Load image
-                Image image = _common.ImageLoader.LoadImage( backImage );
+            // For inset alignment resize fill rectangle
+            RectangleF fillRect = path.GetBounds();
 
-				// Prepare image properties (transparent color)
-				using ImageAttributes attrib = new ImageAttributes();
-				if(backImageTransparentColor != Color.Empty)
-				{
-					attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
-				}
+            // Draw rectangle image
+            if (backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
+            {
+                // Load image
+                Image image = _common.ImageLoader.LoadImage(backImage);
 
-				// Draw scaled image
-				RectangleF imageRect = new RectangleF();
-				imageRect.X = fillRect.X;
-				imageRect.Y = fillRect.Y;
-				imageRect.Width = fillRect.Width;
-				imageRect.Height = fillRect.Height;
+                // Prepare image properties (transparent color)
+                using ImageAttributes attrib = new ImageAttributes();
+                if (backImageTransparentColor != Color.Empty)
+                {
+                    attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
+                }
 
-				// Draw unscaled image using align property
-				if(backImageWrapMode == ChartImageWrapMode.Unscaled)
-				{
+                // Draw scaled image
+                RectangleF imageRect = new RectangleF();
+                imageRect.X = fillRect.X;
+                imageRect.Y = fillRect.Y;
+                imageRect.Width = fillRect.Width;
+                imageRect.Height = fillRect.Height;
+
+                // Draw unscaled image using align property
+                if (backImageWrapMode == ChartImageWrapMode.Unscaled)
+                {
                     SizeF imageSize = new SizeF();
 
                     ImageLoader.GetAdjustedImageSize(image, this.Graphics, ref imageSize);
 
-					// Calculate image position
+                    // Calculate image position
                     imageRect.Width = imageSize.Width;
                     imageRect.Height = imageSize.Height;
 
-					// Adjust position with alignment property
-					if(imageRect.Width < fillRect.Width)
-					{
-						if(backImageAlign == ChartImageAlignmentStyle.BottomRight ||
-							backImageAlign == ChartImageAlignmentStyle.Right ||
-							backImageAlign == ChartImageAlignmentStyle.TopRight)
-						{
-							imageRect.X = fillRect.Right - imageRect.Width;
-						}
-						else if(backImageAlign == ChartImageAlignmentStyle.Bottom ||
-							backImageAlign == ChartImageAlignmentStyle.Center ||
-							backImageAlign == ChartImageAlignmentStyle.Top)
-						{
-							imageRect.X = fillRect.X + (fillRect.Width - imageRect.Width)/2;
-						}
-					}
-					if(imageRect.Height < fillRect.Height)
-					{
-						if(backImageAlign == ChartImageAlignmentStyle.BottomRight ||
-							backImageAlign == ChartImageAlignmentStyle.Bottom ||
-							backImageAlign == ChartImageAlignmentStyle.BottomLeft)
-						{
-							imageRect.Y = fillRect.Bottom - imageRect.Height;
-						}
-						else if(backImageAlign == ChartImageAlignmentStyle.Left ||
-							backImageAlign == ChartImageAlignmentStyle.Center ||
-							backImageAlign == ChartImageAlignmentStyle.Right)
-						{
-							imageRect.Y = fillRect.Y + (fillRect.Height - imageRect.Height)/2;
-						}
-					}
+                    // Adjust position with alignment property
+                    if (imageRect.Width < fillRect.Width)
+                    {
+                        if (backImageAlign == ChartImageAlignmentStyle.BottomRight ||
+                            backImageAlign == ChartImageAlignmentStyle.Right ||
+                            backImageAlign == ChartImageAlignmentStyle.TopRight)
+                        {
+                            imageRect.X = fillRect.Right - imageRect.Width;
+                        }
+                        else if (backImageAlign == ChartImageAlignmentStyle.Bottom ||
+                            backImageAlign == ChartImageAlignmentStyle.Center ||
+                            backImageAlign == ChartImageAlignmentStyle.Top)
+                        {
+                            imageRect.X = fillRect.X + (fillRect.Width - imageRect.Width) / 2;
+                        }
+                    }
+                    if (imageRect.Height < fillRect.Height)
+                    {
+                        if (backImageAlign == ChartImageAlignmentStyle.BottomRight ||
+                            backImageAlign == ChartImageAlignmentStyle.Bottom ||
+                            backImageAlign == ChartImageAlignmentStyle.BottomLeft)
+                        {
+                            imageRect.Y = fillRect.Bottom - imageRect.Height;
+                        }
+                        else if (backImageAlign == ChartImageAlignmentStyle.Left ||
+                            backImageAlign == ChartImageAlignmentStyle.Center ||
+                            backImageAlign == ChartImageAlignmentStyle.Right)
+                        {
+                            imageRect.Y = fillRect.Y + (fillRect.Height - imageRect.Height) / 2;
+                        }
+                    }
+                }
 
-				}
+                // Fill background with brush
+                this.FillPath(brush, path);
 
-				// Fill background with brush
-				this.FillPath( brush, path );
+                // Draw image
+                Region oldClipRegion = this.Clip;
+                this.Clip = new Region(path);
+                this.DrawImage(image,
+                    new Rectangle((int)Math.Round(imageRect.X), (int)Math.Round(imageRect.Y), (int)Math.Round(imageRect.Width), (int)Math.Round(imageRect.Height)),
+                    0, 0, image.Width, image.Height,
+                    GraphicsUnit.Pixel,
+                    attrib);
+                this.Clip = oldClipRegion;
+            }
 
-				// Draw image
-				Region oldClipRegion = this.Clip;
-				this.Clip = new Region(path);
-				this.DrawImage(image, 
-					new Rectangle((int)Math.Round(imageRect.X),(int)Math.Round(imageRect.Y), (int)Math.Round(imageRect.Width), (int)Math.Round(imageRect.Height)),
-					0, 0, image.Width, image.Height,
-					GraphicsUnit.Pixel, 
-					attrib);
-				this.Clip = oldClipRegion;
-			}
-			
-				// Draw rectangle
-			else
-			{
-				if(backBrush != null && backImageTransparentColor != Color.Empty)
-				{
-					// Fill background with brush
-					this.FillPath( backBrush, path);
-				}
-				this.FillPath( brush, path);
-			}
+            // Draw rectangle
+            else
+            {
+                if (backBrush != null && backImageTransparentColor != Color.Empty)
+                {
+                    // Fill background with brush
+                    this.FillPath(backBrush, path);
+                }
+                this.FillPath(brush, path);
+            }
 
-			// Draw border
-			if(borderColor != Color.Empty && borderWidth > 0 && borderDashStyle != ChartDashStyle.NotSet)
-			{
-				this.DrawPath( _pen, path );
-			}
+            // Draw border
+            if (borderColor != Color.Empty && borderWidth > 0 && borderDashStyle != ChartDashStyle.NotSet)
+            {
+                this.DrawPath(_pen, path);
+            }
 
             if (brush != null && brush != _solidBrush)
                 brush.Dispose();
             OldBrush?.Dispose();
         }
 
-		/// <summary>
-		/// Creates brush with specified properties.
-		/// </summary>
-		/// <param name="rect">Gradient rectangle</param>
-		/// <param name="backColor">Color of rectangle</param>
-		/// <param name="backHatchStyle">Hatch style</param>
-		/// <param name="backImage">Back Image</param>
-		/// <param name="backImageWrapMode">Image mode</param>
-		/// <param name="backImageTransparentColor">Image transparent color.</param>
-		/// <param name="backGradientStyle">Gradient type </param>
-		/// <param name="backSecondaryColor">Gradient End Color</param>
-		/// <returns>New brush object.</returns>
-		internal Brush CreateBrush( 
-			RectangleF rect,
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor
-			)
-		{
-			Brush brush = new SolidBrush(backColor);
+        /// <summary>
+        /// Creates brush with specified properties.
+        /// </summary>
+        /// <param name="rect">Gradient rectangle</param>
+        /// <param name="backColor">Color of rectangle</param>
+        /// <param name="backHatchStyle">Hatch style</param>
+        /// <param name="backImage">Back Image</param>
+        /// <param name="backImageWrapMode">Image mode</param>
+        /// <param name="backImageTransparentColor">Image transparent color.</param>
+        /// <param name="backGradientStyle">Gradient type </param>
+        /// <param name="backSecondaryColor">Gradient End Color</param>
+        /// <returns>New brush object.</returns>
+        internal Brush CreateBrush(
+            RectangleF rect,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor
+            )
+        {
+            Brush brush = new SolidBrush(backColor);
 
-			if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
-			{
-				brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor );
-			}
-			else if( backHatchStyle != ChartHatchStyle.None )
-			{
-				brush = GetHatchBrush( backHatchStyle, backColor, backSecondaryColor );
-			}
-			else if( backGradientStyle != GradientStyle.None )
-			{
-				// If a gradient type  is set create a brush with gradient
-				brush = GetGradientBrush( rect, backColor, backSecondaryColor, backGradientStyle );
-			}
+            if (backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
+            {
+                brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor);
+            }
+            else if (backHatchStyle != ChartHatchStyle.None)
+            {
+                brush = GetHatchBrush(backHatchStyle, backColor, backSecondaryColor);
+            }
+            else if (backGradientStyle != GradientStyle.None)
+            {
+                // If a gradient type  is set create a brush with gradient
+                brush = GetGradientBrush(rect, backColor, backSecondaryColor, backGradientStyle);
+            }
 
-			return brush;
-		}
+            return brush;
+        }
 
-		#endregion
+        #endregion Rectangle Methods
 
-		#region Coordinates converter
+        #region Coordinates converter
 
-		/// <summary>
-        /// This method takes a RectangleF structure that is using absolute coordinates 
-        /// and returns a RectangleF object that uses relative coordinates.
-		/// </summary>
+        /// <summary>
+        /// This method takes a RectangleF structure that is using absolute coordinates
+       /// and returns a RectangleF object that uses relative coordinates.
+        /// </summary>
         /// <param name="rectangle">RectangleF structure in absolute coordinates.</param>
         /// <returns>RectangleF structure in relative coordinates.</returns>
-		public RectangleF GetRelativeRectangle( RectangleF rectangle )
-		{
+        public RectangleF GetRelativeRectangle(RectangleF rectangle)
+        {
             RectangleF relative = RectangleF.Empty;
 
-			// Convert absolute coordinates to relative coordinates
-			relative.X = rectangle.X * 100F / (_width - 1); 
-			relative.Y = rectangle.Y * 100F / (_height - 1); 
-			relative.Width = rectangle.Width * 100F / (_width - 1); 
-			relative.Height = rectangle.Height * 100F / (_height - 1); 
+            // Convert absolute coordinates to relative coordinates
+            relative.X = rectangle.X * 100F / (_width - 1);
+            relative.Y = rectangle.Y * 100F / (_height - 1);
+            relative.Width = rectangle.Width * 100F / (_width - 1);
+            relative.Height = rectangle.Height * 100F / (_height - 1);
 
-			// Return Relative coordinates
-			return relative;
-		}
+            // Return Relative coordinates
+            return relative;
+        }
 
-		/// <summary>
-        /// This method takes a PointF object that is using absolute coordinates 
-        /// and returns a PointF object that uses relative coordinates.
-		/// </summary>
-		/// <param name="point">PointF object in absolute coordinates.</param>
-		/// <returns>PointF object in relative coordinates.</returns>
-		public PointF GetRelativePoint( PointF point )
-		{
+        /// <summary>
+        /// This method takes a PointF object that is using absolute coordinates
+       /// and returns a PointF object that uses relative coordinates.
+        /// </summary>
+        /// <param name="point">PointF object in absolute coordinates.</param>
+        /// <returns>PointF object in relative coordinates.</returns>
+        public PointF GetRelativePoint(PointF point)
+        {
             PointF relative = PointF.Empty;
 
-			// Convert absolute coordinates to relative coordinates
-			relative.X = point.X * 100F / (_width - 1); 
-			relative.Y = point.Y * 100F / (_height - 1); 
-			
-			// Return Relative coordinates
-			return relative;
-		}
+            // Convert absolute coordinates to relative coordinates
+            relative.X = point.X * 100F / (_width - 1);
+            relative.Y = point.Y * 100F / (_height - 1);
 
+            // Return Relative coordinates
+            return relative;
+        }
 
-		/// <summary>
-        /// This method takes a SizeF object that uses absolute coordinates 
-        /// and returns a SizeF object that uses relative coordinates.
-		/// </summary>
-		/// <param name="size">SizeF object in absolute coordinates.</param>
+        /// <summary>
+        /// This method takes a SizeF object that uses absolute coordinates
+       /// and returns a SizeF object that uses relative coordinates.
+        /// </summary>
+        /// <param name="size">SizeF object in absolute coordinates.</param>
         /// <returns>SizeF object in relative coordinates.</returns>
-		public SizeF GetRelativeSize( SizeF size )
-		{
+        public SizeF GetRelativeSize(SizeF size)
+        {
             SizeF relative = SizeF.Empty;
 
-			// Convert absolute coordinates to relative coordinates
-			relative.Width = size.Width * 100F / (_width - 1); 
-			relative.Height = size.Height * 100F / (_height - 1); 
-			
-			// Return relative coordinates
-			return relative;
-		}
+            // Convert absolute coordinates to relative coordinates
+            relative.Width = size.Width * 100F / (_width - 1);
+            relative.Height = size.Height * 100F / (_height - 1);
 
-		/// <summary>
-        /// This method takes a PointF object and converts its relative coordinates 
-        /// to absolute coordinates.
-		/// </summary>
+            // Return relative coordinates
+            return relative;
+        }
+
+        /// <summary>
+        /// This method takes a PointF object and converts its relative coordinates
+       /// to absolute coordinates.
+        /// </summary>
         /// <param name="point">PointF object in relative coordinates.</param>
         /// <returns>PointF object in absolute coordinates.</returns>
-		public PointF GetAbsolutePoint( PointF point )
-		{
-			PointF absolute = PointF.Empty;
+        public PointF GetAbsolutePoint(PointF point)
+        {
+            PointF absolute = PointF.Empty;
 
-			// Convert relative coordinates to absolute coordinates
-			absolute.X = point.X * (_width - 1) / 100F; 
-			absolute.Y = point.Y * (_height - 1) / 100F; 
+            // Convert relative coordinates to absolute coordinates
+            absolute.X = point.X * (_width - 1) / 100F;
+            absolute.Y = point.Y * (_height - 1) / 100F;
 
-			// Return Absolute coordinates
-			return absolute;
-		}
+            // Return Absolute coordinates
+            return absolute;
+        }
 
-		/// <summary>
-        /// This method takes a RectangleF structure and converts its relative coordinates 
-        /// to absolute coordinates.
-		/// </summary>
+        /// <summary>
+        /// This method takes a RectangleF structure and converts its relative coordinates
+       /// to absolute coordinates.
+        /// </summary>
         /// <param name="rectangle">RectangleF object in relative coordinates.</param>
         /// <returns>RectangleF object in absolute coordinates.</returns>
-		public RectangleF GetAbsoluteRectangle( RectangleF rectangle )
-		{
-			RectangleF absolute = RectangleF.Empty;
+        public RectangleF GetAbsoluteRectangle(RectangleF rectangle)
+        {
+            RectangleF absolute = RectangleF.Empty;
 
-			// Convert relative coordinates to absolute coordinates
-			absolute.X = rectangle.X * (_width - 1) / 100F; 
-			absolute.Y = rectangle.Y * (_height - 1) / 100F; 
-			absolute.Width = rectangle.Width * (_width - 1) / 100F; 
-			absolute.Height = rectangle.Height * (_height - 1) / 100F; 
+            // Convert relative coordinates to absolute coordinates
+            absolute.X = rectangle.X * (_width - 1) / 100F;
+            absolute.Y = rectangle.Y * (_height - 1) / 100F;
+            absolute.Width = rectangle.Width * (_width - 1) / 100F;
+            absolute.Height = rectangle.Height * (_height - 1) / 100F;
 
-			// Return Absolute coordinates
-			return absolute;
-		}
+            // Return Absolute coordinates
+            return absolute;
+        }
 
-		/// <summary>
+        /// <summary>
         /// This method takes a SizeF object that uses relative coordinates
         /// and returns a SizeF object that uses absolute coordinates.
-		/// </summary>
+        /// </summary>
         /// <param name="size">SizeF object in relative coordinates.</param>
         /// <returns>SizeF object in absolute coordinates.</returns>
-		public SizeF GetAbsoluteSize( SizeF size )
-		{
+        public SizeF GetAbsoluteSize(SizeF size)
+        {
             SizeF absolute = SizeF.Empty;
 
-			// Convert relative coordinates to absolute coordinates
-			absolute.Width = size.Width * (_width - 1) / 100F; 
-			absolute.Height = size.Height * (_height - 1) / 100F; 
-			
-			// Return Absolute coordinates
-			return absolute;
-		}
+            // Convert relative coordinates to absolute coordinates
+            absolute.Width = size.Width * (_width - 1) / 100F;
+            absolute.Height = size.Height * (_height - 1) / 100F;
 
-	
-		#endregion
+            // Return Absolute coordinates
+            return absolute;
+        }
 
-		#region Border drawing helper methods
+        #endregion Coordinates converter
 
-		/// <summary>
-		/// Helper function which creates a rounded rectangle path.
-		/// </summary>
-		/// <param name="rect">Rectangle coordinates.</param>
-		/// <param name="cornerRadius">Array of 4 corners radius.</param>
-		/// <returns>Graphics path object.</returns>
-		internal GraphicsPath CreateRoundedRectPath(RectangleF rect, float[] cornerRadius)
-		{
-			// Create rounded rectangle path
-			GraphicsPath path = new GraphicsPath();
-			path.AddLine(rect.X+cornerRadius[0], rect.Y, rect.Right-cornerRadius[1], rect.Y);
-			path.AddArc(rect.Right-2f*cornerRadius[1], rect.Y, 2f*cornerRadius[1], 2f*cornerRadius[2], 270, 90);
-			path.AddLine(rect.Right, rect.Y + cornerRadius[2], rect.Right, rect.Bottom - cornerRadius[3]);
-			path.AddArc(rect.Right-2f*cornerRadius[4], rect.Bottom-2f*cornerRadius[3], 2f*cornerRadius[4], 2f*cornerRadius[3], 0, 90);
-			path.AddLine(rect.Right-cornerRadius[4], rect.Bottom, rect.X + cornerRadius[5], rect.Bottom);
-			path.AddArc(rect.X, rect.Bottom-2f*cornerRadius[6], 2f*cornerRadius[5], 2f*cornerRadius[6], 90, 90);
-			path.AddLine(rect.X, rect.Bottom-cornerRadius[6], rect.X, rect.Y+cornerRadius[7]);
-			path.AddArc(rect.X, rect.Y, 2f*cornerRadius[0], 2f*cornerRadius[7], 180, 90);
+        #region Border drawing helper methods
 
-			return path;
-		}
+        /// <summary>
+        /// Helper function which creates a rounded rectangle path.
+        /// </summary>
+        /// <param name="rect">Rectangle coordinates.</param>
+        /// <param name="cornerRadius">Array of 4 corners radius.</param>
+        /// <returns>Graphics path object.</returns>
+        internal GraphicsPath CreateRoundedRectPath(RectangleF rect, float[] cornerRadius)
+        {
+            // Create rounded rectangle path
+            GraphicsPath path = new GraphicsPath();
+            path.AddLine(rect.X + cornerRadius[0], rect.Y, rect.Right - cornerRadius[1], rect.Y);
+            path.AddArc(rect.Right - 2f * cornerRadius[1], rect.Y, 2f * cornerRadius[1], 2f * cornerRadius[2], 270, 90);
+            path.AddLine(rect.Right, rect.Y + cornerRadius[2], rect.Right, rect.Bottom - cornerRadius[3]);
+            path.AddArc(rect.Right - 2f * cornerRadius[4], rect.Bottom - 2f * cornerRadius[3], 2f * cornerRadius[4], 2f * cornerRadius[3], 0, 90);
+            path.AddLine(rect.Right - cornerRadius[4], rect.Bottom, rect.X + cornerRadius[5], rect.Bottom);
+            path.AddArc(rect.X, rect.Bottom - 2f * cornerRadius[6], 2f * cornerRadius[5], 2f * cornerRadius[6], 90, 90);
+            path.AddLine(rect.X, rect.Bottom - cornerRadius[6], rect.X, rect.Y + cornerRadius[7]);
+            path.AddArc(rect.X, rect.Y, 2f * cornerRadius[0], 2f * cornerRadius[7], 180, 90);
 
-		/// <summary>
-		/// Helper function which draws a shadow of the rounded rect.
-		/// </summary>
-		/// <param name="rect">Rectangle coordinates.</param>
-		/// <param name="cornerRadius">Array of 4 corners radius.</param>
-		/// <param name="radius">Rounding radius.</param>
-		/// <param name="centerColor">Center color.</param>
-		/// <param name="surroundColor">Surrounding color.</param>
-		/// <param name="shadowScale">Shadow scale value.</param>
-		internal void DrawRoundedRectShadowAbs(RectangleF rect, float[] cornerRadius, float radius, Color centerColor, Color surroundColor, float shadowScale)
-		{
-			// Create rounded rectangle path
-			GraphicsPath path = CreateRoundedRectPath(rect, cornerRadius);
+            return path;
+        }
 
-			// Create gradient brush
-			using PathGradientBrush shadowBrush = new PathGradientBrush(path);
-			shadowBrush.CenterColor = centerColor;
+        /// <summary>
+        /// Helper function which draws a shadow of the rounded rect.
+        /// </summary>
+        /// <param name="rect">Rectangle coordinates.</param>
+        /// <param name="cornerRadius">Array of 4 corners radius.</param>
+        /// <param name="radius">Rounding radius.</param>
+        /// <param name="centerColor">Center color.</param>
+        /// <param name="surroundColor">Surrounding color.</param>
+        /// <param name="shadowScale">Shadow scale value.</param>
+        internal void DrawRoundedRectShadowAbs(RectangleF rect, float[] cornerRadius, float radius, Color centerColor, Color surroundColor, float shadowScale)
+        {
+            // Create rounded rectangle path
+            GraphicsPath path = CreateRoundedRectPath(rect, cornerRadius);
 
-			// Set the color along the entire boundary of the path
-			Color[] colors = {surroundColor};
-			shadowBrush.SurroundColors = colors;
-			shadowBrush.CenterPoint = new PointF(rect.X + rect.Width/2f, rect.Y + rect.Height/2f);
+            // Create gradient brush
+            using PathGradientBrush shadowBrush = new PathGradientBrush(path);
+            shadowBrush.CenterColor = centerColor;
 
-			// Define brush focus scale
-			PointF focusScale = new PointF(1-shadowScale*radius/rect.Width, 1-shadowScale*radius/rect.Height);
-			shadowBrush.FocusScales = focusScale;
+            // Set the color along the entire boundary of the path
+            Color[] colors = { surroundColor };
+            shadowBrush.SurroundColors = colors;
+            shadowBrush.CenterPoint = new PointF(rect.X + rect.Width / 2f, rect.Y + rect.Height / 2f);
 
-			// Draw rounded rectangle
-			this.FillPath(shadowBrush, path);
+            // Define brush focus scale
+            PointF focusScale = new PointF(1 - shadowScale * radius / rect.Width, 1 - shadowScale * radius / rect.Height);
+            shadowBrush.FocusScales = focusScale;
 
-			if( path != null )
-			{
-				path.Dispose();
-			}
-		}
+            // Draw rounded rectangle
+            this.FillPath(shadowBrush, path);
 
-		/// <summary>
-		/// Draws 3D border in absolute coordinates.
-		/// </summary>
-		/// <param name="borderSkin">Border skin object.</param>
-		/// <param name="rect">Rectangle of the border (pixel coordinates).</param>
-		/// <param name="backColor">Color of rectangle</param>
-		/// <param name="backHatchStyle">Hatch style</param>
-		/// <param name="backImage">Back Image</param>
-		/// <param name="backImageWrapMode">Image mode</param>
-		/// <param name="backImageTransparentColor">Image transparent color.</param>
+            if (path != null)
+            {
+                path.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Draws 3D border in absolute coordinates.
+        /// </summary>
+        /// <param name="borderSkin">Border skin object.</param>
+        /// <param name="rect">Rectangle of the border (pixel coordinates).</param>
+        /// <param name="backColor">Color of rectangle</param>
+        /// <param name="backHatchStyle">Hatch style</param>
+        /// <param name="backImage">Back Image</param>
+        /// <param name="backImageWrapMode">Image mode</param>
+        /// <param name="backImageTransparentColor">Image transparent color.</param>
         /// <param name="backImageAlign">Image alignment</param>
-		/// <param name="backGradientStyle">Gradient type </param>
-		/// <param name="backSecondaryColor">Gradient End Color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		internal void Draw3DBorderRel(
-			BorderSkin borderSkin, 
-			RectangleF rect, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle)
-		{
-			Draw3DBorderAbs(borderSkin, GetAbsoluteRectangle(rect), backColor, backHatchStyle, 
-				backImage, backImageWrapMode, backImageTransparentColor, backImageAlign, backGradientStyle, 
-				backSecondaryColor, borderColor, borderWidth, borderDashStyle);
-		}
+        /// <param name="backGradientStyle">Gradient type </param>
+        /// <param name="backSecondaryColor">Gradient End Color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        internal void Draw3DBorderRel(
+            BorderSkin borderSkin,
+            RectangleF rect,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            ChartImageAlignmentStyle backImageAlign,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle)
+        {
+            Draw3DBorderAbs(borderSkin, GetAbsoluteRectangle(rect), backColor, backHatchStyle,
+                backImage, backImageWrapMode, backImageTransparentColor, backImageAlign, backGradientStyle,
+                backSecondaryColor, borderColor, borderWidth, borderDashStyle);
+        }
 
-
-		/// <summary>
-		/// Draws 3D border in absolute coordinates.
-		/// </summary>
-		/// <param name="borderSkin">Border skin object.</param>
-		/// <param name="absRect">Rectangle of the border (pixel coordinates).</param>
-		/// <param name="backColor">Color of rectangle</param>
-		/// <param name="backHatchStyle">Hatch style</param>
-		/// <param name="backImage">Back Image</param>
-		/// <param name="backImageWrapMode">Image mode</param>
-		/// <param name="backImageTransparentColor">Image transparent color.</param>
+        /// <summary>
+        /// Draws 3D border in absolute coordinates.
+        /// </summary>
+        /// <param name="borderSkin">Border skin object.</param>
+        /// <param name="absRect">Rectangle of the border (pixel coordinates).</param>
+        /// <param name="backColor">Color of rectangle</param>
+        /// <param name="backHatchStyle">Hatch style</param>
+        /// <param name="backImage">Back Image</param>
+        /// <param name="backImageWrapMode">Image mode</param>
+        /// <param name="backImageTransparentColor">Image transparent color.</param>
         /// <param name="backImageAlign">Image alignment</param>
-		/// <param name="backGradientStyle">Gradient type </param>
-		/// <param name="backSecondaryColor">Gradient End Color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		internal void Draw3DBorderAbs(
-			BorderSkin borderSkin, 
-			RectangleF absRect, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle)
-		{
-			// Check input parameters
-			if(_common == null || borderSkin.SkinStyle == BorderSkinStyle.None || absRect.Width == 0 || absRect.Height == 0)
-			{
-				return;
-			}
+        /// <param name="backGradientStyle">Gradient type </param>
+        /// <param name="backSecondaryColor">Gradient End Color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        internal void Draw3DBorderAbs(
+            BorderSkin borderSkin,
+            RectangleF absRect,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            ChartImageAlignmentStyle backImageAlign,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle)
+        {
+            // Check input parameters
+            if (_common == null || borderSkin.SkinStyle == BorderSkinStyle.None || absRect.Width == 0 || absRect.Height == 0)
+            {
+                return;
+            }
 
-			// Find required border interface
-			IBorderType	borderTypeInterface = _common.BorderTypeRegistry.GetBorderType(borderSkin.SkinStyle.ToString());
-			if(borderTypeInterface != null)
-			{
+            // Find required border interface
+            IBorderType borderTypeInterface = _common.BorderTypeRegistry.GetBorderType(borderSkin.SkinStyle.ToString());
+            if (borderTypeInterface != null)
+            {
                 borderTypeInterface.Resolution = this.Graphics.DpiX;
-				// Draw border
-				borderTypeInterface.DrawBorder(this, borderSkin, absRect, backColor, backHatchStyle, backImage, backImageWrapMode, 
-					backImageTransparentColor, backImageAlign, backGradientStyle, backSecondaryColor, 
-					borderColor, borderWidth, borderDashStyle);
-			}
-		}
+                // Draw border
+                borderTypeInterface.DrawBorder(this, borderSkin, absRect, backColor, backHatchStyle, backImage, backImageWrapMode,
+                    backImageTransparentColor, backImageAlign, backGradientStyle, backSecondaryColor,
+                    borderColor, borderWidth, borderDashStyle);
+            }
+        }
 
-		#endregion
+        #endregion Border drawing helper methods
 
-		#region Pie Method
+        #region Pie Method
 
-		/// <summary>
-		/// Helper function that retrieves pie drawing style.
-		/// </summary>
-		/// <param name="point">Data point to get the drawing style for.</param>
-		/// <returns>pie drawing style.</returns>
-		internal static PieDrawingStyle GetPieDrawingStyle(DataPoint point)
-		{
-			// Get column drawing style
-			PieDrawingStyle pieDrawingStyle = PieDrawingStyle.Default;
-			string styleName = point[CustomPropertyName.PieDrawingStyle];
-			if(styleName != null)
-			{
-				if(string.Equals(styleName, "Default", StringComparison.OrdinalIgnoreCase))
-				{
-					pieDrawingStyle = PieDrawingStyle.Default;
-				}
+        /// <summary>
+        /// Helper function that retrieves pie drawing style.
+        /// </summary>
+        /// <param name="point">Data point to get the drawing style for.</param>
+        /// <returns>pie drawing style.</returns>
+        internal static PieDrawingStyle GetPieDrawingStyle(DataPoint point)
+        {
+            // Get column drawing style
+            PieDrawingStyle pieDrawingStyle = PieDrawingStyle.Default;
+            string styleName = point[CustomPropertyName.PieDrawingStyle];
+            if (styleName != null)
+            {
+                if (string.Equals(styleName, "Default", StringComparison.OrdinalIgnoreCase))
+                {
+                    pieDrawingStyle = PieDrawingStyle.Default;
+                }
                 else if (string.Equals(styleName, "SoftEdge", StringComparison.OrdinalIgnoreCase))
-				{
-					pieDrawingStyle = PieDrawingStyle.SoftEdge;
-				}
+                {
+                    pieDrawingStyle = PieDrawingStyle.SoftEdge;
+                }
                 else if (string.Equals(styleName, "Concave", StringComparison.OrdinalIgnoreCase))
-				{
-					pieDrawingStyle = PieDrawingStyle.Concave;
-				}					
-				else
-				{
-					throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid( styleName, "PieDrawingStyle"));
-				}
-			}
-			return pieDrawingStyle;
-		}
+                {
+                    pieDrawingStyle = PieDrawingStyle.Concave;
+                }
+                else
+                {
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(styleName, "PieDrawingStyle"));
+                }
+            }
+            return pieDrawingStyle;
+        }
 
-		/// <summary>
-		/// Draws a pie defined by an ellipse specified by a Rectangle structure and two radial lines.
-		/// </summary>
-		/// <param name="rect">Rectangle structure that represents the bounding rectangle that defines the ellipse from which the pie shape comes.</param>
-		/// <param name="startAngle">Angle measured in degrees clockwise from the x-axis to the first side of the pie shape.</param>
-		/// <param name="sweepAngle">Angle measured in degrees clockwise from the startAngle parameter to the second side of the pie shape.</param>
-		/// <param name="backColor">Fill color</param>
-		/// <param name="backHatchStyle">Fill Hatch Style</param>
-		/// <param name="backImage">Fill texture</param>
-		/// <param name="backImageWrapMode">Texture image mode</param>
-		/// <param name="backImageTransparentColor">Texture transparent color</param>
-		/// <param name="backGradientStyle">Fill Gradient type </param>
-		/// <param name="backSecondaryColor">Fill Gradient Second Color</param>
-		/// <param name="borderColor">Border Color</param>
-		/// <param name="borderWidth">Border Width</param>
-		/// <param name="borderDashStyle">Border Style</param>
-		/// <param name="shadow">True if shadow is active</param>
-		/// <param name="doughnut">True if Doughnut is drawn instead of pie</param>
-		/// <param name="doughnutRadius">Internal radius of the doughnut</param>
-		/// <param name="pieDrawingStyle">Pie drawing style.</param>
-		internal void DrawPieRel( 
-			RectangleF rect, 
-			float startAngle,
-			float sweepAngle,
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle, 
-			bool shadow,
-			bool doughnut,
-			float doughnutRadius,
-			PieDrawingStyle pieDrawingStyle
-			)
-		{
-            Brush fillBrush;		// Brush
+        /// <summary>
+        /// Draws a pie defined by an ellipse specified by a Rectangle structure and two radial lines.
+        /// </summary>
+        /// <param name="rect">Rectangle structure that represents the bounding rectangle that defines the ellipse from which the pie shape comes.</param>
+        /// <param name="startAngle">Angle measured in degrees clockwise from the x-axis to the first side of the pie shape.</param>
+        /// <param name="sweepAngle">Angle measured in degrees clockwise from the startAngle parameter to the second side of the pie shape.</param>
+        /// <param name="backColor">Fill color</param>
+        /// <param name="backHatchStyle">Fill Hatch Style</param>
+        /// <param name="backImage">Fill texture</param>
+        /// <param name="backImageWrapMode">Texture image mode</param>
+        /// <param name="backImageTransparentColor">Texture transparent color</param>
+        /// <param name="backGradientStyle">Fill Gradient type </param>
+        /// <param name="backSecondaryColor">Fill Gradient Second Color</param>
+        /// <param name="borderColor">Border Color</param>
+        /// <param name="borderWidth">Border Width</param>
+        /// <param name="borderDashStyle">Border Style</param>
+        /// <param name="shadow">True if shadow is active</param>
+        /// <param name="doughnut">True if Doughnut is drawn instead of pie</param>
+        /// <param name="doughnutRadius">Internal radius of the doughnut</param>
+        /// <param name="pieDrawingStyle">Pie drawing style.</param>
+        internal void DrawPieRel(
+            RectangleF rect,
+            float startAngle,
+            float sweepAngle,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle,
+            bool shadow,
+            bool doughnut,
+            float doughnutRadius,
+            PieDrawingStyle pieDrawingStyle
+            )
+        {
+            Brush fillBrush;        // Brush
 
-			// Get absolute rectangle
-			RectangleF absRect = GetAbsoluteRectangle( rect );
+            // Get absolute rectangle
+            RectangleF absRect = GetAbsoluteRectangle(rect);
 
-			if( doughnutRadius == 100.0 )
-			{
-				doughnut = false;
-			}
+            if (doughnutRadius == 100.0)
+            {
+                doughnut = false;
+            }
 
-			if( doughnutRadius == 0.0 )
-			{
-				return;
-			}
+            if (doughnutRadius == 0.0)
+            {
+                return;
+            }
 
-			// Create Brush
-			if( backHatchStyle != ChartHatchStyle.None )
-			{
-				// Create Hatch Brush
-				fillBrush = GetHatchBrush( backHatchStyle, backColor, backSecondaryColor );
-			}
-			else if( backGradientStyle != GradientStyle.None ) 
-			{ 
-				// Create gradient brush
-				if( backGradientStyle == GradientStyle.Center )
-				{
-					fillBrush = GetPieGradientBrush( absRect, backColor, backSecondaryColor );
-				}
-				else
-				{
+            // Create Brush
+            if (backHatchStyle != ChartHatchStyle.None)
+            {
+                // Create Hatch Brush
+                fillBrush = GetHatchBrush(backHatchStyle, backColor, backSecondaryColor);
+            }
+            else if (backGradientStyle != GradientStyle.None)
+            {
+                // Create gradient brush
+                if (backGradientStyle == GradientStyle.Center)
+                {
+                    fillBrush = GetPieGradientBrush(absRect, backColor, backSecondaryColor);
+                }
+                else
+                {
                     using GraphicsPath path = new GraphicsPath();
                     path.AddPie(absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle);
                     fillBrush = GetGradientBrush(path.GetBounds(), backColor, backSecondaryColor, backGradientStyle);
                 }
-			}
-			else if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled )
-			{ 
-				// Create textured brush
-				fillBrush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor );
-			}
-			else
-			{
-				// Create solid brush
-				fillBrush = new SolidBrush( backColor );
-			}
+            }
+            else if (backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
+            {
+                // Create textured brush
+                fillBrush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor);
+            }
+            else
+            {
+                // Create solid brush
+                fillBrush = new SolidBrush(backColor);
+            }
 
             // Create border Pen
             Pen borderPen = new Pen(borderColor, borderWidth);
 
             // Set a border line style
-            borderPen.DashStyle = GetPenStyle( borderDashStyle );
+            borderPen.DashStyle = GetPenStyle(borderDashStyle);
 
-			// Use rounded line joins
-			borderPen.LineJoin = LineJoin.Round;
+            // Use rounded line joins
+            borderPen.LineJoin = LineJoin.Round;
 
-			// Draw Doughnut
-			if( doughnut )
-			{
+            // Draw Doughnut
+            if (doughnut)
+            {
                 using GraphicsPath path = new GraphicsPath();
 
                 path.AddArc(absRect.X + absRect.Width * doughnutRadius / 200 - 1, absRect.Y + absRect.Height * doughnutRadius / 200 - 1, absRect.Width - absRect.Width * doughnutRadius / 100 + 2, absRect.Height - absRect.Height * doughnutRadius / 100 + 2, startAngle, sweepAngle);
@@ -4981,7 +4960,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 path.CloseFigure();
 
                 this.FillPath(fillBrush, path);
-
 
                 // Draw Pie gradien effects
                 this.DrawPieGradientEffects(pieDrawingStyle, absRect, startAngle, sweepAngle, doughnutRadius);
@@ -4994,62 +4972,60 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this.DrawPath(borderPen, path);
                 }
             }
-			else // Draw Pie
-			{
+            else // Draw Pie
+            {
+                // Draw Soft shadow for pie slice
+                if (shadow && softShadows)
+                {
+                    DrawPieSoftShadow(startAngle, sweepAngle, absRect, backColor);
+                }
+                else
+                {
+                    // Fill Pie for normal shadow or colored pie slice
+                    this.FillPie(fillBrush, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle);
 
-				// Draw Soft shadow for pie slice
-				if( shadow && softShadows )
-				{
-					DrawPieSoftShadow( startAngle, sweepAngle, absRect, backColor );
-				}
-				else 
-				{
-					// Fill Pie for normal shadow or colored pie slice
-					this.FillPie( fillBrush, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle );
+                    // Draw Pie gradien effects
+                    this.DrawPieGradientEffects(pieDrawingStyle, absRect, startAngle, sweepAngle, -1f);
+                }
 
-					// Draw Pie gradien effects
-					this.DrawPieGradientEffects( pieDrawingStyle, absRect, startAngle, sweepAngle, -1f);
-				}
+                // Draw Pie Border
+                if (!shadow &&
+                    borderWidth > 0 &&
+                    borderDashStyle != ChartDashStyle.NotSet)
+                {
+                    this.DrawPie(borderPen, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle);
+                }
+            }
 
-				
-				// Draw Pie Border
-				if( !shadow  &&
-					borderWidth > 0 &&
-					borderDashStyle != ChartDashStyle.NotSet)
-				{
-					this.DrawPie( borderPen, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle );
-				}
-			}
+            // Dispose graphics objects
+            if (borderPen != null)
+            {
+                borderPen.Dispose();
+            }
 
-			// Dispose graphics objects
-			if( borderPen != null )
-			{
-				borderPen.Dispose();
-			}
+            if (fillBrush != null)
+            {
+                fillBrush.Dispose();
+            }
+        }
 
-			if( fillBrush != null )
-			{
-				fillBrush.Dispose();
-			}
-		}
+        private void DrawPieGradientEffects(
+            PieDrawingStyle pieDrawingStyle,
+            RectangleF position,
+            float startAngle,
+            float sweepAngle,
+            float doughnutRadius)
+        {
+            if (pieDrawingStyle == PieDrawingStyle.Concave)
+            {
+                // Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn
+               // twice on the outside and inside radius.
+                float minSize = (float)Math.Min(position.Width, position.Height);
+                float shadowSize = minSize * 0.05f;
 
-		private void DrawPieGradientEffects( 
-			PieDrawingStyle pieDrawingStyle, 
-			RectangleF position, 
-			float startAngle, 
-			float sweepAngle,
-			float doughnutRadius)
-		{
-			if(pieDrawingStyle == PieDrawingStyle.Concave)
-			{
-				// Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn 
-				// twice on the outside and inside radius.
-				float minSize = (float)Math.Min(position.Width, position.Height);
-				float shadowSize = minSize * 0.05f;
-			
-				// Create brush path
-				RectangleF gradientPath = position;
-				gradientPath.Inflate(-shadowSize, -shadowSize);
+                // Create brush path
+                RectangleF gradientPath = position;
+                gradientPath.Inflate(-shadowSize, -shadowSize);
                 using GraphicsPath brushPath = new GraphicsPath();
                 brushPath.AddEllipse(gradientPath);
 
@@ -5090,16 +5066,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Fill shadow
                 this.FillPath(brush, path);
             }
-			else if(pieDrawingStyle == PieDrawingStyle.SoftEdge)
-			{
-				// Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn 
-				// twice on the outside and inside radius.
-				float minSize = (float)Math.Min(position.Width, position.Height);
-				float shadowSize = minSize/10f;
-				if(doughnutRadius > 0f)
-				{
-					shadowSize = minSize * doughnutRadius / 100f / 8f;
-				}
+            else if (pieDrawingStyle == PieDrawingStyle.SoftEdge)
+            {
+                // Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn
+               // twice on the outside and inside radius.
+                float minSize = (float)Math.Min(position.Width, position.Height);
+                float shadowSize = minSize / 10f;
+                if (doughnutRadius > 0f)
+                {
+                    shadowSize = minSize * doughnutRadius / 100f / 8f;
+                }
 
                 // Create brush path
                 using GraphicsPath brushPath = new GraphicsPath();
@@ -5163,63 +5139,63 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this.FillPath(brushInner, path);
                 }
             }
-		}
+        }
 
-		/// <summary>
-		/// The soft shadow of the pie 
-		/// </summary>
-		/// <param name="startAngle">Angle measured in degrees clockwise from the x-axis to the first side of the pie shape.</param>
-		/// <param name="sweepAngle">Angle measured in degrees clockwise from the startAngle parameter to the second side of the pie shape.</param>
-		/// <param name="absRect">Rectangle of the pie in absolute coordinates</param>
-		/// <param name="backColor">Fill color</param>
-		private void DrawPieSoftShadow( float startAngle, float sweepAngle, RectangleF absRect, Color backColor )
-		{
-			using GraphicsPath path = new GraphicsPath();
-			
-			path.AddEllipse( absRect.X, absRect.Y, absRect.Width, absRect.Height );
+        /// <summary>
+        /// The soft shadow of the pie
+       /// </summary>
+        /// <param name="startAngle">Angle measured in degrees clockwise from the x-axis to the first side of the pie shape.</param>
+        /// <param name="sweepAngle">Angle measured in degrees clockwise from the startAngle parameter to the second side of the pie shape.</param>
+        /// <param name="absRect">Rectangle of the pie in absolute coordinates</param>
+        /// <param name="backColor">Fill color</param>
+        private void DrawPieSoftShadow(float startAngle, float sweepAngle, RectangleF absRect, Color backColor)
+        {
+            using GraphicsPath path = new GraphicsPath();
 
-			using PathGradientBrush brush = new PathGradientBrush( path );
-		
-			Color[] colors = {
-								Color.FromArgb( 0, backColor ),
-								Color.FromArgb( backColor.A, backColor ),   
-								Color.FromArgb( backColor.A, backColor )}; 
+            path.AddEllipse(absRect.X, absRect.Y, absRect.Width, absRect.Height);
 
-			float[] relativePositions = {
-											0f,       
-											0.05f,     
-											1.0f};    // at the center point.
+            using PathGradientBrush brush = new PathGradientBrush(path);
 
-			ColorBlend colorBlend = new ColorBlend();
-			colorBlend.Colors = colors;
-			colorBlend.Positions = relativePositions;
-			brush.InterpolationColors = colorBlend;
+            Color[] colors = {
+                                Color.FromArgb( 0, backColor ),
+                                Color.FromArgb( backColor.A, backColor ),
+                                Color.FromArgb( backColor.A, backColor )};
 
-			this.FillPie( brush, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle );
-		}
+            float[] relativePositions = {
+                                            0f,
+                                            0.05f,
+                                            1.0f};    // at the center point.
 
-		#endregion
+            ColorBlend colorBlend = new ColorBlend();
+            colorBlend.Colors = colors;
+            colorBlend.Positions = relativePositions;
+            brush.InterpolationColors = colorBlend;
 
-		#region Arrow Methods
+            this.FillPie(brush, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle);
+        }
 
-		/// <summary>
-		/// Draw Arrow.
-		/// </summary>
-		/// <param name="position">Position of the arrow</param>
-		/// <param name="orientation">Orientation of the arrow - left, right, top, bottom </param>
+        #endregion Pie Method
+
+        #region Arrow Methods
+
+        /// <summary>
+        /// Draw Arrow.
+        /// </summary>
+        /// <param name="position">Position of the arrow</param>
+        /// <param name="orientation">Orientation of the arrow - left, right, top, bottom </param>
         /// <param name="type">Arrow style: Triangle, Sharp Triangle, Lines</param>
-		/// <param name="color">Color of the arrow</param>
-		/// <param name="lineWidth">Line width</param>
-		/// <param name="lineDashStyle">Line Dash style</param>
-		/// <param name="shift">Distance from the chart area</param>
-		/// <param name="size">Arrow size</param>
-		internal void DrawArrowRel( PointF position, ArrowOrientation orientation, AxisArrowStyle type, Color color, int lineWidth, ChartDashStyle lineDashStyle, double shift, double size )
-		{
-			// Check if arrow should be drawn
-			if(type == AxisArrowStyle.None)
-			{
-				return;
-			}
+        /// <param name="color">Color of the arrow</param>
+        /// <param name="lineWidth">Line width</param>
+        /// <param name="lineDashStyle">Line Dash style</param>
+        /// <param name="shift">Distance from the chart area</param>
+        /// <param name="size">Arrow size</param>
+        internal void DrawArrowRel(PointF position, ArrowOrientation orientation, AxisArrowStyle type, Color color, int lineWidth, ChartDashStyle lineDashStyle, double shift, double size)
+        {
+            // Check if arrow should be drawn
+            if (type == AxisArrowStyle.None)
+            {
+                return;
+            }
 
             // Set a color
             using SolidBrush brush = new SolidBrush(color);
@@ -5241,7 +5217,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // Draw arrow
                 this.FillPolygon(brush, points);
-
             }
             // Arrow type is sharp triangle
             else if (type == AxisArrowStyle.SharpTriangle)
@@ -5255,7 +5230,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // Draw arrow
                 this.FillPolygon(brush, points);
-
             }
             // Arrow type is 'Lines'
             else if (type == AxisArrowStyle.Lines)
@@ -5272,281 +5246,279 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 DrawLineRel(color, lineWidth, lineDashStyle, position, endPoint);
                 DrawLineRel(color, lineWidth, lineDashStyle, points[0], points[2]);
                 DrawLineRel(color, lineWidth, lineDashStyle, points[1], points[2]);
-
             }
         }
 
-		/// <summary>
-		/// This function calculates points for polygon, which represents 
-		/// shape of an arrow. There are four different orientations 
-		/// of arrow and three arrow types.
-		/// </summary>
-		/// <param name="position">Arrow position</param>
-		/// <param name="orientation">Arrow orientation ( Left, Right, Top, Bottom )</param>
-		/// <param name="shift">Distance from chart area to the arrow</param>
-		/// <param name="size">Arrow size</param>
+        /// <summary>
+        /// This function calculates points for polygon, which represents
+       /// shape of an arrow. There are four different orientations
+       /// of arrow and three arrow types.
+        /// </summary>
+        /// <param name="position">Arrow position</param>
+        /// <param name="orientation">Arrow orientation ( Left, Right, Top, Bottom )</param>
+        /// <param name="shift">Distance from chart area to the arrow</param>
+        /// <param name="size">Arrow size</param>
         /// <param name="type">Arrow style.</param>
-		/// <param name="endPoint">End point of the axis and the beginning of arrow</param>
-		/// <returns>Polygon points</returns>
-		private PointF[] GetArrowShape( PointF position, ArrowOrientation orientation, double shift, double size, AxisArrowStyle type, ref PointF endPoint )
-		{
-			PointF[] points = new PointF[3]; // Polygon points
-			double sharp; // Size for sharp triangle
+        /// <param name="endPoint">End point of the axis and the beginning of arrow</param>
+        /// <returns>Polygon points</returns>
+        private PointF[] GetArrowShape(PointF position, ArrowOrientation orientation, double shift, double size, AxisArrowStyle type, ref PointF endPoint)
+        {
+            PointF[] points = new PointF[3]; // Polygon points
+            double sharp; // Size for sharp triangle
 
-			// Four different orientations for AxisArrowStyle
-			switch( orientation )
-			{
-					// Top orientation
-				case ArrowOrientation.Top:
-					// Get absolute size for arrow
-					// Arrow size has to have the same shape when width and height 
-					// are changed. When the picture is resized, width of the chart 
-					// picture is used only for arrow size.
-					size = GetAbsoluteSize( new SizeF((float)size, (float)size) ).Width;
-					shift = GetAbsoluteSize( new SizeF((float)shift,(float)shift) ).Height;
+            // Four different orientations for AxisArrowStyle
+            switch (orientation)
+            {
+                // Top orientation
+                case ArrowOrientation.Top:
+                    // Get absolute size for arrow
+                    // Arrow size has to have the same shape when width and height
+                   // are changed. When the picture is resized, width of the chart
+                   // picture is used only for arrow size.
+                    size = GetAbsoluteSize(new SizeF((float)size, (float)size)).Width;
+                    shift = GetAbsoluteSize(new SizeF((float)shift, (float)shift)).Height;
 
-					// Size for sharp and regular triangle
-					if( type == AxisArrowStyle.SharpTriangle )
-						sharp = size * 4;
-					else
-						sharp = size * 2;
+                    // Size for sharp and regular triangle
+                    if (type == AxisArrowStyle.SharpTriangle)
+                        sharp = size * 4;
+                    else
+                        sharp = size * 2;
 
-					points[0].X = position.X - (float)size;
-					points[0].Y = position.Y - (float)shift;
-					points[1].X = position.X + (float)size;
-					points[1].Y = position.Y - (float)shift;
-					points[2].X = position.X;
-					points[2].Y = position.Y - (float)shift - (float)sharp;
-					// End of the axis line
-					endPoint.X = position.X;
-					if( type == AxisArrowStyle.SharpTriangle || type == AxisArrowStyle.Triangle )
-						endPoint.Y = points[1].Y;
-					else
-						endPoint.Y = points[2].Y;
-					
-					break;
-					// Bottom orientation
-				case ArrowOrientation.Bottom:
-					// Get absolute size for arrow
-					// Arrow size has to have the same shape when width and height 
-					// are changed. When the picture is resized, width of the chart 
-					// picture is used only for arrow size.
-					size = GetAbsoluteSize( new SizeF((float)size, (float)size) ).Width;
-					shift = GetAbsoluteSize( new SizeF((float)shift,(float)shift) ).Height;
+                    points[0].X = position.X - (float)size;
+                    points[0].Y = position.Y - (float)shift;
+                    points[1].X = position.X + (float)size;
+                    points[1].Y = position.Y - (float)shift;
+                    points[2].X = position.X;
+                    points[2].Y = position.Y - (float)shift - (float)sharp;
+                    // End of the axis line
+                    endPoint.X = position.X;
+                    if (type == AxisArrowStyle.SharpTriangle || type == AxisArrowStyle.Triangle)
+                        endPoint.Y = points[1].Y;
+                    else
+                        endPoint.Y = points[2].Y;
 
-					// Size for sharp and regular triangle
-					if( type == AxisArrowStyle.SharpTriangle )
-						sharp = size * 4;
-					else
-						sharp = size * 2;
+                    break;
+                // Bottom orientation
+                case ArrowOrientation.Bottom:
+                    // Get absolute size for arrow
+                    // Arrow size has to have the same shape when width and height
+                   // are changed. When the picture is resized, width of the chart
+                   // picture is used only for arrow size.
+                    size = GetAbsoluteSize(new SizeF((float)size, (float)size)).Width;
+                    shift = GetAbsoluteSize(new SizeF((float)shift, (float)shift)).Height;
 
-					points[0].X = position.X - (float)size;
-					points[0].Y = position.Y + (float)shift;
-					points[1].X = position.X + (float)size;
-					points[1].Y = position.Y + (float)shift;
-					points[2].X = position.X;
-					points[2].Y = position.Y + (float)shift + (float)sharp;
-					// End of the axis line
-					endPoint.X = position.X;
-					if( type == AxisArrowStyle.SharpTriangle || type == AxisArrowStyle.Triangle )
-						endPoint.Y = points[1].Y;
-					else
-						endPoint.Y = points[2].Y;
-					break;
-					// Left orientation
-				case ArrowOrientation.Left:
-					// Get absolute size for arrow
-					size = GetAbsoluteSize( new SizeF((float)size, (float)size) ).Width;
-					shift = GetAbsoluteSize( new SizeF((float)shift,(float)shift) ).Width;
+                    // Size for sharp and regular triangle
+                    if (type == AxisArrowStyle.SharpTriangle)
+                        sharp = size * 4;
+                    else
+                        sharp = size * 2;
 
-					// Size for sharp and regular triangle
-					if( type == AxisArrowStyle.SharpTriangle )
-						sharp = size * 4;
-					else
-						sharp = size * 2;
+                    points[0].X = position.X - (float)size;
+                    points[0].Y = position.Y + (float)shift;
+                    points[1].X = position.X + (float)size;
+                    points[1].Y = position.Y + (float)shift;
+                    points[2].X = position.X;
+                    points[2].Y = position.Y + (float)shift + (float)sharp;
+                    // End of the axis line
+                    endPoint.X = position.X;
+                    if (type == AxisArrowStyle.SharpTriangle || type == AxisArrowStyle.Triangle)
+                        endPoint.Y = points[1].Y;
+                    else
+                        endPoint.Y = points[2].Y;
+                    break;
+                // Left orientation
+                case ArrowOrientation.Left:
+                    // Get absolute size for arrow
+                    size = GetAbsoluteSize(new SizeF((float)size, (float)size)).Width;
+                    shift = GetAbsoluteSize(new SizeF((float)shift, (float)shift)).Width;
 
-					points[0].Y = position.Y - (float)size;
-					points[0].X = position.X - (float)shift;
-					points[1].Y = position.Y + (float)size;
-					points[1].X = position.X - (float)shift;
-					points[2].Y = position.Y;
-					points[2].X = position.X - (float)shift - (float)sharp;
-					// End of the axis line
-					endPoint.Y = position.Y;
-					if( type == AxisArrowStyle.SharpTriangle || type == AxisArrowStyle.Triangle )
-						endPoint.X = points[1].X;
-					else
-						endPoint.X = points[2].X;
-					break;
-					// Right orientation
-				case ArrowOrientation.Right:
-					// Get absolute size for arrow
-					size = GetAbsoluteSize( new SizeF((float)size, (float)size) ).Width;
-					shift = GetAbsoluteSize( new SizeF((float)shift,(float)shift) ).Width;
+                    // Size for sharp and regular triangle
+                    if (type == AxisArrowStyle.SharpTriangle)
+                        sharp = size * 4;
+                    else
+                        sharp = size * 2;
 
-					// Size for sharp and regular triangle
-					if( type == AxisArrowStyle.SharpTriangle )
-						sharp = size * 4;
-					else
-						sharp = size * 2;
+                    points[0].Y = position.Y - (float)size;
+                    points[0].X = position.X - (float)shift;
+                    points[1].Y = position.Y + (float)size;
+                    points[1].X = position.X - (float)shift;
+                    points[2].Y = position.Y;
+                    points[2].X = position.X - (float)shift - (float)sharp;
+                    // End of the axis line
+                    endPoint.Y = position.Y;
+                    if (type == AxisArrowStyle.SharpTriangle || type == AxisArrowStyle.Triangle)
+                        endPoint.X = points[1].X;
+                    else
+                        endPoint.X = points[2].X;
+                    break;
+                // Right orientation
+                case ArrowOrientation.Right:
+                    // Get absolute size for arrow
+                    size = GetAbsoluteSize(new SizeF((float)size, (float)size)).Width;
+                    shift = GetAbsoluteSize(new SizeF((float)shift, (float)shift)).Width;
 
-					points[0].Y = position.Y - (float)size;
-					points[0].X = position.X + (float)shift;
-					points[1].Y = position.Y + (float)size;
-					points[1].X = position.X + (float)shift;
-					points[2].Y = position.Y;
-					points[2].X = position.X + (float)shift + (float)sharp;
-					// End of the axis line
-					endPoint.Y = position.Y;
-					if( type == AxisArrowStyle.SharpTriangle || type == AxisArrowStyle.Triangle )
-						endPoint.X = points[1].X;
-					else
-						endPoint.X = points[2].X;
-					break;
-			}
+                    // Size for sharp and regular triangle
+                    if (type == AxisArrowStyle.SharpTriangle)
+                        sharp = size * 4;
+                    else
+                        sharp = size * 2;
 
-			return points;
-		}
+                    points[0].Y = position.Y - (float)size;
+                    points[0].X = position.X + (float)shift;
+                    points[1].Y = position.Y + (float)size;
+                    points[1].X = position.X + (float)shift;
+                    points[2].Y = position.Y;
+                    points[2].X = position.X + (float)shift + (float)sharp;
+                    // End of the axis line
+                    endPoint.Y = position.Y;
+                    if (type == AxisArrowStyle.SharpTriangle || type == AxisArrowStyle.Triangle)
+                        endPoint.X = points[1].X;
+                    else
+                        endPoint.X = points[2].X;
+                    break;
+            }
 
-		#endregion
-		
-		#region Other methods and properties
+            return points;
+        }
 
-		/// <summary>
-		/// Helper function that retrieves bar drawing style.
-		/// </summary>
-		/// <param name="point">Data point to get the drawing style for.</param>
-		/// <returns>Bar drawing style.</returns>
-		internal static BarDrawingStyle GetBarDrawingStyle(DataPoint point)
-		{
-			// Get column drawing style
-			BarDrawingStyle barDrawingStyle = BarDrawingStyle.Default;
-			string styleName = point[CustomPropertyName.DrawingStyle];
-			if(styleName != null)
-			{
-				if(string.Equals(styleName, "Default", StringComparison.OrdinalIgnoreCase))
-				{
-					barDrawingStyle = BarDrawingStyle.Default;
-				}
+        #endregion Arrow Methods
+
+        #region Other methods and properties
+
+        /// <summary>
+        /// Helper function that retrieves bar drawing style.
+        /// </summary>
+        /// <param name="point">Data point to get the drawing style for.</param>
+        /// <returns>Bar drawing style.</returns>
+        internal static BarDrawingStyle GetBarDrawingStyle(DataPoint point)
+        {
+            // Get column drawing style
+            BarDrawingStyle barDrawingStyle = BarDrawingStyle.Default;
+            string styleName = point[CustomPropertyName.DrawingStyle];
+            if (styleName != null)
+            {
+                if (string.Equals(styleName, "Default", StringComparison.OrdinalIgnoreCase))
+                {
+                    barDrawingStyle = BarDrawingStyle.Default;
+                }
                 else if (string.Equals(styleName, "Cylinder", StringComparison.OrdinalIgnoreCase))
-				{
-					barDrawingStyle = BarDrawingStyle.Cylinder;
-				}
+                {
+                    barDrawingStyle = BarDrawingStyle.Cylinder;
+                }
                 else if (string.Equals(styleName, "Emboss", StringComparison.OrdinalIgnoreCase))
-				{
-					barDrawingStyle = BarDrawingStyle.Emboss;
-				}
+                {
+                    barDrawingStyle = BarDrawingStyle.Emboss;
+                }
                 else if (string.Equals(styleName, "LightToDark", StringComparison.OrdinalIgnoreCase))
-				{
-					barDrawingStyle = BarDrawingStyle.LightToDark;
-				}
+                {
+                    barDrawingStyle = BarDrawingStyle.LightToDark;
+                }
                 else if (string.Equals(styleName, "Wedge", StringComparison.OrdinalIgnoreCase))
-				{
-					barDrawingStyle = BarDrawingStyle.Wedge;
-				}
-				else
-				{
+                {
+                    barDrawingStyle = BarDrawingStyle.Wedge;
+                }
+                else
+                {
                     throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(styleName, "DrawingStyle"));
-				}
-			}
-			return barDrawingStyle;
-		}
+                }
+            }
+            return barDrawingStyle;
+        }
 
+        /// <summary>
+        /// Find rounding coordinates for a rectangle
+        /// </summary>
+        /// <param name="rect">Rectangle which has to be rounded</param>
+        /// <returns>Rounded rectangle</returns>
+        internal RectangleF Round(RectangleF rect)
+        {
+            float left = (float)Math.Round((double)rect.Left);
+            float right = (float)Math.Round((double)rect.Right);
+            float top = (float)Math.Round((double)rect.Top);
+            float bottom = (float)Math.Round((double)rect.Bottom);
 
-		/// <summary>
-		/// Find rounding coordinates for a rectangle
-		/// </summary>
-		/// <param name="rect">Rectangle which has to be rounded</param>
-		/// <returns>Rounded rectangle</returns>
-		internal RectangleF Round(RectangleF rect)
-		{
-			float	left = (float)Math.Round( (double)rect.Left );
-			float	right = (float)Math.Round( (double)rect.Right );
-			float	top = (float)Math.Round( (double)rect.Top );
-			float	bottom = (float)Math.Round( (double)rect.Bottom );
+            return new RectangleF(left, top, right - left, bottom - top);
+        }
 
-			return new RectangleF( left, top, right - left, bottom - top ); 
-		}
-		
-		/// <summary>
+        /// <summary>
         /// This method takes a given axis value for a specified axis and returns the relative pixel value.
-		/// </summary>
-		/// <param name="chartAreaName">Chart area name.</param>
+        /// </summary>
+        /// <param name="chartAreaName">Chart area name.</param>
         /// <param name="axis">An AxisName enum value that identifies the relevant axis.</param>
         /// <param name="axisValue">The axis value that needs to be converted to a relative pixel value.</param>
-		/// <returns>The converted axis value, in relative pixel coordinates.</returns>
-		public double GetPositionFromAxis( string chartAreaName, AxisName axis, double axisValue )
-		{
-			if( axis == AxisName.X )
-				return _common.ChartPicture.ChartAreas[chartAreaName].AxisX.GetLinearPosition( axisValue );
+        /// <returns>The converted axis value, in relative pixel coordinates.</returns>
+        public double GetPositionFromAxis(string chartAreaName, AxisName axis, double axisValue)
+        {
+            if (axis == AxisName.X)
+                return _common.ChartPicture.ChartAreas[chartAreaName].AxisX.GetLinearPosition(axisValue);
 
-			if( axis == AxisName.X2 )
-				return _common.ChartPicture.ChartAreas[chartAreaName].AxisX2.GetLinearPosition( axisValue );
+            if (axis == AxisName.X2)
+                return _common.ChartPicture.ChartAreas[chartAreaName].AxisX2.GetLinearPosition(axisValue);
 
-			if( axis == AxisName.Y )
-				return _common.ChartPicture.ChartAreas[chartAreaName].AxisY.GetLinearPosition( axisValue );
+            if (axis == AxisName.Y)
+                return _common.ChartPicture.ChartAreas[chartAreaName].AxisY.GetLinearPosition(axisValue);
 
-			if( axis == AxisName.Y2 )
-				return _common.ChartPicture.ChartAreas[chartAreaName].AxisY2.GetLinearPosition( axisValue );
+            if (axis == AxisName.Y2)
+                return _common.ChartPicture.ChartAreas[chartAreaName].AxisY2.GetLinearPosition(axisValue);
 
-			return 0;
-		}
+            return 0;
+        }
 
-		/// <summary>
-		/// Set picture size
-		/// </summary>
-		/// <param name="width">Width</param>
-		/// <param name="height">Height</param>
-		internal void SetPictureSize( int width, int height )
-		{
-			this._width = width;
-			this._height = height;
-		}
+        /// <summary>
+        /// Set picture size
+        /// </summary>
+        /// <param name="width">Width</param>
+        /// <param name="height">Height</param>
+        internal void SetPictureSize(int width, int height)
+        {
+            this._width = width;
+            this._height = height;
+        }
 
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="common">Common elements class</param>
-		internal ChartGraphics(CommonElements common)
-		{
-			// Set Common elements
-			this._common = common;
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="common">Common elements class</param>
+        internal ChartGraphics(CommonElements common)
+        {
+            // Set Common elements
+            this._common = common;
             base.Common = common;
-			// Create a pen object
-			_pen = new Pen(Color.Black);
+            // Create a pen object
+            _pen = new Pen(Color.Black);
 
-			// Create a brush object
-			_solidBrush = new SolidBrush(Color.Black);
-		}
+            // Create a brush object
+            _solidBrush = new SolidBrush(Color.Black);
+        }
 
-		/// <summary>
-		/// Chart Graphics Anti alias mode
-		/// </summary>
-		internal AntiAliasingStyles AntiAliasing
-		{
-			get
-			{
-				return _antiAliasing;
-			}
-			set
-			{
-				_antiAliasing = value;
+        /// <summary>
+        /// Chart Graphics Anti alias mode
+        /// </summary>
+        internal AntiAliasingStyles AntiAliasing
+        {
+            get
+            {
+                return _antiAliasing;
+            }
+            set
+            {
+                _antiAliasing = value;
 
-				// Graphics mode not set
-				if( Graphics == null )
-					return;
+                // Graphics mode not set
+                if (Graphics == null)
+                    return;
 
-				// Convert Chart's anti alias enumeration to GDI+ SmoothingMode
-				if( (_antiAliasing & AntiAliasingStyles.Graphics) == AntiAliasingStyles.Graphics )
-				{
-					this.SmoothingMode = SmoothingMode.AntiAlias;
-				}
-				else
-				{
-					this.SmoothingMode = SmoothingMode.None;
-				}
-			}
-		}
+                // Convert Chart's anti alias enumeration to GDI+ SmoothingMode
+                if ((_antiAliasing & AntiAliasingStyles.Graphics) == AntiAliasingStyles.Graphics)
+                {
+                    this.SmoothingMode = SmoothingMode.AntiAlias;
+                }
+                else
+                {
+                    this.SmoothingMode = SmoothingMode.None;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets reusable pen.
@@ -5556,19 +5528,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
             get { return _pen; }
         }
 
-		/// <summary>
-		/// Sets the clipping region of this Graphics object 
-		/// to the rectangle specified by a RectangleF structure.
-		/// </summary>
-		/// <param name="region">Region rectangle</param>
-		internal void SetClip( RectangleF region )
-		{
-			this.SetClipAbs( GetAbsoluteRectangle( region ) );
-		}
-	
-		#endregion
+        /// <summary>
+        /// Sets the clipping region of this Graphics object
+       /// to the rectangle specified by a RectangleF structure.
+        /// </summary>
+        /// <param name="region">Region rectangle</param>
+        internal void SetClip(RectangleF region)
+        {
+            this.SetClipAbs(GetAbsoluteRectangle(region));
+        }
 
-		#region Color manipulation methods
+        #endregion Other methods and properties
+
+        #region Color manipulation methods
 
         /// <summary>
         /// Returns the gradient color from a gradient position.
@@ -5578,52 +5550,53 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="relativePosition">The relative position.</param>
         /// <returns>Result color.</returns>
         static internal Color GetGradientColor(Color beginColor, Color endColor, double relativePosition)
-		{
-			// Check if position is valid
-			if(relativePosition < 0 || relativePosition > 1 || double.IsNaN(relativePosition))
-			{
-				return beginColor;
-			}
-			
-			// Extracts Begin color
-			int nBRed = beginColor.R;
-			int nBGreen = beginColor.G;
-			int nBBlue = beginColor.B;
+        {
+            // Check if position is valid
+            if (relativePosition < 0 || relativePosition > 1 || double.IsNaN(relativePosition))
+            {
+                return beginColor;
+            }
 
-			// Extracts End color
-			int nERed = endColor.R;
-			int nEGreen = endColor.G;
-			int nEBlue = endColor.B;
+            // Extracts Begin color
+            int nBRed = beginColor.R;
+            int nBGreen = beginColor.G;
+            int nBBlue = beginColor.B;
 
-			// Gradient positions for Red, Green and Blue colors
-			double dRRed = nBRed + (nERed - nBRed) * relativePosition;
-			double dRGreen = nBGreen + (nEGreen - nBGreen) * relativePosition;
-			double dRBlue = nBBlue + (nEBlue - nBBlue) * relativePosition;
+            // Extracts End color
+            int nERed = endColor.R;
+            int nEGreen = endColor.G;
+            int nEBlue = endColor.B;
 
-			// Make sure colors are in range from 0 to 255
-			if(dRRed > 255.0)
-				dRRed = 255.0;
-			if(dRRed < 0.0)
-				dRRed = 0.0;
-			if(dRGreen > 255.0)
-				dRGreen = 255.0;
-			if(dRGreen < 0.0)
-				dRGreen = 0.0;
-			if(dRBlue > 255.0)
-				dRBlue = 255.0;
-			if(dRBlue < 0.0)
-				dRBlue = 0.0;
+            // Gradient positions for Red, Green and Blue colors
+            double dRRed = nBRed + (nERed - nBRed) * relativePosition;
+            double dRGreen = nBGreen + (nEGreen - nBGreen) * relativePosition;
+            double dRBlue = nBBlue + (nEBlue - nBBlue) * relativePosition;
 
-			// Return a gradient color position
-			return Color.FromArgb(beginColor.A, (int)dRRed, (int)dRGreen, (int)dRBlue);
-		}
+            // Make sure colors are in range from 0 to 255
+            if (dRRed > 255.0)
+                dRRed = 255.0;
+            if (dRRed < 0.0)
+                dRRed = 0.0;
+            if (dRGreen > 255.0)
+                dRGreen = 255.0;
+            if (dRGreen < 0.0)
+                dRGreen = 0.0;
+            if (dRBlue > 255.0)
+                dRBlue = 255.0;
+            if (dRBlue < 0.0)
+                dRBlue = 0.0;
 
-		#endregion
+            // Return a gradient color position
+            return Color.FromArgb(beginColor.A, (int)dRRed, (int)dRGreen, (int)dRBlue);
+        }
+
+        #endregion Color manipulation methods
 
         #region RightToLeft
+
         /// <summary>
-        /// Returns chart right to left flag 
-        /// </summary>
+        /// Returns chart right to left flag
+       /// </summary>
         internal bool IsRightToLeft
         {
             get
@@ -5635,58 +5608,58 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return Common.ChartPicture.RightToLeft == RightToLeft.Yes;
             }
         }
-        
-        #endregion //RightToLeft
+
+        #endregion RightToLeft
 
         #region IDisposable Members
 
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources.
-		/// </summary>
-		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-		protected virtual void Dispose(bool disposing)
-		{
-			if (!_disposedValue)
-			{
-				if (disposing)
-				{
-					if (_pen != null)
-					{
-						_pen.Dispose();
-						_pen = null;
-					}
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_pen != null)
+                    {
+                        _pen.Dispose();
+                        _pen = null;
+                    }
 
-					if (_solidBrush != null)
-					{
-						_solidBrush.Dispose();
-						_solidBrush = null;
-					}
+                    if (_solidBrush != null)
+                    {
+                        _solidBrush.Dispose();
+                        _solidBrush = null;
+                    }
 
-					if (_myMatrix != null)
-					{
-						_myMatrix.Dispose();
-						_myMatrix = null;
-					}
+                    if (_myMatrix != null)
+                    {
+                        _myMatrix.Dispose();
+                        _myMatrix = null;
+                    }
 
-					if (frontLinePen != null)
-					{
-						frontLinePen.Dispose();
-						frontLinePen = null;
-					}
-				}
-				_disposedValue = true;
-			}
-		}
+                    if (frontLinePen != null)
+                    {
+                        frontLinePen.Dispose();
+                        frontLinePen = null;
+                    }
+                }
+                _disposedValue = true;
+            }
+        }
 
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources.
-		/// </summary>
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-		#endregion
-	}
+        #endregion IDisposable Members
+    }
 }

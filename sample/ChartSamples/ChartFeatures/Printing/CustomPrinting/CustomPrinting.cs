@@ -1,62 +1,58 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
 using System.Drawing.Printing;
-using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms;
 
 namespace ChartSamples
 {
-	/// <summary>
-	/// Summary description for CustomPrinting.
-	/// </summary>
-	public class CustomPrinting : System.Windows.Forms.UserControl
-	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Button buttonPrintPreview;
-		private System.Windows.Forms.Button buttonPrint;
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for CustomPrinting.
+    /// </summary>
+    public class CustomPrinting : System.Windows.Forms.UserControl
+    {
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label labelSampleComment;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button buttonPrintPreview;
+        private System.Windows.Forms.Button buttonPrint;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
 
-		public CustomPrinting()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-			// Initialize combo boxes
-		
-		}
-		
+        public CustomPrinting()
+        {
+            // This call is required by the Windows.Forms Form Designer.
+            InitializeComponent();
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+            // Initialize combo boxes
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+       /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -91,10 +87,10 @@ namespace ChartSamples
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // chart1
-            // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // chart1
+            //
+           this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart1.BackSecondaryColor = System.Drawing.Color.White;
             this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -154,29 +150,29 @@ namespace ChartSamples
             this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(256, 260);
             this.chart1.TabIndex = 1;
-            // 
-            // labelSampleComment
-            // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //
+           // labelSampleComment
+            //
+           this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleComment.Location = new System.Drawing.Point(16, 14);
             this.labelSampleComment.Name = "labelSampleComment";
             this.labelSampleComment.Size = new System.Drawing.Size(702, 60);
             this.labelSampleComment.TabIndex = 0;
             this.labelSampleComment.Text = resources.GetString("labelSampleComment.Text");
             this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.buttonPrint);
+            //
+           // panel1
+            //
+           this.panel1.Controls.Add(this.buttonPrint);
             this.panel1.Controls.Add(this.buttonPrintPreview);
             this.panel1.Location = new System.Drawing.Point(552, 88);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(160, 256);
             this.panel1.TabIndex = 2;
-            // 
-            // buttonPrint
-            // 
-            this.buttonPrint.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // buttonPrint
+            //
+           this.buttonPrint.BackColor = System.Drawing.SystemColors.Control;
             this.buttonPrint.Location = new System.Drawing.Point(16, 40);
             this.buttonPrint.Name = "buttonPrint";
             this.buttonPrint.Size = new System.Drawing.Size(128, 23);
@@ -184,10 +180,10 @@ namespace ChartSamples
             this.buttonPrint.Text = "Pri&nt";
             this.buttonPrint.UseVisualStyleBackColor = false;
             this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
-            // 
-            // buttonPrintPreview
-            // 
-            this.buttonPrintPreview.BackColor = System.Drawing.SystemColors.Control;
+            //
+           // buttonPrintPreview
+            //
+           this.buttonPrintPreview.BackColor = System.Drawing.SystemColors.Control;
             this.buttonPrintPreview.Location = new System.Drawing.Point(16, 0);
             this.buttonPrintPreview.Name = "buttonPrintPreview";
             this.buttonPrintPreview.Size = new System.Drawing.Size(128, 23);
@@ -195,10 +191,10 @@ namespace ChartSamples
             this.buttonPrintPreview.Text = "Print &Preview";
             this.buttonPrintPreview.UseVisualStyleBackColor = false;
             this.buttonPrintPreview.Click += new System.EventHandler(this.buttonPreview_Click);
-            // 
-            // chart2
-            // 
-            this.chart2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            //
+           // chart2
+            //
+           this.chart2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
             this.chart2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chart2.BackSecondaryColor = System.Drawing.Color.White;
             this.chart2.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -251,10 +247,10 @@ namespace ChartSamples
             this.chart2.Series.Add(series2);
             this.chart2.Size = new System.Drawing.Size(256, 260);
             this.chart2.TabIndex = 3;
-            // 
-            // CustomPrinting
-            // 
-            this.BackColor = System.Drawing.Color.White;
+            //
+           // CustomPrinting
+            //
+           this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.chart2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelSampleComment);
@@ -266,81 +262,80 @@ namespace ChartSamples
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion Component Designer generated code
 
-		private void buttonPreview_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				// Set new print document with custom page printing event handler
-				chart1.Printing.PrintDocument = new PrintDocument();
-				chart1.Printing.PrintDocument.PrintPage += new PrintPageEventHandler(pd_PrintPage);
+        private void buttonPreview_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                // Set new print document with custom page printing event handler
+                chart1.Printing.PrintDocument = new PrintDocument();
+                chart1.Printing.PrintDocument.PrintPage += new PrintPageEventHandler(pd_PrintPage);
 
-				// Print preview chart
-				chart1.Printing.PrintPreview();
-			}
-			catch(Exception ex)
-			{
-				MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-		}
+                // Print preview chart
+                chart1.Printing.PrintPreview();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
 
-		private void buttonPrint_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-				// Set new print document with custom page printing event handler
-				chart1.Printing.PrintDocument = new PrintDocument();
-				chart1.Printing.PrintDocument.PrintPage += new PrintPageEventHandler(pd_PrintPage);
+        private void buttonPrint_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                // Set new print document with custom page printing event handler
+                chart1.Printing.PrintDocument = new PrintDocument();
+                chart1.Printing.PrintDocument.PrintPage += new PrintPageEventHandler(pd_PrintPage);
 
-				// Print preview chart
-				chart1.Printing.Print(true);
-			}
-			catch(Exception ex)
-			{
-				MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-		}
+                // Print preview chart
+                chart1.Printing.Print(true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Chart Control for .NET Framework", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
 
-		/// <summary>
-		/// Handles PrintPage event of the document.
-		/// </summary>
-		/// <param name="sender">Sender object.</param>
-		/// <param name="ev">Event parameters.</param>
-		private void pd_PrintPage(object sender, PrintPageEventArgs ev) 
-		{
-			// Calculate title string position
-			Rectangle	titlePosition = new Rectangle(ev.MarginBounds.X, ev.MarginBounds.Y, ev.MarginBounds.Width, ev.MarginBounds.Height);
-			Font		fontTitle = new Font("Times New Roman", 16);
-			string		chartTitle = "Two charts on the same page sample.";
-			SizeF		titleSize = ev.Graphics.MeasureString(chartTitle, fontTitle);
-			titlePosition.Height = (int)titleSize.Height;
+        /// <summary>
+        /// Handles PrintPage event of the document.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="ev">Event parameters.</param>
+        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
+        {
+            // Calculate title string position
+            Rectangle titlePosition = new Rectangle(ev.MarginBounds.X, ev.MarginBounds.Y, ev.MarginBounds.Width, ev.MarginBounds.Height);
+            Font fontTitle = new Font("Times New Roman", 16);
+            string chartTitle = "Two charts on the same page sample.";
+            SizeF titleSize = ev.Graphics.MeasureString(chartTitle, fontTitle);
+            titlePosition.Height = (int)titleSize.Height;
 
-			// Draw charts title
-			StringFormat	format = new StringFormat();
-			format.Alignment = StringAlignment.Center;
-			ev.Graphics.DrawString(chartTitle, fontTitle, Brushes.Black, titlePosition, format);
+            // Draw charts title
+            StringFormat format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            ev.Graphics.DrawString(chartTitle, fontTitle, Brushes.Black, titlePosition, format);
 
-			// Calculate first chart position rectangle
-			Rectangle	chartPosition = new Rectangle(ev.MarginBounds.X, titlePosition.Bottom, chart1.Size.Width, chart1.Size.Height);
+            // Calculate first chart position rectangle
+            Rectangle chartPosition = new Rectangle(ev.MarginBounds.X, titlePosition.Bottom, chart1.Size.Width, chart1.Size.Height);
 
-			// Align first chart position on the page
-			float	chartWidthScale = ((float)ev.MarginBounds.Width/2f) / ((float)chartPosition.Width);
-			float	chartHeightScale = ((float)ev.MarginBounds.Height) / ((float)chartPosition.Height);
-			chartPosition.Width = (int)(chartPosition.Width * Math.Min(chartWidthScale, chartHeightScale));
-			chartPosition.Height = (int)(chartPosition.Height * Math.Min(chartWidthScale, chartHeightScale));
+            // Align first chart position on the page
+            float chartWidthScale = ((float)ev.MarginBounds.Width / 2f) / ((float)chartPosition.Width);
+            float chartHeightScale = ((float)ev.MarginBounds.Height) / ((float)chartPosition.Height);
+            chartPosition.Width = (int)(chartPosition.Width * Math.Min(chartWidthScale, chartHeightScale));
+            chartPosition.Height = (int)(chartPosition.Height * Math.Min(chartWidthScale, chartHeightScale));
 
-			// Draw first chart on the printer graphics
-			chart1.Printing.PrintPaint(ev.Graphics, chartPosition);
+            // Draw first chart on the printer graphics
+            chart1.Printing.PrintPaint(ev.Graphics, chartPosition);
 
-			// Adjust position rectangle for the second chart
-			chartPosition.X += chartPosition.Width;
+            // Adjust position rectangle for the second chart
+            chartPosition.X += chartPosition.Width;
 
-			// Draw second chart on the printer graphics
-			chart2.Printing.PrintPaint(ev.Graphics, chartPosition);
-		}
-
-	}
+            // Draw second chart on the printer graphics
+            chart2.Printing.PrintPaint(ev.Graphics, chartPosition);
+        }
+    }
 }

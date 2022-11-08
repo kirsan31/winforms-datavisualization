@@ -1,11 +1,11 @@
 <?xml version="1.0" ?> 
 <SampleConfigs>
 <SampleConfig ParentNodeID = "Axis" Priority="450">
-  <Title>Scale Breaks</Title> 
-  <Thumbnail>thumbnail.jpg</Thumbnail>
-  <ShortBlurb>Scale Breaks</ShortBlurb> 
-  <SampleControl>ScaleBreaks</SampleControl> 
-  <InfoPages>
+  <Title>Scale Breaks</Title>
+ <Thumbnail>thumbnail.jpg</Thumbnail>
+  <ShortBlurb>Scale Breaks</ShortBlurb>
+ <SampleControl>ScaleBreaks</SampleControl>
+ <InfoPages>
     <InfoPage Title="C# Source">cscode.txt</InfoPage>
     <InfoPage Title="Visual Basic Source">vbcode.txt</InfoPage>
   </InfoPages>
@@ -17,7 +17,5 @@
 	<Keyword>Axis, Axis Breaks</Keyword>
 	<Keyword>Axis, Breaks</Keyword>
   </Keywords>
-
 </SampleConfig>
-
 </SampleConfigs>
