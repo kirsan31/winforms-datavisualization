@@ -2,11 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
-//  Purpose:	Design-time marker style editor class. 
+//  Purpose:	Design-time marker style editor class.
 //
-
 
 using System.ComponentModel;
 using System.Drawing;
@@ -14,7 +12,6 @@ using System.Drawing.Design;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace System.Windows.Forms.Design.DataVisualization.Charting;
-
 
 /// <summary>
 /// AxisName editor for the marker style.
@@ -106,7 +103,7 @@ internal class MarkerStyleEditor : UITypeEditor, IDisposable
         }
     }
 
-    #endregion
+    #endregion Editor method and properties
 
     #region IDisposable Members
 
@@ -133,7 +130,5 @@ internal class MarkerStyleEditor : UITypeEditor, IDisposable
         Dispose(true);
     }
 
-    #endregion
+    #endregion IDisposable Members
 }
-
-

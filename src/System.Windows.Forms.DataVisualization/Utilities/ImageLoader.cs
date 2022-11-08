@@ -2,12 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
-//  Purpose:	ImageLoader utility class loads specified image and 
+//  Purpose:	ImageLoader utility class loads specified image and
 //              caches it in the memory for the future use.
 //
-
 
 using System.Collections;
 using System.ComponentModel;
@@ -24,23 +22,23 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     using Size = System.Drawing.Size;
 
     /// <summary>
-    /// ImageLoader utility class loads and returns specified image 
-    /// form the File, URI, Web Request or Chart Resources. 
-    /// Loaded images are stored in the internal hashtable which 
-    /// allows to improve performance if image need to be used 
+    /// ImageLoader utility class loads and returns specified image
+    /// form the File, URI, Web Request or Chart Resources.
+    /// Loaded images are stored in the internal hashtable which
+    /// allows to improve performance if image need to be used
     /// several times.
     /// </summary>
     internal class ImageLoader : IDisposable, IServiceProvider
-	{
-		#region Fields
+    {
+        #region Fields
 
-		// Image storage
-		private Hashtable			_imageData;
+        // Image storage
+        private Hashtable _imageData;
 
         // Reference to the service container
-        private IServiceContainer	_serviceContainer;
+        private IServiceContainer _serviceContainer;
 
-        #endregion
+        #endregion Fields
 
         #region Constructors and Initialization
 
@@ -48,114 +46,113 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// Default constructor is not accessible.
         /// </summary>
         private ImageLoader()
-		{
-		}
+        {
+        }
 
-		/// <summary>
-		/// Default public constructor.
-		/// </summary>
-		/// <param name="container">Service container.</param>
-		public ImageLoader(IServiceContainer container)
-		{
-			if(container == null)
-			{
-				throw new ArgumentNullException(SR.ExceptionImageLoaderInvalidServiceContainer);
-			}
+        /// <summary>
+        /// Default public constructor.
+        /// </summary>
+        /// <param name="container">Service container.</param>
+        public ImageLoader(IServiceContainer container)
+        {
+            if (container == null)
+            {
+                throw new ArgumentNullException(SR.ExceptionImageLoaderInvalidServiceContainer);
+            }
             _serviceContainer = container;
-		}
+        }
 
-		/// <summary>
-		/// Returns Image Loader service object
-		/// </summary>
-		/// <param name="serviceType">Requested service type.</param>
-		/// <returns>Image Loader service object.</returns>
-		[EditorBrowsableAttribute(EditorBrowsableState.Never)]
-		object IServiceProvider.GetService(Type serviceType)
-		{
-			if(serviceType == typeof(ImageLoader))
-			{
-				return this;
-			}
-			throw new ArgumentException( SR.ExceptionImageLoaderUnsupportedType( serviceType.ToString()));
-		}
+        /// <summary>
+        /// Returns Image Loader service object
+        /// </summary>
+        /// <param name="serviceType">Requested service type.</param>
+        /// <returns>Image Loader service object.</returns>
+        [EditorBrowsableAttribute(EditorBrowsableState.Never)]
+        object IServiceProvider.GetService(Type serviceType)
+        {
+            if (serviceType == typeof(ImageLoader))
+            {
+                return this;
+            }
+            throw new ArgumentException(SR.ExceptionImageLoaderUnsupportedType(serviceType.ToString()));
+        }
 
-		/// <summary>
-		/// Dispose images in the hashtable
-		/// </summary>
-		public void Dispose()
-		{
+        /// <summary>
+        /// Dispose images in the hashtable
+        /// </summary>
+        public void Dispose()
+        {
             if (_imageData != null)
-			{
+            {
                 foreach (DictionaryEntry entry in _imageData)
-				{
+                {
                     if (entry.Value is IDisposable)
                     {
                         ((IDisposable)entry.Value).Dispose();
                     }
-				}
+                }
                 _imageData = null;
-				GC.SuppressFinalize(this);  
-			}
-		}
+                GC.SuppressFinalize(this);
+            }
+        }
 
-		#endregion
+        #endregion Constructors and Initialization
 
-		#region Methods
+        #region Methods
 
-		/// <summary>
-		/// Loads image from URL. Checks if image already loaded (cached).
-		/// </summary>
+        /// <summary>
+        /// Loads image from URL. Checks if image already loaded (cached).
+        /// </summary>
         /// <param name="imageURL">Image name (FileName, URL, Resource).</param>
-		/// <returns>Image object.</returns>
-		public System.Drawing.Image LoadImage(string imageURL)
-		{
-			return LoadImage(imageURL, true);
-		}
-			
-		/// <summary>
-		/// Loads image from URL. Checks if image already loaded (cached).
-		/// </summary>
-		/// <param name="imageURL">Image name (FileName, URL, Resource).</param>
-		/// <param name="saveImage">True if loaded image should be saved in cache.</param>
-		/// <returns>Image object</returns>
+        /// <returns>Image object.</returns>
+        public System.Drawing.Image LoadImage(string imageURL)
+        {
+            return LoadImage(imageURL, true);
+        }
+
+        /// <summary>
+        /// Loads image from URL. Checks if image already loaded (cached).
+        /// </summary>
+        /// <param name="imageURL">Image name (FileName, URL, Resource).</param>
+        /// <param name="saveImage">True if loaded image should be saved in cache.</param>
+        /// <returns>Image object</returns>
         public System.Drawing.Image LoadImage(string imageURL, bool saveImage)
-		{
+        {
             System.Drawing.Image image = null;
 
-			// Check if image is defined in the chart image collection
+            // Check if image is defined in the chart image collection
             if (_serviceContainer != null)
-			{
+            {
                 Chart chart = (Chart)_serviceContainer.GetService(typeof(Chart));
-				if(chart != null)
-				{
-					foreach(NamedImage namedImage in chart.Images)
-					{
-						if(namedImage.Name == imageURL)
-						{
-							return namedImage.Image;
-						}
-					}
-				}
-			}
+                if (chart != null)
+                {
+                    foreach (NamedImage namedImage in chart.Images)
+                    {
+                        if (namedImage.Name == imageURL)
+                        {
+                            return namedImage.Image;
+                        }
+                    }
+                }
+            }
 
-			// Create new hashtable
+            // Create new hashtable
             if (_imageData == null)
-			{
+            {
                 _imageData = new Hashtable(StringComparer.OrdinalIgnoreCase);
-			}
+            }
 
-			// First check if image with this name already loaded
+            // First check if image with this name already loaded
             if (_imageData.Contains(imageURL))
-			{
-				image = (System.Drawing.Image)_imageData[imageURL];
-			}
+            {
+                image = (System.Drawing.Image)_imageData[imageURL];
+            }
 
-			// Try to load image from resource
-			if(image == null)
-			{
+            // Try to load image from resource
+            if (image == null)
+            {
                 try
                 {
-
                     // Check if resource class type was specified
                     int columnIndex = imageURL.IndexOf("::", StringComparison.Ordinal);
                     if (columnIndex > 0)
@@ -209,25 +206,23 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 catch (MissingManifestResourceException)
                 {
                 }
-			}
-		
+            }
 
-			// Try to load image using the Web Request
-			if(image == null)
-			{
-				Uri	imageUri = null;
-				try 
-				{
-					// Try to create URI directly from image URL (will work in case of absolute URL)
-					imageUri = new Uri(imageURL);
-				}
-				catch(UriFormatException)
-				{}
+            // Try to load image using the Web Request
+            if (image == null)
+            {
+                Uri imageUri = null;
+                try
+                {
+                    // Try to create URI directly from image URL (will work in case of absolute URL)
+                    imageUri = new Uri(imageURL);
+                }
+                catch (UriFormatException)
+                { }
 
-
-				// Load image from file or web resource
-				if(imageUri != null)
-				{
+                // Load image from file or web resource
+                if (imageUri != null)
+                {
                     try
                     {
                         WebRequest request = WebRequest.Create(imageUri);
@@ -242,48 +237,48 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     catch (SecurityException)
                     {
                     }
-				}
+                }
             }
 
             // absolute uri(without Server.MapPath)in web is not allowed. Loading from relative uri Server[Page].MapPath is done above.
             // Try to load as file
-			if(image == null)
-			{
+            if (image == null)
+            {
                 image = LoadFromFile(imageURL);
             }
 
             // Error loading image
-			if(image == null)
-			{
-				throw new ArgumentException( SR.ExceptionImageLoaderIncorrectImageLocation( imageURL ) ) ;
+            if (image == null)
+            {
+                throw new ArgumentException(SR.ExceptionImageLoaderIncorrectImageLocation(imageURL));
             }
 
-			// Save new image in cache
-			if(saveImage)
-			{
+            // Save new image in cache
+            if (saveImage)
+            {
                 _imageData[imageURL] = image;
-			}
+            }
 
-			return image;
-		}
+            return image;
+        }
 
-		/// <summary>
-		/// Helper function which loads image from file.
-		/// </summary>
-		/// <param name="fileName">File name.</param>
-		/// <returns>Loaded image or null.</returns>
+        /// <summary>
+        /// Helper function which loads image from file.
+        /// </summary>
+        /// <param name="fileName">File name.</param>
+        /// <returns>Loaded image or null.</returns>
         private System.Drawing.Image LoadFromFile(string fileName)
-		{
-			// Try to load image from file
-			try
-			{
-				return System.Drawing.Image.FromFile(fileName);
-			}
-			catch(FileNotFoundException)
-			{
-				return null;
-			}
-		}
+        {
+            // Try to load image from file
+            try
+            {
+                return System.Drawing.Image.FromFile(fileName);
+            }
+            catch (FileNotFoundException)
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// Returns the image size taking the image DPI into consideration.
@@ -344,7 +339,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             return scaledImage;
         }
 
-
-		#endregion
-	}
+        #endregion Methods
+    }
 }

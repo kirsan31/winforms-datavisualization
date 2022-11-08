@@ -902,8 +902,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion Methods
 
-
-
         #region IDisposable override
 
         /// <summary>

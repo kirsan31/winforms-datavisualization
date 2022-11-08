@@ -2,19 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
-//  Purpose:	Every property in the chart references images by names. 
-//              This means that you can set MarkerImage property to a 
-//              full image path or URL. In case when the user wants to 
-//              dynamically generate an image or load it from other 
-//              location (like database) you can use named image 
-//              collection which is exposed as Images property of the 
-//              chart. Any Image can be added to this collection with 
-//              unique name and than this name can be used in all the 
+//  Purpose:	Every property in the chart references images by names.
+//              This means that you can set MarkerImage property to a
+//              full image path or URL. In case when the user wants to
+//              dynamically generate an image or load it from other
+//              location (like database) you can use named image
+//              collection which is exposed as Images property of the
+//              chart. Any Image can be added to this collection with
+//              unique name and than this name can be used in all the
 //              chart properties which require image names.
 //
-
 
 using System.ComponentModel;
 
@@ -37,7 +35,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IDisposable Members
 
@@ -49,7 +47,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (_disposedValue)
                 return;
-            
+
             if (disposing)
             {
                 // Dispose managed resources
@@ -58,7 +56,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     element.Dispose();
                 }
             }
-            
+
             _disposedValue = true;
         }
 
@@ -71,7 +69,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+        #endregion IDisposable Members
     }
 
     /// <summary>
@@ -88,7 +86,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private string _name = string.Empty;
         private System.Drawing.Image _image;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -110,7 +108,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this._image = image;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Properties
 
@@ -152,8 +150,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
-
+        #endregion Properties
 
         #region IDisposable Members
 
@@ -182,6 +179,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+        #endregion IDisposable Members
     }
 }

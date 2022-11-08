@@ -2,17 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	DataManipulator class exposes to the user methods
-//				to perform data filtering, grouping, inserting 
+//				to perform data filtering, grouping, inserting
 //				empty points, sorting and exporting data.
-//				It also expose financial and statistical formulas 
+//				It also expose financial and statistical formulas
 //              through the DataFormula base class.
 //
 
-
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 
@@ -29,54 +26,67 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Not defined
         /// </summary>
         None,
+
         /// <summary>
         /// Minimum value of the group
         /// </summary>
         Min,
+
         /// <summary>
         /// Maximum value of the group
         /// </summary>
         Max,
+
         /// <summary>
         /// Average value of the group
         /// </summary>
         Ave,
+
         /// <summary>
         /// Total of all values of the group
         /// </summary>
         Sum,
+
         /// <summary>
         /// Value of the first point in the group
         /// </summary>
         First,
+
         /// <summary>
         /// Value of the last point in the group
         /// </summary>
         Last,
+
         /// <summary>
         /// Value of the center point in the group
         /// </summary>
         Center,
+
         /// <summary>
         /// High, Low, Open, Close values in the group
         /// </summary>
         HiLoOpCl,
+
         /// <summary>
         /// High, Low values in the group
         /// </summary>
         HiLo,
+
         /// <summary>
         /// Number of points in the group
         /// </summary>
         Count,
+
         /// <summary>
         /// Number of unique points in the group
         /// </summary>
         DistinctCount,
+
         /// <summary>
         /// Variance of points in the group
         /// </summary>
         Variance,
+
         /// <summary>
         /// Deviation of points in the group
         /// </summary>
@@ -92,34 +102,42 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Interval in numbers.
         /// </summary>
         Number,
+
         /// <summary>
         /// Interval in years.
         /// </summary>
         Years,
+
         /// <summary>
         /// Interval in months.
         /// </summary>
         Months,
+
         /// <summary>
         /// Interval in weeks.
         /// </summary>
         Weeks,
+
         /// <summary>
         /// Interval in days.
         /// </summary>
         Days,
+
         /// <summary>
         /// Interval in hours.
         /// </summary>
         Hours,
+
         /// <summary>
         /// Interval in minutes.
         /// </summary>
         Minutes,
+
         /// <summary>
         /// Interval in seconds.
         /// </summary>
         Seconds,
+
         /// <summary>
         /// Interval in milliseconds.
         /// </summary>
@@ -135,22 +153,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Range defined in years.
         /// </summary>
         Year,
+
         /// <summary>
         /// Range defined in months.
         /// </summary>
         Month,
+
         /// <summary>
         /// Range defined in days of week.
         /// </summary>
         DayOfWeek,
+
         /// <summary>
         /// Range defined in days of month.
         /// </summary>
         DayOfMonth,
+
         /// <summary>
         /// Range defined in hours.
         /// </summary>
         Hour,
+
         /// <summary>
         /// Range defined in minutes.
         /// </summary>
@@ -166,29 +189,34 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// One value is more than the other value.
         /// </summary>
         MoreThan,
+
         /// <summary>
         /// One value is less than the other value.
         /// </summary>
         LessThan,
+
         /// <summary>
         /// One value is equal the other value.
         /// </summary>
         EqualTo,
+
         /// <summary>
         /// One value is more or equal to the other value.
         /// </summary>
         MoreThanOrEqualTo,
+
         /// <summary>
         /// One value is less or equal to the other value.
         /// </summary>
         LessThanOrEqualTo,
+
         /// <summary>
         /// One value is not equal to the other value.
         /// </summary>
         NotEqualTo
     }
 
-    #endregion
+    #endregion Data manipulation enumerations
 
     #region Data points filtering inteface
 
@@ -207,11 +235,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         bool FilterDataPoint(DataPoint point, Series series, int pointIndex);
     }
 
-    #endregion
+    #endregion Data points filtering inteface
 
     /// <summary>
-    /// The DataManipulator class is used at runtime to perform data manipulation 
-    /// operations, and is exposed via the DataManipulator property of the 
+    /// The DataManipulator class is used at runtime to perform data manipulation
+    /// operations, and is exposed via the DataManipulator property of the
     /// root Chart object.
     /// </summary>
     public class DataManipulator : DataFormula
@@ -224,7 +252,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Indicates that points that match the criteria must be filtered out
         private bool _filterMatchedPoints = true;
 
-        #endregion // Fields
+        #endregion Fields
 
         #region Data manipulator helper functions
 
@@ -350,7 +378,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
         }
 
-        #endregion
+        #endregion Data manipulator helper functions
 
         #region Series points sorting methods
 
@@ -374,7 +402,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return;
             }
 
-            // Sort series 
+            // Sort series
             DataPointComparer comparer = new DataPointComparer(series[0], pointSortOrder, sortBy);
             this.Sort(comparer, series);
         }
@@ -463,7 +491,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Series points sorting methods
 
         #region Series points sorting overloaded methods
 
@@ -553,7 +581,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Sort(comparer, ConvertToSeriesArray(seriesName, false));
         }
 
-        #endregion
+        #endregion Series points sorting overloaded methods
 
         #region Insert empty data points method
 
@@ -635,7 +663,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 fromX += ChartHelper.GetIntervalSize(fromX, intervalOffset, ConvertIntervalType(intervalOffsetType), null, 0, DateTimeIntervalType.Number, true, false);
             }
 
-
             //**************************************************
             //** Loop through all series
             //**************************************************
@@ -650,7 +677,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 while (currentPointValue <= toX)
                 {
                     //**************************************************
-                    //** Check that X value is in range 
+                    //** Check that X value is in range
                     //**************************************************
                     bool outOfRange = false;
                     if (double.IsNaN(fromXValue) && currentPointValue < nonAdjustedFromX ||
@@ -662,7 +689,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         outOfRange = true;
                     }
-
 
                     // Current X value is in range of points values
                     if (!outOfRange)
@@ -717,7 +743,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         interval,
                         ConvertIntervalType(intervalType));
 
-
                     //**************************************************
                     //** Check if we exceed number of empty points
                     //** we can add.
@@ -743,20 +768,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 case IntervalType.Milliseconds:
                     return DateTimeIntervalType.Milliseconds;
+
                 case IntervalType.Seconds:
                     return DateTimeIntervalType.Seconds;
+
                 case IntervalType.Days:
                     return DateTimeIntervalType.Days;
+
                 case IntervalType.Hours:
                     return DateTimeIntervalType.Hours;
+
                 case IntervalType.Minutes:
                     return DateTimeIntervalType.Minutes;
+
                 case IntervalType.Months:
                     return DateTimeIntervalType.Months;
+
                 case IntervalType.Number:
                     return DateTimeIntervalType.Number;
+
                 case IntervalType.Weeks:
                     return DateTimeIntervalType.Weeks;
+
                 case IntervalType.Years:
                     return DateTimeIntervalType.Years;
             }
@@ -764,7 +797,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return DateTimeIntervalType.Auto;
         }
 
-        #endregion
+        #endregion Insert empty data points method
 
         #region Insert empty data points overloaded methods
 
@@ -865,7 +898,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 ConvertToSeriesArray(seriesName, false));
         }
 
-
         /// <summary>
         /// Insert empty data points using the specified interval.
         /// </summary>
@@ -899,8 +931,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 ConvertToSeriesArray(series, false));
         }
 
-
-        #endregion
+        #endregion Insert empty data points overloaded methods
 
         #region Series data exporting methods
 
@@ -922,7 +953,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Export each series in the loop
                 foreach (Series ser in series)
                 {
-
                     //*****************************************************
                     //** Check if all X values are zeros
                     //*****************************************************
@@ -936,8 +966,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                     }
 
-                    // Added 10 May 2005, DT - dataset after databinding 
-                    // to string x value returns X as indexes 
+                    // Added 10 May 2005, DT - dataset after databinding
+                    // to string x value returns X as indexes
                     if (zeroXValues && ser.XValueType == ChartValueType.String)
                     {
                         zeroXValues = false;
@@ -963,7 +993,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     seriesTable.Columns.Add("X", columnType);
 
-
                     //*****************************************************
                     //** Add Y column(s) into data table schema
                     //*****************************************************
@@ -987,7 +1016,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             seriesTable.Columns.Add("Y" + (yIndex + 1).ToString(System.Globalization.CultureInfo.InvariantCulture), columnType);
                         }
                     }
-
 
                     //*****************************************************
                     //** Fill data table's rows
@@ -1068,7 +1096,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return dataSet;
         }
 
-        #endregion
+        #endregion Series data exporting methods
 
         #region Series data exporting overloaded methods
 
@@ -1109,14 +1137,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return ExportSeriesValues(ConvertToSeriesArray(series, false));
         }
 
-        #endregion
+        #endregion Series data exporting overloaded methods
 
         #region Filtering properties
 
         /// <summary>
-        /// Gets or sets a flag which indicates whether points filtered by 
+        /// Gets or sets a flag which indicates whether points filtered by
         /// the Filter or FilterTopN methods are removed or marked as empty.
-        /// If set to true, filtered points are marked as empty; otherwise they are removed. 
+        /// If set to true, filtered points are marked as empty; otherwise they are removed.
         /// This property defaults to be false.
         /// </summary>
         public bool FilterSetEmptyPoints
@@ -1132,10 +1160,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets a value that determines if points are filtered 
-        /// if they match criteria that is specified in Filter method calls. 
-        /// If set to true, points that match specified criteria are filtered. 
-        /// If set to false, points that do not match the criteria are filtered. 
+        /// Gets or sets a value that determines if points are filtered
+        /// if they match criteria that is specified in Filter method calls.
+        /// If set to true, points that match specified criteria are filtered.
+        /// If set to false, points that do not match the criteria are filtered.
         /// This property defaults to be true.
         /// </summary>
         public bool FilterMatchedPoints
@@ -1150,7 +1178,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Filtering properties
 
         #region Filtering methods
 
@@ -1221,7 +1249,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         output[seriesIndex].Points.Add(point.Clone());
                     }
                 }
-
             }
 
             // No points to filter
@@ -1231,7 +1258,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             //**************************************************
-            //** Sort input data 
+            //** Sort input data
             //**************************************************
             this.Sort(getTopValues ? PointSortOrder.Descending : PointSortOrder.Ascending,
                 usingValue,
@@ -1316,9 +1343,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         output[seriesIndex].YValueType = inputSeries[seriesIndex].YValueType;
                         output[seriesIndex].autoYValueType = true;
                     }
-
                 }
-
             }
 
             // No points to filter
@@ -1341,7 +1366,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     inputSeries[0],
                     originalPointIndex) == this.FilterMatchedPoints;
 
-
                 // Process all series
                 for (int seriesIndex = 0; seriesIndex < inputSeries.Length; seriesIndex++)
                 {
@@ -1359,7 +1383,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             output[seriesIndex].Points.Add(inputSeries[seriesIndex].Points[pointIndex].Clone());
                         }
                     }
-
 
                     // If point match the criteria
                     if (seriesMatchCriteria)
@@ -1392,13 +1415,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Data point filter. 
+        /// Data point filter.
         /// Filters points using element type and index
         /// </summary>
         private class PointElementFilter : IDataPointFilter
         {
             // Private fields
             private DataManipulator _dataManipulator;
+
             private DateRangeType _dateRange;
             private int[] _rangeElements;
 
@@ -1437,13 +1461,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Data point filter. 
+        /// Data point filter.
         /// Filters points using point values
         /// </summary>
         private class PointValueFilter : IDataPointFilter
         {
             // Private fields
             private CompareMethod _compareMethod;
+
             private string _usingValue;
             private double _compareValue;
 
@@ -1486,22 +1511,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         matchCriteria = point.GetValueByName(_usingValue)
                             == _compareValue;
                         break;
+
                     case CompareMethod.LessThan:
                         matchCriteria = point.GetValueByName(_usingValue)
                             < _compareValue;
                         break;
+
                     case CompareMethod.LessThanOrEqualTo:
                         matchCriteria = point.GetValueByName(_usingValue)
                             <= _compareValue;
                         break;
+
                     case CompareMethod.MoreThan:
                         matchCriteria = point.GetValueByName(_usingValue)
                             > _compareValue;
                         break;
+
                     case CompareMethod.MoreThanOrEqualTo:
                         matchCriteria = point.GetValueByName(_usingValue)
                             >= _compareValue;
                         break;
+
                     case CompareMethod.NotEqualTo:
                         matchCriteria = point.GetValueByName(_usingValue)
                             != _compareValue;
@@ -1609,26 +1639,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             dateTimeValue.Year <= rangeElements[index + 1])
                             return true;
                         break;
+
                     case DateRangeType.Month:
                         if (dateTimeValue.Month >= rangeElements[index] &&
                             dateTimeValue.Month <= rangeElements[index + 1])
                             return true;
                         break;
+
                     case DateRangeType.DayOfWeek:
                         if ((int)dateTimeValue.DayOfWeek >= rangeElements[index] &&
                             (int)dateTimeValue.DayOfWeek <= rangeElements[index + 1])
                             return true;
                         break;
+
                     case DateRangeType.DayOfMonth:
                         if (dateTimeValue.Day >= rangeElements[index] &&
                             dateTimeValue.Day <= rangeElements[index + 1])
                             return true;
                         break;
+
                     case DateRangeType.Hour:
                         if (dateTimeValue.Hour >= rangeElements[index] &&
                             dateTimeValue.Hour <= rangeElements[index + 1])
                             return true;
                         break;
+
                     case DateRangeType.Minute:
                         if (dateTimeValue.Minute >= rangeElements[index] &&
                             dateTimeValue.Minute <= rangeElements[index + 1])
@@ -1640,18 +1675,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return false;
         }
 
-        #endregion
+        #endregion Filtering methods
 
         #region Filtering overloaded methods
 
         /// <summary>
-        /// Filters a series' data points, either removing the specified points 
+        /// Filters a series' data points, either removing the specified points
         /// or marking them as empty for the given date/time ranges.
         /// </summary>
         /// <param name="dateRange">Element type.</param>
-        /// <param name="rangeElements">Specifies the elements within the date/time range 
-        /// (specified by the dateRange parameter) that will be filtered. Can be a single value (e.g. "7"), 
-        /// comma-separated values (e.g. "5,6"), a range of values (e.g. 9-11), 
+        /// <param name="rangeElements">Specifies the elements within the date/time range
+        /// (specified by the dateRange parameter) that will be filtered. Can be a single value (e.g. "7"),
+        /// comma-separated values (e.g. "5,6"), a range of values (e.g. 9-11),
         /// or any variation thereof (e.g. "5,6,9-11").</param>
         /// <param name="inputSeriesNames">Comma separated list of input series names.</param>
         /// <param name="outputSeriesNames">Comma separated list of output series names, to store the output.</param>
@@ -1673,14 +1708,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Filters a series' data points, either removing the specified points 
-        /// or marking them as empty for the given date/time ranges. 
+        /// Filters a series' data points, either removing the specified points
+        /// or marking them as empty for the given date/time ranges.
         /// The Series object that is filtered is used to store the modified data.
         /// </summary>
         /// <param name="dateRange">Element type.</param>
-        /// <param name="rangeElements">Specifies the elements within the date/time range 
-        /// (specified by the dateRange parameter) that will be filtered. Can be a single value (e.g. "7"), 
-        /// comma-separated values (e.g. "5,6"), a range of values (e.g. 9-11), 
+        /// <param name="rangeElements">Specifies the elements within the date/time range
+        /// (specified by the dateRange parameter) that will be filtered. Can be a single value (e.g. "7"),
+        /// comma-separated values (e.g. "5,6"), a range of values (e.g. 9-11),
         /// or any variation thereof (e.g. "5,6,9-11").</param>
         /// <param name="inputSeries">Input series.</param>
         public void Filter(DateRangeType dateRange,
@@ -1697,13 +1732,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Filters a series' data points, either removing the specified points 
+        /// Filters a series' data points, either removing the specified points
         /// or marking them as empty for the given date/time ranges.
         /// </summary>
         /// <param name="dateRange">Element type.</param>
-        /// <param name="rangeElements">Specifies the elements within the date/time range 
-        /// (specified by the dateRange parameter) that will be filtered. Can be a single value (e.g. "7"), 
-        /// comma-separated values (e.g. "5,6"), a range of values (e.g. 9-11), 
+        /// <param name="rangeElements">Specifies the elements within the date/time range
+        /// (specified by the dateRange parameter) that will be filtered. Can be a single value (e.g. "7"),
+        /// comma-separated values (e.g. "5,6"), a range of values (e.g. 9-11),
         /// or any variation thereof (e.g. "5,6,9-11").</param>
         /// <param name="inputSeries">Input series.</param>
         /// <param name="outputSeries">Output series.</param>
@@ -1725,14 +1760,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Filters a series' data points, either removing the specified points 
+        /// Filters a series' data points, either removing the specified points
         /// or marking them as empty for the given date/time ranges.
-        /// The filtered Series objects are used to store the modified data. 
+        /// The filtered Series objects are used to store the modified data.
         /// </summary>
         /// <param name="dateRange">Element type.</param>
-        /// <param name="rangeElements">Specifies the elements within the date/time range 
-        /// (specified by the dateRange parameter) that will be filtered. Can be a single value (e.g. "7"), 
-        /// comma-separated values (e.g. "5,6"), a range of values (e.g. 9-11), 
+        /// <param name="rangeElements">Specifies the elements within the date/time range
+        /// (specified by the dateRange parameter) that will be filtered. Can be a single value (e.g. "7"),
+        /// comma-separated values (e.g. "5,6"), a range of values (e.g. 9-11),
         /// or any variation thereof (e.g. "5,6,9-11").</param>
         /// <param name="inputSeriesNames">Comma separated list of input series names.</param>
         public void Filter(DateRangeType dateRange,
@@ -1752,7 +1787,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Filters a series' data points by applying a filtering rule to the first Y-value of data points. 
+        /// Filters a series' data points by applying a filtering rule to the first Y-value of data points.
         /// The Series object that is filtered is used to store the modified data.
         /// </summary>
         /// <param name="compareMethod">Value comparing method.</param>
@@ -1822,7 +1857,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Filters one or more series by applying a filtering rule to the first Y-value of the first series' data points. 
+        /// Filters one or more series by applying a filtering rule to the first Y-value of the first series' data points.
         /// The filtered Series objects are used to store the modified data.
         /// </summary>
         /// <param name="compareMethod">Value comparing method.</param>
@@ -1892,7 +1927,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Filters all data points in one or more series except for a specified number of points. 
+        /// Filters all data points in one or more series except for a specified number of points.
         /// The points that are not filtered correspond to points in the first input series that have the largest or smallest values.
         /// </summary>
         /// <param name="pointCount">The number of data points that the filtering operation will not remove.</param>
@@ -1920,7 +1955,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Filters out all data points in a series except for a specified number of points with the largest (first) Y-values. 
+        /// Filters out all data points in a series except for a specified number of points with the largest (first) Y-values.
         /// The Series object that is filtered is used to store the modified data.
         /// </summary>
         /// <param name="pointCount">The number of data points that the filtering operation will not remove.</param>
@@ -2014,7 +2049,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         /// <summary>
         /// Filters all data points in one or more series except for a specified number of points.
-        /// The points that are not filtered correspond to points in the first series that have the largest first Y-values.  
+        /// The points that are not filtered correspond to points in the first series that have the largest first Y-values.
         /// The Series objects that are filtered are used to store the modified data.
         /// </summary>
         /// <param name="pointCount">The number of data points that the filtering operation will not remove.</param>
@@ -2034,8 +2069,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Filters out data points in one or more series except for a specified number of points. 
-        /// The points that aren't filtered correspond to points in the first series that have the largest first Y-values. 
+        /// Filters out data points in one or more series except for a specified number of points.
+        /// The points that aren't filtered correspond to points in the first series that have the largest first Y-values.
         /// </summary>
         /// <param name="pointCount">The number of data points that the filtering operation will not remove.</param>
         /// <param name="inputSeriesNames">Comma separated list of input series names.</param>
@@ -2056,8 +2091,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Filters all data points in one or more series except for a specified number of points. 
-        /// The points that are not filtered correspond to points in the first series that have the largest values.  
+        /// Filters all data points in one or more series except for a specified number of points.
+        /// The points that are not filtered correspond to points in the first series that have the largest values.
         /// </summary>
         /// <param name="pointCount">The number of data points that the filtering operation will not remove.</param>
         /// <param name="inputSeriesNames">Comma separated list of input series names.</param>
@@ -2081,10 +2116,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 true);
         }
 
-
         /// <summary>
-        /// Performs custom filtering on a series' data points. 
-        /// The Series object that is filtered is used to store the modified data. 
+        /// Performs custom filtering on a series' data points.
+        /// The Series object that is filtered is used to store the modified data.
         /// </summary>
         /// <param name="filterInterface">Filtering interface.</param>
         /// <param name="inputSeries">Input series.</param>
@@ -2124,8 +2158,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Performs custom filtering on one or more series' data points, based on the first series' points. 
-        /// The filtered series are also used to store the modified data.  
+        /// Performs custom filtering on one or more series' data points, based on the first series' points.
+        /// The filtered series are also used to store the modified data.
         /// </summary>
         /// <param name="filterInterface">Filtering interface.</param>
         /// <param name="inputSeriesNames">Comma separated list of input series names.</param>
@@ -2144,7 +2178,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Performs custom filtering on one or more series' data points, based on the first series' points. 
+        /// Performs custom filtering on one or more series' data points, based on the first series' points.
         /// </summary>
         /// <param name="filterInterface">Filtering interface.</param>
         /// <param name="inputSeriesNames">Comma separated list of input series names.</param>
@@ -2164,7 +2198,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 ConvertToSeriesArray(outputSeriesNames, true));
         }
 
-        #endregion
+        #endregion Filtering overloaded methods
 
         #region Grouping methods
 
@@ -2240,7 +2274,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             output.YValueType = input.YValueType;
                             output.autoYValueType = true;
                         }
-
                     }
                 }
 
@@ -2282,13 +2315,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 int intervalLastIndex = 0;
 
                 //**************************************************
-                //** Allocate array for storing temp. 
+                //** Allocate array for storing temp.
                 //** values of the point
                 //**************************************************
                 double[] pointTempValues = new double[outputValuesNumber];
 
                 //**************************************************
-                //** Loop through the series points 
+                //** Loop through the series points
                 //**************************************************
                 string currentLabel = null;
                 bool lastPoint = false;
@@ -2377,7 +2410,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         //**************************************************
-                        //** Remove grouped points if output and input 
+                        //** Remove grouped points if output and input
                         //** series are the same
                         //**************************************************
                         int newPointIndex = output.Points.Count;
@@ -2397,7 +2430,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         //** Add point to the output series
                         //**************************************************
                         output.Points.Insert(newPointIndex, newPoint);
-
 
                         // Set new group interval indexes
                         intervalFirstIndex = pointIndex;
@@ -2492,7 +2524,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             output.YValueType = input.YValueType;
                             output.autoYValueType = true;
                         }
-
                     }
                 }
 
@@ -2540,7 +2571,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 ConvertIntervalType(intervalType));
                         }
                         intervalTo = offsetFrom;
-
                     }
                     else
                     {
@@ -2554,14 +2584,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 //**************************************************
-                //** Allocate array for storing temp. 
+                //** Allocate array for storing temp.
                 //** values of the point
                 //**************************************************
                 double[] pointTempValues = new double[outputValuesNumber];
 
-
                 //**************************************************
-                //** Loop through the series points 
+                //** Loop through the series points
                 //**************************************************
                 bool lastPoint = false;
                 int emptyPointsSkipped = 0;
@@ -2657,7 +2686,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
 
                             //**************************************************
-                            //** Remove grouped points if output and input 
+                            //** Remove grouped points if output and input
                             //** series are the same
                             //**************************************************
                             int newPointIndex = output.Points.Count;
@@ -2765,12 +2794,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         pointTempValues[functionInfo.outputIndex] = double.MaxValue;
                     }
-
                     else if (functionInfo.function == GroupingFunction.Max)
                     {
                         pointTempValues[functionInfo.outputIndex] = double.MinValue;
                     }
-
                     else if (functionInfo.function == GroupingFunction.First)
                     {
                         if (funcIndex == 0)
@@ -2782,7 +2809,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             pointTempValues[functionInfo.outputIndex] = point.YValues[funcIndex - 1];
                         }
                     }
-
                     else if (functionInfo.function == GroupingFunction.HiLo ||
                         functionInfo.function == GroupingFunction.HiLoOpCl)
                     {
@@ -2837,13 +2863,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         pointTempValues[functionInfo.outputIndex] =
                             Math.Min(pointTempValues[functionInfo.outputIndex], point.YValues[funcIndex - 1]);
                     }
-
                     else if (functionInfo.function == GroupingFunction.Max)
                     {
                         pointTempValues[functionInfo.outputIndex] =
                             Math.Max(pointTempValues[functionInfo.outputIndex], point.YValues[funcIndex - 1]);
                     }
-
                     else if (functionInfo.function == GroupingFunction.Ave ||
                         functionInfo.function == GroupingFunction.Sum)
                     {
@@ -2856,13 +2880,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             pointTempValues[functionInfo.outputIndex] += point.YValues[funcIndex - 1];
                         }
                     }
-
                     else if (functionInfo.function == GroupingFunction.Variance ||
                         functionInfo.function == GroupingFunction.Deviation)
                     {
                         pointTempValues[functionInfo.outputIndex] += point.YValues[funcIndex - 1];
                     }
-
                     else if (functionInfo.function == GroupingFunction.Last)
                     {
                         if (funcIndex == 0)
@@ -2874,12 +2896,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             pointTempValues[functionInfo.outputIndex] = point.YValues[funcIndex - 1];
                         }
                     }
-
                     else if (functionInfo.function == GroupingFunction.Count)
                     {
                         pointTempValues[functionInfo.outputIndex] += 1;
                     }
-
                     else if (functionInfo.function == GroupingFunction.HiLo ||
                         functionInfo.function == GroupingFunction.HiLoOpCl)
                     {
@@ -2900,7 +2920,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     ++funcIndex;
                 }
             }
-
 
             //*******************************************************************
             //** Adjust formula results at final pass
@@ -2943,7 +2962,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Get count of unique values
                         pointTempValues[functionInfo.outputIndex] = uniqueValues.Count;
                     }
-
                     else if (functionInfo.function == GroupingFunction.Variance || functionInfo.function == GroupingFunction.Deviation)
                     {
                         // Calculate average first
@@ -2979,7 +2997,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     ++funcIndex;
                 }
             }
-
         }
 
         /// <summary>
@@ -3200,13 +3217,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Grouping methods
 
         #region Grouping overloaded methods
 
         /// <summary>
-        /// Groups data using one or more formulas. 
-        /// The series that is grouped is cleared of its original data, and used to store the new data points. 
+        /// Groups data using one or more formulas.
+        /// The series that is grouped is cleared of its original data, and used to store the new data points.
         /// </summary>
         /// <param name="formula">Grouping formula.</param>
         /// <param name="interval">Interval size.</param>
@@ -3225,8 +3242,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Groups data using one or more formulas. 
-        /// Series are cleared of their original data and used to store the new data points. 
+        /// Groups data using one or more formulas.
+        /// Series are cleared of their original data and used to store the new data points.
         /// </summary>
         /// <param name="formula">Grouping formula.</param>
         /// <param name="interval">Interval size.</param>
@@ -3245,8 +3262,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Groups data using one or more formulas. 
-        /// The series that is grouped is cleared of its original data, and used to store the new data points. 
+        /// Groups data using one or more formulas.
+        /// The series that is grouped is cleared of its original data, and used to store the new data points.
         /// </summary>
         /// <param name="formula">Grouping formula.</param>
         /// <param name="interval">Interval size.</param>
@@ -3269,8 +3286,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Groups data using one or more formulas. 
-        /// Series are cleared of their original data and used to store the new data points. 
+        /// Groups data using one or more formulas.
+        /// Series are cleared of their original data and used to store the new data points.
         /// </summary>
         /// <param name="formula">Grouping formula.</param>
         /// <param name="interval">Interval size.</param>
@@ -3293,8 +3310,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Groups series data by axis labels using one or more formulas. 
-        /// Output series are used to store the grouped data points. 
+        /// Groups series data by axis labels using one or more formulas.
+        /// Output series are used to store the grouped data points.
         /// </summary>
         /// <param name="formula">Grouping formula.</param>
         /// <param name="inputSeriesName">Comma separated list of input series names.</param>
@@ -3311,8 +3328,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Groups a series' data by axis labels using one or more formulas. 
-        /// The series is cleared of its original data, and then used to store the new data points. 
+        /// Groups a series' data by axis labels using one or more formulas.
+        /// The series is cleared of its original data, and then used to store the new data points.
         /// </summary>
         /// <param name="formula">Grouping formula.</param>
         /// <param name="inputSeries">Input data series.</param>
@@ -3326,8 +3343,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Groups series data by axis labels using one or more formulas. 
-        /// Each series that is grouped is cleared of its original data, and used to store the new data points. 
+        /// Groups series data by axis labels using one or more formulas.
+        /// Each series that is grouped is cleared of its original data, and used to store the new data points.
         /// </summary>
         /// <param name="formula">Grouping formula.</param>
         /// <param name="inputSeriesName">Comma separated list of input series names.</param>
@@ -3340,10 +3357,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             GroupByAxisLabel(formula, inputSeriesName, null);
         }
 
-
         /// <summary>
-        /// Groups series using one or more formulas. 
-        /// Output series are used to store the grouped data points, and an offset can be used for intervals.  
+        /// Groups series using one or more formulas.
+        /// Output series are used to store the grouped data points, and an offset can be used for intervals.
         /// </summary>
         /// <param name="formula">Grouping formula.</param>
         /// <param name="interval">Interval size.</param>
@@ -3374,8 +3390,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Groups a series' data using one or more formulas. 
-        /// An output series is used to store the grouped data points.  
+        /// Groups a series' data using one or more formulas.
+        /// An output series is used to store the grouped data points.
         /// </summary>
         /// <param name="formula">Grouping formula.</param>
         /// <param name="interval">Interval size.</param>
@@ -3396,8 +3412,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Groups data for series using one or more formulas. 
-        /// Output series are used to store the grouped data points.  
+        /// Groups data for series using one or more formulas.
+        /// Output series are used to store the grouped data points.
         /// </summary>
         /// <param name="formula">Grouping formula.</param>
         /// <param name="interval">Interval size.</param>
@@ -3418,8 +3434,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Groups a series using one or more formulas. 
-        /// An output series is used to store the grouped data points, and an offset can be used for intervals. 
+        /// Groups a series using one or more formulas.
+        /// An output series is used to store the grouped data points, and an offset can be used for intervals.
         /// </summary>
         /// <param name="formula">Grouping formula.</param>
         /// <param name="interval">Interval size.</param>
@@ -3450,8 +3466,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Groups a series' data by axis labels using one or more formulas. 
-        /// An output series is used to store the grouped data points.  
+        /// Groups a series' data by axis labels using one or more formulas.
+        /// An output series is used to store the grouped data points.
         /// </summary>
         /// <param name="formula">Grouping formula.</param>
         /// <param name="inputSeries">Input data series.</param>
@@ -3467,7 +3483,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 ConvertToSeriesArray(outputSeries, false));
         }
 
-        #endregion
+        #endregion Grouping overloaded methods
     }
 }
-

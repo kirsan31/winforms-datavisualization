@@ -10,8 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Maintainability", "CA1501:AvoidExcessiveInheritance", Scope = "type", Target = "System.Windows.Forms.DataVisualization.Charting.Border3DAnnotation")]
 [module: SuppressMessage("Microsoft.Maintainability", "CA1501:AvoidExcessiveInheritance", Scope = "type", Target = "System.Windows.Forms.DataVisualization.Charting.ChartTypes.HundredPercentStackedAreaChart")]
 
-#endregion // CA1501:AvoidExcessiveInheritance
-
+#endregion CA1501:AvoidExcessiveInheritance
 
 #region CA1502:AvoidExcessiveComplexity
 
@@ -178,8 +177,8 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Scope = "member", Target = "System.Windows.Forms.DataVisualization.Charting.Utilities.XmlFormatSerializer.#SerializeObject(System.Object,System.Object,System.String,System.Xml.XmlNode,System.Xml.XmlDocument)")]
 [module: SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Scope = "member", Target = "System.Windows.Forms.DataVisualization.Charting.Utilities.SerializerBase.#FindConverterByType(System.ComponentModel.TypeConverterAttribute)")]
 [module: SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Scope = "member", Target = "System.Windows.Forms.DataVisualization.Charting.Series.#PrepareData(System.Boolean)")]
-#endregion // CA1502:AvoidExcessiveComplexity
 
+#endregion CA1502:AvoidExcessiveComplexity
 
 #region CA1505:AvoidUnmaintainableCode
 
@@ -227,8 +226,7 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode", Scope = "member", Target = "System.Windows.Forms.DataVisualization.Charting.Utilities.CustomPropertyRegistry.#RegisterProperties()")]
 [module: SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode", Scope = "member", Target = "System.Windows.Forms.DataVisualization.Charting.Title.#Paint(System.Windows.Forms.DataVisualization.Charting.ChartGraphics)")]
 
-#endregion // CA1505:AvoidUnmaintainableCode
-
+#endregion CA1505:AvoidUnmaintainableCode
 
 #region CA1506:AvoidExcessiveClassCoupling
 
@@ -244,8 +242,7 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Scope = "member", Target = "System.Windows.Forms.DataVisualization.Charting.ChartTypes.StackedAreaChart.#ProcessChartType(System.Boolean,System.Windows.Forms.DataVisualization.Charting.ChartGraphics,System.Windows.Forms.DataVisualization.Charting.CommonElements,System.Windows.Forms.DataVisualization.Charting.ChartArea,System.Windows.Forms.DataVisualization.Charting.Series)")]
 [module: SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Scope = "member", Target = "System.Windows.Forms.DataVisualization.Charting.Utilities.SerializerBase.#FindConverterByType(System.ComponentModel.TypeConverterAttribute)")]
 
-#endregion // CA1506:AvoidExcessiveClassCoupling
-
+#endregion CA1506:AvoidExcessiveClassCoupling
 
 #region CA1702:CompoundWordsShouldBeCasedCorrectly
 
@@ -255,8 +252,7 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "Gridline", Scope = "member", Target = "System.Windows.Forms.DataVisualization.Charting.GridTickTypes.#Gridline", Justification = "Gridlines are popular term in charting. Refer to excel chart.")]
 [module: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "Gridlines", Scope = "resource", Target = "System.Windows.Forms.DataVisualization.Charting.SR.resources", Justification = "Gridlines are popular term in charting. Refer to excel chart.")]
 
-#endregion // CA1702:CompoundWordsShouldBeCasedCorrectly
-
+#endregion CA1702:CompoundWordsShouldBeCasedCorrectly
 
 #region CA1703:ResourceStringsShouldBeSpelledCorrectly
 
@@ -271,8 +267,7 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Naming", "CA1703:ResourceStringsShouldBeSpelledCorrectly", Scope = "resource", Target = "System.Windows.Forms.DataVisualization.Charting.SR.resources", MessageId = "ushort")]
 [module: SuppressMessage("Microsoft.Naming", "CA1703:ResourceStringsShouldBeSpelledCorrectly", Scope = "resource", Target = "System.Windows.Forms.DataVisualization.Charting.SR.resources", MessageId = "megapixels")]
 
-#endregion // CA1703:ResourceStringsShouldBeSpelledCorrectly
-
+#endregion CA1703:ResourceStringsShouldBeSpelledCorrectly
 
 #region CA1814:PreferJaggedArraysOverMultidimensional
 
@@ -280,8 +275,7 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Scope = "member", Target = "System.Windows.Forms.DataVisualization.Charting.Legend.#CheckLegendItemsFit(System.Windows.Forms.DataVisualization.Charting.ChartGraphics,System.Drawing.Size,System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32[,]&,System.Int32[,]&,System.Int32&,System.Int32&)", MessageId = "Body")]
 [module: SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Scope = "member", Target = "System.Windows.Forms.DataVisualization.Charting.Legend.#_cellHeights", MessageId = "Member")]
 
-#endregion // CA1814:PreferJaggedArraysOverMultidimensional
-
+#endregion CA1814:PreferJaggedArraysOverMultidimensional
 
 #region CA1822:MarkMembersAsStatic
 
@@ -406,4 +400,4 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Scope = "member", Target = "System.Windows.Forms.DataVisualization.Charting.Utilities.ChartAccessibleObject.#SelectChild(System.Object,System.Windows.Forms.DataVisualization.Charting.ChartElementType,System.Windows.Forms.AccessibleSelection)")]
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~M:System.Windows.Forms.DataVisualization.Charting.ChartArea.ShouldSerializeAxes~System.Boolean")]
 
-#endregion // CA1822:MarkMembersAsStatic
+#endregion CA1822:MarkMembersAsStatic

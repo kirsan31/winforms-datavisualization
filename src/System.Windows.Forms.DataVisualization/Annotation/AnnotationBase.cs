@@ -3283,8 +3283,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion Z Order Methods
 
-
-
         #region SmartLabelStyle methods
 
         /// <summary>

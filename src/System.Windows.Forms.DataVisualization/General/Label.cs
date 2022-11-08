@@ -2,14 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
-//  Purpose:	LabelStyle and CustomLabel classes are used to determine 
-//              chart axis labels. Labels can be automatically 
-//              generated based on the series data or be “manually” 
+//  Purpose:	LabelStyle and CustomLabel classes are used to determine
+//              chart axis labels. Labels can be automatically
+//              generated based on the series data or be “manually”
 //              set by the user.
 //
-
 
 using System.Collections;
 using System.Collections.Generic;
@@ -29,112 +27,112 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// An enumeration that specifies a mark for custom labels.
     /// </summary>
     public enum LabelMarkStyle
-	{
-		/// <summary>
+    {
+        /// <summary>
         /// No label marks are used.
-		/// </summary>
-		None, 
+        /// </summary>
+        None,
 
-		/// <summary>
-		/// Labels use side marks.
-		/// </summary>
-		SideMark, 
+        /// <summary>
+        /// Labels use side marks.
+        /// </summary>
+        SideMark,
 
-		/// <summary>
-		/// Labels use line and side marks.
-		/// </summary>
-		LineSideMark,
+        /// <summary>
+        /// Labels use line and side marks.
+        /// </summary>
+        LineSideMark,
 
+        /// <summary>
+        /// Draws a box around the label. The box always starts at the axis position.
+        /// </summary>
+        Box
+    };
 
-		/// <summary>
-		/// Draws a box around the label. The box always starts at the axis position.
-		/// </summary>
-		Box
-	};
+    /// <summary>
+    /// An enumeration of custom grid lines and tick marks flags used in the custom labels.
+    /// </summary>
+    [Flags]
+    public enum GridTickTypes
+    {
+        /// <summary>
+        /// No tick mark or grid line are shown.
+        /// </summary>
+        None = 0,
 
+        /// <summary>
+        /// Tick mark is shown.
+        /// </summary>
+        TickMark = 1,
 
-	/// <summary>
-	/// An enumeration of custom grid lines and tick marks flags used in the custom labels.
-	/// </summary>
-	[Flags]
-	public enum GridTickTypes
-	{
-		/// <summary>
-		/// No tick mark or grid line are shown.
-		/// </summary>
-		None = 0,
+        /// <summary>
+        /// Grid line is shown.
+        /// </summary>
+        Gridline = 2,
 
-		/// <summary>
-		/// Tick mark is shown.
-		/// </summary>
-		TickMark = 1,
+        /// <summary>
+        /// Tick mark and grid line are shown.
+        /// </summary>
+        All = TickMark | Gridline
+    }
 
-		/// <summary>
-		/// Grid line is shown.
-		/// </summary>
-		Gridline = 2,
+    /// <summary>
+    /// An enumeration of label styles for circular chart area axis.
+    /// </summary>
+    internal enum CircularAxisLabelsStyle
+    {
+        /// <summary>
+        /// Style depends on number of labels.
+        /// </summary>
+        Auto,
 
-		/// <summary>
-		/// Tick mark and grid line are shown.
-		/// </summary>
-		All = TickMark | Gridline
-	}
+        /// <summary>
+        /// Label text positions around the circular area.
+        /// </summary>
+        Circular,
 
+        /// <summary>
+        /// Label text is always horizontal.
+        /// </summary>
+        Horizontal,
 
-	/// <summary>
-	/// An enumeration of label styles for circular chart area axis.
-	/// </summary>
-	internal enum CircularAxisLabelsStyle
-	{
-		/// <summary>
-		/// Style depends on number of labels.
-		/// </summary>
-		Auto,
+        /// <summary>
+        /// Label text has the same angle as circular axis.
+        /// </summary>
+        Radial
+    }
 
-		/// <summary>
-		/// Label text positions around the circular area.
-		/// </summary>
-		Circular,
+    #endregion Labels enumerations
 
-		/// <summary>
-		/// Label text is always horizontal.
-		/// </summary>
-		Horizontal,
-
-		/// <summary>
-		/// Label text has the same angle as circular axis.
-		/// </summary>
-		Radial
-	}
-	#endregion
-
-	/// <summary>
-    /// The CustomLabelsCollection class is a strongly typed collection of 
+    /// <summary>
+    /// The CustomLabelsCollection class is a strongly typed collection of
     /// custom axis labels.
-	/// </summary>
-	[
-		SRDescription("DescriptionAttributeCustomLabelsCollection_CustomLabelsCollection"),
-	]
+    /// </summary>
+    [
+        SRDescription("DescriptionAttributeCustomLabelsCollection_CustomLabelsCollection"),
+    ]
     public class CustomLabelsCollection : ChartElementCollection<CustomLabel>
-	{
-		#region Constructors
+    {
+        #region Constructors
 
-		/// <summary>
-		/// Custom labels collection object constructor
-		/// </summary>
-		/// <param name="axis">Reference to the axis object.</param>
+        /// <summary>
+        /// Custom labels collection object constructor
+        /// </summary>
+        /// <param name="axis">Reference to the axis object.</param>
         internal CustomLabelsCollection(Axis axis) : base(axis)
-		{
-		}
+        {
+        }
 
-		#endregion
+        #endregion Constructors
 
         #region Properties
+
         internal Axis Axis
         {
             get { return Parent as Axis; }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Labels adding methods
 
@@ -146,93 +144,91 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="text">Label text.</param>
         /// <returns>Newly added item.</returns>
         public CustomLabel Add(double fromPosition, double toPosition, string text)
-		{
-			CustomLabel label = new CustomLabel(fromPosition, toPosition, text, 0, LabelMarkStyle.None);
-            Add(label);
-            return label;
-		}
-
-		/// <summary>
-		/// Adds one custom label into the collection. Custom label flag may be specified.
-		/// </summary>
-		/// <param name="fromPosition">Label left position.</param>
-		/// <param name="toPosition">Label right position.</param>
-		/// <param name="text">Label text.</param>
-		/// <param name="customLabel">Indicates if label is custom (created by user).</param>
-		/// <returns>Newly added item.</returns>
-		internal CustomLabel Add(double fromPosition, double toPosition, string text, bool customLabel)
-		{
-			CustomLabel label = new CustomLabel(fromPosition, toPosition, text, 0, LabelMarkStyle.None);
-			label.customLabel = customLabel;
+        {
+            CustomLabel label = new CustomLabel(fromPosition, toPosition, text, 0, LabelMarkStyle.None);
             Add(label);
             return label;
         }
 
-		/// <summary>
-		/// Adds a custom label into the collection.
-		/// </summary>
-		/// <param name="fromPosition">Label left position.</param>
-		/// <param name="toPosition">Label right position.</param>
-		/// <param name="text">Label text.</param>
-		/// <param name="rowIndex">Label row index.</param>
-		/// <param name="markStyle">Label marking style.</param>
+        /// <summary>
+        /// Adds one custom label into the collection. Custom label flag may be specified.
+        /// </summary>
+        /// <param name="fromPosition">Label left position.</param>
+        /// <param name="toPosition">Label right position.</param>
+        /// <param name="text">Label text.</param>
+        /// <param name="customLabel">Indicates if label is custom (created by user).</param>
         /// <returns>Newly added item.</returns>
-		public CustomLabel Add(double fromPosition, double toPosition, string text, int rowIndex, LabelMarkStyle markStyle)
-		{
-			CustomLabel label = new CustomLabel(fromPosition, toPosition, text, rowIndex, markStyle);
+        internal CustomLabel Add(double fromPosition, double toPosition, string text, bool customLabel)
+        {
+            CustomLabel label = new CustomLabel(fromPosition, toPosition, text, 0, LabelMarkStyle.None);
+            label.customLabel = customLabel;
             Add(label);
             return label;
         }
 
-		/// <summary>
-		/// Adds a custom label into the collection.
-		/// </summary>
-		/// <param name="fromPosition">Label left position.</param>
-		/// <param name="toPosition">Label right position.</param>
-		/// <param name="text">Label text.</param>
-		/// <param name="rowIndex">Label row index.</param>
-		/// <param name="markStyle">Label marking style.</param>
-		/// <returns>Index of newly added item.</returns>
-		/// <param name="gridTick">Custom grid line and tick mark flag.</param>
-		public CustomLabel Add(double fromPosition, double toPosition, string text, int rowIndex, LabelMarkStyle markStyle, GridTickTypes gridTick)
-		{
-			CustomLabel label = new CustomLabel(fromPosition, toPosition, text, rowIndex, markStyle, gridTick);
+        /// <summary>
+        /// Adds a custom label into the collection.
+        /// </summary>
+        /// <param name="fromPosition">Label left position.</param>
+        /// <param name="toPosition">Label right position.</param>
+        /// <param name="text">Label text.</param>
+        /// <param name="rowIndex">Label row index.</param>
+        /// <param name="markStyle">Label marking style.</param>
+        /// <returns>Newly added item.</returns>
+        public CustomLabel Add(double fromPosition, double toPosition, string text, int rowIndex, LabelMarkStyle markStyle)
+        {
+            CustomLabel label = new CustomLabel(fromPosition, toPosition, text, rowIndex, markStyle);
             Add(label);
             return label;
         }
 
+        /// <summary>
+        /// Adds a custom label into the collection.
+        /// </summary>
+        /// <param name="fromPosition">Label left position.</param>
+        /// <param name="toPosition">Label right position.</param>
+        /// <param name="text">Label text.</param>
+        /// <param name="rowIndex">Label row index.</param>
+        /// <param name="markStyle">Label marking style.</param>
+        /// <returns>Index of newly added item.</returns>
+        /// <param name="gridTick">Custom grid line and tick mark flag.</param>
+        public CustomLabel Add(double fromPosition, double toPosition, string text, int rowIndex, LabelMarkStyle markStyle, GridTickTypes gridTick)
+        {
+            CustomLabel label = new CustomLabel(fromPosition, toPosition, text, rowIndex, markStyle, gridTick);
+            Add(label);
+            return label;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Adds multiple custom labels to the collection.
-        /// The labels will be DateTime labels with the specified interval type, 
+        /// The labels will be DateTime labels with the specified interval type,
         /// and will be generated for the axis range that is determined by the minimum and maximum arguments.
-		/// </summary>
+        /// </summary>
         /// <param name="labelsStep">The label step determines how often the custom labels will be drawn.</param>
-		/// <param name="intervalType">Unit of measurement of the label step.</param>
-		/// <param name="min">Minimum value..</param>
-		/// <param name="max">Maximum value..</param>
-		/// <param name="format">Label text format.</param>
-		/// <param name="rowIndex">Label row index.</param>
-		/// <param name="markStyle">Label marking style.</param>
-		public void Add(double labelsStep, DateTimeIntervalType intervalType, double min, double max, string format, int rowIndex, LabelMarkStyle markStyle)
-		{
+        /// <param name="intervalType">Unit of measurement of the label step.</param>
+        /// <param name="min">Minimum value..</param>
+        /// <param name="max">Maximum value..</param>
+        /// <param name="format">Label text format.</param>
+        /// <param name="rowIndex">Label row index.</param>
+        /// <param name="markStyle">Label marking style.</param>
+        public void Add(double labelsStep, DateTimeIntervalType intervalType, double min, double max, string format, int rowIndex, LabelMarkStyle markStyle)
+        {
             // Find labels range min/max values
-			if(min == 0.0 && 
-				max == 0.0 &&
-				this.Axis != null &&
-				!double.IsNaN(this.Axis.Minimum) &&
-				!double.IsNaN(this.Axis.Maximum))
-			{
-				min = this.Axis.Minimum;
-				max = this.Axis.Maximum;
-			}
-			double	fromX = Math.Min(min, max);
-			double	toX = Math.Max(min, max);
+            if (min == 0.0 &&
+                max == 0.0 &&
+                this.Axis != null &&
+                !double.IsNaN(this.Axis.Minimum) &&
+                !double.IsNaN(this.Axis.Maximum))
+            {
+                min = this.Axis.Minimum;
+                max = this.Axis.Maximum;
+            }
+            double fromX = Math.Min(min, max);
+            double toX = Math.Max(min, max);
 
             this.SuspendUpdates();
             try
             {
-
                 // Loop through all label points
                 double labelStart = fromX;
                 double labelEnd = 0;
@@ -314,94 +310,91 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 this.ResumeUpdates();
             }
-		}
+        }
 
-		/// <summary>
+        /// <summary>
         /// Adds multiple custom labels to the collection.
-        /// The labels will be DateTime labels with the specified interval type, 
-        /// and will be generated for the axis range that is determined by the minimum and maximum arguments.
-		/// </summary>
-        /// <param name="labelsStep">The label step determines how often the custom labels will be drawn.</param>
-        /// <param name="intervalType">Unit of measurement of the label step.</param>
-		public void Add(double labelsStep, DateTimeIntervalType intervalType)
-		{
-			Add(labelsStep, intervalType, 0, 0, "", 0, LabelMarkStyle.None);
-		}
-
-		/// <summary>
-        /// Adds multiple custom labels to the collection.
-        /// The labels will be DateTime labels with the specified interval type, 
+        /// The labels will be DateTime labels with the specified interval type,
         /// and will be generated for the axis range that is determined by the minimum and maximum arguments.
         /// </summary>
         /// <param name="labelsStep">The label step determines how often the custom labels will be drawn.</param>
         /// <param name="intervalType">Unit of measurement of the label step.</param>
-		/// <param name="format">Label text format.</param>
-		public void Add(double labelsStep, DateTimeIntervalType intervalType, string format)
-		{
-			Add(labelsStep, intervalType, 0, 0, format, 0, LabelMarkStyle.None);
-		}
+        public void Add(double labelsStep, DateTimeIntervalType intervalType)
+        {
+            Add(labelsStep, intervalType, 0, 0, "", 0, LabelMarkStyle.None);
+        }
 
-		/// <summary>
+        /// <summary>
         /// Adds multiple custom labels to the collection.
-        /// The labels will be DateTime labels with the specified interval type, 
+        /// The labels will be DateTime labels with the specified interval type,
         /// and will be generated for the axis range that is determined by the minimum and maximum arguments.
         /// </summary>
         /// <param name="labelsStep">The label step determines how often the custom labels will be drawn.</param>
         /// <param name="intervalType">Unit of measurement of the label step.</param>
-		/// <param name="format">Label text format.</param>
-		/// <param name="rowIndex">Label row index.</param>
-		/// <param name="markStyle">Label marking style.</param>
-		public void Add(double labelsStep, DateTimeIntervalType intervalType, string format, int rowIndex, LabelMarkStyle markStyle)
-		{
-			Add(labelsStep, intervalType, 0, 0, format, rowIndex, markStyle);
-		}
+        /// <param name="format">Label text format.</param>
+        public void Add(double labelsStep, DateTimeIntervalType intervalType, string format)
+        {
+            Add(labelsStep, intervalType, 0, 0, format, 0, LabelMarkStyle.None);
+        }
 
-		#endregion
+        /// <summary>
+        /// Adds multiple custom labels to the collection.
+        /// The labels will be DateTime labels with the specified interval type,
+        /// and will be generated for the axis range that is determined by the minimum and maximum arguments.
+        /// </summary>
+        /// <param name="labelsStep">The label step determines how often the custom labels will be drawn.</param>
+        /// <param name="intervalType">Unit of measurement of the label step.</param>
+        /// <param name="format">Label text format.</param>
+        /// <param name="rowIndex">Label row index.</param>
+        /// <param name="markStyle">Label marking style.</param>
+        public void Add(double labelsStep, DateTimeIntervalType intervalType, string format, int rowIndex, LabelMarkStyle markStyle)
+        {
+            Add(labelsStep, intervalType, 0, 0, format, rowIndex, markStyle);
+        }
 
-	}
+        #endregion Labels adding methods
+    }
 
-
-	/// <summary>
-    /// The CustomLabel class represents a single custom axis label. Text and 
+    /// <summary>
+    /// The CustomLabel class represents a single custom axis label. Text and
     /// position along the axis is provided by the caller.
-	/// </summary>
-	[
-	SRDescription("DescriptionAttributeCustomLabel_CustomLabel"),
-	DefaultProperty("Text"),
-	]
-	public class CustomLabel : ChartNamedElement
+    /// </summary>
+    [
+    SRDescription("DescriptionAttributeCustomLabel_CustomLabel"),
+    DefaultProperty("Text"),
+    ]
+    public class CustomLabel : ChartNamedElement
     {
-		#region Fields and Constructors
+        #region Fields and Constructors
 
-		// Private data members, which store properties values
-		private double			_fromPosition;
-        private double			_toPosition;
-        private string			_text = "";
-		private LabelMarkStyle	_labelMark = LabelMarkStyle.None;
-		private Color			_foreColor = Color.Empty;
-		private Color			_markColor = Color.Empty;
-		private int				_labelRowIndex;
+        // Private data members, which store properties values
+        private double _fromPosition;
+
+        private double _toPosition;
+        private string _text = "";
+        private LabelMarkStyle _labelMark = LabelMarkStyle.None;
+        private Color _foreColor = Color.Empty;
+        private Color _markColor = Color.Empty;
+        private int _labelRowIndex;
 
         // Custom grid lines and tick marks flags
-        private	GridTickTypes	_gridTick = GridTickTypes.None;
+        private GridTickTypes _gridTick = GridTickTypes.None;
 
-		// Indicates if label was automatically created or cpecified by user (custom)
-		internal bool			customLabel = true;
+        // Indicates if label was automatically created or cpecified by user (custom)
+        internal bool customLabel = true;
 
-		// Image associated with the label
-		private	string			_image = string.Empty;
+        // Image associated with the label
+        private string _image = string.Empty;
 
-		// Image transparent color
-		private Color			_imageTransparentColor = Color.Empty;
+        // Image transparent color
+        private Color _imageTransparentColor = Color.Empty;
 
-		// Label tooltip
-		private string			_tooltip = string.Empty;
+        // Label tooltip
+        private string _tooltip = string.Empty;
 
-        private Axis            _axis;
+        private Axis _axis;
 
-
-
-        #endregion
+        #endregion Fields and Constructors
 
         #region Constructors
 
@@ -409,79 +402,74 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Default constructor
         /// </summary>
         public CustomLabel()
-		{
-		}
+        {
+        }
 
-		/// <summary>
-		/// CustomLabel constructor
-		/// </summary>
-		/// <param name="fromPosition">From position.</param>
-		/// <param name="toPosition">To position.</param>
-		/// <param name="text">Label text.</param>
-		/// <param name="labelRow">Label row index.</param>
-		/// <param name="markStyle">Label mark style.</param>
-		public CustomLabel(double fromPosition, double toPosition, string text, int labelRow, LabelMarkStyle markStyle)
-		{
-			this._fromPosition = fromPosition;
-			this._toPosition = toPosition;
-			this._text = text;
-			this._labelRowIndex = labelRow;
-			this._labelMark = markStyle;
-			this._gridTick = GridTickTypes.None;
-		}
+        /// <summary>
+        /// CustomLabel constructor
+        /// </summary>
+        /// <param name="fromPosition">From position.</param>
+        /// <param name="toPosition">To position.</param>
+        /// <param name="text">Label text.</param>
+        /// <param name="labelRow">Label row index.</param>
+        /// <param name="markStyle">Label mark style.</param>
+        public CustomLabel(double fromPosition, double toPosition, string text, int labelRow, LabelMarkStyle markStyle)
+        {
+            this._fromPosition = fromPosition;
+            this._toPosition = toPosition;
+            this._text = text;
+            this._labelRowIndex = labelRow;
+            this._labelMark = markStyle;
+            this._gridTick = GridTickTypes.None;
+        }
 
-		/// <summary>
-		/// CustomLabel constructor
-		/// </summary>
-		/// <param name="fromPosition">From position.</param>
-		/// <param name="toPosition">To position.</param>
-		/// <param name="text">Label text.</param>
-		/// <param name="labelRow">Label row index.</param>
-		/// <param name="markStyle">Label mark style.</param>
-		/// <param name="gridTick">Custom grid line and tick marks flag.</param>
-		public CustomLabel(double fromPosition, double toPosition, string text, int labelRow, LabelMarkStyle markStyle, GridTickTypes gridTick)
-		{
-			this._fromPosition = fromPosition;
-			this._toPosition = toPosition;
-			this._text = text;
-			this._labelRowIndex = labelRow;
-			this._labelMark = markStyle;
-			this._gridTick = gridTick;
-		}
+        /// <summary>
+        /// CustomLabel constructor
+        /// </summary>
+        /// <param name="fromPosition">From position.</param>
+        /// <param name="toPosition">To position.</param>
+        /// <param name="text">Label text.</param>
+        /// <param name="labelRow">Label row index.</param>
+        /// <param name="markStyle">Label mark style.</param>
+        /// <param name="gridTick">Custom grid line and tick marks flag.</param>
+        public CustomLabel(double fromPosition, double toPosition, string text, int labelRow, LabelMarkStyle markStyle, GridTickTypes gridTick)
+        {
+            this._fromPosition = fromPosition;
+            this._toPosition = toPosition;
+            this._text = text;
+            this._labelRowIndex = labelRow;
+            this._labelMark = markStyle;
+            this._gridTick = gridTick;
+        }
 
-		#endregion
+        #endregion Constructors
 
-		#region Helper methods
+        #region Helper methods
 
-		/// <summary>
-		/// Returns a cloned label object.
-		/// </summary>
-		/// <returns>Copy of current custom label.</returns>
-		public CustomLabel Clone()
-		{
-			CustomLabel newLabel = new CustomLabel();
+        /// <summary>
+        /// Returns a cloned label object.
+        /// </summary>
+        /// <returns>Copy of current custom label.</returns>
+        public CustomLabel Clone()
+        {
+            CustomLabel newLabel = new CustomLabel();
 
-			newLabel.FromPosition = this.FromPosition;
-			newLabel.ToPosition = this.ToPosition;
-			newLabel.Text = this.Text;
-			newLabel.ForeColor = this.ForeColor;
-			newLabel.MarkColor = this.MarkColor;
-			newLabel.RowIndex = this.RowIndex;
-			newLabel.LabelMark = this.LabelMark;
-			newLabel.GridTicks = this.GridTicks;
+            newLabel.FromPosition = this.FromPosition;
+            newLabel.ToPosition = this.ToPosition;
+            newLabel.Text = this.Text;
+            newLabel.ForeColor = this.ForeColor;
+            newLabel.MarkColor = this.MarkColor;
+            newLabel.RowIndex = this.RowIndex;
+            newLabel.LabelMark = this.LabelMark;
+            newLabel.GridTicks = this.GridTicks;
 
+            newLabel.ToolTip = this.ToolTip;
+            newLabel.Tag = this.Tag;
+            newLabel.Image = this.Image;
+            newLabel.ImageTransparentColor = this.ImageTransparentColor;
 
-
-			newLabel.ToolTip = this.ToolTip;
-			newLabel.Tag = this.Tag;
-			newLabel.Image = this.Image;
-			newLabel.ImageTransparentColor = this.ImageTransparentColor;
-
-
-
-
-			return newLabel;
-		}
+            return newLabel;
+        }
 
         internal override IChartElement Parent
         {
@@ -499,350 +487,347 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-		/// <summary>
-		/// Gets the axis to which this object is attached to.
-		/// </summary>
-		/// <returns>Axis.</returns>
+        /// <summary>
+        /// Gets the axis to which this object is attached to.
+        /// </summary>
+        /// <returns>Axis.</returns>
         [
         Browsable(false),
         DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
         SerializationVisibilityAttribute(SerializationVisibility.Hidden),
         ]
-		public Axis Axis
-		{
-            get 
+        public Axis Axis
+        {
+            get
             {
                 return _axis;
             }
-		}
+        }
 
-		#endregion
+        #endregion Helper methods
 
-		#region	CustomLabel properties
+        #region	CustomLabel properties
 
-		/// <summary>
-		/// Gets or sets the tooltip of the custom label.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeMapArea"),
-		Bindable(true),
+        /// <summary>
+        /// Gets or sets the tooltip of the custom label.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeMapArea"),
+        Bindable(true),
         SRDescription("DescriptionAttributeToolTip"),
-		DefaultValue("")
-		]
-		public string ToolTip
-		{
-			set
-			{
-				this._tooltip = value;
-			}
-			get
-			{
-				return this._tooltip;
-			}
-		}
+        DefaultValue("")
+        ]
+        public string ToolTip
+        {
+            set
+            {
+                this._tooltip = value;
+            }
+            get
+            {
+                return this._tooltip;
+            }
+        }
 
         /// <summary>
 		/// Gets or sets the label image.
 		/// </summary>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(""),
-		SRDescription("DescriptionAttributeCustomLabel_Image"),
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(""),
+        SRDescription("DescriptionAttributeCustomLabel_Image"),
         Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
         NotifyParentPropertyAttribute(true)
-		]
-		public string Image
-		{
-			get
-			{
-				return _image;
-			}
-			set
-			{
-				_image = value;
-				Invalidate();
-			}
-		}
+        ]
+        public string Image
+        {
+            get
+            {
+                return _image;
+            }
+            set
+            {
+                _image = value;
+                Invalidate();
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets a color which will be replaced with a transparent color while drawing the image.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(typeof(Color), ""),
-		NotifyParentPropertyAttribute(true),
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(typeof(Color), ""),
+        NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
         ]
         public Color ImageTransparentColor
-		{
-			get
-			{
-				return _imageTransparentColor;
-			}
-			set
-			{
-				_imageTransparentColor = value;
-				this.Invalidate();
-			}
-		}
+        {
+            get
+            {
+                return _imageTransparentColor;
+            }
+            set
+            {
+                _imageTransparentColor = value;
+                this.Invalidate();
+            }
+        }
 
+        /// <summary>
+        /// Custom label name. This property is for internal use only.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        SRDescription("DescriptionAttributeCustomLabel_Name"),
+        DefaultValue("Custom LabelStyle"),
+        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
+        DesignOnlyAttribute(true),
+        SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+        ]
+        public override string Name
+        {
+            get
+            {
+                return base.Name;
+            }
+            set
+            {
+                base.Name = value;
+            }
+        }
 
-
-		/// <summary>
-		/// Custom label name. This property is for internal use only.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		SRDescription("DescriptionAttributeCustomLabel_Name"),
-		DefaultValue("Custom LabelStyle"),
-		DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-		DesignOnlyAttribute(true),
-		SerializationVisibilityAttribute(SerializationVisibility.Hidden)
-		]
-		public override string Name
-		{
-			get
-			{
-				return base.Name;
-			}
-			set
-			{
-				base.Name = value;
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets a property which specifies whether
+        /// <summary>
+        /// Gets or sets a property which specifies whether
         /// custom tick marks and grid lines will be drawn in the center of the label.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(GridTickTypes.None),
-		SRDescription("DescriptionAttributeCustomLabel_GridTicks"),
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(GridTickTypes.None),
+        SRDescription("DescriptionAttributeCustomLabel_GridTicks"),
         Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor))
         ]
         public GridTickTypes GridTicks
-		{
-			get
-			{
-				return _gridTick;
-			}
-			set
-			{
-				_gridTick = value;
-				this.Invalidate();
-			}
-		}
+        {
+            get
+            {
+                return _gridTick;
+            }
+            set
+            {
+                _gridTick = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the end position of the custom label in axis coordinates.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(0.0),
-		SRDescription("DescriptionAttributeCustomLabel_From"),
-		TypeConverter(typeof(AxisLabelDateValueConverter))
-		]
-		public double FromPosition
-		{
-			get
-			{
-				return _fromPosition;
-			}
-			set
-			{
-				_fromPosition = value;
-				this.Invalidate();
-			}
-		}
+        /// <summary>
+        /// Gets or sets the end position of the custom label in axis coordinates.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(0.0),
+        SRDescription("DescriptionAttributeCustomLabel_From"),
+        TypeConverter(typeof(AxisLabelDateValueConverter))
+        ]
+        public double FromPosition
+        {
+            get
+            {
+                return _fromPosition;
+            }
+            set
+            {
+                _fromPosition = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the starting position of the custom label in axis coordinates.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(0.0),
-		SRDescription("DescriptionAttributeCustomLabel_To"),
-		TypeConverter(typeof(AxisLabelDateValueConverter))
-		]
-		public double ToPosition
-		{
-			get
-			{
-				return _toPosition;
-			}
-			set
-			{
-				_toPosition = value;
-				this.Invalidate();
-			}
-		}
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(0.0),
+        SRDescription("DescriptionAttributeCustomLabel_To"),
+        TypeConverter(typeof(AxisLabelDateValueConverter))
+        ]
+        public double ToPosition
+        {
+            get
+            {
+                return _toPosition;
+            }
+            set
+            {
+                _toPosition = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the text of the custom label.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(""),
-		SRDescription("DescriptionAttributeCustomLabel_Text")
-		]
-		public string Text
-		{
-			get
-			{
-				return _text;
-			}
-			set
-			{
-				_text = value;
-				this.Invalidate();
-			}
-		}
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(""),
+        SRDescription("DescriptionAttributeCustomLabel_Text")
+        ]
+        public string Text
+        {
+            get
+            {
+                return _text;
+            }
+            set
+            {
+                _text = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the text color of the custom label.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(typeof(Color), ""),
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeForeColor"),
-		NotifyParentPropertyAttribute(true),
+        NotifyParentPropertyAttribute(true),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
         ]
         public Color ForeColor
-		{
-			get
-			{
-				return _foreColor;
-			}
-			set
-			{
-				_foreColor = value;
-				this.Invalidate();
-			}
-		}
+        {
+            get
+            {
+                return _foreColor;
+            }
+            set
+            {
+                _foreColor = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the color of the label mark line of the custom label.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(typeof(Color), ""),
-		SRDescription("DescriptionAttributeCustomLabel_MarkColor"),
-		NotifyParentPropertyAttribute(true),
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(typeof(Color), ""),
+        SRDescription("DescriptionAttributeCustomLabel_MarkColor"),
+        NotifyParentPropertyAttribute(true),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
         public Color MarkColor
-		{
-			get
-			{
-				return _markColor;
-			}
-			set
-			{
-				_markColor = value;
-				this.Invalidate();
-			}
-		}
+        {
+            get
+            {
+                return _markColor;
+            }
+            set
+            {
+                _markColor = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the row index of the custom label.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(0),
-		SRDescription("DescriptionAttributeCustomLabel_RowIndex")
-		]
-		public int RowIndex
-		{
-			get
-			{
-				return this._labelRowIndex;
-			}
-			set
-			{
-				if(value < 0)
-				{
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(0),
+        SRDescription("DescriptionAttributeCustomLabel_RowIndex")
+        ]
+        public int RowIndex
+        {
+            get
+            {
+                return this._labelRowIndex;
+            }
+            set
+            {
+                if (value < 0)
+                {
                     throw new InvalidOperationException(SR.ExceptionAxisLabelRowIndexIsNegative);
-				}
+                }
 
-				this._labelRowIndex = value;
-				this.Invalidate();
-			}
-		}
+                this._labelRowIndex = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets a property which define the marks for the labels in the second row. 
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(LabelMarkStyle.None),
-		SRDescription("DescriptionAttributeCustomLabel_LabelMark")
-		]
-		public LabelMarkStyle LabelMark
-		{
-			get
-			{
-				return _labelMark;
-			}
-			set
-			{
-				_labelMark = value;
-				this.Invalidate();
-			}
-		}
+        /// <summary>
+        /// Gets or sets a property which define the marks for the labels in the second row.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(LabelMarkStyle.None),
+        SRDescription("DescriptionAttributeCustomLabel_LabelMark")
+        ]
+        public LabelMarkStyle LabelMark
+        {
+            get
+            {
+                return _labelMark;
+            }
+            set
+            {
+                _labelMark = value;
+                this.Invalidate();
+            }
+        }
 
-		#endregion
+        #endregion
+    }
 
-	}
-
-	/// <summary>
-    /// The LabelStyle class contains properties which define the visual appearance of 
-    /// the axis labels, their interval and position. This class is also 
-    /// responsible for calculating the position of all the labels and 
-    /// drawing them. 
-	/// </summary>
-	[
-		SRDescription("DescriptionAttributeLabel_Label"),
-		DefaultProperty("Enabled"),
-	]
+    /// <summary>
+    /// The LabelStyle class contains properties which define the visual appearance of
+    /// the axis labels, their interval and position. This class is also
+    /// responsible for calculating the position of all the labels and
+    /// drawing them.
+    /// </summary>
+    [
+        SRDescription("DescriptionAttributeLabel_Label"),
+        DefaultProperty("Enabled"),
+    ]
     public class LabelStyle : ChartElement, IDisposable
-	{
-		#region Fields
+    {
+        #region Fields
 
-		// Reference to the Axis 
-		private Axis					_axis;
+        // Reference to the Axis
+        private Axis _axis;
 
         // Private data members, which store properties values
-        private bool					_enabled = true;
+        private bool _enabled = true;
 
-		internal double					intervalOffset = double.NaN;
-		internal double					interval = double.NaN;
-		internal DateTimeIntervalType	intervalType = DateTimeIntervalType.NotSet;
-		internal DateTimeIntervalType	intervalOffsetType = DateTimeIntervalType.NotSet;
+        internal double intervalOffset = double.NaN;
+        internal double interval = double.NaN;
+        internal DateTimeIntervalType intervalType = DateTimeIntervalType.NotSet;
+        internal DateTimeIntervalType intervalOffsetType = DateTimeIntervalType.NotSet;
 
-        private FontCache               _fontCache = new FontCache();
-		private Font					_font;
-		private Color					_foreColor = Color.Black;
-		internal int					angle;
-        internal bool					isStaggered;
-        private bool					_isEndLabelVisible = true;
-		private bool					_truncatedLabels;
-        private string					_format = string.Empty;
+        private FontCache _fontCache = new FontCache();
+        private Font _font;
+        private Color _foreColor = Color.Black;
+        internal int angle;
+        internal bool isStaggered;
+        private bool _isEndLabelVisible = true;
+        private bool _truncatedLabels;
+        private string _format = string.Empty;
 
         #endregion
 
@@ -852,31 +837,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Public default constructor.
         /// </summary>
         public LabelStyle()
-		{
+        {
             _font = _fontCache.DefaultFont;
-		}
+        }
 
         /// <summary>
         /// Public constructor.
         /// </summary>
         /// <param name="axis">Axis which owns the grid.</param>
-		internal LabelStyle(Axis axis) 
+		internal LabelStyle(Axis axis)
             : this()
-		{
-			_axis = axis;
-		}
+        {
+            _axis = axis;
+        }
 
-		#endregion
+        #endregion
 
-		#region Axis labels drawing methods
+        #region Axis labels drawing methods
 
-		/// <summary>
-		/// Draws axis labels on the circular chart area.
-		/// </summary>
-		/// <param name="graph">Reference to the Chart Graphics object.</param>
-		internal void PaintCircular( ChartGraphics graph )
-		{
-            // Label string drawing format			
+        /// <summary>
+        /// Draws axis labels on the circular chart area.
+        /// </summary>
+        /// <param name="graph">Reference to the Chart Graphics object.</param>
+        internal void PaintCircular(ChartGraphics graph)
+        {
+            // Label string drawing format
             using StringFormat format = new StringFormat();
             format.FormatFlags |= StringFormatFlags.LineLimit;
             format.Trimming = StringTrimming.EllipsisCharacter;
@@ -972,7 +957,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                     }
 
-
                     // Set text rotation angle
                     float textAngle = labelAngle;
                     if (labelsStyle == CircularAxisLabelsStyle.Radial)
@@ -1020,7 +1004,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             format);
                     }
 
-                    // Process selection region 
+                    // Process selection region
                     if (this._axis.Common.ProcessModeRegions)
                     {
                         SizeF size = graph.MeasureString(circAxis.Title.Replace("\\n", "\n"), (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont);
@@ -1060,60 +1044,60 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-		/// <summary>
-		/// Gets rectangle position of the label.
-		/// </summary>
-		/// <param name="position">Original label position.</param>
-		/// <param name="size">Label text size.</param>
-		/// <param name="format">Label string format.</param>
-		/// <returns>Label rectangle position.</returns>
-		internal static RectangleF GetLabelPosition(
-			PointF position, 
-			SizeF size,
-			StringFormat format)
-		{
-			// Calculate label position rectangle
-			RectangleF	labelPosition = RectangleF.Empty;
-			labelPosition.Width = size.Width;
-			labelPosition.Height = size.Height;
+        /// <summary>
+        /// Gets rectangle position of the label.
+        /// </summary>
+        /// <param name="position">Original label position.</param>
+        /// <param name="size">Label text size.</param>
+        /// <param name="format">Label string format.</param>
+        /// <returns>Label rectangle position.</returns>
+        internal static RectangleF GetLabelPosition(
+            PointF position,
+            SizeF size,
+            StringFormat format)
+        {
+            // Calculate label position rectangle
+            RectangleF labelPosition = RectangleF.Empty;
+            labelPosition.Width = size.Width;
+            labelPosition.Height = size.Height;
 
-			if(format.Alignment == StringAlignment.Far)
-			{
-				labelPosition.X = position.X - size.Width;
-			}
-			else if(format.Alignment == StringAlignment.Near)
-			{
-				labelPosition.X = position.X;
-			}
-			else if(format.Alignment == StringAlignment.Center)
-			{
-				labelPosition.X = position.X - size.Width/2F;
-			}
+            if (format.Alignment == StringAlignment.Far)
+            {
+                labelPosition.X = position.X - size.Width;
+            }
+            else if (format.Alignment == StringAlignment.Near)
+            {
+                labelPosition.X = position.X;
+            }
+            else if (format.Alignment == StringAlignment.Center)
+            {
+                labelPosition.X = position.X - size.Width / 2F;
+            }
 
-			if(format.LineAlignment == StringAlignment.Far)
-			{
-				labelPosition.Y = position.Y - size.Height;
-			}
-			else if(format.LineAlignment == StringAlignment.Near)
-			{
-				labelPosition.Y = position.Y;
-			}
-			else if(format.LineAlignment == StringAlignment.Center)
-			{
-				labelPosition.Y = position.Y - size.Height/2F;
-			}
+            if (format.LineAlignment == StringAlignment.Far)
+            {
+                labelPosition.Y = position.Y - size.Height;
+            }
+            else if (format.LineAlignment == StringAlignment.Near)
+            {
+                labelPosition.Y = position.Y;
+            }
+            else if (format.LineAlignment == StringAlignment.Center)
+            {
+                labelPosition.Y = position.Y - size.Height / 2F;
+            }
 
-			return labelPosition;
-		}
+            return labelPosition;
+        }
 
-		/// <summary>
-		/// Draws axis labels.
-		/// </summary>
-		/// <param name="graph">Reference to the Chart Graphics object.</param>
-		/// <param name="backElements">Back elements of the axis should be drawn in 3D scene.</param>
-		internal void Paint( ChartGraphics graph, bool backElements )
-		{
-            // Label string drawing format			
+        /// <summary>
+        /// Draws axis labels.
+        /// </summary>
+        /// <param name="graph">Reference to the Chart Graphics object.</param>
+        /// <param name="backElements">Back elements of the axis should be drawn in 3D scene.</param>
+        internal void Paint(ChartGraphics graph, bool backElements)
+        {
+            // Label string drawing format
             using StringFormat format = new StringFormat();
             format.FormatFlags |= StringFormatFlags.LineLimit;
             format.Trimming = StringTrimming.EllipsisCharacter;
@@ -1124,7 +1108,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // deliant fix-> VSTS #157848, #143286 - drawing custom label in empty axis
             if (Double.IsNaN(_axis.ViewMinimum) || Double.IsNaN(_axis.ViewMaximum))
                 return;
-
 
             // Draw labels in 3D space
             if (this._axis.ChartArea.Area3DStyle.Enable3D && !this._axis.ChartArea.chartAreaIsCurcular)
@@ -1301,7 +1284,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     axisSeries, 0.0, DateTimeIntervalType.Number, true);
                                 ++labelIndex;
                             }
-
                         }
                     }
                     else
@@ -1314,9 +1296,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                     }
 
-
-
-                    // Make sure label To and From coordinates are processed by one scale segment based 
+                    // Make sure label To and From coordinates are processed by one scale segment based
                     // on the label middle point position.
                     if (_axis.ScaleSegments.Count > 0)
                     {
@@ -1325,10 +1305,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         _axis.ScaleSegments.EnforceSegment(scaleSegment);
                     }
 
-
-
                     // Use center point instead of the To/From if label takes all scaleView
-                    // This is done to avoid issues with labels drawing with high 
+                    // This is done to avoid issues with labels drawing with high
                     // zooming levels.
                     if ((decimal)label.FromPosition < viewMin &&
                         (decimal)label.ToPosition > viewMax)
@@ -1336,7 +1314,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Indicates that chart relative coordinates should be used instead of axis values
                         useRelativeCoordiantes = true;
 
-                        // Calculate label From/To in relative coordinates using 
+                        // Calculate label From/To in relative coordinates using
                         // label middle point and 100% width.
                         labelFromRelative = _axis.GetLinearPosition(middlePoint) - 50.0;
                         labelToRelative = labelFromRelative + 100.0;
@@ -1549,172 +1527,172 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-		#endregion
+        #endregion
 
-		#region 3D Axis labels drawing methods
+        #region 3D Axis labels drawing methods
 
-		/// <summary>
-		/// Get a rectangle between chart area position and plotting area on specified side.
-		/// Also sets axis labels string formatting for the specified labels position.
-		/// </summary>
-		/// <param name="area">Chart area object.</param>
-		/// <param name="position">Position in chart area.</param>
-		/// <param name="stringFormat">Axis labels string format.</param>
-		/// <returns>Axis labels rectangle.</returns>
-		private RectangleF GetAllLabelsRect(ChartArea area, AxisPosition position, StringFormat stringFormat)
-		{
-			// Find axis with same position
-			Axis labelsAxis = null;
-			foreach(Axis curAxis in area.Axes)
-			{
-				if(curAxis.AxisPosition == position)
-				{
-					labelsAxis = curAxis;
-					break;
-				}
-			}
+        /// <summary>
+        /// Get a rectangle between chart area position and plotting area on specified side.
+        /// Also sets axis labels string formatting for the specified labels position.
+        /// </summary>
+        /// <param name="area">Chart area object.</param>
+        /// <param name="position">Position in chart area.</param>
+        /// <param name="stringFormat">Axis labels string format.</param>
+        /// <returns>Axis labels rectangle.</returns>
+        private RectangleF GetAllLabelsRect(ChartArea area, AxisPosition position, StringFormat stringFormat)
+        {
+            // Find axis with same position
+            Axis labelsAxis = null;
+            foreach (Axis curAxis in area.Axes)
+            {
+                if (curAxis.AxisPosition == position)
+                {
+                    labelsAxis = curAxis;
+                    break;
+                }
+            }
 
-			if(labelsAxis == null)
-			{
-				return RectangleF.Empty;
-			}
+            if (labelsAxis == null)
+            {
+                return RectangleF.Empty;
+            }
 
-			// Calculate rect for different positions
-			RectangleF rectLabels = area.Position.ToRectangleF();
-			if( position == AxisPosition.Left )
-			{
-				rectLabels.Width = labelsAxis.labelSize;
-				if( labelsAxis.GetIsMarksNextToAxis() )
-				{
-					rectLabels.X = (float)labelsAxis.GetAxisPosition();
-					rectLabels.Width = (float)Math.Max(rectLabels.Width, rectLabels.X - labelsAxis.PlotAreaPosition.X);
-				}
-				else
-				{
-					rectLabels.X = labelsAxis.PlotAreaPosition.X;
-				}
+            // Calculate rect for different positions
+            RectangleF rectLabels = area.Position.ToRectangleF();
+            if (position == AxisPosition.Left)
+            {
+                rectLabels.Width = labelsAxis.labelSize;
+                if (labelsAxis.GetIsMarksNextToAxis())
+                {
+                    rectLabels.X = (float)labelsAxis.GetAxisPosition();
+                    rectLabels.Width = (float)Math.Max(rectLabels.Width, rectLabels.X - labelsAxis.PlotAreaPosition.X);
+                }
+                else
+                {
+                    rectLabels.X = labelsAxis.PlotAreaPosition.X;
+                }
 
-				rectLabels.X -= rectLabels.Width;
+                rectLabels.X -= rectLabels.Width;
 
-				if(area.IsSideSceneWallOnLeft() || area.Area3DStyle.WallWidth == 0)
-				{
-					rectLabels.X -= labelsAxis.markSize;
-				}
+                if (area.IsSideSceneWallOnLeft() || area.Area3DStyle.WallWidth == 0)
+                {
+                    rectLabels.X -= labelsAxis.markSize;
+                }
 
-				// Set label text alignment
-				stringFormat.Alignment = StringAlignment.Far;
-				stringFormat.LineAlignment = StringAlignment.Center;
-			}
-			else if( position == AxisPosition.Right )
-			{
-				rectLabels.Width = labelsAxis.labelSize;
-				if( labelsAxis.GetIsMarksNextToAxis() )
-				{
-					rectLabels.X = (float)labelsAxis.GetAxisPosition();
-					rectLabels.Width = (float)Math.Max(rectLabels.Width, labelsAxis.PlotAreaPosition.Right - rectLabels.X);
-				}
-				else
-				{
-					rectLabels.X = labelsAxis.PlotAreaPosition.Right;
-				}
-				
-				if(!area.IsSideSceneWallOnLeft() || area.Area3DStyle.WallWidth == 0)
-				{
-					rectLabels.X += labelsAxis.markSize;
-				}
+                // Set label text alignment
+                stringFormat.Alignment = StringAlignment.Far;
+                stringFormat.LineAlignment = StringAlignment.Center;
+            }
+            else if (position == AxisPosition.Right)
+            {
+                rectLabels.Width = labelsAxis.labelSize;
+                if (labelsAxis.GetIsMarksNextToAxis())
+                {
+                    rectLabels.X = (float)labelsAxis.GetAxisPosition();
+                    rectLabels.Width = (float)Math.Max(rectLabels.Width, labelsAxis.PlotAreaPosition.Right - rectLabels.X);
+                }
+                else
+                {
+                    rectLabels.X = labelsAxis.PlotAreaPosition.Right;
+                }
 
-				// Set label text alignment
-				stringFormat.Alignment = StringAlignment.Near;
-				stringFormat.LineAlignment = StringAlignment.Center;
-			}
-			else if( position == AxisPosition.Top )
-			{
-				rectLabels.Height = labelsAxis.labelSize;
-				if( labelsAxis.GetIsMarksNextToAxis() )
-				{
-					rectLabels.Y = (float)labelsAxis.GetAxisPosition();
-					rectLabels.Height = (float)Math.Max(rectLabels.Height, rectLabels.Y - labelsAxis.PlotAreaPosition.Y);
-				}
-				else
-				{
-					rectLabels.Y = labelsAxis.PlotAreaPosition.Y;
-				}
+                if (!area.IsSideSceneWallOnLeft() || area.Area3DStyle.WallWidth == 0)
+                {
+                    rectLabels.X += labelsAxis.markSize;
+                }
 
-				rectLabels.Y -= rectLabels.Height;
+                // Set label text alignment
+                stringFormat.Alignment = StringAlignment.Near;
+                stringFormat.LineAlignment = StringAlignment.Center;
+            }
+            else if (position == AxisPosition.Top)
+            {
+                rectLabels.Height = labelsAxis.labelSize;
+                if (labelsAxis.GetIsMarksNextToAxis())
+                {
+                    rectLabels.Y = (float)labelsAxis.GetAxisPosition();
+                    rectLabels.Height = (float)Math.Max(rectLabels.Height, rectLabels.Y - labelsAxis.PlotAreaPosition.Y);
+                }
+                else
+                {
+                    rectLabels.Y = labelsAxis.PlotAreaPosition.Y;
+                }
 
-				if(area.Area3DStyle.WallWidth == 0)
-				{
-					rectLabels.Y -= labelsAxis.markSize;
-				}
+                rectLabels.Y -= rectLabels.Height;
 
-				// Set label text alignment
-				stringFormat.Alignment = StringAlignment.Center;
-				stringFormat.LineAlignment = StringAlignment.Far;
-			}
-			else if( position == AxisPosition.Bottom )
-			{
-				rectLabels.Height = labelsAxis.labelSize;
-				if( labelsAxis.GetIsMarksNextToAxis() )
-				{
-					rectLabels.Y = (float)labelsAxis.GetAxisPosition();
-					rectLabels.Height = (float)Math.Max(rectLabels.Height, labelsAxis.PlotAreaPosition.Bottom - rectLabels.Y);
-				}
-				else
-				{
-					rectLabels.Y = labelsAxis.PlotAreaPosition.Bottom;
-				}
-				rectLabels.Y += labelsAxis.markSize;
+                if (area.Area3DStyle.WallWidth == 0)
+                {
+                    rectLabels.Y -= labelsAxis.markSize;
+                }
 
-				// Set label text alignment
-				stringFormat.Alignment = StringAlignment.Center;
-				stringFormat.LineAlignment = StringAlignment.Near;
-			}
+                // Set label text alignment
+                stringFormat.Alignment = StringAlignment.Center;
+                stringFormat.LineAlignment = StringAlignment.Far;
+            }
+            else if (position == AxisPosition.Bottom)
+            {
+                rectLabels.Height = labelsAxis.labelSize;
+                if (labelsAxis.GetIsMarksNextToAxis())
+                {
+                    rectLabels.Y = (float)labelsAxis.GetAxisPosition();
+                    rectLabels.Height = (float)Math.Max(rectLabels.Height, labelsAxis.PlotAreaPosition.Bottom - rectLabels.Y);
+                }
+                else
+                {
+                    rectLabels.Y = labelsAxis.PlotAreaPosition.Bottom;
+                }
+                rectLabels.Y += labelsAxis.markSize;
 
-			return rectLabels;
-		}
+                // Set label text alignment
+                stringFormat.Alignment = StringAlignment.Center;
+                stringFormat.LineAlignment = StringAlignment.Near;
+            }
+
+            return rectLabels;
+        }
 
         /// <summary>
         /// Gets position of axis labels.
         /// Top and Bottom axis labels can be drawn on the sides (left or right)
         /// of the plotting area. If angle between axis and it's projection is
-        /// between -25 and 25 degrees the axis are drawn at the bottom/top, 
+        /// between -25 and 25 degrees the axis are drawn at the bottom/top,
         /// otherwise labels are moved on the left or right side.
         /// </summary>
         /// <param name="axis">Axis object.</param>
         /// <returns>Position where axis labels should be drawn.</returns>
 		private AxisPosition GetLabelsPosition(Axis axis)
-		{
-			// Get angle between 2D axis and it's 3D projection.
-			double axisAngle = axis.GetAxisProjectionAngle();
+        {
+            // Get angle between 2D axis and it's 3D projection.
+            double axisAngle = axis.GetAxisProjectionAngle();
 
-			// Pick the side to draw the labels on
-			if(axis.AxisPosition == AxisPosition.Bottom)
-			{
-				if(axisAngle <= -25 )
-					return AxisPosition.Right;
-				else if(axisAngle >= 25 )
-					return AxisPosition.Left;
-			}
-			else if(axis.AxisPosition == AxisPosition.Top)
-			{
-				if(axisAngle <= -25 )
-					return AxisPosition.Left;
-				else if(axisAngle >= 25 )
-					return AxisPosition.Right;
-			}
+            // Pick the side to draw the labels on
+            if (axis.AxisPosition == AxisPosition.Bottom)
+            {
+                if (axisAngle <= -25)
+                    return AxisPosition.Right;
+                else if (axisAngle >= 25)
+                    return AxisPosition.Left;
+            }
+            else if (axis.AxisPosition == AxisPosition.Top)
+            {
+                if (axisAngle <= -25)
+                    return AxisPosition.Left;
+                else if (axisAngle >= 25)
+                    return AxisPosition.Right;
+            }
 
-			// Labels are on the same side as the axis
-			return axis.AxisPosition;
-		}
+            // Labels are on the same side as the axis
+            return axis.AxisPosition;
+        }
 
-		/// <summary>
-		/// Draws axis labels in 3D space.
-		/// </summary>
-		/// <param name="graph">Reference to the Chart Graphics object.</param>
-		/// <param name="backElements">Back elements of the axis should be drawn in 3D scene.</param>
-		internal void Paint3D( ChartGraphics graph, bool backElements )
-		{
-            // Label string drawing format			
+        /// <summary>
+        /// Draws axis labels in 3D space.
+        /// </summary>
+        /// <param name="graph">Reference to the Chart Graphics object.</param>
+        /// <param name="backElements">Back elements of the axis should be drawn in 3D scene.</param>
+        internal void Paint3D(ChartGraphics graph, bool backElements)
+        {
+            // Label string drawing format
             using StringFormat format = new StringFormat();
             format.Trimming = StringTrimming.EllipsisCharacter;
 
@@ -1810,8 +1788,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Pre-calculated height of the first labels row
             float firstLabelsRowHeight = -1f;
 
-            // For 3D axis labels the first row of labels 
-            // has to be drawn after all other rows because 
+            // For 3D axis labels the first row of labels
+            // has to be drawn after all other rows because
             // of hot regions.
             for (int selectionRow = 0; selectionRow <= this._axis.GetGroupLabelLevelCount(); selectionRow++)
             {
@@ -1864,7 +1842,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                         }
                     }
-
 
                     // Calculate single label position
                     RectangleF rect = rectLabels;
@@ -1950,7 +1927,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Label is in the second row
                     else if (label.RowIndex > 0)
                     {
-                        // Hide grouping labels (where index of row > 0) when they are displayed 
+                        // Hide grouping labels (where index of row > 0) when they are displayed
                         // not on the same side as their axis. Fixes MS issue #64.
                         if (labelsPosition != this._axis.AxisPosition)
                         {
@@ -2192,11 +2169,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     //********************************************************************
-                    //** NOTE: Code below improves chart labels readability in scenarios 
+                    //** NOTE: Code below improves chart labels readability in scenarios
                     //** described in MS issue #65.
                     //**
                     //** Prevent labels in the first row from overlapping the grouping
-                    //** labels in the rows below. The solution only apply to the limited 
+                    //** labels in the rows below. The solution only apply to the limited
                     //** use cases defined by the condition below.
                     //********************************************************************
                     StringFormatFlags oldFormatFlags = format.FormatFlags;
@@ -2224,14 +2201,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Resuse pre-calculated first labels row height
                         rect.Height = firstLabelsRowHeight;
 
-                        // Change current string format to prevent strings to go out of the 
+                        // Change current string format to prevent strings to go out of the
                         // specified bounding rectangle
                         if ((format.FormatFlags & StringFormatFlags.LineLimit) == 0)
                         {
                             format.FormatFlags |= StringFormatFlags.LineLimit;
                         }
                     }
-
 
                     //********************************************************************
                     //** Draw label text.
@@ -2269,40 +2245,38 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-		#endregion
+        #endregion
 
-		#region Helper methods
+        #region Helper methods
 
-		/// <summary>
-		/// Sets the axis to which this object attached to.
-		/// </summary>
-		/// <returns>Axis object.</returns>
-		internal Axis Axis
-		{
+        /// <summary>
+        /// Sets the axis to which this object attached to.
+        /// </summary>
+        /// <returns>Axis object.</returns>
+        internal Axis Axis
+        {
             set { _axis = value; }
-		}
+        }
 
-
-		/// <summary>
-		/// Invalidate chart picture
-		/// </summary>
-		internal override void Invalidate()
-		{
-
-			if(this._axis != null)
-			{
-				this._axis.Invalidate();
-			}
+        /// <summary>
+        /// Invalidate chart picture
+        /// </summary>
+        internal override void Invalidate()
+        {
+            if (this._axis != null)
+            {
+                this._axis.Invalidate();
+            }
             base.Invalidate();
-		}
+        }
 
-		#endregion
+        #endregion
 
-		#region	Label properties
+        #region	Label properties
 
-		/// <summary>
-		/// Gets or sets the interval offset of the label.
-		/// </summary>
+        /// <summary>
+        /// Gets or sets the interval offset of the label.
+        /// </summary>
         [
         SRCategory("CategoryAttributeData"),
         Bindable(true),
@@ -2324,31 +2298,29 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
-
         /// <summary>
         /// Gets the interval offset.
         /// </summary>
         /// <returns></returns>
         internal double GetIntervalOffset()
-		{
-			if(double.IsNaN(intervalOffset) && this._axis != null)
-			{
-				return this._axis.IntervalOffset;
-			}
-			return intervalOffset;
-		}
+        {
+            if (double.IsNaN(intervalOffset) && this._axis != null)
+            {
+                return this._axis.IntervalOffset;
+            }
+            return intervalOffset;
+        }
 
-		/// <summary>
-		/// Gets or sets the unit of measurement of the label offset.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeData"),
-		Bindable(true),
-		DefaultValue(DateTimeIntervalType.NotSet),
-		SRDescription("DescriptionAttributeLabel_IntervalOffsetType"),
-		RefreshPropertiesAttribute(RefreshProperties.All),
-		]
+        /// <summary>
+        /// Gets or sets the unit of measurement of the label offset.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeData"),
+        Bindable(true),
+        DefaultValue(DateTimeIntervalType.NotSet),
+        SRDescription("DescriptionAttributeLabel_IntervalOffsetType"),
+        RefreshPropertiesAttribute(RefreshProperties.All),
+        ]
         public DateTimeIntervalType IntervalOffsetType
         {
             get
@@ -2362,30 +2334,29 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Gets the type of the interval offset.
         /// </summary>
         /// <returns></returns>
 		internal DateTimeIntervalType GetIntervalOffsetType()
-		{
-			if(intervalOffsetType == DateTimeIntervalType.NotSet && this._axis != null)
-			{
-				return this._axis.IntervalOffsetType;
-			}
-			return intervalOffsetType;
-		}
+        {
+            if (intervalOffsetType == DateTimeIntervalType.NotSet && this._axis != null)
+            {
+                return this._axis.IntervalOffsetType;
+            }
+            return intervalOffsetType;
+        }
 
-		/// <summary>
-		/// Gets or sets the interval size of the label.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeData"),
-		Bindable(true),
-		DefaultValue(Double.NaN),
-		SRDescription("DescriptionAttributeLabel_Interval"),
+        /// <summary>
+        /// Gets or sets the interval size of the label.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeData"),
+        Bindable(true),
+        DefaultValue(Double.NaN),
+        SRDescription("DescriptionAttributeLabel_Interval"),
         TypeConverter(typeof(AxisElementIntervalValueConverter)),
-		]
+        ]
         public double Interval
         {
             get
@@ -2406,30 +2377,29 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Gets the interval.
         /// </summary>
         /// <returns></returns>
 		internal double GetInterval()
-		{
-				if(double.IsNaN(interval) && this._axis != null)
-				{
-					return this._axis.Interval;
-				}
-				return interval;
-		}
+        {
+            if (double.IsNaN(interval) && this._axis != null)
+            {
+                return this._axis.Interval;
+            }
+            return interval;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the unit of measurement of the interval size of the label.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeData"),
-		Bindable(true),
-		DefaultValue(DateTimeIntervalType.NotSet),
-		SRDescription("DescriptionAttributeLabel_IntervalType"),
-		RefreshPropertiesAttribute(RefreshProperties.All)
-		]
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeData"),
+        Bindable(true),
+        DefaultValue(DateTimeIntervalType.NotSet),
+        SRDescription("DescriptionAttributeLabel_IntervalType"),
+        RefreshPropertiesAttribute(RefreshProperties.All)
+        ]
         public DateTimeIntervalType IntervalType
         {
             get
@@ -2450,246 +2420,246 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Gets the type of the interval.
         /// </summary>
         /// <returns></returns>
 		internal DateTimeIntervalType GetIntervalType()
-		{
-			if(intervalType == DateTimeIntervalType.NotSet && this._axis != null)
-			{
-				return this._axis.IntervalType;
-			}
-			return intervalType;
-		}
+        {
+            if (intervalType == DateTimeIntervalType.NotSet && this._axis != null)
+            {
+                return this._axis.IntervalType;
+            }
+            return intervalType;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets the font of the label.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
-		SRDescription("DescriptionAttributeLabel_Font")
-		]
-		public Font Font
-		{
-			get
-			{
-				return _font;
-			}
-			set
-			{
-				// Turn off labels autofitting 
-                if (this._axis != null && this._axis.Common!=null && this._axis.Common.Chart != null)
-				{
-					if(!this._axis.Common.Chart.serializing)
-					{
-						this._axis.IsLabelAutoFit = false;
-					}
-				}
-
-				_font = value;
-				this.Invalidate();
-			}
-		}
-
-		/// <summary>
-        /// Gets or sets the fore color of the label.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(typeof(Color), "Black"),
-        SRDescription("DescriptionAttributeFontColor"),
-		NotifyParentPropertyAttribute(true),
-        TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
+        SRDescription("DescriptionAttributeLabel_Font")
         ]
-        public Color ForeColor
-		{
-			get
-			{
-				return _foreColor;
-			}
-			set
-			{
-				_foreColor = value;
-				this.Invalidate();
-			}
-		}
-
-		/// <summary>
-        /// Gets or sets a value that represents the angle at which font is drawn.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(0),
-		SRDescription("DescriptionAttributeLabel_FontAngle"),
-		RefreshPropertiesAttribute(RefreshProperties.All)
-		]
-		public int Angle
-		{
-			get
-			{
-				return angle;
-			}
-			set
-			{
-				if(value < -90 || value > 90)
-				{
-                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisLabelFontAngleInvalid);
-				}
-				
-				// Turn of label offset if angle is not 0, 90 or -90
-				if(IsStaggered && value != 0 && value != -90 && value != 90)
-				{
-					IsStaggered = false;
-				}
-
-				// Turn off labels autofitting 
-				if(this._axis != null && this._axis.Common!=null && this._axis.Common.Chart != null)
-				{
-                    if (!this._axis.Common.Chart.serializing)
-					{
-						this._axis.IsLabelAutoFit = false;
-					}
-				}
-
-				angle = value;
-				this.Invalidate();
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets a property which specifies whether the labels are shown with offset.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(false),
-		SRDescription("DescriptionAttributeLabel_OffsetLabels"),
-		RefreshPropertiesAttribute(RefreshProperties.All)
-		]
-		public bool IsStaggered
-		{
-			get
-			{
-				return isStaggered;
-			}
-			set
-			{
-				// Make sure that angle is 0, 90 or -90
-				if(value && (this.Angle != 0 || this.Angle != -90 || this.Angle != 90))
-				{
-					this.Angle = 0;
-				}
-
-				// Turn off labels autofitting 
+        public Font Font
+        {
+            get
+            {
+                return _font;
+            }
+            set
+            {
+                // Turn off labels autofitting
                 if (this._axis != null && this._axis.Common != null && this._axis.Common.Chart != null)
                 {
                     if (!this._axis.Common.Chart.serializing)
                     {
                         this._axis.IsLabelAutoFit = false;
-					}
-				}
+                    }
+                }
 
-				isStaggered = value;
+                _font = value;
+                this.Invalidate();
+            }
+        }
 
-				this.Invalidate();
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets a property which specifies whether the labels are shown at axis ends.
-		/// </summary>
-		[
+        /// <summary>
+        /// Gets or sets the fore color of the label.
+        /// </summary>
+        [
         SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(true),
-		SRDescription("DescriptionAttributeLabel_ShowEndLabels"),
-		]
-		public bool IsEndLabelVisible
-		{
-			get
-			{
-				return _isEndLabelVisible;
-			}
-			set
-			{
-				_isEndLabelVisible = value;
-				this.Invalidate();
-			}
-		}
+        Bindable(true),
+        DefaultValue(typeof(Color), "Black"),
+        SRDescription("DescriptionAttributeFontColor"),
+        NotifyParentPropertyAttribute(true),
+        TypeConverter(typeof(ColorConverter)),
+        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        ]
+        public Color ForeColor
+        {
+            get
+            {
+                return _foreColor;
+            }
+            set
+            {
+                _foreColor = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
+        /// <summary>
+        /// Gets or sets a value that represents the angle at which font is drawn.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(0),
+        SRDescription("DescriptionAttributeLabel_FontAngle"),
+        RefreshPropertiesAttribute(RefreshProperties.All)
+        ]
+        public int Angle
+        {
+            get
+            {
+                return angle;
+            }
+            set
+            {
+                if (value < -90 || value > 90)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisLabelFontAngleInvalid);
+                }
+
+                // Turn of label offset if angle is not 0, 90 or -90
+                if (IsStaggered && value != 0 && value != -90 && value != 90)
+                {
+                    IsStaggered = false;
+                }
+
+                // Turn off labels autofitting
+                if (this._axis != null && this._axis.Common != null && this._axis.Common.Chart != null)
+                {
+                    if (!this._axis.Common.Chart.serializing)
+                    {
+                        this._axis.IsLabelAutoFit = false;
+                    }
+                }
+
+                angle = value;
+                this.Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a property which specifies whether the labels are shown with offset.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(false),
+        SRDescription("DescriptionAttributeLabel_OffsetLabels"),
+        RefreshPropertiesAttribute(RefreshProperties.All)
+        ]
+        public bool IsStaggered
+        {
+            get
+            {
+                return isStaggered;
+            }
+            set
+            {
+                // Make sure that angle is 0, 90 or -90
+                if (value && (this.Angle != 0 || this.Angle != -90 || this.Angle != 90))
+                {
+                    this.Angle = 0;
+                }
+
+                // Turn off labels autofitting
+                if (this._axis != null && this._axis.Common != null && this._axis.Common.Chart != null)
+                {
+                    if (!this._axis.Common.Chart.serializing)
+                    {
+                        this._axis.IsLabelAutoFit = false;
+                    }
+                }
+
+                isStaggered = value;
+
+                this.Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a property which specifies whether the labels are shown at axis ends.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(true),
+        SRDescription("DescriptionAttributeLabel_ShowEndLabels"),
+        ]
+        public bool IsEndLabelVisible
+        {
+            get
+            {
+                return _isEndLabelVisible;
+            }
+            set
+            {
+                _isEndLabelVisible = value;
+                this.Invalidate();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets a property which specifies whether the label can be truncated.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(false),
-		SRDescription("DescriptionAttributeLabel_TruncatedLabels"),
-		]
-		public bool TruncatedLabels
-		{
-			get
-			{
-				return _truncatedLabels;
-			}
-			set
-			{
-				_truncatedLabels = value;
-				this.Invalidate();
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets the formatting string for the label text.
-		/// </summary>
-		[
+        /// </summary>
+        [
         SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(""),
-		SRDescription("DescriptionAttributeLabel_Format"),
-		]
-		public string Format
-		{
-			get
-			{
-				return _format;
-			}
-			set
-			{
-				_format = value;
-				this.Invalidate();
-			}
-		}
+        Bindable(true),
+        DefaultValue(false),
+        SRDescription("DescriptionAttributeLabel_TruncatedLabels"),
+        ]
+        public bool TruncatedLabels
+        {
+            get
+            {
+                return _truncatedLabels;
+            }
+            set
+            {
+                _truncatedLabels = value;
+                this.Invalidate();
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets a property which indicates whether the label is enabled.
-		/// </summary>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		Bindable(true),
-		DefaultValue(true),
-		SRDescription("DescriptionAttributeLabel_Enabled"),
-		]
-		public bool Enabled
-		{
-			get
-			{
+        /// <summary>
+        /// Gets or sets the formatting string for the label text.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(""),
+        SRDescription("DescriptionAttributeLabel_Format"),
+        ]
+        public string Format
+        {
+            get
+            {
+                return _format;
+            }
+            set
+            {
+                _format = value;
+                this.Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a property which indicates whether the label is enabled.
+        /// </summary>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        Bindable(true),
+        DefaultValue(true),
+        SRDescription("DescriptionAttributeLabel_Enabled"),
+        ]
+        public bool Enabled
+        {
+            get
+            {
                 return _enabled;
-			}
-			set
-			{
+            }
+            set
+            {
                 _enabled = value;
-				this.Invalidate();
-			}
-		}
-		#endregion
+                this.Invalidate();
+            }
+        }
+
+        #endregion
 
         #region IDisposable Members
 

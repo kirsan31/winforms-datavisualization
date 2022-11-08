@@ -908,7 +908,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 // Check if property in this class is part of the NON serializable content
                 if (serializable)
                 {
-
                     // For nonSerialzableClassFitType and nonSerialzablePropertyFitType
                     //  0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
                     bool nonSerializable = IsPropertyInList(GetNonSerializableContentList(), ownerClassName, propertyName, out int nonSerialzableClassFitType, out int nonSerialzablePropertyFitType);

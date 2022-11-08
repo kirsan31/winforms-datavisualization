@@ -220,7 +220,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
 
         /// <summary>
-        /// Maps formula data field to a chart type specific data field. 
+        /// Maps formula data field to a chart type specific data field.
         /// </summary>
         /// <param name="chartType">Type of the chart.</param>
         /// <param name="formulaField">The formula field to be mapped.</param>

@@ -2,20 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Design-time classes for the image maps.
 //
 
-
 using System.ComponentModel;
 using System.Drawing.Design;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
-
 #warning designer
     /*
     /// <summary>
@@ -45,7 +40,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             {
                 if (e.Value is string)
                 {
-                    // Get image loader 
+                    // Get image loader
                     ImageLoader imageLoader = null;
                     if (e.Context != null && e.Context.Instance != null)
                     {
@@ -74,7 +69,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             catch (ArgumentException)
             { }
         }
-        #endregion
+
+        #endregion Editor method and properties
     }
     */
 
