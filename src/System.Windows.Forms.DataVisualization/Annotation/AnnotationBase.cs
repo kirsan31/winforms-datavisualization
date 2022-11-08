@@ -2,18 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Base class for all annotation objects. Provides
 //				basic set of properties and methods.
 //
 
-
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
@@ -56,53 +52,64 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Top Left selection handle is used.
         /// </summary>
         TopLeftHandle = 0,
+
         /// <summary>
         /// Top selection handle is used.
         /// </summary>
         TopHandle = 1,
+
         /// <summary>
         /// Top Right selection handle is used.
         /// </summary>
         TopRightHandle = 2,
+
         /// <summary>
         /// Right selection handle is used.
         /// </summary>
         RightHandle = 3,
+
         /// <summary>
         /// Bottom Right selection handle is used.
         /// </summary>
         BottomRightHandle = 4,
+
         /// <summary>
         /// Bottom selection handle is used.
         /// </summary>
         BottomHandle = 5,
+
         /// <summary>
         /// Bottom Left selection handle is used.
         /// </summary>
         BottomLeftHandle = 6,
+
         /// <summary>
         /// Left selection handle is used.
         /// </summary>
         LeftHandle = 7,
+
         /// <summary>
         /// Anchor selection handle is used.
         /// </summary>
         AnchorHandle = 8,
+
         /// <summary>
         /// No selection handles used - moving mode.
         /// </summary>
         Moving = 16,
+
         /// <summary>
         /// Moving points of the annotation path.
         /// </summary>
         MovingPathPoints = 32,
+
         /// <summary>
         /// No moving or resizing.
         /// </summary>
         None = 64,
     }
 
-    #endregion
+    #endregion Enumerations
 
     /// <summary>
     /// <b>Annotation</b> is an abstract class that defines properties and methods
@@ -121,7 +128,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
     {
         #region Fields
 
-
         // Name of the chart area the annotation is clipped to
         private string _clipToChartArea = Constants.NotSetValue;
 
@@ -133,12 +139,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Position attribute fields
         private double _x = double.NaN;
+
         private double _y = double.NaN;
         private double _width = double.NaN;
         private double _height = double.NaN;
 
         // Annotation axes attaching fields
         private string _axisXName = String.Empty;
+
         private string _axisYName = String.Empty;
 #pragma warning disable CA2213 // Disposable fields should be disposed
         private Axis _axisX;
@@ -147,6 +155,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Visual attribute fields
         private bool _visible = true;
+
         private ContentAlignment _alignment = ContentAlignment.MiddleCenter;
         private Color _foreColor = Color.Black;
         private FontCache _fontCache = new FontCache();
@@ -164,6 +173,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Anchor position attribute fields
         private string _anchorDataPointName = String.Empty;
+
         private DataPoint _anchorDataPoint;
         private DataPoint _anchorDataPoint2;
         private double _anchorX = double.NaN;
@@ -183,6 +193,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Pre calculated relative position of annotation and anchor point
         internal RectangleF currentPositionRel = new RectangleF(float.NaN, float.NaN, float.NaN, float.NaN);
+
         internal PointF currentAnchorLocationRel = new PointF(float.NaN, float.NaN);
 
         // Smart labels style
@@ -196,6 +207,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Selection and editing permissions
         private bool _allowSelecting;
+
         private bool _allowMoving;
         private bool _allowAnchorMoving;
         private bool _allowResizing;
@@ -222,9 +234,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         internal static double WidthHightLimit = 290000000;
 
-        #endregion
+        #endregion Fields
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Annotation"/> class.
         /// </summary>
@@ -233,7 +246,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _textFont = _fontCache.DefaultFont;
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Properties
 
@@ -286,7 +299,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             get;
         }
-
 
         /// <summary>
         /// Gets or sets the name of the chart area which an annotation is clipped to.
@@ -384,7 +396,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             get { return this.annotationGroup; }
         }
 
-        #endregion
+        #endregion Miscellaneous
 
         #region Position
 
@@ -692,7 +704,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Position
 
         #region Visual Attributes
 
@@ -1027,6 +1039,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 Invalidate();
             }
         }
+
         /// <summary>
         /// Gets or sets the background gradient style of an annotation.
         /// <seealso cref="BackSecondaryColor"/>
@@ -1146,7 +1159,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Visual Attributes
 
         #region Axes Attaching
 
@@ -1219,7 +1232,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.YAxisName = value;
             }
         }
-
 
         /// <summary>
         /// Gets or sets the name of the Y axis which an annotation is attached to.
@@ -1348,7 +1360,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Axes Attaching
 
         #region Anchor
 
@@ -1660,7 +1672,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion // Anchoring
+        #endregion Anchor
 
         #region Editing Permissions
 
@@ -1808,7 +1820,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Editing Permissions
 
         #region Interactivity
 
@@ -1838,14 +1850,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             set
             {
                 _tooltip = value;
-
             }
         }
 
+        #endregion Interactivity
 
-        #endregion // Interactivity
-
-        #endregion
+        #endregion Properties
 
         #region Methods
 
@@ -1905,7 +1915,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             markerSizeRel.Width,
                             markerSizeRel.Height);
 
-
                         // Draw selection handle
                         chartGraphics.DrawMarkerRel(
                             rect.Location,
@@ -1944,24 +1953,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 case ResizingMode.TopLeftHandle:
                                     handlePosition = rect.Location;
                                     break;
+
                                 case ResizingMode.TopHandle:
                                     handlePosition = new PointF(rect.X + rect.Width / 2f, rect.Y);
                                     break;
+
                                 case ResizingMode.TopRightHandle:
                                     handlePosition = new PointF(rect.Right, rect.Y);
                                     break;
+
                                 case ResizingMode.RightHandle:
                                     handlePosition = new PointF(rect.Right, rect.Y + rect.Height / 2f);
                                     break;
+
                                 case ResizingMode.BottomRightHandle:
                                     handlePosition = new PointF(rect.Right, rect.Bottom);
                                     break;
+
                                 case ResizingMode.BottomHandle:
                                     handlePosition = new PointF(rect.X + rect.Width / 2f, rect.Bottom);
                                     break;
+
                                 case ResizingMode.BottomLeftHandle:
                                     handlePosition = new PointF(rect.X, rect.Bottom);
                                     break;
+
                                 case ResizingMode.LeftHandle:
                                     handlePosition = new PointF(rect.X, rect.Y + rect.Height / 2f);
                                     break;
@@ -1989,7 +2005,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 RectangleF.Empty);
                         }
                     }
-
 
                     //********************************************************************
                     //** Draw anchor selection handle
@@ -2128,7 +2143,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Painting
 
         #region Position and Size
 
@@ -2284,7 +2299,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Do not save relative position of annotations inside the group
                 saveCurrentPosition = false;
 
-
                 // Take relative position of the group
                 group.GetRelativePosition(out groupLocation, out SizeF groupSize, out _);
 
@@ -2292,7 +2306,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 groupScaleX = groupSize.Width / 100.0;
                 groupScaleY = groupSize.Height / 100.0;
             }
-
 
             //***********************************************************************
             //** Get annotation automatic size.
@@ -2778,7 +2791,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 vertAxis = null;
             }
 
-
             //***********************************************************************
             //** Convert relative coordinates to axis values
             //***********************************************************************
@@ -2914,6 +2926,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             return;
         }
+
         /// <summary>
         /// Adjust annotation location and\or size as a result of user action.
         /// </summary>
@@ -2951,7 +2964,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     movingDistance = Chart.chartPicture.ChartGraph.GetRelativeSize(movingDistance);
                 }
-
 
                 // Get annotation position in relative coordinates
                 PointF firstPoint;
@@ -3066,7 +3078,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return;
         }
 
-        #endregion
+        #endregion Position and Size
 
         #region Anchor Point and Axes Converters
 
@@ -3133,12 +3145,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             case AxisName.X:
                                 axis = Chart.ChartAreas[areaName].AxisX;
                                 break;
+
                             case AxisName.Y:
                                 axis = Chart.ChartAreas[areaName].AxisY;
                                 break;
+
                             case AxisName.X2:
                                 axis = Chart.ChartAreas[areaName].AxisX2;
                                 break;
+
                             case AxisName.Y2:
                                 axis = Chart.ChartAreas[areaName].AxisY2;
                                 break;
@@ -3196,7 +3211,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return name;
         }
 
-        #endregion
+        #endregion Anchor Point and Axes Converters
 
         #region Z Order Methods
 
@@ -3266,11 +3281,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion // Z Order Methods
+        #endregion Z Order Methods
 
-        #region Group Related Methods
 
-        #endregion // Group Related Methods
 
         #region SmartLabelStyle methods
 
@@ -3363,7 +3376,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion SmartLabelStyle methods
 
         #region Public Anchoring Methods
 
@@ -3428,7 +3441,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.Invalidate();
         }
 
-        #endregion // Public Anchoring Methods
+        #endregion Public Anchoring Methods
 
         #region Placement Methods
 
@@ -3511,7 +3524,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Remeber position where mouse was clicked
                     this.lastPlacementPosition = this.GetGraphics().GetRelativePoint(point);
 
-
                     // Get annotation position in relative coordinates
                     this.GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
 
@@ -3529,7 +3541,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             anchorPoint.Y = float.NaN;
                         }
-
                     }
                     else if (this.AllowAnchorMoving)
                     {
@@ -3733,7 +3744,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             return false;
         }
-        #endregion // Placement Methods
+
+        #endregion Placement Methods
 
         #region Helper Methods
 
@@ -3784,7 +3796,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         return false;
                     }
                 }
-
 
                 return true;
             }
@@ -4058,9 +4069,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Helper Methods
 
-        #endregion
+        #endregion Methods
 
         #region IDisposable Members
 
@@ -4092,7 +4103,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+        #endregion IDisposable Members
     }
 
     /// <summary>
@@ -4114,6 +4125,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         private Annotation _Annotation;
+
         /// <summary>
         /// Gets or sets the annotation the event is fired for.
         /// </summary>
@@ -4124,6 +4136,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         private double _NewLocationX;
+
         /// <summary>
         /// Gets or sets the new X location of the annotation.
         /// </summary>
@@ -4134,6 +4147,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         private double _NewLocationY;
+
         /// <summary>
         /// Gets or sets the new Y location of the annotation.
         /// </summary>
@@ -4144,6 +4158,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         private double _NewSizeWidth;
+
         /// <summary>
         /// Gets or sets the new width of the annotation.
         /// </summary>
@@ -4154,6 +4169,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         private double _NewSizeHeight;
+
         /// <summary>
         /// Gets or sets the new height of the annotation.
         /// </summary>
@@ -4164,6 +4180,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         private double _NewAnchorLocationX;
+
         /// <summary>
         /// Gets or sets the new annotation anchor point X location.
         /// </summary>
@@ -4174,6 +4191,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         private double _NewAnchorLocationY;
+
         /// <summary>
         /// Gets or sets the new annotation anchor point Y location.
         /// </summary>
@@ -4183,10 +4201,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             set { _NewAnchorLocationY = value; }
         }
 
-        #endregion // Fields
+        #endregion Fields
 
         #region Properties
-
 
         /// <summary>
         /// Gets or sets the new location and size of the annotation.
@@ -4236,7 +4253,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion // Properties
+        #endregion Properties
     }
-
 }

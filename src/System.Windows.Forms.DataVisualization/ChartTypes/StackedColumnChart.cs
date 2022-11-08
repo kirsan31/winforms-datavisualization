@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 //
-//  Purpose:	This class contains all necessary methods and 
-//				properties for drawing and selection of the stacked 
-//				Column	chart. Every data point in the Stacked Column 
-//				chart is represented with one rectangle. If there is 
-//				more then one series with this chart type from 
-//				same chart area, Column with same X values are 
+//  Purpose:	This class contains all necessary methods and
+//				properties for drawing and selection of the stacked
+//				Column	chart. Every data point in the Stacked Column
+//				chart is represented with one rectangle. If there is
+//				more then one series with this chart type from
+//				same chart area, Column with same X values are
 //				Stacked.
 //
 
@@ -126,7 +126,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     // Allocate memory for the array of totals
                     double[] totals = new double[series.Points.Count];
 
-                    // Calculate the total of Y value per point 
+                    // Calculate the total of Y value per point
                     for (int index = 0; index < series.Points.Count; index++)
                     {
                         totals[index] = 0;
@@ -261,8 +261,8 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
     }
 
     /// <summary>
-    /// StackedColumnChart class contains all the code necessary to draw 
-    /// and hit test Stacked Column chart. 
+    /// StackedColumnChart class contains all the code necessary to draw
+    /// and hit test Stacked Column chart.
     /// </summary>
     internal class StackedColumnChart : IChartType
     {
@@ -331,7 +331,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         { get { return true; } }
 
         /// <summary>
-        /// True if stacked chart type should draw separately positive and 
+        /// True if stacked chart type should draw separately positive and
         /// negative data points ( Bar and column Stacked types ).
         /// </summary>
         public bool StackSign
@@ -418,14 +418,14 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         }
 
         /// <summary>
-        /// Number of supported Y value(s) per point 
+        /// Number of supported Y value(s) per point
         /// </summary>
         public virtual int YValuesPerPoint
         { get { return 1; } }
 
         /// <summary>
-        /// If the crossing value is auto Crossing value should be 
-        /// automatically set to zero for some chart 
+        /// If the crossing value is auto Crossing value should be
+        /// automatically set to zero for some chart
         /// types (Bar, column, area etc.)
         /// </summary>
         public virtual bool ZeroCrossing
@@ -482,7 +482,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         }
 
         /// <summary>
-        /// This method recalculates size of the Columns. This method is used 
+        /// This method recalculates size of the Columns. This method is used
         /// from Paint or Select method.
         /// </summary>
         /// <param name="selection">If True selection mode is active, otherwise paint mode is active.</param>
@@ -503,7 +503,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         {
             //************************************************************
             //** If stacked series is attached to diferent X and Y axis
-            //** they can not be processed. To solve this issue series 
+            //** they can not be processed. To solve this issue series
             //** will be orgonized in groups based on the axes.
             //************************************************************
 
@@ -772,7 +772,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         double xValue = point.XValue;
                         if (indexedSeries)
                         {
-                            // The formula for position is based on a distance 
+                            // The formula for position is based on a distance
                             //from the grid line or nPoints position.
                             xValue = (double)pointIndx + 1;
                         }
@@ -795,7 +795,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                             rectSize.X = (float)(xPosition - width / 2);
                             rectSize.Width = (float)width;
 
-                            // The top side of rectangle has always 
+                            // The top side of rectangle has always
                             // smaller value than a bottom value
                             if (zero < height)
                             {
@@ -857,7 +857,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                                         rectSize.Y < area.PlotAreaPosition.Y ||
                                         rectSize.Bottom > area.PlotAreaPosition.Bottom)
                                     {
-                                        // Set clipping region for line drawing 
+                                        // Set clipping region for line drawing
                                         graph.SetClip(area.PlotAreaPosition.ToRectangleF());
                                         clipRegionSet = true;
                                     }
@@ -1323,7 +1323,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         #region 3D Painting and Selection method
 
         /// <summary>
-        /// This method recalculates size of the Columns. This method is used 
+        /// This method recalculates size of the Columns. This method is used
         /// from Paint or Select method in 3D space.
         /// </summary>
         /// <param name="selection">If True selection mode is active, otherwise paint mode is active.</param>
@@ -1527,7 +1527,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     rectSize.X = (float)(pointEx.xPosition - pointEx.width / 2);
                     rectSize.Width = (float)pointEx.width;
 
-                    // The top side of rectangle has always 
+                    // The top side of rectangle has always
                     // smaller value than a bottom value
                     if (zero < height)
                     {
@@ -1683,7 +1683,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         rectSize.X = (float)(pointEx.xPosition - pointEx.width / 2);
                         rectSize.Width = (float)pointEx.width;
 
-                        // The top side of rectangle has always 
+                        // The top side of rectangle has always
                         // smaller value than a bottom value
                         if (zero < height)
                         {
@@ -1920,7 +1920,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            //Nothing to dispose at the base class. 
+            //Nothing to dispose at the base class.
         }
 
         /// <summary>

@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 //
-//  Purpose:	Provide 2D/3D drawing and hit testing functionality 
-//              for the Area and SplineArea charts. Spline chart 
+//  Purpose:	Provide 2D/3D drawing and hit testing functionality
+//              for the Area and SplineArea charts. Spline chart
 //              type is used as a base for the Area and SplineArea
 //              charts.
 //
@@ -16,7 +16,7 @@ using System.Drawing.Drawing2D;
 namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 {
     /// <summary>
-    /// SplineAreaChart class extends the AreaChart class by 
+    /// SplineAreaChart class extends the AreaChart class by
     /// providing a different initial tension for the line.
     /// </summary>
     internal class SplineAreaChart : AreaChart
@@ -78,12 +78,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     }
 
     /// <summary>
-    /// AreaChart class provides 2D/3D drawing and hit testing 
-    /// functionality for the Area and SplineArea charts. The 
-    /// only difference of the SplineArea chart is the default 
+    /// AreaChart class provides 2D/3D drawing and hit testing
+    /// functionality for the Area and SplineArea charts. The
+    /// only difference of the SplineArea chart is the default
     /// tension of the line.
-    /// 
-    /// SplineChart base class provides most of the functionality 
+    ///
+    /// SplineChart base class provides most of the functionality
     /// like drawing lines, labels and markers.
     /// </summary>
     internal class AreaChart : SplineChart
@@ -153,8 +153,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         { get { return ChartTypeNames.Area; } }
 
         /// <summary>
-        /// If the crossing value is auto Crossing value should be 
-        /// automatically set to zero for some chart 
+        /// If the crossing value is auto Crossing value should be
+        /// automatically set to zero for some chart
         /// types (Bar, column, area etc.)
         /// </summary>
         public override bool ZeroCrossing
@@ -186,7 +186,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         #region Painting and Selection methods
 
         /// <summary>
-        /// This method recalculates position of the end points of lines. This method 
+        /// This method recalculates position of the end points of lines. This method
         /// is used from Paint or Select method.
         /// </summary>
         /// <param name="selection">If True selection mode is active, otherwise paint mode is active.</param>
@@ -442,7 +442,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             //************************************************************
-            // Hot Regions mode used for image maps, tool tips and 
+            // Hot Regions mode used for image maps, tool tips and
             // hit test function
             //************************************************************
             if (common.ProcessModeRegions)
@@ -478,7 +478,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
 
                 //************************************************************
-                // Hot Regions mode used for image maps, tool tips and 
+                // Hot Regions mode used for image maps, tool tips and
                 // hit test function
                 //************************************************************
                 common.HotRegionsList.AddHotRegion(
@@ -534,7 +534,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
 
                     //************************************************************
-                    // Hot Regions mode used for image maps, tool tips and 
+                    // Hot Regions mode used for image maps, tool tips and
                     // hit test function
                     //************************************************************
                     common.HotRegionsList.AddHotRegion(
@@ -999,7 +999,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             //****************************************************************
-            //** Clip area first and second data points inside 
+            //** Clip area first and second data points inside
             //** the plotting area.
             //****************************************************************
             if (clipOnTop && ClipTopPoints(
@@ -1028,7 +1028,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             //****************************************************************
-            //** Clip area third and fourth data points inside 
+            //** Clip area third and fourth data points inside
             //** the plotting area.
             //****************************************************************
             if (clipOnBottom && ClipBottomPoints(
@@ -1490,7 +1490,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
             }
 
-            // Tranform coordinates 
+            // Tranform coordinates
             matrix.TransformPoints(cubePoints);
 
             // Check the top side visibility

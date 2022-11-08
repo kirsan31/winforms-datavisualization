@@ -2,11 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Stacked area and hundred percent stacked area charts.
 //
-
 
 using System.Collections;
 using System.Drawing;
@@ -33,14 +31,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             hundredPercentStacked = true;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Fields
 
         // Array of total points values
-        double[] _totalPerPoint;
-        int _seriesCount = -1;
-        #endregion
+        private double[] _totalPerPoint;
+
+        private int _seriesCount = -1;
+
+        #endregion Fields
 
         #region IChartType interface implementation
 
@@ -55,7 +55,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         override public bool HundredPercent { get { return true; } }
 
-        #endregion
+        #endregion IChartType interface implementation
 
         #region Painting and Selection methods
 
@@ -76,9 +76,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             base.Paint(graph, common, area, seriesToDraw);
         }
 
-        #endregion
+        #endregion Painting and Selection methods
 
         #region Y values related methods
+
         /// <summary>
         /// Returns series count of same type for given chart area.
         /// </summary>
@@ -93,7 +94,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 int seriesCount = 0;
                 foreach (Series ser in common.DataManager.Series)
                 {
-                    // Use series of the same type which belong to this area 
+                    // Use series of the same type which belong to this area
                     if (String.Compare(ser.ChartTypeName, Name, true, System.Globalization.CultureInfo.CurrentCulture) == 0
                         && ser.ChartArea == area.Name && ser.IsVisible())
                     {
@@ -117,7 +118,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <returns>Y value of the point.</returns>
         override public double GetYValue(CommonElements common, ChartArea area, Series series, DataPoint point, int pointIndex, int yValueIndex)
         {
-
             // Calculate the totals of all Y values for all series
             if (_totalPerPoint == null)
             {
@@ -128,7 +128,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 int seriesIndex = 0;
                 foreach (Series ser in common.DataManager.Series)
                 {
-                    // Use series of the same type which belong to this area 
+                    // Use series of the same type which belong to this area
                     if (String.Compare(ser.ChartTypeName, Name, true, System.Globalization.CultureInfo.CurrentCulture) == 0
                         && ser.ChartArea == area.Name && ser.IsVisible())
                     {
@@ -142,7 +142,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Allocate memory for the array
                 _totalPerPoint = new double[series.Points.Count];
 
-                // Calculate the total of Y value per point 
+                // Calculate the total of Y value per point
                 for (int index = 0; index < series.Points.Count; index++)
                 {
                     _totalPerPoint[index] = 0;
@@ -200,7 +200,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                 return yValue - areaZeroValue;
             }
-
 
             // Loop through all series
             prevPosY = double.NaN;
@@ -270,7 +269,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return yValue;
         }
 
-        #endregion
+        #endregion Y values related methods
     }
 
     /// <summary>
@@ -306,7 +305,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         protected bool hundredPercentStacked;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -319,7 +318,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             COPCoordinatesToCheck = COPCoordinates.X | COPCoordinates.Y;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Default tension method
 
@@ -332,7 +331,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return 0f;
         }
 
-        #endregion
+        #endregion Default tension method
 
         #region IChartType interface implementation
 
@@ -356,7 +355,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
         }
 
-        #endregion
+        #endregion IChartType interface implementation
 
         #region Painting and Selection methods
 
@@ -456,13 +455,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 vAxisMin = VAxis.ViewMinimum;
                 vAxisMax = VAxis.ViewMaximum;
 
-
                 // Get axis position
                 axisPos.X = (float)VAxis.GetPosition(this.VAxis.Crossing);
                 axisPos.Y = (float)VAxis.GetPosition(this.VAxis.Crossing);
                 axisPos = graph.GetAbsolutePoint(axisPos);
 
-                // Fill previous series values array 
+                // Fill previous series values array
                 if (curentPointsArray == null)
                 {
                     curentPointsArray = new ArrayList(ser.Points.Count);
@@ -490,7 +488,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     // Reset pre-calculated point position
                     point.positionRel = new PointF(float.NaN, float.NaN);
 
-                    // Get point value					
+                    // Get point value
                     double yValue = point.IsEmpty ? 0.0 : GetYValue(common, area, ser, point, index, 0);
                     double xValue = indexedSeries ? (index + 1.0) : point.XValue;
 
@@ -542,7 +540,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     firstPoint.X = (float)Math.Round(firstPoint.X);
                     secondPoint.X = (float)Math.Round(secondPoint.X);
 
-
                     // Calculate data point area segment path
                     using (GraphicsPath path = new GraphicsPath())
                     {
@@ -554,7 +551,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Painting mode
                         if (common.ProcessModePaint)
                         {
-                            // Get previous point value					
+                            // Get previous point value
                             double xPrevValue = indexedSeries ? index : ser.Points[index - 1].XValue;
 
                             // Check if line is completely out of the data scaleView
@@ -588,7 +585,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             }
                             else if (point.IsEmpty && point.Color == Color.Empty)
                             {
-                                // Stacked area chart empty points should always use 
+                                // Stacked area chart empty points should always use
                                 // series color, otherwise chart will have empty 'holes'.
                                 areaBrush = new SolidBrush(ser.Color);
                             }
@@ -724,7 +721,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                     // Increase data point index
                     ++index;
-
                 }
 
                 // Fill whole series area with gradient
@@ -786,7 +782,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     axisPos.Y = (float)VAxis.GetPosition(this.VAxis.Crossing);
                     axisPos = graph.GetAbsolutePoint(axisPos);
 
-                    // Fill previous series values array 
+                    // Fill previous series values array
                     if (curentPointsArray == null)
                     {
                         curentPointsArray = new ArrayList(ser.Points.Count);
@@ -805,7 +801,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     PointF secondPoint = PointF.Empty;
                     foreach (DataPoint point in ser.Points)
                     {
-                        // Get point value					
+                        // Get point value
                         double yValue = point.IsEmpty ? 0.0 : GetYValue(common, area, ser, point, index, 0);
                         double xValue = indexedSeries ? (index + 1.0) : point.XValue;
 
@@ -819,7 +815,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Get point position
                         float yPosition = (float)VAxis.GetPosition(yValue);
                         float xPosition = (float)HAxis.GetPosition(xValue);
-
 
                         // Calculate 2 points to draw area and line
                         if (firstPoint == PointF.Empty)
@@ -891,7 +886,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     axisPos.Y = (float)VAxis.GetPosition(this.VAxis.Crossing);
                     axisPos = graph.GetAbsolutePoint(axisPos);
 
-                    // Fill previous series values array 
+                    // Fill previous series values array
                     if (curentPointsArray == null)
                     {
                         curentPointsArray = new ArrayList(ser.Points.Count);
@@ -910,7 +905,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     PointF secondPoint = PointF.Empty;
                     foreach (DataPoint point in ser.Points)
                     {
-                        // Get point value					
+                        // Get point value
                         double yValue = point.IsEmpty ? 0.0 : GetYValue(common, area, ser, point, index, 0);
                         double xValue = indexedSeries ? (index + 1.0) : point.XValue;
 
@@ -924,7 +919,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Get point position
                         float yPosition = (float)VAxis.GetPosition(yValue);
                         float xPosition = (float)HAxis.GetPosition(xValue);
-
 
                         // Calculate 2 points to draw area and line
                         if (firstPoint == PointF.Empty)
@@ -1038,20 +1032,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             graph.Clip = oldClipRegion;
                         }
 
-
                         // Save previous point
                         firstPoint = secondPoint;
                         prevYValue1 = prevYValue2;
 
                         // Increase data point index
                         ++index;
-
                     }
                 }
             }
         }
 
-        #endregion
+        #endregion Painting and Selection methods
 
         #region 3D Drawing and selection methods
 
@@ -1241,7 +1233,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
                 }
             }
-
         }
 
         /// <summary>
@@ -1299,7 +1290,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
             }
             thirdPoint = new PointF((float)xValue, (float)yValue);
-
 
             yValue = GetYValue(area.Common, area, secondPoint.dataPoint.series, secondPoint.dataPoint, secondPoint.index - 1, 0);
             xValue = (float)secondPoint.xPosition;
@@ -1367,7 +1357,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 fourthPoint.Y = fourthPointPosition.Y;
             }
-
         }
 
         /// <summary>
@@ -1515,7 +1504,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
         }
 
-        #endregion
+        #endregion 3D Drawing and selection methods
 
         #region Y values methods
 
@@ -1574,7 +1563,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 return yValue - areaZeroValue;
             }
 
-
             // Loop through all series
             prevPosY = double.NaN;
             prevNegY = double.NaN;
@@ -1630,9 +1618,10 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
             return yValue;
         }
 
-        #endregion
+        #endregion Y values methods
 
         #region IDisposable overrides
+
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
@@ -1650,7 +1639,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
             }
             base.Dispose(disposing);
         }
-        #endregion
 
+        #endregion IDisposable overrides
     }
 }

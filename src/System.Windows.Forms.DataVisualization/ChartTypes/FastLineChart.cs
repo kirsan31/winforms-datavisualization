@@ -2,30 +2,27 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
-//  Purpose:	When performance is critical, the FastLine chart 
-//              type is a good alternative to the Line chart. FastLine 
-//              charts significantly reduce the drawing time of a 
+//  Purpose:	When performance is critical, the FastLine chart
+//              type is a good alternative to the Line chart. FastLine
+//              charts significantly reduce the drawing time of a
 //              series that contains a very large number of data points.
-//              To make the FastLine chart a high performance chart, 
-//              some charting features have been omitted. The features 
-//              omitted include the ability to control Point level 
-//              visual properties, the ability to draw markers, the 
-//              use of data point labels, shadows, and the use of 
+//              To make the FastLine chart a high performance chart,
+//              some charting features have been omitted. The features
+//              omitted include the ability to control Point level
+//              visual properties, the ability to draw markers, the
+//              use of data point labels, shadows, and the use of
 //              chart animation.
-//              FastLine chart performance was improved by limiting 
-//              visual appearance features and by introducing data 
-//              point compacting algorithm. When chart contains 
-//              thousands of data points, it is common to have tens 
-//              or hundreds points displayed in the area comparable 
-//              to a single pixel. FastLine algorithm accumulates 
-//              point information and only draw points if they extend 
+//              FastLine chart performance was improved by limiting
+//              visual appearance features and by introducing data
+//              point compacting algorithm. When chart contains
+//              thousands of data points, it is common to have tens
+//              or hundreds points displayed in the area comparable
+//              to a single pixel. FastLine algorithm accumulates
+//              point information and only draw points if they extend
 //              outside currently filled pixels.
 //
 
-
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -35,7 +32,7 @@ using System.Windows.Forms.DataVisualization.Charting.Utilities;
 namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 {
     /// <summary>
-    /// FastLineChart class implements a simplified line chart drawing 
+    /// FastLineChart class implements a simplified line chart drawing
     /// algorithm which is optimized for the performance.
     /// </summary>
     internal class FastLineChart : IChartType
@@ -74,7 +71,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         {
         }
 
-        #endregion
+        #endregion Fields and Constructor
 
         #region IChartType interface implementation
 
@@ -88,15 +85,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         virtual public bool Stacked { get { return false; } }
 
-
         /// <summary>
         /// True if stacked chart type supports groups
         /// </summary>
         virtual public bool SupportStackedGroups { get { return false; } }
 
-
         /// <summary>
-        /// True if stacked chart type should draw separately positive and 
+        /// True if stacked chart type should draw separately positive and
         /// negative data points ( Bar and column Stacked types ).
         /// </summary>
         public bool StackSign { get { return false; } }
@@ -137,8 +132,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         virtual public bool DataPointsInLegend { get { return false; } }
 
         /// <summary>
-        /// If the crossing value is auto Crossing value should be 
-        /// automatically set to zero for some chart 
+        /// If the crossing value is auto Crossing value should be
+        /// automatically set to zero for some chart
         /// types (Bar, column, area etc.)
         /// </summary>
         virtual public bool ZeroCrossing { get { return false; } }
@@ -178,7 +173,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Number of supported Y value(s) per point 
+        /// Number of supported Y value(s) per point
         /// </summary>
         virtual public int YValuesPerPoint { get { return 1; } }
 
@@ -192,7 +187,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
         }
 
-        #endregion
+        #endregion IChartType interface implementation
 
         #region Painting
 
@@ -325,7 +320,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     currentPointIsEmpty = point.IsEmpty;
 
                     // NOTE: Fixes issue #7094
-                    // If current point is non-empty but the previous one was, 
+                    // If current point is non-empty but the previous one was,
                     // use empty point style properties to draw it.
                     if (prevPointIsEmpty && !currentPointIsEmpty && !firstNonEmptyPoint)
                     {
@@ -358,7 +353,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             yValuePrev < vAxisMin || yValuePrev > vAxisMax ||
                             yValue < vAxisMin || yValue > vAxisMax)
                         {
-                            // Set clipping region for line drawing 
+                            // Set clipping region for line drawing
                             graph.SetClip(area.PlotAreaPosition.ToRectangleF());
                             clipRegionSet = true;
                         }
@@ -400,7 +395,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                     yValueRangeMax = yValue;
                                     pointRangeMax = point;
                                 }
-
                                 else if (yValue < yValueRangeMin)
                                 {
                                     yValueRangeMin = yValue;
@@ -529,7 +523,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     pointRangeMin = null;
                     pointRangeMax = null;
                 }
-
             }
 
             // Reset Clip Region
@@ -537,7 +530,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 graph.ResetClip();
             }
-
         }
 
         /// <summary>
@@ -643,7 +635,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
         }
 
-        #endregion
+        #endregion Painting
 
         #region Y values related methods
 
@@ -668,7 +660,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return point.YValues[yValueIndex];
         }
 
-        #endregion
+        #endregion Y values related methods
 
         #region SmartLabelStyle methods
 
@@ -684,16 +676,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Fast Line chart type do not support labels
         }
 
-        #endregion
+        #endregion SmartLabelStyle methods
 
         #region IDisposable interface implementation
+
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            //Nothing to dispose at the base class. 
+            //Nothing to dispose at the base class.
         }
 
         /// <summary>
@@ -704,6 +697,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        #endregion
+
+        #endregion IDisposable interface implementation
     }
 }

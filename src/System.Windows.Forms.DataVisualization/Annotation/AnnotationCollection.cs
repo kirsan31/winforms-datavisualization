@@ -2,11 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Collection of annotation objects.
 //
-
 
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
@@ -18,8 +16,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <seealso cref="Charting.Chart.Annotations"/>
     /// </summary>
     /// <remarks>
-    /// All chart annotations are stored in this collection.  It is exposed as 
-    /// a <see cref="Charting.Chart.Annotations"/> property of the chart. It is also used to 
+    /// All chart annotations are stored in this collection.  It is exposed as
+    /// a <see cref="Charting.Chart.Annotations"/> property of the chart. It is also used to
     /// store annotations inside the <see cref="AnnotationGroup"/> class.
     /// <para>
     /// This class includes methods for adding, inserting, iterating and removing annotations.
@@ -37,7 +35,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         internal AnnotationGroup AnnotationGroup { get; set; }
 
-
         // Annotation object that was last clicked on
         internal Annotation lastClickedAnnotation;
 
@@ -49,9 +46,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Annotation object which is currently placed on the chart
         internal Annotation placingAnnotation;
+
         private bool _disposedValue;
 
-        #endregion
+        #endregion Fields
 
         #region Construction and Initialization
 
@@ -63,7 +61,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
         }
 
-        #endregion
+        #endregion Construction and Initialization
 
         #region Items Inserting and Removing Notification methods
 
@@ -106,7 +104,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             base.Deinitialize(item);
         }
 
-
         /// <summary>
 		/// Finds an annotation in the collection by name.
 		/// </summary>
@@ -120,7 +117,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             foreach (Annotation annotation in this)
             {
-                // Compare annotation name 
+                // Compare annotation name
                 if (annotation.Name == name)
                 {
                     return annotation;
@@ -141,7 +138,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return null;
         }
 
-        #endregion
+        #endregion Items Inserting and Removing Notification methods
 
         #region Painting
 
@@ -226,7 +223,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Draw annotation object
                         annotation.Paint(Chart, chartGraph);
 
-
                         // End Svg Selection mode
                         chartGraph.EndHotRegion();
 
@@ -240,7 +236,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Painting
 
         #region Mouse Events Handlers
 
@@ -422,7 +418,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Mouse down event handled
                     isHandled = true;
 
-                    // Select/Unselect annotation 
+                    // Select/Unselect annotation
                     Annotation selectableAnnotation = annotation;
                     if (annotation.AnnotationGroup != null)
                     {
@@ -485,7 +481,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (this._resizingMode == ResizingMode.None && annotation.AllowMoving)
                         {
-                            // Do not allow moving child annotations inside the group. 
+                            // Do not allow moving child annotations inside the group.
                             // Only the whole group can be selected, resized or repositioned.
                             if (annotation.AnnotationGroup != null)
                             {
@@ -526,7 +522,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (e.Button == MouseButtons.Left)
             {
-                // Reset moving sizing start point 
+                // Reset moving sizing start point
                 this._movingResizingStartPoint = PointF.Empty;
                 this._resizingMode = ResizingMode.None;
             }
@@ -671,7 +667,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                         }
                     }
-                    // Set mouse cursor			
+                    // Set mouse cursor
                     SetResizingCursor(annotation, currentResizingMode);
                 }
             }
@@ -759,10 +755,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
-        #endregion
+        #endregion Mouse Events Handlers
 
         #region Event handlers
+
         internal void ChartAreaNameReferenceChanged(object sender, NameReferenceChangedEventArgs e)
         {
             // If all the chart areas are removed and then a new one is inserted - Annotations don't get bound to it by default
@@ -781,7 +777,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
         }
-        #endregion
+
+        #endregion Event handlers
 
         #region IDisposable Members
 
@@ -793,7 +790,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (_disposedValue)
                 return;
-            
+
             if (disposing)
             {
                 // Dispose managed resources
@@ -802,7 +799,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     element.Dispose();
                 }
             }
-            
+
             _disposedValue = true;
         }
 
@@ -815,6 +812,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+        #endregion IDisposable Members
     }
 }

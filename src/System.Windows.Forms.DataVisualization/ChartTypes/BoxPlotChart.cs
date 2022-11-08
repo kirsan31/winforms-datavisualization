@@ -2,24 +2,22 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
-//  Purpose:	Provides 2D and 3D drawing and hit testing of the 
+//  Purpose:	Provides 2D and 3D drawing and hit testing of the
 //              Box Plot chart.
 //  ------------------
 //  Box Plot Overview:
 //  ------------------
-//  The Box Plot chart type consists of one or more box symbols that 
-//  summarize the distribution of the data within one or more data 
-//  sets. A Box Chart displays a rectangle with whisker lines 
-//  extending from both ends. What makes a Box Plot unique, in 
-//  comparison to standard chart types, is that the values for a box 
-//  plot most often are calculated values from data that is present 
-//  in another series. One box symbol, or data point, is associated 
-//  with one data series. The data for a Box Plot series may still 
+//  The Box Plot chart type consists of one or more box symbols that
+//  summarize the distribution of the data within one or more data
+//  sets. A Box Chart displays a rectangle with whisker lines
+//  extending from both ends. What makes a Box Plot unique, in
+//  comparison to standard chart types, is that the values for a box
+//  plot most often are calculated values from data that is present
+//  in another series. One box symbol, or data point, is associated
+//  with one data series. The data for a Box Plot series may still
 //  be populated using Data Binding or the Points Collection.
 //
-
 
 using System.Collections;
 using System.Collections.Generic;
@@ -48,6 +46,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// Horizontal axis
         /// </summary>
         protected Axis hAxis;
+
 #pragma warning restore CA2213 // Disposable fields should be disposed
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         protected bool showSideBySide = true;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -66,7 +65,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         {
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IChartType interface implementation
 
@@ -80,15 +79,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         virtual public bool Stacked { get { return false; } }
 
-
         /// <summary>
         /// True if stacked chart type supports groups
         /// </summary>
         virtual public bool SupportStackedGroups { get { return false; } }
 
-
         /// <summary>
-        /// True if stacked chart type should draw separately positive and 
+        /// True if stacked chart type should draw separately positive and
         /// negative data points ( Bar and column Stacked types ).
         /// </summary>
         public bool StackSign { get { return false; } }
@@ -129,8 +126,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         virtual public bool DataPointsInLegend { get { return false; } }
 
         /// <summary>
-        /// If the crossing value is auto Crossing value ZeroCrossing should be 
-        /// automatically set to zero for some chart 
+        /// If the crossing value is auto Crossing value ZeroCrossing should be
+        /// automatically set to zero for some chart
         /// types (Bar, column, area etc.)
         /// </summary>
         virtual public bool ZeroCrossing { get { return false; } }
@@ -170,7 +167,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Number of supported Y value(s) per point 
+        /// Number of supported Y value(s) per point
         /// </summary>
         virtual public int YValuesPerPoint { get { return 6; } }
 
@@ -184,7 +181,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
         }
 
-        #endregion
+        #endregion IChartType interface implementation
 
         #region Painting and Selection methods
 
@@ -201,7 +198,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// This method recalculates size of the bars. This method is used 
+        /// This method recalculates size of the bars. This method is used
         /// from Paint or Select method.
         /// </summary>
         /// <param name="selection">If True selection mode is active, otherwise paint mode is active.</param>
@@ -216,7 +213,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             ChartArea area,
             Series seriesToDraw)
         {
-
             // Prosess 3D chart type
             if (area.Area3DStyle.Enable3D)
             {
@@ -287,7 +283,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     common.Chart.CallOnPrePaint(new ChartPaintEventArgs(ser, graph, common, area.PlotAreaPosition));
                 }
 
-
                 //************************************************************
                 //** Series data points loop
                 //************************************************************
@@ -320,7 +315,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         xPosition = (float)hAxis.GetPosition(xValue);
                     }
 
-
                     double yValue0 = vAxis.GetLogValue(point.YValues[0]);
                     double yValue1 = vAxis.GetLogValue(point.YValues[1]);
                     xValue = hAxis.GetLogValue(xValue);
@@ -335,7 +329,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         continue;
                     }
 
-                    // Make sure High/Low values are in data scaleView range						
+                    // Make sure High/Low values are in data scaleView range
                     double low = vAxis.GetLogValue(point.YValues[0]);
                     double high = vAxis.GetLogValue(point.YValues[1]);
 
@@ -365,12 +359,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                     if (common.ProcessModePaint)
                     {
-
                         // Check if chart is partialy in the data scaleView
                         bool clipRegionSet = false;
                         if (xValue == hAxis.ViewMinimum || xValue == hAxis.ViewMaximum)
                         {
-                            // Set clipping region for line drawing 
+                            // Set clipping region for line drawing
                             graph.SetClip(area.PlotAreaPosition.ToRectangleF());
                             clipRegionSet = true;
                         }
@@ -427,7 +420,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             ser.ShadowOffset,
                             PenAlignment.Inset);
 
-
                         // Check if average line should be drawn
                         bool showAverage = true;
                         if (point.IsCustomPropertySet(CustomPropertyName.BoxPlotShowAverage) || ser.IsCustomPropertySet(CustomPropertyName.BoxPlotShowAverage))
@@ -450,7 +442,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(point[CustomPropertyName.BoxPlotShowAverage], "BoxPlotShowAverage"));
                             }
                         }
-
 
                         // Draw average line
                         SizeF relBorderWidth = graph.GetRelativeSize(new SizeF(point.BorderWidth, point.BorderWidth));
@@ -597,7 +588,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             continue;
                         }
 
-                        // Make sure High/Low values are in data scaleView range	
+                        // Make sure High/Low values are in data scaleView range
                         double high = double.MaxValue;
                         for (int valueIndex = 0; valueIndex < point.YValues.Length; valueIndex++)
                         {
@@ -630,7 +621,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                         // End Svg Selection mode
                         graph.EndHotRegion();
-
 
                         ++index;
                     }
@@ -831,7 +821,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return size;
         }
 
-
         /// <summary>
         /// Draws box plot chart data point label.
         /// </summary>
@@ -897,7 +886,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     SizeF sizeFont = SizeF.Empty;
 
-
                     // Check if Smart Labels are enabled
                     if (ser.SmartLabelStyle.Enabled)
                     {
@@ -921,8 +909,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Smart labels always use 0 degrees text angle
                         textAngle = 0;
                     }
-
-
 
                     // Draw label
                     if (!position.IsEmpty)
@@ -969,12 +955,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
         }
 
-        #endregion
+        #endregion Painting and Selection methods
 
         #region 3D Drawing and Selection methods
 
         /// <summary>
-        /// This method recalculates size of the bars. This method is used 
+        /// This method recalculates size of the bars. This method is used
         /// from Paint or Select method.
         /// </summary>
         /// <param name="selection">If True selection mode is active, otherwise paint mode is active.</param>
@@ -1109,7 +1095,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         continue;
                     }
 
-                    // Make sure High/Low values are in data scaleView range						
+                    // Make sure High/Low values are in data scaleView range
                     double high = vAxis.GetLogValue(point.YValues[1]);
                     double low = vAxis.GetLogValue(point.YValues[0]);
 
@@ -1152,7 +1138,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         bool clipRegionSet = false;
                         if (xValue == hAxis.ViewMinimum || xValue == hAxis.ViewMaximum)
                         {
-                            // Set clipping region for line drawing 
+                            // Set clipping region for line drawing
                             graph.SetClip(area.PlotAreaPosition.ToRectangleF());
                             clipRegionSet = true;
                         }
@@ -1365,7 +1351,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             xPosition = (float)hAxis.GetPosition(xValue);
                         }
 
-
                         double yValue0 = vAxis.GetLogValue(point.YValues[0]);
                         double yValue1 = vAxis.GetLogValue(point.YValues[1]);
                         xValue = hAxis.GetLogValue(xValue);
@@ -1380,7 +1365,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             continue;
                         }
 
-                        // Make sure High/Low values are in data scaleView range						
+                        // Make sure High/Low values are in data scaleView range
                         double high = vAxis.GetLogValue(point.YValues[1]);
                         double low = vAxis.GetLogValue(point.YValues[0]);
                         if (high > vAxis.ViewMaximum)
@@ -1402,7 +1387,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             low = vAxis.ViewMinimum;
                         }
                         low = vAxis.GetLinearPosition(low);
-
 
                         // 3D Transform coordinates
                         Point3D[] points = new Point3D[2];
@@ -1480,7 +1464,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
         }
 
-        #endregion
+        #endregion 3D Drawing and Selection methods
 
         #region Y values related methods
 
@@ -1505,7 +1489,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             return point.YValues[yValueIndex];
         }
 
-        #endregion
+        #endregion Y values related methods
 
         #region Automatic Values Calculation methods
 
@@ -1567,10 +1551,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Calculate box point values
                         CalculateBoxPlotValues(ref point, linkedSeries, valueName);
                     }
-
                 }
             }
-
         }
 
         /// <summary>
@@ -1623,7 +1605,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 boxWhiskerPercentile = boxPoint.series[CustomPropertyName.BoxPlotWhiskerPercentile];
             }
 
-            // Check specified 
+            // Check specified
             if (boxPercentile.Length > 0)
             {
                 bool parseSucceed = double.TryParse(boxPercentile, NumberStyles.Any, CultureInfo.InvariantCulture, out double percentile);
@@ -1642,13 +1624,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             if (boxWhiskerPercentile.Length > 0)
             {
-
                 bool parseSucceed = double.TryParse(boxWhiskerPercentile, NumberStyles.Any, CultureInfo.InvariantCulture, out double percentile);
                 if (parseSucceed)
                 {
                     requiredPercentile[0] = percentile;
                 }
-
 
                 if (!parseSucceed || requiredPercentile[0] < 0 || requiredPercentile[0] > 50)
                 {
@@ -1692,7 +1672,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
             }
 
-            // Add unusual point 
+            // Add unusual point
             if (addUnusualValues)
             {
                 BoxPlotAddUnusual(ref boxPoint, yValues);
@@ -1700,7 +1680,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Add unusual data point 
+        /// Add unusual data point
         /// </summary>
         /// <param name="boxPoint">Data Point.</param>
         /// <param name="yValues">Y values array.</param>
@@ -1758,7 +1738,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             int index = 0;
             foreach (double percentile in requiredPercentile)
             {
-                // Get percentile point index 
+                // Get percentile point index
                 double percentPointIndex = (yValues.Count - 1.0) / 100.0 * percentile;
                 double percentPointIndexInteger = Math.Floor(percentPointIndex);
                 double percentPointIndexReminder = percentPointIndex - percentPointIndexInteger;
@@ -1776,11 +1756,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 ++index;
             }
 
-
             return result;
         }
 
-        #endregion
+        #endregion Automatic Values Calculation methods
 
         #region SmartLabelStyle methods
 
@@ -1796,9 +1775,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // No data point markers supported for SmartLabelStyle
         }
 
-        #endregion
+        #endregion SmartLabelStyle methods
 
         #region IDisposable interface implementation
+
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
@@ -1820,7 +1800,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        #endregion
+
+        #endregion IDisposable interface implementation
     }
 }
-
