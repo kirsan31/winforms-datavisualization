@@ -5551,6 +5551,5 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         #endregion IDisposable interface implementation
-
     }
 }

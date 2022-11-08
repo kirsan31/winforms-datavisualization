@@ -2,11 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Series storage and manipulation class.
 //
-
 
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +23,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
     internal sealed class DataManager : ChartElement, IServiceProvider, IDisposable
     {
         #region Fields
+
         // Series collection
         private SeriesCollection _series;
 
@@ -34,7 +33,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         // Chart color palette
         private ChartColorPalette _colorPalette = ChartColorPalette.BrightPastel;
 
-        #endregion
+        #endregion Fields
 
         #region Constructors and initialization
 
@@ -79,7 +78,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
             chartPicture.AfterPaint += new EventHandler<ChartPaintEventArgs>(this.ChartPicture_AfterPaint);
         }
 
-        #endregion
+        #endregion Constructors and initialization
 
         #region Chart picture painting events hanlers
 
@@ -90,7 +89,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
             if (Chart != null)
                 Chart.Invalidate();
         }
-
 
         /// <summary>
         /// Event fired when chart picture is going to be painted.
@@ -165,7 +163,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
             }
         }
 
-        #endregion
+        #endregion Chart picture painting events hanlers
 
         #region Series data preparation methods
 
@@ -234,12 +232,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
             }
         }
 
-        #endregion
+        #endregion Series data preparation methods
 
         #region Series Min/Max values methods
 
         /// <summary>
-        /// This method checks if data point should be skipped. This 
+        /// This method checks if data point should be skipped. This
         /// method will return true if data point is empty.
         /// </summary>
         /// <param name="point">Data point</param>
@@ -585,7 +583,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
                 {
                     if (this._series[seriesName].Points.Count > pointIndex)
                     {
-                        // Take chart type from the series 
+                        // Take chart type from the series
                         ChartTypeRegistry chartTypeRegistry = (ChartTypeRegistry)serviceContainer.GetService(typeof(ChartTypeRegistry));
                         IChartType chartType = chartTypeRegistry.GetChartType(this._series[seriesName].ChartTypeName);
 
@@ -631,7 +629,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
                 {
                     if (this._series[seriesName].Points.Count > pointIndex)
                     {
-                        // Take chart type from the series 
+                        // Take chart type from the series
                         ChartTypeRegistry chartTypeRegistry = (ChartTypeRegistry)serviceContainer.GetService(typeof(ChartTypeRegistry));
                         IChartType chartType = chartTypeRegistry.GetChartType(this._series[seriesName].ChartTypeName);
 
@@ -816,7 +814,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
                 {
                     if (this._series[seriesName].Points.Count > pointIndex)
                     {
-                        // Take chart type from the series 
+                        // Take chart type from the series
                         ChartTypeRegistry chartTypeRegistry = (ChartTypeRegistry)serviceContainer.GetService(typeof(ChartTypeRegistry));
                         IChartType chartType = chartTypeRegistry.GetChartType(this._series[seriesName].ChartTypeName);
 
@@ -866,7 +864,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
                 {
                     if (this._series[seriesName].Points.Count > pointIndex)
                     {
-                        // Take chart type from the series 
+                        // Take chart type from the series
                         ChartTypeRegistry chartTypeRegistry = (ChartTypeRegistry)serviceContainer.GetService(typeof(ChartTypeRegistry));
                         IChartType chartType = chartTypeRegistry.GetChartType(this._series[seriesName].ChartTypeName);
 
@@ -920,7 +918,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
             }
             return returnValue;
         }
-
 
         /// <summary>
         /// Gets maximum hundred percent stacked Y value
@@ -1043,7 +1040,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
             return returnValue;
         }
 
-        #endregion
+        #endregion Series Min/Max values methods
 
         #region DataManager Properties
 
@@ -1113,10 +1110,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
             }
         }
 
-
-
-
-        #endregion
+        #endregion DataManager Properties
 
         #region IDisposable Members
 
@@ -1128,6 +1122,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
                 _series = null;
             }
         }
-        #endregion
+
+        #endregion IDisposable Members
     }
 }

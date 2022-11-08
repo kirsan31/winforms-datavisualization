@@ -160,7 +160,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         string Name { get; }
 
         /// <summary>
-        /// The first method in the module, which converts a formula 
+        /// The first method in the module, which converts a formula
         /// name to the corresponding private method.
         /// </summary>
         /// <param name="formulaName">String which represent a formula name</param>

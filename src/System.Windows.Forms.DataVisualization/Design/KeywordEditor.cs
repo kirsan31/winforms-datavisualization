@@ -2,12 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	A keyword editor form. Allows the end user to insert
 //				new and edit exsisting keywords in the string.
 //
-
 
 using System.Collections;
 using System.Globalization;
@@ -62,14 +60,14 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         private System.ComponentModel.IContainer _components;
 
         // resolved VSTS by extending the dialog by 36x28 pixels.
-        // 5767	FRA: ChartAPI: String "Format Sample:" is  truncated on the "Keywords Editor'	
+        // 5767	FRA: ChartAPI: String "Format Sample:" is  truncated on the "Keywords Editor'
         // 4383	DEU: VC/VB/VCS/VWD: ChartAPI: The string "If a chart type supports..." is truncated on the 'Keyword Editor' dialog.
         // 3524	DEU: VC/VB/VCS/VWD: ChartAPI: The string "If a chart type supports..." is truncated on the 'Keyword Editor' dialog.
 
         private static int widthDialogExtend = 80;
         private static int heightDialogExtend = 38;
 
-        #endregion // Fields
+        #endregion Fields
 
         #region Constructors
 
@@ -114,9 +112,10 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             base.Dispose(disposing);
         }
 
-        #endregion // Constructors
+        #endregion Constructors
 
         #region Windows Form Designer generated code
+
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -147,9 +146,9 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._groupBoxFormat.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)this._numericUpDownYValue).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // groupBoxKeywords
-            // 
+            //
             this._groupBoxKeywords.Controls.AddRange(new System.Windows.Forms.Control[] {
                                                                                            this._listBoxKeywords});
             this._groupBoxKeywords.Location = new System.Drawing.Point(8, 16);
@@ -158,18 +157,18 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._groupBoxKeywords.TabIndex = 0;
             this._groupBoxKeywords.TabStop = false;
             this._groupBoxKeywords.Text = SR.LabelKeyKeywords;
-            // 
+            //
             // listBoxKeywords
-            // 
+            //
             this._listBoxKeywords.Location = new System.Drawing.Point(8, 24);
             this._listBoxKeywords.Name = "listBoxKeywords";
             this._listBoxKeywords.Size = new System.Drawing.Size(200, 199);
             this._listBoxKeywords.TabIndex = 0;
             this._listBoxKeywords.DoubleClick += new System.EventHandler(this.listBoxKeywords_DoubleClick);
             this._listBoxKeywords.SelectedIndexChanged += new System.EventHandler(this.listBoxKeywords_SelectedIndexChanged);
-            // 
+            //
             // groupBoxDescription
-            // 
+            //
             this._groupBoxDescription.Controls.AddRange(new System.Windows.Forms.Control[] {
                                                                                               this._labelDescription});
             this._groupBoxDescription.Location = new System.Drawing.Point(240, 16);
@@ -178,26 +177,26 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._groupBoxDescription.TabIndex = 1;
             this._groupBoxDescription.TabStop = false;
             this._groupBoxDescription.Text = SR.LabelDescription;
-            // 
+            //
             // labelDescription
-            // 
+            //
             this._labelDescription.Location = new System.Drawing.Point(16, 24);
             this._labelDescription.Name = "labelDescription";
             this._labelDescription.Size = new System.Drawing.Size(304, 56);
             this._labelDescription.TabIndex = 0;
             this._labelDescription.Text = "<replaced at runtime>";
-            // 
+            //
             // buttonCancel
-            // 
+            //
             this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.Location = new System.Drawing.Point(479, 256);
             this._buttonCancel.Name = "buttonCancel";
             this._buttonCancel.Size = new System.Drawing.Size(90, 27);
             this._buttonCancel.TabIndex = 4;
             this._buttonCancel.Text = SR.LabelButtonCancel;
-            // 
+            //
             // buttonOk
-            // 
+            //
             this._buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._buttonOk.Location = new System.Drawing.Point(367, 256);
             this._buttonOk.Name = "buttonOk";
@@ -205,9 +204,9 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._buttonOk.TabIndex = 3;
             this._buttonOk.Text = SR.LabelButtonOk;
             this._buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
-            // 
+            //
             // groupBoxFormat
-            // 
+            //
             this._groupBoxFormat.Controls.AddRange(new System.Windows.Forms.Control[] {
                                                                                          this._textBoxPrecision,
                                                                                          this._labelSample,
@@ -225,36 +224,36 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._groupBoxFormat.TabIndex = 2;
             this._groupBoxFormat.TabStop = false;
             this._groupBoxFormat.Text = SR.LabelValueFormatting;
-            // 
+            //
             // textBoxPrecision
-            // 
+            //
             this._textBoxPrecision.Location = new System.Drawing.Point(112, 48);
             this._textBoxPrecision.Name = "textBoxPrecision";
             this._textBoxPrecision.Size = new System.Drawing.Size(64, 20);
             this._textBoxPrecision.TabIndex = 3;
             this._textBoxPrecision.Text = "";
             this._textBoxPrecision.TextChanged += new System.EventHandler(this.textBoxPrecision_TextChanged);
-            // 
+            //
             // labelSample
-            // 
+            //
             this._labelSample.Location = new System.Drawing.Point(8, 72);
             this._labelSample.Name = "labelSample";
             this._labelSample.Size = new System.Drawing.Size(96, 23);
             this._labelSample.TabIndex = 7;
             this._labelSample.Text = SR.LabelFormatKeySample;
             this._labelSample.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
+            //
             // textBoxSample
-            // 
+            //
             this._textBoxSample.Location = new System.Drawing.Point(112, 72);
             this._textBoxSample.Name = "textBoxSample";
             this._textBoxSample.ReadOnly = true;
             this._textBoxSample.Size = new System.Drawing.Size(192, 20);
             this._textBoxSample.TabIndex = 8;
             this._textBoxSample.Text = "";
-            // 
+            //
             // numericUpDownYValue
-            // 
+            //
             this._numericUpDownYValue.CausesValidation = false;
             this._numericUpDownYValue.Location = new System.Drawing.Point(112, 104);
             this._numericUpDownYValue.Maximum = new System.Decimal(new int[] {
@@ -266,18 +265,18 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._numericUpDownYValue.Size = new System.Drawing.Size(64, 20);
             this._numericUpDownYValue.TabIndex = 10;
             this._numericUpDownYValue.ValueChanged += new System.EventHandler(this.numericUpDownYValue_ValueChanged);
-            // 
+            //
             // labelYValue
-            // 
+            //
             this._labelYValue.Location = new System.Drawing.Point(8, 104);
             this._labelYValue.Name = "labelYValue";
             this._labelYValue.Size = new System.Drawing.Size(96, 23);
             this._labelYValue.TabIndex = 9;
             this._labelYValue.Text = SR.LabelKeyYValueIndex;
             this._labelYValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
+            //
             // comboBoxFormat
-            // 
+            //
             this._comboBoxFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._comboBoxFormat.Items.AddRange(new object[] {
                                                                 SR.DescriptionTypeNone,
@@ -296,27 +295,27 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._comboBoxFormat.Size = new System.Drawing.Size(192, 21);
             this._comboBoxFormat.TabIndex = 1;
             this._comboBoxFormat.SelectedIndexChanged += new System.EventHandler(this.comboBoxFormat_SelectedIndexChanged);
-            // 
+            //
             // labelPrecision
-            // 
+            //
             this._labelPrecision.Location = new System.Drawing.Point(8, 48);
             this._labelPrecision.Name = "labelPrecision";
             this._labelPrecision.Size = new System.Drawing.Size(96, 23);
             this._labelPrecision.TabIndex = 2;
             this._labelPrecision.Text = SR.LabelKeyPrecision;
             this._labelPrecision.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
+            //
             // labelFormat
-            // 
+            //
             this._labelFormat.Location = new System.Drawing.Point(8, 24);
             this._labelFormat.Name = "labelFormat";
             this._labelFormat.Size = new System.Drawing.Size(96, 23);
             this._labelFormat.TabIndex = 0;
             this._labelFormat.Text = SR.LabelKeyFormat;
             this._labelFormat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
+            //
             // labelCustomFormat
-            // 
+            //
             this._labelCustomFormat.Location = new System.Drawing.Point(8, 48);
             this._labelCustomFormat.Name = "labelCustomFormat";
             this._labelCustomFormat.Size = new System.Drawing.Size(96, 23);
@@ -324,9 +323,9 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._labelCustomFormat.Text = SR.LabelKeyCustomFormat;
             this._labelCustomFormat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this._labelCustomFormat.Visible = false;
-            // 
+            //
             // textBoxCustomFormat
-            // 
+            //
             this._textBoxCustomFormat.Location = new System.Drawing.Point(112, 48);
             this._textBoxCustomFormat.Name = "textBoxCustomFormat";
             this._textBoxCustomFormat.Size = new System.Drawing.Size(192, 20);
@@ -334,9 +333,9 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._textBoxCustomFormat.Text = "";
             this._textBoxCustomFormat.Visible = false;
             this._textBoxCustomFormat.TextChanged += new System.EventHandler(this.textBoxCustomFormat_TextChanged);
-            // 
+            //
             // KeywordEditor
-            // 
+            //
             this.AcceptButton = this._buttonOk;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this._buttonCancel;
@@ -360,9 +359,9 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._groupBoxFormat.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)this._numericUpDownYValue).EndInit();
             this.ResumeLayout(false);
-
         }
-        #endregion
+
+        #endregion Windows Form Designer generated code
 
         #region Event Handlers
 
@@ -553,7 +552,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this.UpdateNumericSample();
         }
 
-
         /// <summary>
         /// Selected keyword changed event handler.
         /// </summary>
@@ -576,7 +574,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 _numericUpDownYValue.Enabled = keywordInfo.SupportsValueIndex && this._maxYValueIndex > 0;
                 this._labelYValue.Enabled = keywordInfo.SupportsValueIndex && this._maxYValueIndex > 0;
             }
-
         }
 
         /// <summary>
@@ -679,7 +676,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             }
         }
 
-        #endregion // Event Handlers
+        #endregion Event Handlers
 
         #region Helper Methods
 
@@ -797,12 +794,12 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 }
             }
         }
+
         /// <summary>
         /// VSTS: 787936, 787937 - Expand the dialog with widthDialogExtend, heightDialogExtend  to make room for localization.
         /// </summary>
         private void PrepareControlsLayout()
         {
-
             this.Width += widthDialogExtend;
             this._buttonOk.Left += widthDialogExtend;
             this._buttonCancel.Left += widthDialogExtend;
@@ -828,8 +825,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             this._groupBoxFormat.Top += heightDialogExtend;
         }
 
-        #endregion // Helper Methods
+        #endregion Helper Methods
     }
 }
-
-

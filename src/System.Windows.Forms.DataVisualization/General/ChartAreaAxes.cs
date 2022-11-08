@@ -2,21 +2,18 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
-//  Purpose:	ChartAreaAxes is base class of Chart Area class. 
-//				This class searches for all series, which belongs 
-//				to this chart area and sets axes minimum and 
-//				maximum values using data. This class also checks 
-//				for chart types, which belong to this chart area 
-//				and prepare axis scale according to them (Stacked 
-//				chart types have different max and min values). 
-//				This class recognizes indexed values and prepares 
+//  Purpose:	ChartAreaAxes is base class of Chart Area class.
+//				This class searches for all series, which belongs
+//				to this chart area and sets axes minimum and
+//				maximum values using data. This class also checks
+//				for chart types, which belong to this chart area
+//				and prepare axis scale according to them (Stacked
+//				chart types have different max and min values).
+//				This class recognizes indexed values and prepares
 //				axes for them.
 //
 
-
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,8 +22,8 @@ using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 namespace System.Windows.Forms.DataVisualization.Charting
 {
     /// <summary>
-    /// ChartAreaAxes class represents axes (X, Y, X2 and Y2) in the chart area. 
-    /// It contains methods that collect statistical information on the series data and 
+    /// ChartAreaAxes class represents axes (X, Y, X2 and Y2) in the chart area.
+    /// It contains methods that collect statistical information on the series data and
     /// other axes related methods.
     /// </summary>
     public partial class ChartArea
@@ -52,16 +49,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         private string _intervalSeriesList = string.Empty;
 
-        // Minimum interval between two data points for all 
+        // Minimum interval between two data points for all
         // series which belong to this chart area.
         internal double intervalData = double.NaN;
 
-        // Minimum interval between two data points for all 
+        // Minimum interval between two data points for all
         // series which belong to this chart area.
         // IsLogarithmic version of the interval.
         internal double intervalLogData = double.NaN;
 
-        // Series with minimum interval between two data points for all 
+        // Series with minimum interval between two data points for all
         // series which belong to this chart area.
         private Series _intervalSeries;
 
@@ -92,7 +89,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Chart Area contains 100 % stacked chart types
         internal bool hundredPercentNegative;
 
-        #endregion
+        #endregion Fields
 
         #region Internal properties
 
@@ -134,14 +131,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Internal properties
 
         #region Methods
 
         /// <summary>
         /// Gets main or sub axis from the chart area.
         /// </summary>
-        /// <param name="axisName">Axis name. NOTE: This parameter only defines X or Y axis. 
+        /// <param name="axisName">Axis name. NOTE: This parameter only defines X or Y axis.
         /// Second axisType parameter is used to select primary or secondary axis. </param>
         /// <param name="axisType">Axis type.</param>
         /// <param name="subAxisName">Sub-axis name or empty string.</param>
@@ -173,7 +170,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Sets default axis values for all different chart type 
+        /// Sets default axis values for all different chart type
         /// groups. Chart type groups are sets of chart types.
         /// </summary>
         internal void SetDefaultAxesValues()
@@ -196,7 +193,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 axisY2.AxisPosition = AxisPosition.Right;
             }
 
-            // Reset opposite Axes field. This cashing 
+            // Reset opposite Axes field. This cashing
             // value is used for optimization.
             foreach (Axis axisItem in this.Axes)
             {
@@ -302,7 +299,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 #endif // SUBAXES
 
-            // Sets axis position. Axis position depends 
+            // Sets axis position. Axis position depends
             // on crossing and reversed value.
             axisX.SetAxisPosition();
             axisX2.SetAxisPosition();
@@ -312,9 +309,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Enable axes, which are
             // used in data series.
             this.EnableAxes();
-
-
-
 
             // Get scale break segments
             Axis[] axesYArray = new Axis[] { axisY, axisY2 };
@@ -340,22 +334,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-
-
             bool useScaleSegments = false;
 
             // Fill Labels
             Axis[] axesArray = new Axis[] { axisX, axisX2, axisY, axisY2 };
             foreach (Axis currentAxis in axesArray)
             {
-
                 useScaleSegments = currentAxis.ScaleSegments.Count > 0;
 
                 if (!useScaleSegments)
                 {
                     currentAxis.FillLabels(true);
                 }
-
                 else
                 {
                     bool removeLabels = true;
@@ -379,7 +369,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         ++segmentIndex;
                     }
                 }
-
             }
             foreach (Axis currentAxis in axesArray)
             {
@@ -388,8 +377,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Sets the axis defaults. 
-        /// If the at least one of the series bound to this axis is Indexed then the defaults are set using the SetDefaultsFromIndexes(). 
+        /// Sets the axis defaults.
+        /// If the at least one of the series bound to this axis is Indexed then the defaults are set using the SetDefaultsFromIndexes().
         /// Otherwise the SetDefaultFromData() is used.
         /// </summary>
         /// <param name="axis">Axis to process</param>
@@ -406,8 +395,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // DT comments 1:
             // If we have mix of indexed with non-indexed series
             // enforce  all indexed series as non-indexed;
-            // The result of mixed type of series will be more natural 
-            // and easy to detect the problem - all datapoints of indexed 
+            // The result of mixed type of series will be more natural
+            // and easy to detect the problem - all datapoints of indexed
             // series will be displayed on zero position.
             //=====================================
             // bool  nonIndexedSeries = false;
@@ -417,7 +406,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Get series
                 Series series = Common.DataManager.Series[seriesName];
-                // Check if series is indexed                
+                // Check if series is indexed
                 if (!ChartHelper.IndexedSeries(series))
                 {
                     // found one nonindexed series - we will treat all series as non indexed.
@@ -489,7 +478,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #else
                     this.Activate(axisX, true);
 #endif // SUBAXES
-
                 }
                 else
                 {
@@ -555,9 +543,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private void Activate( Axis axis, bool active, string subAxisName )
 		{
 			// Auto-Enable axis
-			if( axis.autoEnabled == true ) 
+			if( axis.autoEnabled == true )
 			{
-				axis.enabled = active;		
+				axis.enabled = active;
 			}
 
 			// Auto-Enable sub axes
@@ -566,14 +554,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				SubAxis subAxis = axis.SubAxes.FindByName(subAxisName);
 				if(subAxis != null)
 				{
-					if( subAxis.autoEnabled == true ) 
+					if( subAxis.autoEnabled == true )
 					{
-						subAxis.enabled = active;		
+						subAxis.enabled = active;
 					}
 				}
 			}
 		}
 #else
+
         /// <summary>
 		/// Enable axis.
 		/// </summary>
@@ -586,10 +575,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 axis.enabled = active;
             }
         }
+
 #endif // SUBAXES
 
         /// <summary>
-		/// Check if all data points from series in 
+		/// Check if all data points from series in
 		/// this chart area are empty.
 		/// </summary>
 		/// <returns>True if all points are empty</returns>
@@ -613,8 +603,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method sets default minimum and maximum 
-        /// values from values in the data manager. This 
+        /// This method sets default minimum and maximum
+        /// values from values in the data manager. This
         /// case is used if X values are not equal to 0 or IsXValueIndexed flag is set.
         /// </summary>
         /// <param name="axis">Axis</param>
@@ -631,7 +621,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 #endif // SUBAXES
 
-
             // Used for scrolling with logarithmic axes.
             if (!double.IsNaN(axis.ScaleView.Position) &&
                 !double.IsNaN(axis.ScaleView.Size) &&
@@ -645,10 +634,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.GetValuesFromData(axis, out double autoMinimum, out double autoMaximum);
 
             // ***************************************************
-            // This part of code is used to add a margin to the 
-            // axis and to set minimum value to zero if 
-            // IsStartedFromZero property is used. There is special 
-            // code for logarithmic scale, which will set minimum 
+            // This part of code is used to add a margin to the
+            // axis and to set minimum value to zero if
+            // IsStartedFromZero property is used. There is special
+            // code for logarithmic scale, which will set minimum
             // to one instead of zero.
             // ***************************************************
             // The minimum and maximum values from data manager don’t exist.
@@ -794,7 +783,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method checks if all series in the chart area have “integer type” 
+        /// This method checks if all series in the chart area have “integer type”
         /// for specified axes, which means int, uint, long and ulong.
         /// </summary>
         /// <param name="axisName">Name of the axis</param>
@@ -902,7 +891,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method checks if all series in the chart area have “date-time type” 
+        /// This method checks if all series in the chart area have “date-time type”
         /// for specified axes.
         /// </summary>
         /// <param name="axisName">Name of the axis</param>
@@ -1076,7 +1065,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else // Y axis type is used (Y or Y2)
             {
-
                 // *****************************
                 // Stacked Chart AxisName
                 // *****************************
@@ -1116,7 +1104,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 stackMaxArea = Math.Max(stackMaxArea, stackMaxAreaForGroup);
                                 stackMinArea = Math.Min(stackMinArea, stackMinAreaForGroup);
                             }
-
 
                             autoMaximum = Math.Max(stackMaxBarColumn, stackMaxArea);
                             autoMinimum = Math.Min(stackMinBarColumn, stackMinArea);
@@ -1172,19 +1159,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-            // Store Minimum and maximum from data. There is no 
+            // Store Minimum and maximum from data. There is no
             // reason to calculate this values every time.
             axis.maximumFromData = autoMaximum;
             axis.minimumFromData = autoMinimum;
             axis.refreshMinMaxFromData = false;
 
-            // Make extra test for stored minimum and maximum values 
-            // from data. If Number of points is different then data 
-            // source is changed. That means that we should read 
+            // Make extra test for stored minimum and maximum values
+            // from data. If Number of points is different then data
+            // source is changed. That means that we should read
             // data again.
             axis.numberOfPointsInAllSeries = currentPointsNumber;
         }
-
 
         /// <summary>
         /// Splits a single array of series names into multiple arrays
@@ -1225,8 +1211,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return result;
         }
 
-
-
         /// <summary>
         /// Find number of points for all series
         /// </summary>
@@ -1243,8 +1227,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method sets default minimum and maximum values from 
-        /// indexes. This case is used if all X values in a series 
+        /// This method sets default minimum and maximum values from
+        /// indexes. This case is used if all X values in a series
         /// have 0 value or IsXValueIndexed flag is set.
         /// </summary>
         /// <param name="axis">Axis</param>
@@ -1283,7 +1267,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 axis.SetAutoMinimum(autoMinimum - axis.margin / 100 + 1);
             }
 
-            // Find the interval. If the nuber of points 
+            // Find the interval. If the nuber of points
             // is less then 10 interval is 1.
             double axisInterval;
 
@@ -1303,19 +1287,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 axis.interval3DCorrection = double.NaN;
 
-                // Use interval 
+                // Use interval
                 if (axisInterval > 1.0 &&
                     axisInterval < 4.0 &&
                     axis.ViewMaximum - axis.ViewMinimum <= 4)
                 {
                     axisInterval = 1.0;
                 }
-
             }
 
             axis.SetInterval = axisInterval;
 
-            // If temporary offsets were defined for the margin, 
+            // If temporary offsets were defined for the margin,
             // adjust offset for minor ticks and grids.
             if (axis.offsetTempSet)
             {
@@ -1326,7 +1309,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         /// <summary>
         /// Sets the names of all data series which belong to
-        /// this chart area to collection and sets a list of all 
+        /// this chart area to collection and sets a list of all
         /// different chart types.
         /// </summary>
         internal void SetData()
@@ -1457,7 +1440,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Returns names of all series, which belong to this chart area 
+        /// Returns names of all series, which belong to this chart area
         /// and have same chart type.
         /// </summary>
         /// <param name="chartType">Chart type</param>
@@ -1589,7 +1572,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #endif // SUBAXES
                 }
 
-
 #if SUBAXES
 				if( seriesYAxisType == type &&
 					(Common.DataManager.Series[ser].YSubAxisName == seriesYSubAxisName || !this.IsSubAxesSupported) )
@@ -1636,7 +1618,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method returns minimum interval between 
+        /// This method returns minimum interval between
         /// any two data points from series which belong
         /// to this chart area.
         /// </summary>
@@ -1649,8 +1631,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method returns minimum interval between 
-        /// any two data points from specified series. 
+        /// This method returns minimum interval between
+        /// any two data points from specified series.
         /// </summary>
         /// <param name="seriesList">List of series.</param>
         /// <param name="isLogarithmic">Indicates logarithmic scale.</param>
@@ -1664,8 +1646,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method returns minimum interval between 
-        /// any two data points from specified series. 
+        /// This method returns minimum interval between
+        /// any two data points from specified series.
         /// </summary>
         /// <param name="seriesList">List of series.</param>
         /// <param name="isLogarithmic">Indicates logarithmic scale.</param>
@@ -1811,7 +1793,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 {
                                     sameInterval = false;
                                 }
-
                             }
                         }
                         else
@@ -1866,14 +1847,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     ++listIndex;
                 }
 
-
                 // Use side-by-side if at least one xommon X value between eries found
                 if (sameXValue)
                 {
                     sameInterval = true;
                 }
             }
-
 
             // Interval not found. Interval is 1.
             if (oldInterval == double.MaxValue)
@@ -1926,6 +1905,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             ticksInterval += (date2.Millisecond - date1.Millisecond) * TimeSpan.TicksPerMillisecond;
         }
 
-        #endregion
+        #endregion Methods
     }
 }

@@ -2,11 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Design-time UI editor for the ColorPalette and Color properties
 //
-
 
 using System.ComponentModel;
 using System.Drawing;
@@ -73,10 +71,11 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion UI editor methods
     }
 
 #warning designer
+
     /// <summary>
     /// This class merely subclasses System.Drawing.Design.ColorEditor and nothing more.
     /// This is done so that in the runtime assembly, we refer to this class via an AssemblyQualifiedName

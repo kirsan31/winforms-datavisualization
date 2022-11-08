@@ -30,9 +30,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <summary>
         /// Formula which calculates cumulative total.
         /// ---------------------------------------------------------
-        /// Input: 
+        /// Input:
         /// 	- Y values.
-        /// Output: 
+        /// Output:
         /// 	- Running Total.
         /// </summary>
         /// <param name="inputValues">Arrays of doubles: 1. row - X values, 2. row - Y values</param>
@@ -72,9 +72,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <summary>
         /// Running Average Formula
         /// ---------------------------------------------------------
-        /// Input: 
+        /// Input:
         /// 	- Y values.
-        /// Output: 
+        /// Output:
         /// 	- Running Average.
         /// </summary>
         /// <param name="inputValues">Arrays of doubles: 1. row - X values, 2. row - Y values</param>
@@ -124,7 +124,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         }
 
         /// <summary>
-        /// The first method in the module, which converts a formula 
+        /// The first method in the module, which converts a formula
         /// name to the corresponding private method.
         /// </summary>
         /// <param name="formulaName">String which represent a formula name.</param>

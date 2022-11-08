@@ -948,6 +948,5 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         #endregion Painting and selection methods
-
     }
 }

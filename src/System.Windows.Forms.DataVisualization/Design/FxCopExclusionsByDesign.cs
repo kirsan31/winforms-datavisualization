@@ -8,8 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 
 [module: SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Scope = "member", Target = "System.Windows.Forms.Design.DataVisualization.Charting.KeywordEditor.#KeywordEditor_Load(System.Object,System.EventArgs)")]
 
-#endregion // CA1805:DoNotInitializeUnnecessarily
-
+#endregion CA1805:DoNotInitializeUnnecessarily
 
 #region CA1805:DoNotInitializeUnnecessarily
 
@@ -27,15 +26,13 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Performance", "CA1805:DoNotInitializeUnnecessarily", Scope = "member", Target = "System.Windows.Forms.Design.DataVisualization.Charting.SeriesDataSourceMemberYCheckedListBox.#.ctor(System.Windows.Forms.DataVisualization.Charting.Chart,System.Object,System.Boolean)")]
 [module: SuppressMessage("Microsoft.Performance", "CA1805:DoNotInitializeUnnecessarily", Scope = "member", Target = "System.Windows.Forms.Design.DataVisualization.Charting.ChartWinDesigner.#.cctor()")]
 
-#endregion // CA1805:DoNotInitializeUnnecessarily
-
+#endregion CA1805:DoNotInitializeUnnecessarily
 
 #region CA1811:AvoidUncalledPrivateCode
 
 [module: SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope = "member", Target = "System.Windows.Forms.Design.DataVisualization.Charting.ChartCollectionEditor.#.ctor(System.Type)")]
 
-#endregion // CA1811:AvoidUncalledPrivateCode
-
+#endregion CA1811:AvoidUncalledPrivateCode
 
 #region CA1812:AvoidUninstantiatedInternalClasses
 
@@ -63,4 +60,4 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Scope = "type", Target = "System.Windows.Forms.Design.DataVisualization.Charting.DataPointConverter")]
 [module: SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Scope = "type", Target = "System.Windows.Forms.Design.DataVisualization.Charting.AnchorPointUITypeEditor")]
 
-#endregion // CA1812:AvoidUninstantiatedInternalClasses
+#endregion CA1812:AvoidUninstantiatedInternalClasses

@@ -3,21 +3,21 @@
 // See the LICENSE file in the project root for more information.
 
 //
-//  Purpose:	Each chart area contains four main axes PrimaryX, 
-//              PrimaryY, SecondaryX and SecondaryY which are usually 
-//              positioned on each side of the plotting area. Most of 
-//              the charts use only two axes; X and Y, but for some 
-//              charts even 4 axes is not sufficient. Sub-axes were 
-//              introduced to proSUBACESvide unlimited number of axes in 
+//  Purpose:	Each chart area contains four main axes PrimaryX,
+//              PrimaryY, SecondaryX and SecondaryY which are usually
+//              positioned on each side of the plotting area. Most of
+//              the charts use only two axes; X and Y, but for some
+//              charts even 4 axes is not sufficient. Sub-axes were
+//              introduced to proSUBACESvide unlimited number of axes in
 //              the chart.
-//              Each main axis has a collection of SubAxis which is 
-//              empty by default. By adding SubAxis into this collection 
-//              user can add unlimited number of sub-axis which will 
+//              Each main axis has a collection of SubAxis which is
+//              empty by default. By adding SubAxis into this collection
+//              user can add unlimited number of sub-axis which will
 //              be positioned next to the main axis.
-//              Each of the SubAxis have a unique name. To associate 
-//              data series with a sub axis YSubAxisName and XSubAxisName 
+//              Each of the SubAxis have a unique name. To associate
+//              data series with a sub axis YSubAxisName and XSubAxisName
 //              properties of the Series should be used.
-//              
+//
 
 #if SUBAXES
 
@@ -71,7 +71,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		internal double locationOffset = 0.0;
 
-#endregion // Fields
+#endregion Fields
 
 #region Constructor
 
@@ -92,7 +92,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			base.Name = name;
 		}
 
-#endregion
+#endregion Constructor
 
 #region Properties
 
@@ -106,7 +106,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRDescription("DescriptionAttributeScaleBreakStyle"),
 		TypeConverter(typeof(NoNameExpandableObjectConverter)),
 		NotifyParentPropertyAttribute(true),
-		DesignerSerializationVisibility(DesignerSerializationVisibility.Content), 
+		DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		]
 		override public AxisScaleBreakStyle ScaleBreakStyle
 		{
@@ -140,7 +140,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				return this.parentAxis;
 			}
 		}
-
 
 		/// <summary>
 		/// Sub axis location offset relative to the previous axis.
@@ -217,7 +216,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// Tick marks and labels move with axis when 
+		/// Tick marks and labels move with axis when
 		/// the crossing value is changed.
 		/// </summary>
 		[
@@ -313,7 +312,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 		}
 
-#endregion // Properties
+#endregion Properties
 
 #region Methods
 
@@ -353,7 +352,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			return 0.0;
 		}
 
-#endregion // Methods
+#endregion Methods
 
 #region Type converter
 
@@ -399,7 +398,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 		}
 
-#endregion
+#endregion Type converter
 	}
 
 	/// <summary>
@@ -418,7 +417,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		internal Axis parentAxis = null;
 
-#endregion
+#endregion Fields
 
 #region Construction and Initialization
 
@@ -447,7 +446,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			this.parentAxis = parentAxis;
 		}
 
-#endregion
+#endregion Construction and Initialization
 
 #region Indexer
 
@@ -455,21 +454,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// SubAxis collection indexer.
 		/// </summary>
 		/// <remarks>
-		/// The <b>SubAxis</b> object's name or index can be provided as a parameter. Returns the <see cref="SubAxis"/> object. 
-		/// Make sure to cast the SubAxis to it's type (e.g. LineSubAxis) to access type 
+		/// The <b>SubAxis</b> object's name or index can be provided as a parameter. Returns the <see cref="SubAxis"/> object.
+		/// Make sure to cast the SubAxis to it's type (e.g. LineSubAxis) to access type
 		/// specific properties.
 		/// </remarks>
 		[
 		SRDescription("DescriptionAttributeSubAxisCollection_Item"),
 		]
-		public SubAxis this[object parameter] 
+		public SubAxis this[object parameter]
 		{
-			get 
-			{ 
+			get
+			{
 				// Get SubAxis by index
 				if(parameter is int)
 				{
-					return (SubAxis)this.List[(int)parameter]; 
+					return (SubAxis)this.List[(int)parameter];
 				}
 
 					// Get SubAxis by name
@@ -490,10 +489,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 				// Invalid type of the indexer argument
 				throw(new ArgumentException(SR.ExceptionInvalidIndexerArgumentType));
-			} 
+			}
 
-			set 
-			{ 
+			set
+			{
 				// Check new SubAxis name
 				int indexSubAxis = -1;
 				if(value.Name.Length != 0)
@@ -543,11 +542,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					throw(new ArgumentException(SR.ExceptionInvalidIndexerArgumentType));
 				}
 
-				this.Invalidate();			
+				this.Invalidate();
 			}
 		}
 
-#endregion
+#endregion Indexer
 
 #region Collection Add and Insert methods
 
@@ -608,7 +607,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			this.List.Insert(index, SubAxis);
 		}
 
-#endregion
+#endregion Collection Add and Insert methods
 
 #region Items Inserting and Removing Notification methods
 
@@ -687,7 +686,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			this.Invalidate();
 		}
 
-#endregion
+#endregion Items Inserting and Removing Notification methods
 
 #region Helper Methods
 
@@ -721,18 +720,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Asign unique name;
 			SubAxis.Name = name;
 		}
-        
+
 		/// <summary>
 		/// Finds SubAxis by name.
 		/// </summary>
 		/// <param name="name">Name of the chart SubAxis.</param>
 		/// <returns>SubAxis or null if it does not exist.</returns>
-		internal SubAxis FindByName(string name) 
+		internal SubAxis FindByName(string name)
 		{
 			SubAxis result = null;
 			for(int index = 0; index < this.List.Count; index ++)
 			{
-				// Compare SubAxis name 
+				// Compare SubAxis name
 				if(String.Compare(this[index].Name, name, true, System.Globalization.CultureInfo.CurrentCulture) == 0)
 				{
 					result = this[index];
@@ -743,9 +742,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			return result;
 		}
 
-#endregion 
+#endregion Helper Methods
 	}
 }
 
 #endif // SUBAXES
-
