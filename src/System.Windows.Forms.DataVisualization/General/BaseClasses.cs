@@ -316,7 +316,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private readonly string _oldName;
         private readonly string _newName;
 
-        #endregion MemberValiables
+        #endregion Member variables
 
         #region Properties
 
