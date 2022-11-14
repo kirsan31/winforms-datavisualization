@@ -2174,8 +2174,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (diff == 0)
                 {
                     // Can not find interval. Minimum and maximum are same
-                    // REVIEW max is unnecessary assignment
-                    max = min + 1;
                     axisInterval = 0.2;
                 }
                 else
