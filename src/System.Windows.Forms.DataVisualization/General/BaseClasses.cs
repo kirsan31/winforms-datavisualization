@@ -313,8 +313,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Member variables
 
         private readonly ChartNamedElement _oldElement;
-        readonly string _oldName;
-        readonly string _newName;
+        private readonly string _oldName;
+        private readonly string _newName;
 
         #endregion MemberValiables
 
