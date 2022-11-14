@@ -637,7 +637,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             else
             {
                 breakPosition.X = (float)Math.Min(from, to);
-                breakPosition.Width = (float)Math.Max(from, to); ;
+                breakPosition.Width = (float)Math.Max(from, to);
             }
 
             // Convert to pixels
