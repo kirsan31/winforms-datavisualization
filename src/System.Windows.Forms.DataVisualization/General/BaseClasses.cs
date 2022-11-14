@@ -342,8 +342,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public NameReferenceChangedEventArgs(ChartNamedElement oldElement, ChartNamedElement newElement)
         {
             _oldElement = oldElement;
-            _oldName = oldElement != null ? oldElement.Name : string.Empty;
-            _newName = newElement != null ? newElement.Name : string.Empty;
+            _oldName = oldElement?.Name ?? string.Empty;
+            _newName = newElement?.Name ?? string.Empty;
         }
 
         public NameReferenceChangedEventArgs(ChartNamedElement oldElement, string oldName, string newName)
