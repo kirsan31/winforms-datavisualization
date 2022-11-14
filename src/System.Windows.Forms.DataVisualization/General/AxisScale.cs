@@ -1989,10 +1989,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     throw new ArgumentOutOfRangeException(nameof(maximumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues);
             }
 
-            // Change crossing to linear scale
-            // REVIEW crossingValue is unnecessary assignment
-            crossingValue = Math.Log(crossingValue, this.logarithmBase);
-
             // Change minimum and maximum to linear scale
             minimumValue = Math.Log(minimumValue, this.logarithmBase);
             maximumValue = Math.Log(maximumValue, this.logarithmBase);
