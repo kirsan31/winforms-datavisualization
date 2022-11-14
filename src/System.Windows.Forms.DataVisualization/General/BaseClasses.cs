@@ -310,7 +310,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// </summary>
     internal class NameReferenceChangedEventArgs : EventArgs
     {
-        #region MemberValiables
+        #region Member variables
 
         private readonly ChartNamedElement _oldElement;
         readonly string _oldName;
