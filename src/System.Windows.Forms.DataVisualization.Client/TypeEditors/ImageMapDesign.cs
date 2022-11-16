@@ -9,15 +9,13 @@
 
 
 using System.ComponentModel;
-using System.Drawing.Design;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.Windows.Forms.DataVisualization.Charting.Utilities;
+using System.Windows.Forms.Design;
+//using System.Drawing.Design;
+//using System.Windows.Forms.DataVisualization.Charting;
+//using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
-namespace System.Windows.Forms.Design.DataVisualization.Charting
+namespace Charting.Designer.Client
 {
-
-#warning designer
-    /*
     /// <summary>
     /// Image string editor class.
     /// </summary>
@@ -35,98 +33,45 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             return true;
         }
 
-        /// <summary>
-        /// Override this function to support palette colors drawing
-        /// </summary>
-        /// <param name="e">Paint value event arguments.</param>
-        public override void PaintValue(PaintValueEventArgs e)
-        {
-            try
-            {
-                if (e.Value is string)
-                {
-                    // Get image loader 
-                    ImageLoader imageLoader = null;
-                    if (e.Context != null && e.Context.Instance != null)
-                    {
-                        if (e.Context.Instance is Chart)
-                        {
-                            Chart chart = (Chart)e.Context.Instance;
-                            imageLoader = (ImageLoader)chart.GetService(typeof(ImageLoader));
-                        }
-                        else if (e.Context.Instance is IChartElement)
-                        {
-                            IChartElement chartElement = (IChartElement)e.Context.Instance;
-                            imageLoader = (ImageLoader)chartElement.Common.ImageLoader;
-                        }
-                    }
+        ///// <summary>
+        ///// Override this function to support palette colors drawing
+        ///// </summary>
+        ///// <param name="e">Paint value event arguments.</param>
+        //public override void PaintValue(PaintValueEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (e.Value is string)
+        //        {
+        //            // Get image loader 
+        //            ImageLoader imageLoader = null;
+        //            if (e.Context != null && e.Context.Instance != null)
+        //            {
+        //                if (e.Context.Instance is Chart)
+        //                {
+        //                    Chart chart = (Chart)e.Context.Instance;
+        //                    imageLoader = (ImageLoader)chart.GetService(typeof(ImageLoader));
+        //                }
+        //                else if (e.Context.Instance is IChartElement)
+        //                {
+        //                    IChartElement chartElement = (IChartElement)e.Context.Instance;
+        //                    imageLoader = (ImageLoader)chartElement.Common.ImageLoader;
+        //                }
+        //            }
 
-                    if (imageLoader != null && !string.IsNullOrEmpty((string)e.Value))
-                    {
-                        // Load a image
-                        System.Drawing.Image image = imageLoader.LoadImage((string)e.Value);
+        //            if (imageLoader != null && !string.IsNullOrEmpty((string)e.Value))
+        //            {
+        //                // Load a image
+        //                System.Drawing.Image image = imageLoader.LoadImage((string)e.Value);
 
-                        // Draw Image
-                        e.Graphics.DrawImage(image, e.Bounds);
-                    }
-                }
-            }
-            catch (ArgumentException)
-            { }
-        }
+        //                // Draw Image
+        //                e.Graphics.DrawImage(image, e.Bounds);
+        //            }
+        //        }
+        //    }
+        //    catch (ArgumentException)
+        //    { }
+        //}
         #endregion
-    }
-    */
-
-    /// <summary>
-    ///  Provides an editor for filenames.
-    /// </summary>
-    public class ImageValueEditor : UITypeEditor
-    {
-        private OpenFileDialog _openFileDialog;
-
-        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
-        {
-            if (!provider.TryGetService(out IWindowsFormsEditorService _))
-            {
-                return value;
-            }
-
-            if (_openFileDialog is null)
-            {
-                _openFileDialog = new OpenFileDialog();
-                InitializeDialog(_openFileDialog);
-            }
-
-            if (value is string stringValue)
-            {
-                _openFileDialog.FileName = stringValue;
-            }
-
-            if (_openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                return _openFileDialog.FileName;
-            }
-
-            return value;
-        }
-
-        /// <inheritdoc />
-        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) => UITypeEditorEditStyle.Modal;
-
-        /// <summary>
-        ///  Initializes the open file dialog when it is created. This gives you an opportunity to
-        ///  configure the dialog as you please. The default implementation provides a generic file
-        ///  filter and title.
-        /// </summary>
-        protected virtual void InitializeDialog(OpenFileDialog openFileDialog)
-        {
-            /*
-            ArgumentNullException.ThrowIfNull(openFileDialog);
-
-            openFileDialog.Filter = SR.GenericFileFilter;
-            openFileDialog.Title = SR.GenericOpenFile;
-            */
-        }
     }
 }

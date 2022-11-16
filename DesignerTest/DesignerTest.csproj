@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataVisualization.Package" Version="1.2211.132105" />
+    <PackageReference Include="DataVisualization.Package" Version="1.2211.161442" />
   </ItemGroup>
 
   <!--<ItemGroup>
