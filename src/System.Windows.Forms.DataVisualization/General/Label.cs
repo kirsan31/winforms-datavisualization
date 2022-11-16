@@ -549,7 +549,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		Bindable(true),
 		DefaultValue(""),
 		SRDescription("DescriptionAttributeCustomLabel_Image"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         NotifyParentPropertyAttribute(true)
 		]
 		public string Image

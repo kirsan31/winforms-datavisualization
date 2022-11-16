@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <TargetFrameworkClient>net472</TargetFrameworkClient>
+    <TargetFrameworkServer>net6.0</TargetFrameworkServer>
+  </PropertyGroup>
+</Project>

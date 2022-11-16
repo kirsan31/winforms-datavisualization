@@ -67,7 +67,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeImage"),
         Bindable(true),
         DefaultValue(""),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         SRDescription("DescriptionAttributeImageAnnotation_Image"),
         ]
         public virtual string Image

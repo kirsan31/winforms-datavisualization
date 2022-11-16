@@ -3566,7 +3566,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         SRDescription("DescriptionAttributeBackImage"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         ]
         public string BackImage
         {
@@ -4183,7 +4183,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMarker"),
         Bindable(true),
         SRDescription("DescriptionAttributeMarkerImage"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public string MarkerImage

@@ -3074,7 +3074,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(""),
         SRDescription("DescriptionAttributeBackImage"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         NotifyParentPropertyAttribute(true)
         ]
         public string BackImage
@@ -5195,7 +5195,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeLegendItem_Image"),
         DefaultValue(""),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         NotifyParentPropertyAttribute(true)
         ]
         public string Image
@@ -5574,7 +5574,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(""),
         SRDescription("DescriptionAttributeMarkerImage"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public string MarkerImage

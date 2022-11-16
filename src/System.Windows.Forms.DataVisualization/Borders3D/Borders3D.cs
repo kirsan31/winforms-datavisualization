@@ -290,7 +290,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		NotifyParentPropertyAttribute(true),
 		DefaultValue(""),
         SRDescription("DescriptionAttributeBackImage"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         ]
         public string BackImage
 		{

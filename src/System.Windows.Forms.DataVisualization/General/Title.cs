@@ -636,7 +636,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		Bindable(true),
 		DefaultValue(""),
         SRDescription("DescriptionAttributeBackImage"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         NotifyParentPropertyAttribute(true),
 		]
 		public string BackImage

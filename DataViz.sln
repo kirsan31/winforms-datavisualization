@@ -9,7 +9,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChartSamples", "sample\Char
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "src\Tests\Tests.csproj", "{E8E8B63C-4D8D-4986-A8F1-B7B84326321C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignerTest", "DesignerTest\DesignerTest.csproj", "{E30E4A24-0CC6-4746-80CF-9450B2D936A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesignerTest", "DesignerTest\DesignerTest.csproj", "{E30E4A24-0CC6-4746-80CF-9450B2D936A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4ABEB3E-A423-424E-8C55-D8125CD861EF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		NuGet.config = NuGet.config
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataVisualization.Client", "src\System.Windows.Forms.DataVisualization.Client\DataVisualization.Client.csproj", "{C286B51C-AAAF-4435-B570-E56684515163}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Designer", "Designer", "{41408BB5-9030-4EE5-8CF8-5F42BC1C877B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataVisualization.Package", "src\System.Windows.Forms.DataVisualization.Package\DataVisualization.Package.csproj", "{DA8C1977-F670-412F-8008-988C891F0AD9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +47,20 @@ Global
 		{E30E4A24-0CC6-4746-80CF-9450B2D936A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E30E4A24-0CC6-4746-80CF-9450B2D936A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E30E4A24-0CC6-4746-80CF-9450B2D936A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C286B51C-AAAF-4435-B570-E56684515163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C286B51C-AAAF-4435-B570-E56684515163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C286B51C-AAAF-4435-B570-E56684515163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C286B51C-AAAF-4435-B570-E56684515163}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA8C1977-F670-412F-8008-988C891F0AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA8C1977-F670-412F-8008-988C891F0AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA8C1977-F670-412F-8008-988C891F0AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA8C1977-F670-412F-8008-988C891F0AD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C286B51C-AAAF-4435-B570-E56684515163} = {41408BB5-9030-4EE5-8CF8-5F42BC1C877B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9197CCA8-9853-4465-BBEC-C5FA3BB7008E}

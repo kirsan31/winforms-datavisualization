@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+	<PropertyGroup>
+		<TargetFramework>$(TargetFrameworkClient)</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<LangVersion>9.0</LangVersion>
+		<Nullable>enable</Nullable>
+		<UseDesignerSdk>true</UseDesignerSdk>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="System.Design" />
+	</ItemGroup>
+
+</Project>

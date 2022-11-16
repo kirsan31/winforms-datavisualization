@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(TargetFrameworkServer)</TargetFramework>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/kirsan31/winforms-datavisualization</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_GetFilesToPackage</TargetsForTfmSpecificContentInPackage>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <PackageVersion>$([System.DateTime]::Now.ToString("1.yM.dHmm"))</PackageVersion>
+    <AssemblyVersion>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</AssemblyVersion>
+  </PropertyGroup>
+
+  <Target Name="_GetFilesToPackage">
+    <ItemGroup>
+      <_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.dll" />
+      
+      <!--We need this during Control development, so we get proper Debug-Support at runtime. -->
+      <_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.pdb" />
+      
+      <_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization.Client\bin\$(Configuration)\$(TargetFrameworkClient)\DataVisualization.Client.dll" TargetDir="Design/WinForms" />
+      <!--<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.dll" TargetDir="Design/WinForms/Server" />-->
+    </ItemGroup>
+
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="@(_File)" PackagePath="$(BuildOutputTargetFolder)/$(TargetFramework)/%(_File.TargetDir)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="CopyPackage" AfterTargets="Pack">
+    <Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg"
+	      DestinationFolder="$(SolutionDir)NuGet\BuildOut\"/>
+  </Target>
+
+</Project>

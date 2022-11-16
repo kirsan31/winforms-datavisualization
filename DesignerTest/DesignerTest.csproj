@@ -2,15 +2,19 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>$(TargetFrameworkServer)-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
+    <PackageReference Include="DataVisualization.Package" Version="1.2211.132105" />
   </ItemGroup>
+
+  <!--<ItemGroup>
+    <ProjectReference Include="..\src\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
+  </ItemGroup>-->
 
   <!--<ItemGroup>
     <Reference Include="System.Windows.Forms.DataVisualization">

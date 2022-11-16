@@ -985,7 +985,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         DefaultValue(""),
         SRDescription("DescriptionAttributeLegendCell_Image"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         ]
         public virtual string Image
         {
