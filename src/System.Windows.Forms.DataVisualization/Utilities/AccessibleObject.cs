@@ -22,7 +22,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         // List of chart accessible objects
         private List<AccessibleObject> _chartAccessibleObjectList;
 
-        // Position of the chart in screen coordinates (optianl can be set to empty)
+        // Position of the chart in screen coordinates (optional can be set to empty)
         private Point _chartScreenPosition = Point.Empty;
 
         // Chart scaleView transformation matrix
@@ -46,7 +46,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         #region Properties
 
         /// <summary>
-        /// Position of the chart in screen coordinates (optianl can be set to empty)
+        /// Position of the chart in screen coordinates (optional can be set to empty)
         /// </summary>
         public Point ChartScreenPosition
         {
@@ -82,7 +82,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <summary>
         /// Chart child count.
         /// </summary>
-        /// <returns>Number of chart child eleements.</returns>
+        /// <returns>Number of chart child elements.</returns>
         public override int GetChildCount()
         {
             // Fill list of chart accessible child elements
@@ -188,7 +188,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="direction">Navigation direction.</param>
         /// <returns>Accessibility object we just navigated to.</returns>
 #pragma warning disable IDE0060 // Remove unused parameter
-
         public AccessibleObject NavigateFromChild(object chartChildElement, ChartElementType chartElementType, AccessibleNavigation direction)
 #pragma warning restore IDE0060 // Remove unused parameter
         {
@@ -201,9 +200,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// </summary>
         /// <param name="chartChildElement">Chart child element.</param>
         /// <param name="chartElementType">Chart child element type.</param>
-        /// <param name="selection">Selection actin.</param>
+        /// <param name="selection">Selection acting.</param>
 #pragma warning disable IDE0060 // Remove unused parameter
-
         public void SelectChild(object chartChildElement, ChartElementType chartElementType, AccessibleSelection selection)
 #pragma warning restore IDE0060 // Remove unused parameter
         {
@@ -273,7 +271,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                         {
                             RectangleF bounds = hotRegion.BoundingRectangle;
 
-                            // Conver chart relative coordinates to chart absolute (pixel) coordinates
+                            // Convert chart relative coordinates to chart absolute (pixel) coordinates
                             if (hotRegion.RelativeCoordinates)
                             {
                                 RectangleF absolute = RectangleF.Empty;
@@ -307,7 +305,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                                 rect = this._chart.RectangleToScreen(rect);
                             }
 
-                            // If elementd is not gridlines just return the rectangle
+                            // If elements is not gridlines just return the rectangle
                             if (chartElementType != ChartElementType.Gridlines)
                             {
                                 return rect;
@@ -585,7 +583,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                             AccessibleRole.StaticText));
             }
 
-            // NOTE: Legend items are dynamically generated and curently are not part of the list
+            // NOTE: Legend items are dynamically generated and currently are not part of the list
         }
 
         #endregion Constructor
