@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-               <TargetFrameworks>net6.0-windows;net7.0-windows</TargetFrameworks>
-               <UseWindowsForms>true</UseWindowsForms>
+                <TargetFrameworks>net6.0-windows;net7.0-windows</TargetFrameworks>
+                <UseWindowsForms>true</UseWindowsForms>
 		<AssemblyName>System.Windows.Forms.DataVisualization</AssemblyName>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<CLSCompliant>false</CLSCompliant>
