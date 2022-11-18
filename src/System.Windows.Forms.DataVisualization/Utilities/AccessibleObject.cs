@@ -2,11 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
 //  Purpose:	Chart control accessible object.
 //
-
 
 using System.Collections.Generic;
 
@@ -19,7 +17,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         #region Fields
 
         // Reference to the chart control
-        private Chart _chart;
+        private readonly Chart _chart;
 
         // List of chart accessible objects
         private List<AccessibleObject> _chartAccessibleObjectList;
@@ -30,7 +28,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         // Chart scaleView transformation matrix
         private PointF _chartScale = new PointF(1f, 1f);
 
-        #endregion // Fields
+        #endregion Fields
 
         #region Constructors
 
@@ -43,7 +41,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             this._chart = chart;
         }
 
-        #endregion // Constructors
+        #endregion Constructors
 
         #region Properties
 
@@ -57,7 +55,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 return this._chartScreenPosition;
             }
         }
-        
+
         /// <summary>
         /// Gets the role for the Chart. This is used by accessibility programs.
         /// </summary>
@@ -69,7 +67,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             }
         }
 
-        #endregion // Properties
+        #endregion Properties
 
         #region Methods
 
@@ -112,7 +110,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             if (index >= 0 && index < this._chartAccessibleObjectList.Count)
             {
                 return this._chartAccessibleObjectList[index];
-            }                
+            }
             return null;
         }
 
@@ -132,12 +130,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 foreach (Title title in this._chart.Titles)
                 {
                     this._chartAccessibleObjectList.Add(new ChartChildAccessibleObject(
-                        this, 
                         this,
-                        title, 
-                        ChartElementType.Title, 
-                        SR.AccessibilityTitleName(title.Name), 
-                        title.Text, 
+                        this,
+                        title,
+                        ChartElementType.Title,
+                        SR.AccessibilityTitleName(title.Name),
+                        title.Text,
                         AccessibleRole.StaticText));
                 }
 
@@ -156,27 +154,26 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 // Add all annotations into the list
                 foreach (Annotation annotation in this._chart.Annotations)
                 {
-                    TextAnnotation textAnnotation = annotation as TextAnnotation;
-                    if (textAnnotation != null)
+                    if (annotation is TextAnnotation textAnnotation)
                     {
                         this._chartAccessibleObjectList.Add(new ChartChildAccessibleObject(
-                            this, 
                             this,
-                            annotation, 
+                            this,
+                            annotation,
                             ChartElementType.Annotation,
-                            SR.AccessibilityAnnotationName(annotation.Name), 
-                            textAnnotation.Text, 
+                            SR.AccessibilityAnnotationName(annotation.Name),
+                            textAnnotation.Text,
                             AccessibleRole.StaticText));
                     }
                     else
                     {
                         this._chartAccessibleObjectList.Add(new ChartChildAccessibleObject(
-                            this, 
                             this,
-                            annotation, 
+                            this,
+                            annotation,
                             ChartElementType.Annotation,
-                            SR.AccessibilityAnnotationName(annotation.Name), 
-                            string.Empty, 
+                            SR.AccessibilityAnnotationName(annotation.Name),
+                            string.Empty,
                             AccessibleRole.Graphic));
                     }
                 }
@@ -190,10 +187,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="chartElementType">Chart child element type.</param>
         /// <param name="direction">Navigation direction.</param>
         /// <returns>Accessibility object we just navigated to.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "direction"), 
-        System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartElementType"), 
-        System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartChildElement")]
+#pragma warning disable IDE0060 // Remove unused parameter
+
         public AccessibleObject NavigateFromChild(object chartChildElement, ChartElementType chartElementType, AccessibleNavigation direction)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             // Not Implemented. Requires Selection Manager code changes. Remove CodeAnalysis.SuppressMessageAttributes
             return null;
@@ -205,10 +202,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="chartChildElement">Chart child element.</param>
         /// <param name="chartElementType">Chart child element type.</param>
         /// <param name="selection">Selection actin.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "selection"), 
-        System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartElementType"), 
-        System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartChildElement")]
+#pragma warning disable IDE0060 // Remove unused parameter
+
         public void SelectChild(object chartChildElement, ChartElementType chartElementType, AccessibleSelection selection)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             // Not Implemented. Requires Selection Manager code changes. Remove CodeAnalysis.SuppressMessageAttributes
         }
@@ -219,9 +216,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="chartChildElement">Chart child element.</param>
         /// <param name="chartElementType">Chart child element type.</param>
         /// <returns>True if child is selected.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartElementType"),
-        System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartChildElement")]
+#pragma warning disable IDE0060 // Remove unused parameter
+
         public bool IsChildSelected(object chartChildElement, ChartElementType chartElementType)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             // Not Implemented. Requires Selection Manager code changes. Remove CodeAnalysis.SuppressMessageAttributes
             return false;
@@ -265,7 +263,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                             {
                                 processRegion = true;
                             }
-
                         }
                         else if (hotRegion.SelectedObject == chartElement || hotRegion.SelectedSubObject == chartElement)
                         {
@@ -275,8 +272,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                         if (processRegion)
                         {
                             RectangleF bounds = hotRegion.BoundingRectangle;
-
-
 
                             // Conver chart relative coordinates to chart absolute (pixel) coordinates
                             if (hotRegion.RelativeCoordinates)
@@ -328,14 +323,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                                 result = Rectangle.Union(result, rect);
                             }
                         }
-
                     }
                 }
             }
             return result;
         }
 
-        #endregion // Methods
+        #endregion Methods
     }
 
     /// <summary>
@@ -372,7 +366,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         // Data point index
         internal int dataPointIndex = -1;
 
-        #endregion // Fields
+        #endregion Fields
 
         #region Constructors
 
@@ -388,8 +382,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="role">Chart child object role.</param>
         public ChartChildAccessibleObject(
             ChartAccessibleObject chartAccessibleObject,
-            AccessibleObject chartAccessibleParentObject, 
-            object chartChildObject, 
+            AccessibleObject chartAccessibleParentObject,
+            object chartChildObject,
             ChartElementType chartChildObjectType,
             string name,
             string objectValue,
@@ -418,7 +412,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="pointIndex">Chart data point index.</param>
         public ChartChildAccessibleObject(
             ChartAccessibleObject chartAccessibleObject,
-            AccessibleObject chartAccessibleParentObject, 
+            AccessibleObject chartAccessibleParentObject,
             object chartChildObject,
             ChartElementType chartChildObjectType,
             string name,
@@ -438,7 +432,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             this.dataPointIndex = pointIndex;
         }
 
-        #endregion // Constructors
+        #endregion Constructors
 
         #region Properties
 
@@ -525,7 +519,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             }
         }
 
-        #endregion // Properties
+        #endregion Properties
 
         #region Methods
 
@@ -548,7 +542,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             this.chartAccessibleObject.SelectChild(this.chartChildObject, this.chartChildObjectType, selection);
         }
 
-        #endregion // Methods
+        #endregion Methods
     }
 
     /// <summary>
@@ -559,9 +553,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         #region Fields
 
         // List of child accessible objects
-        private List<ChartChildAccessibleObject> _childList = new List<ChartChildAccessibleObject>();
+        private readonly List<ChartChildAccessibleObject> _childList = new List<ChartChildAccessibleObject>();
 
-        #endregion // Fields
+        #endregion Fields
 
         #region Constructor
 
@@ -570,31 +564,31 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// </summary>
         /// <param name="chartAccessibleObject">Chart accessible object.</param>
         /// <param name="legend">Chart legend object.</param>
-        public ChartChildLegendAccessibleObject(ChartAccessibleObject chartAccessibleObject, Legend legend) 
+        public ChartChildLegendAccessibleObject(ChartAccessibleObject chartAccessibleObject, Legend legend)
             : base(
                 chartAccessibleObject,
                 chartAccessibleObject,
                 legend, ChartElementType.LegendArea,
-                SR.AccessibilityLegendName(legend.Name), 
-                string.Empty, 
+                SR.AccessibilityLegendName(legend.Name),
+                string.Empty,
                 AccessibleRole.StaticText)
         {
             // Add legend title as a child element
             if (legend.Title.Length > 0)
             {
                 this._childList.Add(new ChartChildAccessibleObject(
-                            chartAccessibleObject, 
+                            chartAccessibleObject,
                             this,
                             legend, ChartElementType.LegendTitle,
-                            SR.AccessibilityLegendTitleName(legend.Name), 
-                            legend.Title, 
+                            SR.AccessibilityLegendTitleName(legend.Name),
+                            legend.Title,
                             AccessibleRole.StaticText));
             }
 
             // NOTE: Legend items are dynamically generated and curently are not part of the list
         }
 
-        #endregion // Constructor
+        #endregion Constructor
 
         #region Methods
 
@@ -621,7 +615,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             return this._childList.Count;
         }
 
-        #endregion // Methods
+        #endregion Methods
     }
 
     /// <summary>
@@ -632,9 +626,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         #region Fields
 
         // List of child accessible objects
-        private List<ChartChildAccessibleObject> _childList = new List<ChartChildAccessibleObject>();
+        private readonly List<ChartChildAccessibleObject> _childList = new List<ChartChildAccessibleObject>();
 
-        #endregion // Fields
+        #endregion Fields
 
         #region Constructor
 
@@ -648,8 +642,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 chartAccessibleObject,
                 chartAccessibleObject,
                 chartArea, ChartElementType.PlottingArea,
-                SR.AccessibilityChartAreaName(chartArea.Name), 
-                string.Empty, 
+                SR.AccessibilityChartAreaName(chartArea.Name),
+                string.Empty,
                 AccessibleRole.Graphic)
         {
             // Add all series shown in the chart area
@@ -666,7 +660,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             this.AddAxisAccessibilityObjects(chartAccessibleObject, chartArea.AxisY2);
         }
 
-        #endregion // Constructor
+        #endregion Constructor
 
         #region Methods
 
@@ -700,7 +694,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                         axis.Title,
                         AccessibleRole.StaticText));
                 }
-
 
                 if (axis.MajorGrid.Enabled)
                 {
@@ -751,7 +744,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             return this._childList.Count;
         }
 
-        #endregion // Methods
+        #endregion Methods
     }
 
     /// <summary>
@@ -762,9 +755,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         #region Fields
 
         // List of child accessible objects
-        private List<ChartChildAccessibleObject> _childList = new List<ChartChildAccessibleObject>();
+        private readonly List<ChartChildAccessibleObject> _childList = new List<ChartChildAccessibleObject>();
 
-        #endregion // Fields
+        #endregion Fields
 
         #region Constructor
 
@@ -772,6 +765,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// Object constructor.
         /// </summary>
         /// <param name="chartAccessibleObject">Chart accessible object.</param>
+        /// <param name="parent"></param>
         /// <param name="series">Chart series object.</param>
         public ChartChildSeriesAccessibleObject(ChartAccessibleObject chartAccessibleObject, AccessibleObject parent, Series series)
             : base(
@@ -815,7 +809,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             }
         }
 
-        #endregion // Constructor
+        #endregion Constructor
 
         #region Methods
 
@@ -842,7 +836,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             return this._childList.Count;
         }
 
-        #endregion // Methods
+        #endregion Methods
     }
 }
-
