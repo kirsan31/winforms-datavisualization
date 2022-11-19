@@ -34,19 +34,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private    GraphicsPath    _graphicsPath;
 
 		// Indicates that path was changed
-		internal	bool			pathChanged = false;
+		internal	bool			pathChanged;
 
-		// Collection of path points exposed at design-time
-		private AnnotationPathPointCollection _pathPoints;
+        // Collection of path points exposed at design-time
+        private AnnotationPathPointCollection _pathPoints;
 
 		// Indicate that filled polygon must be drawn
-		internal bool				isPolygon = false;
+		internal bool				isPolygon;
 
-		// Indicates that annotation will be placed using free-draw style
-		internal bool				isFreeDrawPlacement = false;
+        // Indicates that annotation will be placed using free-draw style
+        internal bool				isFreeDrawPlacement;
 
-		// Line start/end caps
-		private		LineAnchorCapStyle		_startCap = LineAnchorCapStyle.None;
+        // Line start/end caps
+        private		LineAnchorCapStyle		_startCap = LineAnchorCapStyle.None;
 		private		LineAnchorCapStyle		_endCap = LineAnchorCapStyle.None;
 
 		#endregion
@@ -1388,20 +1388,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	[
 		SRDescription("DescriptionAttributeAnnotationPathPointCollection_AnnotationPathPointCollection"),
 	]
-    public class AnnotationPathPointCollection : ChartElementCollection<AnnotationPathPoint>
+    public class AnnotationPathPointCollection : ChartElementCollection<AnnotationPathPoint>, IDisposable
 	{
 		#region Fields
 
-		internal		PolylineAnnotation	annotation = null;
-        private         GraphicsPath        _graphicsPath = null;
+		internal		PolylineAnnotation	annotation;
+        private         GraphicsPath        _graphicsPath;
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// Default public constructor.
-		/// </summary>
+        /// <summary>
+        /// Default public constructor.
+        /// </summary>
         public AnnotationPathPointCollection(PolylineAnnotation annotation)
             : base(annotation)
 		{
@@ -1457,7 +1457,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {   
@@ -1468,11 +1468,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this._graphicsPath = null;
                 }
             }
-            base.Dispose(disposing);
         }
 
-        #endregion
-    }
+		/// <summary>
+		/// Performs freeing, releasing, or resetting managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			this.Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion
+	}
 
 	/// <summary>
 	/// The <b>AnnotationPathPoint</b> class represents a path point of a polyline or polygon, 
@@ -1489,13 +1497,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Point X value
-		private float		_x = 0f;
+		private float		_x;
 
-		// Point Y value
-		private float		_y = 0f;
+        // Point Y value
+        private float		_y;
 
-		// Point type
-		private byte		_pointType = 1;
+        // Point type
+        private byte		_pointType = 1;
 
 		#endregion // Fields
 

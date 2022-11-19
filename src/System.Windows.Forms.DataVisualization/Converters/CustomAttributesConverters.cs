@@ -313,26 +313,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private Series[] GetSelectedSeries(object obj)
 		{
 			// Get array of series
-			Series[] seriesArray = new Series[0];
-			if(obj is Array && ((Array)obj).Length > 0)
+			Series[] seriesArray = Array.Empty<Series>();
+			if(obj is Array array && array.Length > 0)
 			{
-				if(((Array)obj).GetValue(0) is Series)
+				if(array.GetValue(0) is Series)
 				{
-					seriesArray = new Series[((Array)obj).Length];
-					((Array)obj).CopyTo(seriesArray, 0);
+					seriesArray = new Series[array.Length];
+					array.CopyTo(seriesArray, 0);
 				}
-				else if(((Array)obj).GetValue(0) is DataPointCustomProperties)
+				else if(array.GetValue(0) is DataPointCustomProperties properties)
 				{
-					seriesArray = new Series[] { ((DataPointCustomProperties)((Array)obj).GetValue(0)).series };
+					seriesArray = new Series[] { properties.series };
 				}
 			}
-			else if(obj is Series)
+			else if(obj is Series series)
 			{
-				seriesArray = new Series[] { ((Series)obj) };
+				seriesArray = new Series[] { series };
 			}
-			else if(obj is DataPointCustomProperties)
+			else if(obj is DataPointCustomProperties properties)
 			{
-				seriesArray = new Series[] { ((DataPointCustomProperties)obj).series };
+				seriesArray = new Series[] { properties.series };
 			}
 
 			return seriesArray;
@@ -466,21 +466,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			private	string					_name = string.Empty;
 
 			// Custom attribute information
-			private	CustomPropertyInfo		_customAttributeInfo = null;
+			private	CustomPropertyInfo		_customAttributeInfo;
 
-			#endregion // Fields
+            #endregion // Fields
 
-			#region Constructor
+            #region Constructor
 
-			/// <summary>
-			/// Property descriptor constructor.
-			/// </summary>
-			/// <param name="componentType">Component type.</param>
-			/// <param name="name">Property name.</param>
-			/// <param name="propertyType">Property type.</param>
+            /// <summary>
+            /// Property descriptor constructor.
+            /// </summary>
+            /// <param name="componentType">Component type.</param>
+            /// <param name="name">Property name.</param>
+            /// <param name="propertyType">Property type.</param>
             /// <param name="attributes">Property attributes.</param>
             /// <param name="customAttributeInfo">Custom attribute information.</param>
-			internal CustomAttributesPropertyDescriptor(  
+            internal CustomAttributesPropertyDescriptor(  
 				Type componentType,
 				string name,
 				Type propertyType,
@@ -599,7 +599,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				// Get default value string
 				string defaultValue = GetStringFromValue(this._customAttributeInfo.DefaultValue);
-				return (String.Compare(val, defaultValue, StringComparison.Ordinal) == 0);
+				return (string.Equals(val, defaultValue, StringComparison.Ordinal));
 			}
 
 			/// <summary>
@@ -813,10 +813,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Reference to the base property descriptor
-		private PropertyDescriptor	_basePropertyDescriptor = null; 
+		private PropertyDescriptor	_basePropertyDescriptor;
 
-		// Dynamic display name of the property
-		private string				_displayName = string.Empty;
+        // Dynamic display name of the property
+        private string				_displayName = string.Empty;
 
 		#endregion // Fields 
 

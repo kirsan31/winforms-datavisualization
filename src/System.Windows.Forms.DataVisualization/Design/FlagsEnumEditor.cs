@@ -25,22 +25,22 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		/// <summary>
 		/// Enumeration type.
 		/// </summary>
-		private	Type	_enumType = null;
+		private	Type	_enumType;
 
-		#endregion
+        #endregion
 
-		#region Editor methods and properties
+        #region Editor methods and properties
 
-		private IWindowsFormsEditorService	_edSvc = null;
+        private IWindowsFormsEditorService	_edSvc;
 
-		/// <summary>
-		/// Display a drop down list with check boxes.
-		/// </summary>
-		/// <param name="context">Editing context.</param>
-		/// <param name="provider">Provider.</param>
-		/// <param name="value">Value to edit.</param>
-		/// <returns>Result</returns>
-		public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
+        /// <summary>
+        /// Display a drop down list with check boxes.
+        /// </summary>
+        /// <param name="context">Editing context.</param>
+        /// <param name="provider">Provider.</param>
+        /// <param name="value">Value to edit.</param>
+        /// <returns>Result</returns>
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
 		{
 			if (context != null && context.Instance != null && provider != null) 
 			{
@@ -60,7 +60,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 					if(this._enumType != null)
 					{
 						// Create control for editing
-						FlagsEnumCheckedListBox control = new FlagsEnumCheckedListBox(value, this._enumType);
+						using FlagsEnumCheckedListBox control = new FlagsEnumCheckedListBox(value, this._enumType);
 
 						// Show drop down control
 						_edSvc.DropDownControl(control);
@@ -99,21 +99,21 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		#region Control fields
 
 		// Enumeration object to edit
-		private	object		_editValue = null;
+		private	object		_editValue;
 
-		// Enumeration type to edit
-		private	Type		_editType = null;
+        // Enumeration type to edit
+        private	Type		_editType;
 
-		#endregion
+        #endregion
 
-		#region Control constructor
+        #region Control constructor
 
-		/// <summary>
-		/// Public constructor.
-		/// </summary>
-		/// <param name="editValue">Value to edit.</param>
-		/// <param name="editType">Typpe to edit.</param>
-		public FlagsEnumCheckedListBox(object editValue, Type editType)
+        /// <summary>
+        /// Public constructor.
+        /// </summary>
+        /// <param name="editValue">Value to edit.</param>
+        /// <param name="editType">Typpe to edit.</param>
+        public FlagsEnumCheckedListBox(object editValue, Type editType)
 		{
 			// Set editable value
 			this._editValue = editValue;

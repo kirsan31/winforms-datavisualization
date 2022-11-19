@@ -123,15 +123,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check if sorting value is valid
             sortBy = sortBy.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
-            if (string.Compare(sortBy, "X", StringComparison.Ordinal) == 0)
+            if (string.Equals(sortBy, "X", StringComparison.Ordinal))
             {
                 _sortingValueIndex = -1;
             }
-            else if (string.Compare(sortBy, "Y", StringComparison.Ordinal) == 0)
+            else if (string.Equals(sortBy, "Y", StringComparison.Ordinal))
             {
                 _sortingValueIndex = 0;
             }
-            else if (string.Compare(sortBy, "AXISLABEL", StringComparison.Ordinal) == 0)
+            else if (string.Equals(sortBy, "AXISLABEL", StringComparison.Ordinal))
             {
                 _sortingValueIndex = -2;
             }
@@ -143,13 +143,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else
             {
-                throw (new ArgumentException(SR.ExceptionDataPointConverterInvalidSorting, "sortBy"));
+                throw (new ArgumentException(SR.ExceptionDataPointConverterInvalidSorting, nameof(sortBy)));
             }
 
             // Check if data series support as many Y values as required
             if (_sortingValueIndex > 0 && _sortingValueIndex >= series.YValuesPerPoint)
             {
-                throw (new ArgumentException(SR.ExceptionDataPointConverterUnavailableSorting(sortBy, series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)), "sortBy"));
+                throw (new ArgumentException(SR.ExceptionDataPointConverterUnavailableSorting(sortBy, series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)), nameof(sortBy)));
             }
 
             this._sortingOrder = sortOrder;
@@ -210,7 +210,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Reference to the sereies of data points
-        internal Series series = null;
+        internal Series series;
 
         #endregion
 
@@ -310,7 +310,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     else
                     {
-                        throw (new ArgumentException(SR.ExceptionParameterFormatInvalid, "otherFields"));
+                        throw (new ArgumentException(SR.ExceptionParameterFormatInvalid, nameof(otherFields)));
                     }
 
                     // Check if format string was specified
@@ -345,11 +345,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (dataSource == null)
-                throw new ArgumentNullException("dataSource", SR.ExceptionDataPointInsertionNoDataSource);
+                throw new ArgumentNullException(nameof(dataSource), SR.ExceptionDataPointInsertionNoDataSource);
             if (dataSource is string)
-                throw (new ArgumentException(SR.ExceptionDataBindSeriesToString, "dataSource"));
+                throw (new ArgumentException(SR.ExceptionDataBindSeriesToString, nameof(dataSource)));
             if (yFields == null)
-                throw new ArgumentNullException("yFields");
+                throw new ArgumentNullException(nameof(yFields));
 
             // Convert comma separated Y values field names string to array of names
             string[] yFieldNames = yFields.Replace(",,", "\n").Split(',');
@@ -359,7 +359,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             if (yFieldNames.GetLength(0) > series.YValuesPerPoint)
-                throw (new ArgumentOutOfRangeException("yFields", SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
+                throw (new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
 
             // Convert other fields/properties names to two arrays of names
             string[] otherAttributeNames = null;
@@ -421,7 +421,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Create and initialize data point
                     if (valueExsist)
                     {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                         DataPoint newDataPoint = new DataPoint(series);
+#pragma warning restore CA2000 // Dispose objects before losing scope
                         bool emptyValues = false;
 
                         // Set X to the value provided
@@ -540,23 +542,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Y value must be provided
             if (yValues == null ||
                 yValues.Length == 1 && yValues[0] == null)
-                throw new ArgumentNullException("yValues");
+                throw new ArgumentNullException(nameof(yValues));
             if (yValues.GetLength(0) == 0)
-                throw new ArgumentException(SR.ExceptionDataPointBindingYValueNotSpecified, "yValues");
+                throw new ArgumentException(SR.ExceptionDataPointBindingYValueNotSpecified, nameof(yValues));
 
             // Double check that a string object is not provided for data binding
             for (int i = 0; i < yValues.Length; i++)
             {
                 if (yValues[i] is string)
                 {
-                    throw (new ArgumentException(SR.ExceptionDataBindYValuesToString, "yValues"));
+                    throw (new ArgumentException(SR.ExceptionDataBindYValuesToString, nameof(yValues)));
                 }
             }
 
             // Check if number of Y values do not out of range
             if (yValues.GetLength(0) > series.YValuesPerPoint)
             {
-                throw (new ArgumentOutOfRangeException("yValues", SR.ExceptionDataPointYValuesBindingCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
+                throw (new ArgumentOutOfRangeException(nameof(yValues), SR.ExceptionDataPointYValuesBindingCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
             }
 
             // Remove all existing data points
@@ -570,7 +572,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Double check that a string object is not provided for data binding
                 if (xValue is string)
                 {
-                    throw (new ArgumentException(SR.ExceptionDataBindXValuesToString, "xValue"));
+                    throw (new ArgumentException(SR.ExceptionDataBindXValuesToString, nameof(xValue)));
                 }
 
                 // Get and reset Y values enumerators
@@ -616,7 +618,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         xValueExsist = xEnumerator.MoveNext();
                         if (yValueExsist && !xValueExsist)
                         {
-                            throw (new ArgumentOutOfRangeException("xValue", SR.ExceptionDataPointInsertionXValuesQtyIsLessYValues));
+                            throw (new ArgumentOutOfRangeException(nameof(xValue), SR.ExceptionDataPointInsertionXValuesQtyIsLessYValues));
                         }
                     }
 
@@ -630,7 +632,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Create and initialize data point
                     if (xValueExsist || yValueExsist)
                     {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                         DataPoint newDataPoint = new DataPoint(series);
+#pragma warning restore CA2000 // Dispose objects before losing scope
                         bool emptyValues = false;
 
                         // Set X to the value provided
@@ -722,22 +726,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (xValue is string)
-                throw new ArgumentException(SR.ExceptionDataBindXValuesToString, "xValue");
+                throw new ArgumentException(SR.ExceptionDataBindXValuesToString, nameof(xValue));
             if (yValue == null)
-                throw new ArgumentNullException("yValue", SR.ExceptionDataPointInsertionYValueNotSpecified);
+                throw new ArgumentNullException(nameof(yValue), SR.ExceptionDataPointInsertionYValueNotSpecified);
             if (yValue is string)
-                throw new ArgumentException(SR.ExceptionDataBindYValuesToString, "yValue");
+                throw new ArgumentException(SR.ExceptionDataBindYValuesToString, nameof(yValue));
             if (yFields == null)
-                throw new ArgumentOutOfRangeException("yFields", SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+                throw new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 
             // Convert comma separated field names string to array of names
-            string[] yFieldNames = yFields.Replace(",,", "\n").Split(',');            
+            string[] yFieldNames = yFields.Replace(",,", "\n").Split(',');
             for (int index = 0; index < yFieldNames.Length; index++)
             {
                 yFieldNames[index] = yFieldNames[index].Replace("\n", ",");
             }
             if (yFieldNames.GetLength(0) > series.YValuesPerPoint)
-                throw new ArgumentOutOfRangeException("yFields", SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+                throw new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 
             // Remove all existing data points
             this.Clear();
@@ -791,7 +795,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             xValueExsist = xEnumerator.MoveNext();
                             if (yValueExsist && !xValueExsist)
                             {
-                                throw (new ArgumentOutOfRangeException("xValue", SR.ExceptionDataPointInsertionXValuesQtyIsLessYValues));
+                                throw (new ArgumentOutOfRangeException(nameof(xValue), SR.ExceptionDataPointInsertionXValuesQtyIsLessYValues));
                             }
                         }
                         else
@@ -810,7 +814,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Create and initialize data point
                     if (xValueExsist || yValueExsist)
                     {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                         DataPoint newDataPoint = new DataPoint(series);
+#pragma warning restore CA2000 // Dispose objects before losing scope
                         bool emptyValues = false;
 
                         // Set X to the value provided or use sequence numbers starting with 1
@@ -938,7 +944,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //Check arguments
             if (yValue == null ||
                 yValue.Length == 1 && yValue[0] == null)
-                throw new ArgumentNullException("yValue");
+                throw new ArgumentNullException(nameof(yValue));
 
             // Auto detect DateTime values type
             if (this.series.YValueType == ChartValueType.Auto &&
@@ -1045,6 +1051,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="yValue">List of Y values of the data point.</param>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
             Justification = "X and Y are cartesian coordinates and well understood")]
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
         public void InsertXY(int index, object xValue, params object[] yValue)
         {
             DataPoint newDataPoint = new DataPoint(series);
@@ -1060,6 +1067,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="yValue">List of Y values of the data point.</param>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
             Justification = "Y is a cartesian coordinate and well understood")]
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
         public void InsertY(int index, params object[] yValue)
         {
             DataPoint newDataPoint = new DataPoint(series);
@@ -1536,9 +1544,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             //Check arguments
             if (useValue == null)
-                throw new ArgumentNullException("useValue");
+                throw new ArgumentNullException(nameof(useValue));
             if (startIndex < 0 || startIndex >= this.Count)
-                throw new ArgumentOutOfRangeException("startIndex");
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
 
             // Loop through all points from specified index
             for (int i = startIndex; i < this.Count; i++)
@@ -1585,9 +1593,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             //Check arguments
             if (useValue == null)
-                throw new ArgumentNullException("useValue");
+                throw new ArgumentNullException(nameof(useValue));
             if (startIndex < 0 || startIndex >= this.Count)
-                throw new ArgumentOutOfRangeException("startIndex");
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
 
             bool isYValue = useValue.StartsWith("Y", StringComparison.OrdinalIgnoreCase);
             double maxValue = double.MinValue;
@@ -1641,9 +1649,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public DataPoint FindMinByValue(string useValue, int startIndex)
         {
             if (useValue == null)
-                throw new ArgumentNullException("useValue");
+                throw new ArgumentNullException(nameof(useValue));
             if (startIndex < 0 || startIndex >= this.Count)
-                throw new ArgumentOutOfRangeException("startIndex");
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
 
             bool isYValue = useValue.StartsWith("Y", StringComparison.OrdinalIgnoreCase);
             double minValue = double.MaxValue;
@@ -1894,27 +1902,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Assign data point attribute by name
             if (stringValue.Length > 0)
             {
-                if (string.Compare(propertyName, "AxisLabel", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(propertyName, "AxisLabel", StringComparison.OrdinalIgnoreCase))
                 {
                     this.AxisLabel = stringValue;
                 }
-                else if (string.Compare(propertyName, "Tooltip", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(propertyName, "Tooltip", StringComparison.OrdinalIgnoreCase))
                 {
                     this.ToolTip = stringValue;
                 }
-                else if (string.Compare(propertyName, "Label", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(propertyName, "Label", StringComparison.OrdinalIgnoreCase))
                 {
                     this.Label = stringValue;
                 }
-                else if (string.Compare(propertyName, "LegendTooltip", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(propertyName, "LegendTooltip", StringComparison.OrdinalIgnoreCase))
                 {
                     this.LegendToolTip = stringValue;
                 }
-                else if (string.Compare(propertyName, "LegendText", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(propertyName, "LegendText", StringComparison.OrdinalIgnoreCase))
                 {
                     this.LegendText = stringValue;
                 }
-                else if (string.Compare(propertyName, "LabelToolTip", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(propertyName, "LabelToolTip", StringComparison.OrdinalIgnoreCase))
                 {
                     this.LabelToolTip = stringValue;
                 }
@@ -1996,7 +2004,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (xValue == null)
-                throw new ArgumentNullException("xValue");
+                throw new ArgumentNullException(nameof(xValue));
 
             // Set Y value first
             SetValueY(yValue);
@@ -2083,11 +2091,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (yValue == null)
-                throw new ArgumentNullException("yValue");
+                throw new ArgumentNullException(nameof(yValue));
 
             // Check number of parameters. Should be more than 0 and 
             if (yValue.Length == 0 || (base.series != null && yValue.Length > base.series.YValuesPerPoint))
-                throw (new ArgumentOutOfRangeException("yValue", SR.ExceptionDataPointYValuesSettingCountMismatch(base.series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
+                throw (new ArgumentOutOfRangeException(nameof(yValue), SR.ExceptionDataPointYValuesSettingCountMismatch(base.series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
 
             // Check if there is a Null Y value
             for (int i = 0; i < yValue.Length; i++)
@@ -2292,10 +2300,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (valueName == null)
-                throw new ArgumentNullException("valueName");
+                throw new ArgumentNullException(nameof(valueName));
 
             valueName = valueName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
-            if (string.Compare(valueName, "X", StringComparison.Ordinal) == 0)
+            if (string.Equals(valueName, "X", StringComparison.Ordinal))
             {
                 return this.XValue;
             }
@@ -2315,17 +2323,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     catch (System.Exception)
                     {
-                        throw (new ArgumentException(SR.ExceptionDataPointValueNameInvalid, "valueName"));
+                        throw (new ArgumentException(SR.ExceptionDataPointValueNameInvalid, nameof(valueName)));
                     }
 
                     if (yIndex < 0)
                     {
-                        throw (new ArgumentException(SR.ExceptionDataPointValueNameYIndexIsNotPositive, "valueName"));
+                        throw (new ArgumentException(SR.ExceptionDataPointValueNameYIndexIsNotPositive, nameof(valueName)));
                     }
 
                     if (yIndex >= this.YValues.Length)
                     {
-                        throw (new ArgumentException(SR.ExceptionDataPointValueNameYIndexOutOfRange, "valueName"));
+                        throw (new ArgumentException(SR.ExceptionDataPointValueNameYIndexOutOfRange, nameof(valueName)));
                     }
 
                     return this.YValues[yIndex];
@@ -2333,7 +2341,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else
             {
-                throw (new ArgumentException(SR.ExceptionDataPointValueNameInvalid, "valueName"));
+                throw (new ArgumentException(SR.ExceptionDataPointValueNameInvalid, nameof(valueName)));
             }
         }
 
@@ -2381,7 +2389,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     ChartElementType.DataPoint,
                     result,
                     KeywordName.Percent,
-                    (this.YValues[0] / (this.series.GetTotalYValue())),
+                    this.YValues[0] / (this.series.GetTotalYValue()),
                     ChartValueType.Double,
                     "P");
 
@@ -2404,36 +2412,39 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         string.Empty);
                 }
 
-                // remove keywords #VAL? for unexisted Y value indices
-                for (int index = this.YValues.Length; index <= 7; index++)
+                if (result.Contains(KeywordName.ValY, StringComparison.Ordinal))
                 {
-                    result = this.RemoveOneKeyword(result, KeywordName.ValY + index + 1);
-                }
+                    // remove keywords #VALY? for unexcited Y value indexes
+                    for (int index = this.YValues.Length; index <= 7; index++)
+                    {
+                        result = RemoveOneKeyword(result, KeywordName.ValY + index + 1);
+                    }
 
-                for (int index = 1; index <= this.YValues.Length; index++)
-                {
+                    for (int index = 1; index <= this.YValues.Length; index++)
+                    {
+                        result = this.series.ReplaceOneKeyword(
+                            this.Chart,
+                            this,
+                            this.Tag,
+                            ChartElementType.DataPoint,
+                            result,
+                            KeywordName.ValY + index,
+                            this.YValues[index - 1],
+                            this.series.YValueType,
+                            string.Empty);
+                    }
+
                     result = this.series.ReplaceOneKeyword(
-                        this.Chart,
+                        Chart,
                         this,
                         this.Tag,
                         ChartElementType.DataPoint,
                         result,
-                        KeywordName.ValY + index,
-                        this.YValues[index - 1],
+                        KeywordName.ValY,
+                        this.YValues[0],
                         this.series.YValueType,
                         string.Empty);
                 }
-
-                result = this.series.ReplaceOneKeyword(
-                    Chart,
-                    this,
-                    this.Tag,
-                    ChartElementType.DataPoint,
-                    result,
-                    KeywordName.ValY,
-                    this.YValues[0],
-                    this.series.YValueType,
-                    string.Empty);
 
                 result = this.series.ReplaceOneKeyword(
                     Chart,
@@ -2456,7 +2467,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="strOriginal">Original format string</param>
         /// <param name="keyword">The keyword</param>
         /// <returns>Modified format string</returns>
-        private string RemoveOneKeyword(string strOriginal, string keyword)
+        private static string RemoveOneKeyword(string strOriginal, string keyword)
         {
             string result = strOriginal;
             int keyIndex;
@@ -2570,9 +2581,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         sb.AppendFormat(CultureInfo.CurrentCulture, "{0}", YValues[i]);
                     else
                         sb.AppendFormat(CultureInfo.CurrentCulture, ", {0}", YValues[i]);
-                sb.Append("}");
+                sb.Append('}');
             }
-            sb.Append("}");
+            sb.Append('}');
             return sb.ToString();
         }
         #endregion
@@ -2708,19 +2719,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal bool pointCustomProperties = true;
 
         // Reference to the data point series
-        internal Series series = null;
+        internal Series series;
 
         // Storage for the custom properties names/values
         internal Hashtable properties = new Hashtable();
 
         // Flag indicating that temp. color was set
-        internal bool tempColorIsSet = false;
+        internal bool tempColorIsSet;
 
         // Design time custom properties data
-        internal CustomProperties customProperties = null;
+        internal CustomProperties customProperties;
 
         // IsEmpty point indicator
-        internal bool isEmptyPoint = false;
+        internal bool isEmptyPoint;
 
         #endregion
 
@@ -3539,7 +3550,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNotPositive));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive));
                 }
                 if (this.pointCustomProperties)
                     SetAttributeObject(CommonCustomProperties.BorderWidth, value);
@@ -4051,7 +4062,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < -90 || value > 90)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAngleRangeInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAngleRangeInvalid));
                 }
                 if (this.pointCustomProperties)
                     SetAttributeObject(CommonCustomProperties.LabelAngle, value);
@@ -4420,7 +4431,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNotPositive));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive));
                 }
                 if (this.pointCustomProperties)
                     SetAttributeObject(CommonCustomProperties.MarkerBorderWidth, value);
@@ -4491,7 +4502,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         bool customAttribute = true;
                         foreach (string name in attributesNames)
                         {
-                            if (string.Compare(attributeName, name, StringComparison.OrdinalIgnoreCase) == 0)
+                            if (string.Equals(attributeName, name, StringComparison.OrdinalIgnoreCase))
                             {
                                 customAttribute = false;
                                 break;
@@ -4566,7 +4577,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             string existingAttributeNameStr = existingAttributeName as string;
                             if (existingAttributeNameStr != null)
                             {
-                                if (string.Compare(existingAttributeNameStr, values[0], StringComparison.OrdinalIgnoreCase) == 0)
+                                if (string.Equals(existingAttributeNameStr, values[0], StringComparison.OrdinalIgnoreCase))
                                 {
                                     throw (new FormatException(SR.ExceptionAttributeNameIsNotUnique(values[0])));
                                 }
@@ -5002,7 +5013,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionLabelBorderIsNotPositive));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLabelBorderIsNotPositive));
                 }
                 if (this.pointCustomProperties)
                     SetAttributeObject(CommonCustomProperties.LabelBorderWidth, value);
@@ -5947,52 +5958,52 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Reference to the 2D data point object
         /// </summary>
-        internal DataPoint dataPoint = null;
+        internal DataPoint dataPoint;
 
         /// <summary>
         /// Data point index.
         /// </summary>
-        internal int index = 0;
+        internal int index;
 
         /// <summary>
         /// Point X position in relative coordinates.
         /// </summary>
-        internal double xPosition = 0.0;
+        internal double xPosition;
 
         /// <summary>
         /// Point Y position in relative coordinates.
         /// </summary>
-        internal double yPosition = 0.0;
+        internal double yPosition;
 
         /// <summary>
         /// Point X center position in relative coordinates. Used for side-by-side charts.
         /// </summary>
-        internal double xCenterVal = 0.0;
+        internal double xCenterVal;
 
         /// <summary>
         /// Point Z position in relative coordinates.
         /// </summary>
-        internal float zPosition = 0f;
+        internal float zPosition;
 
         /// <summary>
         /// Point width.
         /// </summary>
-        internal double width = 0.0;
+        internal double width;
 
         /// <summary>
         /// Point height.
         /// </summary>
-        internal double height = 0.0;
+        internal double height;
 
         /// <summary>
         /// Point depth.
         /// </summary>
-        internal float depth = 0f;
+        internal float depth;
 
         /// <summary>
         /// Indicates that point belongs to indexed series.
         /// </summary>
-        internal bool indexedSeries = false;
+        internal bool indexedSeries;
 
         #endregion
     }
@@ -6010,7 +6021,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Reference to the properties class
-        internal DataPointCustomProperties m_DataPointCustomProperties = null;
+        internal DataPointCustomProperties m_DataPointCustomProperties;
 
         #endregion // Fields
 
@@ -6099,7 +6110,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     bool userDefinedAttribute = true;
                     foreach (CustomPropertyInfo info in registry.registeredCustomProperties)
                     {
-                        if (string.Compare(info.Name, values[0], StringComparison.OrdinalIgnoreCase) == 0)
+                        if (string.Equals(info.Name, values[0], StringComparison.OrdinalIgnoreCase))
                         {
                             userDefinedAttribute = false;
                         }

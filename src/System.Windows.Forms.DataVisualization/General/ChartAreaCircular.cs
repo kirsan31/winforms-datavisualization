@@ -26,12 +26,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Angle where axis is located.
 		/// </summary>
-		internal	float	AxisPosition = 0f;
+		internal	float	AxisPosition;
 
-		/// <summary>
-		/// Axis title.
-		/// </summary>
-		internal	string	Title = string.Empty;
+        /// <summary>
+        /// Axis title.
+        /// </summary>
+        internal	string	Title = string.Empty;
 
         /// <summary>
         /// Axis title color.

@@ -641,11 +641,10 @@ namespace ChartSamples
 
 		private void SetTextControls()
 		{
-            //FIXFIX
-			/*(foreach(string style in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.TextStyle)))
+			foreach(string style in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.TextStyle)))
 			{
 				AnnotationStyle.Items.Add(style);
-			}*/
+			}
 
 			AnnotationStyle.SelectedIndex = 3;
 			AnnotationStyle.Enabled = true;
@@ -709,10 +708,8 @@ namespace ChartSamples
 							Annotation.SelectedItem.ToString() == "Rectangle" ||
 							Annotation.SelectedItem.ToString() == "Ellipse"        )
 			{
-                //FIXFIX
-                /*
 				Chart1.Annotations[0].TextStyle = 
-					(TextStyle)TextStyle.Parse(typeof(TextStyle), AnnotationStyle.SelectedItem.ToString());*/
+					(TextStyle)TextStyle.Parse(typeof(TextStyle), AnnotationStyle.SelectedItem.ToString());
 
 			}
 			else if(Annotation.SelectedItem.ToString() == "Arrow")

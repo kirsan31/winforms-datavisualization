@@ -103,25 +103,25 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Reference to the chart area object
-		private	ChartArea	_chartArea = null;
+		private	ChartArea	_chartArea;
 
-		// Enables/disables 3D chart types in the area.
-		private	bool		_enable3D	= false;
+        // Enables/disables 3D chart types in the area.
+        private	bool		_enable3D;
 
-		// Indicates that axes are set at the right angle independent of the rotation.
-		private	bool		_isRightAngleAxes	= true;
+        // Indicates that axes are set at the right angle independent of the rotation.
+        private	bool		_isRightAngleAxes	= true;
 
 		// Indicates that series should be drawn as isClustered.
-		private	bool		_isClustered	= false;
+		private	bool		_isClustered;
 
-		// 3D area lightStyle style.
-		private LightStyle	_lightStyle = LightStyle.Simplistic;
+        // 3D area lightStyle style.
+        private LightStyle	_lightStyle = LightStyle.Simplistic;
 
 		// 3D area perspective which controls the scaleView of the chart depth.
-		private int			_perspective = 0;
+		private int			_perspective;
 
-		// Chart area rotation angle around the X axis.
-		private int			_inclination = 30;
+        // Chart area rotation angle around the X axis.
+        private int			_inclination = 30;
 
 		// Chart area rotation angle around the Y axis.
 		private int			_rotation = 30;
@@ -288,7 +288,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 100)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DPerspectiveInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPerspectiveInvalid));
 				}
 
                 _perspective = value;
@@ -327,7 +327,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < -90 || value > 90)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DInclinationInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DInclinationInvalid));
 				}
                 _inclination = value;
 
@@ -358,7 +358,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < -180 || value > 180)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DRotationInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DRotationInvalid));
 				}
                 _rotation = value;
 
@@ -389,7 +389,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 30)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DWallWidthInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DWallWidthInvalid));
 				}
 
                 _wallWidth = value;
@@ -420,7 +420,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 1000)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DPointsDepthInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPointsDepthInvalid));
 				}
 
                 _pointDepth = value;
@@ -451,7 +451,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0 || value > 1000)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DPointsGapInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPointsGapInvalid));
 				}
 
                 _pointGapDepth = value;
@@ -484,55 +484,55 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal	SizeF				areaSceneWallWidth = SizeF.Empty;
 
 		// Chart area scene depth
-		internal	float				areaSceneDepth = 0;
+		internal	float				areaSceneDepth;
 
-		// Visible surfaces in plotting area
-		private		SurfaceNames			_visibleSurfaces;
+        // Visible surfaces in plotting area
+        private		SurfaceNames			_visibleSurfaces;
 
 		// Z axis depth of series points
-		private		double				_pointsDepth = 0;
+		private		double				_pointsDepth;
 
-		// Z axis depth of the gap between isClustered series
-		private		double				_pointsGapDepth = 0;
+        // Z axis depth of the gap between isClustered series
+        private		double				_pointsGapDepth;
 
-		/// <summary>
-		/// Indicates that series order should be reversed to simulate Y axis rotation.
-		/// </summary>
-		private	bool				_reverseSeriesOrder = false;
+        /// <summary>
+        /// Indicates that series order should be reversed to simulate Y axis rotation.
+        /// </summary>
+        private	bool				_reverseSeriesOrder;
 
-		/// <summary>
-		/// Old X axis reversed flag
-		/// </summary>
-		internal	bool				oldReverseX = false;
+        /// <summary>
+        /// Old X axis reversed flag
+        /// </summary>
+        internal	bool				oldReverseX;
 
-		/// <summary>
-		/// Old Y axis reversed flag
-		/// </summary>
-		internal	bool				oldReverseY = false;
+        /// <summary>
+        /// Old Y axis reversed flag
+        /// </summary>
+        internal	bool				oldReverseY;
 
-		/// <summary>
-		/// Old Y axis rotation angle
-		/// </summary>
-		internal	int					oldYAngle = 30;
+        /// <summary>
+        /// Old Y axis rotation angle
+        /// </summary>
+        internal	int					oldYAngle = 30;
 
 		/// <summary>
 		/// List of all stack group names
 		/// </summary>
-		private	ArrayList			_stackGroupNames = null;
+		private	ArrayList			_stackGroupNames;
 
         /// <summary>
         /// This list contains an array of series names for each 3D cluster
         /// </summary>
-		internal	List<List<string>>	seriesClusters = null;
+		internal	List<List<string>>	seriesClusters;
 
         #endregion
 
-		#region 3D Style properties
+        #region 3D Style properties
 
-		/// <summary>
+        /// <summary>
         /// Gets or sets a ChartArea3DStyle object, used to draw all series in a chart area in 3D.
-		/// </summary>
-		[
+        /// </summary>
+        [
 		SRCategory("CategoryAttribute3D"),
 		Bindable(true),
 		DefaultValue(null),
@@ -551,7 +551,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _area3DStyle = value;
 
 				// Initialize style object
-                _area3DStyle.Initialize((ChartArea)this);
+                _area3DStyle.Initialize(this);
 			}
 		}
 
@@ -603,7 +603,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal void DrawArea3DScene(ChartGraphics graph, RectangleF position)
 		{
 			// Reference to the chart area class
-			ChartArea chartArea = (ChartArea)this;
+			ChartArea chartArea = this;
 
 			// Calculate relative size of the wall
 			areaSceneWallWidth = graph.GetRelativeSize( new SizeF(this.Area3DStyle.WallWidth, this.Area3DStyle.WallWidth));
@@ -701,7 +701,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				chartArea.BorderColor, 
 				chartArea.BorderWidth, 
 				chartArea.BorderDashStyle, 
-				DrawingOperationTypes.DrawElement );
+				DrawingOperationTypes.DrawElement )?.Dispose();
 
 			// Draw side wall on the left or right side
 			wallRect2D = new RectangleF(position.Location, position.Size);
@@ -721,7 +721,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				chartArea.BorderColor, 
 				chartArea.BorderWidth, 
 				chartArea.BorderDashStyle, 
-				DrawingOperationTypes.DrawElement);
+				DrawingOperationTypes.DrawElement)?.Dispose();
 
 			// Draw bottom wall
 			if(IsBottomSceneWallVisible())
@@ -735,7 +735,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					wallRect2D.X += areaSceneWallWidth.Width;
 				}
 
-				wallZPosition = 0;
 				graph.Fill3DRectangle( 
 					wallRect2D,
 					0f,
@@ -746,9 +745,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					chartArea.BorderColor, 
 					chartArea.BorderWidth, 
 					chartArea.BorderDashStyle, 
-					DrawingOperationTypes.DrawElement );
+					DrawingOperationTypes.DrawElement )?.Dispose();
 			}
-
 		}
 
 		/// <summary>
@@ -822,23 +820,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			//***********************************************************
 
 			// Check if any series attached to the area is indexed
-            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, this._series.ToArray());
+            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, this._series);
 
 			// Smallest interval series
 			Series	smallestIntervalSeries = null;
 			if(this._series.Count > 0)
 			{
-				smallestIntervalSeries = this.Common.DataManager.Series[(string)this._series[0]];
+				smallestIntervalSeries = this.Common.DataManager.Series[this._series[0]];
 			}
 
 			// Get X axis
-			Axis	xAxis = ((ChartArea)this).AxisX;
+			Axis	xAxis = this.AxisX;
 			if(this._series.Count > 0)
 			{
 				Series	firstSeries = this.Common.DataManager.Series[this._series[0]];
 				if(firstSeries != null && firstSeries.XAxisType == AxisType.Secondary)
 				{
-					xAxis = ((ChartArea)this).AxisX2;
+					xAxis = this.AxisX2;
 				}
 			}
 
@@ -862,15 +860,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					if(this.Common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 					{
 						string attribValue = this.Common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-						if(String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+						if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 						{
 							drawSideBySide = false;
 						}
-						else if(String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+						else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 						{
 							drawSideBySide = true;
 						}
-                        else if (String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 						{
 							// Do nothing
 						}
@@ -883,10 +881,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Get smallest interval categorical axis
-			Axis	categoricalAxis = ((ChartArea)this).AxisX;
+			Axis	categoricalAxis = this.AxisX;
 			if(smallestIntervalSeries != null && smallestIntervalSeries.XAxisType == AxisType.Secondary)
 			{
-				categoricalAxis = ((ChartArea)this).AxisX2;
+				categoricalAxis = this.AxisX2;
 			}
 
 			//***********************************************************
@@ -907,7 +905,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						// Get series object from name
 						Series	curSeries = this.Common.DataManager.Series[seriesName];
-						if(String.Compare(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 )
+						if(string.Equals(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase))
 						{
 							++seriesNumber;
 						}
@@ -938,7 +936,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						// Get series object from name
 						Series	curSeries = this.Common.DataManager.Series[seriesName];
-						if(String.Compare(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 )
+						if(string.Equals(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase))
 						{
 							string seriesStackGroupName = string.Empty;
 							if(curSeries.IsCustomPropertySet(CustomPropertyName.StackedGroupName))
@@ -1002,7 +1000,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
             // Check arguments
             if (series == null)
-                throw new ArgumentNullException("series");
+                throw new ArgumentNullException(nameof(series));
 
 			// Get series cluster index
 			int seriesIndex = GetSeriesClusterIndex(series);
@@ -1181,7 +1179,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			float sceneDepth;
 
-			ChartArea area = (ChartArea) this;
+			ChartArea area = this;
 
 
 			// Reset current list of clusters
@@ -1213,7 +1211,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal void Estimate3DInterval(ChartGraphics graph )
 		{
 			// Reference to the chart area class
-            ChartArea area = (ChartArea)this;
+            ChartArea area = this;
 
 			// Calculate relative size of the wall
 			areaSceneWallWidth = graph.GetRelativeSize( new SizeF(this.Area3DStyle.WallWidth, this.Area3DStyle.WallWidth));
@@ -1512,7 +1510,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal void PaintChartSeries3D( ChartGraphics graph )
 		{
 			// Reference to the chart area object
-			ChartArea	area = (ChartArea)this;
+			ChartArea	area = this;
 
 			// Get order of series drawing
 			List<Series>	seriesDrawingOrder = GetSeriesDrawingOrder(_reverseSeriesOrder);
@@ -1592,14 +1590,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					for(int seriesIndex = 0; seriesIndex < seriesList.Count; seriesIndex++)
 					{
 						// Check if series is not empty
-						if(((Series)seriesList[seriesIndex]).Points.Count == 0)
+						if(seriesList[seriesIndex].Points.Count == 0)
 						{
 							continue;
 						}
 
 						// Get series Z position
 						float seriesDepth, seriesZPosition;
-						this.GetSeriesZPositionAndDepth((Series)seriesList[seriesIndex], out seriesDepth, out seriesZPosition);
+						this.GetSeriesZPositionAndDepth(seriesList[seriesIndex], out seriesDepth, out seriesZPosition);
 
 						// Check if series passes the Z coordinate of Center of Projection
 						if(seriesZPosition >= areaProjectionCenter.Z)
@@ -1624,7 +1622,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		/// <param name="seriesNamesList">Array of series names.</param>
 		/// <returns>Number of stack groups. One by default.</returns>
-		private int GetNumberOfStackGroups(IList<string> seriesNamesList)
+		private int GetNumberOfStackGroups(List<string> seriesNamesList)
 		{
 			this._stackGroupNames = new ArrayList();
 			foreach( object seriesName in seriesNamesList )
@@ -1692,7 +1690,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			int mainYValueIndex,
 			bool sideBySide)
 		{
-			ChartArea area = (ChartArea)this;
+			ChartArea area = this;
 
 			// Array of points in all series
 			ArrayList pointsList = new ArrayList();
@@ -1725,7 +1723,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
 			// Check if chart series are indexed
-            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, seriesNamesList.ToArray());
+            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, seriesNamesList);
 
 			//************************************************************
 			//** Loop through all series and fill array of points
@@ -1800,8 +1798,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						// The formula for position is based on a distance 
 						//from the grid line or nPoints position.
-						xPosition = hAxis.GetPosition( (double)index ) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width;
-						xCenterVal = hAxis.GetPosition( (double)index );
+						xPosition = hAxis.GetPosition(index) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width;
+						xCenterVal = hAxis.GetPosition(index);
 
 					}
 					else if( sameInterval )
@@ -1854,7 +1852,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			//************************************************************
 			if(comparer == null)
 			{
-				comparer = new PointsDrawingOrderComparer((ChartArea)this, selection, coord);
+				comparer = new PointsDrawingOrderComparer(this, selection, coord);
 			}
 			pointsList.Sort(comparer);
 
@@ -1873,17 +1871,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			/// <summary>
 			/// Chart area object reference.
 			/// </summary>
-			private	ChartArea	_area = null;
+			private	ChartArea	_area;
 
-			/// <summary>
-			/// Area X position where visible sides are switched.
-			/// </summary>
-			private	Point3D		_areaProjectionCenter = new Point3D(float.NaN, float.NaN, float.NaN);
+            /// <summary>
+            /// Area X position where visible sides are switched.
+            /// </summary>
+            private	Point3D		_areaProjectionCenter = new Point3D(float.NaN, float.NaN, float.NaN);
 
 			/// <summary>
 			/// Selection mode. Points order should be reversed.
 			/// </summary>
-			private bool		_selection = false;
+			private bool		_selection;
 
             /// <summary>
             /// Public constructor.
@@ -2045,8 +2043,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Calculate the smallest interval (0.5 pixels) in relative coordinates
 			SizeF	interval = new SizeF(0.5f, 0.5f);
-			interval.Width = interval.Width * 100F / ((float)(this.Common.Chart.Width - 1)); 
-			interval.Height = interval.Height * 100F / ((float)(this.Common.Chart.Height - 1)); 
+			interval.Width = interval.Width * 100F / (this.Common.Chart.Width - 1); 
+			interval.Height = interval.Height * 100F / (this.Common.Chart.Height - 1); 
 
 			// Find middle point and check it's surface orientation
 			bool	doneFlag = false;

@@ -14,6 +14,7 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
@@ -119,13 +120,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Reference to the series this style belongs to
-        internal object chartElement = null;
+        internal object chartElement;
 
         // Indicates if SmartLabelStyle algorithm is enabled.
         private bool _enabled = true;
 
         // Indicates that marker overlapping by label is allowed.
-        private bool _isMarkerOverlappingAllowed = false;
+        private bool _isMarkerOverlappingAllowed;
 
         // Indicates that overlapped labels that can't be repositioned will be hidden.
         private bool _isOverlappedHidden = true;
@@ -134,7 +135,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private LabelAlignmentStyles _movingDirection = LabelAlignmentStyles.Top | LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Right | LabelAlignmentStyles.Left | LabelAlignmentStyles.TopLeft | LabelAlignmentStyles.TopRight | LabelAlignmentStyles.BottomLeft | LabelAlignmentStyles.BottomRight;
 
         // Minimum distance the overlapped SmartLabelStyle can be moved from the marker. Distance is measured in pixels.
-        private double _minMovingDistance = 0.0;
+        private double _minMovingDistance;
 
         // Maximum distance the overlapped SmartLabelStyle can be moved from the marker. Distance is measured in pixels.
         private double _maxMovingDistance = 30.0;
@@ -533,13 +534,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // List of all SmartLabelStyle positions in the area
-        internal ArrayList smartLabelsPositions = null;
+        internal List<RectangleF> smartLabelsPositions;
 
         // Indicates that not a single collision is allowed
-        internal bool checkAllCollisions = false;
+        internal bool checkAllCollisions;
 
         // Number of positions in array for the markers
-        internal int markersCount = 0;
+        internal int markersCount;
 
         #endregion
 
@@ -562,7 +563,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal void Reset()
         {
             // Re-initialize list of labels position
-            smartLabelsPositions = new ArrayList();
+            smartLabelsPositions = new List<RectangleF>();
         }
 
         /// <summary>
@@ -827,7 +828,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 else
                 {
-                    graph.Graphics.DrawRectangle(new Pen(Color.Magenta, 3), Rectangle.Round(graph.GetAbsoluteRectangle(lp)));
+                    using var pen = new Pen(Color.Magenta, 3);
+                    graph.Graphics.DrawRectangle(pen, Rectangle.Round(graph.GetAbsoluteRectangle(lp)));
                 }
             }
 #endif
@@ -872,7 +874,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 GetLabelPosition(graph, labelPosition, labelSize, format, true));
 
             // Create callout pen
-            Pen calloutPen = new Pen(smartLabelStyle.CalloutLineColor, smartLabelStyle.CalloutLineWidth);
+            using Pen calloutPen = new Pen(smartLabelStyle.CalloutLineColor, smartLabelStyle.CalloutLineWidth);
             calloutPen.DashStyle = graph.GetPenStyle(smartLabelStyle.CalloutLineDashStyle);
 
             // Draw callout frame
@@ -1306,7 +1308,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             // Create array list if needed
                             if (this.smartLabelsPositions == null)
                             {
-                                this.smartLabelsPositions = new ArrayList();
+                                this.smartLabelsPositions = new List<RectangleF>();
                             }
 
                             // Add label position into the list
@@ -1338,7 +1340,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (this.smartLabelsPositions == null)
             {
-                this.smartLabelsPositions = new ArrayList();
+                this.smartLabelsPositions = new List<RectangleF>();
             }
 
             // Add label position into the list

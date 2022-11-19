@@ -22,40 +22,40 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Associated axis
-		internal Axis axis = null;
+		internal Axis axis;
 
-		// Axis segment position in percent of the axis size
-		private double _position = 0.0;
+        // Axis segment position in percent of the axis size
+        private double _position;
 
-		// Axis segment size in percent of the axis size
-		private double _size = 0.0;
+        // Axis segment size in percent of the axis size
+        private double _size;
 
-		// Axis segment spacing in percent of the axis size
-		private double _spacing = 0.0;
+        // Axis segment spacing in percent of the axis size
+        private double _spacing;
 
-		// Axis segment scale minimum value
-		private double _scaleMinimum = 0.0;
+        // Axis segment scale minimum value
+        private double _scaleMinimum;
 
-		// Axis segment scale maximum value
-		private double _scaleMaximum = 0.0;
+        // Axis segment scale maximum value
+        private double _scaleMaximum;
 
-		// Axis segment interval offset.
-		private double _intervalOffset = 0;
+        // Axis segment interval offset.
+        private double _intervalOffset;
 
-		// Axis segment interval.
-		private double _interval = 0;
+        // Axis segment interval.
+        private double _interval;
 
-		// Axis segment interval units type.
-		private DateTimeIntervalType _intervalType = DateTimeIntervalType.Auto;
+        // Axis segment interval units type.
+        private DateTimeIntervalType _intervalType = DateTimeIntervalType.Auto;
 
 		// Axis segment interval offset units type.
 		private DateTimeIntervalType _intervalOffsetType = DateTimeIntervalType.Auto;
 
 		// Object associated with the segment
-		private object _tag = null;
+		private object _tag;
 
-		// Stack used to save/load axis settings
-		private Stack	_oldAxisSettings = new Stack();
+        // Stack used to save/load axis settings
+        private Stack	_oldAxisSettings = new Stack();
 
 		#endregion // Fields
 
@@ -90,7 +90,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleSegmentsPositionInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsPositionInvalid));
 				}
 				this._position = value;
 			}
@@ -114,7 +114,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleSegmentsSizeInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsSizeInvalid));
 					}
 				this._size = value;
 			}
@@ -138,7 +138,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0.0 || value > 100.0)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleSegmentsSpacingInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsSpacingInvalid));
 				}
 				this._spacing = value;
 			}
@@ -784,28 +784,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Axis this segment collection belongs to.
-		private Axis _axis = null;
+		private Axis _axis;
 
-		// Segment which is always used to convert scale values.
-		// This value is set tmporarly when only one segment has 
-		// to handle all the values.
-		private AxisScaleSegment _enforcedSegment = null;
+        // Segment which is always used to convert scale values.
+        // This value is set tmporarly when only one segment has 
+        // to handle all the values.
+        private AxisScaleSegment _enforcedSegment;
 
-		// Indicates that values allowed to be outside of the scale segment.
-		// Otherwise they will be rounded to Min and Max values.
-		internal bool AllowOutOfScaleValues = false;
+        // Indicates that values allowed to be outside of the scale segment.
+        // Otherwise they will be rounded to Min and Max values.
+        internal bool AllowOutOfScaleValues;
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Construction and Initialization
+        #region Construction and Initialization
 
-		/// <summary>
-		/// Default public constructor.
-		/// </summary>
-		/// <remarks>
-		/// This constructor is for internal use and should not be part of documentation.
-		/// </remarks>
-		public AxisScaleSegmentCollection()
+        /// <summary>
+        /// Default public constructor.
+        /// </summary>
+        /// <remarks>
+        /// This constructor is for internal use and should not be part of documentation.
+        /// </remarks>
+        public AxisScaleSegmentCollection()
 		{
 		}
 
@@ -840,7 +840,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			get 
 			{ 
-				return (AxisScaleSegment)this.List[(int)index]; 
+				return (AxisScaleSegment)this.List[index]; 
 			} 
 		}
 

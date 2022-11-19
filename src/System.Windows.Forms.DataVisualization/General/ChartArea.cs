@@ -120,7 +120,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     DefaultProperty("Axes"),
     SRDescription("DescriptionAttributeChartArea_ChartArea"),
     ]
-    public partial class ChartArea : ChartNamedElement
+    public partial class ChartArea : ChartNamedElement, IDisposable
     {
         #region Chart Area Fields
 
@@ -132,7 +132,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Private data members, which store properties values
         private Axis[] _axisArray = new Axis[4];
         private Color _backColor = Color.Empty;
-        private bool _backColorIsSet = false;
+        private bool _backColorIsSet;
         private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
         private string _backImage = "";
         private ChartImageWrapMode _backImageWrapMode = ChartImageWrapMode.Tile;
@@ -143,13 +143,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private Color _borderColor = Color.Black;
         private int _borderWidth = 1;
         private ChartDashStyle _borderDashStyle = ChartDashStyle.NotSet;
-        private int _shadowOffset = 0;
+        private int _shadowOffset;
         private Color _shadowColor = Color.FromArgb(128, 0, 0, 0);
-        private ElementPosition _areaPosition = null;
-        private ElementPosition _innerPlotPosition = null;
-        internal int IterationCounter = 0;
+        private ElementPosition _areaPosition;
+        private ElementPosition _innerPlotPosition;
+        internal int IterationCounter;
 
-        private bool _isSameFontSizeForAllAxes = false;
+        private bool _isSameFontSizeForAllAxes;
         internal float axesAutoFontSize = 8f;
 
         private string _alignWithChartArea = Constants.NotSetValue;
@@ -159,7 +159,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private int _circularUsePolygons = int.MinValue;
 
         // Flag indicates that chart area is acurrently aligned
-        internal bool alignmentInProcess = false;
+        internal bool alignmentInProcess;
 
         // Chart area position before adjustments
         internal RectangleF originalAreaPosition = RectangleF.Empty;
@@ -174,10 +174,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Center of the circulat chart area
         internal PointF circularCenter = PointF.Empty;
 
-        private ArrayList _circularAxisList = null;
+        private ArrayList _circularAxisList;
 
         // Buffered plotting area image
-        internal Bitmap areaBufferBitmap = null;
+        internal Bitmap areaBufferBitmap;
 
         private Cursor _cursorX = new Cursor();
         private Cursor _cursorY = new Cursor();
@@ -187,6 +187,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Gets or sets a flag that specifies whether the chart area is visible.
         private bool _visible = true;
+        private bool _disposedValue;
 
         #endregion
 
@@ -905,7 +906,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNegative));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNegative));
                 }
                 _borderWidth = value;
                 Invalidate();
@@ -2524,6 +2525,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Defines on how much (pixels) the circular chart area radius should be reduced
             float labelsSize = 0f;
+            Matrix newMatrix = null;
 
             //*****************************************************************
             //** Loop through all axis labels
@@ -2583,7 +2585,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     // Get label rotated position
                     PointF[] labelPosition = new PointF[] { new PointF(areaCenterAbs.X, plotAreaRectAbs.Y) };
-                    Matrix newMatrix = new Matrix();
+                    if (newMatrix is null)
+                        newMatrix = new Matrix();
+                    else
+                        newMatrix.Reset();
+
                     newMatrix.RotateAt(textAngle, areaCenterAbs);
                     newMatrix.TransformPoints(labelPosition);
 
@@ -2601,6 +2607,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
+            newMatrix?.Dispose();
             return labelsSize;
         }
 
@@ -2624,11 +2631,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             // Get custom attribute
                             if (series.IsCustomPropertySet(CustomPropertyName.AreaDrawingStyle))
                             {
-                                if (String.Compare(series[CustomPropertyName.AreaDrawingStyle], "Polygon", StringComparison.OrdinalIgnoreCase) == 0)
+                                if (string.Equals(series[CustomPropertyName.AreaDrawingStyle], "Polygon", StringComparison.OrdinalIgnoreCase))
                                 {
                                     _circularUsePolygons = 1;
                                 }
-                                else if (String.Compare(series[CustomPropertyName.AreaDrawingStyle], "Circle", StringComparison.OrdinalIgnoreCase) == 0)
+                                else if (string.Equals(series[CustomPropertyName.AreaDrawingStyle], "Circle", StringComparison.OrdinalIgnoreCase))
                                 {
                                     _circularUsePolygons = 0;
                                 }
@@ -2660,19 +2667,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (series.IsVisible() && series.ChartArea == this.Name && series.IsCustomPropertySet(CustomPropertyName.CircularLabelsStyle))
                 {
                     string styleName = series[CustomPropertyName.CircularLabelsStyle];
-                    if (String.Compare(styleName, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+                    if (string.Equals(styleName, "Auto", StringComparison.OrdinalIgnoreCase))
                     {
                         style = CircularAxisLabelsStyle.Auto;
                     }
-                    else if (String.Compare(styleName, "Circular", StringComparison.OrdinalIgnoreCase) == 0)
+                    else if (string.Equals(styleName, "Circular", StringComparison.OrdinalIgnoreCase))
                     {
                         style = CircularAxisLabelsStyle.Circular;
                     }
-                    else if (String.Compare(styleName, "Radial", StringComparison.OrdinalIgnoreCase) == 0)
+                    else if (string.Equals(styleName, "Radial", StringComparison.OrdinalIgnoreCase))
                     {
                         style = CircularAxisLabelsStyle.Radial;
                     }
-                    else if (String.Compare(styleName, "Horizontal", StringComparison.OrdinalIgnoreCase) == 0)
+                    else if (string.Equals(styleName, "Horizontal", StringComparison.OrdinalIgnoreCase))
                     {
                         style = CircularAxisLabelsStyle.Horizontal;
                     }
@@ -2946,7 +2953,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             internal string ChartType = string.Empty;
 
             // Series object. Can be set to NULL!
-            internal Series Series = null;
+            internal Series Series;
 
         }
 
@@ -2955,58 +2962,62 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region IDisposable Members
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisX")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisX2")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisY")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisY2")]
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!_disposedValue)
             {
-                // Dispose managed resources
-                if (this._axisArray != null)
+                if (disposing)
                 {
-                    foreach (Axis axis in this._axisArray)
+                    // Dispose managed resources
+                    if (this._axisArray != null)
                     {
-                        axis.Dispose();
+                        foreach (Axis axis in this._axisArray)
+                        {
+                            axis.Dispose();
+                        }
+                        this._axisArray = null;
                     }
-                    this._axisArray = null;
-                }
-                if (this._areaPosition != null)
-                {
-                    this._areaPosition.Dispose();
+                    
+                    if (this.areaBufferBitmap != null)
+                    {
+                        this.areaBufferBitmap.Dispose();
+                        this.areaBufferBitmap = null;
+                    }
+                    
+                    if (this._cursorX != null)
+                    {
+                        this._cursorX.Dispose();
+                        this._cursorX = null;
+                    }
+                    
+                    if (this._cursorY != null)
+                    {
+                        this._cursorY.Dispose();
+                        this._cursorY = null;
+                    }
+                    
                     this._areaPosition = null;
-                }
-                if (this._innerPlotPosition != null)
-                {
-                    this._innerPlotPosition.Dispose();
                     this._innerPlotPosition = null;
-                }
-                if (this.PlotAreaPosition != null)
-                {
-                    this.PlotAreaPosition.Dispose();
                     this.PlotAreaPosition = null;
+                    this.axisY = null;
+                    this.axisX = null;
+                    this.axisX2 = null;
+                    this.axisY2 = null;
                 }
-                if (this.areaBufferBitmap != null)
-                {
-                    this.areaBufferBitmap.Dispose();
-                    this.areaBufferBitmap = null;
-                }
-                if (this._cursorX != null)
-                {
-                    this._cursorX.Dispose();
-                    this._cursorX = null;
-                }
-                if (this._cursorY != null)
-                {
-                    this._cursorY.Dispose();
-                    this._cursorY = null;
-                }
+                _disposedValue = true;
             }
-            base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

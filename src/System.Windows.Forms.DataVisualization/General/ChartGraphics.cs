@@ -117,7 +117,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// all ChartGraphics3D class methods for 3D shapes. Only this 
     /// class should be used for any drawing in the chart.
 	/// </summary>
-    public partial class ChartGraphics : ChartElement
+    public partial class ChartGraphics : ChartElement, IDisposable
 	{
 		#region Fields
 
@@ -140,7 +140,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private	AntiAliasingStyles		_antiAliasing = AntiAliasingStyles.All;
 
 		// True if rendering into the metafile
-		internal bool				IsMetafile = false;
+		internal bool				IsMetafile;
+		private bool _disposedValue;
 
 		#endregion
 
@@ -354,7 +355,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
            System.Drawing.Image image = _common.ImageLoader.LoadImage( name );
 
 			// Create a brush
-			ImageAttributes attrib = new ImageAttributes();
+			using ImageAttributes attrib = new ImageAttributes();
 			attrib.SetWrapMode((mode == ChartImageWrapMode.Unscaled) ? WrapMode.Clamp : ((WrapMode)mode));
 			if(backImageTransparentColor != Color.Empty)
 			{
@@ -368,7 +369,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				backColor != Color.Transparent)
 			{
 				TextureBrush backFilledBrush = null;
-				Bitmap bitmap = new Bitmap(image.Width, image.Height);
+				using Bitmap bitmap = new Bitmap(image.Width, image.Height);
 				using(Graphics graphics = Graphics.FromImage(bitmap))
 				{
 					using(SolidBrush backBrush = new SolidBrush(backColor))
@@ -590,17 +591,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool outside = true;
             PointF[] points = new PointF[numberOfCornersX2];
             PointF[] tempPoints = new PointF[1];
-            // overflow check
-            for (int pointIndex = 0; pointIndex < numberOfCornersX2; pointIndex++)
-			{
-				tempPoints[0] = new PointF(rect.X + rect.Width/2f, (outside == true) ? rect.Y : rect.Y + rect.Height/4f);
-				Matrix	matrix = new Matrix();
+			Matrix matrix = null;
+
+			// overflow check
+			for (int pointIndex = 0; pointIndex < numberOfCornersX2; pointIndex++)
+			{				
+				if (matrix is null)
+					matrix = new Matrix();
+				else
+					matrix.Reset();
+
+				tempPoints[0] = new PointF(rect.X + rect.Width / 2f, (outside == true) ? rect.Y : rect.Y + rect.Height / 4f);
 				matrix.RotateAt(pointIndex*(360f/(numberOfCorners*2f)), new PointF(rect.X + rect.Width/2f, rect.Y + rect.Height/2f));
 				matrix.TransformPoints(tempPoints);
 				points[pointIndex] = tempPoints[0];
 				outside = !outside;
 			}
 
+			matrix?.Dispose();
 			return points;
 		}
 
@@ -695,7 +703,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     rect.Height = imageScaleRect.Height;
 
                     // Prepare image properties (transparent color)
-                    ImageAttributes attrib = new ImageAttributes();
+                    using ImageAttributes attrib = new ImageAttributes();
                     if (markerImageTransparentColor != Color.Empty)
                     {
                         attrib.SetColorKey(markerImageTransparentColor, markerImageTransparentColor, ColorAdjustType.Default);
@@ -704,7 +712,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Draw image shadow
                     if (shadowSize != 0 && shadowColor != Color.Empty)
                     {
-                        ImageAttributes attribShadow = new ImageAttributes();
+                        using ImageAttributes attribShadow = new ImageAttributes();
                         attribShadow.SetColorKey(markerImageTransparentColor, markerImageTransparentColor, ColorAdjustType.Default);
                         ColorMatrix colorMatrix = new ColorMatrix();
                         colorMatrix.Matrix00 = 0.25f; // Red
@@ -733,6 +741,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Draw standart marker using style, size and color
 			else if(markerStyle != MarkerStyle.None && markerSize > 0 && markerColor != Color.Empty)
 			{
+                Pen pen;
 				// Enable antialising
                 SmoothingMode oldSmoothingMode = this.SmoothingMode;
 				if(forceAntiAlias)
@@ -745,8 +754,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     // Calculate marker rectangle
                     RectangleF rect = RectangleF.Empty;
-                    rect.X = point.X - ((float)markerSize) / 2F;
-                    rect.Y = point.Y - ((float)markerSize) / 2F;
+                    rect.X = point.X - markerSize / 2F;
+                    rect.Y = point.Y - markerSize / 2F;
                     rect.Width = markerSize;
                     rect.Height = markerSize;
 
@@ -779,19 +788,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Draw shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
-                                    Matrix translateMatrix = this.Transform.Clone();
+                                    using Matrix translateMatrix = this.Transform;
                                     translateMatrix.Translate(shadowSize, shadowSize);
-                                    Matrix oldMatrix = this.Transform;
+                                    using Matrix oldMatrix = this.Transform;
                                     this.Transform = translateMatrix;
 
-                                    this.FillPolygon(new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor)), points);
+                                    using var sb = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
+                                    this.FillPolygon(sb, points);
 
                                     this.Transform = oldMatrix;
                                 }
 
                                 // Draw star
                                 this.FillPolygon(brush, points);
-                                this.DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
+                                pen = new Pen(markerBorderColor, markerBorderSize);
+                                this.DrawPolygon(pen, points);
+                                pen.Dispose();
                                 break;
                             }
                         case (MarkerStyle.Circle):
@@ -846,7 +858,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
 
                                 this.FillEllipse(brush, rect);
-                                this.DrawEllipse(new Pen(markerBorderColor, markerBorderSize), rect);
+                                pen = new Pen(markerBorderColor, markerBorderSize);
+                                this.DrawEllipse(pen, rect);
+                                pen.Dispose();
                                 break;
                             }
                         case (MarkerStyle.Square):
@@ -858,7 +872,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
 
                                 this.FillRectangle(brush, rect);
-                                this.DrawRectangle(new Pen(markerBorderColor, markerBorderSize), (int)Math.Round(rect.X, 0), (int)Math.Round(rect.Y, 0), (int)Math.Round(rect.Width, 0), (int)Math.Round(rect.Height, 0));
+                                pen = new Pen(markerBorderColor, markerBorderSize);
+                                this.DrawRectangle(pen, (int)Math.Round(rect.X, 0), (int)Math.Round(rect.Y, 0), (int)Math.Round(rect.Width, 0), (int)Math.Round(rect.Height, 0));
+                                pen.Dispose();
                                 break;
                             }
                         case (MarkerStyle.Cross):
@@ -898,7 +914,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 points[11].Y = point.Y + crossLineWidth / 2F;
 
                                 // Rotate cross coordinates 45 degrees
-                                Matrix rotationMatrix = new Matrix();
+                                using Matrix rotationMatrix = new Matrix();
                                 rotationMatrix.RotateAt(45, point);
                                 rotationMatrix.TransformPoints(points);
 
@@ -906,11 +922,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
                                     // Create translation matrix
-                                    Matrix translateMatrix = this.Transform.Clone();
+                                    using Matrix translateMatrix = this.Transform;
                                     translateMatrix.Translate(
                                         (softShadows) ? shadowSize + 1 : shadowSize,
                                         (softShadows) ? shadowSize + 1 : shadowSize);
-                                    Matrix oldMatrix = this.Transform;
+                                    using Matrix oldMatrix = this.Transform;
                                     this.Transform = translateMatrix;
 
                                     if (!softShadows)
@@ -959,12 +975,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
 
                                 // Create translation matrix
-                                Matrix translateMatrixShape = this.Transform.Clone();
-                                Matrix oldMatrixShape = this.Transform;
+                                using Matrix translateMatrixShape = this.Transform;
+                                using Matrix oldMatrixShape = this.Transform;
                                 this.Transform = translateMatrixShape;
 
                                 this.FillPolygon(brush, points);
-                                this.DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
+                                pen = new Pen(markerBorderColor, markerBorderSize);
+                                this.DrawPolygon(pen, points);
+                                pen.Dispose();
 
                                 this.Transform = oldMatrixShape;
 
@@ -985,10 +1003,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Draw shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
-                                    Matrix translateMatrix = this.Transform.Clone();
+                                    using Matrix translateMatrix = this.Transform;
                                     translateMatrix.Translate((softShadows) ? 0 : shadowSize,
                                         (softShadows) ? 0 : shadowSize);
-                                    Matrix oldMatrix = this.Transform;
+                                    using Matrix oldMatrix = this.Transform;
                                     this.Transform = translateMatrix;
 
                                     if (!softShadows)
@@ -1022,7 +1040,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
 
                                 this.FillPolygon(brush, points);
-                                this.DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
+                                pen = new Pen(markerBorderColor, markerBorderSize);
+                                this.DrawPolygon(pen, points);
+                                pen.Dispose();
                                 break;
                             }
                         case (MarkerStyle.Triangle):
@@ -1038,10 +1058,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Draw image shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
-                                    Matrix translateMatrix = this.Transform.Clone();
+                                    using Matrix translateMatrix = this.Transform;
                                     translateMatrix.Translate((softShadows) ? shadowSize - 1 : shadowSize,
                                         (softShadows) ? shadowSize + 1 : shadowSize);
-                                    Matrix oldMatrix = this.Transform;
+                                    using Matrix oldMatrix = this.Transform;
                                     this.Transform = translateMatrix;
 
                                     if (!softShadows)
@@ -1054,11 +1074,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     else
                                     {
                                         // Add polygon to the graphics path
-                                        GraphicsPath path = new GraphicsPath();
+                                        using GraphicsPath path = new GraphicsPath();
                                         path.AddPolygon(points);
 
                                         // Create path brush
-                                        PathGradientBrush shadowBrush = new PathGradientBrush(path);
+                                        using PathGradientBrush shadowBrush = new PathGradientBrush(path);
                                         shadowBrush.CenterColor = shadowColor;
 
                                         // Set the color along the entire boundary of the path
@@ -1086,8 +1106,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
 
                                 this.FillPolygon(brush, points);
-                                this.DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
-                                break;
+                                pen = new Pen(markerBorderColor, markerBorderSize);
+                                this.DrawPolygon(pen, points);
+								pen.Dispose();
+								break;
                             }
                         default:
                             {
@@ -1475,13 +1497,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 
 				// Create a matrix and rotate it.
-				_myMatrix = this.Transform.Clone();
+				_myMatrix?.Dispose();
+				_myMatrix = this.Transform;
 				_myMatrix.RotateAt( angle, rotationPoint );
 
 				// Save old state
 				GraphicsState graphicsState = this.Save();
 
-				// Set transformatino
+				// Set transformation
 				this.Transform = _myMatrix;
 
                 // Check for empty colors
@@ -1568,7 +1591,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Set new hot region element type 
                     if (common.HotRegionsList.List != null && common.HotRegionsList.List.Count > 0)
 					{
-						((HotRegion)common.HotRegionsList.List[common.HotRegionsList.List.Count - 1]).Type = 
+                        common.HotRegionsList.List[common.HotRegionsList.List.Count - 1].Type = 
 							ChartElementType.DataPointLabel;
 					}
 				}
@@ -1621,7 +1644,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			)
 		{
 			// Create a matrix and rotate it.
-			_myMatrix = this.Transform.Clone();
+			_myMatrix?.Dispose();
+			_myMatrix = this.Transform;
 			_myMatrix.RotateAt(angle, absPosition);
     
 			// Save aold state
@@ -1667,10 +1691,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 new PointF(absCenter.X + size.Width / 2f, absCenter.Y + size.Height / 2f), 
                 new PointF(absCenter.X - size.Width / 2f, absCenter.Y + size.Height / 2f)};
 
-            //Prepare the same tranformation matrix as used for the axis title
-            Matrix matrix = this.Transform.Clone();
+            //Prepare the same transformation matrix as used for the axis title
+            using Matrix matrix = this.Transform;
             matrix.RotateAt(angle, absCenter);
-            //Tranform the rectangle points
+            //Transform the rectangle points
             matrix.TransformPoints(points);
 
             //Return the path consisting of the rect points
@@ -1908,7 +1932,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 oldTransform = null;
                 if (angle != 0)
                 {
-                    _myMatrix = this.Transform.Clone();
+					_myMatrix?.Dispose();
+					_myMatrix = this.Transform;
                     _myMatrix.RotateAt(angle, rotationPoint);
 
                     // Old angle
@@ -1984,7 +2009,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Adjust label rectangle so it will be inside boundary
                     if (boundaryRect != RectangleF.Empty)
                     {
-                        Region region = new Region(labelRect);
+                        using Region region = new Region(labelRect);
                         region.Transform(_myMatrix);
 
                         // Extend boundary rectangle to the chart picture border
@@ -2060,7 +2085,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     // Update transformation matrix
                     this.Transform = _myMatrix;
-                }
+				}
 
                 //********************************************************************
                 //** Reserve space on the left for the label iamge
@@ -2194,7 +2219,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     using (GraphicsPath path = new GraphicsPath())
                     {
                         path.AddRectangle(labelRect);
-                        path.Transform(this.Transform);
+						using var mt = this.Transform;
+						path.Transform(mt);
                         string url = string.Empty;
                         string mapAreaAttributes = string.Empty;
                         string postbackValue = string.Empty;
@@ -2260,7 +2286,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Create image attribute
-                    ImageAttributes attrib = new ImageAttributes();
+                    using ImageAttributes attrib = new ImageAttributes();
                     if (imageTransparentColor != Color.Empty)
                     {
                         attrib.SetColorKey(imageTransparentColor, imageTransparentColor, ColorAdjustType.Default);
@@ -2280,7 +2306,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         using (GraphicsPath path = new GraphicsPath())
                         {
                             path.AddRectangle(imageRect);
-                            path.Transform(this.Transform);
+							using var mt = this.Transform;
+							path.Transform(mt);
                             string imageUrl = string.Empty;
                             string imageMapAreaAttributes = string.Empty;
                             string postbackValue = string.Empty;
@@ -2303,6 +2330,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if(oldTransform != null)
 			{
 				this.Transform = oldTransform;
+				oldTransform.Dispose();
 			}
 		}
 
@@ -2323,11 +2351,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			bool truncatedRight,
 			Matrix originalTransform)
 		{
-			// Remeber current and then reset original matrix
-			Matrix curentMatrix = this.Transform;
+			// Remember current and then reset original matrix
+			Matrix curentMatrix = null;
 			if(originalTransform != null)
 			{
-				this.Transform = originalTransform;
+				curentMatrix = this.Transform;
+				this.Transform = originalTransform;				
 			}
 
 			// Calculate center of the text rectangle
@@ -2428,10 +2457,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				markPen.Dispose();
 			}
 
-			// Restore currentmatrix
+			// Restore current matrix
 			if(originalTransform != null)
 			{
 				this.Transform = curentMatrix;
+				curentMatrix.Dispose();
 			}
 		}
 
@@ -2696,7 +2726,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			RectangleF rect;
 			SizeF size;
-			Matrix oldTransform;
 			PointF rotationCenter = PointF.Empty;
 
 			// Check that rectangle is not empty
@@ -2727,12 +2756,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				rotationCenter.X = ( rect.Left + rect.Right ) / 2;
 				rotationCenter.Y = ( rect.Bottom + rect.Top ) / 2;
 			}
+
 			// Create a matrix and rotate it.
-			_myMatrix = this.Transform.Clone();
+			_myMatrix?.Dispose();
+			_myMatrix = this.Transform;
 			_myMatrix.RotateAt( angle, rotationCenter);
 
 			// Old angle
-			oldTransform = this.Transform;
+			using var oldTransform = this.Transform;
 
 			// Set Angle
 			this.Transform = _myMatrix;
@@ -3374,31 +3405,32 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// For inset alignment resize fill rectangle
 			RectangleF fillRect;
-			if( penAlignment == PenAlignment.Inset  &&
-				borderWidth > 0)
+			if( penAlignment == PenAlignment.Inset  && borderWidth > 0)
 			{
-				// SVG and Metafiles do not support inset pen styles - use same rectangle
-				if( this.ActiveRenderingType == RenderingType.Svg ||
-					this.IsMetafile)
+				// SVG and Meta files do not support inset pen styles - use same rectangle
+				if (this.ActiveRenderingType == RenderingType.Svg || this.IsMetafile)
 				{
-					fillRect = new RectangleF( rect.X, rect.Y, rect.Width, rect.Height);
+					fillRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 				}
-                else if (this.Graphics.Transform.Elements[0] != 1f ||
-                    this.Graphics.Transform.Elements[3] != 1f)
-                {
-                    // Do not reduce filling rectangle if scaling is used in the graphics
-                    // transformations. Rounding may cause a 1 pixel gap between the border 
-                    // and the filling.
-                    fillRect = new RectangleF( rect.X, rect.Y, rect.Width, rect.Height);
-                }
 				else
 				{
-					// The fill rectangle is resized because of border size.
-					fillRect = new RectangleF( 
-						rect.X + borderWidth, 
-						rect.Y + borderWidth, 
-						rect.Width - borderWidth * 2f + 1, 
-						rect.Height - borderWidth * 2f + 1);
+					using var mt = this.Graphics.Transform;
+					if (mt.Elements[0] != 1f || mt.Elements[3] != 1f)
+					{
+						// Do not reduce filling rectangle if scaling is used in the graphics
+						// transformations. Rounding may cause a 1 pixel gap between the border 
+						// and the filling.
+						fillRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+					}
+					else
+					{
+						// The fill rectangle is resized because of border size.
+						fillRect = new RectangleF(
+							rect.X + borderWidth,
+							rect.Y + borderWidth,
+							rect.Width - borderWidth * 2f + 1,
+							rect.Height - borderWidth * 2f + 1);
+					}
 				}
 			}
 			else
@@ -3459,7 +3491,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
 
 				// Prepare image properties (transparent color)
-				ImageAttributes attrib = new ImageAttributes();
+				using ImageAttributes attrib = new ImageAttributes();
 				if(backImageTransparentColor != Color.Empty)
 				{
 					attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
@@ -3731,7 +3763,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 
 				// Create rounded rectangle path
-				GraphicsPath path = new GraphicsPath();
+				using GraphicsPath path = new GraphicsPath();
 				if(circular && offset.Width != offset.Height)
 				{
 					float	radiusX = offset.Width/2f;
@@ -3757,7 +3789,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					path.AddArc(offset.X, offset.Y, 2f*radius, 2f*radius, 180, 90);
 				}
 
-				PathGradientBrush shadowBrush = new PathGradientBrush(path);
+				using PathGradientBrush shadowBrush = new PathGradientBrush(path);
 				shadowBrush.CenterColor = shadowColor;
 
 				// Set the color along the entire boundary of the path
@@ -3810,14 +3842,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			else
 			{
 				// Polygon sector size
-				sectorSize = 360f / ((float)polygonSectorsNumber);
+				sectorSize = 360f / polygonSectorsNumber;
 			}
 
+			Matrix matrix = null;
+
 			// Loop throug all sectors
-			for(curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
+			for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
 			{
 				// Create matrix
-				Matrix matrix = new Matrix();
+				if (matrix is null)
+					matrix = new Matrix();
+				else
+					matrix.Reset();
+
 				matrix.RotateAt(curentSector, centerPoint);
 
 				// Get point and rotate it
@@ -3834,8 +3872,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				prevPoint = points[0];
 			}
 
+			matrix?.Dispose();
 			path.CloseAllFigures();
-
 			return path;
 		}
 
@@ -3891,15 +3929,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     else
                     {
                         // Polygon sector size
-                        sectorSize = 360f / ((float)polygonSectorsNumber);
+                        sectorSize = 360f / polygonSectorsNumber;
                     }
 
-                    // Loop throug all sectors
-                    for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
+					Matrix matrix = null;
+
+					// Loop through all sectors
+					for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
                     {
-                        // Create matrix
-                        Matrix matrix = new Matrix();
-                        matrix.RotateAt(curentSector, centerPoint);
+						// Create matrix
+						if (matrix is null)
+							matrix = new Matrix();
+						else
+							matrix.Reset();
+
+						matrix.RotateAt(curentSector, centerPoint);
 
                         // Get point and rotate it
                         PointF[] points = new PointF[] { firstPoint };
@@ -3910,7 +3954,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             path.AddLine(prevPoint, points[0]);
 
-                            // Fill each segment separatly for the 3D look
+                            // Fill each segment separately for the 3D look
                             if (fill3DCircle)
                             {
                                 path.AddLine(points[0], centerPoint);
@@ -3927,7 +3971,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         prevPoint = points[0];
                     }
 
-                    path.CloseAllFigures();
+					matrix?.Dispose();
+					path.CloseAllFigures();
 
                     // Fill last segment for the 3D look
                     if (!prevPoint.IsEmpty && fill3DCircle)
@@ -4067,8 +4112,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			ChartDashStyle borderDashStyle, 
 			PenAlignment penAlignment )
 		{
-			Brush brush = null;
+			Brush brush;
 			Brush backBrush = null;
+			Brush OldBrush = null;
 
 			// Turn off Antialias
 			SmoothingMode oldMode = this.SmoothingMode;
@@ -4108,25 +4154,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			else
 			{
 				// If a gradient type  is set create a brush with gradient
-				brush = GetGradientBrush( rect, backColor, backSecondaryColor, backGradientStyle );
+				brush = GetGradientBrush(rect, backColor, backSecondaryColor, backGradientStyle);
 			}
 
 			if( backHatchStyle != ChartHatchStyle.None )
 			{
-				brush = GetHatchBrush( backHatchStyle, backColor, backSecondaryColor );
+				if (brush != null && brush != _solidBrush)
+					brush.Dispose();
+				brush = GetHatchBrush(backHatchStyle, backColor, backSecondaryColor);
 			}
 
 			if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
 			{
 				backBrush = brush;
-				brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor );
-			}
+				if (brush != _solidBrush)
+					OldBrush = brush;
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            }
 
 			// For inset alignment resize fill rectangle
 			RectangleF fillRect;
 			
 			// The fill rectangle is same
-			fillRect = new RectangleF( rect.X + borderWidth, rect.Y + borderWidth, rect.Width - borderWidth * 2, rect.Height - borderWidth * 2 );
+			fillRect = new RectangleF(rect.X + borderWidth, rect.Y + borderWidth, rect.Width - borderWidth * 2, rect.Height - borderWidth * 2);
 
 			// FillRectangle and DrawRectangle works differently with RectangleF.
 			fillRect.Width += 1;
@@ -4136,11 +4188,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if( backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
 			{
 				// Load image
-                System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
+                Image image = _common.ImageLoader.LoadImage( backImage );
                                 
 
 				// Prepare image properties (transparent color)
-				ImageAttributes attrib = new ImageAttributes();
+				using ImageAttributes attrib = new ImageAttributes();
 				if(backImageTransparentColor != Color.Empty)
 				{
 					attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
@@ -4229,18 +4281,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Dispose Image and Gradient
-			if( backGradientStyle != GradientStyle.None )
-			{
+			if (brush != null && brush != _solidBrush)
 				brush.Dispose();
-			}
-			if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
-			{
-				brush.Dispose();
-			}
-			if( backHatchStyle != ChartHatchStyle.None )
-			{
-				brush.Dispose();
-			}
+			OldBrush?.Dispose();
 
 			// Set Old Smoothing Mode
 			this.SmoothingMode = oldMode;
@@ -4375,11 +4418,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			ChartDashStyle borderDashStyle, 
 			PenAlignment penAlignment )
 		{
-			Brush brush = null;
+			Brush brush;
 			Brush backBrush = null;
+            Brush OldBrush = null;
 
-			// Color is empty
-			if( backColor.IsEmpty ) 
+            // Color is empty
+            if ( backColor.IsEmpty ) 
 				backColor = Color.White;
 
 			if( backSecondaryColor.IsEmpty ) 
@@ -4408,23 +4452,35 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// If a gradient type  is set create a brush with gradient
 				RectangleF pathRect = path.GetBounds();
 				pathRect.Inflate(new SizeF(2,2));
-				brush = GetGradientBrush( 
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                brush = GetGradientBrush( 
 					pathRect, 
-					backColor, 
-					backSecondaryColor, 
-					backGradientStyle );
-			}
+					backColor,
+                    backSecondaryColor,
+                    backGradientStyle);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            }
 
-			if( backHatchStyle != ChartHatchStyle.None )
+            if ( backHatchStyle != ChartHatchStyle.None )
 			{
-				brush = GetHatchBrush( backHatchStyle, backColor, backSecondaryColor );
-			}
+                if (brush != null && brush != _solidBrush)
+                    brush.Dispose();
 
-			if( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                brush = GetHatchBrush( backHatchStyle, backColor, backSecondaryColor );
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            }
+
+            if ( backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
 			{
 				backBrush = brush;
-				brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor );
-			}
+                if (brush != _solidBrush)
+                    OldBrush = brush;
+
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                brush = GetTextureBrush(backImage, backImageTransparentColor, backImageWrapMode, backColor);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            }
 
 			// For inset alignment resize fill rectangle
 			RectangleF fillRect = path.GetBounds();
@@ -4433,10 +4489,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if( backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
 			{
 				// Load image
-System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
+                Image image = _common.ImageLoader.LoadImage( backImage );
 
 				// Prepare image properties (transparent color)
-				ImageAttributes attrib = new ImageAttributes();
+				using ImageAttributes attrib = new ImageAttributes();
 				if(backImageTransparentColor != Color.Empty)
 				{
 					attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
@@ -4524,7 +4580,11 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
 			{
 				this.DrawPath( _pen, path );
 			}
-		}
+
+            if (brush != null && brush != _solidBrush)
+                brush.Dispose();
+            OldBrush?.Dispose();
+        }
 
 		/// <summary>
 		/// Creates brush with specified properties.
@@ -4580,17 +4640,13 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
         /// <returns>RectangleF structure in relative coordinates.</returns>
 		public RectangleF GetRelativeRectangle( RectangleF rectangle )
 		{
-            // Check arguments
-            if (rectangle == null)
-                throw new ArgumentNullException("rectangle");
-            
             RectangleF relative = RectangleF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
-			relative.X = rectangle.X * 100F / ((float)(_width - 1)); 
-			relative.Y = rectangle.Y * 100F / ((float)(_height - 1)); 
-			relative.Width = rectangle.Width * 100F / ((float)(_width - 1)); 
-			relative.Height = rectangle.Height * 100F / ((float)(_height - 1)); 
+			relative.X = rectangle.X * 100F / (_width - 1); 
+			relative.Y = rectangle.Y * 100F / (_height - 1); 
+			relative.Width = rectangle.Width * 100F / (_width - 1); 
+			relative.Height = rectangle.Height * 100F / (_height - 1); 
 
 			// Return Relative coordinates
 			return relative;
@@ -4604,15 +4660,11 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
 		/// <returns>PointF object in relative coordinates.</returns>
 		public PointF GetRelativePoint( PointF point )
 		{
-            // Check arguments
-            if (point == null)
-                throw new ArgumentNullException("point");
-            
             PointF relative = PointF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
-			relative.X = point.X * 100F / ((float)(_width - 1)); 
-			relative.Y = point.Y * 100F / ((float)(_height - 1)); 
+			relative.X = point.X * 100F / (_width - 1); 
+			relative.Y = point.Y * 100F / (_height - 1); 
 			
 			// Return Relative coordinates
 			return relative;
@@ -4627,15 +4679,11 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
         /// <returns>SizeF object in relative coordinates.</returns>
 		public SizeF GetRelativeSize( SizeF size )
 		{
-            // Check arguments
-            if (size == null)
-                throw new ArgumentNullException("size"); 
-            
             SizeF relative = SizeF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
-			relative.Width = size.Width * 100F / ((float)(_width - 1)); 
-			relative.Height = size.Height * 100F / ((float)(_height - 1)); 
+			relative.Width = size.Width * 100F / (_width - 1); 
+			relative.Height = size.Height * 100F / (_height - 1); 
 			
 			// Return relative coordinates
 			return relative;
@@ -4649,10 +4697,6 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
         /// <returns>PointF object in absolute coordinates.</returns>
 		public PointF GetAbsolutePoint( PointF point )
 		{
-            // Check arguments
-            if (point == null)
-                throw new ArgumentNullException("point");
-
 			PointF absolute = PointF.Empty;
 
 			// Convert relative coordinates to absolute coordinates
@@ -4671,10 +4715,6 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
         /// <returns>RectangleF object in absolute coordinates.</returns>
 		public RectangleF GetAbsoluteRectangle( RectangleF rectangle )
 		{
-            // Check arguments
-            if (rectangle == null)
-                throw new ArgumentNullException("rectangle");
-
 			RectangleF absolute = RectangleF.Empty;
 
 			// Convert relative coordinates to absolute coordinates
@@ -4695,10 +4735,6 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
         /// <returns>SizeF object in absolute coordinates.</returns>
 		public SizeF GetAbsoluteSize( SizeF size )
 		{
-            // Check arguments
-            if (size == null)
-                throw new ArgumentNullException("size"); 
-            
             SizeF absolute = SizeF.Empty;
 
 			// Convert relative coordinates to absolute coordinates
@@ -4751,7 +4787,7 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
 			GraphicsPath path = CreateRoundedRectPath(rect, cornerRadius);
 
 			// Create gradient brush
-			PathGradientBrush shadowBrush = new PathGradientBrush(path);
+			using PathGradientBrush shadowBrush = new PathGradientBrush(path);
 			shadowBrush.CenterColor = centerColor;
 
 			// Set the color along the entire boundary of the path
@@ -4874,15 +4910,15 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
 			string styleName = point[CustomPropertyName.PieDrawingStyle];
 			if(styleName != null)
 			{
-				if(String.Compare(styleName, "Default", StringComparison.OrdinalIgnoreCase) == 0)
+				if(string.Equals(styleName, "Default", StringComparison.OrdinalIgnoreCase))
 				{
 					pieDrawingStyle = PieDrawingStyle.Default;
 				}
-                else if (String.Compare(styleName, "SoftEdge", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleName, "SoftEdge", StringComparison.OrdinalIgnoreCase))
 				{
 					pieDrawingStyle = PieDrawingStyle.SoftEdge;
 				}
-                else if (String.Compare(styleName, "Concave", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleName, "Concave", StringComparison.OrdinalIgnoreCase))
 				{
 					pieDrawingStyle = PieDrawingStyle.Concave;
 				}					
@@ -5215,11 +5251,11 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
 		/// <param name="backColor">Fill color</param>
 		private void DrawPieSoftShadow( float startAngle, float sweepAngle, RectangleF absRect, Color backColor )
 		{
-			GraphicsPath path = new GraphicsPath();
+			using GraphicsPath path = new GraphicsPath();
 			
 			path.AddEllipse( absRect.X, absRect.Y, absRect.Width, absRect.Height );
 
-			PathGradientBrush brush = new PathGradientBrush( path );
+			using PathGradientBrush brush = new PathGradientBrush( path );
 		
 			Color[] colors = {
 								Color.FromArgb( 0, backColor ),
@@ -5467,23 +5503,23 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
 			string styleName = point[CustomPropertyName.DrawingStyle];
 			if(styleName != null)
 			{
-				if(String.Compare(styleName, "Default", StringComparison.OrdinalIgnoreCase) == 0)
+				if(string.Equals(styleName, "Default", StringComparison.OrdinalIgnoreCase))
 				{
 					barDrawingStyle = BarDrawingStyle.Default;
 				}
-                else if (String.Compare(styleName, "Cylinder", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleName, "Cylinder", StringComparison.OrdinalIgnoreCase))
 				{
 					barDrawingStyle = BarDrawingStyle.Cylinder;
 				}
-                else if (String.Compare(styleName, "Emboss", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleName, "Emboss", StringComparison.OrdinalIgnoreCase))
 				{
 					barDrawingStyle = BarDrawingStyle.Emboss;
 				}
-                else if (String.Compare(styleName, "LightToDark", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleName, "LightToDark", StringComparison.OrdinalIgnoreCase))
 				{
 					barDrawingStyle = BarDrawingStyle.LightToDark;
 				}
-                else if (String.Compare(styleName, "Wedge", StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(styleName, "Wedge", StringComparison.OrdinalIgnoreCase))
 				{
 					barDrawingStyle = BarDrawingStyle.Wedge;
 				}
@@ -5682,34 +5718,54 @@ System.Drawing.Image image = _common.ImageLoader.LoadImage( backImage );
         #endregion //RightToLeft
 
         #region IDisposable Members
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {   
-                // Free up managed resources
-                if (_pen != null)
-                {
-                    _pen.Dispose();
-                    _pen = null;
-                }
-                if (_solidBrush != null)
-                {
-                    _solidBrush.Dispose();
-                    _solidBrush = null;
-                }
-                if (_myMatrix != null)
-                {
-                    _myMatrix.Dispose();
-                    _myMatrix = null;
-                }
-            }
-            base.Dispose(disposing);
-        }
 
-        #endregion
-    }
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources.
+		/// </summary>
+		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+		protected virtual void Dispose(bool disposing)
+		{
+			if (!_disposedValue)
+			{
+				if (disposing)
+				{
+					if (_pen != null)
+					{
+						_pen.Dispose();
+						_pen = null;
+					}
+
+					if (_solidBrush != null)
+					{
+						_solidBrush.Dispose();
+						_solidBrush = null;
+					}
+
+					if (_myMatrix != null)
+					{
+						_myMatrix.Dispose();
+						_myMatrix = null;
+					}
+
+					if (frontLinePen != null)
+					{
+						frontLinePen.Dispose();
+						frontLinePen = null;
+					}
+				}
+				_disposedValue = true;
+			}
+		}
+
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion
+	}
 }

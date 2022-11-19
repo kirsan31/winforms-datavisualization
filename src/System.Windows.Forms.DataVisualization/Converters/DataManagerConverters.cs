@@ -776,7 +776,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		public static Color[] StringToColorArray(String colorNames)
 		{
 			ColorConverter colorConverter = new ColorConverter();
-			Color[] array = new Color[0];
+			Color[] array = Array.Empty<Color>();
 			if(colorNames.Length > 0)
 			{
 				string[] colorValues = colorNames.Split(';');

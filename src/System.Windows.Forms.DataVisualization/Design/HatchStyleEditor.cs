@@ -25,7 +25,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		#region Editor methods and properties
 
 		// Reference to chart graphics object
-		ChartGraphics	_chartGraph = null;
+		ChartGraphics	_chartGraph;
         private bool _disposed;
 
 		/// <summary>

@@ -459,7 +459,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-					throw(new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNotPositive));
+					throw(new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive));
 				}
 				_borderWidth = value;
 				this.Invalidate();
@@ -505,9 +505,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 		#region Fields
 
 		// Border types image resource manager
-		private		ResourceManager	_resourceManager = null;
+		private		ResourceManager	_resourceManager;
 
-		// Storage for all registered border types
+        // Storage for all registered border types
         internal Hashtable registeredBorderTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
         private Hashtable _createdBorderTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
 

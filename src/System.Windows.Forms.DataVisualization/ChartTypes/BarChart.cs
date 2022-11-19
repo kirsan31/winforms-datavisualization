@@ -113,12 +113,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			/// <summary>
 			/// Indicates that two Y values are used to calculate bar position
 			/// </summary>
-			protected	bool	useTwoValues = false;
+			protected	bool	useTwoValues;
 
-			/// <summary>
-			/// Indicates that bars from different series are drawn side by side
-			/// </summary>
-			protected	bool	drawSeriesSideBySide = true;
+        /// <summary>
+        /// Indicates that bars from different series are drawn side by side
+        /// </summary>
+        protected	bool	drawSeriesSideBySide = true;
 
 			/// <summary>
 			/// Defines the default drawing style of the labels.
@@ -128,16 +128,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			/// <summary>
 			/// Indicates that second point loop is required to draw points labels or markers.
 			/// </summary>
-			protected	bool	pointLabelsMarkersPresent = false;
+			protected	bool	pointLabelsMarkersPresent;
 
-		#endregion
+        #endregion
 
-		#region Constructor
+        #region Constructor
 
-			/// <summary>
-			/// Default constructor
-			/// </summary>
-			public BarChart()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public BarChart()
 			{
 			}
 
@@ -335,15 +335,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					if(common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 					{
 						string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-						if(String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase ) == 0)
+						if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 						{
 							currentDrawSeriesSideBySide = false;
 						}
-                        else if (String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 						{
 							currentDrawSeriesSideBySide = true;
 						}
-                        else if (String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 						{
 							// Do nothing
 						}
@@ -362,7 +362,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Check if bar chart series are indexed
-                bool indexedSeries = ChartHelper.IndexedSeries(area.Common, typeSeries.ToArray());
+                bool indexedSeries = ChartHelper.IndexedSeries(area.Common, typeSeries);
 
 		
 				//************************************************************
@@ -496,11 +496,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						{
 							// The formula for position is based on a distance 
 							// from the grid line or nPoints position.
-							xPosition = vAxis.GetPosition( (double)pointIndex + 1 ) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width;
+							xPosition = vAxis.GetPosition( (double)pointIndex + 1 ) - width * numOfSeries / 2.0 + width/2 + seriesIndx * width;
 						}
 						else if( sameInterval )
 						{
-							xPosition = vAxis.GetPosition( point.XValue ) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width;
+							xPosition = vAxis.GetPosition( point.XValue ) - width * numOfSeries / 2.0 + width/2 + seriesIndx * width;
 						}
 						else
 						{
@@ -840,13 +840,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                         if (valueLabelAttrib.Length > 0)
                         {
-                            if (String.Compare(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase) == 0)
+                            if (string.Equals(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Left;
-                            if (String.Compare(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase) == 0)
+                            if (string.Equals(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Right;
-                            if (String.Compare(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase) == 0)
+                            if (string.Equals(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Center;
-                            else if (String.Compare(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase) == 0)
+                            else if (string.Equals(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Outside;
                         }
 
@@ -1193,7 +1193,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Take attribute value
-                if (String.Compare(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase))
 				{
 					// IsEmpty points represented with zero values
 					return 0;
@@ -1304,15 +1304,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						if(common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 						{
 							string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-							if(String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+							if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 							{
 								currentDrawSeriesSideBySide = false;
 							}
-							else if(String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+							else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 							{
 								currentDrawSeriesSideBySide = true;
 							}
-							else if(String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+							else if(string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 							{
 								// Do nothing
 							}
@@ -1513,8 +1513,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Start Svg Selection mode
 						graph.StartHotRegion( point );
 
-						// Draw the bar rectangle
-						rectPath = graph.Fill3DRectangle( 
+                    // Draw the bar rectangle
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                    rectPath = graph.Fill3DRectangle( 
 							rectSize, 
 							pointEx.zPosition,
 							pointEx.depth,
@@ -1529,9 +1530,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							barDrawingStyle,
 							false,
 							drawingOperationType );
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
-						// End Svg Selection mode
-						graph.EndHotRegion( );
+                    // End Svg Selection mode
+                    graph.EndHotRegion( );
 
 						// Reset Clip Region
 						if(clipRegionSet)
@@ -1764,7 +1766,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							(point.series != null) ? point.series.ShadowOffset : 0,
 							(point.series != null) ? point.series.ShadowColor : Color.Empty,
 							RectangleF.Empty,
-							DrawingOperationTypes.DrawElement);
+							DrawingOperationTypes.DrawElement)?.Dispose();
 					}
 				}
 			}
@@ -1866,13 +1868,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                         if (valueLabelAttrib != null && valueLabelAttrib.Length > 0)
                         {
-                            if (String.Compare(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase) == 0)
+                            if (string.Equals(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Left;
-                            else if (String.Compare(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase) == 0)
+                            else if (string.Equals(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Right;
-                            else if (String.Compare(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase) == 0)
+                            else if (string.Equals(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Center;
-                            else if (String.Compare(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase) == 0)
+                            else if (string.Equals(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase))
                                 drawingStyle = BarValueLabelDrawingStyle.Outside;
                         }
 
@@ -2127,7 +2129,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="area">Chart area.</param>
 		/// <param name="series">Series values to be used.</param>
 		/// <param name="list">List to add to.</param>
-		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, ArrayList list)		
+		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, List<RectangleF> list)		
 		{
             // NOTE: Bar chart do not support SmartLabelStyle feature.
 		}
@@ -2173,17 +2175,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <summary>
 		/// Chart area object reference.
 		/// </summary>
-		private	ChartArea	_area = null;
+		private	ChartArea	_area;
 
-		/// <summary>
-		/// Area X position where visible sides are switched.
-		/// </summary>
-		private	Point3D		_areaProjectionCenter = new Point3D(float.NaN, float.NaN, float.NaN);
+        /// <summary>
+        /// Area X position where visible sides are switched.
+        /// </summary>
+        private	Point3D		_areaProjectionCenter = new Point3D(float.NaN, float.NaN, float.NaN);
 
 		/// <summary>
 		/// Selection mode. Points order should be reversed.
 		/// </summary>
-		private bool		_selection = false;
+		private bool		_selection;
 
         #endregion // Fields
 

@@ -56,20 +56,20 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		internal	Color	kagiUpColor = Color.Empty;
 
 		// Current properties used for kagi line (1 up; -1 down; 0 none)
-		internal	int		currentKagiDirection = 0;
+		internal	int		currentKagiDirection;
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Methods
+        #region Methods
 
-		/// <summary>
-		/// Prepares Kagi chart type for rendering.
-		/// </summary>
-		/// <param name="series">Series to be prepared.</param>
-		internal static void PrepareData(Series series)
+        /// <summary>
+        /// Prepares Kagi chart type for rendering.
+        /// </summary>
+        /// <param name="series">Series to be prepared.</param>
+        internal static void PrepareData(Series series)
 		{
 			// Check series chart type
-            if (String.Compare(series.ChartTypeName, ChartTypeNames.Kagi, StringComparison.OrdinalIgnoreCase) != 0 || !series.IsVisible())
+            if (!string.Equals(series.ChartTypeName, ChartTypeNames.Kagi, StringComparison.OrdinalIgnoreCase) || !series.IsVisible())
 			{
 				return;
 			}
@@ -335,7 +335,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					prevClose = dataPoint.YValues[yValueIndex];
 
 					// Add first point
-					DataPoint newDataPoint = (DataPoint)dataPoint.Clone();
+					DataPoint newDataPoint = dataPoint.Clone();
                     newDataPoint["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
 					newDataPoint.series = series;
 					newDataPoint.XValue = dataPoint.XValue;
@@ -387,7 +387,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					else
 					{
 						// Opposite direction by more than reversal amount
-						DataPoint newDataPoint = (DataPoint)dataPoint.Clone();
+						DataPoint newDataPoint = dataPoint.Clone();
                         newDataPoint["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
 						newDataPoint.series = series;
 						newDataPoint.XValue = dataPoint.XValue;
@@ -556,7 +556,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     {
                         path.AddLine(point1, point2);
                         path.AddLine(point2, point3);
-                        path.Widen(new Pen(point.Color, point.BorderWidth + 2));
+						using var pen = new Pen(point.Color, point.BorderWidth + 2);
+
+						path.Widen(pen);
                     }
                     catch (OutOfMemoryException)
                     {
@@ -868,7 +870,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						this.multiSeries, 0, true);
 
 					// No second draw of the prev. front line required
-					graph.frontLinePen = null;
+					if (graph.frontLinePen is not null)
+					{
+						graph.frontLinePen.Dispose();
+						graph.frontLinePen = null;
+					}
 
 					// Change direction 
 					currentKagiDirection = (currentKagiDirection == 1) ? -1 : 1;
@@ -897,11 +903,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						lineColor = (currentKagiDirection == 1) ? this.kagiUpColor : color;
 					}
-
 				}
 
 				// No second draw of the prev. front line required
-				graph.frontLinePen = null;
+				if (graph.frontLinePen is not null)
+				{
+					graph.frontLinePen.Dispose();
+					graph.frontLinePen = null;
+				}
 			}
 
 			if(resultPath != null)

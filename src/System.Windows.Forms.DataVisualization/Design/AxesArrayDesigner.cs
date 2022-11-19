@@ -16,25 +16,29 @@ using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms.DataVisualization.Charting;
 
+using Microsoft.DotNet.DesignTools.Editors;
+
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
     /// <summary>
     /// Designer editor for the chart areas collection.
     /// </summary>
-    internal class AxesArrayEditor : ArrayEditor
-		{
-    #region Fields and Constructor
+    internal class AxesArrayEditor : Microsoft.DotNet.DesignTools.Editors.CollectionEditor
+    {
+        #region Fields and Constructor
 
-			// Collection form
-			CollectionForm	_form = null;
+#warning designer
+        // Collection form
+        //			CollectionForm	_form = null;
 
-			// Help topic string
-			private string	_helpTopic = "";
+        // Help topic string
+        private string	_helpTopic = "";
 
-			/// <summary>
-			/// Object constructor.
-			/// </summary>
-			public AxesArrayEditor() : base(typeof(Axis[]))
+#warning designer
+        /// <summary>
+        /// Object constructor.
+        /// </summary>
+        public AxesArrayEditor() : base(null, typeof(Axis[]))
 			{
 			}
 
@@ -52,6 +56,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 			return false;
 		}
 
+#warning designer
+        /*
 		/// <summary>
 		/// Ovveride the HelpTopic property to provide different topics,
 		/// depending on selected property.
@@ -63,6 +69,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 				return (_helpTopic.Length == 0) ? base.HelpTopic : _helpTopic;
 			}
 		}
+		*/
 
         /// <summary>
         /// Returns the collection form property grid. Added for VS2005 compatibility.
@@ -110,6 +117,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             }
         }
 
+#warning designer
+        /*
 		/// <summary>
 		/// Displaying help for the curently selected item in the property grid
 		/// </summary>
@@ -169,11 +178,12 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             }
 			return _form;
 		}
+		*/
 
         /// <summary>
         /// Flag to prevent stack overflow.
         /// </summary>
-        private bool _button_EnabledChanging = false;
+        private bool _button_EnabledChanging;
 
         /// <summary>
         /// Handles the EnabledChanged event of the Button control.

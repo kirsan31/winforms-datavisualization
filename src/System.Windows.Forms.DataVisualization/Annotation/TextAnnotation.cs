@@ -18,8 +18,8 @@ using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
-    using Point = System.Drawing.Point;
-    using Size = System.Drawing.Size;
+    using Point = Point;
+    using Size = Size;
 
     /// <summary>
     /// <b>TextAnnotation</b> is a class that represents a text annotation.
@@ -37,16 +37,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private		string			_text = "";
 
 		// Indicates multiline text
-		private		bool			_isMultiline = false;
+		private		bool			_isMultiline;
 
-		// Current content size
-		internal	SizeF			contentSize = SizeF.Empty;
+        // Current content size
+        internal	SizeF			contentSize = SizeF.Empty;
 
 		// Indicates that annotion is an ellipse
-		internal	bool			isEllipse = false;
+		internal	bool			isEllipse;
 
         // Control used to edit text
-        private TextBox _editTextBox = null;
+        private TextBox _editTextBox;
 
 
         #region Construction and Initialization
@@ -212,7 +212,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRCategory("CategoryAttributeAppearance"),
 		Browsable(false),
 		DefaultValue(typeof(Color), ""),
-		NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
@@ -235,7 +235,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRCategory("CategoryAttributeAppearance"),
 		Browsable(false),
 		DefaultValue(ChartHatchStyle.None),
-		NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
         ]
         override public ChartHatchStyle BackHatchStyle
@@ -257,7 +257,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRCategory("CategoryAttributeAppearance"),
 		Browsable(false),
 		DefaultValue(GradientStyle.None),
-		NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         Editor(typeof(GradientEditor), typeof(UITypeEditor))
         ]
         override public GradientStyle BackGradientStyle
@@ -279,7 +279,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRCategory("CategoryAttributeAppearance"),
 		Browsable(false),
 		DefaultValue(typeof(Color), ""),
-		NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
         Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
         ]
@@ -313,9 +313,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRCategory("CategoryAttributeMisc"),
 		Bindable(true),
 		Browsable(false),
-		EditorBrowsableAttribute(EditorBrowsableState.Never),
-		DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-		SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        EditorBrowsable(EditorBrowsableState.Never),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
 		SRDescription("DescriptionAttributeTextAnnotation_AnnotationType"),
 		]
 		public override string AnnotationType
@@ -332,11 +332,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[
 		SRCategory("CategoryAttributeAppearance"),
 		DefaultValue(SelectionPointsStyle.Rectangle),
-		ParenthesizePropertyNameAttribute(true),
+        ParenthesizePropertyName(true),
 		Browsable(false),
-		EditorBrowsableAttribute(EditorBrowsableState.Never),
-		DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-		SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        EditorBrowsable(EditorBrowsableState.Never),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
 		SRDescription("DescriptionAttributeSelectionPointsStyle"),
 		]
 		override internal SelectionPointsStyle SelectionPointsStyle
@@ -517,7 +517,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Draw text
 			using( Brush textBrush = new SolidBrush(this.ForeColor) )
 			{
-                using (StringFormat format = new StringFormat(StringFormat.GenericTypographic))
+                using (StringFormat format = StringFormat.GenericTypographic)
                 {
                     //***************************************************************
 				    //** Set text format
@@ -870,13 +870,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Create temporary bitmap based chart graphics if chart was not 
 			// rendered yet and the graphics was not created.
 			// NOTE: Fix for issue #3978.
-			Graphics		graphics = null;
-System.Drawing.Image		graphicsImage = null;
-			ChartGraphics	tempChartGraph = null;
+			Graphics graphics = null;
+            Image graphicsImage = null;
+			ChartGraphics tempChartGraph = null;
 			if(GetGraphics() == null &&	this.Common != null)
 			{
-                graphicsImage = new System.Drawing.Bitmap(Common.ChartPicture.Width, Common.ChartPicture.Height);
-				graphics = Graphics.FromImage( graphicsImage );
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                graphicsImage = new Bitmap(Common.ChartPicture.Width, Common.ChartPicture.Height);
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                graphics = Graphics.FromImage( graphicsImage );
 				tempChartGraph = new ChartGraphics( Common );
 				tempChartGraph.Graphics = graphics;
 				tempChartGraph.SetPictureSize( Common.ChartPicture.Width, Common.ChartPicture.Height );
@@ -888,11 +890,12 @@ System.Drawing.Image		graphicsImage = null;
 			if(GetGraphics() != null && this.Text.Trim().Length > 0)
 			{
 				// Measure text using current font and slightly increase it
-                contentSize = GetGraphics().MeasureString(
+				using var sf = StringFormat.GenericTypographic;
+				contentSize = GetGraphics().MeasureString(
                      "W" + this.ReplaceKeywords(this.Text.Replace("\\n", "\n")),
                      this.Font,
                      new SizeF(2000, 2000),
-                     StringFormat.GenericTypographic);
+                     sf);
 
 				contentSize.Height *= 1.04f;
 
@@ -900,7 +903,7 @@ System.Drawing.Image		graphicsImage = null;
 				contentSize = GetGraphics().GetRelativeSize(contentSize);
 
 				// Add spacing
-				bool annotationRelative = false;
+				bool annotationRelative;
 				RectangleF	textSpacing = GetTextSpacing(out annotationRelative);
 				float spacingScaleX = 1f;
 				float spacingScaleY = 1f;
@@ -1043,7 +1046,7 @@ System.Drawing.Image		graphicsImage = null;
 		[
 		SRCategory("CategoryAttributeMisc"),
 		Browsable(false),
-		EditorBrowsableAttribute(EditorBrowsableState.Never),
+        EditorBrowsable(EditorBrowsableState.Never),
 		DefaultValue(LabelCalloutStyle.Underlined),
 		SRDescription("DescriptionAttributeCalloutStyle3"),
 		]
@@ -1068,7 +1071,7 @@ System.Drawing.Image		graphicsImage = null;
 		[
 		SRCategory("CategoryAttributeAppearance"),
 		Browsable(false),
-		EditorBrowsableAttribute(EditorBrowsableState.Never),
+        EditorBrowsable(EditorBrowsableState.Never),
 		DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeCalloutLineColor"),
         TypeConverter(typeof(ColorConverter)),
@@ -1095,7 +1098,7 @@ System.Drawing.Image		graphicsImage = null;
 		[
 		SRCategory("CategoryAttributeAppearance"),
 		Browsable(false),
-		EditorBrowsableAttribute(EditorBrowsableState.Never),
+        EditorBrowsable(EditorBrowsableState.Never),
 		DefaultValue(ChartDashStyle.Solid),
         SRDescription("DescriptionAttributeLineDashStyle"),
         ]
@@ -1120,7 +1123,7 @@ System.Drawing.Image		graphicsImage = null;
 		[
 		SRCategory("CategoryAttributeAppearance"),
 		Browsable(false),
-		EditorBrowsableAttribute(EditorBrowsableState.Never),
+        EditorBrowsable(EditorBrowsableState.Never),
 		DefaultValue(typeof(Color), "Transparent"),
         SRDescription("DescriptionAttributeCalloutBackColor"),
         TypeConverter(typeof(ColorConverter)),
@@ -1147,7 +1150,7 @@ System.Drawing.Image		graphicsImage = null;
 		[
 		SRCategory("CategoryAttributeAppearance"),
 		Browsable(false),
-		EditorBrowsableAttribute(EditorBrowsableState.Never),
+        EditorBrowsable(EditorBrowsableState.Never),
 		DefaultValue(1),
         SRDescription("DescriptionAttributeLineWidth"),
 		]
@@ -1172,7 +1175,7 @@ System.Drawing.Image		graphicsImage = null;
 		[
 		SRCategory("CategoryAttributeAppearance"),
 		Browsable(false),
-		EditorBrowsableAttribute(EditorBrowsableState.Never),
+        EditorBrowsable(EditorBrowsableState.Never),
 		DefaultValue(LineAnchorCapStyle.Arrow),
 		SRDescription("DescriptionAttributeCalloutLineAnchorCapStyle"),
 		]

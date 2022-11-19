@@ -69,23 +69,23 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Indicates that class subscribed fro the customize event.
 		/// </summary>
-		static private	bool	_customizeSubscribed = false;
+		static private	bool	_customizeSubscribed;
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Methods
+        #region Methods
 
-		/// <summary>
-		/// Prepares PointAndFigure chart type for rendering. We hide original series
+        /// <summary>
+        /// Prepares PointAndFigure chart type for rendering. We hide original series
         /// during rendering and only using the data for calculations. New RangeColumn
         /// type series is added wich displayes the columns of Os or Xs.
         /// All the changes in this method are reversed back in the UnPrepareData method. 
-		/// </summary>
-		/// <param name="series">Series to be prepared.</param>
-		internal static void PrepareData(Series series)
+        /// </summary>
+        /// <param name="series">Series to be prepared.</param>
+        internal static void PrepareData(Series series)
 		{
 			// Check series chart type
-			if(String.Compare( series.ChartTypeName, ChartTypeNames.PointAndFigure, StringComparison.OrdinalIgnoreCase ) != 0 || !series.IsVisible())
+			if(!string.Equals(series.ChartTypeName, ChartTypeNames.PointAndFigure, StringComparison.OrdinalIgnoreCase) || !series.IsVisible())
 			{
 				return;
 			}
@@ -297,7 +297,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Check required Y values number
 					if(dp.YValues.Length < 2)
 					{
-						throw(new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(ChartTypeNames.PointAndFigure, ((int)(2)).ToString(CultureInfo.CurrentCulture))));
+						throw(new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(ChartTypeNames.PointAndFigure, 2.ToString(CultureInfo.CurrentCulture))));
 					}
 
 					if(dp.YValues[yValueHighIndex] > maxPrice)
@@ -624,7 +624,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						else
 						{
 							// Opposite direction by more than reversal amount
-							DataPoint newDataPoint = (DataPoint)dataPoint.Clone();
+							DataPoint newDataPoint = dataPoint.Clone();
 							newDataPoint["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
 							newDataPoint.series = series;
 							newDataPoint.XValue = dataPoint.XValue;
@@ -679,7 +679,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Check if proportional symbol custom attribute is set
 					bool	proportionalSymbols = true;
 					string	attrValue = pointAndFigureSeries[CustomPropertyName.ProportionalSymbols];
-					if(attrValue != null && String.Compare( attrValue, "True", StringComparison.OrdinalIgnoreCase ) != 0 )
+					if(attrValue != null && !string.Equals(attrValue, "True", StringComparison.OrdinalIgnoreCase))
 					{
 						proportionalSymbols = false;
 					}
@@ -832,25 +832,25 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					// Draw circles when price is dropping
 					if(ser.ShadowOffset != 0)
 					{
+						using var pen1 = new Pen(ser.ShadowColor, point.BorderWidth);
 						graph.DrawCircleAbs(
-							new Pen(ser.ShadowColor, point.BorderWidth), 
+							pen1, 
 							null, 
 							shadowPosition, 
 							1, 
 							false);
 					}
 
+					using var pen = new Pen(point.Color, point.BorderWidth);
 					// Draw 'O' symbol
 					graph.DrawCircleAbs(
-						new Pen(point.Color, point.BorderWidth), 
+						pen, 
 						null, 
 						position, 
 						1, 
 						false);
 				}
 			}
-
-
 		}
 
 		#endregion // Drawing methods

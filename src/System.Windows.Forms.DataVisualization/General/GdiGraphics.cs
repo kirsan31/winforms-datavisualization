@@ -602,7 +602,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Properties
 
 		/// <summary>
-		/// Gets or sets the world transformation for this Graphics object.
+		/// Gets or sets the world transformation for this Graphics object.<br/>
+		/// Get return a new instance of the <see cref="Matrix" /> that represents the geometric world transformation.<br/>
+		/// Set only apply world transformation and not store <see cref="Matrix" /> itself.
 		/// </summary>
 		public Matrix Transform
 		{
@@ -694,8 +696,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Graphics object
 		/// </summary>
-		Graphics		_graphics = null;
+		Graphics		_graphics;
 
-		#endregion // Fields
-	}
+        #endregion // Fields
+    }
 }

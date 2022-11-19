@@ -58,16 +58,17 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 }
                 int colorStep = paletteColors.Length / numberOfcolors;
                 RectangleF rect = e.Bounds;
-                rect.Width = (float)(e.Bounds.Width) / (float)(numberOfcolors);
+                rect.Width = e.Bounds.Width / (float)(numberOfcolors);
                 for (int i = 0; i < numberOfcolors; i++)
                 {
                     if (i == numberOfcolors - 1)
                     {
                         rect.Width = e.Bounds.Right - rect.X;
                     }
-                    e.Graphics.FillRectangle(new SolidBrush(paletteColors[i * colorStep]), rect);
+                    using var br = new SolidBrush(paletteColors[i * colorStep]);
+                    e.Graphics.FillRectangle(br, rect);
                     rect.X = rect.Right;
-                    rect.Width = ((float)(e.Bounds.Width) / (float)(numberOfcolors));
+                    rect.Width = (e.Bounds.Width / (float)(numberOfcolors));
                 }
             }
         }
@@ -75,13 +76,14 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         #endregion
     }
 
+#warning designer
     /// <summary>
     /// This class merely subclasses System.Drawing.Design.ColorEditor and nothing more.
     /// This is done so that in the runtime assembly, we refer to this class via an AssemblyQualifiedName
     /// instead of the system ColorEditor. This avoids placing version info in the runtime assembly, allowing
     /// is to build (theoretically) against any version of the system ColorEditor.
     /// </summary>
-    internal class ChartColorEditor : ColorEditor
+    internal class ChartColorEditor : UITypeEditor
     {
         // left empty on purpose, see summary comment.
     }

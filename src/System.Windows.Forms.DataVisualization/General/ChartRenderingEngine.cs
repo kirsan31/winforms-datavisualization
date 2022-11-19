@@ -65,19 +65,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
         //private string documentTitle = string.Empty;
 
         // True if text should be clipped
-        internal bool IsTextClipped = false;
+        internal bool IsTextClipped;
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Drawing Methods
+        #region Drawing Methods
 
-		/// <summary>
-		/// Draws a line connecting two PointF structures.
-		/// </summary>
-		/// <param name="pen">Pen object that determines the color, width, and style of the line.</param>
-		/// <param name="pt1">PointF structure that represents the first point to connect.</param>
-		/// <param name="pt2">PointF structure that represents the second point to connect.</param>
-		internal void DrawLine(
+        /// <summary>
+        /// Draws a line connecting two PointF structures.
+        /// </summary>
+        /// <param name="pen">Pen object that determines the color, width, and style of the line.</param>
+        /// <param name="pt1">PointF structure that represents the first point to connect.</param>
+        /// <param name="pt2">PointF structure that represents the second point to connect.</param>
+        internal void DrawLine(
 			Pen pen,
 			PointF pt1,
 			PointF pt2
@@ -177,7 +177,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			float tension
 			)
 		{
-            ChartGraphics chartGraphics = this as ChartGraphics;
+            ChartGraphics chartGraphics = this;
             if (chartGraphics == null || !chartGraphics.IsMetafile)
             {
                 RenderingObject.DrawCurve(pen, points, offset, numberOfSegments, tension);
@@ -281,14 +281,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			StringFormat format
 			)
 		{
-            using (StringFormat fmt = (StringFormat)format.Clone())
-            {
-                if ( IsRightToLeft )
-                    fmt.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
-                if (!IsTextClipped && (fmt.FormatFlags & StringFormatFlags.NoClip) != StringFormatFlags.NoClip)
-                    fmt.FormatFlags |= StringFormatFlags.NoClip;
-                RenderingObject.DrawString(s, font, brush, layoutRectangle, fmt);
-            }
+			if (IsRightToLeft || (!IsTextClipped && (format.FormatFlags & StringFormatFlags.NoClip) != StringFormatFlags.NoClip))
+			{
+				using (StringFormat fmt = (StringFormat)format.Clone())
+				{
+					if (IsRightToLeft)
+						fmt.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
+					if (!IsTextClipped && (fmt.FormatFlags & StringFormatFlags.NoClip) != StringFormatFlags.NoClip)
+						fmt.FormatFlags |= StringFormatFlags.NoClip;
+					RenderingObject.DrawString(s, font, brush, layoutRectangle, fmt);
+				}
+			}
+			else
+				RenderingObject.DrawString(s, font, brush, layoutRectangle, format);
 		}
 
 		/// <summary>
@@ -735,8 +740,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 		}
 
+
 		/// <summary>
-		/// Gets or sets the world transformation for this Graphics object.
+		/// Gets or sets the world transformation for this Graphics object.<br/>
+		/// Get return a new instance of the <see cref="Matrix" /> that represents the geometric world transformation.<br/>
+		/// Set only apply world transformation and not store <see cref="Matrix" /> itself.
 		/// </summary>
 		internal Matrix Transform
 		{

@@ -64,11 +64,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Indexed series flag
 		/// </summary>
-        internal bool indexedSeries = false;
+        internal bool indexedSeries;
 
-		/// <summary>
-		/// Common elements object
-		/// </summary>
+        /// <summary>
+        /// Common elements object
+        /// </summary>
         internal CommonElements Common { get; set; }
 
 		/// <summary>
@@ -84,16 +84,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Stores information about 3D labels. Used to draw 3D labels in layers.
 		/// </summary>
-		internal ArrayList label3DInfoList = null;
+		internal ArrayList label3DInfoList;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// Class public constructor.
-		/// </summary>
-		public PointChart()
+        /// <summary>
+        /// Class public constructor.
+        /// </summary>
+        public PointChart()
 		{
 		}
 
@@ -270,7 +270,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			// Check if series is indexed
 			if( ShiftedSerName.Length == 0)
 			{
-                indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(this.Name).ToArray());
+                indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(this.Name));
 			}
 			else
 			{
@@ -342,7 +342,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					//************************************************************
 
 					// Check for min/max X values
-					double xValue = (indexedSeries) ? (double)index : point.XValue;
+					double xValue = (indexedSeries) ? index : point.XValue;
 					xValue = HAxis.GetLogValue(xValue);
 					if(xValue > horizontalViewMax || xValue < horizontalViewMin)
 					{
@@ -395,7 +395,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						// The formula for position is based on a distance 
 						// from the grid line or nPoints position.
-						markerPosition.X = (float)HAxis.GetPosition( (double)index );
+						markerPosition.X = (float)HAxis.GetPosition(index);
 					}
 					else
 					{
@@ -664,11 +664,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                     // Get point label style attribute
                     SizeF sizeMarker = graph.GetRelativeSize(new SizeF(markerSize, markerSize));
-                    SizeF sizeFont = graph.GetRelativeSize(
-                        graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
-
-                    SizeF sizeSingleCharacter = graph.GetRelativeSize(
-                        graph.MeasureString("W", point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
+					using var sf = StringFormat.GenericTypographic;
+					SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
+                    SizeF sizeSingleCharacter = graph.GetRelativeSize(graph.MeasureString("W", point.Font, new SizeF(1000f, 1000f), sf));
 
                     // Increase label size when background is drawn
                     SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
@@ -688,43 +686,43 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         this.autoLabelPosition = false;
 
                         // Get label position from attribute
-                        if (String.Compare(attrib, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+                        if (string.Equals(attrib, "Auto", StringComparison.OrdinalIgnoreCase))
                         {
                             this.autoLabelPosition = true;
                         }
-                        else if (String.Compare(attrib, "Center", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Center", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.Center;
                         }
-                        else if (String.Compare(attrib, "Bottom", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Bottom", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.Bottom;
                         }
-                        else if (String.Compare(attrib, "TopLeft", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "TopLeft", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.TopLeft;
                         }
-                        else if (String.Compare(attrib, "TopRight", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "TopRight", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.TopRight;
                         }
-                        else if (String.Compare(attrib, "BottomLeft", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "BottomLeft", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.BottomLeft;
                         }
-                        else if (String.Compare(attrib, "BottomRight", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "BottomRight", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.BottomRight;
                         }
-                        else if (String.Compare(attrib, "Left", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Left", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.Left;
                         }
-                        else if (String.Compare(attrib, "Right", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Right", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.Right;
                         }
-                        else if (String.Compare(attrib, "Top", StringComparison.OrdinalIgnoreCase) == 0)
+                        else if (string.Equals(attrib, "Top", StringComparison.OrdinalIgnoreCase))
                         {
                             this.labelPosition = LabelAlignmentStyles.Top;
                         }
@@ -1098,7 +1096,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Check for min/max X values
-			double xValue = (pointEx.indexedSeries) ? (double)pointEx.index : point.XValue;
+			double xValue = (pointEx.indexedSeries) ? pointEx.index : point.XValue;
 			xValue = HAxis.GetLogValue(xValue);
 			if(xValue > HAxis.ViewMaximum || xValue < HAxis.ViewMinimum)
 			{
@@ -1526,7 +1524,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Take attribute value
-			if( String.Compare(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase) == 0 )
+			if(string.Equals(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase))
 			{
 				// IsEmpty points represented with zero values
                 return 0.0;
@@ -1603,11 +1601,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="area">Chart area.</param>
 		/// <param name="series">Series values to be used.</param>
 		/// <param name="list">List to add to.</param>
-		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, ArrayList list)		
+		public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, List<RectangleF> list)		
 		{
             this.Common = common;
             // Check if series is indexed
-            indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(this.Name).ToArray());
+            indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(this.Name));
 
 			//************************************************************
 			//** Set active horizontal/vertical axis
@@ -1639,7 +1637,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Check for min/max X values
-				double xValue = (indexedSeries) ? (double)index : point.XValue;
+				double xValue = (indexedSeries) ? index : point.XValue;
 				xValue = hAxis.GetLogValue(xValue);
 				if(xValue > hAxis.ViewMaximum || xValue < hAxis.ViewMinimum)
 				{
@@ -1676,7 +1674,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				{
 					// The formula for position is based on a distance 
 					// from the grid line or nPoints position.
-					markerPosition.X = (float)hAxis.GetPosition( (double)index );
+					markerPosition.X = (float)hAxis.GetPosition(index);
 				}
 				else
 				{
@@ -1759,8 +1757,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// </summary>
 		internal class Label3DInfo
 		{
-			internal DataPoint3D PointEx = null;
-			internal PointF MarkerPosition = PointF.Empty;
+			internal DataPoint3D PointEx;
+            internal PointF MarkerPosition = PointF.Empty;
 			internal SizeF MarkerSize = SizeF.Empty;
 		}
 

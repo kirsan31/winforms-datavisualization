@@ -277,15 +277,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string crossingValue = value as string;
             if (crossingValue != null)
 			{
-                if (String.Compare(crossingValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(crossingValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return Double.NaN;
 				}
-                else if (String.Compare(crossingValue, Constants.MinValue, StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(crossingValue, Constants.MinValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return Double.MinValue;
 				}
-                else if (String.Compare(crossingValue, Constants.MaxValue, StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(crossingValue, Constants.MaxValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return Double.MaxValue;
 				}
@@ -477,7 +477,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string crossingValue = value as string;
             if (crossingValue != null)
 			{
-                if (String.Compare(crossingValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(crossingValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return Double.NaN;
 				}
@@ -625,11 +625,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string crossingValue = value as string;
             if (crossingValue != null)
 			{
-                if (String.Compare(crossingValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(crossingValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return 0.0;
 				}
-                else if (String.Compare(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase) == 0)
+                else if (string.Equals(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return Double.NaN;
 				}

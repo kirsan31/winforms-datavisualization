@@ -159,7 +159,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		public void PageSetup()
 		{
 			// Create print preview dialog
-			PageSetupDialog	pageSetupDialog = new PageSetupDialog();
+			using PageSetupDialog pageSetupDialog = new PageSetupDialog();
 
 			// Initialize printing document
 			pageSetupDialog.Document = this.PrintDocument;
@@ -175,7 +175,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		public void PrintPreview()
 		{
 			// Create print preview dialog
-			PrintPreviewDialog	printPreviewDialog = new PrintPreviewDialog();
+			using PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog();
 
 			// Initialize printing document
 			printPreviewDialog.Document = this.PrintDocument;
@@ -194,7 +194,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if(showPrintDialog)
 			{
 				// Create and show Print dialog
-				PrintDialog printDialog = new PrintDialog();
+				using PrintDialog printDialog = new PrintDialog();
                 printDialog.UseEXDialog = true;
 				printDialog.Document = this.PrintDocument;
 				DialogResult dialogResult = printDialog.ShowDialog();
@@ -244,8 +244,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     Rectangle chartPosition = new Rectangle(marginPixel.X, marginPixel.Y, _chartImage.Width, _chartImage.Height);
 
                     // Make sure chart corretly fits the margin area
-                    float chartWidthScale = ((float)marginPixel.Width) / ((float)chartPosition.Width);
-                    float chartHeightScale = ((float)marginPixel.Height) / ((float)chartPosition.Height);
+                    float chartWidthScale = marginPixel.Width / ((float)chartPosition.Width);
+                    float chartHeightScale = marginPixel.Height / ((float)chartPosition.Height);
                     chartPosition.Width = (int)(chartPosition.Width * Math.Min(chartWidthScale, chartHeightScale));
                     chartPosition.Height = (int)(chartPosition.Height * Math.Min(chartWidthScale, chartHeightScale));
 

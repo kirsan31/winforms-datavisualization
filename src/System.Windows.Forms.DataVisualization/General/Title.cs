@@ -158,10 +158,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private TextStyle               _style = TextStyle.Default;
 
 		// Title position
-		private ElementPosition			_position = null;
+		private ElementPosition			_position;
 
-		// Background properties
-		private bool					_visible = true;
+        // Background properties
+        private bool					_visible = true;
 		private Color					_backColor = Color.Empty;
 		private ChartHatchStyle			_backHatchStyle = ChartHatchStyle.None;
 		private string					_backImage = "";
@@ -170,8 +170,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private ChartImageAlignmentStyle			_backImageAlignment = ChartImageAlignmentStyle.TopLeft;
 		private GradientStyle			_backGradientStyle = GradientStyle.None;
 		private Color					_backSecondaryColor = Color.Empty;
-		private int						_shadowOffset = 0;
-		private Color					_shadowColor = Color.FromArgb(128, 0, 0, 0);
+		private int						_shadowOffset;
+        private Color					_shadowColor = Color.FromArgb(128, 0, 0, 0);
 
 		// Border properties
 		private Color					_borderColor = Color.Empty;
@@ -188,10 +188,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private Docking					_docking = Docking.Top;
         private string                  _dockedToChartArea = Constants.NotSetValue;
 		private bool					_isDockedInsideChartArea = true;
-		private	int						_dockingOffset = 0;
+		private	int						_dockingOffset;
 
-		// Interactive properties
-		private	string					_toolTip = String.Empty;
+        // Interactive properties
+        private	string					_toolTip = String.Empty;
 
 
         // Default text orientation
@@ -421,7 +421,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
                     if (value < -100 || value > 100)
                     {
-                        throw (new ArgumentOutOfRangeException("value", SR.ExceptionValueMustBeInRange("DockingOffset", (-100).ToString(CultureInfo.CurrentCulture), (100).ToString(CultureInfo.CurrentCulture))));
+                        throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionValueMustBeInRange(nameof(DockingOffset), (-100).ToString(CultureInfo.CurrentCulture), (100).ToString(CultureInfo.CurrentCulture))));
                     }
 					_dockingOffset = value;
 					this.Invalidate(false);
@@ -621,7 +621,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionTitleBorderWidthIsNegative));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionTitleBorderWidthIsNegative));
 				}
 				_borderWidth = value;
 				this.Invalidate(false);
@@ -1163,11 +1163,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 					// Measure text size
 					layoutArea = chartGraph.GetAbsoluteSize(layoutArea);
+					using var sf = StringFormat.GenericDefault;
 					SizeF titleSize = chartGraph.MeasureString(
 						"W" + titleText.Replace("\\n", "\n"), 
 						this.Font, 
 						layoutArea, 
-						StringFormat.GenericDefault,
+						sf,
                         this.GetTextOrientation());
 
                     // Increase text size by 4 pixels
@@ -1256,11 +1257,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				// Adjust text position to be only around the text itself
 				SizeF titleArea = chartGraph.GetAbsoluteSize(titlePosition.Size);
+				using var sf = StringFormat.GenericDefault;
 				SizeF titleSize = chartGraph.MeasureString(
                     "W" + titleText.Replace("\\n", "\n"), 
 					this.Font, 
 					titleArea,
-                    StringFormat.GenericDefault,
+                    sf,
                     this.GetTextOrientation());
 
 				// Convert text size to relative coordinates
@@ -1426,7 +1428,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         format.FormatFlags |= StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft;
 
                         // Save old graphics transformation
-                        oldTransform = chartGraph.Transform.Clone();
+                        oldTransform = chartGraph.Transform;
 
                         // Rotate tile 180 degrees at center
                         PointF center = PointF.Empty;
@@ -1435,7 +1437,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         center.Y = absPosition.Y + absPosition.Height / 2F;
 
                         // Create and set new transformation matrix
-                        Matrix newMatrix = chartGraph.Transform.Clone();
+                        using Matrix newMatrix = chartGraph.Transform;
                         newMatrix.RotateAt(180, center);
                         chartGraph.Transform = newMatrix;
                     }
@@ -1464,8 +1466,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			    //***************************************************************
 			    if(oldTransform != null)
 			    {
-				    chartGraph.Transform = oldTransform;
-			    }
+					chartGraph.Transform = oldTransform;
+					oldTransform.Dispose();
+				}
 
                 if (Common.ProcessModeRegions)
                 {
@@ -1649,11 +1652,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			layoutArea.Width -= 2f * elementSpacing;
 			layoutArea.Height -= 2f * elementSpacing;
 			layoutArea = chartGraph.GetAbsoluteSize(layoutArea);
+			using var sf = StringFormat.GenericDefault;
 			SizeF titleSize = chartGraph.MeasureString(
                 "W" + this.Text.Replace("\\n", "\n"), 
 				this.Font, 
 				layoutArea, 
-				StringFormat.GenericDefault,
+				sf,
                 this.GetTextOrientation());
 
             // Increase text size by 4 pixels
@@ -1761,7 +1765,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -1770,16 +1774,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     _fontCache.Dispose();
                     _fontCache = null;
                 }
-                if (_position != null)
-                {
-                    _position.Dispose();
-                    _position = null;
-                }
+                
+                _position = null;
             }
         }
 
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
-        #endregion
+
+		#endregion
 	}
 
 	/// <summary>
@@ -1790,16 +1800,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	[
 		SRDescription("DescriptionAttributeTitles"),
 	]
-    public class TitleCollection : ChartNamedElementCollection<Title>
+    public class TitleCollection : ChartNamedElementCollection<Title>, IDisposable
 	{
+		private bool _disposedValue;
 
 		#region Constructors
 
 		/// <summary>
-        /// TitleCollection constructor.
+		/// TitleCollection constructor.
 		/// </summary>
 		/// <param name="parent">Parent chart element.</param>
-        internal TitleCollection(IChartElement parent)
+		internal TitleCollection(IChartElement parent)
             : base(parent)
         {
         }
@@ -1853,7 +1864,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Check if all chart area names are valid
                     if (title.DockedToChartArea != Constants.NotSetValue && chartPicture.ChartAreas.IndexOf(title.DockedToChartArea)<0)
                     {
-                        throw (new ArgumentException(SR.ExceptionChartTitleDockedChartAreaIsMissing((string)title.DockedToChartArea)));
+                        throw (new ArgumentException(SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea)));
                     }
 
 					// Process only titles docked to specified area
@@ -1955,7 +1966,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						}
 						catch
 						{
-							throw(new ArgumentException( SR.ExceptionChartTitleDockedChartAreaIsMissing( (string)title.DockedToChartArea ) ) );
+							throw(new ArgumentException( SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea) ) );
 						}
 					}
 				}
@@ -2007,8 +2018,40 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (title.DockedToChartArea == e.OldName)
                     title.DockedToChartArea = e.NewName;
         }
-        #endregion
+		#endregion
 
+		#region IDisposable Members
 
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources
+		/// </summary>
+		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+		protected virtual void Dispose(bool disposing)
+		{
+			if (_disposedValue)
+				return;
+
+			if (disposing)
+			{
+				// Dispose managed resources
+				foreach (var element in this)
+				{
+					element.Dispose();
+				}
+			}
+
+			_disposedValue = true;
+		}
+
+		/// <summary>
+		/// Performs freeing, releasing, or resetting managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			this.Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion
 	}
 }

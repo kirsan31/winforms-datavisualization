@@ -40,47 +40,80 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRDescription("DescriptionAttributeStripLinesCollection_StripLinesCollection"),
 
 	]
-    public class StripLinesCollection : ChartElementCollection<StripLine>
+    public class StripLinesCollection : ChartElementCollection<StripLine>, IDisposable
     {
+		private bool _disposedValue;
 
-        #region Constructor
-        /// <summary>
+		#region Constructor
+		/// <summary>
 		/// Legend item collection object constructor
 		/// </summary>
 		/// <param name="axis">Axis object reference.</param>
-        internal StripLinesCollection(Axis axis)
+		internal StripLinesCollection(Axis axis)
             : base(axis)
         {
         }
-        #endregion
+		#endregion
 
+		#region IDisposable Members
 
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources
+		/// </summary>
+		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+		protected virtual void Dispose(bool disposing)
+		{
+			if (_disposedValue)
+				return;
+
+			if (disposing)
+			{
+				// Dispose managed resources
+				foreach (var element in this)
+				{
+					element.Dispose();
+				}
+			}
+
+			_disposedValue = true;
+		}
+
+		/// <summary>
+		/// Performs freeing, releasing, or resetting managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			this.Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion
 	}
 
 	/// <summary>
-    /// The StripLine class contains properties which define visual appearance 
-    /// of the stripe or line, its position according to the axis.  It 
-    /// may optionally contain the repeat interval. Text may associate 
-    /// with a strip or a line.  It also contains methods of drawing and hit 
-    /// testing.
+	/// The StripLine class contains properties which define visual appearance 
+	/// of the stripe or line, its position according to the axis.  It 
+	/// may optionally contain the repeat interval. Text may associate 
+	/// with a strip or a line.  It also contains methods of drawing and hit 
+	/// testing.
 	/// </summary>
 	[
 		SRDescription("DescriptionAttributeStripLine_StripLine"),
 		DefaultProperty("IntervalOffset"),
 	]
-	public class StripLine : ChartElement
+	public class StripLine : ChartElement, IDisposable
     {
 
 		#region Fields
 
 		// Private data members, which store properties values
-		private double					_intervalOffset = 0;
-		private double					_interval = 0;
-		private DateTimeIntervalType	_intervalType = DateTimeIntervalType.Auto;
+		private double					_intervalOffset;
+        private double					_interval;
+        private DateTimeIntervalType	_intervalType = DateTimeIntervalType.Auto;
 		internal DateTimeIntervalType	intervalOffsetType = DateTimeIntervalType.Auto;
-		internal bool					interlaced = false;
-		private double					_stripWidth = 0;
-		private DateTimeIntervalType	_stripWidthType = DateTimeIntervalType.Auto;
+		internal bool					interlaced;
+        private double					_stripWidth;
+        private DateTimeIntervalType	_stripWidthType = DateTimeIntervalType.Auto;
 		private Color					_backColor = Color.Empty;
 		private ChartHatchStyle			_backHatchStyle = ChartHatchStyle.None;
 		private string					_backImage = "";
@@ -97,8 +130,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private	string					_text = "";
 		private Color					_foreColor = Color.Black;
         private FontCache               _fontCache = new FontCache();
-		private Font					_font = null;
-		private StringAlignment			_textAlignment = StringAlignment.Far;
+		private Font					_font;
+        private StringAlignment			_textAlignment = StringAlignment.Far;
 		private StringAlignment			_textLineAlignment = StringAlignment.Near;
 
 		// Chart image map properties 
@@ -858,7 +891,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-                    throw (new ArgumentException(SR.ExceptionStripLineWidthIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionStripLineWidthIsNegative, nameof(value)));
 				}
 				_stripWidth = value;
 				this.Invalidate(); 
@@ -1359,7 +1392,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -1369,10 +1402,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     _fontCache = null;
                 }
             }
-            base.Dispose(disposing);
         }
 
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
-        #endregion
+
+		#endregion
 	}
 }

@@ -374,16 +374,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields and Constructors
 
 		// Private data members, which store properties values
-		private double			_fromPosition = 0;
-		private double			_toPosition = 0;
-		private string			_text = "";
+		private double			_fromPosition;
+        private double			_toPosition;
+        private string			_text = "";
 		private LabelMarkStyle	_labelMark = LabelMarkStyle.None;
 		private Color			_foreColor = Color.Empty;
 		private Color			_markColor = Color.Empty;
-		private int				_labelRowIndex = 0;
+		private int				_labelRowIndex;
 
-		// Custom grid lines and tick marks flags
-		private	GridTickTypes	_gridTick = GridTickTypes.None;
+        // Custom grid lines and tick marks flags
+        private	GridTickTypes	_gridTick = GridTickTypes.None;
 
 		// Indicates if label was automatically created or cpecified by user (custom)
 		internal bool			customLabel = true;
@@ -397,18 +397,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		// Label tooltip
 		private string			_tooltip = string.Empty;
 
-        private Axis            _axis = null;
+        private Axis            _axis;
 
 
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public CustomLabel()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public CustomLabel()
 		{
 		}
 
@@ -820,15 +820,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRDescription("DescriptionAttributeLabel_Label"),
 		DefaultProperty("Enabled"),
 	]
-    public class LabelStyle : ChartElement
+    public class LabelStyle : ChartElement, IDisposable
 	{
 		#region Fields
 
 		// Reference to the Axis 
-		private Axis					_axis = null;
+		private Axis					_axis;
 
-		// Private data members, which store properties values
-		private bool					_enabled = true;
+        // Private data members, which store properties values
+        private bool					_enabled = true;
 
 		internal double					intervalOffset = double.NaN;
 		internal double					interval = double.NaN;
@@ -838,20 +838,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private FontCache               _fontCache = new FontCache();
 		private Font					_font;
 		private Color					_foreColor = Color.Black;
-		internal int					angle = 0;
-		internal bool					isStaggered = false;
-		private bool					_isEndLabelVisible = true;
-		private bool					_truncatedLabels = false;
-		private string					_format = "";
+		internal int					angle;
+        internal bool					isStaggered;
+        private bool					_isEndLabelVisible = true;
+		private bool					_truncatedLabels;
+        private string					_format = string.Empty;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// Public default constructor.
-		/// </summary>
-		public LabelStyle()
+        /// <summary>
+        /// Public default constructor.
+        /// </summary>
+        public LabelStyle()
 		{
             _font = _fontCache.DefaultFont;
 		}
@@ -941,7 +941,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         // Set graphics rotation matrix
-                        Matrix newMatrix = new Matrix();
+                        using Matrix newMatrix = new Matrix();
                         newMatrix.RotateAt(labelAngle, graph.GetAbsolutePoint(this._axis.ChartArea.circularCenter));
                         newMatrix.TransformPoints(labelPosition);
 
@@ -993,16 +993,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             format.LineAlignment = StringAlignment.Far;
                         }
 
-                        // Set text rotation matrix
-                        Matrix oldMatrix = graph.Transform;
+                        Matrix oldMatrix = null;
                         if (labelsStyle == CircularAxisLabelsStyle.Radial || labelsStyle == CircularAxisLabelsStyle.Circular)
                         {
-                            Matrix textRotationMatrix = oldMatrix.Clone();
+                            // Set text rotation matrix
+                            oldMatrix = graph.Transform;
+                            using Matrix textRotationMatrix = oldMatrix.Clone();
                             textRotationMatrix.RotateAt(textAngle, labelPosition[0]);
                             graph.Transform = textRotationMatrix;
                         }
 
-                        // Get axis titl (label) color
+                        // Get axis title (label) color
                         Color labelColor = _foreColor;
                         if (!circAxis.TitleForeColor.IsEmpty)
                         {
@@ -1029,37 +1030,38 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 size,
                                 format);
                             PointF[] points = new PointF[]
-							{
-								labelRect.Location, 
-								new PointF(labelRect.Right, labelRect.Y),
-								new PointF(labelRect.Right, labelRect.Bottom),
-								new PointF(labelRect.X, labelRect.Bottom)
-							};
+                            {
+                                labelRect.Location,
+                                new PointF(labelRect.Right, labelRect.Y),
+                                new PointF(labelRect.Right, labelRect.Bottom),
+                                new PointF(labelRect.X, labelRect.Bottom)
+                            };
 
                             using (GraphicsPath path = new GraphicsPath())
                             {
                                 path.AddPolygon(points);
                                 path.CloseAllFigures();
-                                path.Transform(graph.Transform);
+                                using var mt = graph.Transform;
+                                path.Transform(mt);
                                 this._axis.Common.HotRegionsList.AddHotRegion(
                                     path,
                                     false,
                                     ChartElementType.AxisLabels,
                                     circAxis.Title);
                             }
-                    }
+                        }
 
-					// Restore graphics
-					if(labelsStyle == CircularAxisLabelsStyle.Radial || labelsStyle == CircularAxisLabelsStyle.Circular)
-					{
-						graph.Transform = oldMatrix;
-					}
-				}
+                        // Restore graphics
+                        if (labelsStyle == CircularAxisLabelsStyle.Radial || labelsStyle == CircularAxisLabelsStyle.Circular)
+                        {
+                            graph.Transform = oldMatrix;
+                            oldMatrix.Dispose();
+                        }
+                    }
 
                     ++index;
                 }
             }
-
 		}
 
 		/// <summary>
@@ -1524,7 +1526,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Draw label
-                    using (Brush brush = new SolidBrush((label.ForeColor.IsEmpty) ? _foreColor : label.ForeColor))
+#pragma warning disable CA2000 // Dispose objects before losing scope. Bug in analyzer!
+                    using (Brush brush = new SolidBrush(label.ForeColor.IsEmpty ? _foreColor : label.ForeColor))
+#pragma warning restore CA2000 // Dispose objects before losing scope
                     {
                         graph.DrawLabelStringRel(_axis,
                             label.RowIndex,
@@ -2241,7 +2245,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         //** Draw label text.
                         //********************************************************************
 
-                        using (Brush brush = new SolidBrush((label.ForeColor.IsEmpty) ? _foreColor : label.ForeColor))
+#pragma warning disable CA2000 // Dispose objects before losing scope. Bug in analyzer!
+                        using (Brush brush = new SolidBrush(label.ForeColor.IsEmpty ? _foreColor : label.ForeColor))
+#pragma warning restore CA2000 // Dispose objects before losing scope
                         {
                             graph.DrawLabelStringRel(
                                 labelsAxis,
@@ -2543,7 +2549,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < -90 || value > 90)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisLabelFontAngleInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisLabelFontAngleInvalid));
 				}
 				
 				// Turn of label offset if angle is not 0, 90 or -90
@@ -2697,15 +2703,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region IDisposable Members
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                //Free managed resources
-                if (_fontCache!=null)
+                if (_fontCache != null)
                 {
                     _fontCache.Dispose();
                     _fontCache = null;
@@ -2713,7 +2718,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-	}
+        #endregion
+    }
 }

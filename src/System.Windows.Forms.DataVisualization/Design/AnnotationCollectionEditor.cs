@@ -172,9 +172,9 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         #region Control fields
 
         // Annotation object to edit
-        private Annotation _annotation = null;
-        private DataPoint _dataPoint = null;
-        IWindowsFormsEditorService _edSvc = null;
+        private Annotation _annotation;
+        private DataPoint _dataPoint;
+        IWindowsFormsEditorService _edSvc;
 
         #endregion
 
@@ -379,9 +379,9 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         #region Control fields
 
         // Annotation object to edit
-        private Annotation _annotation = null;
-        private Axis _axis = null;
-        IWindowsFormsEditorService _edSvc = null;
+        private Annotation _annotation;
+        private Axis _axis;
+        IWindowsFormsEditorService _edSvc;
         private bool _showXAxes = true;
 
         #endregion

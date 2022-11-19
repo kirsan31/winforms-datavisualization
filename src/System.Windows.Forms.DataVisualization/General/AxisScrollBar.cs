@@ -100,10 +100,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Scroll bar fields
 
         // Reference to the axis data scaleView class
-		internal Axis					axis = null;
+		internal Axis					axis;
 
-		// Indicates that scollbra will be drawn
-		private bool					_enabled = true;
+        // Indicates that scollbra will be drawn
+        private bool					_enabled = true;
 
         // Axis data scaleView scroll bar style
 		private	ScrollBarButtonStyles	_scrollBarButtonStyle = ScrollBarButtonStyles.All;
@@ -136,10 +136,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private	System.Windows.Forms.Timer	_scrollTimer = new System.Windows.Forms.Timer();
 
 		// Scroll size and direction when AutoScroll is set
-		private	MouseEventArgs			_mouseArguments = null;
+		private	MouseEventArgs			_mouseArguments;
 
-		// Position of the scrollbar (true - edge of PlotArea, false - edge of chart area)
-		private bool					_isPositionedInside = true;
+        // Position of the scrollbar (true - edge of PlotArea, false - edge of chart area)
+        private bool					_isPositionedInside = true;
 
 		#endregion
 
@@ -315,7 +315,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					// Check values range
 					if(value < 5.0 || value > 20.0)
 					{
-                        throw (new ArgumentOutOfRangeException("value", SR.ExceptionScrollBarSizeInvalid));
+                        throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionScrollBarSizeInvalid));
 					}
 					_scrollBarSize = value;
 					if(axis != null)
@@ -550,7 +550,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             foreach (ScrollBarButtonType buttonType in Enum.GetValues(typeof(ScrollBarButtonType)))
 			{
                 // Get button rectangle
-				RectangleF buttonRect = this.GetScrollBarButtonRect(scrollBarClientRect, (ScrollBarButtonType)buttonType);
+				RectangleF buttonRect = this.GetScrollBarButtonRect(scrollBarClientRect, buttonType);
 
 				// Paint button
 				if(!buttonRect.IsEmpty)
@@ -558,8 +558,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					PaintScrollBar3DButton(
 						graph, 
 						buttonRect, 
-						((ScrollBarButtonType)this._pressedButtonType) == (ScrollBarButtonType)buttonType, 
-						(ScrollBarButtonType)buttonType);
+						((ScrollBarButtonType)this._pressedButtonType) == buttonType,
+                        buttonType);
 				}
 			}
 
@@ -1045,7 +1045,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								distance = _lastClickMousePosition.Y - y;
 
 								// Convert to relative coordinates
-								distance = distance * 100F / ((float)(this.axis.Common.Height - 1));
+								distance = distance * 100F / (this.axis.Common.Height - 1);
 							}
 							else
 							{
@@ -1053,7 +1053,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 								distance = x - _lastClickMousePosition.X;
 
 								// Convert to relative coordinates
-								distance = distance * 100F / ((float)(this.axis.Common.Width - 1)); 
+								distance = distance * 100F / (this.axis.Common.Width - 1); 
 							}
 
 							// Convert to percentages from total tracking area
@@ -1203,8 +1203,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			// Convert mouse click coordinates to relative
 			PointF	position = new PointF(x, y);
-			position.X = x * 100F / ((float)(this.axis.Common.Width - 1)); 
-			position.Y = y * 100F / ((float)(this.axis.Common.Height - 1)); 
+			position.X = x * 100F / (this.axis.Common.Width - 1); 
+			position.Y = y * 100F / (this.axis.Common.Height - 1); 
 
 			// Check if mouse button was clicked in the scroll bar
 			RectangleF	scrollBarRect = this.GetScrollBarRect();
@@ -1574,11 +1574,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Get scroll bar relative size depending on the axis location
 			if(this.axis.AxisPosition == AxisPosition.Left || this.axis.AxisPosition == AxisPosition.Right)
 			{
-				return this._scrollBarSize * 100F / ((float)(this.axis.Common.Width - 1)); 
+				return this._scrollBarSize * 100F / (this.axis.Common.Width - 1); 
 			}
 			else
 			{
-				return this._scrollBarSize * 100F / ((float)(this.axis.Common.Height - 1)); 
+				return this._scrollBarSize * 100F / (this.axis.Common.Height - 1); 
 			}
 		}
 
@@ -1749,8 +1749,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			SizeF relative = SizeF.Empty;
 
 			// Convert absolute coordinates to relative coordinates
-			relative.Width = size.Width * 100F / ((float)(this.axis.Common.Width - 1)); 
-			relative.Height = size.Height * 100F / ((float)(this.axis.Common.Height - 1)); 
+			relative.Width = size.Width * 100F / (this.axis.Common.Width - 1); 
+			relative.Height = size.Height * 100F / (this.axis.Common.Height - 1); 
 			
 			// Return relative coordinates
 			return relative;
@@ -1797,11 +1797,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 #region Private fields
 
 		// Private fields for properties values storage
-		private		Axis					_axis = null;
-		private		bool					_isHandled = false;
-		private		int						_mousePositionX = 0;
-		private		int						_mousePositionY = 0;
-		private		ScrollBarButtonType		_buttonType = ScrollBarButtonType.ThumbTracker;
+		private		Axis					_axis;
+        private		bool					_isHandled;
+        private		int						_mousePositionX;
+        private		int						_mousePositionY;
+        private		ScrollBarButtonType		_buttonType = ScrollBarButtonType.ThumbTracker;
 
 #endregion
 

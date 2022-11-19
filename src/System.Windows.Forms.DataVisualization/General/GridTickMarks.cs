@@ -457,7 +457,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             using (GraphicsPath path = new GraphicsPath())
                             {
                                 path.AddRectangle(graph.GetAbsoluteRectangle(rect));
-                                path.Transform(graph.Transform);
+								using var mt = graph.Transform;
+								path.Transform(mt);
                                 this.Axis.Common.HotRegionsList.AddHotRegion(
                                     path,
                                     false,
@@ -1021,20 +1022,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Grid fields and Constructors
 
 		// Reference to the Axis object
-		private Axis							_axis = null;
+		private Axis							_axis;
 
-		// Flags indicate that interval properties where changed
-		internal bool							intervalOffsetChanged = false;
-		internal bool							intervalChanged = false;
-		internal bool							intervalTypeChanged = false;
-		internal bool							intervalOffsetTypeChanged = false;
+        // Flags indicate that interval properties where changed
+        internal bool							intervalOffsetChanged;
+        internal bool							intervalChanged;
+        internal bool							intervalTypeChanged;
+        internal bool							intervalOffsetTypeChanged;
 
-		internal bool							enabledChanged = false;
+        internal bool							enabledChanged;
 
-		// Data members, which store properties values
-		internal double							intervalOffset = 0;
-		internal double							interval = 0;
-		internal DateTimeIntervalType			intervalType = DateTimeIntervalType.Auto;
+        // Data members, which store properties values
+        internal double							intervalOffset;
+        internal double							interval;
+        internal DateTimeIntervalType			intervalType = DateTimeIntervalType.Auto;
 		internal DateTimeIntervalType			intervalOffsetType = DateTimeIntervalType.Auto;
 		internal Color							borderColor = Color.Black;
 		internal int							borderWidth = 1;
@@ -1042,7 +1043,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal bool							enabled = true;
 
 		// Indicates that object describes Major Tick Mark or Grid Line
-		internal bool							majorGridTick = false;
+		internal bool							majorGridTick;
 
         // Common number of intervals on the numeric and date-time axis
         internal const double NumberOfIntervals = 5.0;
@@ -1691,7 +1692,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Validation
                 if (value < 0.0)
-                    throw (new ArgumentException(SR.ExceptionTickMarksIntervalIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionTickMarksIntervalIsNegative, nameof(value)));
 
                 interval = value;
                 intervalChanged = true;

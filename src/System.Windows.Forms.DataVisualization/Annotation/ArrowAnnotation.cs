@@ -144,11 +144,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value <= 0)
 				{
-					throw(new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationArrowSizeIsZero));
+					throw(new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationArrowSizeIsZero));
 				}
 				if(value > 100)
 				{
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationArrowSizeMustBeLessThen100));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationArrowSizeMustBeLessThen100));
 				}
 				_arrowSize = value;
 				Invalidate();

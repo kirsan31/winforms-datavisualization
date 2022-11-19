@@ -357,8 +357,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 #region Type converter
 
-#if WINFORMS_CONTROL
-
 		internal class SubAxisConverter : TypeConverter
 		{
 			/// <summary>
@@ -400,8 +398,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				return base.ConvertTo(context, culture, value, destinationType);
 			}
 		}
-
-#endif //#if WINFORMS_CONTROL	
 
 #endregion
 	}
@@ -700,13 +696,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		private void Invalidate()
 		{
-#if WINFORMS_CONTROL
 			if(this.parentAxis != null && this.parentAxis.chart != null)
 			{
 				this.parentAxis.chart.dirtyFlag = true;
 				this.parentAxis.chart.Invalidate();
 			}
-#endif
 		}
 
 		/// <summary>

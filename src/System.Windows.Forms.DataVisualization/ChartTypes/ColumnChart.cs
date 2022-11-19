@@ -33,25 +33,25 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// Labels and markers have to be shifted if there 
 		/// is more than one series for column chart.
 		/// </summary>
-		private double _shiftedX = 0;
+		private double _shiftedX;
 
-		/// <summary>
-		/// Labels and markers have to be shifted if there 
-		/// is more than one series for column chart. This property 
-		/// will give a name of the series, which is used, for 
-		/// labels and markers. Point chart 
-		/// </summary>
-		private string _shiftedSerName = "";
+        /// <summary>
+        /// Labels and markers have to be shifted if there 
+        /// is more than one series for column chart. This property 
+        /// will give a name of the series, which is used, for 
+        /// labels and markers. Point chart 
+        /// </summary>
+        private string _shiftedSerName = "";
 
 		/// <summary>
 		/// Indicates that two Y values are used to calculate column position
 		/// </summary>
-		protected	bool	useTwoValues = false;
+		protected	bool	useTwoValues;
 
-		/// <summary>
-		/// Indicates that columns from different series are drawn side by side
-		/// </summary>
-		protected	bool	drawSeriesSideBySide = true;
+        /// <summary>
+        /// Indicates that columns from different series are drawn side by side
+        /// </summary>
+        protected	bool	drawSeriesSideBySide = true;
 
 		/// <summary>
 		/// Coordinates of COP used when sorting 3D points order
@@ -254,15 +254,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				if(common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 				{
 					string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-					if(String.Compare( attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0 )
+					if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 					{
 						currentDrawSeriesSideBySide = false;
 					}
-					else if(String.Compare( attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+					else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 					{
 						currentDrawSeriesSideBySide = true;
 					}
-					else if(String.Compare( attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+					else if(string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 					{
 						// Do nothing
 					}
@@ -281,7 +281,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			}
 
 			// Check if column chart series are indexed
-            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(Name).ToArray());
+            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(Name));
 
 			//************************************************************
 			//** Loop through all series
@@ -404,8 +404,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						// The formula for position is based on a distance 
 						//from the grid line or nPoints position.
-						xPosition = hAxis.GetPosition( (double)index ) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width;
-						xCenterVal = hAxis.GetPosition( (double)index );
+						xPosition = hAxis.GetPosition(index) - width * ((double) numOfSeries) / 2.0 + width/2 + seriesIndx * width;
+						xCenterVal = hAxis.GetPosition(index);
 					}
 					else if( sameInterval )
 					{
@@ -651,15 +651,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					if(common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 					{
 						string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-						if(String.Compare( attribValue, "False", StringComparison.OrdinalIgnoreCase)==0)
+						if(string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
 						{
 							currentDrawSeriesSideBySide = false;
 						}
-						else if(String.Compare( attribValue, "True", StringComparison.OrdinalIgnoreCase)==0)
+						else if(string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
 						{
 							currentDrawSeriesSideBySide = true;
 						}
-						else if(String.Compare( attribValue, "Auto", StringComparison.OrdinalIgnoreCase)==0)
+						else if(string.Equals(attribValue, "Auto", StringComparison.OrdinalIgnoreCase))
 						{
 							// Do nothing
 						}
@@ -1218,8 +1218,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     // Start Svg Selection mode
                     graph.StartHotRegion(point, true);
 
-                    // Get string size
-                    SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
+					// Get string size
+					using var sf = StringFormat.GenericTypographic;
+					SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
 
                     // Get label background position
                     RectangleF labelBackPosition = RectangleF.Empty;
@@ -1258,8 +1259,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     graph.EndHotRegion();
                 }
 
-                // Restore old clip region
-                graph.Clip = oldClipRegion;
+				// Restore old clip region
+				var clip = graph.Clip;
+				graph.Clip = oldClipRegion;
+				clip.Dispose();
             }
 		}
 
@@ -1340,8 +1343,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     // Start Svg Selection mode
                     graph.StartHotRegion(point, true);
 
-                    // Get string size
-                    SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
+					// Get string size
+					using var sf = StringFormat.GenericTypographic;
+					SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), sf));
 
                     // Get label background position
                     RectangleF labelBackPosition = RectangleF.Empty;
@@ -1380,9 +1384,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     graph.EndHotRegion();
                 }
 
-                // Restore old clip region
-                graph.Clip = oldClipRegion;
-            }
+				// Restore old clip region
+				var clip = graph.Clip;
+				graph.Clip = oldClipRegion;
+				clip?.Dispose();
+			}
 		}
 
 		#endregion

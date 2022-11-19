@@ -10,6 +10,7 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -116,7 +117,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     SRDescription("DescriptionAttributeAnnotation_Annotation"),
     DefaultProperty("Name"),
     ]
-    public abstract class Annotation : ChartNamedElement
+    public abstract class Annotation : ChartNamedElement, IDisposable
     {
         #region Fields
 
@@ -125,7 +126,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private string _clipToChartArea = Constants.NotSetValue;
 
         // Indicates that annotation is selected
-        private bool _isSelected = false;
+        private bool _isSelected;
 
         // Indicates that annotation size is defined in relative chart coordinates
         private bool _isSizeAlwaysRelative = true;
@@ -139,8 +140,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Annotation axes attaching fields
         private string _axisXName = String.Empty;
         private string _axisYName = String.Empty;
-        private Axis _axisX = null;
-        private Axis _axisY = null;
+#pragma warning disable CA2213 // Disposable fields should be disposed
+        private Axis _axisX;
+        private Axis _axisY;
+#pragma warning restore CA2213 // Disposable fields should be disposed
 
         // Visual attribute fields
         private bool _visible = true;
@@ -157,20 +160,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private GradientStyle _backGradientStyle = GradientStyle.None;
         private Color _backSecondaryColor = Color.Empty;
         private Color _shadowColor = Color.FromArgb(128, 0, 0, 0);
-        private int _shadowOffset = 0;
+        private int _shadowOffset;
 
         // Anchor position attribute fields
         private string _anchorDataPointName = String.Empty;
-        private DataPoint _anchorDataPoint = null;
-        private DataPoint _anchorDataPoint2 = null;
+        private DataPoint _anchorDataPoint;
+        private DataPoint _anchorDataPoint2;
         private double _anchorX = double.NaN;
         private double _anchorY = double.NaN;
-        internal double anchorOffsetX = 0.0;
-        internal double anchorOffsetY = 0.0;
+        internal double anchorOffsetX;
+        internal double anchorOffsetY;
         internal ContentAlignment anchorAlignment = ContentAlignment.BottomCenter;
 
         // Selection handles position (starting top-left and moving clockwise)
-        internal RectangleF[] selectionRects = null;
+        internal RectangleF[] selectionRects;
 
         // Annotation tooltip
         private string _tooltip = String.Empty;
@@ -183,24 +186,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal PointF currentAnchorLocationRel = new PointF(float.NaN, float.NaN);
 
         // Smart labels style		
-        private AnnotationSmartLabelStyle _smartLabelStyle = null;
+        private AnnotationSmartLabelStyle _smartLabelStyle;
 
         // Index of last selected point in the annotation path
         internal int currentPathPointIndex = -1;
 
         // Group this annotation belongs too
-        internal AnnotationGroup annotationGroup = null;
+        internal AnnotationGroup annotationGroup;
 
         // Selection and editing permissions
-        private bool _allowSelecting = false;
-        private bool _allowMoving = false;
-        private bool _allowAnchorMoving = false;
-        private bool _allowResizing = false;
-        private bool _allowTextEditing = false;
-        private bool _allowPathEditing = false;
+        private bool _allowSelecting;
+        private bool _allowMoving;
+        private bool _allowAnchorMoving;
+        private bool _allowResizing;
+        private bool _allowTextEditing;
+        private bool _allowPathEditing;
 
         // Indicates that annotation position was changed. Flag used to fire events.
-        internal bool positionChanged = false;
+        internal bool positionChanged;
 
         // Relative location of last placement position
         internal PointF lastPlacementPosition = PointF.Empty;
@@ -212,7 +215,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal RectangleF startMovePositionRel = RectangleF.Empty;
 
         // Relative position of annotation, when it's started to move/resize
-        internal GraphicsPath startMovePathRel = null;
+        internal GraphicsPath startMovePathRel;
 
         /// <summary>
         /// Limit of annotation width and height.
@@ -558,7 +561,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < -WidthHightLimit || value > WidthHightLimit)
                 {
-                    throw new ArgumentException(SR.ExceptionValueMustBeInRange("Width", (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
+                    throw new ArgumentException(SR.ExceptionValueMustBeInRange(nameof(Width), (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
                 }
                 _width = value;
                 this.ResetCurrentRelativePosition();
@@ -610,7 +613,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < -WidthHightLimit || value > WidthHightLimit)
                 {
-                    throw new ArgumentException(SR.ExceptionValueMustBeInRange("Height", (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
+                    throw new ArgumentException(SR.ExceptionValueMustBeInRange(nameof(Height), (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
                 }
                 _height = value;
                 this.ResetCurrentRelativePosition();
@@ -935,7 +938,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationLineWidthIsNegative));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationLineWidthIsNegative));
                 }
                 _lineWidth = value;
                 Invalidate();
@@ -1579,7 +1582,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value > 100.0 || value < -100.0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationAnchorOffsetInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationAnchorOffsetInvalid));
                 }
                 anchorOffsetX = value;
                 this.ResetCurrentRelativePosition();
@@ -1618,7 +1621,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value > 100.0 || value < -100.0)
                 {
-                    throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationAnchorOffsetInvalid));
+                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationAnchorOffsetInvalid));
                 }
                 anchorOffsetY = value;
                 this.ResetCurrentRelativePosition();
@@ -3284,7 +3287,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Adds anchor position to the list. Used to check SmartLabelStyle overlapping.
         /// </summary>
         /// <param name="list">List to add to.</param>
-        internal void AddSmartLabelMarkerPositions(ArrayList list)
+        internal void AddSmartLabelMarkerPositions(List<RectangleF> list)
         {
             // Anchor position is added to the list of non-overlapped markers
             if (this.Visible && this.IsAnchorDrawn())
@@ -4081,23 +4084,32 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region IDisposable Members
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                //Free managed resources
                 if (_fontCache != null)
                 {
                     _fontCache.Dispose();
                     _fontCache = null;
                 }
+
+                _axisX = null;
+                _axisY = null;
             }
-            base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         #endregion
     }
@@ -4120,7 +4132,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     {
         #region Fields
 
-        private Annotation _Annotation = null;
+        private Annotation _Annotation;
         /// <summary>
         /// Gets or sets the annotation the event is fired for.
         /// </summary>
@@ -4130,7 +4142,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             set { _Annotation = value; }
         }
 
-        private double _NewLocationX = 0.0;
+        private double _NewLocationX;
         /// <summary>
         /// Gets or sets the new X location of the annotation.
         /// </summary>
@@ -4140,7 +4152,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             set { _NewLocationX = value; }
         }
 
-        private double _NewLocationY = 0.0;
+        private double _NewLocationY;
         /// <summary>
         /// Gets or sets the new Y location of the annotation.
         /// </summary>
@@ -4150,7 +4162,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             set { _NewLocationY = value; }
         }
 
-        private double _NewSizeWidth = 0.0;
+        private double _NewSizeWidth;
         /// <summary>
         /// Gets or sets the new width of the annotation.
         /// </summary>
@@ -4160,7 +4172,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             set { _NewSizeWidth = value; }
         }
 
-        private double _NewSizeHeight = 0.0;
+        private double _NewSizeHeight;
         /// <summary>
         /// Gets or sets the new height of the annotation.
         /// </summary>
@@ -4170,7 +4182,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             set { _NewSizeHeight = value; }
         }
 
-        private double _NewAnchorLocationX = 0.0;
+        private double _NewAnchorLocationX;
         /// <summary>
         /// Gets or sets the new annotation anchor point X location.
         /// </summary>
@@ -4180,7 +4192,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             set { _NewAnchorLocationX = value; }
         }
 
-        private double _NewAnchorLocationY = 0.0;
+        private double _NewAnchorLocationY;
         /// <summary>
         /// Gets or sets the new annotation anchor point Y location.
         /// </summary>

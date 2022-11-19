@@ -35,35 +35,35 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private ChartImage _chartPicture; 
 
 		// Reference to Chart Graphics Object
-		internal ChartGraphics graph = null;
+		internal ChartGraphics graph;
 
-		/// <summary>
-		/// Service Container
-		/// </summary>
-		internal IServiceContainer	container = null;
+        /// <summary>
+        /// Service Container
+        /// </summary>
+        internal IServiceContainer	container;
 
-		/// <summary>
-		/// Indicates painting mode
-		/// </summary>
-		internal bool processModePaint = true;
+        /// <summary>
+        /// Indicates painting mode
+        /// </summary>
+        internal bool processModePaint = true;
 
 		/// <summary>
 		/// Indicates selection mode
 		/// </summary>
-		internal bool processModeRegions = false;
+		internal bool processModeRegions;
 
-		// Private Fields
-		private int _width = 0;
-		private int _height = 0;
+        // Private Fields
+        private int _width;
+        private int _height;
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		/// <summary>
-		/// Reference to the Data Manager
-		/// </summary>
-		internal DataManager DataManager
+        /// <summary>
+        /// Reference to the Data Manager
+        /// </summary>
+        internal DataManager DataManager
 		{
 			get
 			{

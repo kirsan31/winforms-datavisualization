@@ -1867,22 +1867,22 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// Attribute default value.
 		/// </summary>
-		public	object				DefaultValue = null;
+		public	object				DefaultValue;
 
-		/// <summary>
-		/// Attribute description.
-		/// </summary>
-		public	string				Description = String.Empty;
+        /// <summary>
+        /// Attribute description.
+        /// </summary>
+        public	string				Description = String.Empty;
 
 		/// <summary>
 		/// Array of chart type supported by the attribute
 		/// </summary>
-		public SeriesChartType[]	AppliesToChartType = null;
+		public SeriesChartType[]	AppliesToChartType;
 
-		/// <summary>
-		/// Indicates that attribute can be applied on series.
-		/// </summary>
-		public	bool				AppliesToSeries = true;
+        /// <summary>
+        /// Indicates that attribute can be applied on series.
+        /// </summary>
+        public	bool				AppliesToSeries = true;
 
 		/// <summary>
 		/// Indicates that attribute can be applied on data point.
@@ -1902,28 +1902,28 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// Attribute minimum value.
 		/// </summary>
-		public	object				MinValue = null;
+		public	object				MinValue;
 
-		/// <summary>
-		/// Attribute maximum value.
-		/// </summary>
-		public	object				MaxValue = null;
+        /// <summary>
+        /// Attribute maximum value.
+        /// </summary>
+        public	object				MaxValue;
 
-		#endregion // Public Fields
+        #endregion // Public Fields
 
-		#region Constructor
+        #region Constructor
 
-		/// <summary>
-		/// Public constructor.
-		/// </summary>
-		/// <param name="name">Attribute name</param>
-		/// <param name="valueType">Attribute value type.</param>
-		/// <param name="defaultValue">Attribute default value.</param>
-		/// <param name="description">Attribute description.</param>
-		/// <param name="appliesToChartType">Array of chart types where attribute used.</param>
-		/// <param name="appliesToSeries">True if properties can be set in series.</param>
-		/// <param name="appliesToDataPoint">True if properties can be set in data point.</param>
-		public CustomPropertyInfo(
+        /// <summary>
+        /// Public constructor.
+        /// </summary>
+        /// <param name="name">Attribute name</param>
+        /// <param name="valueType">Attribute value type.</param>
+        /// <param name="defaultValue">Attribute default value.</param>
+        /// <param name="description">Attribute description.</param>
+        /// <param name="appliesToChartType">Array of chart types where attribute used.</param>
+        /// <param name="appliesToSeries">True if properties can be set in series.</param>
+        /// <param name="appliesToDataPoint">True if properties can be set in data point.</param>
+        public CustomPropertyInfo(
 			string name,
 			Type valueType,
 			object defaultValue,

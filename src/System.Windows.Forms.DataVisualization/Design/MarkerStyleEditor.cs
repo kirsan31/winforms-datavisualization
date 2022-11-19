@@ -26,7 +26,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 	{
 		#region Editor method and properties
 
-		ChartGraphics	_chartGraph = null;
+		ChartGraphics	_chartGraph;
         private bool _disposed;
 
 		/// <summary>
@@ -46,81 +46,75 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
             Justification = "Too large of a code change to justify making this change")]
 		public override void PaintValue(PaintValueEventArgs e)
-		{
-			if(e.Value is MarkerStyle)
-			{
-				// Create chart graphics object
-				if(_chartGraph == null)
-				{
-					_chartGraph = new ChartGraphics(null);
-				}
-				_chartGraph.Graphics = e.Graphics;
+        {
+            if (e.Value is not MarkerStyle markerStyle)
+                return;
 
-				// Get marker properties
-				DataPointCustomProperties	attributes = null;
-				if(e.Context != null && e.Context.Instance != null)
-				{
-					// Check if several object selected
-					object	attrObject = e.Context.Instance;
-					if(e.Context.Instance is Array)
-					{
-						Array	array = (Array)e.Context.Instance;
-						if(array.Length > 0)
-						{
-							attrObject = array.GetValue(0);
-						}
-					}
+            // Create chart graphics object
+            _chartGraph ??= new ChartGraphics(null);
+            _chartGraph.Graphics = e.Graphics;
 
-					// Check what kind of object is selected
-					if(attrObject is Series)
-					{
-						attributes = (DataPointCustomProperties)attrObject;
-					}
-					else if(attrObject is DataPoint)
-					{
-						attributes = (DataPointCustomProperties)attrObject;
-					}
-					else if(attrObject is DataPointCustomProperties)
-					{
-						attributes = (DataPointCustomProperties)attrObject;
-					}
-					else if(attrObject is LegendItem)
-					{
-						attributes = new DataPointCustomProperties();
-						attributes.MarkerColor = ((LegendItem)attrObject).markerColor;
-						attributes.MarkerBorderColor = ((LegendItem)attrObject).markerBorderColor;
-						attributes.MarkerSize = ((LegendItem)attrObject).markerSize;
-					}
-				}
+            // Get marker properties
+            DataPointCustomProperties attributes = null;
+            if (e.Context is not null && e.Context.Instance is not null && markerStyle != MarkerStyle.None)
+            {
+                // Check if several object selected
+                object attrObject = e.Context.Instance;
+                if (e.Context.Instance is Array)
+                {
+                    Array array = (Array)e.Context.Instance;
+                    if (array.Length > 0)
+                        attrObject = array.GetValue(0);
+                }
 
-				// Draw marker sample
-				if(attributes != null && (MarkerStyle)e.Value != MarkerStyle.None)
-				{
-					PointF	point = new PointF(e.Bounds.X + ((float)e.Bounds.Width)/2F - 0.5F, e.Bounds.Y + ((float)e.Bounds.Height)/2F - 0.5F);
-					Color color = (attributes.MarkerColor == Color.Empty) ? Color.Black : attributes.MarkerColor;
-					int size = attributes.MarkerSize;
-					if(size > (e.Bounds.Height - 4))
-					{
-						size = e.Bounds.Height - 4;
-					}
-					_chartGraph.DrawMarkerAbs(
-						point, 
-						(MarkerStyle)e.Value, 
-						size, 
-						color, 
-						attributes.MarkerBorderColor, 
-						attributes.MarkerBorderWidth,
-						"", 
-						Color.Empty, 
-						0, 
-						Color.Empty, 
-						RectangleF.Empty, 
-						true);
-				}
-			}
-		}
+                // Check what kind of object is selected
+                if (attrObject is Series)
+                {
+                    attributes = (DataPointCustomProperties)attrObject;
+                }
+                else if (attrObject is DataPoint)
+                {
+                    attributes = (DataPointCustomProperties)attrObject;
+                }
+                else if (attrObject is DataPointCustomProperties)
+                {
+                    attributes = (DataPointCustomProperties)attrObject;
+                }
+                else if (attrObject is LegendItem)
+                {
+                    attributes = new DataPointCustomProperties();
+                    attributes.MarkerColor = ((LegendItem)attrObject).markerColor;
+                    attributes.MarkerBorderColor = ((LegendItem)attrObject).markerBorderColor;
+                    attributes.MarkerSize = ((LegendItem)attrObject).markerSize;
+                }
+            }
 
-		#endregion
+            // Draw marker sample
+            if (attributes is not null)
+            {
+                PointF point = new PointF(e.Bounds.X + e.Bounds.Width / 2F - 0.5F, e.Bounds.Y + e.Bounds.Height / 2F - 0.5F);
+                Color color = (attributes.MarkerColor == Color.Empty) ? Color.Black : attributes.MarkerColor;
+                int size = attributes.MarkerSize;
+                if (size > (e.Bounds.Height - 4))
+                    size = e.Bounds.Height - 4;
+
+                _chartGraph.DrawMarkerAbs(
+                    point,
+                    markerStyle,
+                    size,
+                    color,
+                    attributes.MarkerBorderColor,
+                    attributes.MarkerBorderWidth,
+                    string.Empty,
+                    Color.Empty,
+                    0,
+                    Color.Empty,
+                    RectangleF.Empty,
+                    true);                
+            }
+        }
+
+        #endregion
 
         #region IDisposable Members
 

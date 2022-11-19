@@ -16,7 +16,9 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Reflection;
 using System.Resources;
 
@@ -85,9 +87,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		#region Fields
 
 		// Chart types image resource manager
-		private		ResourceManager		_resourceManager = null;
+		private		ResourceManager		_resourceManager;
 
-		// Storage for registered/created chart types
+        // Storage for registered/created chart types
         internal    Hashtable           registeredChartTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
         private     Hashtable           _createdChartTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
 
@@ -409,7 +411,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="area">Chart area.</param>
 		/// <param name="series">Series values to be used.</param>
 		/// <param name="list">List to add to.</param>
-		void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, ArrayList list);
+		void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, List<RectangleF> list);
 
 		#endregion
 	}

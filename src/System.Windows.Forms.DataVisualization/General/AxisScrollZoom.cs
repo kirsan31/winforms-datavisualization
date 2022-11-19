@@ -80,10 +80,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Reference to the axis object
-		internal Axis					axis = null;
+		internal Axis					axis;
 
-		// Axis data scaleView position
-		private	double					_position = double.NaN;
+        // Axis data scaleView position
+        private	double					_position = double.NaN;
 
 		// Axis data scaleView size
 		private	double					_size = double.NaN;
@@ -119,19 +119,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private DateTimeIntervalType    _currentSmallScrollSizeType = DateTimeIntervalType.Auto;
 
 		// Storage for the saved data scaleView states (position/size/sizetype)
-		internal ArrayList				dataViewStates = null;
+		internal ArrayList				dataViewStates;
 
-		// Ignore validation flag
-		private	bool					_ignoreValidation = false;
+        // Ignore validation flag
+        private	bool					_ignoreValidation;
 
-		#endregion
+        #endregion
 
-		#region Constructor
+        #region Constructor
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public AxisScaleView()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public AxisScaleView()
 		{
 			this.axis = null;
 		}
@@ -879,7 +879,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Check parameters
 			if(numberOfViews < 0)
 			{
-                throw (new ArgumentOutOfRangeException("numberOfViews", SR.ExceptionScrollBarZoomResetsNumberInvalid));
+                throw (new ArgumentOutOfRangeException(nameof(numberOfViews), SR.ExceptionScrollBarZoomResetsNumberInvalid));
 			}
 			// Check if storage was created
 			if(dataViewStates != null && dataViewStates.Count >= 3)
@@ -1256,8 +1256,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     #region Private fields
 
 			// Private fields for properties values storage
-			private		Axis					_axis = null;
-			private		double					_newPosition = double.NaN;
+			private		Axis					_axis;
+        private		double					_newPosition = double.NaN;
 			private		double					_newSize = double.NaN;
 			private		DateTimeIntervalType	_newSizeType = DateTimeIntervalType.Auto;
 
@@ -1456,7 +1456,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string crossingValue = value as string;
             if (crossingValue != null)
 			{
-                if (String.Compare(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return Double.NaN;
 				}
@@ -1612,7 +1612,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string crossingValue = value as string;
 			if (crossingValue != null)
 			{
-                if (String.Compare(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Equals(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase))
 				{
 					return Double.NaN;
 				}

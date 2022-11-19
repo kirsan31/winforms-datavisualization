@@ -16,6 +16,8 @@ using System.Windows.Forms.DataVisualization.Charting.Utilities;
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
 
+#warning designer
+    /*
     /// <summary>
     /// Image string editor class.
     /// </summary>
@@ -74,5 +76,57 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         }
         #endregion
     }
+    */
 
+    /// <summary>
+    ///  Provides an editor for filenames.
+    /// </summary>
+    public class ImageValueEditor : UITypeEditor
+    {
+        private OpenFileDialog _openFileDialog;
+
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            if (!provider.TryGetService(out IWindowsFormsEditorService _))
+            {
+                return value;
+            }
+
+            if (_openFileDialog is null)
+            {
+                _openFileDialog = new OpenFileDialog();
+                InitializeDialog(_openFileDialog);
+            }
+
+            if (value is string stringValue)
+            {
+                _openFileDialog.FileName = stringValue;
+            }
+
+            if (_openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                return _openFileDialog.FileName;
+            }
+
+            return value;
+        }
+
+        /// <inheritdoc />
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) => UITypeEditorEditStyle.Modal;
+
+        /// <summary>
+        ///  Initializes the open file dialog when it is created. This gives you an opportunity to
+        ///  configure the dialog as you please. The default implementation provides a generic file
+        ///  filter and title.
+        /// </summary>
+        protected virtual void InitializeDialog(OpenFileDialog openFileDialog)
+        {
+            /*
+            ArgumentNullException.ThrowIfNull(openFileDialog);
+
+            openFileDialog.Filter = SR.GenericFileFilter;
+            openFileDialog.Title = SR.GenericOpenFile;
+            */
+        }
+    }
 }

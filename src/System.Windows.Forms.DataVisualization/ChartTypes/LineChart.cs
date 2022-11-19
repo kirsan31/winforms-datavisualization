@@ -118,65 +118,65 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Line tension
 		/// </summary>
-		protected	float	lineTension = 0f;
+		protected	float	lineTension;
 
-		/// <summary>
-		/// Index of the drawing center point. int.MaxValue if drawn from left->right or right->left.
-		/// </summary>
-		protected	int		centerPointIndex = int.MaxValue;
+        /// <summary>
+        /// Index of the drawing center point. int.MaxValue if drawn from left->right or right->left.
+        /// </summary>
+        protected	int		centerPointIndex = int.MaxValue;
 
 		/// <summary>
 		/// Inicates that border color attribute must be used to draw the line
 		/// </summary>
-		protected	bool	useBorderColor = false;
+		protected	bool	useBorderColor;
 
-		/// <summary>
-		/// Inicates that line shadow should not be drawn
-		/// </summary>
-		protected	bool	disableShadow = false;
+        /// <summary>
+        /// Inicates that line shadow should not be drawn
+        /// </summary>
+        protected	bool	disableShadow;
 
-		/// <summary>
-		/// Inicates that only line shadow must be drawn
-		/// </summary>
-		protected	bool	drawShadowOnly = false;
+        /// <summary>
+        /// Inicates that only line shadow must be drawn
+        /// </summary>
+        protected	bool	drawShadowOnly;
 
-		// Pen used to draw the line chart
-		private		Pen		_linePen = new Pen(Color.Black);
+        // Pen used to draw the line chart
+        private		Pen		_linePen = new Pen(Color.Black);
 
 		/// <summary>
 		/// Horizontal axis minimum value
 		/// </summary>
-		protected	double	hAxisMin = 0.0;
+		protected	double	hAxisMin;
 
-		/// <summary>
-		/// Horizontal axis maximum value
-		/// </summary>
-		protected	double	hAxisMax = 0.0;
+        /// <summary>
+        /// Horizontal axis maximum value
+        /// </summary>
+        protected	double	hAxisMax;
 
-		/// <summary>
-		/// Vertical axis minimum value
-		/// </summary>
-		protected	double	vAxisMin = 0.0;
+        /// <summary>
+        /// Vertical axis minimum value
+        /// </summary>
+        protected	double	vAxisMin;
 
-		/// <summary>
-		/// Vertical axis maximum value
-		/// </summary>
-		protected	double	vAxisMax = 0.0;
+        /// <summary>
+        /// Vertical axis maximum value
+        /// </summary>
+        protected	double	vAxisMax;
 
-		/// <summary>
-		/// Clip region indicator
-		/// </summary>
-		protected	bool	clipRegionSet = false;
-		
-		/// <summary>
-		/// Indicates that several series are drawn at the same time. Stacked or Side-by-side.
-		/// </summary>
-		protected	bool	multiSeries = false;
+        /// <summary>
+        /// Clip region indicator
+        /// </summary>
+        protected	bool	clipRegionSet;
 
-		/// <summary>
-		/// Indicates which coordinates should be tested against the COP.
-		/// </summary>
-		protected	COPCoordinates	COPCoordinatesToCheck = COPCoordinates.X;
+        /// <summary>
+        /// Indicates that several series are drawn at the same time. Stacked or Side-by-side.
+        /// </summary>
+        protected	bool	multiSeries;
+
+        /// <summary>
+        /// Indicates which coordinates should be tested against the COP.
+        /// </summary>
+        protected	COPCoordinates	COPCoordinatesToCheck = COPCoordinates.X;
 
 		/// <summary>
 		/// Number of data points loops required to draw chart.
@@ -186,23 +186,23 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Indicates that line markers are shown at data point.
 		/// </summary>
-		protected	bool	showPointLines = false;
+		protected	bool	showPointLines;
 
-		/// <summary>
-		/// Indicates that that lines outside the area should be still processed while drawing.
-		/// </summary>
-		protected	bool	drawOutsideLines = false;
+        /// <summary>
+        /// Indicates that that lines outside the area should be still processed while drawing.
+        /// </summary>
+        protected	bool	drawOutsideLines;
 
 
-		/// <summary>
-		/// Indicates if base (point) chart type should be processed
-		/// </summary>
-		private		bool	_processBaseChart = false;
+        /// <summary>
+        /// Indicates if base (point) chart type should be processed
+        /// </summary>
+        private		bool	_processBaseChart;
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public LineChart() : base(false)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public LineChart() : base(false)
 		{
 			// Draw markers on the front edge
 			middleMarker = false;
@@ -342,7 +342,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			List<string>	typeSeries = area.GetSeriesFromChartType(this.Name);
 
 			// Check if series are indexed
-            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, typeSeries.ToArray());
+            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, typeSeries);
 		
 			//************************************************************
 			//** Loop through all series
@@ -729,14 +729,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						if(color != Color.Empty && color != Color.Transparent && pointBorderWidth > 0 && dashStyle != ChartDashStyle.NotSet)
 						{
-							Pen shadowPen = new Pen((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb((useBorderColor) ? point.BorderColor.A/2 : point.Color.A/2, series.ShadowColor), pointBorderWidth);
+							using Pen shadowPen = new Pen((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb((useBorderColor) ? point.BorderColor.A/2 : point.Color.A/2, series.ShadowColor), pointBorderWidth);
 							shadowPen.DashStyle = graph.GetPenStyle( point.BorderDashStyle );
 							shadowPen.StartCap = LineCap.Round;
 							shadowPen.EndCap = LineCap.Round;
 
 							// Translate curve
 							GraphicsState graphicsState = graph.Save();
-							Matrix transform = graph.Transform.Clone();
+							using Matrix transform = graph.Transform;
 							transform.Translate(series.ShadowOffset, series.ShadowOffset);
 							graph.Transform = transform;
 
@@ -901,7 +901,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         try
                         {
                             path.AddCurve(points, pointIndex - 1, 1, this.lineTension);
-                            path.Widen(new Pen(point.Color, pointBorderWidth + 2));
+							using var pen = new Pen(point.Color, pointBorderWidth + 2);
+							path.Widen(pen);
                             path.Flatten();
                         }
                         catch (OutOfMemoryException)
@@ -939,7 +940,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
         private const long maxGDIRange = 0x800000;
         // VSTS: 9698 - issue: the line start from X = 0 when GDI overflows (before we expected exception)
-        private bool IsLinePointsOverflow(PointF point)
+        private static bool IsLinePointsOverflow(PointF point)
         {
             return point.X <= -maxGDIRange || point.X >= maxGDIRange || point.Y <= -maxGDIRange || point.Y >= maxGDIRange;
         }
@@ -1024,7 +1025,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <param name="point">Point to draw the line for.</param>
 		/// <param name="series">Point series.</param>
 		/// <param name="firstPoint">First line point.</param>
-		/// <param name="secondPoint">Seconf line point.</param>
+		/// <param name="secondPoint">Second line point.</param>
 		protected void DrawLine(
 			ChartGraphics graph, 
 			DataPoint point, 
@@ -1182,9 +1183,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			ChartArea area, 
 			Series seriesToDraw )
 		{
-			
+
 			// Reset graphics fields
-			graph.frontLinePen = null;
+			if (graph.frontLinePen is not null)
+			{
+				graph.frontLinePen.Dispose();
+				graph.frontLinePen = null;
+			}
+
 			graph.frontLinePoint1 = PointF.Empty;
 			graph.frontLinePoint2 = PointF.Empty;
 
@@ -1364,7 +1370,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							this.showPointLines = false;
 							if(pointAttr.dataPoint.IsCustomPropertySet(CustomPropertyName.ShowMarkerLines))
 							{
-								if(String.Compare(pointAttr.dataPoint[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase) == 0)
+								if(string.Equals(pointAttr.dataPoint[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase))
 								{
 									this.showPointLines = true;
 								}
@@ -1373,7 +1379,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							{
 								if(pointAttr.dataPoint.series.IsCustomPropertySet(CustomPropertyName.ShowMarkerLines))
 								{
-                                    if (String.Compare(pointAttr.dataPoint.series[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase) == 0)
+                                    if (string.Equals(pointAttr.dataPoint.series[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase))
 									{
 										this.showPointLines = true;
 									}
@@ -2091,7 +2097,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				if((decimal)thirdPoint.Y > plotAreaPositionBottom ||
 					(decimal)fourthPoint.Y > plotAreaPositionBottom )
 				{
-					intersectionPoint.yPosition = (double)area.PlotAreaPosition.Bottom;
+					intersectionPoint.yPosition = area.PlotAreaPosition.Bottom;
 					firstIntersectionOnBottom = true;
 				}
 				intersectionPoint.xPosition = (intersectionPoint.yPosition - fourthPoint.Y) *
@@ -2126,11 +2132,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					intersectionPoint2 = new DataPoint3D();
 					if(!firstIntersectionOnBottom)
 					{
-						intersectionPoint2.yPosition = (double)area.PlotAreaPosition.Bottom;
+						intersectionPoint2.yPosition = area.PlotAreaPosition.Bottom;
 					}
 					else
 					{
-						intersectionPoint2.yPosition = (double)area.PlotAreaPosition.Y;
+						intersectionPoint2.yPosition = area.PlotAreaPosition.Y;
 					}
 					intersectionPoint2.xPosition = (intersectionPoint2.yPosition - fourthPoint.Y) *
 						(thirdPoint.X - fourthPoint.X) / 

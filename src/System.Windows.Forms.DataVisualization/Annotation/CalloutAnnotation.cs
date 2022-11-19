@@ -88,13 +88,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private		CalloutStyle		_calloutStyle = CalloutStyle.Rectangle;
 
 		// Cloud shape path
-		private		static				GraphicsPath	_cloudPath = null;
+		private		static				GraphicsPath	_cloudPath;
 
-		// Cloud shape outline path
-		private		static				GraphicsPath	_cloudOutlinePath = null;
+        // Cloud shape outline path
+        private		static				GraphicsPath	_cloudOutlinePath;
 
-		// Cloud shape boundary rectangle
-		private		static				RectangleF	_cloudBounds = RectangleF.Empty;
+        // Cloud shape boundary rectangle
+        private		static				RectangleF	_cloudBounds = RectangleF.Empty;
 
 		#endregion
 
@@ -694,7 +694,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					// If there is more then one graphical path split them and create 
 					// image maps for every graphical path separately.
-					GraphicsPathIterator iterator = new GraphicsPathIterator(hotRegionPathAbs);
+					using GraphicsPathIterator iterator = new GraphicsPathIterator(hotRegionPathAbs);
 
 					// There is more then one path.
                     using (GraphicsPath subPath = new GraphicsPath())
@@ -1431,8 +1431,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Draw line to the anchor point
 			if(!float.IsNaN(anchorPoint.X) && !float.IsNaN(anchorPoint.Y))
 			{
+				using var pen = new Pen(Color.Black, this.LineWidth + 2);
 				// Check if point is inside annotation position
-				if(!rectanglePosition.Contains(anchorPoint.X, anchorPoint.Y))
+				if (!rectanglePosition.Contains(anchorPoint.X, anchorPoint.Y))
 				{
 					PointF	lineSecondPoint = PointF.Empty;
 					if(anchorPoint.X < rectanglePosition.X)
@@ -1512,14 +1513,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						this.ShadowColor,
 						this.ShadowOffset);
 
-					// Create hot region path
-					using( GraphicsPath linePath = new GraphicsPath() )
+					// Create hot region path					
+					using ( GraphicsPath linePath = new GraphicsPath() )
 					{
 						linePath.AddLine(						
 							graphics.GetAbsolutePoint(anchorPoint),
 							graphics.GetAbsolutePoint(lineSecondPoint) );
-
-						linePath.Widen(new Pen(Color.Black, this.LineWidth + 2));
+						
+						linePath.Widen(pen);
 						hotRegion.SetMarkers();
 						hotRegion.AddPath( linePath, false );
 					}
@@ -1573,11 +1574,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 							graphics.GetAbsolutePoint(textLinePoint1),
 							graphics.GetAbsolutePoint(textLinePoint2) );
 
-						linePath.Widen(new Pen(Color.Black, this.LineWidth + 2));
+						linePath.Widen(pen);
 						hotRegion.SetMarkers();
 						hotRegion.AddPath( linePath, false );
 					}
-
 				}
 			}
 
@@ -1613,17 +1613,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				GetCloudPath(position);
 			}
 
-			// Translate and sacle original path to fit specified position
+			// Translate and scale original path to fit specified position
 			GraphicsPath resultPath = (GraphicsPath)_cloudOutlinePath.Clone();
-			Matrix matrix = new Matrix();
+			using Matrix matrix = new Matrix();
 			matrix.Translate(-_cloudBounds.X, -_cloudBounds.Y);
 			resultPath.Transform(matrix);
-			matrix = new Matrix();
+            matrix.Reset();
 			matrix.Translate(position.X, position.Y);
 			matrix.Scale(position.Width / _cloudBounds.Width, position.Height / _cloudBounds.Height);
 			resultPath.Transform(matrix);
 
-			return resultPath;
+            return resultPath;
 		}
 	
 		/// <summary>
@@ -1724,17 +1724,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				_cloudBounds = _cloudPath.GetBounds();
 			}
 
-			// Translate and sacle original path to fit specified position
+			// Translate and scale original path to fit specified position
 			GraphicsPath resultPath = (GraphicsPath)_cloudPath.Clone();
-			Matrix matrix = new Matrix();
+			using Matrix matrix = new Matrix();
 			matrix.Translate(-_cloudBounds.X, -_cloudBounds.Y);
 			resultPath.Transform(matrix);
-			matrix = new Matrix();
+            matrix.Reset();
 			matrix.Translate(position.X, position.Y);
 			matrix.Scale(position.Width / _cloudBounds.Width, position.Height / _cloudBounds.Height);
 			resultPath.Transform(matrix);
 
-			return resultPath;
+            return resultPath;
 		}
 
 		/// <summary>

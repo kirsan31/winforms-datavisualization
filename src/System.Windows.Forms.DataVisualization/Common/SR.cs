@@ -3,11 +3,7 @@
 // from information in SR.strings.
 // DO NOT MODIFY THIS FILE'S CONTENTS, THEY WILL BE OVERWRITTEN
 // 
-#if WINFORMS_CONTROL
 namespace System.Windows.Forms.DataVisualization.Charting
-#else
-namespace System.Web.UI.DataVisualization.Charting
-#endif
 {
 	using System;
 	using System.Resources;
@@ -9909,9 +9905,9 @@ namespace System.Web.UI.DataVisualization.Charting
 			
 			static ResourceManager resourceManager = new ResourceManager(typeof(SR).FullName, typeof(SR).Module.Assembly);
 			
-			static CultureInfo _culture = null;
-			
-			public const string ExceptionElementPositionConverter = "ExceptionElementPositionConverter";
+			static CultureInfo _culture;
+
+            public const string ExceptionElementPositionConverter = "ExceptionElementPositionConverter";
 			
 			public const string ExceptionInvalidServiceContainer = "ExceptionInvalidServiceContainer";
 			

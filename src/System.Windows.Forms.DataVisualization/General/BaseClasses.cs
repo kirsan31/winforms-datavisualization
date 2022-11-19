@@ -11,13 +11,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <summary>
     /// ChartElement is the most basic element of the chart element hierarchy. 
     /// </summary>
-    public abstract class ChartElement : IChartElement, IDisposable
+    public abstract class ChartElement : IChartElement
     {
         #region Member variables
 
-        private IChartElement  _parent = null;
-        private CommonElements _common = null;
-        private object _tag = null;
+        private IChartElement  _parent;
+        private CommonElements _common;
+        private object _tag;
 
         #endregion
 
@@ -145,28 +145,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion
 
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-        }
-
-        /// <summary>
-        /// Performs freeing, releasing, or resetting managed resources.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]        
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
-
         #region Methods
 
         /// <summary>
@@ -262,16 +240,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (_name != value)
                 {
-                    if (Parent is INameController)
-                    {
-                        INameController nameController = Parent as INameController;
-                        
+                    if (Parent is INameController nameController)
+                    {                        
                         if (!nameController.IsUniqueName(value))
                             throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(value, nameController.GetType().Name));
                         
                         // Fire the name change events in case when the old name is not empty
                         NameReferenceChangedEventArgs args = new NameReferenceChangedEventArgs(this, _name, value);
                         nameController.OnNameReferenceChanging(args);
+                        nameController.ChangeName(_name, value);
                         _name = value;
                         nameController.OnNameReferenceChanged(args);
                     }

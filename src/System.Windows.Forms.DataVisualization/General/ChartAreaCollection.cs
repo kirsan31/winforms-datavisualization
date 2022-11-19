@@ -16,16 +16,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// ChartArea objects. Each chart area has a unique name in the collection
     /// and can be retrieved by name or by index.
     /// </summary>
-    public class ChartAreaCollection : ChartNamedElementCollection<ChartArea>
+    public class ChartAreaCollection : ChartNamedElementCollection<ChartArea>, IDisposable
 	{
+        private bool _disposedValue;
 
-		#region Constructors
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChartAreaCollection"/> class.
         /// </summary>
         /// <param name="chartPicture">Parent chart picture.</param>
-		internal ChartAreaCollection(ChartPicture chartPicture) : base(chartPicture)
+        internal ChartAreaCollection(ChartPicture chartPicture) : base(chartPicture)
 		{
 		}
 
@@ -72,5 +73,38 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion
 
+        #region IDisposable Members
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposedValue)
+                return;
+
+            if (disposing)
+            {
+                // Dispose managed resources
+                foreach (var element in this)
+                {
+                    element.Dispose();
+                }
+            }
+
+            _disposedValue = true;
+        }
+
+        /// <summary>
+        /// Performs freeing, releasing, or resetting managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }

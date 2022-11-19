@@ -92,13 +92,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			{
 				// Create grapics path object for the line
 				// Split line into 2 segments.
-				GraphicsPath	path = new GraphicsPath();
+				GraphicsPath path = new GraphicsPath();
+				using var pen = new Pen(point.Color, point.BorderWidth + 2);
 				try
 				{
 					path.AddLine(point2, point3);
                     if (!point2.Equals(point3))
                     {
-                        path.Widen(new Pen(point.Color, point.BorderWidth + 2));
+                        path.Widen(pen);
                     }
 				}
                 catch (OutOfMemoryException)
@@ -134,7 +135,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				try
 				{
 					path.AddLine(point1, point2);
-					path.Widen(new Pen(point.Color, point.BorderWidth + 2));
+					path.Widen(pen);
 				}
                 catch (OutOfMemoryException)
                 {
@@ -284,11 +285,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 			// Draw two segments of the step line
 			GraphicsPath resultPathLine1, resultPathLine2;
-			if(originalDrawOrder)
+#pragma warning disable CA2000 // Dispose objects before losing scope
+			if (originalDrawOrder)
 			{
 				// Draw first line
 				middlePoint.dataPoint = secondPoint.dataPoint;
-				resultPathLine1 = graph.Draw3DSurface( 
+                resultPathLine1 = graph.Draw3DSurface( 
 					area, matrix, lightStyle, SurfaceNames.Top, positionZ, depth, color, 
 					pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle, 
 					firstPoint, middlePoint, 
@@ -298,7 +300,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					this.multiSeries, 0, true);
 
 				// No second draw of the prev. front line required
-				graph.frontLinePen = null;
+				if (graph.frontLinePen is not null)
+				{
+					graph.frontLinePen.Dispose();
+					graph.frontLinePen = null;
+				}
 
 				// Draw second line
 				middlePoint.dataPoint = firstPoint.dataPoint;
@@ -312,7 +318,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					this.multiSeries, 0, true);
 
 				// No second draw of the prev. front line required
-				graph.frontLinePen = null;
+				if (graph.frontLinePen is not null)
+				{
+					graph.frontLinePen.Dispose();
+					graph.frontLinePen = null;
+				}
 			}
 			else
 			{
@@ -326,10 +336,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					(this.showPointLines) ? true : false, false,
                     area.ReverseSeriesOrder,
 					this.multiSeries, 0, true);
-				
+
 				// No second draw of the prev. front line required
-				graph.frontLinePen = null;
-				
+				if (graph.frontLinePen is not null)
+				{
+					graph.frontLinePen.Dispose();
+					graph.frontLinePen = null;
+				}
+
 				// Draw first line
 				middlePoint.dataPoint = secondPoint.dataPoint;
 				resultPathLine1 = graph.Draw3DSurface( 
@@ -342,14 +356,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					this.multiSeries, 0, true);
 
 				// No second draw of the prev. front line required
-				graph.frontLinePen = null;
+				if (graph.frontLinePen is not null)
+				{
+					graph.frontLinePen.Dispose();
+					graph.frontLinePen = null;
+				}
 			}
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
-			if(resultPath != null)
+			if (resultPath is not null)
 			{
 				if( area.Common.ProcessModeRegions)
 				{
-					if(resultPathLine1 != null && resultPathLine1.PointCount > 0)
+					if(resultPathLine1 is not null && resultPathLine1.PointCount > 0)
 					{
 						area.Common.HotRegionsList.AddHotRegion( 
 							resultPathLine1, 
@@ -361,11 +380,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 				}
 
-				if(resultPathLine2 != null && resultPathLine2.PointCount > 0)
+				if(resultPathLine2 is not null && resultPathLine2.PointCount > 0)
 				{
 					resultPath.AddPath(resultPathLine2, true);
 				}
 			}
+
+			resultPathLine1?.Dispose();
+			resultPathLine2?.Dispose();
+
 			return resultPath;
 		}
 

@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
+using System;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -22,7 +23,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     using System.Drawing.Design;
     using System.Drawing.Drawing2D;
     using System.Windows.Forms.Design.DataVisualization.Charting;
-    using SizeF = System.Drawing.SizeF;
+    using SizeF = Drawing.SizeF;
 
     #region Enumerations
 
@@ -74,7 +75,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeLegendCellColumn_LegendCellColumn"),
     ]
-    public class LegendCellColumn : ChartNamedElement
+    public class LegendCellColumn : ChartNamedElement, IDisposable
     {
         #region Fields
 
@@ -94,7 +95,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private FontCache _fontCache = new FontCache();
 
         // Legend column text font
-        private Font _font = null;
+        private Font _font;
 
         // Legend column series symbol size
         private Size _seriesSymbolSize = new Size(200, 70);
@@ -121,13 +122,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private Color _headerBackColor = Color.Empty;
 
         // Legend column header text font
-        private Font _headerFont = null;
+        private Font _headerFont;
 
         // Minimum column width
         private int _minimumCellWidth = -1;
 
         // Maximum column width
-        private int _maximumCellWidth = -1;
+        private int _maximumCellWidth = -1;        
 
         #endregion // Fields
 
@@ -199,8 +200,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         [
         Browsable(false),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
         ]
         public virtual Legend Legend
         {
@@ -221,7 +222,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeSeriesItems"),
         DefaultValue(LegendCellColumnType.Text),
         SRDescription("DescriptionAttributeLegendCellColumn_ColumnType"),
-        ParenthesizePropertyNameAttribute(true)
+        ParenthesizePropertyName(true)
         ]
         public virtual LegendCellColumnType ColumnType
         {
@@ -346,7 +347,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value.Width < 0 || value.Height < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionSeriesSymbolSizeIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionSeriesSymbolSizeIsNegative, nameof(value)));
                 }
                 this._seriesSymbolSize = value;
                 this.Invalidate();
@@ -383,9 +384,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeSeriesItems"),
         DefaultValue(typeof(Margins), "0,0,15,15"),
         SRDescription("DescriptionAttributeLegendCellColumn_Margins"),
-        SerializationVisibilityAttribute(SerializationVisibility.Attribute),
+        SerializationVisibility(SerializationVisibility.Attribute),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         ]
         public virtual Margins Margins
         {
@@ -409,7 +410,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Returns true if property should be serialized.  This is for internal use only.
         /// </summary>
-        [EditorBrowsableAttribute(EditorBrowsableState.Never)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ShouldSerializeMargins()
         {
             if (this._margins.Top == 0 &&
@@ -579,7 +580,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < -1)
                 {
-                    throw (new ArgumentException(SR.ExceptionMinimumCellWidthIsWrong, "value"));
+                    throw (new ArgumentException(SR.ExceptionMinimumCellWidthIsWrong, nameof(value)));
                 }
 
                 this._minimumCellWidth = value;
@@ -606,7 +607,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < -1)
                 {
-                    throw (new ArgumentException(SR.ExceptionMaximumCellWidthIsWrong, "value"));
+                    throw (new ArgumentException(SR.ExceptionMaximumCellWidthIsWrong, nameof(value)));
                 }
                 this._maximumCellWidth = value;
                 this.Invalidate();
@@ -639,10 +640,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region IDisposable Members
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -652,6 +653,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     _fontCache = null;
                 }
             }
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
 
@@ -669,7 +679,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeLegendCell_LegendCell"),
     ]
-    public class LegendCell : ChartNamedElement
+    public class LegendCell : ChartNamedElement, IDisposable
     {
         #region Fields
 
@@ -689,7 +699,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private FontCache _fontCache = new FontCache();
 
         // Legend cell text font
-        private Font _font = null;
+        private Font _font;
 
         // Legend cell image name
         private string _image = string.Empty;
@@ -730,7 +740,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private Size _cachedCellSize = Size.Empty;
 
         // Font reduced value used to calculate last cached cell size
-        private int _cachedCellSizeFontReducedBy = 0;
+        private int _cachedCellSizeFontReducedBy;
 
         #endregion // Fields
 
@@ -824,7 +834,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         DefaultValue(LegendCellType.Text),
         SRDescription("DescriptionAttributeLegendCell_CellType"),
-        ParenthesizePropertyNameAttribute(true)
+        ParenthesizePropertyName(true)
         ]
         public virtual LegendCellType CellType
         {
@@ -844,8 +854,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         [
         Browsable(false),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
         ]
         public virtual Legend Legend
         {
@@ -864,8 +874,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         [
         Browsable(false),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
         ]
         public virtual LegendItem LegendItem
         {
@@ -1036,7 +1046,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value.Width < 0 || value.Height < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionLegendCellImageSizeIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionLegendCellImageSizeIsNegative, nameof(value)));
                 }
                 this._imageSize = value;
                 this.Invalidate();
@@ -1062,7 +1072,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value.Width < 0 || value.Height < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionLegendCellSeriesSymbolSizeIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionLegendCellSeriesSymbolSizeIsNegative, nameof(value)));
                 }
                 this._seriesSymbolSize = value;
                 this.Invalidate();
@@ -1108,7 +1118,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 1)
                 {
-                    throw (new ArgumentException(SR.ExceptionLegendCellSpanIsLessThenOne, "value"));
+                    throw (new ArgumentException(SR.ExceptionLegendCellSpanIsLessThenOne, nameof(value)));
                 }
                 this._cellSpan = value;
                 this.Invalidate();
@@ -1122,8 +1132,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeLayout"),
         DefaultValue(typeof(Margins), "0,0,15,15"),
         SRDescription("DescriptionAttributeLegendCell_Margins"),
-        SerializationVisibilityAttribute(SerializationVisibility.Attribute),
-        NotifyParentPropertyAttribute(true),
+        SerializationVisibility(SerializationVisibility.Attribute),
+        NotifyParentProperty(true),
         ]
         public virtual Margins Margins
         {
@@ -1147,7 +1157,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Returns true if property should be serialized.  This method is for internal use only.
         /// </summary>
-        [EditorBrowsableAttribute(EditorBrowsableState.Never)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         internal bool ShouldSerializeMargins()
         {
             if (this._margins.Top == 0 &&
@@ -1452,11 +1462,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 // Create new font
+#pragma warning disable CA2000 // Dispose objects before losing scope
                 cellFont = new Font(
                     cellFont.FontFamily,
                     newFontSize,
                     cellFont.Style,
                     cellFont.Unit);
+#pragma warning restore CA2000 // Dispose objects before losing scope
             }
 
             return cellFont;
@@ -1578,8 +1590,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             // Insert new line character in the string
                             lineLength = 0;
-                            resultString = resultString.Substring(0, charIndex) + "\n" +
-                                resultString.Substring(charIndex + 1).TrimStart();
+                            resultString = string.Concat(resultString.AsSpan(0, charIndex), "\n", resultString.Substring(charIndex + 1).TrimStart());
                         }
                     }
                 }
@@ -1743,7 +1754,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             using (SolidBrush fontBrush = new SolidBrush(this.GetCellForeColor()))
             {
                 // Create cell text format
-                using (StringFormat format = new StringFormat(StringFormat.GenericDefault))
+                using (StringFormat format = StringFormat.GenericDefault)
                 {
                     format.FormatFlags = StringFormatFlags.LineLimit;
                     format.Trimming = StringTrimming.EllipsisCharacter;
@@ -1822,7 +1833,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Get image size in relative coordinates
                 Rectangle imagePosition = Rectangle.Empty;
-                System.Drawing.Image image = this.Common.ImageLoader.LoadImage(this.Image);
+                Image image = this.Common.ImageLoader.LoadImage(this.Image);
 
                 SizeF imageSize = new SizeF();
 
@@ -1862,11 +1873,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 float scaleValue = 1f;
                 if (imagePosition.Height > imageCellPosition.Height)
                 {
-                    scaleValue = (float)imagePosition.Height / (float)imageCellPosition.Height;
+                    scaleValue = imagePosition.Height / (float)imageCellPosition.Height;
                 }
                 if (imagePosition.Width > imageCellPosition.Width)
                 {
-                    scaleValue = Math.Max(scaleValue, (float)imagePosition.Width / (float)imageCellPosition.Width);
+                    scaleValue = Math.Max(scaleValue, imagePosition.Width / (float)imageCellPosition.Width);
                 }
 
                 // Scale image size
@@ -1905,10 +1916,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 // Set image transparent color
-                System.Drawing.Imaging.ImageAttributes imageAttributes = new System.Drawing.Imaging.ImageAttributes();
+                using Drawing.Imaging.ImageAttributes imageAttributes = new Drawing.Imaging.ImageAttributes();
                 if (this.ImageTransparentColor != Color.Empty)
                 {
-                    imageAttributes.SetColorKey(this.ImageTransparentColor, this.ImageTransparentColor, System.Drawing.Imaging.ColorAdjustType.Default);
+                    imageAttributes.SetColorKey(this.ImageTransparentColor, this.ImageTransparentColor, Drawing.Imaging.ColorAdjustType.Default);
                 }
 
                 // Increase quality of image scaling
@@ -2017,7 +2028,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Get image size
                 Rectangle imageScale = Rectangle.Empty;
-                System.Drawing.Image image = this.Common.ImageLoader.LoadImage(legendItem.Image);
+                Image image = this.Common.ImageLoader.LoadImage(legendItem.Image);
 
                 if (image != null)
                 {
@@ -2032,11 +2043,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     float scaleValue = 1f;
                     if (imageScale.Height > seriesMarkerPosition.Height)
                     {
-                        scaleValue = (float)imageScale.Height / (float)seriesMarkerPosition.Height;
+                        scaleValue = imageScale.Height / (float)seriesMarkerPosition.Height;
                     }
                     if (imageScale.Width > seriesMarkerPosition.Width)
                     {
-                        scaleValue = Math.Max(scaleValue, (float)imageScale.Width / (float)seriesMarkerPosition.Width);
+                        scaleValue = Math.Max(scaleValue, imageScale.Width / (float)seriesMarkerPosition.Width);
                     }
 
                     // Scale image size
@@ -2047,7 +2058,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     imageScale.Y = (int)((seriesMarkerPosition.Y + seriesMarkerPosition.Height / 2f) - imageScale.Height / 2f);
 
                     // Set image transparent color
-                    System.Drawing.Imaging.ImageAttributes imageAttributes = new System.Drawing.Imaging.ImageAttributes();
+                    using Drawing.Imaging.ImageAttributes imageAttributes = new Drawing.Imaging.ImageAttributes();
                     if (legendItem.BackImageTransparentColor != Color.Empty)
                     {
                         imageAttributes.SetColorKey(legendItem.BackImageTransparentColor, legendItem.BackImageTransparentColor, System.Drawing.Imaging.ColorAdjustType.Default);
@@ -2136,7 +2147,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         legendItem.markerImage.Length > 0)
                     {
                         // Calculate marker size
-                        int markerSize = (int)Math.Min(seriesMarkerPosition.Width, seriesMarkerPosition.Height);
+                        int markerSize = Math.Min(seriesMarkerPosition.Width, seriesMarkerPosition.Height);
                         markerSize = (int)Math.Min(legendItem.markerSize, (legendItem.style == LegendImageStyle.Line) ? 2f * (markerSize / 3f) : markerSize);
 
                         // Reduce marker size to fit border
@@ -2160,7 +2171,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (legendItem.markerImage.Length > 0)
                         {
                             // Get image size
-                            System.Drawing.Image image = this.Common.ImageLoader.LoadImage(legendItem.markerImage);
+                            Image image = this.Common.ImageLoader.LoadImage(legendItem.markerImage);
 
                             SizeF imageSize = new SizeF();
 
@@ -2173,11 +2184,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             float scaleValue = 1f;
                             if (imageScale.Height > seriesMarkerPosition.Height)
                             {
-                                scaleValue = (float)imageScale.Height / (float)seriesMarkerPosition.Height;
+                                scaleValue = imageScale.Height / (float)seriesMarkerPosition.Height;
                             }
                             if (imageScale.Width > seriesMarkerPosition.Width)
                             {
-                                scaleValue = Math.Max(scaleValue, (float)imageScale.Width / (float)seriesMarkerPosition.Width);
+                                scaleValue = Math.Max(scaleValue, imageScale.Width / (float)seriesMarkerPosition.Width);
                             }
 
                             // Scale image size
@@ -2223,7 +2234,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -2233,9 +2244,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     _fontCache = null;
                 }
             }
-            base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         #endregion
     }
@@ -2252,20 +2270,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Top margin
-        private int _top = 0;
+        private int _top;
 
         // Bottom margin
-        private int _bottom = 0;
+        private int _bottom;
 
         // Left margin
-        private int _left = 0;
+        private int _left;
 
         // Right margin
-        private int _right = 0;
+        private int _right;
 
         // Reference to common chart elements which allows to invalidate
         // chart when one of the properties is changed.
-        internal CommonElements Common = null;
+        internal CommonElements Common;
 
         #endregion // Fields
 
@@ -2304,8 +2322,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMisc"),
         DefaultValue(0),
         SRDescription("DescriptionAttributeMargins_Top"),
-        RefreshPropertiesAttribute(RefreshProperties.All),
-        NotifyParentPropertyAttribute(true),
+        RefreshProperties(RefreshProperties.All),
+        NotifyParentProperty(true),
         ]
         public int Top
         {
@@ -2317,7 +2335,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarginTopIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionMarginTopIsNegative, nameof(value)));
                 }
                 this._top = value;
                 this.Invalidate();
@@ -2331,8 +2349,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMisc"),
         DefaultValue(0),
         SRDescription("DescriptionAttributeMargins_Bottom"),
-        RefreshPropertiesAttribute(RefreshProperties.All),
-        NotifyParentPropertyAttribute(true),
+        RefreshProperties(RefreshProperties.All),
+        NotifyParentProperty(true),
         ]
         public int Bottom
         {
@@ -2344,7 +2362,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarginBottomIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionMarginBottomIsNegative, nameof(value)));
                 }
                 this._bottom = value;
                 this.Invalidate();
@@ -2357,9 +2375,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeMisc"),
         DefaultValue(0),
-        RefreshPropertiesAttribute(RefreshProperties.All),
+        RefreshProperties(RefreshProperties.All),
         SRDescription("DescriptionAttributeMargins_Left"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         ]
         public int Left
         {
@@ -2371,7 +2389,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarginLeftIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionMarginLeftIsNegative, nameof(value)));
                 }
                 this._left = value;
                 this.Invalidate();
@@ -2385,8 +2403,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMisc"),
         DefaultValue(0),
         SRDescription("DescriptionAttributeMargins_Right"),
-        RefreshPropertiesAttribute(RefreshProperties.All),
-        NotifyParentPropertyAttribute(true),
+        RefreshProperties(RefreshProperties.All),
+        NotifyParentProperty(true),
         ]
         public int Right
         {
@@ -2398,7 +2416,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarginRightIsNegative, "value"));
+                    throw (new ArgumentException(SR.ExceptionMarginRightIsNegative, nameof(value)));
                 }
                 this._right = value;
                 this.Invalidate();
@@ -2501,8 +2519,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeLegendCellCollection_LegendCellCollection"),
     ]
-    public class LegendCellCollection : ChartNamedElementCollection<LegendCell>
+    public class LegendCellCollection : ChartNamedElementCollection<LegendCell>, IDisposable
     {
+        private bool _disposedValue;
 
         #region Constructors
 
@@ -2542,6 +2561,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return Count - 1;
         }
 
+
         /// <summary>
         /// Inserts a cell into the collection.
         /// </summary>
@@ -2558,6 +2578,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="alignment">
         /// A <see cref="ContentAlignment"/> value representing cell content alignment.
         /// </param>
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
         public void Insert(int index, LegendCellType cellType, string text, ContentAlignment alignment)
         {
             this.Insert(index, new LegendCell(cellType, text, alignment));
@@ -2565,6 +2586,39 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion
 
+        #region IDisposable Members
+        
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposedValue)
+                return;
+            
+            if (disposing)
+            {
+                // Dispose managed resources
+                foreach (var element in this)
+                {
+                    element.Dispose();
+                }
+            }
+            
+            _disposedValue = true;
+        }
+        
+        /// <summary>
+        /// Performs freeing, releasing, or resetting managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        
+        #endregion
     }
 
     /// <summary>
@@ -2574,8 +2628,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeLegendCellColumnCollection_LegendCellColumnCollection"),
     ]
-    public class LegendCellColumnCollection : ChartNamedElementCollection<LegendCellColumn>
+    public class LegendCellColumnCollection : ChartNamedElementCollection<LegendCellColumn>, IDisposable
     {
+        private bool _disposedValue;
 
         #region Construction and Initialization
 
@@ -2601,23 +2656,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
+            if (_disposedValue)
+                return;
+
             if (disposing)
-            {
-                //Free managed resources
-                foreach (LegendCellColumn item in this)
-                {
-                    item.Dispose();
-                }
-                this.ClearItems();
-            }
-            base.Dispose(disposing);
+                ClearItemsWithDispose();
+
+            _disposedValue = true;
         }
 
+        /// <summary>
+        /// Performs freeing, releasing, or resetting managed resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         #endregion
     }
-
 }
 

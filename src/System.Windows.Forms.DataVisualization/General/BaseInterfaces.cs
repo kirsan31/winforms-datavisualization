@@ -38,12 +38,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </returns>
         bool IsUniqueName(string name);
         /// <summary>
-        /// Gets or sets a value indicating whether this instance is in edit mode by collecrtion editor.
+        /// Gets or sets a value indicating whether this instance is in edit mode by collection editor.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance the colection is editing; otherwise, <c>false</c>.
+        /// 	<c>true</c> if this instance the collection is editing; otherwise, <c>false</c>.
         /// </value>
         bool IsColectionEditing { get; set; }
+
+        /// <summary>
+        /// Change name.
+        /// </summary>
+        /// <param name="curName">Name of the current.</param>
+        /// <param name="newName">The new name.</param>
+        void ChangeName(string curName, string newName);
+
         /// <summary>
         /// Does the snapshot of collection items.
         /// </summary>
@@ -69,5 +77,4 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="e">The <see cref="NameReferenceChangedEventArgs"/> instance containing the event data.</param>
         void OnNameReferenceChanging(NameReferenceChangedEventArgs e);
     }
-
 }

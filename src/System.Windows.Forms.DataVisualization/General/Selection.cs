@@ -16,6 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace System.Windows.Forms.DataVisualization.Charting
@@ -197,26 +198,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Private data members, which store properties values
-		private GraphicsPath		_path = null;
-		private bool				_relativeCoordinates = true;
+		private GraphicsPath		_path;
+        private bool				_relativeCoordinates = true;
 		private RectangleF			_boundingRectangle = RectangleF.Empty;
-		private object				_selectedObject = null;
-		private int					_pointIndex = -1;
+		private object				_selectedObject;
+        private int					_pointIndex = -1;
 		private string				_seriesName = "";
 		private ChartElementType	_type = ChartElementType.Nothing;
 
 
-		private object				_selectedSubObject = null;
+		private object				_selectedSubObject;
 
 
-		#endregion // Fields
+        #endregion // Fields
 
-		#region Properties
+        #region Properties
 
-		/// <summary>
-		/// Region is Graphics path
-		/// </summary>
-		internal GraphicsPath Path
+        /// <summary>
+        /// Region is Graphics path
+        /// </summary>
+        internal GraphicsPath Path
 		{
 			get
 			{
@@ -378,11 +379,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public override string  ToString()
         {
             string objectType = this.SelectedObject != null ? this.SelectedObject.ToString() : "null";
-            if (this.SelectedObject == null && !String.IsNullOrEmpty(this.SeriesName))
+            if (this.SelectedObject == null && !string.IsNullOrEmpty(this.SeriesName))
             {
                 objectType = this.SeriesName;
             }
-            return String.Format(CultureInfo.CurrentCulture, "{0} of {1}", this.Type, objectType);
+            return string.Format(CultureInfo.CurrentCulture, "{0} of {1}", this.Type, objectType);
         }
 
         #endregion //Methods
@@ -404,17 +405,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Collection with Hor Region Elements
 		/// </summary>
-		private System.Collections.ArrayList _regionList = new ArrayList();
+		private List<HotRegion> _regionList = new List<HotRegion>();
 
 		/// <summary>
 		/// Reference to the common elements object
 		/// </summary>
-		private CommonElements _common = null;
+		private CommonElements _common;
 
         /// <summary>
 		/// True if hit test function is called
 		/// </summary>
-		internal bool hitTestCalled = false;
+		internal bool hitTestCalled;
 
         #endregion // Fields
 
@@ -447,7 +448,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Collection with Hor Region Elements
 		/// </summary>
-		internal ArrayList List
+		internal List<HotRegion> List
 		{
 			get
 			{
@@ -730,7 +731,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				region.RelativeCoordinates = true;
 				region.Type = type;
 				region.SelectedObject = selectedObject;
-				if(!String.IsNullOrEmpty(series))
+				if(!string.IsNullOrEmpty(series))
 				{
 					region.SeriesName = series;
 				}
@@ -779,7 +780,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				region.Type = type;
 				region.SelectedObject = selectedObject;
 				region.SelectedSubObject = selectedSubObject;
-				if(!String.IsNullOrEmpty(series))
+				if(!string.IsNullOrEmpty(series))
 				{
 					region.SeriesName = series;
 				}
@@ -837,6 +838,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			this.AddHotRegion( rectArea, selectedObject, type, relativeCoordinates, false );
 		}
 
+
         /// <summary>
         /// Add Hot region to the collection.
         /// </summary>
@@ -845,7 +847,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="type">AxisName of the object which present hot region</param>
         /// <param name="relativeCoordinates">Coordinates for rectangle are relative</param>
         /// <param name="insertAtBeginning">Insert the hot region at the beginning of the collection</param>
-		internal void AddHotRegion( RectangleF rectArea, object selectedObject, ChartElementType type, bool relativeCoordinates, bool insertAtBeginning )
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
+        internal void AddHotRegion( RectangleF rectArea, object selectedObject, ChartElementType type, bool relativeCoordinates, bool insertAtBeginning )
 		{
 			if( ( ProcessChartMode & ProcessMode.HotRegions ) == ProcessMode.HotRegions )
 			{
@@ -961,22 +964,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Private members
-		private object _obj = null;
-		private Series _series = null;
-		private int _dataPoint = -1;
-		private ChartArea _chartArea = null;
-		private Axis _axis = null;
-		private ChartElementType _type = ChartElementType.Nothing;
-		private object _subObject = null;
+		private object _obj;
+        private Series _series;
+        private int _dataPoint = -1;
+		private ChartArea _chartArea;
+        private Axis _axis;
+        private ChartElementType _type = ChartElementType.Nothing;
+		private object _subObject;
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		/// <summary>
-		/// Gets or sets the data series object.
-		/// </summary>
-		public Series Series
+        /// <summary>
+        /// Gets or sets the data series object.
+        /// </summary>
+        public Series Series
 		{
 			get
 			{
@@ -1098,7 +1101,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         internal ChartElementOutline()
         {
-            this.Markers = new ReadOnlyCollection<PointF>( new PointF[] {});
+            this.Markers = new ReadOnlyCollection<PointF>(Array.Empty<PointF>());
         }
 
         /// <summary>
@@ -1158,7 +1161,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// The chart service container
         /// </summary>
-        private IServiceContainer _service = null;
+        private IServiceContainer _service;
 
         /// <summary>
         /// Stores the tooltip of the control.
@@ -1178,15 +1181,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
 		// ToolTips enabled or disabled from series or legend
-		private bool					_toolTipsEnabled = false;
+		private bool					_toolTipsEnabled;
 
-		// Tool tips enabled flag checked
-		internal bool					enabledChecked = false;
+        // Tool tips enabled flag checked
+        internal bool					enabledChecked;
 
-		#endregion
+        #endregion
 
         #region Constructors 
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Selection"/> class.
         /// </summary>
@@ -1235,7 +1238,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #region Properties
 
-        private Chart _chartControl = null;
+        private Chart _chartControl;
         /// <summary>
         /// Returns the attached chart control
         /// </summary>
@@ -1254,7 +1257,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        private ChartPicture _chartPicture = null;
+        private ChartPicture _chartPicture;
         /// <summary>
         /// Returns the attached ChartPicture
         /// </summary>
@@ -1274,7 +1277,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        private Data.DataManager _dataManager = null;
+        private Data.DataManager _dataManager;
         /// <summary>
         /// Gets the chart data manager ( for series access )
         /// </summary>
@@ -1490,7 +1493,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             type = hitTest.ChartElementType;
             dataPointIndex = hitTest.PointIndex;
-            seriesName = hitTest.Series != null ? hitTest.Series.Name : String.Empty;
+            seriesName = hitTest.Series != null ? hitTest.Series.Name : string.Empty;
             obj = hitTest.Object;
             subObj = hitTest.SubObject;
 
@@ -1649,7 +1652,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             string newToolTipText = this.EvaluateToolTip(e);
 
-            if (!String.IsNullOrEmpty(newToolTipText))
+            if (!string.IsNullOrEmpty(newToolTipText))
             {
                 string oldToolTipText = this._toolTip.GetToolTip(this._chartControl);
                 TimeSpan timeSpan = DateTime.Now.Subtract(this._toolTipActivationTime);
@@ -1713,25 +1716,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// can then be used to determine what  chart element was clicked on,
         /// and also provides a reference to the actual object selected (if 
         /// any).</remarks>
-        internal HitTestResult[] HitTest(int x, int y, bool ignoreTransparent, params ChartElementType[] requestedElementTypes)
+        internal List<HitTestResult> HitTest(int x, int y, bool ignoreTransparent, params ChartElementType[] requestedElementTypes)
         {
             List<HitTestResult> result = new List<HitTestResult>();
-            ArrayList regionList = this.ChartPicture.Common.HotRegionsList.List;
+            var regionList = this.ChartPicture.Common.HotRegionsList.List;
 
             if (regionList.Count == 0)
             {
                 this.ChartPicture.PaintOffScreen();
-            }
-
-            string alowedElements = String.Empty;
-            if (requestedElementTypes.Length > 0)
-            {
-                StringBuilder builder = new StringBuilder();
-                foreach (ChartElementType elementType in requestedElementTypes)
-                {
-                    builder.Append(elementType.ToString() + ";");
-                }
-                alowedElements = builder.ToString();
             }
 
             float newX;
@@ -1747,18 +1739,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             RectangleF relativeMouseRect = this.Graph.GetRelativeRectangle(mouseRect);
 
             // Try to pass through series object in design time.
-            // The series ussualy contain autogenerated points with short lifetime - during painting;
-            // This hit test result will be used in VS2005 desing time click.
+            // The series usually contain auto-generated points with short lifetime - during painting;
+            // This hit test result will be used in VS2005 design time click.
             for (int index = regionList.Count - 1; index >= 0; index--)
             {
-                HotRegion region = (HotRegion)regionList[index];
+                HotRegion region = regionList[index];
 
-                // Check if only looking for specific chart element type
-                if (!String.IsNullOrEmpty(alowedElements) && alowedElements.IndexOf(region.Type.ToString() + ";", StringComparison.Ordinal) == -1)
-                {
+                if (requestedElementTypes.Length > 0 && !requestedElementTypes.Contains(region.Type))
                     continue;
-                }
-
 
                 // Change coordinates if relative path is used
                 if (region.RelativeCoordinates)
@@ -1769,8 +1757,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 else
                 {
-                    newX = (float)x;
-                    newY = (float)y;
+                    newX = x;
+                    newY = y;
                     newMouseRect = mouseRect;
                 }
 
@@ -1797,12 +1785,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         // If there is more then one graphical path split them and create 
                         // image maps for every graphical path separately.
-                        GraphicsPathIterator iterator = new GraphicsPathIterator(region.Path);
+                        using GraphicsPathIterator iterator = new GraphicsPathIterator(region.Path);
 
                         // There is more then one path.
                         if (iterator.SubpathCount > 1)
                         {
-                            GraphicsPath subPath = new GraphicsPath();
+                            using GraphicsPath subPath = new GraphicsPath();
                             while (iterator.NextMarker(subPath) > 0 && pointVisible == false)
                             {
                                 if (subPath.IsVisible(newX, newY))
@@ -1860,11 +1848,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
             }
+
             if (result.Count == 0)
             {
-                result.Add(this.GetHitTestResult(String.Empty, 0, ChartElementType.Nothing, null, null));
+                result.Add(this.GetHitTestResult(string.Empty, 0, ChartElementType.Nothing, null, null));
             }
-            return result.ToArray();
+
+            return result;
         }
 
         /// <summary>
@@ -1877,7 +1867,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Justification = "X and Y are cartesian coordinates and well understood")]
         internal HitTestResult HitTest(int x, int y)
         {
-            return this.HitTest(x, y, false, new ChartElementType[] {})[0];
+            return this.HitTest(x, y, false, Array.Empty<ChartElementType>())[0];
         }
 
         /// <summary>
@@ -1891,7 +1881,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Justification = "X and Y are cartesian coordinates and well understood")]
         public HitTestResult HitTest(int x, int y, bool ignoreTransparent)
         {
-            return this.HitTest(x, y, ignoreTransparent, new ChartElementType[] { })[0];
+            return this.HitTest(x, y, ignoreTransparent, Array.Empty<ChartElementType>())[0];
         }
 
         /// <summary>
@@ -2188,13 +2178,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check arguments
             if (chartObject == null)
-                throw new ArgumentNullException("chartObject");
+                throw new ArgumentNullException(nameof(chartObject));
 
             // Get outline
             ChartElementOutline result = new ChartElementOutline();
             chartObject = this.GetAutoGeneratedObject(chartObject);
-            ArrayList list = this.GetMarkers(chartObject, elementType);
-            result.Markers = new ReadOnlyCollection<PointF>((PointF[])list.ToArray(typeof(PointF)));
+            List<PointF> list = this.GetMarkers(chartObject, elementType);
+            result.Markers = list.AsReadOnly();
             result.OutlinePath = GetGraphicsPath(list, chartObject, elementType);
             return result;
         }
@@ -2261,7 +2251,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return null;
         }
 
-        private static Int32 GetDataPointIndex(DataPoint dataPoint)
+        private static int GetDataPointIndex(DataPoint dataPoint)
         {
             int pointIndex = -1;
             if (dataPoint != null && dataPoint.series != null)
@@ -2269,7 +2259,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 pointIndex = dataPoint.series.Points.IndexOf(dataPoint);
                 if (pointIndex == -1 && dataPoint.IsCustomPropertySet("OriginalPointIndex"))
                 {
-                    if (!Int32.TryParse(dataPoint.GetCustomProperty("OriginalPointIndex"), out pointIndex))
+                    if (!int.TryParse(dataPoint.GetCustomProperty("OriginalPointIndex"), out pointIndex))
                         return -1;
                 }
             }
@@ -2329,16 +2319,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="cntxObj">The CNTX obj.</param>
         /// <param name="elementType">Type of the element.</param>
         /// <returns></returns>
-        private HotRegion[] GetHotRegions(object cntxObj, ChartElementType elementType)
+        private List<HotRegion> GetHotRegions(object cntxObj, ChartElementType elementType)
         {
-            ArrayList result = new ArrayList();
+            List<HotRegion> result = new List<HotRegion>();
             HotRegionsList hrList = this.ChartPicture.Common.HotRegionsList;
-            string dataPointSeries = String.Empty;
+            string dataPointSeries = string.Empty;
             int dataPointIndex = -1;
 
             for (int i = hrList.List.Count - 1; i >= 0; i--)
             {
-                HotRegion rgn = (HotRegion)hrList.List[i];
+                HotRegion rgn = hrList.List[i];
                 if (rgn.Type == elementType)
                 {
                     switch (rgn.Type)
@@ -2395,7 +2385,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             DataPoint dataPoint = cntxObj as DataPoint;
                             if (dataPoint != null)
                             {
-                                if (String.IsNullOrEmpty(dataPointSeries) || dataPointIndex == -1)
+                                if (string.IsNullOrEmpty(dataPointSeries) || dataPointIndex == -1)
                                 {
                                     dataPointSeries = dataPoint.series.Name;
                                     dataPointIndex = GetDataPointIndex(dataPoint);
@@ -2415,7 +2405,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 Series series = cntxObj as Series;
                                 if (series != null)
                                 {
-                                    if (String.IsNullOrEmpty(dataPointSeries) || dataPointIndex == -1)
+                                    if (string.IsNullOrEmpty(dataPointSeries) || dataPointIndex == -1)
                                     {
                                         dataPointSeries = series.Name;
                                     }
@@ -2436,7 +2426,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
             }
-            return (HotRegion[])result.ToArray(typeof(HotRegion));
+            return result;
         }
 
 
@@ -2448,10 +2438,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="elementType">Type of the element.</param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
-        private ArrayList GetMarkersFromRegions(object chartObject, ChartElementType elementType)
+        private List<PointF> GetMarkersFromRegions(object chartObject, ChartElementType elementType)
         {
-            ArrayList list = new ArrayList();
-            HotRegion[] regions = this.GetHotRegions(chartObject, elementType);
+            List<PointF> list = new List<PointF>();
+            List<HotRegion> regions = this.GetHotRegions(chartObject, elementType);
             ChartGraphics graph = this.Graph;
             RectangleF rect;
 
@@ -2464,12 +2454,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (IsChartAreaCircular(grid.Axis.ChartArea))
                         {
-                            GraphicsPathIterator iterator = new GraphicsPathIterator(rgn.Path);
+                            using GraphicsPathIterator iterator = new GraphicsPathIterator(rgn.Path);
 
                             // There is more then one path.
                             if (iterator.SubpathCount > 1)
                             {
-                                GraphicsPath subPath = new GraphicsPath();
+                                using GraphicsPath subPath = new GraphicsPath();
                                 while (iterator.NextMarker(subPath) > 0)
                                 {
                                     rect = subPath.GetBounds();
@@ -2600,7 +2590,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="chartObject">The chart object.</param>
         /// <param name="elementType">Type of the element.</param>
         /// <returns></returns>
-        private ArrayList GetMarkers(object chartObject, ChartElementType elementType)
+        private List<PointF> GetMarkers(object chartObject, ChartElementType elementType)
         {
             ChartArea chartArea = chartObject as ChartArea;
             if (chartArea != null)
@@ -2649,7 +2639,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>
         /// 	<c>true</c> if specified chart area is circular; otherwise, <c>false</c>.
         /// </returns>
-        private Boolean IsChartAreaCircular(ChartArea area)
+        private bool IsChartAreaCircular(ChartArea area)
         {
             foreach (object o in area.ChartTypes)
             {
@@ -2669,7 +2659,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>
         /// 	<c>true</c> if the chart area is in 3D mode; otherwise, <c>false</c>.
         /// </returns>
-        private Boolean IsArea3D(ChartArea area)
+        private bool IsArea3D(ChartArea area)
         {
             return area.Area3DStyle.Enable3D && !this.IsChartAreaCircular(area) && area.matrix3D != null && area.matrix3D.IsInitialized();
         }
@@ -2679,14 +2669,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="series">The series.</param>
         /// <returns>List of PointF.</returns>
-        private ArrayList GetSeriesMarkers(Series series)
+        private List<PointF> GetSeriesMarkers(Series series)
         {
-            ArrayList list = new ArrayList();
+            List<PointF> list = new List<PointF>();
             if (series != null)
             {
-                String areaName = series.ChartArea;
+                string areaName = series.ChartArea;
 
-                if (String.IsNullOrEmpty(areaName))
+                if (string.IsNullOrEmpty(areaName))
                 {
                     areaName = ChartPicture.ChartAreas.DefaultNameReference;
                 }
@@ -2728,9 +2718,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="graph">The graph.</param>
         /// <param name="axis">The axis.</param>
         /// <returns>List of PointF.</returns>
-        private ArrayList GetAxisMarkers(ChartGraphics graph, Axis axis)
+        private List<PointF> GetAxisMarkers(ChartGraphics graph, Axis axis)
         {
-            ArrayList list = new ArrayList();
+            List<PointF> list = new List<PointF>();
             if (axis == null)
             {
                 return list;
@@ -2801,7 +2791,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.IsArea3D(area))
             {
 
-                Boolean axisOnEdge = false;
+                bool axisOnEdge;
                 float zPositon = axis.GetMarksZPosition(out axisOnEdge);
 
                 // Transform coordinates
@@ -2829,9 +2819,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="graph">The graph.</param>
         /// <param name="area">The area.</param>
         /// <returns>List of PointF.</returns>
-        private ArrayList GetAreaMarkers(ChartGraphics graph, ChartArea area)
+        private List<PointF> GetAreaMarkers(ChartGraphics graph, ChartArea area)
         {
-            ArrayList list = new ArrayList();
+            List<PointF> list = new List<PointF>();
             if (area == null)
             {
                 return list;
@@ -2869,7 +2859,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="rect">The rectangle</param>
         /// <param name="elementType">The type of chart elements to retrieve.</param>
         /// <returns>List of PointF</returns>
-        private ArrayList GetMarkers(RectangleF rect, ChartElementType elementType)
+        private List<PointF> GetMarkers(RectangleF rect, ChartElementType elementType)
         {
             if (elementType.ToString().StartsWith("Legend", StringComparison.Ordinal) || elementType.ToString().StartsWith("Title", StringComparison.Ordinal))
             {
@@ -2895,9 +2885,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="rect">The rectangle</param>
         /// <param name="addAdditionalMarkers">Add additional markers to the rectangle.</param>
         /// <returns>List of PointF</returns>
-        private ArrayList GetMarkers(RectangleF rect, Boolean addAdditionalMarkers)
+        private List<PointF> GetMarkers(RectangleF rect, bool addAdditionalMarkers)
         {
-            ArrayList list = new ArrayList();
+            List<PointF> list = new List<PointF>();
             if (!addAdditionalMarkers)
             {
                 if (rect.Width > 0 && rect.Height > 0)
@@ -2974,16 +2964,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets the region markers from graphics path.
-        /// </summary>
-        /// <param name="path">The path.</param>
-        /// <returns>List of PointF.</returns>
-        private ArrayList GetRegionMarkers(GraphicsPath path)
-        {
-            return new ArrayList(path.PathPoints);
-        }
-
-        /// <summary>
         /// Calculates a DataPoint of 3D area into PointF to draw.
         /// </summary>
         /// <param name="chartArea">3D chart area</param>
@@ -2993,11 +2973,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (chartArea is ChartArea && IsArea3D(chartArea))
             {
-                // Get anotation Z coordinate (use scene depth or anchored point Z position)
+                // Get annotation Z coordinate (use scene depth or anchored point Z position)
                 float positionZ = chartArea.areaSceneDepth;
                 if (point != null && point.series != null)
                 {
-                    float depth = 0f;
+                    float depth;
                     chartArea.GetSeriesZPositionAndDepth(
                         point.series,
                         out depth,
@@ -3011,7 +2991,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 Point3D[] annot3DPoints = new Point3D[1];
                 annot3DPoints[0] = new Point3D(pf.X, pf.Y, positionZ);
 
-                // Tranform cube coordinates
+                // Transform cube coordinates
                 chartArea.matrix3D.TransformPoints(annot3DPoints);
 
                 return annot3DPoints[0].PointF;
@@ -3099,9 +3079,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
     #region Private fields
 
 		// Private fields for properties values storage
-		private		int					x = 0;
-		private		int					y = 0;
-		private		string				text = "";
+		private		int					x;
+        private		int					y;
+        private		string				text = "";
 		private		HitTestResult		result = new HitTestResult();
 		
         #endregion
