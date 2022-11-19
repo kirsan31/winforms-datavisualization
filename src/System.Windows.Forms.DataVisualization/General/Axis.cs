@@ -11,7 +11,6 @@
 
 using System.Collections;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
@@ -357,21 +356,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Set axis name.
             // NOTE: Strings below should never be localized. Name properties in the chart are never localized
             // and represent consistent object name in all locales.
-            switch (axisName)
+            return axisName switch
             {
-                case AxisName.X:
-                    return "X axis";
-
-                case AxisName.Y:
-                    return "Y (Value) axis";
-
-                case AxisName.X2:
-                    return "Secondary X axis";
-
-                case AxisName.Y2:
-                    return "Secondary Y (Value) axis";
-            }
-            return null;
+                AxisName.X => "X axis",
+                AxisName.Y => "Y (Value) axis",
+                AxisName.X2 => "Secondary X axis",
+                AxisName.Y2 => "Secondary Y (Value) axis",
+                _ => null,
+            };
         }
 
         #endregion Axis constructor and initialization
@@ -1988,9 +1980,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (this.IsTextVertical)
                 {
                     // Switch height and width for vertical axis
-                    float tempValue = axisTitleSize.Height;
-                    axisTitleSize.Height = axisTitleSize.Width;
-                    axisTitleSize.Width = tempValue;
+                    (axisTitleSize.Width, axisTitleSize.Height) = (axisTitleSize.Height, axisTitleSize.Width);
                 }
 
                 // Get relative size
@@ -2281,28 +2271,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Opposite axis. Arrow uses this axis to find
                     // a shift from Common.Chart area border. This shift
                     // depend on Tick mark size.
-                    switch (arrowOrientation)
+                    opositeAxis = arrowOrientation switch
                     {
-                        case ArrowOrientation.Left:
-                            opositeAxis = ChartArea.AxisX;
-                            break;
-
-                        case ArrowOrientation.Right:
-                            opositeAxis = ChartArea.AxisX2;
-                            break;
-
-                        case ArrowOrientation.Top:
-                            opositeAxis = ChartArea.AxisY2;
-                            break;
-
-                        case ArrowOrientation.Bottom:
-                            opositeAxis = ChartArea.AxisY;
-                            break;
-
-                        default:
-                            opositeAxis = ChartArea.AxisX;
-                            break;
-                    }
+                        ArrowOrientation.Left => ChartArea.AxisX,
+                        ArrowOrientation.Right => ChartArea.AxisX2,
+                        ArrowOrientation.Top => ChartArea.AxisY2,
+                        ArrowOrientation.Bottom => ChartArea.AxisY,
+                        _ => ChartArea.AxisX,
+                    };
 
                     // Draw arrow
                     PointF arrowPosition;
@@ -4523,9 +4499,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Switch text size for the radial style
                     if (labelsStyle == CircularAxisLabelsStyle.Radial)
                     {
-                        float tempValue = textSize.Width;
-                        textSize.Width = textSize.Height;
-                        textSize.Height = tempValue;
+                        (textSize.Height, textSize.Width) = (textSize.Width, textSize.Height);
                     }
 
                     //*****************************************************************
@@ -5082,9 +5056,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
                         {
                             // Switch rectangle sizes
-                            float val = rect.Height;
-                            rect.Height = rect.Width;
-                            rect.Width = val;
+                            (rect.Width, rect.Height) = (rect.Height, rect.Width);
 
                             // Set vertical font for measuring
                             if (angle != 0)
@@ -5316,9 +5288,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
                         {
                             // Switch rectangle sizes
-                            float val = rect.Height;
-                            rect.Height = rect.Width;
-                            rect.Width = val;
+                            (rect.Width, rect.Height) = (rect.Height, rect.Width);
 
                             // Set vertical font for measuring
                             if (angle != 0)
@@ -5768,7 +5738,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Size of arrow</returns>
         internal SizeF GetArrowSize(out ArrowOrientation arrowOrientation)
         {
-            Axis opositeAxis;
             double size;
             double sizeOpposite;
             arrowOrientation = ArrowOrientation.Top;
@@ -5813,31 +5782,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     break;
             }
 
-            // Opposite axis. Arrow uses this axis to find
-            // a shift from Common.Chart area border. This shift
-            // depend on Tick mark size.
-            switch (arrowOrientation)
+            Axis opositeAxis = arrowOrientation switch
             {
-                case ArrowOrientation.Left:
-                    opositeAxis = ChartArea.AxisX;
-                    break;
-
-                case ArrowOrientation.Right:
-                    opositeAxis = ChartArea.AxisX2;
-                    break;
-
-                case ArrowOrientation.Top:
-                    opositeAxis = ChartArea.AxisY2;
-                    break;
-
-                case ArrowOrientation.Bottom:
-                    opositeAxis = ChartArea.AxisY;
-                    break;
-
-                default:
-                    opositeAxis = ChartArea.AxisX;
-                    break;
-            }
+                ArrowOrientation.Left => ChartArea.AxisX,
+                ArrowOrientation.Right => ChartArea.AxisX2,
+                ArrowOrientation.Top => ChartArea.AxisY2,
+                ArrowOrientation.Bottom => ChartArea.AxisY,
+                _ => ChartArea.AxisX,
+            };
 
             // Arrow size has to have the same shape when width and height
             // are changed. When the picture is resized, width of the Common.Chart
