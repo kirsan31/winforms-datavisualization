@@ -19,14 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="SampleMain\MainForm - Copy.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="SampleMain\MainForm - Copy.resx" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
   </ItemGroup>
 

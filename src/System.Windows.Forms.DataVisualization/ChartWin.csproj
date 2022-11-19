@@ -31,15 +31,6 @@
 		<DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<Compile Remove="Annotation\AnnotationDesign.cs" />
-		<Compile Remove="Common\EditorNames.cs" />
-	</ItemGroup>
-
-	<!--<ItemGroup>
-		<PackageReference Include="Microsoft.WinForms.Designer.SDK" Version="1.1.0-prerelease-preview3.22076.5" />
-	</ItemGroup>-->
-
 	<ItemGroup Label="Embedded Resources">
 		<EmbeddedResource Update="Common\SR.resx">
 			<LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
