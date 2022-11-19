@@ -10,10 +10,9 @@
 		<DefineConstants>$(DefineConstants)</DefineConstants>
 		<Platforms>AnyCPU</Platforms>
 		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-		<Deterministic>false</Deterministic>
-		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-		<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-		<AssemblyVersion>1.3.*</AssemblyVersion>
+		<AssemblyVersion>$(MajorVer).0.0.0</AssemblyVersion>
+		<FileVersion>$(MajorVer).$(MinorPatchVer).0</FileVersion>
+		<InformationalVersion>$(MajorVer).$(MinorPatchVer)$(PRVer)</InformationalVersion>
 		<UseDesignerSdk>true</UseDesignerSdk>
 	</PropertyGroup>
 

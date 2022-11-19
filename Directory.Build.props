@@ -3,5 +3,8 @@
   <PropertyGroup>
     <TargetFrameworkClient>net472</TargetFrameworkClient>
     <TargetFrameworkServer>net6.0</TargetFrameworkServer>
+	<MajorVer>1</MajorVer>
+    <MinorPatchVer>0.0</MinorPatchVer>
+    <PRVer>-pr1</PRVer>
   </PropertyGroup>
 </Project>

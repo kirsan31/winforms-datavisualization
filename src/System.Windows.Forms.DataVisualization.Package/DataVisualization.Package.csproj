@@ -1,37 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>$(TargetFrameworkServer)</TargetFramework>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<RepositoryUrl>https://github.com/kirsan31/winforms-datavisualization</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>WinForms, Windows, Forms, DataVisualization, DataVisualisation, Visualization, Visualisation</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_GetFilesToPackage</TargetsForTfmSpecificContentInPackage>
+		<RunPostBuildEvent>Always</RunPostBuildEvent>		
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>$(TargetFrameworkServer)</TargetFramework>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
-    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <RepositoryUrl>https://github.com/kirsan31/winforms-datavisualization</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_GetFilesToPackage</TargetsForTfmSpecificContentInPackage>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
-    <PackageVersion>$([System.DateTime]::Now.ToString("1.yM.dHmm"))</PackageVersion>
-    <AssemblyVersion>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</AssemblyVersion>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<PackageVersion>$([System.DateTime]::UtcNow.ToString("$(MajorVer).yM.dHHmm"))</PackageVersion>
+	</PropertyGroup>
 
-  <Target Name="_GetFilesToPackage">
-    <ItemGroup>
-      <_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.dll" />
-      
-      <!--We need this during Control development, so we get proper Debug-Support at runtime. -->
-      <_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.pdb" />
-      
-      <_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization.Client\bin\$(Configuration)\$(TargetFrameworkClient)\DataVisualization.Client.dll" TargetDir="Design/WinForms" />
-      <!--<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.dll" TargetDir="Design/WinForms/Server" />-->
-    </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<PackageVersion>$(MajorVer).$(MinorPatchVer)$(PRVer)</PackageVersion>
+	</PropertyGroup>
 
-    <ItemGroup>
-      <TfmSpecificPackageFile Include="@(_File)" PackagePath="$(BuildOutputTargetFolder)/$(TargetFramework)/%(_File.TargetDir)" />
-    </ItemGroup>
-  </Target>
+	<Target Name="_GetFilesToPackage">
+		<ItemGroup>
+			<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.dll" />
 
-  <Target Name="CopyPackage" AfterTargets="Pack">
-    <Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg"
-	      DestinationFolder="$(SolutionDir)NuGet\BuildOut\"/>
-  </Target>
+			<!--We need this during Control development, so we get proper Debug-Support at runtime. -->
+			<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.pdb" />
 
+			<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization.Client\bin\$(Configuration)\$(TargetFrameworkClient)\DataVisualization.Client.dll" TargetDir="Design/WinForms" />
+			<!--<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.dll" TargetDir="Design/WinForms/Server" />-->
+		</ItemGroup>
+
+		<ItemGroup>
+			<TfmSpecificPackageFile Include="@(_File)" PackagePath="$(BuildOutputTargetFolder)/$(TargetFramework)/%(_File.TargetDir)" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(Configuration)'=='Debug'">
+		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg"
+			  DestinationFolder="$(SolutionDir)NuGet\BuildOut\"/>
+		<Exec Command="nuget.exe restore &quot;$(SolutionDir)DesignerTest\DesignerTest.csproj&quot; -ConfigFile &quot;$(SolutionDir)NuGet.config&quot;" />
+	</Target>
 </Project>
