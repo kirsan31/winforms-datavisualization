@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>$(TargetFrameworkServer)</TargetFramework>
+		<TargetFramework>$(TargetFrameworkServer)</TargetFramework>		
+		<Description>This package contains the Windows Forms charting controls for .NET. Ported from System.Windows.Forms.DataVisualization, optimized and designer support added.</Description>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -13,10 +14,12 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<PackageId>Windows.Forms.DataVisualization.Debug</PackageId>
 		<PackageVersion>$([System.DateTime]::UtcNow.ToString("$(MajorVer).yM.dHHmm"))</PackageVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<PackageId>Windows.Forms.DataVisualization</PackageId>
 		<PackageVersion>$(MajorVer).$(MinorPatchVer)$(PRVer)</PackageVersion>
 	</PropertyGroup>
 
@@ -27,7 +30,7 @@
 			<!--We need this during Control development, so we get proper Debug-Support at runtime. -->
 			<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.pdb" />
 
-			<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization.Client\bin\$(Configuration)\$(TargetFrameworkClient)\DataVisualization.Client.dll" TargetDir="Design/WinForms" />
+			<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization.Client\bin\$(Configuration)\$(TargetFrameworkClient)\Windows.Forms.DataVisualization.Client.dll" TargetDir="Design/WinForms" />
 			<!--<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.dll" TargetDir="Design/WinForms/Server" />-->
 		</ItemGroup>
 
@@ -36,7 +39,12 @@
 		</ItemGroup>
 	</Target>
 
-	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(Configuration)'=='Debug'">
+	<Target Name="CopyPackageR" AfterTargets="Pack" Condition="'$(Configuration)'=='Release'">
+		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg"
+			  DestinationFolder="$(SolutionDir)NuGet\BuildOut\"/>	
+	</Target>
+	
+	<Target Name="CopyPackageD" AfterTargets="Pack" Condition="'$(Configuration)'=='Debug'">
 		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg"
 			  DestinationFolder="$(SolutionDir)NuGet\BuildOut\"/>
 		<Exec Command="nuget.exe restore &quot;$(SolutionDir)DesignerTest\DesignerTest.csproj&quot; -ConfigFile &quot;$(SolutionDir)NuGet.config&quot;" />

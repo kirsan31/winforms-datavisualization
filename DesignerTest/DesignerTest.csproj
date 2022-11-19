@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataVisualization.Package" Version="$(MajorVer).*" />
+    <PackageReference Include="Windows.Forms.DataVisualization.Debug" Version="$(MajorVer).*" />
   </ItemGroup>
 
   <!--<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
