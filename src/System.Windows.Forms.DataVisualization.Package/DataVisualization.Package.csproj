@@ -1,41 +1,50 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>$(TargetFrameworkServer)</TargetFramework>		
-		<Description>This package contains the Windows Forms charting controls for .NET. Ported from System.Windows.Forms.DataVisualization, optimized and designer support added.</Description>
+		<Description>This package contains the Windows Forms charting controls for .NET. Ported from System.Windows.Forms.DataVisualization, optimized and partial designer support added.</Description>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<RepositoryUrl>https://github.com/kirsan31/winforms-datavisualization</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/kirsan31/winforms-datavisualization</PackageProjectUrl>
+		<PackageIcon>Icon.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<authors>Microsoft, Kirsan and contributers.</authors>
 		<RepositoryType>git</RepositoryType>
-		<PackageTags>WinForms, Windows, Forms, DataVisualization, DataVisualisation, Visualization, Visualisation</PackageTags>
+		<PackageTags>WinForms, Windows, Forms, DataVisualization, Visualization, Chart, Graph, Diagram</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_GetFilesToPackage</TargetsForTfmSpecificContentInPackage>
-		<RunPostBuildEvent>Always</RunPostBuildEvent>		
+		<RunPostBuildEvent>Always</RunPostBuildEvent>
+		<PackageReleaseNotes>First Nuget package release.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
-		<PackageId>Windows.Forms.DataVisualization.Debug</PackageId>
+		<PackageId>WinForms.DataVisualization.Debug</PackageId>
 		<PackageVersion>$([System.DateTime]::UtcNow.ToString("$(MajorVer).yM.dHHmm"))</PackageVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
-		<PackageId>Windows.Forms.DataVisualization</PackageId>
+		<PackageId>WinForms.DataVisualization</PackageId>
 		<PackageVersion>$(MajorVer).$(MinorPatchVer)$(PRVer)</PackageVersion>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<None Include="$(SolutionDir)Icon.png" Pack="true" Visible="false" PackagePath="" />
+		<None Include="$(SolutionDir)README.md" Pack="true" Visible="false" PackagePath="" />
+	</ItemGroup>
+
 	<Target Name="_GetFilesToPackage">
 		<ItemGroup>
-			<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.dll" />
+			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.dll" />
 
 			<!--We need this during Control development, so we get proper Debug-Support at runtime. -->
-			<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.pdb" />
+			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.pdb" />
 
-			<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization.Client\bin\$(Configuration)\$(TargetFrameworkClient)\Windows.Forms.DataVisualization.Client.dll" TargetDir="Design/WinForms" />
-			<!--<_File Include="$(SolutionDir)\src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.dll" TargetDir="Design/WinForms/Server" />-->
+			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization.Client\bin\$(Configuration)\$(TargetFrameworkClient)\WinForms.DataVisualization.Client.dll" TargetDir="Design/WinForms" />
 		</ItemGroup>
 
 		<ItemGroup>
-			<TfmSpecificPackageFile Include="@(_File)" PackagePath="$(BuildOutputTargetFolder)/$(TargetFramework)/%(_File.TargetDir)" />
+			<TfmSpecificPackageFile Include="@(_File)" PackagePath="$(BuildOutputTargetFolder)/$(TargetFramework)/%(_File.TargetDir)" />			
 		</ItemGroup>
 	</Target>
 

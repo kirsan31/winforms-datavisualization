@@ -17,4 +17,4 @@ This repository is a fork of https://github.com/dotnet/winforms-datavisualizatio
 
 The best way to learn about Chart Controls is by looking at the [sample solution](https://github.com/kirsan31/winforms-datavisualization/tree/dev/sample/ChartSamples) where via interactive experience with the app you can learn about every chart type and every major feature. While modifying the control parameters and instantly seeing how that affects the look of the control, you can also get the generated C# or Visual Basic code to use in your apps.
 
-![Chart Controls](sample-screenshot.png)
+![Chart Controls](https://raw.githubusercontent.com/kirsan31/winforms-datavisualization/dev/sample-screenshot.png)

@@ -9,12 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Windows.Forms.DataVisualization.Debug" Version="$(MajorVer).*" />
+    <PackageReference Include="WinForms.DataVisualization.Debug" Version="$(MajorVer).*" />
   </ItemGroup>
-
-  <!--<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="nuget.exe restore &quot;$(ProjectPath)&quot; -ConfigFile &quot;$(SolutionDir)NuGet.config&quot;" />
-  </Target>-->
 
   <!--<ItemGroup>
     <ProjectReference Include="..\src\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
