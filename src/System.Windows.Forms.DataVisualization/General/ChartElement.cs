@@ -360,10 +360,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Background image is not scaled.
         /// </summary>
-#pragma warning disable CA1069 // Enums values should not be duplicated
-        //review Unscaled = 3 overlaps with TileFipXY
-        Unscaled
-#pragma warning restore CA1069 // Enums values should not be duplicated
+        Unscaled = 100
     };
 
     /// <summary>
