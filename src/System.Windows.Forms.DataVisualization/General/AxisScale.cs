@@ -124,9 +124,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal Grid majorGrid;
         internal bool enabled;
         internal bool autoEnabled = true;
-#pragma warning disable CA2213 // Disposable fields should be disposed
         internal LabelStyle labelStyle;
-#pragma warning restore CA2213 // Disposable fields should be disposed
         private DateTimeIntervalType _internalIntervalType = DateTimeIntervalType.Auto;
         internal double maximum = Double.NaN;
         internal double crossing = Double.NaN;
