@@ -3930,17 +3930,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Color brushColor = Color.Gray;
             switch (brush)
             {
-                case HatchBrush:
-                    brushColor = ((HatchBrush)brush).BackgroundColor;
+                case HatchBrush br:
+                    brushColor = br.BackgroundColor;
                     break;
-                case LinearGradientBrush:
-                    brushColor = ((LinearGradientBrush)brush).LinearColors[0];
+                case LinearGradientBrush br:
+                    brushColor = br.LinearColors[0];
                     break;
-                case PathGradientBrush:
-                    brushColor = ((PathGradientBrush)brush).CenterColor;
+                case PathGradientBrush br:
+                    brushColor = br.CenterColor;
                     break;
-                case SolidBrush:
-                    brushColor = ((SolidBrush)brush).Color;
+                case SolidBrush br:
+                    brushColor = br.Color;
                     break;
             }
 
