@@ -2,13 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
-//  Purpose:	This file contains classes, which are used for Image 
-//				creation and chart painting. This file has also a 
+//  Purpose:	This file contains classes, which are used for Image
+//				creation and chart painting. This file has also a
 //				class, which is used for Paint events arguments.
 //
-
 
 using System.Collections;
 using System.Collections.Generic;
@@ -35,7 +33,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     using FontStyle = System.Drawing.FontStyle;
 
     /// <summary>
-    /// ChartImage class adds image type and data binding functionality to 
+    /// ChartImage class adds image type and data binding functionality to
     /// the base ChartPicture class.
     /// </summary>
     internal class ChartImage : ChartPicture
@@ -51,7 +49,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Indicates that control was bound to the data source
         internal bool boundToDataSource;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -64,7 +62,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
         }
 
-        #endregion // Constructor
+        #endregion Constructor
 
         #region Properties
 
@@ -120,15 +118,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Methods
 
         #region Image Manipulation
 
-
         /// <summary>
-        /// Saves image into the metafile stream. 
+        /// Saves image into the metafile stream.
         /// </summary>
         /// <param name="imageStream">Image stream.</param>
         /// <param name="emfType">Image stream.</param>
@@ -158,8 +155,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Create graphics object to record metaFile.
                 using Graphics metaGraphics = Graphics.FromImage(metaFile);
 
-                // Note: Fix for issue #3674. Some 3D borders shadows may be drawn outside 
-                // of image boundaries. This causes issues when generated EMF file 
+                // Note: Fix for issue #3674. Some 3D borders shadows may be drawn outside
+                // of image boundaries. This causes issues when generated EMF file
                 // is placed in IE. Image looks shifted down and hot areas do not align.
                 if (this.BorderSkin.SkinStyle != BorderSkinStyle.None)
                 {
@@ -184,6 +181,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             return this.GetImage(96);
         }
+
         /// <summary>
         /// Create Image and draw chart picture
         /// </summary>
@@ -230,11 +228,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-            // Creates a new Graphics object from the 
+            // Creates a new Graphics object from the
             // specified Image object.
             Graphics offScreen = Graphics.FromImage(image);
-
-
 
             Color backGroundColor;
 
@@ -250,7 +246,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 backGroundColor = this.BorderSkin.PageColor;
             }
 
-            // draw a rctangle first with the size of the control, this prevent strange behavior when printing in the reporting services,
+            // draw a rectangle first with the size of the control, this prevent strange behavior when printing in the reporting services,
             // without this rectangle, the printed picture is blurry
             Pen pen = new Pen(backGroundColor);
             offScreen.DrawRectangle(pen, 0, 0, Width, Height);
@@ -266,7 +262,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return image;
         }
 
-        #endregion // Image Manipulation
+        #endregion Image Manipulation
 
         #region Data Binding
 
@@ -295,16 +291,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return false;
         }
 
-
-
         /// <summary>
         /// Gets an list of the data source member names.
         /// </summary>
         /// <param name="dataSource">Data source object to get the members for.</param>
         /// <param name="usedForYValue">Indicates that member will be used for Y values.</param>
         /// <returns>List of member names.</returns>
-        [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
-            Justification = "Too large of a code change to justify making this change")]
         static internal ArrayList GetDataSourceMemberNames(object dataSource, bool usedForYValue)
         {
             ArrayList names = new ArrayList();
@@ -341,20 +333,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 // END ADDED
 
-                // Check all DataTable based data souces
+                // Check all DataTable based data sources
                 DataTable dataTable = null;
 
-                if (dataSource is DataTable)
+                if (dataSource is DataTable table)
                 {
-                    dataTable = (DataTable)dataSource;
+                    dataTable = table;
                 }
-                else if (dataSource is DataView)
+                else if (dataSource is DataView view)
                 {
-                    dataTable = ((DataView)dataSource).Table;
+                    dataTable = view.Table;
                 }
-                else if (dataSource is DataSet && ((DataSet)dataSource).Tables.Count > 0)
+                else if (dataSource is DataSet set && set.Tables.Count > 0)
                 {
-                    dataTable = ((DataSet)dataSource).Tables[0];
+                    dataTable = set.Tables[0];
                 }
 
                 // Check if DataTable was set
@@ -369,10 +361,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                     }
                 }
-
-                else if (names.Count == 0 && dataSource is ITypedList)
+                else if (names.Count == 0 && dataSource is ITypedList list)
                 {
-                    foreach (PropertyDescriptor pd in ((ITypedList)dataSource).GetItemProperties(null))
+                    foreach (PropertyDescriptor pd in list.GetItemProperties(null))
                     {
                         if (!usedForYValue || pd.PropertyType != typeof(string))
                         {
@@ -380,10 +371,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                     }
                 }
-                else if (names.Count == 0 && dataSource is IEnumerable)
+                else if (names.Count == 0 && dataSource is IEnumerable enumerable)
                 {
                     // .Net 2.0 ObjectDataSource processing
-                    IEnumerator e = ((IEnumerable)dataSource).GetEnumerator();
+                    IEnumerator e = enumerable.GetEnumerator();
                     e.Reset();
                     e.MoveNext();
                     foreach (PropertyDescriptor pd in TypeDescriptor.GetProperties(e.Current))
@@ -392,11 +383,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             names.Add(pd.Name);
                         }
-
                     }
                 }
-
-
 
                 // Check if list still empty
                 if (names.Count == 0)
@@ -404,7 +392,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Add first column or any data member name
                     names.Add("0");
                 }
-
             }
 
             return names;
@@ -413,8 +400,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Data binds control to the data source
         /// </summary>
-        [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
-            Justification = "Too large of a code change to justify making this change")]
         internal void DataBind()
         {
             // Set bound flag
@@ -426,25 +411,25 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             DataView dataView = null;
             // Convert data source to recognizable source for the series
-            if (dataSource is DataSet && ((DataSet)dataSource).Tables.Count > 0)
+            if (dataSource is DataSet set && set.Tables.Count > 0)
             {
-                dataView = ((DataSet)dataSource).DefaultViewManager.CreateDataView(((DataSet)dataSource).Tables[0]);
+                dataView = set.DefaultViewManager.CreateDataView(set.Tables[0]);
                 dataSource = dataView;
             }
-            else if (dataSource is DataTable)
+            else if (dataSource is DataTable table)
             {
-                dataView = new DataView((DataTable)dataSource);
+                dataView = new DataView(table);
                 dataSource = dataView;
             }
-            else if (dataSource is IListSource)
+            else if (dataSource is IListSource source)
             {
-                if (((IListSource)dataSource).ContainsListCollection && ((IListSource)dataSource).GetList().Count > 0)
+                if (source.ContainsListCollection && source.GetList().Count > 0)
                 {
-                    dataSource = ((IListSource)dataSource).GetList()[0] as IEnumerable;
+                    dataSource = source.GetList()[0] as IEnumerable;
                 }
                 else
                 {
-                    dataSource = ((IListSource)dataSource).GetList();
+                    dataSource = source.GetList();
                 }
             }
 
@@ -507,7 +492,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         enumerator.Reset();
                     }
-                    // Some enumerators may not support Resetting 
+                    // Some enumerators may not support Resetting
                     catch (InvalidOperationException)
                     {
                     }
@@ -521,7 +506,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 bool autoDetectType = true;
 
-
                 //************************************************************
                 //** Loop through the enumerator.
                 //************************************************************
@@ -531,7 +515,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Move to the next item
                     valueExsists = enumerator.MoveNext();
 
-                    // Loop through all series 
+                    // Loop through all series
                     foreach (Series series in seriesList)
                     {
                         if (series.XValueMember.Length > 0 || series.YValueMembers.Length > 0)
@@ -584,11 +568,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     DataPointCollection.AutoDetectValuesType(series, enumerator, series.XValueMember.Trim(), enumerator, yField);
                                 }
 
-
                                 // Create new point
-#pragma warning disable CA2000 // Dispose objects before losing scope
                                 DataPoint newDataPoint = new DataPoint(series);
-#pragma warning restore CA2000 // Dispose objects before losing scope
                                 bool emptyValues = false;
                                 bool xValueIsNull = false;
 
@@ -639,7 +620,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     }
                                 }
 
-
                                 // Add data point if X value is not Null
                                 if (!xValueIsNull)
                                 {
@@ -678,12 +658,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
                         }
                     }
-
                 } while (valueExsists);
-
             }
         }
-
 
         /// <summary>
         /// Aligns data points using their axis labels.
@@ -695,7 +672,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Find series which are attached to the same X axis in the same chart area
             foreach (ChartArea chartArea in this.ChartAreas)
             {
-
                 // Check if chart area is visible
                 if (chartArea.Visible)
 
@@ -818,7 +794,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     series.Sort(PointSortOrder.Ascending, "X");
                 }
 
-                // Make sure ther are no missing points
+                // Make sure there are no missing points
                 foreach (Series series in seriesList)
                 {
                     series.IsXValueIndexed = true;
@@ -827,20 +803,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (index >= series.Points.Count ||
                             series.Points[index].XValue != index + 1)
                         {
-#pragma warning disable CA2000 // Dispose objects before losing scope
-                            DataPoint newPoint = new DataPoint(series);
-#pragma warning restore CA2000 // Dispose objects before losing scope
-                            newPoint.AxisLabel = (string)axisLabels[index];
-                            newPoint.XValue = index + 1;
+                            DataPoint newPoint = new DataPoint(series)
+                            {
+                                AxisLabel = (string)axisLabels[index],
+                                XValue = index + 1
+                            };
                             newPoint.YValues[0] = 0.0;
                             newPoint.IsEmpty = true;
                             series.Points.Insert(index, newPoint);
                         }
                     }
                 }
-
             }
-
         }
 
         /// <summary>
@@ -877,7 +851,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (String.IsNullOrEmpty(seriesGroupByField))
                 throw new ArgumentException(SR.ExceptionDataBindSeriesGroupByParameterIsEmpty, nameof(seriesGroupByField));
 
-
             // List of series and group by field values
             ArrayList seriesList = new ArrayList();
             ArrayList groupByValueList = new ArrayList();
@@ -903,7 +876,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 ref otherFieldNames,
                 ref otherValueFormat);
 
-
             // Get and reset enumerator
             IEnumerator enumerator = DataPointCollection.GetDataSourceEnumerator(dataSource);
             if (enumerator.GetType() != typeof(System.Data.Common.DbEnumerator))
@@ -912,7 +884,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     enumerator.Reset();
                 }
-                // Some enumerators may not support Resetting 
+                // Some enumerators may not support Resetting
                 catch (NotSupportedException)
                 {
                 }
@@ -922,7 +894,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 catch (InvalidOperationException)
                 {
                 }
-
             }
 
             // Add data points
@@ -958,8 +929,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     else
                     {
                         // Create new series
-                        series = new Series();
-                        series.YValuesPerPoint = yFieldNames.GetLength(0);
+                        series = new Series
+                        {
+                            YValuesPerPoint = yFieldNames.GetLength(0)
+                        };
 
                         // If not the first series in the list copy some properties
                         if (seriesList.Count > 0)
@@ -970,9 +943,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             series.autoYValueType = ((Series)seriesList[0]).autoYValueType;
                         }
 
-                        // Try to set series name based on grouping vlaue
-                        string groupObjStr = groupObj as string;
-                        if (groupObjStr != null)
+                        // Try to set series name based on grouping value
+                        if (groupObj is string groupObjStr)
                         {
                             series.Name = groupObjStr;
                         }
@@ -981,14 +953,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             series.Name = seriesGroupByField + " - " + groupObj.ToString();
                         }
 
-
                         // Add series and group value into the lists
                         groupByValueList.Add(groupObj);
                         seriesList.Add(series);
                     }
 
-
-                    // Auto detect valu(s) type
+                    // Auto detect value(s) type
                     if (autoDetectType)
                     {
                         autoDetectType = false;
@@ -1080,16 +1050,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         series.Points.Add(newDataPoint);
                     }
                 }
-
             } while (valueExsist);
 
-            // Sort series usig values of group by field
+            // Sort series using values of group by field
             if (sort)
             {
                 // Duplicate current list
                 ArrayList oldList = (ArrayList)groupByValueList.Clone();
 
-                // Sort list 
+                // Sort list
                 groupByValueList.Sort();
                 if (sortingOrder == PointSortOrder.Descending)
                 {
@@ -1113,9 +1082,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Automatically creates and binds series to specified data table. 
+        /// Automatically creates and binds series to specified data table.
         /// Each column of the table becomes a Y value in a separate series.
-        /// Series X value field may also be provided. 
+        /// Series X value field may also be provided.
         /// </summary>
         /// <param name="dataSource">Data source.</param>
         /// <param name="xField">Name of the field for series X values.</param>
@@ -1166,17 +1135,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 int index = 0;
                 foreach (string fieldName in dataSourceFields)
                 {
-                    Series series = new Series(fieldName);
-
-                    // Set binding properties
-                    series.YValueMembers = fieldName;
-                    series.XValueMember = xField;
+                    Series series = new Series(fieldName)
+                    {
+                        // Set binding properties
+                        YValueMembers = fieldName,
+                        XValueMember = xField
+                    };
 
                     // Add to list
                     seriesList.Add(series);
                     ++index;
                 }
-
 
                 // Data bind series
                 this.DataBind(dataSource, seriesList);
@@ -1194,15 +1163,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion // Data Binding
+        #endregion Data Binding
 
-        #endregion
-
+        #endregion Methods
     }
 
     /// <summary>
-    /// ChartPicture class represents chart content like legends, titles, 
-    /// chart areas and series. It provides methods for positioning and 
+    /// ChartPicture class represents chart content like legends, titles,
+    /// chart areas and series. It provides methods for positioning and
     /// drawing all chart elements.
     /// </summary>
     internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
@@ -1219,6 +1187,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Private data members, which store properties values
         private GradientStyle _backGradientStyle = GradientStyle.None;
+
         private Color _backSecondaryColor = Color.Empty;
         private Color _backColor = Color.White;
         private string _backImage = string.Empty;
@@ -1234,9 +1203,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private bool _isSoftShadows = true;
         private int _width = 300;
         private int _height = 300;
-        private DataManipulator _dataManipulator = new DataManipulator();
+        private readonly DataManipulator _dataManipulator = new DataManipulator();
         internal HotRegionsList hotRegionsList;
         private BorderSkin _borderSkin;
+
         // Chart areas collection
         private ChartAreaCollection _chartAreas;
 
@@ -1254,6 +1224,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Chart picture events
         internal event EventHandler<ChartPaintEventArgs> BeforePaint;
+
         internal event EventHandler<ChartPaintEventArgs> AfterPaint;
 
         // Chart title position rectangle
@@ -1285,9 +1256,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Buffered image of non-top level chart elements
         internal Bitmap nonTopLevelChartBuffer;
+
         private bool _disposedValue;
 
-        #endregion
+        #endregion Fields
 
         #region Constructors
 
@@ -1341,7 +1313,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             throw new ArgumentException(SR.ExceptionChartPictureUnsupportedType(serviceType.ToString()));
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Painting and selection methods
 
@@ -1371,7 +1343,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Create a new bitmap
             Bitmap image = new Bitmap(Math.Max(1, Width), Math.Max(1, Height));
 
-            // Creates a new Graphics object from the 
+            // Creates a new Graphics object from the
             // specified Image object.
             Graphics offScreen = Graphics.FromImage(image);
 
@@ -1380,7 +1352,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Remember the previous dirty flag
             bool oldDirtyFlag = this.Common.Chart.dirtyFlag;
-
 
             Paint(ChartGraph.Graphics, false);
 
@@ -1394,7 +1365,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Set process Mode to hot regions
             this.Common.HotRegionsList.ProcessChartMode |= ProcessMode.HotRegions;
-
         }
 
         /// <summary>
@@ -1434,16 +1404,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="graph">The graph provides drawing object to the display device. A Graphics object is associated with a specific device context.</param>
         /// <param name="paintTopLevelElementOnly">Indicates that only chart top level elements like cursors, selection or annotation objects must be redrawn.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "3#svg")]
         internal void Paint(
             Graphics graph,
             bool paintTopLevelElementOnly)
         {
-
-            // Reset restored and saved backgound flags
+            // Reset restored and saved background flags
             this.backgroundRestored = false;
 
-            // Reset Annotation Smart Labels 
+            // Reset Annotation Smart Labels
             this.annotationSmartLabel.Reset();
 
             // Do not draw the control if size is less than 5 pixel
@@ -1463,10 +1431,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 this.Common.HotRegionsList.hitTestCalled = false;
 
-                // Clear list of hot regions 
+                // Clear list of hot regions
                 if (paintTopLevelElementOnly)
                 {
-                    // If repainting only top level elements (annotations) - 
+                    // If repainting only top level elements (annotations) -
                     // clear top level objects hot regions only
                     for (int index = 0; index < this.Common.HotRegionsList.List.Count; index++)
                     {
@@ -1500,8 +1468,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Check if control was data bound
-            ChartImage chartImage = this as ChartImage;
-            if (chartImage != null && !chartImage.boundToDataSource)
+            if (this is ChartImage chartImage && !chartImage.boundToDataSource)
             {
                 if (this.Common != null && this.Common.Chart != null && !this.Common.Chart.IsDesignMode())
                 {
@@ -1527,14 +1494,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Fire Before Paint event
                     OnBeforePaint(new ChartPaintEventArgs(this.Chart, this.ChartGraph, this.Common, new ElementPosition(0, 0, 100, 100)));
 
-                    // Flag indicates that resize method should be called 
+                    // Flag indicates that resize method should be called
                     // after adjusting the intervals in 3D charts
                     bool resizeAfterIntervalAdjusting = false;
 
                     // RecalculateAxesScale paint chart areas
                     foreach (ChartArea area in _chartAreas)
                     {
-
                         // Check if area is visible
                         if (area.Visible)
 
@@ -1557,8 +1523,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Resize picture
                     Resize(ChartGraph, resizeAfterIntervalAdjusting);
 
-
-                    // This code is introduce because labels has to 
+                    // This code is introduce because labels has to
                     // be changed when scene is rotated.
                     bool intervalReCalculated = false;
                     foreach (ChartArea area in _chartAreas)
@@ -1582,8 +1547,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     if (resizeAfterIntervalAdjusting)
                     {
                         // NOTE: Fixes issue #6808.
-                        // In 3D chart area interval will be changed to compenstae for the axis rotation angle.
-                        // This will cause all standard labels to be changed. We need to call the customize event 
+                        // In 3D chart area interval will be changed to compensate for the axis rotation angle.
+                        // This will cause all standard labels to be changed. We need to call the customize event
                         // the second time to give user a chance to modify those labels.
                         if (intervalReCalculated)
                         {
@@ -1594,7 +1559,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Resize chart elements
                         Resize(ChartGraph);
                     }
-
 
                     //***********************************************************************
                     //** Draw chart 3D border
@@ -1657,7 +1621,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Call paint function for each chart area.
                     foreach (ChartArea area in _chartAreas)
                     {
-
                         // Check if area is visible
                         if (area.Visible)
 
@@ -1666,8 +1629,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                     }
 
-                    // This code is introduced because of GetPointsInterval method, 
-                    // which is very time consuming. There is no reason to calculate 
+                    // This code is introduced because of GetPointsInterval method,
+                    // which is very time consuming. There is no reason to calculate
                     // interval after painting.
                     foreach (ChartArea area in _chartAreas)
                     {
@@ -1691,16 +1654,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this.Chart.CallOnPostPaint(new ChartPaintEventArgs(this.Chart, this.ChartGraph, this.Common, new ElementPosition(0, 0, 100, 100)));
                 }
 
-                // Draw annotation objects 
+                // Draw annotation objects
                 this.Annotations.Paint(ChartGraph, paintTopLevelElementOnly);
 
                 // Draw chart areas cursors in all areas.
-                // Only if not in selection 
+                // Only if not in selection
                 if (!this.isSelectionMode)
                 {
                     foreach (ChartArea area in _chartAreas)
                     {
-
                         // Check if area is visible
                         if (area.Visible)
 
@@ -1713,7 +1675,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Return default values
                 foreach (ChartArea area in _chartAreas)
                 {
-
                     // Check if area is visible
                     if (area.Visible)
 
@@ -1735,7 +1696,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Restore temp values for each chart area
                 foreach (ChartArea area in _chartAreas)
                 {
-
                     // Check if area is visible
                     if (area.Visible)
 
@@ -1753,11 +1713,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="e">Event arguments.</param>
         protected virtual void OnBeforePaint(ChartPaintEventArgs e)
         {
-            if (BeforePaint != null)
-            {
-                //Invokes the delegates.
-                BeforePaint(this, e);
-            }
+            //Invokes the delegates.
+            BeforePaint?.Invoke(this, e);
         }
 
         /// <summary>
@@ -1766,21 +1723,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="e">Event arguments.</param>
         protected virtual void OnAfterPaint(ChartPaintEventArgs e)
         {
-            if (AfterPaint != null)
-            {
-                //Invokes the delegates.
-                AfterPaint(this, e);
-            }
+            //Invokes the delegates.
+            AfterPaint?.Invoke(this, e);
         }
 
         internal override void Invalidate()
         {
             base.Invalidate();
 
-            if (Chart != null)
-                Chart.Invalidate();
+            Chart?.Invalidate();
         }
-        #endregion
+
+        #endregion Painting and selection methods
 
         #region Resizing methods
 
@@ -1822,7 +1776,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Set border size
                 this._chartBorderPosition = chartGraph.GetAbsoluteRectangle(chartAreasRectangle);
 
-                // Get border interface 
+                // Get border interface
                 IBorderType border3D = Common.BorderTypeRegistry.GetBorderType(_borderSkin.SkinStyle.ToString());
                 if (border3D != null)
                 {
@@ -1867,12 +1821,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             chartAreasRectangle.Height -= elementSpacing;
             RectangleF areaPosition = new RectangleF();
 
-
-            // Get number of chart areas that requeres automatic positioning
+            // Get number of chart areas that requires automatic positioning
             int areaNumber = 0;
             foreach (ChartArea area in _chartAreas)
             {
-
                 // Check if area is visible
                 if (area.Visible)
 
@@ -1897,7 +1849,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             int row = 0;
             foreach (ChartArea area in _chartAreas)
             {
-
                 // Check if area is visible
                 if (area.Visible)
 
@@ -1950,13 +1901,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //********************************************************
             if (!calcAreaPositionOnly)
             {
-
                 //******************************************************
                 //** Call Resize function for each chart area.
                 //******************************************************
                 foreach (ChartArea area in _chartAreas)
                 {
-
                     // Check if area is visible
                     if (area.Visible)
 
@@ -1983,10 +1932,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Minimum and maximum do not have to be calculated 
-        /// from data series every time. It is very time 
-        /// consuming. Minimum and maximum are buffered 
-        /// and only when this flags are set Minimum and 
+        /// Minimum and maximum do not have to be calculated
+        /// from data series every time. It is very time
+        /// consuming. Minimum and maximum are buffered
+        /// and only when this flags are set Minimum and
         /// Maximum are refreshed from data.
         /// </summary>
         internal void ResetMinMaxFromData()
@@ -1996,7 +1945,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Call ResetMinMaxFromData function for each chart area.
                 foreach (ChartArea area in _chartAreas)
                 {
-
                     // Check if area is visible
                     if (area.Visible)
                     {
@@ -2014,7 +1962,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Call ReCalc function for each chart area.
             foreach (ChartArea area in _chartAreas)
             {
-
                 // Check if area is visible
                 if (area.Visible)
 
@@ -2024,11 +1971,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Resizing methods
 
         #region Chart picture properties
 
-        // VSTS 96787-Text Direction (RTL/LTR)	
+        // VSTS 96787-Text Direction (RTL/LTR)
         /// <summary>
         /// Gets or sets the RightToLeft type.
         /// </summary>
@@ -2136,8 +2083,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return _titles;
             }
         }
-
-
 
         /// <summary>
         /// Chart annotation collection.
@@ -2402,7 +2347,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Specifies whether smoothing (antialiasing) is applied while drawing chart.
+        /// Specifies whether smoothing (AntiAliasing) is applied while drawing chart.
         /// </summary>
         [
         SRCategory("CategoryAttributeImage"),
@@ -2423,7 +2368,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Specifies the quality of text antialiasing.
+        /// Specifies the quality of text AntiAliasing.
         /// </summary>
         [
         SRCategory("CategoryAttributeImage"),
@@ -2547,7 +2492,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             get { return _fontCache; }
         }
 
-        #endregion
+        #endregion Chart picture properties
 
         #region Chart areas alignment methods
 
@@ -2563,7 +2508,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Loop through all chart areas
             foreach (ChartArea area in this.ChartAreas)
             {
-
                 // Check if chart area is visible
                 if (area.Visible)
 
@@ -2596,10 +2540,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             ArrayList areaList = new ArrayList();
 
-            // Loop throught the chart areas and get the ones aligned with specified master area
+            // Loop through the chart areas and get the ones aligned with specified master area
             foreach (ChartArea area in this.ChartAreas)
             {
-
                 // Check if chart area is visible
                 if (area.Visible)
 
@@ -2636,7 +2579,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Loop through all chart areas
                 foreach (ChartArea area in this.ChartAreas)
                 {
-
                     // Check if chart area is visible
                     if (area.Visible)
 
@@ -2677,7 +2619,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private void AlignChartAreasPlotPosition(ArrayList areasGroup, AreaAlignmentOrientations orientation)
         {
             //****************************************************************
-            //** Find the smalles size of the inner plot 
+            //** Find the smallest size of the inner plot
             //****************************************************************
             RectangleF areaPlotPosition = ((ChartArea)areasGroup[0]).PlotAreaPosition.ToRectangleF();
             foreach (ChartArea area in areasGroup)
@@ -2715,7 +2657,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //****************************************************************
             foreach (ChartArea area in areasGroup)
             {
-                // Get curretn plot position of the area
+                // Get current plot position of the area
                 RectangleF rect = area.PlotAreaPosition.ToRectangleF();
 
                 // Adjust area position
@@ -2751,7 +2693,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     area.AxisY.AdjustLabelFontAtSecondPass(ChartGraph, area.InnerPlotPosition.Auto);
                 }
             }
-
         }
 
         /// <summary>
@@ -2765,12 +2706,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Loop through all chart areas
                 foreach (ChartArea area in this.ChartAreas)
                 {
-
                     // Check if chart area is visible
                     if (area.Visible)
 
                     {
-                        // Check if area is alignd by Position to any other area
+                        // Check if area is aligned by Position to any other area
                         if (area.AlignWithChartArea != Constants.NotSetValue && (area.AlignmentStyle & AreaAlignmentStyles.Position) == AreaAlignmentStyles.Position)
                         {
                             // Get current area position
@@ -2817,7 +2757,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Loop through all chart areas
                 foreach (ChartArea area in this.ChartAreas)
                 {
-
                     // Check if chart area is visible
                     if (area.Visible)
 
@@ -2874,7 +2813,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		/// <param name="changedArea">Changed chart area.</param>
 		/// <param name="orientation">Orientation of the changed scaleView.</param>
-		/// <param name="disposeBufferBitmap">Area double fuffer image must be disposed.</param>
+		/// <param name="disposeBufferBitmap">Area double buffer image must be disposed.</param>
 		internal void AlignChartAreasZoomed(ChartArea changedArea, AreaAlignmentOrientations orientation, bool disposeBufferBitmap)
         {
             // Check if alignment required
@@ -2883,7 +2822,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Loop through all chart areas
                 foreach (ChartArea area in this.ChartAreas)
                 {
-
                     // Check if chart area is visible
                     if (area.Visible)
 
@@ -2937,7 +2875,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Loop through all chart areas
                 foreach (ChartArea area in this.ChartAreas)
                 {
-
                     // Check if chart area is visible
                     if (area.Visible)
 
@@ -2985,7 +2922,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Chart areas alignment methods
 
         #region Helper methods
 
@@ -3026,7 +2963,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Load template from stream
             LoadTemplate(stream);
 
-            // Close tempate stream
+            // Close template stream
             stream.Close();
         }
 
@@ -3103,8 +3040,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Create new default title
             if (defaultTitle == null && create)
             {
-                defaultTitle = new Title();
-                defaultTitle.Name = "Default Title";
+                defaultTitle = new Title
+                {
+                    Name = "Default Title"
+                };
                 this.Titles.Insert(0, defaultTitle);
             }
 
@@ -3117,7 +3056,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>true if tooltips enabled</returns>
         private bool IsToolTipsEnabled()
         {
-
             // Data series loop
             foreach (Series series in Common.DataManager.Series)
             {
@@ -3185,7 +3123,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return false;
         }
 
-        #endregion
+        #endregion Helper methods
 
         #region IDisposable Members
 
@@ -3262,7 +3200,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+        #endregion IDisposable Members
     }
 
     /// <summary>
@@ -3273,16 +3211,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Private fields
-        private object _chartElement;
-        private ChartGraphics _chartGraph;
-        private CommonElements _common;
-        private Chart _chart;
-        private ElementPosition _position;
+        private readonly object _chartElement;
 
-        #endregion
+        private readonly ChartGraphics _chartGraph;
+        private readonly CommonElements _common;
+        private Chart _chart;
+        private readonly ElementPosition _position;
+
+        #endregion Fields
 
         #region Properties
-
 
         /// <summary>
         /// Gets the chart element of the event.
@@ -3295,7 +3233,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return _chartElement;
             }
         }
-
 
         /// <summary>
         /// Gets the ChartGraphics object of the event.
@@ -3346,7 +3283,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Methods
 
@@ -3372,7 +3309,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this._position = position;
         }
 
-        #endregion
+        #endregion Methods
     }
 
     /// <summary>
@@ -3383,14 +3320,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Fields
 
         // Private fields
-        private double _value;
-        private string _format;
-        private string _localizedValue;
-        private ChartValueType _valueType = ChartValueType.Auto;
-        private object _senderTag;
-        private ChartElementType _elementType = ChartElementType.Nothing;
+        private readonly double _value;
 
-        #endregion
+        private readonly string _format;
+        private string _localizedValue;
+        private readonly ChartValueType _valueType = ChartValueType.Auto;
+        private readonly object _senderTag;
+        private readonly ChartElementType _elementType = ChartElementType.Nothing;
+
+        #endregion Fields
 
         #region Properties
 
@@ -3443,7 +3381,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             get { return _elementType; }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Methods
 
@@ -3473,10 +3411,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this._elementType = elementType;
         }
 
-        #endregion
+        #endregion Methods
     }
 
     #region FontCache
+
     /// <summary>
     /// Font cache class helps ChartElements to reuse the Font instances
     /// </summary>
@@ -3507,24 +3446,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                     }
                     // Not found - use the default Sans Serif font
-                    if (_defaultFamilyName == null)
-                    {
-                        _defaultFamilyName = FontFamily.GenericSansSerif.Name;
-                    }
+                    _defaultFamilyName ??= FontFamily.GenericSansSerif.Name;
                 }
                 return _defaultFamilyName;
             }
         }
-        #endregion
+
+        #endregion Static
 
         #region Fields
 
-        // Cached fonts dictionary 
-        private Dictionary<KeyInfo, Font> _fontCache = new Dictionary<KeyInfo, Font>(new KeyInfo.EqualityComparer());
+        // Cached fonts dictionary
+        private readonly Dictionary<KeyInfo, Font> _fontCache = new Dictionary<KeyInfo, Font>(new KeyInfo.EqualityComparer());
 
-        #endregion // Fields
+        #endregion Fields
 
         #region Properties
+
         /// <summary>
         /// Gets the default font.
         /// </summary>
@@ -3542,7 +3480,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             get { return this.GetFont(DefaultFamilyName, 8, FontStyle.Bold); }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Methods
 
@@ -3614,7 +3553,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return this._fontCache[key];
         }
 
-        #endregion
+        #endregion Methods
 
         #region IDisposable Members
 
@@ -3631,19 +3570,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+        #endregion IDisposable Members
 
         #region FontKeyInfo struct
+
         /// <summary>
         /// Font key info
         /// </summary>
         private class KeyInfo
         {
-            string _familyName;
-            float _size = 8;
-            GraphicsUnit _unit = GraphicsUnit.Point;
-            FontStyle _style = FontStyle.Regular;
-            int _gdiCharSet = 1;
+            readonly string _familyName;
+            readonly float _size = 8;
+            readonly GraphicsUnit _unit = GraphicsUnit.Point;
+            readonly FontStyle _style = FontStyle.Regular;
+            readonly int _gdiCharSet = 1;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="KeyInfo"/> class.
@@ -3655,6 +3595,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this._familyName = familyName;
                 this._size = size;
             }
+
             /// <summary>
             /// Initializes a new instance of the <see cref="KeyInfo"/> class.
             /// </summary>
@@ -3667,6 +3608,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this._size = size;
                 this._style = style;
             }
+
             /// <summary>
             /// Initializes a new instance of the <see cref="KeyInfo"/> class.
             /// </summary>
@@ -3679,6 +3621,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this._size = size;
                 this._style = style;
             }
+
             /// <summary>
             /// Initializes a new instance of the <see cref="KeyInfo"/> class.
             /// </summary>
@@ -3695,6 +3638,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             #region IEquatable<FontKeyInfo> Members
+
             /// <summary>
             /// KeyInfo equality comparer
             /// </summary>
@@ -3729,9 +3673,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     return obj._familyName.GetHashCode() ^ obj._size.GetHashCode();
                 }
             }
-            #endregion
+
+            #endregion IEquatable<FontKeyInfo> Members
         }
-        #endregion
+
+        #endregion FontKeyInfo struct
     }
-    #endregion
+
+    #endregion FontCache
 }
