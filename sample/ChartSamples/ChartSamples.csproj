@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>$(TargetFrameworkServer)-windows</TargetFramework>
+    <TargetFrameworks>$(TargetFrameworkServer)</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>

@@ -2,7 +2,9 @@
 <Project>
   <PropertyGroup>
     <TargetFrameworkClient>net472</TargetFrameworkClient>
-    <TargetFrameworkServer>net6.0</TargetFrameworkServer>
+    <TargetFrameworkServer>net6.0-windows;net7.0-windows</TargetFrameworkServer>
+	<TFmWinVer>7.0</TFmWinVer>
+	<NugetTFm>net6.0-windows$(TFmWinVer);net7.0-windows$(TFmWinVer)</NugetTFm>
 	<MajorVer>1</MajorVer>
     <MinorPatchVer>4.0</MinorPatchVer>
     <PRVer>-pr1</PRVer>

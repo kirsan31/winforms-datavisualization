@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>$(TargetFrameworkServer)-windows</TargetFramework>
+		<TargetFrameworks>$(TargetFrameworkServer)</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
 		<AssemblyName>System.Windows.Forms.DataVisualization</AssemblyName>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>

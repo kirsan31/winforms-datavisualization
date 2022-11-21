@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>$(TargetFrameworkServer)</TargetFramework>		
+		<TargetFrameworks>$(NugetTFm)</TargetFrameworks>
 		<Description>This package contains the Windows Forms charting controls for .NET. Ported from System.Windows.Forms.DataVisualization, optimized and partial designer support added.</Description>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
@@ -35,10 +35,10 @@
 
 	<Target Name="_GetFilesToPackage">
 		<ItemGroup>
-			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.dll" />
+			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\System.Windows.Forms.DataVisualization.dll" />
 
 			<!--We need this during Control development, so we get proper Debug-Support at runtime. -->
-			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFrameworkServer)-windows\System.Windows.Forms.DataVisualization.pdb" />
+			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\System.Windows.Forms.DataVisualization.pdb" />
 
 			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization.Client\bin\$(Configuration)\$(TargetFrameworkClient)\WinForms.DataVisualization.Client.dll" TargetDir="Design/WinForms" />
 		</ItemGroup>
@@ -49,12 +49,12 @@
 	</Target>
 
 	<Target Name="CopyPackageR" AfterTargets="Pack" Condition="'$(Configuration)'=='Release'">
-		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg"
+		<Copy SourceFiles="$(OutputPath)\$(PackageId).$(PackageVersion).nupkg"
 			  DestinationFolder="$(SolutionDir)NuGet\BuildOut\"/>	
 	</Target>
 	
 	<Target Name="CopyPackageD" AfterTargets="Pack" Condition="'$(Configuration)'=='Debug'">
-		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg"
+		<Copy SourceFiles="$(OutputPath)\$(PackageId).$(PackageVersion).nupkg"
 			  DestinationFolder="$(SolutionDir)NuGet\BuildOut\"/>
 		<Exec Command="nuget.exe restore &quot;$(SolutionDir)DesignerTest\DesignerTest.csproj&quot; -ConfigFile &quot;$(SolutionDir)NuGet.config&quot;" />
 	</Target>
