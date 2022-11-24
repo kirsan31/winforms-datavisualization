@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>$(TargetFrameworkServer)</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
-		<AssemblyName>WinForms.DataVisualization</AssemblyName>
+		<AssemblyName>System.Windows.Forms.DataVisualization</AssemblyName>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<CLSCompliant>false</CLSCompliant>
 		<NoWarn>$(NoWarn);618</NoWarn>
