@@ -14,7 +14,7 @@ using System.Windows.Forms.Design;
 //using System.Windows.Forms.DataVisualization.Charting;
 //using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
-namespace Charting.Designer.Client
+namespace WinForms.DataVisualization.Designer.Client
 {
     /// <summary>
     /// Image string editor class.

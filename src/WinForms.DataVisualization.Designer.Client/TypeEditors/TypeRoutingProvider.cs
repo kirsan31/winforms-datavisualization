@@ -1,7 +1,7 @@
 ﻿using Microsoft.DotNet.DesignTools.Client.TypeRouting;
 using System.Collections.Generic;
 
-namespace Charting.Designer.Client
+namespace WinForms.DataVisualization.Designer.Client
 {
     [ExportTypeRoutingDefinitionProvider]
     internal class TypeRoutingProvider : TypeRoutingDefinitionProvider

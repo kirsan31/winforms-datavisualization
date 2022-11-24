@@ -4,7 +4,7 @@
 		<TargetFramework>$(TargetFrameworkClient)</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
 		<LangVersion>9.0</LangVersion>
-		<AssemblyName>WinForms.DataVisualization.Client</AssemblyName>
+		<AssemblyName>WinForms.DataVisualization.Designer.Client</AssemblyName>
 		<Nullable>enable</Nullable>
 		<UseDesignerSdk>true</UseDesignerSdk>
 		<AssemblyVersion>$(MajorVer).0.0.0</AssemblyVersion>
