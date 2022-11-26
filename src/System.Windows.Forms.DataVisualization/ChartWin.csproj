@@ -17,7 +17,7 @@
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="Tests" />
-		<InternalsVisibleTo Include="DataVisualization.Server" />
+		<InternalsVisibleTo Include="WinForms.DataVisualization.Designer.Server" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

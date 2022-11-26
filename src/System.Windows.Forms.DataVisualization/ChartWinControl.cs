@@ -27,7 +27,6 @@ using System.Windows.Forms.DataVisualization.Charting.Formulas;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 using System.Windows.Forms.Design.DataVisualization.Charting;
 
-using Microsoft.DotNet.DesignTools.Serialization;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -89,9 +88,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// </summary>
     [ToolboxBitmap(typeof(Chart), "ChartControl.ico")]
     [SRDescription("DescriptionAttributeChart_Chart")]
-    [Designer(typeof(ChartWinDesigner))]
-    [DesignerSerializer(typeof(ChartWinDesignerSerializer), typeof(CodeDomSerializer))]
-    [DisplayNameAttribute("Chart")]
+    [Designer("WinForms.DataVisualization.Designer.Server.ChartWinDesigner")]
+    [DesignerSerializer("WinForms.DataVisualization.Designer.Server.ChartWinDesignerSerializer", typeof(CodeDomSerializer))]
+    [DisplayName("Chart")]
     public class Chart : System.Windows.Forms.Control, ISupportInitialize
     {
         #region Control fields

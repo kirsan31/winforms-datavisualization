@@ -16,8 +16,6 @@ using System.Drawing.Design;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 
-using Microsoft.DotNet.DesignTools.Editors;
-
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
 
@@ -152,10 +150,11 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         internal virtual ArrayList GetMemberNames()
         {
             object dataSource = null;
-            if (ChartWinDesigner.controlDesigner != null)
-            {
-                dataSource = ChartWinDesigner.controlDesigner.GetControlDataSource(_chart);
-            }
+#warning designer
+            //if (ChartWinDesigner.controlDesigner != null)
+            //{
+            //    dataSource = ChartWinDesigner.controlDesigner.GetControlDataSource(_chart);
+            //}
 
             // Get list of members
             if (dataSource != null)
@@ -384,7 +383,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// Object constructor.
         /// </summary>
         /// <param name="type">AxisName.</param>
-        public ChartCollectionEditor(Type type) : base(null, type)
+        public ChartCollectionEditor(Type type) : base(type)
 		{
 		}
 

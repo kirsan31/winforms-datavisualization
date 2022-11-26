@@ -7,14 +7,14 @@
 //  Purpose:	Windows forms chart control designer class.
 //
 
-
+using System.CodeDom;
 using System.ComponentModel.Design.Serialization;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
 using Microsoft.DotNet.DesignTools.Serialization;
 
-namespace System.Windows.Forms.Design.DataVisualization.Charting;
+namespace WinForms.DataVisualization.Designer.Server;
 
 /// <summary>
 /// Windows forms chart control designer class.
@@ -33,7 +33,7 @@ internal class ChartWinDesignerSerializer : CodeDomSerializer
 		// Set serialization flag
 		bool oldSerializationFlag = false;
 		SerializationStatus oldSerializationStatus = SerializationStatus.None;
-		Chart chart = value as Chart;
+		Chart? chart = value as Chart;
 		if (chart is not null)
 		{
 			oldSerializationFlag = chart.serializing;
@@ -44,22 +44,22 @@ internal class ChartWinDesignerSerializer : CodeDomSerializer
 		}
 
 		// Serialize object using the base class serializer
-		object result = null;
-		CodeDomSerializer baseSerializer = (CodeDomSerializer)manager.GetSerializer(typeof(Chart).BaseType, typeof(CodeDomSerializer));
+		object? result = null;
+		CodeDomSerializer baseSerializer = (CodeDomSerializer)manager.GetSerializer(typeof(Chart).BaseType!, typeof(CodeDomSerializer));
 		if (baseSerializer is not null)
 		{
 			result = IsSerialized(manager, value) ? GetExpression(manager, value) : baseSerializer.Serialize(manager, value);
-            // Custom serialization of the DataSource property
-            // Check if DataSource property is set
-            if (chart is not null && chart.DataSource is string dSstring && dSstring != "(none)" && result is CodeDom.CodeStatementCollection statements)
+			// Custom serialization of the DataSource property
+			// Check if DataSource property is set
+			if (chart is not null && chart.DataSource is string dSstring && dSstring != "(none)" && result is CodeStatementCollection statements)
 			{
-                // Add assignment statement for the DataSource property
-                CodeDom.CodeExpression targetObject = base.SerializeToExpression(manager, value);
+				// Add assignment statement for the DataSource property
+				CodeExpression targetObject = base.SerializeToExpression(manager, value);
 				if (targetObject is not null)
 				{
-					CodeDom.CodeAssignStatement assignStatement = new CodeDom.CodeAssignStatement(
-						new CodeDom.CodePropertyReferenceExpression(targetObject, "DataSource"),
-						new CodeDom.CodePropertyReferenceExpression(new CodeDom.CodeThisReferenceExpression(), dSstring));
+					CodeAssignStatement assignStatement = new CodeAssignStatement(
+						new CodePropertyReferenceExpression(targetObject, "DataSource"),
+						new CodePropertyReferenceExpression(new CodeThisReferenceExpression(), dSstring));
 					statements.Add(assignStatement);
 				}
 			}
@@ -72,7 +72,7 @@ internal class ChartWinDesignerSerializer : CodeDomSerializer
 			chart.serializationStatus = oldSerializationStatus;
 		}
 
-		return result;
+		return result ?? base.Serialize(manager, value);
 	}
 
 	/// <summary>
@@ -83,8 +83,8 @@ internal class ChartWinDesignerSerializer : CodeDomSerializer
 	/// <returns>The deserialized CodeDOM object.</returns>
 	public override object Deserialize(IDesignerSerializationManager manager, object codeObject)
 	{
-		CodeDomSerializer baseSerializer = (CodeDomSerializer)manager.GetSerializer(typeof(Chart).BaseType, typeof(CodeDomSerializer));
-		return baseSerializer?.Deserialize(manager, codeObject);
+		CodeDomSerializer? baseSerializer = (CodeDomSerializer)manager.GetSerializer(typeof(Chart).BaseType!, typeof(CodeDomSerializer));
+		return baseSerializer?.Deserialize(manager, codeObject) ?? base.Deserialize(manager, codeObject);
 	}
 
 	#endregion

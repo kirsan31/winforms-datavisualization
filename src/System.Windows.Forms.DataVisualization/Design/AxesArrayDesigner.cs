@@ -16,14 +16,12 @@ using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms.DataVisualization.Charting;
 
-using Microsoft.DotNet.DesignTools.Editors;
-
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
     /// <summary>
     /// Designer editor for the chart areas collection.
     /// </summary>
-    internal class AxesArrayEditor : Microsoft.DotNet.DesignTools.Editors.CollectionEditor
+    internal class AxesArrayEditor : CollectionEditor
     {
         #region Fields and Constructor
 
@@ -38,7 +36,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// <summary>
         /// Object constructor.
         /// </summary>
-        public AxesArrayEditor() : base(null, typeof(Axis[]))
+        public AxesArrayEditor() : base(typeof(Axis[]))
 			{
 			}
 
