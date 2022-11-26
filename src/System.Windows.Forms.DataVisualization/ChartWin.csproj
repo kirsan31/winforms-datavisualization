@@ -13,11 +13,11 @@
 		<AssemblyVersion>$(MajorVer).0.0.0</AssemblyVersion>
 		<FileVersion>$(MajorVer).$(MinorPatchVer).0</FileVersion>
 		<InformationalVersion>$(MajorVer).$(MinorPatchVer)$(PRVer)</InformationalVersion>
-		<UseDesignerSdk>true</UseDesignerSdk>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="Tests" />
+		<InternalsVisibleTo Include="DataVisualization.Server" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

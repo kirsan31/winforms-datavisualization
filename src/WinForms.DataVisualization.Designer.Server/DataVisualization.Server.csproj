@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>$(TargetFrameworkServer)</TargetFrameworks>
+		<AssemblyName>WinForms.DataVisualization.Designer.Server</AssemblyName>
+		<UseWindowsForms>true</UseWindowsForms>
+		<Nullable>enable</Nullable>
+		<UseDesignerSdk>true</UseDesignerSdk>
+		<AssemblyVersion>$(MajorVer).0.0.0</AssemblyVersion>
+	</PropertyGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
+	</ItemGroup>
+</Project>

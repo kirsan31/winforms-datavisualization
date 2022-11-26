@@ -34,6 +34,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataVisualization.Package",
 		{C286B51C-AAAF-4435-B570-E56684515163} = {C286B51C-AAAF-4435-B570-E56684515163}
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataVisualization.Server", "src\WinForms.DataVisualization.Designer.Server\DataVisualization.Server.csproj", "{634087C7-428C-4772-8E17-A84E48EB5C03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,12 +66,17 @@ Global
 		{DA8C1977-F670-412F-8008-988C891F0AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA8C1977-F670-412F-8008-988C891F0AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA8C1977-F670-412F-8008-988C891F0AD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{634087C7-428C-4772-8E17-A84E48EB5C03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{634087C7-428C-4772-8E17-A84E48EB5C03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{634087C7-428C-4772-8E17-A84E48EB5C03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{634087C7-428C-4772-8E17-A84E48EB5C03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C286B51C-AAAF-4435-B570-E56684515163} = {41408BB5-9030-4EE5-8CF8-5F42BC1C877B}
+		{634087C7-428C-4772-8E17-A84E48EB5C03} = {41408BB5-9030-4EE5-8CF8-5F42BC1C877B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9197CCA8-9853-4465-BBEC-C5FA3BB7008E}
