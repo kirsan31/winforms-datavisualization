@@ -11,6 +11,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\WinForms.DataVisualization.Utilities\Utilities.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Reference Include="System.Design" />
 		<Reference Include="System.Drawing.Design" />
 	</ItemGroup>

@@ -31,6 +31,10 @@
 		<DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\WinForms.DataVisualization.Utilities\Utilities.csproj" />
+	</ItemGroup>
+
 	<ItemGroup Label="Embedded Resources">
 		<EmbeddedResource Update="Common\SR.resx">
 			<LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>

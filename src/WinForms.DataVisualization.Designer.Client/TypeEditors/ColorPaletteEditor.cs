@@ -11,8 +11,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
-//using System.Windows.Forms.DataVisualization.Charting;
-//using System.Windows.Forms.DataVisualization.Charting.Utilities;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
 namespace WinForms.DataVisualization.Designer.Client
 {
@@ -33,47 +33,51 @@ namespace WinForms.DataVisualization.Designer.Client
             return true;
         }
 
-#warning designer
         /// <summary>
         /// Override this function to support palette colors drawing
         /// </summary>
         /// <param name="e">Paint value event arguments.</param>
-        //public override void PaintValue(PaintValueEventArgs e)
-        //{
-        //    // Get palette colors array
-        //    ChartColorPalette palette = (ChartColorPalette)e.Value;
+        public override void PaintValue(PaintValueEventArgs e)
+        {
+            // Get palette colors array
+            ChartColorPalette palette;
+            var val = e.Value as Microsoft.DotNet.DesignTools.Client.Proxies.EnumProxy;            
+            if (val?.Value is null || (palette = val.AsEnumValue<ChartColorPalette>()) == ChartColorPalette.None)
+            {
+                base.PaintValue(e);
+                return;
+            }
 
-        //    if (palette == ChartColorPalette.None)
-        //    {
-        //        base.PaintValue(e);
-        //    }
-        //    else
-        //    {
-        //        Color[] paletteColors = ChartPaletteColors.GetPaletteColors(palette);
-        //        int numberOfcolors = paletteColors.Length;
+            Color[]? paletteColors = ChartPaletteColors.GetPaletteColors(palette);
+            if (paletteColors is null || paletteColors.Length == 0)
+            {
+                base.PaintValue(e);
+                return;
+            }
 
-        //        // Draw first colors of the palette
-        //        if (numberOfcolors > 6)
-        //        {
-        //            numberOfcolors = 6;
-        //        }
+            int numberOfcolors = paletteColors.Length;
+            // Draw first colors of the palette
+            if (numberOfcolors > 6)
+            {
+                numberOfcolors = 6;
+            }
 
-        //        int colorStep = paletteColors.Length / numberOfcolors;
-        //        RectangleF rect = e.Bounds;
-        //        rect.Width = e.Bounds.Width / (float)numberOfcolors;
-        //        for (int i = 0; i < numberOfcolors; i++)
-        //        {
-        //            if (i == numberOfcolors - 1)
-        //            {
-        //                rect.Width = e.Bounds.Right - rect.X;
-        //            }
-        //            using var br = new SolidBrush(paletteColors[i * colorStep]);
-        //            e.Graphics.FillRectangle(br, rect);
-        //            rect.X = rect.Right;
-        //            rect.Width = e.Bounds.Width / (float)numberOfcolors;
-        //        }
-        //    }
-        //}
+            int colorStep = paletteColors.Length / numberOfcolors;
+            RectangleF rect = e.Bounds;
+            rect.Width = e.Bounds.Width / (float)numberOfcolors;
+            for (int i = 0; i < numberOfcolors; i++)
+            {
+                if (i == numberOfcolors - 1)
+                {
+                    rect.Width = e.Bounds.Right - rect.X;
+                }
+
+                using var br = new SolidBrush(paletteColors[i * colorStep]);
+                e.Graphics.FillRectangle(br, rect);
+                rect.X = rect.Right;
+                rect.Width = e.Bounds.Width / (float)numberOfcolors;
+            }
+        }
 
         #endregion
     }
