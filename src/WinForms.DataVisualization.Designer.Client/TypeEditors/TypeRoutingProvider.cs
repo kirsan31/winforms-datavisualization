@@ -14,6 +14,10 @@ namespace WinForms.DataVisualization.Designer.Client
                     TypeRoutingKinds.Editor, 
                     nameof(ImageValueEditor), 
                     typeof(ImageValueEditor)),
+                new TypeRoutingDefinition(
+                    TypeRoutingKinds.Editor,
+                    nameof(AxesArrayEditor),
+                    typeof(AxesArrayEditor)),
             };
         }
     }

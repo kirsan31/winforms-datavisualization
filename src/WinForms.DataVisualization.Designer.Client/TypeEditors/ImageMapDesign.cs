@@ -33,6 +33,7 @@ namespace WinForms.DataVisualization.Designer.Client
             return true;
         }
 
+#warning designer
         ///// <summary>
         ///// Override this function to support palette colors drawing
         ///// </summary>

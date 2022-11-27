@@ -354,7 +354,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeChartArea_Axes"),
         TypeConverter(typeof(AxesArrayConverter)),
-        Editor(typeof(AxesArrayEditor), typeof(UITypeEditor)),
+        Editor("AxesArrayEditor", typeof(UITypeEditor)),
         DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
         SerializationVisibilityAttribute(SerializationVisibility.Hidden)
         ]

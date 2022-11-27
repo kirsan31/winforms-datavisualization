@@ -8,90 +8,78 @@
 //
 
 
+using System;
 using System.Collections;
-using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.ComponentModel.Design.Serialization;
-using System.Globalization;
-using System.Reflection;
-using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms;
 
-namespace System.Windows.Forms.Design.DataVisualization.Charting
+namespace WinForms.DataVisualization.Designer.Client
 {
     /// <summary>
     /// Designer editor for the chart areas collection.
     /// </summary>
-    internal class AxesArrayEditor : CollectionEditor
+    internal class AxesArrayEditor : ArrayEditor
     {
         #region Fields and Constructor
 
-#warning designer
         // Collection form
-        //			CollectionForm	_form = null;
+        private CollectionForm? _form;
 
         // Help topic string
-        private string	_helpTopic = "";
+        private string _helpTopic = string.Empty;
 
-#warning designer
-        /// <summary>
-        /// Object constructor.
-        /// </summary>
-        public AxesArrayEditor() : base(typeof(Axis[]))
-			{
-			}
+        public AxesArrayEditor(Type type) : base(type)
+        {
+        }
 
         #endregion
 
-    #region Methods
+        #region Methods
 
-		/// <summary>
-		/// Items can not be removed.
-		/// </summary>
-		/// <param name="value">Value.</param>
-		/// <returns>False if can't remove.</returns>
-		protected override bool CanRemoveInstance(object value)
-		{
-			return false;
-		}
+        /// <summary>
+        /// Items can not be removed.
+        /// </summary>
+        /// <param name="value">Value.</param>
+        /// <returns>False if can't remove.</returns>
+        protected override bool CanRemoveInstance(object value)
+        {
+            return false;
+        }
 
-#warning designer
-        /*
-		/// <summary>
-		/// Ovveride the HelpTopic property to provide different topics,
-		/// depending on selected property.
-		/// </summary>
-		protected override string HelpTopic
-		{
-			get
-			{
-				return (_helpTopic.Length == 0) ? base.HelpTopic : _helpTopic;
-			}
-		}
-		*/
+        /// <summary>
+        /// Override the HelpTopic property to provide different topics,
+        /// depending on selected property.
+        /// </summary>
+        protected override string HelpTopic => (_helpTopic.Length == 0) ? base.HelpTopic : _helpTopic;
 
         /// <summary>
         /// Returns the collection form property grid. Added for VS2005 compatibility.
         /// </summary>
         /// <param name="controls"></param>
         /// <returns></returns>
-        private PropertyGrid GetPropertyGrid(System.Windows.Forms.Control.ControlCollection controls)
+        private PropertyGrid? GetPropertyGrid(Control.ControlCollection? controls)
         {
-            foreach (System.Windows.Forms.Control control in controls)
+            if (controls is null)
+                return null;
+
+            foreach (Control control in controls)
             {
-                PropertyGrid grid = control as PropertyGrid;
-                if (grid != null)
+                PropertyGrid? grid = control as PropertyGrid;
+                if (grid is not null)
                 {
                     return grid;
                 }
+
                 if (control.Controls.Count > 0)
                 {
                     grid = GetPropertyGrid(control.Controls);
-                    if (grid != null)
+                    if (grid is not null)
                     {
                         return grid;
                     }
                 }
             }
+
             return null;
         }
 
@@ -100,14 +88,15 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// </summary>
         /// <param name="buttons"></param>
         /// <param name="controls"></param>
-        private void CollectButtons(ArrayList buttons, System.Windows.Forms.Control.ControlCollection controls)
+        private void CollectButtons(ArrayList buttons, Control.ControlCollection controls)
         {
-            foreach (System.Windows.Forms.Control control in controls)
+            foreach (Control control in controls)
             {
-                if (control is System.Windows.Forms.Button)
+                if (control is Button)
                 {
                     buttons.Add(control);
                 }
+
                 if (control.Controls.Count > 0)
                 {
                     CollectButtons(buttons, control.Controls);
@@ -115,46 +104,52 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             }
         }
 
-#warning designer
-        /*
-		/// <summary>
-		/// Displaying help for the curently selected item in the property grid
-		/// </summary>
-		protected override void ShowHelp()
-		{
-			// Init topic name
-			_helpTopic = "";
-			PropertyGrid	grid = this.GetPropertyGrid(_form.Controls);;
-			
+        /// <summary>
+        /// Displaying help for the currently selected item in the property grid
+        /// </summary>
+        protected override void ShowHelp()
+        {
+            // Init topic name
+            _helpTopic = string.Empty;
+            PropertyGrid? grid = this.GetPropertyGrid(_form?.Controls);
+
             // Check currently selected grid item
-			if(grid != null)
-			{
-				GridItem item = grid.SelectedGridItem;
-				if(item != null && (item.GridItemType == GridItemType.Property || item.GridItemType == GridItemType.ArrayValue))
-				{
-					_helpTopic = item.PropertyDescriptor.ComponentType.ToString() + "." + item.PropertyDescriptor.Name;
-				}
-			}
+            if (grid is not null)
+            {
+                GridItem item = grid.SelectedGridItem;
+                if (item is not null && (item.GridItemType == GridItemType.Property || item.GridItemType == GridItemType.ArrayValue))
+                {
+#warning designer question
+                    // Original code:
+                    //_helpTopic = item.PropertyDescriptor.ComponentType.ToString() + "." + item.PropertyDescriptor.Name;
 
-			// Call base class
-			base.ShowHelp();
+                    // We have a proxy object (Microsoft.DotNet.DesignTools.Client.Proxies.ProxyPropertyDescriptor) here as PropertyDescriptor.
+                    // So to get real type we need get PropertyData (Microsoft.DotNet.DesignTools.Protocol.PropertyData) from PropertyDescriptor and then ComponentType from it.
+                    // Because Microsoft.DotNet.DesignTools.Client.Proxies.ProxyPropertyDescriptor and Microsoft.DotNet.DesignTools.Protocol.PropertyData are internal we need to use reflection...
+                    if (item.PropertyDescriptor.GetPropValue("PropertyData")?.GetPropValue("ComponentType") is Microsoft.DotNet.DesignTools.Protocol.Types.TypeIdentity typeIdentity)
+                        _helpTopic = typeIdentity.TypeName + "." + item.PropertyDescriptor.Name;
+                }
+            }
 
-			// Re-Init topic name
-			_helpTopic = "";
-		}
+            // Call base class
+            base.ShowHelp();
+
+            // Re-Init topic name
+            _helpTopic = string.Empty;
+        }
 
 
-		/// <summary>
-		/// Creates editor's form.
-		/// </summary>
-		/// <returns>Collection form.</returns>
-		protected override CollectionForm CreateCollectionForm()
-		{
-			// Create collection form using the base class
-			_form = base.CreateCollectionForm();
+        /// <summary>
+        /// Creates editor's form.
+        /// </summary>
+        /// <returns>Collection form.</returns>
+        protected override CollectionForm CreateCollectionForm()
+        {
+            // Create collection form using the base class
+            _form = base.CreateCollectionForm();
             // Changed Apr 29, DT,  for VS2005 compatibility
-            PropertyGrid grid = GetPropertyGrid(_form.Controls);
-            if (grid != null)
+            PropertyGrid? grid = GetPropertyGrid(_form.Controls);
+            if (grid is not null)
             {
                 // Show properties help
                 grid.HelpVisible = true;
@@ -164,7 +159,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             // Changed Apr 29, DT, for VS2005 compatibility
             ArrayList buttons = new ArrayList();
             this.CollectButtons(buttons, _form.Controls);
-            foreach (System.Windows.Forms.Button button in buttons)
+            foreach (Button button in buttons)
             {
                 if (button.Name.StartsWith("add", StringComparison.OrdinalIgnoreCase) ||
                     button.Name.StartsWith("remove", StringComparison.OrdinalIgnoreCase) ||
@@ -174,9 +169,9 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                     button.EnabledChanged += new EventHandler(Button_EnabledChanged);
                 }
             }
-			return _form;
-		}
-		*/
+
+            return _form;
+        }
 
         /// <summary>
         /// Flag to prevent stack overflow.
@@ -187,14 +182,16 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// Handles the EnabledChanged event of the Button control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Button_EnabledChanged(object sender, EventArgs e)
         {
-            if ( _button_EnabledChanging ) return;
+            if (_button_EnabledChanging)
+                return;
+
             _button_EnabledChanging = true;
             try
             {
-                ((System.Windows.Forms.Button)sender).Enabled = false;
+                ((Button)sender).Enabled = false;
             }
             finally
             {
@@ -202,155 +199,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             }
         }
 
-    #endregion
-        }
-
-        internal class DataPointCustomPropertiesConverter : TypeConverter
-        {
-
-            /// <summary>
-            /// Returns whether this object supports properties, using the specified context.
-            /// </summary>
-            /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"/> that provides a format context.</param>
-            /// <returns>
-            /// true if <see cref="M:System.ComponentModel.TypeConverter.GetProperties(System.Object)"/> should be called to find the properties of this object; otherwise, false.
-            /// </returns>
-            public override bool GetPropertiesSupported(ITypeDescriptorContext context)
-            {
-                return true;
-            }
-
-            /// <summary>
-            /// Returns a collection of properties for the type of array specified by the value parameter, using the specified context and attributes.
-            /// </summary>
-            /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"/> that provides a format context.</param>
-            /// <param name="value">An <see cref="T:System.Object"/> that specifies the type of array for which to get properties.</param>
-            /// <param name="attributes">An array of type <see cref="T:System.Attribute"/> that is used as a filter.</param>
-            /// <returns>
-            /// A <see cref="T:System.ComponentModel.PropertyDescriptorCollection"/> with the properties that are exposed for this data type, or null if there are no properties.
-            /// </returns>
-            public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
-            {
-                // Fill collection with properties descriptors
-                PropertyDescriptorCollection propDescriptors = TypeDescriptor.GetProperties(value, attributes, false);
-
-                // Return original collection if not in design mode
-                if (context != null && context.Instance is ChartElement && 
-                    (context.Instance as ChartElement).Chart != null &&
-                    (context.Instance as ChartElement).Chart.IsDesignMode())
-                {
-                    // Create new descriptors collection
-                    PropertyDescriptorCollection newPropDescriptors = new PropertyDescriptorCollection(null);
-
-                    // Loop through all original property descriptors
-                    foreach (PropertyDescriptor propertyDescriptor in propDescriptors)
-                    {
-                        // Change name of "CustomAttributesEx" property to "CustomProperties"
-                        if (propertyDescriptor.Name == "CustomAttributesEx")
-                        {
-                            DynamicPropertyDescriptor dynPropDesc = new DynamicPropertyDescriptor(
-                                propertyDescriptor,
-                                "CustomProperties");
-                            newPropDescriptors.Add(dynPropDesc);
-                        }
-                        else
-                        {
-                            newPropDescriptors.Add(propertyDescriptor);
-                        }
-                    }
-                    return newPropDescriptors;
-                }
-
-                // Return original collection if not in design mode
-                return propDescriptors;
-
-            }
-
-            /// <summary>
-            /// Converts the given value object to the specified type, using the specified context and culture information.
-            /// </summary>
-            /// <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"/> that provides a format context.</param>
-            /// <param name="culture">A <see cref="T:System.Globalization.CultureInfo"/>. If null is passed, the current culture is assumed.</param>
-            /// <param name="value">The <see cref="T:System.Object"/> to convert.</param>
-            /// <param name="destinationType">The <see cref="T:System.Type"/> to convert the <paramref name="value"/> parameter to.</param>
-            /// <returns>
-            /// An <see cref="T:System.Object"/> that represents the converted value.
-            /// </returns>
-            /// <exception cref="T:System.ArgumentNullException">The <paramref name="destinationType"/> parameter is null. </exception>
-            /// <exception cref="T:System.NotSupportedException">The conversion cannot be performed. </exception>
-            public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
-            {
-                if (context != null)
-                {
-                    if (destinationType == typeof(string))
-                    {
-                        return "";
-                    }
-                }                // Always call base, even if you can't convert.
-                return base.ConvertTo(context, culture, value, destinationType);
-            }
-        }
-
-
-        /// <summary>
-        /// DataPoint Converter - helps windows form serializer to create inline datapoints.
-        /// </summary>
-        internal class DataPointConverter : DataPointCustomPropertiesConverter
-        {
-
-            /// <summary>
-            /// This method overrides CanConvertTo from TypeConverter. This is called when someone
-            /// wants to convert an instance of object to another type.  Here,
-            /// only conversion to an InstanceDescriptor is supported.
-            /// </summary>
-            /// <param name="context">Descriptor context.</param>
-            /// <param name="destinationType">Destination type.</param>
-            /// <returns>True if object can be converted.</returns>
-            public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-            {
-                if (destinationType == typeof(InstanceDescriptor))
-                {
-                    return true;
-                }
-
-                // Always call the base to see if it can perform the conversion.
-                return base.CanConvertTo(context, destinationType);
-            }
-
-            /// <summary>
-            /// This methods performs the actual conversion from an object to an InstanceDescriptor.
-            /// </summary>
-            /// <param name="context">Descriptor context.</param>
-            /// <param name="culture">Culture information.</param>
-            /// <param name="value">Object value.</param>
-            /// <param name="destinationType">Destination type.</param>
-            /// <returns>Converted object.</returns>
-            public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
-            {
-                DataPoint dataPoint = value as DataPoint;
-                if (destinationType == typeof(InstanceDescriptor) && dataPoint != null)
-                {
-                    if (dataPoint.YValues.Length > 1)
-                    {
-                        ConstructorInfo ci = typeof(DataPoint).GetConstructor(new Type[] { typeof(double), typeof(string) });
-                        string yValues = "";
-                        foreach (double y in dataPoint.YValues)
-                        {
-                            yValues += y.ToString(System.Globalization.CultureInfo.InvariantCulture) + ",";
-                        }
-
-                        return new InstanceDescriptor(ci, new object[] { dataPoint.XValue, yValues.TrimEnd(',') }, false);
-                    }
-                    else
-                    {
-                        ConstructorInfo ci = typeof(DataPoint).GetConstructor(new Type[] { typeof(double), typeof(double) });
-                        return new InstanceDescriptor(ci, new object[] { dataPoint.XValue, dataPoint.YValues[0] }, false);
-                    }
-                }
-                // Always call base, even if you can't convert.
-                return base.ConvertTo(context, culture, value, destinationType);
-            }
-
-        }
-
+        #endregion
     }
+}
