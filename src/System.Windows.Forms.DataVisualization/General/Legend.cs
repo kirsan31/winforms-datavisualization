@@ -5527,7 +5527,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(MarkerStyle.None),
         SRDescription("DescriptionAttributeLegendItem_MarkerStyle"),
-        Editor(typeof(MarkerStyleEditor), typeof(UITypeEditor)),
+        Editor("MarkerStyleEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public MarkerStyle MarkerStyle

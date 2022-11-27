@@ -4078,7 +4078,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMarker"),
         Bindable(true),
         SRDescription("DescriptionAttributeMarkerStyle4"),
-        Editor(typeof(MarkerStyleEditor), typeof(UITypeEditor)),
+        Editor("MarkerStyleEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public MarkerStyle MarkerStyle
