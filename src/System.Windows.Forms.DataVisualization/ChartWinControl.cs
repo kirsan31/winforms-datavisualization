@@ -1160,7 +1160,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(AntiAliasingStyles), "All"),
         SRDescription("DescriptionAttributeAntiAlias"),
-        Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor)),
+        Editor("FlagsEnumUITypeEditor", typeof(UITypeEditor)),
         ]
         public System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles AntiAliasing
         {

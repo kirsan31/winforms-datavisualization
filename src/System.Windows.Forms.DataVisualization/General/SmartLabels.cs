@@ -261,7 +261,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(LabelAlignmentStyles), "Top, Bottom, Right, Left, TopLeft, TopRight, BottomLeft, BottomRight"),
         SRDescription("DescriptionAttributeMovingDirection"),
-        Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor))
+        Editor("FlagsEnumUITypeEditor", typeof(UITypeEditor))
         ]
         virtual public LabelAlignmentStyles MovingDirection
         {

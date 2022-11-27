@@ -16,60 +16,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
     #region Enumerations
 
     /// <summary>
-    /// An enumeration that specifies a label alignment.
-    /// </summary>
-    [
-        Flags
-        ]
-    public enum LabelAlignmentStyles
-    {
-        /// <summary>
-        /// Label is aligned to the top of the data point.
-        /// </summary>
-        Top = 1,
-
-        /// <summary>
-        /// Label is aligned to the bottom of the data point.
-        /// </summary>
-        Bottom = 2,
-
-        /// <summary>
-        /// Label is aligned to the right of the data point.
-        /// </summary>
-        Right = 4,
-
-        /// <summary>
-        /// Label is aligned to the left of the data point.
-        /// </summary>
-        Left = 8,
-
-        /// <summary>
-        /// Label is aligned to the top-left corner of the data point.
-        /// </summary>
-        TopLeft = 16,
-
-        /// <summary>
-        /// Label is aligned to the top-right corner of the data point.
-        /// </summary>
-        TopRight = 32,
-
-        /// <summary>
-        /// Label is aligned to the bottom-left of the data point.
-        /// </summary>
-        BottomLeft = 64,
-
-        /// <summary>
-        /// Label is aligned to the bottom-right of the data point.
-        /// </summary>
-        BottomRight = 128,
-
-        /// <summary>
-        /// Label is aligned to the center of the data point.
-        /// </summary>
-        Center = 256,
-    }
-
-    /// <summary>
     /// An enumeration of chart types.
     /// </summary>
     public enum SeriesChartType
@@ -812,33 +758,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         SystemDefault
     }
-
-    /// <summary>
-    /// An enumeration of anti-aliasing flags.
-    /// </summary>
-    [Flags]
-    public enum AntiAliasingStyles
-    {
-        /// <summary>
-        /// No anti-aliasing.
-        /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// Use anti-aliasing when drawing text.
-        /// </summary>
-        Text = 1,
-
-        /// <summary>
-        /// Use anti-aliasing when drawing graphics primitives (e.g. lines, rectangle)
-        /// </summary>
-        Graphics = 2,
-
-        /// <summary>
-        /// Use anti-alias for everything.
-        /// </summary>
-        All = Text | Graphics
-    };
 
     /// <summary>
     /// An enumeration of marker styles.

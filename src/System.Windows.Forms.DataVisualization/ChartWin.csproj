@@ -32,7 +32,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\WinForms.DataVisualization.Utilities\Utilities.csproj" />
+		<ProjectReference Include="..\WinForms.DataVisualization.Utilities\Utilities.csproj" />
 	</ItemGroup>
 
 	<ItemGroup Label="Embedded Resources">

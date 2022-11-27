@@ -59,33 +59,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ZoomReset
     }
 
-    /// <summary>
-    /// An enumeration of scrollbar button style flags.
-    /// </summary>
-    [Flags]
-    public enum ScrollBarButtonStyles
-    {
-        /// <summary>
-        /// No buttons are shown.
-        /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// Small increment or decrement buttons are shown.
-        /// </summary>
-        SmallScroll = 1,
-
-        /// <summary>
-        /// Reset zoom buttons are shown.
-        /// </summary>
-        ResetZoom = 2,
-
-        /// <summary>
-        /// All buttons are shown.
-        /// </summary>
-        All = SmallScroll | ResetZoom
-    }
-
     #endregion Scroll bar enumerations
 
     /// <summary>
@@ -265,7 +238,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(ScrollBarButtonStyles.All),
         SRDescription("DescriptionAttributeAxisScrollBar_Buttons"),
-        Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor))
+        Editor("FlagsEnumUITypeEditor", typeof(UITypeEditor))
         ]
         public ScrollBarButtonStyles ButtonStyle
         {

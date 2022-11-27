@@ -21,74 +21,6 @@ using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
-    #region Chart area alignment enumerations
-
-    /// <summary>
-    /// An enumeration of the alignment orientations of a ChartArea
-    /// </summary>
-    [Flags]
-    public enum AreaAlignmentOrientations
-    {
-        /// <summary>
-        /// Chart areas are not automatically aligned.
-        /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// Chart areas are aligned vertically.
-        /// </summary>
-        Vertical = 1,
-
-        /// <summary>
-        /// Chart areas are aligned horizontally.
-        /// </summary>
-        Horizontal = 2,
-
-        /// <summary>
-        /// Chart areas are aligned using all values (horizontally and vertically).
-        /// </summary>
-        All = Vertical | Horizontal
-    }
-
-    /// <summary>
-    /// An enumeration of the alignment styles of a ChartArea
-    /// </summary>
-    [Flags]
-    public enum AreaAlignmentStyles
-    {
-        /// <summary>
-        /// Chart areas are not automatically aligned.
-        /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// Chart areas are aligned by positions.
-        /// </summary>
-        Position = 1,
-
-        /// <summary>
-        /// Chart areas are aligned by inner plot positions.
-        /// </summary>
-        PlotPosition = 2,
-
-        /// <summary>
-        /// Chart areas are aligned by axes views.
-        /// </summary>
-        AxesView = 4,
-
-        /// <summary>
-        /// Cursor and Selection alignment.
-        /// </summary>
-        Cursor = 8,
-
-        /// <summary>
-        /// Complete alignment.
-        /// </summary>
-        All = Position | PlotPosition | Cursor | AxesView
-    }
-
-    #endregion Chart area alignment enumerations
-
     /// <summary>
     /// The ChartArea class is used to create and display a chart
     /// area within a chart image. The chart area is a rectangular
@@ -308,7 +240,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(AreaAlignmentOrientations.Vertical),
         SRDescription("DescriptionAttributeChartArea_AlignOrientation"),
-        Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor))
+        Editor("FlagsEnumUITypeEditor", typeof(UITypeEditor))
         ]
         public AreaAlignmentOrientations AlignmentOrientation
         {
@@ -331,7 +263,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(AreaAlignmentStyles.All),
         SRDescription("DescriptionAttributeChartArea_AlignType"),
-        Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor))
+        Editor("FlagsEnumUITypeEditor", typeof(UITypeEditor))
         ]
         public AreaAlignmentStyles AlignmentStyle
         {

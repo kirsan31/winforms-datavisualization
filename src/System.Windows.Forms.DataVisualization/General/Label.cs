@@ -54,34 +54,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
 	/// <summary>
-	/// An enumeration of custom grid lines and tick marks flags used in the custom labels.
-	/// </summary>
-	[Flags]
-	public enum GridTickTypes
-	{
-		/// <summary>
-		/// No tick mark or grid line are shown.
-		/// </summary>
-		None = 0,
-
-		/// <summary>
-		/// Tick mark is shown.
-		/// </summary>
-		TickMark = 1,
-
-		/// <summary>
-		/// Grid line is shown.
-		/// </summary>
-		Gridline = 2,
-
-		/// <summary>
-		/// Tick mark and grid line are shown.
-		/// </summary>
-		All = TickMark | Gridline
-	}
-
-
-	/// <summary>
 	/// An enumeration of label styles for circular chart area axis.
 	/// </summary>
 	internal enum CircularAxisLabelsStyle
@@ -624,7 +596,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		Bindable(true),
 		DefaultValue(GridTickTypes.None),
 		SRDescription("DescriptionAttributeCustomLabel_GridTicks"),
-        Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor))
+        Editor("FlagsEnumUITypeEditor", typeof(UITypeEditor))
         ]
         public GridTickTypes GridTicks
 		{

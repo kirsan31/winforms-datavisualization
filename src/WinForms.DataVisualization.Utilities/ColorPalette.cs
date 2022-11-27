@@ -323,18 +323,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// </summary>
         /// <param name="palette">Palette to get the colors for.</param>
         /// <returns>
-        /// Array of colors. <see langword="null"/> in case of not defined <paramref name="palette" /> value.
+        /// Array of colors. <see cref="Array.Empty"/> in case of not defined <paramref name="palette" /> value or <see cref="ChartColorPalette.None"/>.
         /// </returns>
-        /// <exception cref="ArgumentException">In case of <paramref name="palette" /> == <see cref="ChartColorPalette.None" />.</exception>
-        public static Color[]? GetPaletteColors(ChartColorPalette palette)
+        public static Color[] GetPaletteColors(ChartColorPalette palette)
         {
             switch (palette)
             {
-                case ChartColorPalette.None:
-                    {
-                        throw new ArgumentException(SR.ExceptionPaletteIsEmpty);
-                    }
-
                 case ChartColorPalette.Bright:
                     return _colorsDefault;
                 case ChartColorPalette.Grayscale:
@@ -361,7 +355,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     return _colorsBrightPastel;
             }
 
-            return null;
+            return Array.Empty<Color>();
         }
 
         #endregion

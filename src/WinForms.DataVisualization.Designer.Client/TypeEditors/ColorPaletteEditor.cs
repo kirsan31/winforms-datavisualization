@@ -42,14 +42,14 @@ namespace WinForms.DataVisualization.Designer.Client
             // Get palette colors array
             ChartColorPalette palette;
             var val = e.Value as Microsoft.DotNet.DesignTools.Client.Proxies.EnumProxy;            
-            if (val?.Value is null || (palette = val.AsEnumValue<ChartColorPalette>()) == ChartColorPalette.None)
+            if (val is null || (palette = val.AsEnumValue<ChartColorPalette>()) == ChartColorPalette.None)
             {
                 base.PaintValue(e);
                 return;
             }
 
-            Color[]? paletteColors = ChartPaletteColors.GetPaletteColors(palette);
-            if (paletteColors is null || paletteColors.Length == 0)
+            Color[] paletteColors = ChartPaletteColors.GetPaletteColors(palette);
+            if (paletteColors.Length == 0)
             {
                 base.PaintValue(e);
                 return;
