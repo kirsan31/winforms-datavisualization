@@ -17,6 +17,7 @@ namespace WinForms.DataVisualization.Designer.Client
                 new TypeRoutingDefinition(TypeRoutingKinds.Editor, nameof(ColorPaletteEditor), typeof(ColorPaletteEditor)),
                 new TypeRoutingDefinition(TypeRoutingKinds.Editor, nameof(ChartColorEditor), typeof(ChartColorEditor)),
                 new TypeRoutingDefinition(TypeRoutingKinds.Editor, nameof(FlagsEnumUITypeEditor), typeof(FlagsEnumUITypeEditor)),
+                new TypeRoutingDefinition(TypeRoutingKinds.Editor, nameof(HatchStyleEditor), typeof(HatchStyleEditor)),
             };
         }
     }

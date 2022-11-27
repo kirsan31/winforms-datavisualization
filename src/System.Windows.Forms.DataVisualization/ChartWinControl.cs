@@ -1403,7 +1403,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(ChartHatchStyle.None),
         SRDescription("DescriptionAttributeBackHatchStyle"),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor)),
+        Editor("HatchStyleEditor", typeof(UITypeEditor)),
         ]
         public ChartHatchStyle BackHatchStyle
         {

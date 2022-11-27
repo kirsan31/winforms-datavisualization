@@ -265,7 +265,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		NotifyParentPropertyAttribute(true),
 		DefaultValue(ChartHatchStyle.None),
         SRDescription("DescriptionAttributeFrameBackHatchStyle"),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
+        Editor("HatchStyleEditor", typeof(UITypeEditor))
         ]
         public ChartHatchStyle BackHatchStyle
 		{

@@ -1013,7 +1013,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(ChartHatchStyle.None),
         NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeBackHatchStyle"),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
+        Editor("HatchStyleEditor", typeof(UITypeEditor))
         ]
         virtual public ChartHatchStyle BackHatchStyle
         {

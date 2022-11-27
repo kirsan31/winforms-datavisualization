@@ -260,7 +260,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Browsable(false),
         DefaultValue(ChartHatchStyle.None),
         NotifyParentPropertyAttribute(true),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
+        Editor("HatchStyleEditor", typeof(UITypeEditor))
         ]
         public override ChartHatchStyle BackHatchStyle
         {
