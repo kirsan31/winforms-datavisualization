@@ -1071,7 +1071,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data
         Bindable(true),
         SRDescription("DescriptionAttributePalette"),
         DefaultValue(ChartColorPalette.BrightPastel),
-        Editor(typeof(ColorPaletteEditor), typeof(UITypeEditor))
+        Editor("ColorPaletteEditor", typeof(UITypeEditor))
         ]
         public ChartColorPalette Palette
         {

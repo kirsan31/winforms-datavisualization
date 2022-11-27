@@ -12,6 +12,7 @@
 
 	<ItemGroup>
 		<Reference Include="System.Design" />
+		<Reference Include="System.Drawing.Design" />
 	</ItemGroup>
 
 </Project>
