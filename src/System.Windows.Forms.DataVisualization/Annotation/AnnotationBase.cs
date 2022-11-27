@@ -1044,7 +1044,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(GradientStyle.None),
         NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeBackGradientStyle"),
-        Editor(typeof(GradientEditor), typeof(UITypeEditor))
+        Editor("GradientEditor", typeof(UITypeEditor))
         ]
         virtual public GradientStyle BackGradientStyle
         {

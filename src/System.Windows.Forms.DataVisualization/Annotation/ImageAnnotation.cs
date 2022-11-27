@@ -351,7 +351,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Browsable(false),
         DefaultValue(GradientStyle.None),
         NotifyParentPropertyAttribute(true),
-        Editor(typeof(GradientEditor), typeof(UITypeEditor))
+        Editor("GradientEditor", typeof(UITypeEditor))
         ]
         public override GradientStyle BackGradientStyle
         {

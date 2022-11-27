@@ -1,4 +1,5 @@
 ﻿using Microsoft.DotNet.DesignTools.Client.TypeRouting;
+
 using System.Collections.Generic;
 
 namespace WinForms.DataVisualization.Designer.Client
@@ -10,14 +11,9 @@ namespace WinForms.DataVisualization.Designer.Client
         {
             return new[]
             {
-                new TypeRoutingDefinition(
-                    TypeRoutingKinds.Editor, 
-                    nameof(ImageValueEditor), 
-                    typeof(ImageValueEditor)),
-                new TypeRoutingDefinition(
-                    TypeRoutingKinds.Editor,
-                    nameof(AxesArrayEditor),
-                    typeof(AxesArrayEditor)),
+                new TypeRoutingDefinition(TypeRoutingKinds.Editor, nameof(ImageValueEditor), typeof(ImageValueEditor)),
+                new TypeRoutingDefinition(TypeRoutingKinds.Editor, nameof(AxesArrayEditor), typeof(AxesArrayEditor)),
+                new TypeRoutingDefinition(TypeRoutingKinds.Editor, nameof(GradientEditor), typeof(GradientEditor)),
             };
         }
     }

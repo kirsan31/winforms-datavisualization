@@ -1548,7 +1548,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(GradientStyle.None),
         SRDescription("DescriptionAttributeBackGradientStyle"),
-        Editor(typeof(GradientEditor), typeof(UITypeEditor)),
+        Editor("GradientEditor", typeof(UITypeEditor)),
         ]
         public GradientStyle BackGradientStyle
         {
