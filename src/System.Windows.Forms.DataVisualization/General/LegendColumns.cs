@@ -245,7 +245,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeSeriesItems"),
         DefaultValue(KeywordName.LegendText),
         SRDescription("DescriptionAttributeLegendCellColumn_Text"),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public virtual string Text
         {
@@ -430,7 +430,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeSeriesItems"),
         SRDescription("DescriptionAttributeToolTip"),
         DefaultValue(""),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public virtual string ToolTip
         {

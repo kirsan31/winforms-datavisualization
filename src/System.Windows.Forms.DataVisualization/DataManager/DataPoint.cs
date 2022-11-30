@@ -3135,7 +3135,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// The text of the data point label.
         /// </summary>
         [
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         SRCategory("CategoryAttributeLabel"),
         Bindable(true),
         SRDescription("DescriptionAttributeLabel"),
@@ -3193,7 +3193,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMisc"),
         Bindable(true),
         SRDescription("DescriptionAttributeAxisLabel"),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public virtual string AxisLabel
         {
@@ -4604,7 +4604,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMapArea"),
         Bindable(true),
         SRDescription("DescriptionAttributeToolTip"),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public string ToolTip
         {
@@ -4718,7 +4718,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeLegend"),
         Bindable(true),
         SRDescription("DescriptionAttributeLegendText"),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public string LegendText
         {
@@ -4766,7 +4766,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeLegend"),
         Bindable(true),
         SRDescription("DescriptionAttributeLegendToolTip"),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public string LegendToolTip
         {
@@ -5029,7 +5029,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeLabel"),
         Bindable(true),
         SRDescription("DescriptionAttributeLabelToolTip"),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public string LabelToolTip
         {

@@ -19,6 +19,7 @@ namespace WinForms.DataVisualization.Designer.Client
                 new TypeRoutingDefinition(TypeRoutingKinds.Editor, nameof(FlagsEnumUITypeEditor), typeof(FlagsEnumUITypeEditor)),
                 new TypeRoutingDefinition(TypeRoutingKinds.Editor, nameof(HatchStyleEditor), typeof(HatchStyleEditor)),
                 new TypeRoutingDefinition(TypeRoutingKinds.Editor, nameof(MarkerStyleEditor), typeof(MarkerStyleEditor)),
+                new TypeRoutingDefinition(TypeRoutingKinds.Editor, nameof(KeywordsStringEditor), typeof(KeywordsStringEditor)),
             };
         }
     }

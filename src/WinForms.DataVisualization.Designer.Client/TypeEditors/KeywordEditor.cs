@@ -5,16 +5,18 @@
 
 //
 //  Purpose:	A keyword editor form. Allows the end user to insert
-//				new and edit exsisting keywords in the string.
+//				new and edit existing keywords in the string.
 //
 
 
+using System;
 using System.Collections;
 using System.Globalization;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
-namespace System.Windows.Forms.Design.DataVisualization.Charting
+namespace WinForms.DataVisualization.Designer.Client
 {
     /// <summary>
     /// Summary description for KeywordEditor.
@@ -499,7 +501,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                                             // Get precision
                                             if (this._comboBoxFormat.SelectedIndex != 8 && format.Length > 0)
                                             {
-                                                this._textBoxPrecision.Text = format[1..];
+                                                this._textBoxPrecision.Text = format.Substring(1);
                                             }
                                         }
                                         else
@@ -831,5 +833,3 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         #endregion // Helper Methods
     }
 }
-
-

@@ -5,26 +5,27 @@
 
 //
 //  Purpose:	Design-time editor for the strings that may contain
-//				keywords. Form automatically retrives the list of 
-//				recongnizable keywords from the chart keywords 
+//				keywords. Form automatically retrieves the list of 
+//				recognizable keywords from the chart keywords 
 //				registry.
 //
 
 
 using System.Collections;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Globalization;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 using System;
+using System.Windows.Forms.Design;
 
-namespace System.Windows.Forms.Design.DataVisualization.Charting
+namespace WinForms.DataVisualization.Designer.Client
 {
     /// <summary>
-    /// Stirng editor form that is used to edit properties that support keywords.
+    /// String editor form that is used to edit properties that support keywords.
     /// </summary>
     internal class KeywordsStringEditorForm : System.Windows.Forms.Form
     {
@@ -391,7 +392,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// <param name="e">Event arguments.</param>
         private void buttonEdit_Click(object sender, System.EventArgs e)
         {
-            // Get seloected keyword
+            // Get selected keyword
             string keyword = this._richTextBox.Text.Substring(this._selectedKeywordStart, this._selectedKeywordLength);
 
             // Show keyword editor form
@@ -404,8 +405,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 int start = this._selectedKeywordStart;
                 int length = this._selectedKeywordLength;
 
-                // Update currently selected kyword
-                this._richTextBox.Text = string.Concat(this._richTextBox.Text.AsSpan(0, start), keywordEditor.Keyword, this._richTextBox.Text.AsSpan(start + length));
+                // Update currently selected keyword
+                this._richTextBox.Text = this._richTextBox.Text.Substring(0, start) + keywordEditor.Keyword + this._richTextBox.Text.Substring(start + length);
                 this._richTextBox.SelectionStart = start + keywordEditor.Keyword.Length;
             }
 
@@ -511,8 +512,8 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 int newSelectionPosition = this._selectedKeywordStart;
 
                 // Remove keyword
-                string newText = _richTextBox.Text[..this._selectedKeywordStart];
-                newText += _richTextBox.Text[(this._selectedKeywordStart + this._selectedKeywordLength)..];
+                string newText = _richTextBox.Text.Substring(0, this._selectedKeywordStart);
+                newText += _richTextBox.Text.Substring(this._selectedKeywordStart + this._selectedKeywordLength);
                 _richTextBox.Text = newText;
 
                 // Restore cursor (selection) position
@@ -673,7 +674,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                                 selectionStart <= (startIndex + keywordLength);
 
                             // Show Keyword with different color
-                            string tempText = resultText[..startIndex];
+                            string tempText = resultText.Substring(0, startIndex);
                             string formattedKeyword = string.Empty;
                             formattedKeyword += @"\cf1";
                             if (isKeywordSelected)
@@ -698,7 +699,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                             }
                             formattedKeyword += @"\ul0 ";
                             tempText += formattedKeyword;
-                            tempText += resultText[(startIndex + keywordLength)..];
+                            tempText += resultText.Substring(startIndex + keywordLength);
                             resultText = tempText;
 
                             // Adjust selection position
@@ -818,7 +819,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
     }
 
     /// <summary>
-    /// Editor for the string properties that may contain keyords.
+    /// Editor for the string properties that may contain keywords.
     /// </summary>
     internal class KeywordsStringEditor : System.Drawing.Design.UITypeEditor
     {
@@ -834,8 +835,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         /// <param name="provider">Provider.</param>
         /// <param name="value">Value to edit.</param>
         /// <returns>Result</returns>
-        [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
-            Justification = "Too large of a code change to justify making this change")]
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
             if (context != null &&
@@ -851,19 +850,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                     Chart chart = null;
                     object instance = context.Instance;
 
-#if CHART_ACTLIST
-                    // Special processing if editor is called from the smart tag
-                    if (instance is ChartActionList)
-                    {
-                        chart = ((ChartActionList)instance).Chart;
-                        ChartActionList.SelectedItemInfo selectedItemInfo = ((ChartActionList)instance).GetSelectedItemInfo();
-                        if(selectedItemInfo != null)
-                        {
-                            instance = selectedItemInfo.SelectedObject;
-                        }
-                    }
-
-#endif //CHART_ACTLIST
                     // Check object instance edited
                     if (instance is Series)
                     {
@@ -939,6 +925,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                     {
                         form.KeywordsRegistry = (KeywordsRegistry)chart.GetService(typeof(KeywordsRegistry));
                     }
+
                     _edSvc.ShowDialog(form);
                     value = form.ResultString;
                 }
@@ -958,12 +945,10 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             {
                 return UITypeEditorEditStyle.Modal;
             }
+
             return base.GetEditStyle(context);
         }
 
         #endregion
     }
-
 }
-
-
