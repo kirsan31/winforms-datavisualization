@@ -86,7 +86,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <summary>
     /// Chart windows forms control
     /// </summary>
-    [ToolboxBitmap(typeof(Chart), "ChartControl.ico")]
+    [ToolboxBitmap(typeof(Chart), "ChartControl.bmp")]
     [SRDescription("DescriptionAttributeChart_Chart")]
     [Designer("WinForms.DataVisualization.Designer.Server.ChartWinDesigner")]
     [DesignerSerializer("WinForms.DataVisualization.Designer.Server.ChartWinDesignerSerializer", typeof(CodeDomSerializer))]

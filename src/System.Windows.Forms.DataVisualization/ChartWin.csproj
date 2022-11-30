@@ -4,6 +4,7 @@
 		<TargetFrameworks>$(TargetFrameworkServer)</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
 		<AssemblyName>WinForms.DataVisualization</AssemblyName>
+		<RootNamespace>System.Windows.Forms.DataVisualization.Charting</RootNamespace>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<CLSCompliant>false</CLSCompliant>
 		<NoWarn>$(NoWarn);618</NoWarn>
@@ -39,9 +40,11 @@
 		<EmbeddedResource Update="Common\SR.resx">
 			<LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
 		</EmbeddedResource>
-		<EmbeddedResource Update="SR.resx">
-			<GenerateSource>true</GenerateSource>
-			<Namespace>System.Windows.Forms.DataVisualization.Charting</Namespace>
+		<EmbeddedResource Update="Resources\Design.resx">
+			<LogicalName>System.Windows.Forms.DataVisualization.Charting.Design.resources</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Resources\ChartControl.bmp">
+			<LogicalName>System.Windows.Forms.DataVisualization.Charting.ChartControl.bmp</LogicalName>
 		</EmbeddedResource>
 	</ItemGroup>
 </Project>
