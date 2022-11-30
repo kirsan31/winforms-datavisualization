@@ -8,12 +8,15 @@
 //
 
 
+using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Globalization;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms.Design;
 
-namespace System.Windows.Forms.Design.DataVisualization.Charting
+namespace WinForms.DataVisualization.Designer.Client
 {
     /// <summary>
     /// Designer editor for the Annotation Collection.

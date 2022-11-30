@@ -12,7 +12,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -764,7 +763,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[
 		SRCategory("CategoryAttributeAnnotations"),
 		SRDescription("DescriptionAttributeAnnotationGroup_Annotations"),
-        Editor(typeof(AnnotationCollectionEditor), typeof(UITypeEditor)),
+        Editor("AnnotationCollectionEditor", typeof(UITypeEditor)),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content), 
 		]
 		public AnnotationCollection Annotations

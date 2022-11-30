@@ -27,7 +27,6 @@ using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -2802,7 +2801,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeCellColumns"),
         SRDescription("DescriptionAttributeLegend_CellColumns"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        Editor(typeof(LegendCellColumnCollectionEditor), typeof(UITypeEditor)),
+        Editor("LegendCellColumnCollectionEditor", typeof(UITypeEditor)),
         ]
         public LegendCellColumnCollection CellColumns
         {
@@ -3461,7 +3460,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeLegend_CustomItems"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        Editor(typeof(LegendItemCollectionEditor), typeof(UITypeEditor))
+        Editor("LegendItemCollectionEditor", typeof(UITypeEditor))
         ]
         public LegendItemsCollection CustomItems
         {
@@ -5766,7 +5765,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         SRDescription("DescriptionAttributeLegendItem_Cells"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        Editor(typeof(LegendCollectionEditor), typeof(UITypeEditor))
+        Editor("LegendCollectionEditor", typeof(UITypeEditor))
         ]
         public LegendCellCollection Cells
         {

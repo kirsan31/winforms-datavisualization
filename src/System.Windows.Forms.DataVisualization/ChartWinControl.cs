@@ -25,7 +25,6 @@ using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 using System.Windows.Forms.DataVisualization.Charting.Data;
 using System.Windows.Forms.DataVisualization.Charting.Formulas;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 
 namespace System.Windows.Forms.DataVisualization.Charting
@@ -1041,7 +1040,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeChart"),
         SRDescription("DescriptionAttributeChart_Series"),
-        Editor(typeof(SeriesCollectionEditor), typeof(UITypeEditor)),
+        Editor("SeriesCollectionEditor", typeof(UITypeEditor)),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         ]
         public SeriesCollection Series
@@ -1058,7 +1057,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeChart"),
         SRDescription("DescriptionAttributeLegends"),
-        Editor(typeof(LegendCollectionEditor), typeof(UITypeEditor)),
+        Editor("LegendCollectionEditor", typeof(UITypeEditor)),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         ]
         public LegendCollection Legends
@@ -1075,7 +1074,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeChart"),
         SRDescription("DescriptionAttributeTitles"),
-        Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor)),
+        Editor("ChartCollectionEditor", typeof(UITypeEditor)),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         ]
         public TitleCollection Titles
@@ -1092,7 +1091,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeChart"),
         SRDescription("DescriptionAttributeAnnotations3"),
-        Editor(typeof(AnnotationCollectionEditor), typeof(UITypeEditor)),
+        Editor("AnnotationCollectionEditor", typeof(UITypeEditor)),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         ]
         public AnnotationCollection Annotations
@@ -1244,7 +1243,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeChartAreas"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor)),
+        Editor("ChartCollectionEditor", typeof(UITypeEditor)),
         ]
         public ChartAreaCollection ChartAreas
         {

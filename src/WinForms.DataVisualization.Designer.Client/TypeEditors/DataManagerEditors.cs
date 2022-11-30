@@ -9,14 +9,17 @@
 //
 
 
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing.Design;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
+using System.Windows.Forms.Design;
 
-namespace System.Windows.Forms.Design.DataVisualization.Charting
+namespace WinForms.DataVisualization.Designer.Client
 {
 
     /// <summary>
@@ -150,11 +153,10 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         internal virtual ArrayList GetMemberNames()
         {
             object dataSource = null;
-#warning designer
-            //if (ChartWinDesigner.controlDesigner != null)
-            //{
-            //    dataSource = ChartWinDesigner.controlDesigner.GetControlDataSource(_chart);
-            //}
+            if (ChartWinDesigner.controlDesigner != null)
+            {
+            dataSource = ChartWinDesigner.controlDesigner.GetControlDataSource(_chart);
+            }
 
             // Get list of members
             if (dataSource != null)
@@ -311,8 +313,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		{
 		}
 
-#warning designer
-        /*
 		/// <summary>
 		/// Do not allow to edit if multiple series selected.
 		/// </summary>
@@ -332,7 +332,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 			}
 			return base.EditValue(context, provider, value);
 		}
-		*/
 
         /// <summary>
         /// Create instance of data point object
@@ -369,16 +368,13 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 	{
         #region Editor methods and properties 
 
-#warning designer
         // Collection editor form
-        //        CollectionForm _form = null;
+		CollectionForm	_form;
         Chart _chart;
         ITypeDescriptorContext _context;
 
         // Help topic string
-        string	_helpTopic = "";
-
-#warning designer
+        string	_helpTopic = string.Empty;
         /// <summary>
         /// Object constructor.
         /// </summary>
@@ -387,8 +383,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		{
 		}
 
-#warning designer
-        /*
 		/// <summary>
 		/// Edit object's value.
 		/// </summary>
@@ -431,7 +425,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
                 }
             }
         }
-		*/
 
         /// <summary>
         /// Called when [name reference changing].
@@ -503,8 +496,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             return result;
         }
 
-#warning designer
-        /*
+
 		/// <summary>
 		/// Ovveride the HelpTopic property to provide different topics,
 		/// depending on selected property.
@@ -542,7 +534,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 			// Re-Init topic name
 			_helpTopic = "";
 		}
-		*/
 
         /// <summary>
         /// Returns the collection form property grid. Added for VS2005 compatibility.
@@ -590,10 +581,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
             }
         }
 
-
-#warning designer
-
-        /*
         /// <summary>
         /// Cretaes form for collection editing.
         /// </summary>
@@ -632,7 +619,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 
 			return _form;
 		}
-        */
 
 
         /// <summary>

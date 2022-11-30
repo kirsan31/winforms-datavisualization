@@ -8,10 +8,11 @@
 //
 
 
+using System;
 using System.ComponentModel;
 using System.Windows.Forms.DataVisualization.Charting;
 
-namespace System.Windows.Forms.Design.DataVisualization.Charting
+namespace WinForms.DataVisualization.Designer.Client
 {
     /// <summary>
     /// Designer editor for the custom legend items collection.
@@ -27,8 +28,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		{
 		}
 
-#warning designer
-        /*
 		/// <summary>
 		/// Edit object's value.
 		/// </summary>
@@ -40,7 +39,6 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
 		{
 			return base.EditValue(context, provider, value);
 		}
-		*/
 
         #endregion
     }
