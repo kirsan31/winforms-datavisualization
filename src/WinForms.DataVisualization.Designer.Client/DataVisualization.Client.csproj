@@ -19,4 +19,11 @@
 		<Reference Include="System.Drawing.Design" />
 	</ItemGroup>
 
+	<ItemGroup Label="Embedded Resources">
+		<Compile Include="..\System.Windows.Forms.DataVisualization\Common\SR.cs" Link="Resources\SR.cs" />
+		<EmbeddedResource Include="..\System.Windows.Forms.DataVisualization\Common\SR.resx" />
+		<EmbeddedResource Update="..\System.Windows.Forms.DataVisualization\Common\SR.resx" Link="Resources\SR.resx">
+			<LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
 </Project>

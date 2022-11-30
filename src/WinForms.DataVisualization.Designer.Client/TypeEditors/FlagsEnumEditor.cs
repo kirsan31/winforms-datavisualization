@@ -137,13 +137,13 @@ namespace WinForms.DataVisualization.Designer.Client
             // Check if editable object is of type Enum
             if (!this._editType.IsEnum)
             {
-                throw new ArgumentException("UI type editor may be set for the enumerations only.");
+                throw new ArgumentException(SR.ExceptionEditorUITypeEditorInapplicable);
             }
 
             // Check underlying type
             if (Enum.GetUnderlyingType(this._editType) != typeof(int))
             {
-                throw new ArgumentException("UI type editor may be set for the enumerations with Int32 underlying type only.");
+                throw new ArgumentException(SR.ExceptionEditorUITypeEditorInt32ApplicableOnly);
             }
 
             // Convert enumeration value to Int32
