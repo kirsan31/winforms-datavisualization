@@ -845,75 +845,74 @@ namespace WinForms.DataVisualization.Designer.Client
                 _edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
                 if (_edSvc != null)
                 {
+#warning designer
                     // Try getting access to the associated series
-                    Series series = null;
-                    Chart chart = null;
+                    //Series series = null;
+                    //Chart chart = null;
                     object instance = context.Instance;
 
                     // Check object instance edited
-                    if (instance is Series)
-                    {
-                        series = (Series)instance;
-                    }
-                    else if (instance is DataPoint)
-                    {
-                        series = ((DataPoint)instance).series;
-                    }
-                    else if (instance is LegendItem)
-                    {
-                        if (((LegendItem)instance).Common != null)
-                        {
-                            chart = ((LegendItem)instance).Common.Chart;
-                            if (((LegendItem)instance).Common.DataManager.Series.IndexOf(((LegendItem)instance).SeriesName) >= 0)
-                            {
-                                series = ((LegendItem)instance).Common.DataManager.Series[((LegendItem)instance).SeriesName];
-                            }
-                        }
-                    }
-                    else if (instance is LegendCellColumn)
-                    {
-                        if (((LegendCellColumn)instance).Legend != null)
-                        {
-                            chart = ((LegendCellColumn)instance).Legend.Common.Chart;
-                        }
-                    }
+                    //if (instance is Series)
+                    //{
+                    //    series = (Series)instance;
+                    //}
+                    //else if (instance is DataPoint)
+                    //{
+                    //    series = ((DataPoint)instance).series;
+                    //}
+                    //else if (instance is LegendItem)
+                    //{
+                    //    if (((LegendItem)instance).Common != null)
+                    //    {
+                    //        chart = ((LegendItem)instance).Common.Chart;
+                    //        if (((LegendItem)instance).Common.DataManager.Series.IndexOf(((LegendItem)instance).SeriesName) >= 0)
+                    //        {
+                    //            series = ((LegendItem)instance).Common.DataManager.Series[((LegendItem)instance).SeriesName];
+                    //        }
+                    //    }
+                    //}
+                    //else if (instance is LegendCellColumn)
+                    //{
+                    //    if (((LegendCellColumn)instance).Legend != null)
+                    //    {
+                    //        chart = ((LegendCellColumn)instance).Legend.Common.Chart;
+                    //    }
+                    //}
 
-                    else if (instance is Annotation)
-                    {
-                        chart = ((Annotation)instance).Chart;
-                        if (((Annotation)instance).AnchorDataPoint != null)
-                        {
-                            series = ((Annotation)instance).AnchorDataPoint.series;
-                        }
-                        else if (chart != null && chart.Series.Count > 0)
-                        {
-                            series = chart.Series[0];
-                        }
-                    }
-
-
+                    //else if (instance is Annotation)
+                    //{
+                    //    chart = ((Annotation)instance).Chart;
+                    //    if (((Annotation)instance).AnchorDataPoint != null)
+                    //    {
+                    //        series = ((Annotation)instance).AnchorDataPoint.series;
+                    //    }
+                    //    else if (chart != null && chart.Series.Count > 0)
+                    //    {
+                    //        series = chart.Series[0];
+                    //    }
+                    //}
 
                     // Make sure chart reference was found
-                    if (chart == null && series != null)
-                    {
-                        chart = series.Chart;
-                    }
+                    //if (chart == null && series != null)
+                    //{
+                    //    chart = series.Chart;
+                    //}
 
                     // Get maximum number of Y values
                     int maxYValueNumber = 9;
-                    if (series != null)
-                    {
-                        maxYValueNumber = series.YValuesPerPoint - 1;
-                    }
-                    else if (chart != null)
-                    {
-                        // Find MAX number of Y values use in all series
-                        maxYValueNumber = 0;
-                        foreach (Series ser in chart.Series)
-                        {
-                            maxYValueNumber = Math.Max(maxYValueNumber, ser.YValuesPerPoint - 1);
-                        }
-                    }
+                    //if (series != null)
+                    //{
+                    //    maxYValueNumber = series.YValuesPerPoint - 1;
+                    //}
+                    //else if (chart != null)
+                    //{
+                    //    // Find MAX number of Y values use in all series
+                    //    maxYValueNumber = 0;
+                    //    foreach (Series ser in chart.Series)
+                    //    {
+                    //        maxYValueNumber = Math.Max(maxYValueNumber, ser.YValuesPerPoint - 1);
+                    //    }
+                    //}
 
                     // Show editor form
                     using KeywordsStringEditorForm form = new KeywordsStringEditorForm(
@@ -921,10 +920,10 @@ namespace WinForms.DataVisualization.Designer.Client
                         instance.GetType().Name,
                         context.PropertyDescriptor.Name,
                         maxYValueNumber);
-                    if (chart != null)
-                    {
-                        form.KeywordsRegistry = (KeywordsRegistry)chart.GetService(typeof(KeywordsRegistry));
-                    }
+                    //if (chart != null)
+                    //{
+                    //    form.KeywordsRegistry = (KeywordsRegistry)chart.GetService(typeof(KeywordsRegistry));
+                    //}
 
                     _edSvc.ShowDialog(form);
                     value = form.ResultString;

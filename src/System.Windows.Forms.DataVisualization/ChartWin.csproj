@@ -37,9 +37,6 @@
 	</ItemGroup>
 
 	<ItemGroup Label="Embedded Resources">
-		<EmbeddedResource Update="Common\SR.resx">
-			<LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
-		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Design.resx">
 			<LogicalName>System.Windows.Forms.DataVisualization.Charting.Design.resources</LogicalName>
 		</EmbeddedResource>

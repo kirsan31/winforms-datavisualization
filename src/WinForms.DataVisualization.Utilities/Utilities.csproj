@@ -12,4 +12,10 @@
 		<InternalsVisibleTo Include="WinForms.DataVisualization" />
 		<InternalsVisibleTo Include="WinForms.DataVisualization.Designer.Client" />
 	</ItemGroup>
+
+	<ItemGroup Label="Embedded Resources">
+	  <EmbeddedResource Update="Resources\SR.resx">
+	    <LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
+	  </EmbeddedResource>
+	</ItemGroup>
 </Project>
