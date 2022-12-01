@@ -15,9 +15,6 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing.Design;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
-using System.Windows.Forms.Design;
 
 namespace WinForms.DataVisualization.Designer.Client
 {
@@ -29,85 +26,86 @@ namespace WinForms.DataVisualization.Designer.Client
 	{
 		#region Editor methods and properties
 
-        internal virtual SeriesDataSourceMemberYCheckedListBox GetDropDownControl(Chart chart, ITypeDescriptorContext context, object value, bool flag)
+        internal virtual SeriesDataSourceMemberYCheckedListBox GetDropDownControl(/*Chart chart,*/ ITypeDescriptorContext context, object value, bool flag)
         {
-            return new SeriesDataSourceMemberYCheckedListBox(chart, value, flag);
+            return new SeriesDataSourceMemberYCheckedListBox(/*chart,*/ value, flag);
         }
 
+#warning designer
+        ///// <summary>
+        ///// Display a drop down list with check boxes.
+        ///// </summary>
+        ///// <param name="context">Editing context.</param>
+        ///// <param name="provider">Provider.</param>
+        ///// <param name="value">Value to edit.</param>
+        ///// <returns>Result</returns>
+        //public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
+        //{
+        //	if (context != null && context.Instance != null && provider != null) 
+        //	{
+        //		IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+        //		if(edSvc != null) 
+        //		{
+        //                  Chart chart = ConverterHelper.GetChartFromContext(context);
 
-		/// <summary>
-		/// Display a drop down list with check boxes.
-		/// </summary>
-		/// <param name="context">Editing context.</param>
-		/// <param name="provider">Provider.</param>
-		/// <param name="value">Value to edit.</param>
-		/// <returns>Result</returns>
-		public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
-		{
-			if (context != null && context.Instance != null && provider != null) 
-			{
-				IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
-				if(edSvc != null) 
-				{
-                    Chart chart = ConverterHelper.GetChartFromContext(context);
+        //			if(chart != null)
+        //			{
 
-					if(chart != null)
-					{
+        //				// Create control for editing
+        //				SeriesDataSourceMemberYCheckedListBox control = this.GetDropDownControl(chart, context, value, true);
 
-						// Create control for editing
-						SeriesDataSourceMemberYCheckedListBox control = this.GetDropDownControl(chart, context, value, true);
+        //				// Show drop down control
+        //				edSvc.DropDownControl(control);
 
-						// Show drop down control
-						edSvc.DropDownControl(control);
+        //				// Get new enumeration value
+        //				value = control.GetNewValue();
+        //			}
+        //		}
+        //	}
 
-						// Get new enumeration value
-						value = control.GetNewValue();
-					}
-				}
-			}
+        //	return value;
+        //}
 
-			return value;
-		}
+        ///// <summary>
+        ///// Gets editing style.
+        ///// </summary>
+        ///// <param name="context">Editing context.</param>
+        ///// <returns>Editor style.</returns>
+        //public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) 
+        //{
+        //	if (context != null && context.Instance != null) 
+        //	{
+        //		// Check how many Y values in the series.
+        //		int	yValuesNumber = 1;
+        //		if(context.Instance is Series)
+        //		{
+        //			yValuesNumber = ((Series)context.Instance).YValuesPerPoint;
+        //		}
+        //		else if(context.Instance is Array)
+        //		{
+        //			Array	array = (Array)context.Instance;
+        //			if(array.Length > 0 && array.GetValue(0) is Series)
+        //			{
+        //				yValuesNumber = Math.Max(yValuesNumber, ((Series)array.GetValue(0)).YValuesPerPoint);
+        //			}
+        //		}
 
-		/// <summary>
-		/// Gets editing style.
-		/// </summary>
-		/// <param name="context">Editing context.</param>
-		/// <returns>Editor style.</returns>
-		public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) 
-		{
-			if (context != null && context.Instance != null) 
-			{
-				// Check how many Y values in the series.
-				int	yValuesNumber = 1;
-				if(context.Instance is Series)
-				{
-					yValuesNumber = ((Series)context.Instance).YValuesPerPoint;
-				}
-				else if(context.Instance is Array)
-				{
-					Array	array = (Array)context.Instance;
-					if(array.Length > 0 && array.GetValue(0) is Series)
-					{
-						yValuesNumber = Math.Max(yValuesNumber, ((Series)array.GetValue(0)).YValuesPerPoint);
-					}
-				}
+        //		return (yValuesNumber == 1) ? UITypeEditorEditStyle.None : UITypeEditorEditStyle.DropDown;
+        //	}
+        //	return base.GetEditStyle(context);
+        //}
 
-				return (yValuesNumber == 1) ? UITypeEditorEditStyle.None : UITypeEditorEditStyle.DropDown;
-			}
-			return base.GetEditStyle(context);
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 
 	/// <summary>
-	/// Checked list box, which is used for the series Y dats source member UI type editing.
+	/// Checked list box, which is used for the series Y data source member UI type editing.
 	/// </summary>
     internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
     {
+#warning designer
         // Chart object 
-        private Chart _chart;
+        //private Chart _chart;
 
         // Object to edit
         protected object editValue;
@@ -124,7 +122,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// 
         /// <param name="editValue">Value to edit.</param>
         /// <param name="usedForYValue">Indicates that editor was used for the Y values members.</param>
-        public SeriesDataSourceMemberYCheckedListBox(Chart chart, object editValue, bool usedForYValue)
+        public SeriesDataSourceMemberYCheckedListBox(/*Chart chart, */object editValue, bool usedForYValue)
         {
             // Set editable value
             this.editValue = editValue;
@@ -137,8 +135,9 @@ namespace WinForms.DataVisualization.Designer.Client
             // Fill member items list
             //this.FillList();
 
+#warning designer
             // Set Chart
-            _chart = chart;
+            //_chart = chart;
         }
 
         #endregion
@@ -152,17 +151,19 @@ namespace WinForms.DataVisualization.Designer.Client
 
         internal virtual ArrayList GetMemberNames()
         {
-            object dataSource = null;
-            if (ChartWinDesigner.controlDesigner != null)
-            {
-            dataSource = ChartWinDesigner.controlDesigner.GetControlDataSource(_chart);
-            }
+#warning designer
+            //object dataSource = null;
+            //if (ChartWinDesigner.controlDesigner != null)
+            //{
+            //    dataSource = ChartWinDesigner.controlDesigner.GetControlDataSource(_chart);
+            //}
 
-            // Get list of members
-            if (dataSource != null)
-            {
-                return ChartImage.GetDataSourceMemberNames(dataSource, this.usedForYValue);
-            }
+            //// Get list of members
+            //if (dataSource != null)
+            //{
+            //    return ChartImage.GetDataSourceMemberNames(dataSource, this.usedForYValue);
+            //}
+
             return new ArrayList();
         }
 
@@ -231,10 +232,11 @@ namespace WinForms.DataVisualization.Designer.Client
 	/// </summary>
 	internal class ChartTypeEditor : UITypeEditor
 	{
-		#region Converter methods
+        #region Converter methods
 
-		// Reference to the chart type registry
-		private ChartTypeRegistry	_chartTypeRegistry;
+#warning designer
+        // Reference to the chart type registry
+        //private ChartTypeRegistry	_chartTypeRegistry;
 
         /// <summary>
         /// Override this function to support chart type drawing
@@ -243,58 +245,58 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <returns>Can paint values.</returns>
         public override bool GetPaintValueSupported(ITypeDescriptorContext context)
 		{
-            // Initialize the chartTypeRegistry using context
-			if (context != null && context.Instance != null)
-			{
-                IChartElement chartElement = context.Instance as IChartElement;
-                if (chartElement != null)
-                {
-                    this._chartTypeRegistry = chartElement.Common.ChartTypeRegistry;
-                }
-			}
+   //         // Initialize the chartTypeRegistry using context
+			//if (context != null && context.Instance != null)
+			//{
+   //             IChartElement chartElement = context.Instance as IChartElement;
+   //             if (chartElement != null)
+   //             {
+   //                 this._chartTypeRegistry = chartElement.Common.ChartTypeRegistry;
+   //             }
+			//}
 
             // Always return true
 			return true;
 		}
 
-		/// <summary>
-		/// Override this function to support chart type drawing
-		/// </summary>
-		/// <param name="e">Paint value event arguments.</param>
-		public override void PaintValue(PaintValueEventArgs e)
-		{
-			string	chartTypeName = String.Empty;
-			if(_chartTypeRegistry != null && e != null)
-			{
-				if(e.Value is string)
-				{
-					chartTypeName = (string)e.Value;
-				}
-				else if(e.Value is SeriesChartType)
-				{
-					chartTypeName = Series.GetChartTypeName((SeriesChartType)e.Value);
-				}
+		///// <summary>
+		///// Override this function to support chart type drawing
+		///// </summary>
+		///// <param name="e">Paint value event arguments.</param>
+		//public override void PaintValue(PaintValueEventArgs e)
+		//{
+		//	string	chartTypeName = String.Empty;
+		//	if(_chartTypeRegistry != null && e != null)
+		//	{
+		//		if(e.Value is string)
+		//		{
+		//			chartTypeName = (string)e.Value;
+		//		}
+		//		else if(e.Value is SeriesChartType)
+		//		{
+		//			chartTypeName = Series.GetChartTypeName((SeriesChartType)e.Value);
+		//		}
 
 
-				if(!string.IsNullOrEmpty(chartTypeName))
-				{
-					IChartType chartType = _chartTypeRegistry.GetChartType(chartTypeName);
+		//		if(!string.IsNullOrEmpty(chartTypeName))
+		//		{
+		//			IChartType chartType = _chartTypeRegistry.GetChartType(chartTypeName);
 
-					// Get imahe from the chart type
-					System.Drawing.Image	chartImage = null;
-					if(chartType != null)
-					{
-						chartImage = chartType.GetImage(_chartTypeRegistry);
-					}
+		//			// Get imahe from the chart type
+		//			System.Drawing.Image	chartImage = null;
+		//			if(chartType != null)
+		//			{
+		//				chartImage = chartType.GetImage(_chartTypeRegistry);
+		//			}
 
-					// Draw image
-					if(chartImage != null)
-					{
-						e.Graphics.DrawImage(chartImage, e.Bounds);
-					}
-				}
-			}
-		}
+		//			// Draw image
+		//			if(chartImage != null)
+		//			{
+		//				e.Graphics.DrawImage(chartImage, e.Bounds);
+		//			}
+		//		}
+		//	}
+		//}
 		
         #endregion
 	}
@@ -309,56 +311,57 @@ namespace WinForms.DataVisualization.Designer.Client
 		/// <summary>
 		/// Default constructor
 		/// </summary>
-		public DataPointCollectionEditor() : base(typeof(DataPointCollection))
-		{
+		public DataPointCollectionEditor(Type type) : base(type)
+        {
 		}
 
-		/// <summary>
-		/// Do not allow to edit if multiple series selected.
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <param name="provider">Service provider.</param>
-		/// <param name="value">Value to edit.</param>
-		/// <returns>The new value of the object.</returns>
-		public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
-		{
-			if (context != null && context.Instance != null)
-			{
-				// Save current control type descriptor context
-				if(!(context.Instance is Series))
-				{
-                    throw (new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported));
-				}
-			}
-			return base.EditValue(context, provider, value);
-		}
+#warning designer
+        ///// <summary>
+        ///// Do not allow to edit if multiple series selected.
+        ///// </summary>
+        ///// <param name="context">Descriptor context.</param>
+        ///// <param name="provider">Service provider.</param>
+        ///// <param name="value">Value to edit.</param>
+        ///// <returns>The new value of the object.</returns>
+        //public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
+        //{
+        //	if (context != null && context.Instance != null)
+        //	{
+        //		// Save current control type descriptor context
+        //		if(!(context.Instance is Series))
+        //		{
+        //                  throw (new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported));
+        //		}
+        //	}
+        //	return base.EditValue(context, provider, value);
+        //}
 
-        /// <summary>
-        /// Create instance of data point object
-        /// </summary>
-        /// <param name="itemType">Item type.</param>
-        /// <returns>New item instance.</returns>
-        protected override object CreateInstance(Type itemType)
-		{
-			if (Context != null && Context.Instance != null)
-			{
-				if (Context.Instance is Series)
-				{
-					Series	series = (Series)Context.Instance;
-					DataPoint	newDataPoint = new DataPoint(series);
-					return newDataPoint;
-				}
-				else if(Context.Instance is Array)
-				{
-                    throw new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported);
-				}
-			}
+        //      /// <summary>
+        //      /// Create instance of data point object
+        //      /// </summary>
+        //      /// <param name="itemType">Item type.</param>
+        //      /// <returns>New item instance.</returns>
+        //      protected override object CreateInstance(Type itemType)
+        //{
+        //	if (Context != null && Context.Instance != null)
+        //	{
+        //		if (Context.Instance is Series)
+        //		{
+        //			Series	series = (Series)Context.Instance;
+        //			DataPoint	newDataPoint = new DataPoint(series);
+        //			return newDataPoint;
+        //		}
+        //		else if(Context.Instance is Array)
+        //		{
+        //                  throw new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported);
+        //		}
+        //	}
 
-			return base.CreateInstance(itemType);
-		}
-	
-		#endregion
-	}
+        //	return base.CreateInstance(itemType);
+        //}
+
+        #endregion
+    }
 
 
 	/// <summary>
@@ -369,9 +372,10 @@ namespace WinForms.DataVisualization.Designer.Client
         #region Editor methods and properties 
 
         // Collection editor form
-		CollectionForm	_form;
-        Chart _chart;
-        ITypeDescriptorContext _context;
+		CollectionForm?	_form;
+#warning designer
+        //Chart _chart;
+        //ITypeDescriptorContext _context;
 
         // Help topic string
         string	_helpTopic = string.Empty;
@@ -383,125 +387,129 @@ namespace WinForms.DataVisualization.Designer.Client
 		{
 		}
 
-		/// <summary>
-		/// Edit object's value.
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <param name="provider">Service provider.</param>
-		/// <param name="value">Value to edit.</param>
-		/// <returns>The new value of the object.</returns>
-		public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
-		{
-            _context = context;
-            if (context != null && context.Instance != null)
-			{
-				// Save current control type descriptor context
-                _chart = context.Instance as Chart;
-			}
-            INameController controller = value as INameController;
-            bool isReferenceCollection = controller != null && (value is ChartAreaCollection || value is LegendCollection);
-            try
-            {
-                if (isReferenceCollection)
-                {
-                    controller.DoSnapshot(true, 
-                        new EventHandler<NameReferenceChangedEventArgs>(OnNameReferenceChanging),
-                        new EventHandler<NameReferenceChangedEventArgs>(OnNameReferenceChanged)
-                        );
-                    controller.IsColectionEditing = true;
-                }
-                return base.EditValue(context, provider, value);;
-            }
-            finally
-            {
-                if (isReferenceCollection)
-                {
-                    controller.IsColectionEditing = false;
+#warning designer
+        ///// <summary>
+        ///// Edit object's value.
+        ///// </summary>
+        ///// <param name="context">Descriptor context.</param>
+        ///// <param name="provider">Service provider.</param>
+        ///// <param name="value">Value to edit.</param>
+        ///// <returns>The new value of the object.</returns>
+        //public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
+        //{
+        //          _context = context;
+        //          if (context != null && context.Instance != null)
+        //	{
+        //		// Save current control type descriptor context
+        //              _chart = context.Instance as Chart;
+        //	}
+        //          INameController controller = value as INameController;
+        //          bool isReferenceCollection = controller != null && (value is ChartAreaCollection || value is LegendCollection);
+        //          try
+        //          {
+        //              if (isReferenceCollection)
+        //              {
+        //                  controller.DoSnapshot(true, 
+        //                      new EventHandler<NameReferenceChangedEventArgs>(OnNameReferenceChanging),
+        //                      new EventHandler<NameReferenceChangedEventArgs>(OnNameReferenceChanged)
+        //                      );
+        //                  controller.IsColectionEditing = true;
+        //              }
+        //              return base.EditValue(context, provider, value);;
+        //          }
+        //          finally
+        //          {
+        //              if (isReferenceCollection)
+        //              {
+        //                  controller.IsColectionEditing = false;
 
-                    controller.DoSnapshot(false,
-                        new EventHandler<NameReferenceChangedEventArgs>(OnNameReferenceChanging),
-                        new EventHandler<NameReferenceChangedEventArgs>(OnNameReferenceChanged)
-                        );
-                }
-            }
-        }
+        //                  controller.DoSnapshot(false,
+        //                      new EventHandler<NameReferenceChangedEventArgs>(OnNameReferenceChanging),
+        //                      new EventHandler<NameReferenceChangedEventArgs>(OnNameReferenceChanged)
+        //                      );
+        //              }
+        //          }
+        //      }
+
+        //      /// <summary>
+        //      /// Called when [name reference changing].
+        //      /// </summary>
+        //      /// <param name="sender">The sender.</param>
+        //      /// <param name="e">The <see cref="NameReferenceChangedEventArgs"/> instance containing the event data.</param>
+        //      private void OnNameReferenceChanging(object sender, NameReferenceChangedEventArgs e)
+        //      {
+        //          IComponentChangeService svc = _context.GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+        //          if (svc != null)
+        //          {
+        //              svc.OnComponentChanging(this._chart, null);
+        //          }
+        //      }
+
+        //      /// <summary>
+        //      /// Called when [name reference changed].
+        //      /// </summary>
+        //      /// <param name="sender">The sender.</param>
+        //      /// <param name="e">The <see cref="NameReferenceChangedEventArgs"/> instance containing the event data.</param>
+        //      private void OnNameReferenceChanged(object sender, NameReferenceChangedEventArgs e)
+        //      {
+        //          IComponentChangeService svc = _context.GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+        //          if (svc != null)
+        //          {
+        //              svc.OnComponentChanged(this._chart, null, null, null);
+        //          }
+        //      }
+
+        //      /// <summary>
+        //      /// Sets the specified array as the items of the collection.
+        //      /// </summary>
+        //      /// <param name="editValue">The collection to edit.</param>
+        //      /// <param name="value">An array of objects to set as the collection items.</param>
+        //      /// <returns>
+        //      /// The newly created collection object or, otherwise, the collection indicated by the <paramref name="editValue"/> parameter.
+        //      /// </returns>
+        //      protected override object SetItems(object editValue, object[] value)
+        //      {
+        //          object result = base.SetItems(editValue, value);
+
+        //          IComponentChangeService svc = _context.GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+        //          INameController controller = editValue as INameController;
+        //          if (controller != null && svc != null && (editValue is ChartAreaCollection || editValue is LegendCollection))
+        //          {
+        //              IList newList = (IList)result;
+        //              bool elementsRemoved = false;
+        //              foreach (ChartNamedElement element in controller.Snapshot)
+        //              {
+        //                  if (newList.IndexOf(element) < 0)
+        //                  {
+        //                      elementsRemoved = true;
+        //                  }
+        //              }
+
+        //              if (elementsRemoved)
+        //              {
+        //                  svc.OnComponentChanging(this._chart, null);
+        //                  ChartNamedElement defaultElement = (ChartNamedElement)(newList.Count > 0 ? newList[0] : null);
+        //                  foreach (ChartNamedElement element in controller.Snapshot)
+        //                  {
+        //                      if (newList.IndexOf(element) < 0)
+        //                      {
+        //                          controller.OnNameReferenceChanged(new NameReferenceChangedEventArgs(element, defaultElement));
+        //                      }
+        //                  }
+
+        //                  svc.OnComponentChanged(this._chart, null, null, null);
+        //              }
+        //          }
+
+        //          return result;
+        //      }
+
 
         /// <summary>
-        /// Called when [name reference changing].
+        /// Override the HelpTopic property to provide different topics,
+        /// depending on selected property.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="NameReferenceChangedEventArgs"/> instance containing the event data.</param>
-        private void OnNameReferenceChanging(object sender, NameReferenceChangedEventArgs e)
-        {
-            IComponentChangeService svc = _context.GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-            if (svc != null)
-            {
-                svc.OnComponentChanging(this._chart, null);
-            }
-        }
-
-        /// <summary>
-        /// Called when [name reference changed].
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="NameReferenceChangedEventArgs"/> instance containing the event data.</param>
-        private void OnNameReferenceChanged(object sender, NameReferenceChangedEventArgs e)
-        {
-            IComponentChangeService svc = _context.GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-            if (svc != null)
-            {
-                svc.OnComponentChanged(this._chart, null, null, null);
-            }
-        }
-
-        /// <summary>
-        /// Sets the specified array as the items of the collection.
-        /// </summary>
-        /// <param name="editValue">The collection to edit.</param>
-        /// <param name="value">An array of objects to set as the collection items.</param>
-        /// <returns>
-        /// The newly created collection object or, otherwise, the collection indicated by the <paramref name="editValue"/> parameter.
-        /// </returns>
-        protected override object SetItems(object editValue, object[] value)
-        {
-            object result = base.SetItems(editValue, value);
-
-            IComponentChangeService svc = _context.GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-            INameController controller = editValue as INameController;
-            if (controller != null && svc != null && (editValue is ChartAreaCollection || editValue is LegendCollection))
-            {
-                IList newList = (IList)result;
-                bool elementsRemoved = false;
-                foreach (ChartNamedElement element in controller.Snapshot)
-                {
-                    if (newList.IndexOf(element) < 0)
-                    {
-                        elementsRemoved = true;
-                    }
-                }
-                if (elementsRemoved)
-                {
-                    svc.OnComponentChanging(this._chart, null);
-                    ChartNamedElement defaultElement = (ChartNamedElement)(newList.Count > 0 ? newList[0] : null);
-                    foreach (ChartNamedElement element in controller.Snapshot)
-                    {
-                        if (newList.IndexOf(element) < 0)
-                        {
-                            controller.OnNameReferenceChanged(new NameReferenceChangedEventArgs(element, defaultElement));
-                        }
-                    }
-                    svc.OnComponentChanged(this._chart, null, null, null);
-                }
-            }
-            return result;
-        }
-
-
-		/// <summary>
-		/// Ovveride the HelpTopic property to provide different topics,
-		/// depending on selected property.
-		/// </summary>
-		protected override string HelpTopic
+        protected override string HelpTopic
 		{
 			get
 			{
@@ -515,51 +523,33 @@ namespace WinForms.DataVisualization.Designer.Client
 		protected override void ShowHelp()
 		{
 			// Init topic name
-			_helpTopic = "";
-            PropertyGrid grid = this.GetPropertyGrid(_form.Controls);
+			_helpTopic = string.Empty;
+            PropertyGrid? grid = Helpers.GetPropertyGrid(_form?.Controls);
 
-			// Check currently selected grid item
-			if(grid != null)
-			{
-				GridItem item = grid.SelectedGridItem;
-				if(item != null && (item.GridItemType == GridItemType.Property || item.GridItemType == GridItemType.ArrayValue))
-				{
-					_helpTopic = item.PropertyDescriptor.ComponentType.ToString() + "." + item.PropertyDescriptor.Name;
-				}
-			}
-
-			// Call base class
-			base.ShowHelp();
-
-			// Re-Init topic name
-			_helpTopic = "";
-		}
-
-        /// <summary>
-        /// Returns the collection form property grid. Added for VS2005 compatibility.
-        /// </summary>
-        /// <param name="controls"></param>
-        /// <returns></returns>
-        private PropertyGrid GetPropertyGrid(System.Windows.Forms.Control.ControlCollection controls)
-        {
-            foreach (System.Windows.Forms.Control control in controls)
+            // Check currently selected grid item
+            if (grid is not null)
             {
-                PropertyGrid grid = control as PropertyGrid;
-                if (grid != null)
+                GridItem item = grid.SelectedGridItem;
+                if (item is not null && (item.GridItemType == GridItemType.Property || item.GridItemType == GridItemType.ArrayValue))
                 {
-                    return grid;
-                }
-                if (control.Controls.Count > 0)
-                {
-                    grid = GetPropertyGrid(control.Controls);
-                    if (grid != null)
-                    {
-                        return grid;
-                    }
+#warning designer question
+                    // Original code:
+                    //_helpTopic = item.PropertyDescriptor.ComponentType.ToString() + "." + item.PropertyDescriptor.Name;
+
+                    // We have a proxy object (Microsoft.DotNet.DesignTools.Client.Proxies.ProxyPropertyDescriptor) here as PropertyDescriptor.
+                    // So to get real type we need get PropertyData (Microsoft.DotNet.DesignTools.Protocol.PropertyData) from PropertyDescriptor and then ComponentType from it.
+                    // Because Microsoft.DotNet.DesignTools.Client.Proxies.ProxyPropertyDescriptor and Microsoft.DotNet.DesignTools.Protocol.PropertyData are internal we need to use reflection...
+                    if (item.PropertyDescriptor.GetPropValue("PropertyData")?.GetPropValue("ComponentType") is Microsoft.DotNet.DesignTools.Protocol.Types.TypeIdentity typeIdentity)
+                        _helpTopic = typeIdentity.TypeName + "." + item.PropertyDescriptor.Name;
                 }
             }
-            return null;
-        }
+
+            // Call base class
+            base.ShowHelp();
+
+			// Re-Init topic name
+			_helpTopic = string.Empty;
+		}
 
         /// <summary>
         /// Collect the collection editor form buttons into array. Added for VS2005 compatibility.
@@ -574,6 +564,7 @@ namespace WinForms.DataVisualization.Designer.Client
                 {
                     buttons.Add(control);
                 }
+
                 if (control.Controls.Count > 0)
                 {
                     CollectButtons(buttons, control.Controls);
@@ -582,7 +573,7 @@ namespace WinForms.DataVisualization.Designer.Client
         }
 
         /// <summary>
-        /// Cretaes form for collection editing.
+        /// Creates form for collection editing.
         /// </summary>
         /// <returns>Form object.</returns>
         protected override CollectionForm CreateCollectionForm()
@@ -590,8 +581,8 @@ namespace WinForms.DataVisualization.Designer.Client
 			_form = base.CreateCollectionForm();
 
             // Changed Apr 29, DT,  for VS2005 compatibility
-            PropertyGrid grid = GetPropertyGrid(_form.Controls);
-            if (grid != null)
+            PropertyGrid? grid = Helpers.GetPropertyGrid(_form.Controls);
+            if (grid is not null)
             {
                 // Show properties help
                 grid.HelpVisible = true;
@@ -609,12 +600,10 @@ namespace WinForms.DataVisualization.Designer.Client
             this.CollectButtons(buttons, _form.Controls);
             foreach (System.Windows.Forms.Button button in buttons)
             {
-                if (button.DialogResult == DialogResult.OK ||
-                    button.DialogResult == DialogResult.Cancel)
+                if (button.DialogResult == DialogResult.OK || button.DialogResult == DialogResult.Cancel)
                 {
                     button.Click += new EventHandler(this.OnOkClicked);
                 }
-
             }
 
 			return _form;
@@ -627,47 +616,21 @@ namespace WinForms.DataVisualization.Designer.Client
         private void OnOkClicked(object sender, EventArgs e)
 		{
 			// Clear the help topic
-			_helpTopic = "";
+			_helpTopic = string.Empty;
 		}
 
 		/// <summary>
-		/// Update design-time HTML when propery is added or removed
+		/// Update design-time HTML when property is added or removed
 		/// </summary>
 		private void OnControlAddedRemoved(object sender, ControlEventArgs e)
 		{
 		}
 
 		/// <summary>
-		/// Update design-time HTML when propery is changed
+		/// Update design-time HTML when property is changed
 		/// </summary>
 		private void OnPropertyChanged(object sender, PropertyValueChangedEventArgs e)
 		{
-		}
-
-		/// <summary>
-		/// Checks if the instance belongs to Chart type or contains the field of chart type. 
-		/// NOTE: Required for the Diagram product.
-		/// </summary>
-		/// <param name="instance">
-		/// Instance to check.
-		/// </param>
-		/// <returns>
-		/// Object of chart type.
-		/// </returns>
-		public static object GetChartReference(object instance)
-		{
-			// Check instance type.
-			if(instance is Chart)
-			{
-				return instance;
-			}
-
-			// Read chart reference from the "chart" field.
-            IChartElement element = instance as IChartElement;
-            if (element != null)
-                return element.Common.Chart;
-            else
-                throw new InvalidOperationException(SR.ExceptionEditorContectInstantsIsNotChartObject);
 		}
 
         protected override void DestroyInstance(object instance)
@@ -689,96 +652,98 @@ namespace WinForms.DataVisualization.Designer.Client
 		/// <summary>
 		/// Object constructor.
 		/// </summary>
-		public SeriesCollectionEditor() : base(typeof(SeriesCollection))
-		{
+		public SeriesCollectionEditor(Type type) : base(type)
+        {
 		}
 
-        internal static Series CreateNewSeries(Chart control, string suggestedChartArea)
-        {
-            int countSeries = control.Series.Count + 1;
-            string seriesName = "Series" + countSeries.ToString(System.Globalization.CultureInfo.InvariantCulture);
+#warning dsigner
+        //internal static Series CreateNewSeries(Chart control, string suggestedChartArea)
+        //{
+        //    int countSeries = control.Series.Count + 1;
+        //    string seriesName = "Series" + countSeries.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-            // Check if this name already in use
-            bool seriesFound = true;
-            while (seriesFound)
-            {
-                seriesFound = false;
-                foreach (Series series in control.Series)
-                {
-                    if (series.Name == seriesName)
-                    {
-                        seriesFound = true;
-                    }
-                }
+        //    // Check if this name already in use
+        //    bool seriesFound = true;
+        //    while (seriesFound)
+        //    {
+        //        seriesFound = false;
+        //        foreach (Series series in control.Series)
+        //        {
+        //            if (series.Name == seriesName)
+        //            {
+        //                seriesFound = true;
+        //            }
+        //        }
 
-                if (seriesFound)
-                {
-                    ++countSeries;
-                    seriesName = "Series" + countSeries.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                }
-            }
+        //        if (seriesFound)
+        //        {
+        //            ++countSeries;
+        //            seriesName = "Series" + countSeries.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        //        }
+        //    }
 
-            // Create new series
-            Series newSeries = new Series(seriesName);
+        //    // Create new series
+        //    Series newSeries = new Series(seriesName);
 
-            // Check if default chart area name exists
-            if (control.ChartAreas.Count > 0)
-            {
-                bool defaultFound = false;
+        //    // Check if default chart area name exists
+        //    if (control.ChartAreas.Count > 0)
+        //    {
+        //        bool defaultFound = false;
 
-                if (!string.IsNullOrEmpty(suggestedChartArea) &&
-                    control.ChartAreas.IndexOf(suggestedChartArea) != -1)
-                {
-                    newSeries.ChartArea = suggestedChartArea;
-                    defaultFound = true;
-                }
-                else
-                {
-                    foreach (ChartArea area in control.ChartAreas)
-                    {
-                        if (area.Name == newSeries.ChartArea)
-                        {
-                            defaultFound = true;
-                            break;
-                        }
-                    }
-                }
+        //        if (!string.IsNullOrEmpty(suggestedChartArea) &&
+        //            control.ChartAreas.IndexOf(suggestedChartArea) != -1)
+        //        {
+        //            newSeries.ChartArea = suggestedChartArea;
+        //            defaultFound = true;
+        //        }
+        //        else
+        //        {
+        //            foreach (ChartArea area in control.ChartAreas)
+        //            {
+        //                if (area.Name == newSeries.ChartArea)
+        //                {
+        //                    defaultFound = true;
+        //                    break;
+        //                }
+        //            }
+        //        }
 
-                // If default chart area was not found - use name of the first area
-                if (!defaultFound)
-                {
-                    newSeries.ChartArea = control.ChartAreas[0].Name;
-                }
+        //        // If default chart area was not found - use name of the first area
+        //        if (!defaultFound)
+        //        {
+        //            newSeries.ChartArea = control.ChartAreas[0].Name;
+        //        }
 
-                // Check if series area is circular
-                if (control.ChartAreas[newSeries.ChartArea].chartAreaIsCurcular)
-                {
-                    // Change default chart type
-                    newSeries.ChartTypeName = ChartTypeNames.Radar;
+        //        // Check if series area is circular
+        //        if (control.ChartAreas[newSeries.ChartArea].chartAreaIsCurcular)
+        //        {
+        //            // Change default chart type
+        //            newSeries.ChartTypeName = ChartTypeNames.Radar;
 
-                    // Check if it's a Polar chart type
-                    IChartType chartType = control.ChartAreas[newSeries.ChartArea].GetCircularChartType() as IChartType;
-                    if (chartType != null && string.Equals(chartType.Name, ChartTypeNames.Polar, StringComparison.OrdinalIgnoreCase))
-                    {
-                        newSeries.ChartTypeName = ChartTypeNames.Polar;
-                    }
-                }
-            }
+        //            // Check if it's a Polar chart type
+        //            IChartType chartType = control.ChartAreas[newSeries.ChartArea].GetCircularChartType() as IChartType;
+        //            if (chartType != null && string.Equals(chartType.Name, ChartTypeNames.Polar, StringComparison.OrdinalIgnoreCase))
+        //            {
+        //                newSeries.ChartTypeName = ChartTypeNames.Polar;
+        //            }
+        //        }
+        //    }
 
-            return newSeries;
-        }
+        //    return newSeries;
+        //}
 
-		/// <summary>
-		/// Create series instance in the editor 
-		/// </summary>
-		/// <param name="itemType">Item type.</param>
-		/// <returns>Newly created item.</returns>
-		protected override object CreateInstance(Type itemType)
+        /// <summary>
+        /// Create series instance in the editor 
+        /// </summary>
+        /// <param name="itemType">Item type.</param>
+        /// <returns>Newly created item.</returns>
+        protected override object CreateInstance(Type itemType)
 		{
-			if (Context != null && Context.Instance != null)
+			if (Context is not null && Context.Instance is not null)
 			{
-				Chart	control = (Chart)GetChartReference(Context.Instance);
-                return SeriesCollectionEditor.CreateNewSeries(control, String.Empty);
+#warning dsigner
+                //Chart	control = (Chart)Helpers.GetChartReference(Context.Instance);
+                //            return SeriesCollectionEditor.CreateNewSeries(control, String.Empty);
             }
 
 			return base.CreateInstance(itemType);
