@@ -21,14 +21,14 @@ namespace WinForms.DataVisualization.Designer.Client
     /// <summary>
     /// Summary description for KeywordEditor.
     /// </summary>
-    internal class KeywordEditor : System.Windows.Forms.Form
+    internal class KeywordEditor : Form
     {
         #region Fields
 
         /// <summary>
         /// List of keywords that are applicable to the edited property
         /// </summary>
-        private ArrayList _applicableKeywords;
+        private readonly ArrayList _applicableKeywords;
 
         /// <summary>
         /// Keyword beign edited or empty if inserting a new one.
@@ -38,29 +38,27 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <summary>
         /// Maximum number of supported Y values.
         /// </summary>
-        private int _maxYValueIndex = 9;
+        private readonly int _maxYValueIndex = 9;
 
         // Form fields
-#pragma warning disable CA2213 // Disposable fields should be disposed
-        private System.Windows.Forms.GroupBox _groupBoxKeywords;
-        private System.Windows.Forms.ListBox _listBoxKeywords;
-        private System.Windows.Forms.GroupBox _groupBoxDescription;
-        private System.Windows.Forms.Label _labelDescription;
-        private System.Windows.Forms.Button _buttonCancel;
-        private System.Windows.Forms.Button _buttonOk;
-        private System.Windows.Forms.GroupBox _groupBoxFormat;
-        private System.Windows.Forms.Label _labelFormat;
-        private System.Windows.Forms.NumericUpDown _numericUpDownYValue;
-        private System.Windows.Forms.Label _labelYValue;
-        private System.Windows.Forms.ComboBox _comboBoxFormat;
-        private System.Windows.Forms.Label _labelPrecision;
-        private System.Windows.Forms.TextBox _textBoxCustomFormat;
-        private System.Windows.Forms.Label _labelCustomFormat;
-        private System.Windows.Forms.Label _labelSample;
-        private System.Windows.Forms.TextBox _textBoxSample;
-        private System.Windows.Forms.TextBox _textBoxPrecision;
-        private System.Windows.Forms.ToolTip _toolTip;
-#pragma warning restore CA2213 // Disposable fields should be disposed
+        private GroupBox _groupBoxKeywords;
+        private ListBox _listBoxKeywords;
+        private GroupBox _groupBoxDescription;
+        private Label _labelDescription;
+        private Button _buttonCancel;
+        private Button _buttonOk;
+        private GroupBox _groupBoxFormat;
+        private Label _labelFormat;
+        private NumericUpDown _numericUpDownYValue;
+        private Label _labelYValue;
+        private ComboBox _comboBoxFormat;
+        private Label _labelPrecision;
+        private TextBox _textBoxCustomFormat;
+        private Label _labelCustomFormat;
+        private Label _labelSample;
+        private TextBox _textBoxSample;
+        private TextBox _textBoxPrecision;
+        private ToolTip _toolTip;
         private System.ComponentModel.IContainer _components;
 
         // resolved VSTS by extending the dialog by 36x28 pixels.
@@ -68,8 +66,8 @@ namespace WinForms.DataVisualization.Designer.Client
         // 4383	DEU: VC/VB/VCS/VWD: ChartAPI: The string "If a chart type supports..." is truncated on the 'Keyword Editor' dialog.
         // 3524	DEU: VC/VB/VCS/VWD: ChartAPI: The string "If a chart type supports..." is truncated on the 'Keyword Editor' dialog.
 
-        private static int widthDialogExtend = 80;
-        private static int heightDialogExtend = 38;
+        private const int widthDialogExtend = 80;
+        private const int heightDialogExtend = 38;
 
         #endregion // Fields
 
@@ -78,7 +76,9 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <summary>
         /// Default public constructor.
         /// </summary>
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public KeywordEditor()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             //
             // Required for Windows Form Designer support
@@ -108,11 +108,9 @@ namespace WinForms.DataVisualization.Designer.Client
         {
             if (disposing)
             {
-                if (_components != null)
-                {
-                    _components.Dispose();
-                }
+                _components?.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -373,13 +371,14 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event arguments.</param>
-        private void KeywordEditor_Load(object sender, System.EventArgs e)
+        private void KeywordEditor_Load(object sender, EventArgs e)
         {
             // Set restriction on the Y Value index editor
             if (this._maxYValueIndex >= 0 && this._maxYValueIndex < 10)
             {
                 this._numericUpDownYValue.Maximum = this._maxYValueIndex;
             }
+
             this._numericUpDownYValue.Enabled = this._maxYValueIndex > 0;
             this._labelYValue.Enabled = this._maxYValueIndex > 0;
 
@@ -390,7 +389,7 @@ namespace WinForms.DataVisualization.Designer.Client
             this._comboBoxFormat.SelectedIndex = 0;
 
             // Fill list of applicable keywords
-            if (this._applicableKeywords != null)
+            if (this._applicableKeywords is not null)
             {
                 foreach (KeywordInfo keywordInfo in this._applicableKeywords)
                 {
@@ -399,7 +398,7 @@ namespace WinForms.DataVisualization.Designer.Client
             }
 
             // Check if keyword for editing was specified
-            if (this.Keyword.Length == 0)
+            if (this.Keyword.Length == 0 || this._applicableKeywords is null)
             {
                 this._listBoxKeywords.SelectedIndex = 0;
                 this._comboBoxFormat.SelectedIndex = 0;
@@ -435,6 +434,7 @@ namespace WinForms.DataVisualization.Designer.Client
                                         {
                                             yValueIndex = 0;
                                         }
+
                                         _numericUpDownYValue.Value = yValueIndex;
                                         ++keywordLength;
                                     }
@@ -534,7 +534,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event arguments.</param>
-        private void comboBoxFormat_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void comboBoxFormat_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Format disabled
             _labelCustomFormat.Enabled = this._comboBoxFormat.SelectedIndex > 0;
@@ -561,11 +561,11 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event arguments.</param>
-        private void listBoxKeywords_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void listBoxKeywords_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Get selected keyword
-            KeywordInfo keywordInfo = _listBoxKeywords.SelectedItem as KeywordInfo;
-            if (keywordInfo != null)
+            KeywordInfo? keywordInfo = _listBoxKeywords.SelectedItem as KeywordInfo;
+            if (keywordInfo is not null)
             {
                 // Show description of the selected keyword
                 this._labelDescription.Text = keywordInfo.Description.Replace("\\n", "\n");
@@ -586,7 +586,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event arguments.</param>
-        private void listBoxKeywords_DoubleClick(object sender, System.EventArgs e)
+        private void listBoxKeywords_DoubleClick(object sender, EventArgs e)
         {
             // Simulate accept button click when user double clicks in the list
             this.AcceptButton.PerformClick();
@@ -597,7 +597,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event arguments.</param>
-        private void textBoxPrecision_TextChanged(object sender, System.EventArgs e)
+        private void textBoxPrecision_TextChanged(object sender, EventArgs e)
         {
             MessageBoxOptions messageBoxOptions = 0;
             if (RightToLeft == System.Windows.Forms.RightToLeft.Yes)
@@ -624,7 +624,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event arguments.</param>
-        private void textBoxCustomFormat_TextChanged(object sender, System.EventArgs e)
+        private void textBoxCustomFormat_TextChanged(object sender, EventArgs e)
         {
             this.UpdateNumericSample();
         }
@@ -634,13 +634,13 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event arguments.</param>
-        private void buttonOk_Click(object sender, System.EventArgs e)
+        private void buttonOk_Click(object sender, EventArgs e)
         {
             // Generate new keyword
             this.Keyword = string.Empty;
 
             // Get selected keyword
-            KeywordInfo keywordInfo = this._listBoxKeywords.SelectedItem as KeywordInfo;
+            KeywordInfo? keywordInfo = this._listBoxKeywords.SelectedItem as KeywordInfo;
             if (keywordInfo != null)
             {
                 this.Keyword = keywordInfo.Keyword;
@@ -650,6 +650,7 @@ namespace WinForms.DataVisualization.Designer.Client
                 {
                     this.Keyword += "Y" + ((int)_numericUpDownYValue.Value).ToString(CultureInfo.InvariantCulture);
                 }
+
                 if (keywordInfo.SupportsFormatting &&
                     _comboBoxFormat.SelectedIndex > 0 &&
                     this.GetFormatString().Length > 0)
@@ -664,7 +665,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event arguments.</param>
-        private void numericUpDownYValue_ValueChanged(object sender, System.EventArgs e)
+        private void numericUpDownYValue_ValueChanged(object sender, EventArgs e)
         {
             if (_numericUpDownYValue.Value > this._maxYValueIndex && _numericUpDownYValue.Value < 0)
             {
@@ -742,31 +743,31 @@ namespace WinForms.DataVisualization.Designer.Client
             }
             else if (this._comboBoxFormat.SelectedIndex == 1)
             {
-                _textBoxSample.Text = String.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345.6789);
+                _textBoxSample.Text = string.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345.6789);
             }
             else if (this._comboBoxFormat.SelectedIndex == 2)
             {
-                _textBoxSample.Text = String.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345);
+                _textBoxSample.Text = string.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345);
             }
             else if (this._comboBoxFormat.SelectedIndex == 3)
             {
-                _textBoxSample.Text = String.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345.6789);
+                _textBoxSample.Text = string.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345.6789);
             }
             else if (this._comboBoxFormat.SelectedIndex == 4)
             {
-                _textBoxSample.Text = String.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345.6789);
+                _textBoxSample.Text = string.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345.6789);
             }
             else if (this._comboBoxFormat.SelectedIndex == 5)
             {
-                _textBoxSample.Text = String.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345.6789);
+                _textBoxSample.Text = string.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345.6789);
             }
             else if (this._comboBoxFormat.SelectedIndex == 6)
             {
-                _textBoxSample.Text = String.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345.6789);
+                _textBoxSample.Text = string.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345.6789);
             }
             else if (this._comboBoxFormat.SelectedIndex == 7)
             {
-                _textBoxSample.Text = String.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 0.126);
+                _textBoxSample.Text = string.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 0.126);
             }
             else if (this._comboBoxFormat.SelectedIndex == 8)
             {
@@ -774,7 +775,7 @@ namespace WinForms.DataVisualization.Designer.Client
                 bool success = false;
                 try
                 {
-                    this._textBoxSample.Text = String.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345.67890);
+                    this._textBoxSample.Text = string.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345.67890);
                     success = true;
                 }
                 catch (FormatException)
@@ -785,7 +786,7 @@ namespace WinForms.DataVisualization.Designer.Client
                 {
                     try
                     {
-                        this._textBoxSample.Text = String.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345);
+                        this._textBoxSample.Text = string.Format(CultureInfo.CurrentCulture, "{0:" + formatString + "}", 12345);
                         success = true;
                     }
                     catch (FormatException)
@@ -811,7 +812,7 @@ namespace WinForms.DataVisualization.Designer.Client
             this._groupBoxDescription.Width += widthDialogExtend;
             this._groupBoxFormat.Width += widthDialogExtend;
             this._labelDescription.Width += widthDialogExtend;
-            foreach (System.Windows.Forms.Control ctrl in this._groupBoxFormat.Controls)
+            foreach (Control ctrl in this._groupBoxFormat.Controls)
             {
                 if (ctrl is Label)
                     ctrl.Width += widthDialogExtend;
