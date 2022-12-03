@@ -14,12 +14,12 @@
 		<RepositoryUrl>https://github.com/kirsan31/winforms-datavisualization</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/kirsan31/winforms-datavisualization</PackageProjectUrl>
 		<PackageIcon>Icon.png</PackageIcon>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReadmeFile>NuGetReadme.md</PackageReadmeFile>
 		<authors>Microsoft, Kirsan and contributers.</authors>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>WinForms, Windows, Forms, DataVisualization, Visualization, Chart, Graph, Diagram</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>First Nuget package release.</PackageReleaseNotes>
+		<PackageReleaseNotes>$(NugetReleaseNotes)</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -34,7 +34,7 @@
 
 	<ItemGroup>
 		<None Include="$(SolutionDir)Icon.png" Pack="true" Visible="false" PackagePath="" />
-		<None Include="$(SolutionDir)README.md" Pack="true" Visible="false" PackagePath="" />
+		<None Include="$(SolutionDir)NuGetReadme.md" Pack="true" Visible="false" PackagePath="" />
 	</ItemGroup>
 
 	<Target Name="PreBuildClean" BeforeTargets="BeforeBuild">

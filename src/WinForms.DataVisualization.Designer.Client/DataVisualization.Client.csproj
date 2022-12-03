@@ -8,6 +8,8 @@
 		<Nullable>enable</Nullable>
 		<UseDesignerSdk>true</UseDesignerSdk>
 		<AssemblyVersion>$(MajorVer).0.0.0</AssemblyVersion>
+		<FileVersion>$(MajorVer).$(MinorPatchVer).0</FileVersion>
+		<InformationalVersion>$(MajorVer).$(MinorPatchVer)$(PRVer)</InformationalVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
