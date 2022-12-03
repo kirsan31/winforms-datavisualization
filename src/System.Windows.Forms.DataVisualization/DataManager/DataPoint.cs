@@ -3135,7 +3135,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// The text of the data point label.
         /// </summary>
         [
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         SRCategory("CategoryAttributeLabel"),
         Bindable(true),
         SRDescription("DescriptionAttributeLabel"),
@@ -3193,7 +3193,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMisc"),
         Bindable(true),
         SRDescription("DescriptionAttributeAxisLabel"),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public virtual string AxisLabel
         {
@@ -3359,7 +3359,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeColor4"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color Color
         {
@@ -3418,7 +3418,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeBorderColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BorderColor
         {
@@ -3566,7 +3566,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         SRDescription("DescriptionAttributeBackImage"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         ]
         public string BackImage
         {
@@ -3677,7 +3677,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BackImageTransparentColor
         {
@@ -3775,7 +3775,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         SRDescription("DescriptionAttributeBackGradientStyle"),
-        Editor(typeof(GradientEditor), typeof(UITypeEditor))
+        Editor("GradientEditor", typeof(UITypeEditor))
         ]
         public GradientStyle BackGradientStyle
         {
@@ -3825,7 +3825,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeBackSecondaryColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BackSecondaryColor
         {
@@ -3874,7 +3874,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         SRDescription("DescriptionAttributeBackHatchStyle"),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
+        Editor("HatchStyleEditor", typeof(UITypeEditor))
         ]
         public ChartHatchStyle BackHatchStyle
         {
@@ -3972,7 +3972,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeFontColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color LabelForeColor
         {
@@ -4078,7 +4078,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMarker"),
         Bindable(true),
         SRDescription("DescriptionAttributeMarkerStyle4"),
-        Editor(typeof(MarkerStyleEditor), typeof(UITypeEditor)),
+        Editor("MarkerStyleEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public MarkerStyle MarkerStyle
@@ -4183,7 +4183,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMarker"),
         Bindable(true),
         SRDescription("DescriptionAttributeMarkerImage"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public string MarkerImage
@@ -4240,7 +4240,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public Color MarkerImageTransparentColor
@@ -4291,7 +4291,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeMarkerColor3"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public Color MarkerColor
@@ -4342,7 +4342,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeMarkerBorderColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public Color MarkerBorderColor
@@ -4604,7 +4604,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMapArea"),
         Bindable(true),
         SRDescription("DescriptionAttributeToolTip"),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public string ToolTip
         {
@@ -4718,7 +4718,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeLegend"),
         Bindable(true),
         SRDescription("DescriptionAttributeLegendText"),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public string LegendText
         {
@@ -4766,7 +4766,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeLegend"),
         Bindable(true),
         SRDescription("DescriptionAttributeLegendToolTip"),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public string LegendToolTip
         {
@@ -4822,7 +4822,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeLabelBackColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         DefaultValue(typeof(Color), ""),
         ]
         public Color LabelBackColor
@@ -4876,7 +4876,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeBorderColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         DefaultValue(typeof(Color), ""),
         ]
         public Color LabelBorderColor
@@ -5029,7 +5029,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeLabel"),
         Bindable(true),
         SRDescription("DescriptionAttributeLabelToolTip"),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public string LabelToolTip
         {

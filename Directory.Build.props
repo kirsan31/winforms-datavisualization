@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<PropertyGroup>
+		<TargetFrameworkClient>net472</TargetFrameworkClient>
+		<TargetFrameworkServer>net6.0-windows;net7.0-windows</TargetFrameworkServer>
+		<TFmWinVer>7.0</TFmWinVer>
+		<NugetTFm>net6.0-windows$(TFmWinVer);net7.0-windows$(TFmWinVer)</NugetTFm>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MajorVer>1</MajorVer>
+		<MinorPatchVer>5.0</MinorPatchVer>
+		<PRVer>-pr</PRVer>
+		<NugetReleaseNotes>
+			Lots of designer improvements:
+			Many editors are partially ported.
+			AxesArrayEditor, ColorPaletteEditor, FlagsEnumUITypeEditor are fully ported.
+			Control ToolBox icon restored.
+		</NugetReleaseNotes>
+	</PropertyGroup>
+</Project>

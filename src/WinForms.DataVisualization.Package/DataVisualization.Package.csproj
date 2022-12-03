@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>$(NugetTFm)</TargetFrameworks>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>		
+		<DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+		<RunPostBuildEvent>Always</RunPostBuildEvent>
+		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_GetFilesToPackage</TargetsForTfmSpecificContentInPackage>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Description>This package contains the Windows Forms charting controls for .NET. Ported from System.Windows.Forms.DataVisualization, optimized and partial designer support added.</Description>
+		<RepositoryUrl>https://github.com/kirsan31/winforms-datavisualization</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/kirsan31/winforms-datavisualization</PackageProjectUrl>
+		<PackageIcon>Icon.png</PackageIcon>
+		<PackageReadmeFile>NuGetReadme.md</PackageReadmeFile>
+		<authors>Microsoft, Kirsan and contributers.</authors>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>WinForms, Windows, Forms, DataVisualization, Visualization, Chart, Graph, Diagram</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReleaseNotes>$(NugetReleaseNotes)</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<PackageId>WinForms.DataVisualization.Debug</PackageId>
+		<PackageVersion>$([System.DateTime]::UtcNow.ToString("$(MajorVer).yM.dHHmm"))</PackageVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<PackageId>WinForms.DataVisualization</PackageId>
+		<PackageVersion>$(MajorVer).$(MinorPatchVer)$(PRVer)</PackageVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="$(SolutionDir)Icon.png" Pack="true" Visible="false" PackagePath="" />
+		<None Include="$(SolutionDir)NuGetReadme.md" Pack="true" Visible="false" PackagePath="" />
+	</ItemGroup>
+
+	<Target Name="PreBuildClean" BeforeTargets="BeforeBuild">
+		<Message Text="### Start clean before build..." Importance="high" />
+		<CallTarget Targets="Clean" />
+		<Message Text="### Finished clean before build." Importance="high" />
+	</Target>
+
+	<Target Name="_GetFilesToPackage">
+		<ItemGroup>
+			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\WinForms.DataVisualization.dll" />
+			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\WinForms.DataVisualization.Utilities.dll" />
+			<!--We need this during Control development, so we get proper Debug-Support at runtime. -->
+			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\WinForms.DataVisualization.pdb" />
+			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\WinForms.DataVisualization.Utilities.pdb" />
+
+			<_File Include="$(SolutionDir)src\WinForms.DataVisualization.Designer.Client\bin\$(Configuration)\$(TargetFrameworkClient)\WinForms.DataVisualization.Designer.Client.dll" TargetDir="Design/WinForms" />
+			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\WinForms.DataVisualization.Utilities.dll" TargetDir="Design/WinForms" />
+			<_File Include="$(SolutionDir)\src\WinForms.DataVisualization.Designer.Server\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\WinForms.DataVisualization.Designer.Server.dll" TargetDir="Design/WinForms/Server" />
+		</ItemGroup>
+
+		<ItemGroup>
+			<TfmSpecificPackageFile Include="@(_File)" PackagePath="$(BuildOutputTargetFolder)/$(TargetFramework)/%(_File.TargetDir)" />			
+		</ItemGroup>
+	</Target>
+
+	<Target Name="CopyPackageR" AfterTargets="Pack" Condition="'$(Configuration)'=='Release'">
+		<Message Text="### Start copy package..." Importance="high" />
+		<Copy SourceFiles="$(OutputPath)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)NuGet\BuildOut\" />
+		<Message Text="### Finished copy package." Importance="high" />
+	</Target>
+	
+	<Target Name="CopyPackageD" AfterTargets="Pack" Condition="'$(Configuration)'=='Debug'">
+		<Message Text="### Start copy package..." Importance="high" />
+		<Copy SourceFiles="$(OutputPath)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)NuGet\BuildOut\" />
+		<Message Text="### Finished copy package. Start restore..." Importance="high" />
+		<Exec Command="nuget.exe restore &quot;$(SolutionDir)DesignerTest\DesignerTest.csproj&quot; -ConfigFile &quot;$(SolutionDir)NuGet.config&quot;" />
+		<Message Text="### Finished restore." Importance="high" />
+	</Target>
+</Project>

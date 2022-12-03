@@ -27,7 +27,6 @@ using System.Windows.Forms.DataVisualization.Charting.Formulas;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 using System.Windows.Forms.Design.DataVisualization.Charting;
 
-using Microsoft.DotNet.DesignTools.Serialization;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -87,11 +86,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <summary>
     /// Chart windows forms control
     /// </summary>
-    [ToolboxBitmap(typeof(Chart), "ChartControl.ico")]
+    [ToolboxBitmap(typeof(Chart), "ChartControl.bmp")]
     [SRDescription("DescriptionAttributeChart_Chart")]
-    [Designer(typeof(ChartWinDesigner))]
-    [DesignerSerializer(typeof(ChartWinDesignerSerializer), typeof(CodeDomSerializer))]
-    [DisplayNameAttribute("Chart")]
+    [Designer("WinForms.DataVisualization.Designer.Server.ChartWinDesigner")]
+    [DesignerSerializer("WinForms.DataVisualization.Designer.Server.ChartWinDesignerSerializer", typeof(CodeDomSerializer))]
+    [DisplayName("Chart")]
     public class Chart : System.Windows.Forms.Control, ISupportInitialize
     {
         #region Control fields
@@ -1133,7 +1132,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributePalette"),
         DefaultValue(ChartColorPalette.BrightPastel),
-        Editor(typeof(ColorPaletteEditor), typeof(UITypeEditor)),
+        Editor("ColorPaletteEditor", typeof(UITypeEditor)),
         ]
         public ChartColorPalette Palette
         {
@@ -1161,7 +1160,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(AntiAliasingStyles), "All"),
         SRDescription("DescriptionAttributeAntiAlias"),
-        Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor)),
+        Editor("FlagsEnumUITypeEditor", typeof(UITypeEditor)),
         ]
         public System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles AntiAliasing
         {
@@ -1264,7 +1263,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), "White"),
         SRDescription("DescriptionAttributeBackColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         ]
         public override Color BackColor
         {
@@ -1299,7 +1298,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeForeColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         ]
         public override Color ForeColor
         {
@@ -1404,7 +1403,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(ChartHatchStyle.None),
         SRDescription("DescriptionAttributeBackHatchStyle"),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor)),
+        Editor("HatchStyleEditor", typeof(UITypeEditor)),
         ]
         public ChartHatchStyle BackHatchStyle
         {
@@ -1435,7 +1434,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(""),
         SRDescription("DescriptionAttributeBackImage"),
         NotifyParentPropertyAttribute(true),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         ]
         public string BackImage
         {
@@ -1493,7 +1492,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         ]
         public Color BackImageTransparentColor
         {
@@ -1549,7 +1548,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(GradientStyle.None),
         SRDescription("DescriptionAttributeBackGradientStyle"),
-        Editor(typeof(GradientEditor), typeof(UITypeEditor)),
+        Editor("GradientEditor", typeof(UITypeEditor)),
         ]
         public GradientStyle BackGradientStyle
         {
@@ -1578,7 +1577,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeBackSecondaryColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         ]
         public Color BackSecondaryColor
         {
@@ -1611,7 +1610,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
         SerializationVisibilityAttribute(SerializationVisibility.Hidden),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         ]
         public Color BorderColor
         {
@@ -1702,7 +1701,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), "White"),
         SRDescription("DescriptionAttributeBorderColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         ]
         public Color BorderlineColor
         {

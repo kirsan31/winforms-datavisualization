@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFrameworks>$(TargetFrameworkServer)</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
@@ -16,14 +16,6 @@
     <EmbeddedResource Remove="Utilities\SampleMain\**" />
     <None Remove="GettingStarted\CreatingFirstChart\**" />
     <None Remove="Utilities\SampleMain\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="SampleMain\MainForm - Copy.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="SampleMain\MainForm - Copy.resx" />
   </ItemGroup>
 
   <ItemGroup>

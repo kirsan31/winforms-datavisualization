@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<LangVersion>9.0</LangVersion>
+		<AssemblyName>WinForms.DataVisualization.Utilities</AssemblyName>
+		<Nullable>enable</Nullable>
+		<AssemblyVersion>$(MajorVer).0.0.0</AssemblyVersion>
+		<FileVersion>$(MajorVer).$(MinorPatchVer).0</FileVersion>
+		<InformationalVersion>$(MajorVer).$(MinorPatchVer)$(PRVer)</InformationalVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="WinForms.DataVisualization" />
+		<InternalsVisibleTo Include="WinForms.DataVisualization.Designer.Client" />
+	</ItemGroup>
+
+	<ItemGroup Label="Embedded Resources">
+	  <EmbeddedResource Update="Resources\SR.resx">
+	    <LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
+	  </EmbeddedResource>
+	</ItemGroup>
+</Project>
