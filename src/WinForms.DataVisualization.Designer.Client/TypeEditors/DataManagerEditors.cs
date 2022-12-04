@@ -12,9 +12,11 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Drawing.Design;
 using System.Windows.Forms;
+
+using Microsoft.DotNet.DesignTools.Client.Editors;
+using Microsoft.DotNet.DesignTools.Client.Proxies;
 
 namespace WinForms.DataVisualization.Designer.Client
 {
@@ -22,8 +24,8 @@ namespace WinForms.DataVisualization.Designer.Client
     /// <summary>
     /// UI type editor for the Y data source members of the series.
     /// </summary>
-    internal class SeriesDataSourceMemberValueAxisUITypeEditor : System.Drawing.Design.UITypeEditor 
-	{
+    internal class SeriesDataSourceMemberValueAxisUITypeEditor : UITypeEditor
+    {
 		#region Editor methods and properties
 
         internal virtual SeriesDataSourceMemberYCheckedListBox GetDropDownControl(/*Chart chart,*/ ITypeDescriptorContext context, object value, bool flag)
@@ -172,8 +174,8 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         private void FillList()
         {
-            // Create arry of current names
-            string[] currentNames = null;
+            // Create array of current names
+            string[]? currentNames = null;
             if (editValue != null && editValue is string)
             {
                 string editedString = (string)editValue;
@@ -372,7 +374,7 @@ namespace WinForms.DataVisualization.Designer.Client
         #region Editor methods and properties 
 
         // Collection editor form
-		CollectionForm?	_form;
+        Form? _form;
 #warning designer
         //Chart _chart;
         //ITypeDescriptorContext _context;
@@ -509,7 +511,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// Override the HelpTopic property to provide different topics,
         /// depending on selected property.
         /// </summary>
-        protected override string HelpTopic
+        protected override string? HelpTopic
 		{
 			get
 			{
@@ -518,7 +520,7 @@ namespace WinForms.DataVisualization.Designer.Client
 		}
 
 		/// <summary>
-		/// Displaying help for the curently selected item in the property grid
+		/// Displaying help for the currently selected item in the property grid
 		/// </summary>
 		protected override void ShowHelp()
 		{
@@ -556,11 +558,11 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         /// <param name="buttons"></param>
         /// <param name="controls"></param>
-        private void CollectButtons(ArrayList buttons, System.Windows.Forms.Control.ControlCollection controls)
+        private void CollectButtons(ArrayList buttons, Control.ControlCollection controls)
         {
-            foreach (System.Windows.Forms.Control control in controls)
+            foreach (Control control in controls)
             {
-                if (control is System.Windows.Forms.Button)
+                if (control is Button)
                 {
                     buttons.Add(control);
                 }
@@ -576,37 +578,40 @@ namespace WinForms.DataVisualization.Designer.Client
         /// Creates form for collection editing.
         /// </summary>
         /// <returns>Form object.</returns>
-        protected override CollectionForm CreateCollectionForm()
+        protected override ICollectionForm CreateCollectionForm(ObjectProxy viewModel)
 		{
-			_form = base.CreateCollectionForm();
-
-            // Changed Apr 29, DT,  for VS2005 compatibility
-            PropertyGrid? grid = Helpers.GetPropertyGrid(_form.Controls);
-            if (grid is not null)
+            var vm = base.CreateCollectionForm(viewModel);
+            _form = vm as Form;
+            if (_form is not null)
             {
-                // Show properties help
-                grid.HelpVisible = true;
-                grid.CommandsVisibleIfAvailable = true;
-
-                // Hookup to the update events
-                grid.PropertyValueChanged += new PropertyValueChangedEventHandler(this.OnPropertyChanged);
-                grid.ControlAdded += new ControlEventHandler(this.OnControlAddedRemoved);
-                grid.ControlRemoved += new ControlEventHandler(this.OnControlAddedRemoved);
-
-            }
-            
-            // Changed Apr 29, DT, for VS2005 compatibility
-            ArrayList buttons = new ArrayList();
-            this.CollectButtons(buttons, _form.Controls);
-            foreach (System.Windows.Forms.Button button in buttons)
-            {
-                if (button.DialogResult == DialogResult.OK || button.DialogResult == DialogResult.Cancel)
+                // Changed Apr 29, DT,  for VS2005 compatibility
+                PropertyGrid? grid = Helpers.GetPropertyGrid(_form.Controls);
+                if (grid is not null)
                 {
-                    button.Click += new EventHandler(this.OnOkClicked);
+                    // Show properties help
+                    grid.HelpVisible = true;
+                    grid.CommandsVisibleIfAvailable = true;
+
+                    // Hookup to the update events
+                    grid.PropertyValueChanged += new PropertyValueChangedEventHandler(this.OnPropertyChanged);
+                    grid.ControlAdded += new ControlEventHandler(this.OnControlAddedRemoved);
+                    grid.ControlRemoved += new ControlEventHandler(this.OnControlAddedRemoved);
+
+                }
+
+                // Changed Apr 29, DT, for VS2005 compatibility
+                ArrayList buttons = new ArrayList();
+                this.CollectButtons(buttons, _form.Controls);
+                foreach (Button button in buttons)
+                {
+                    if (button.DialogResult == DialogResult.OK || button.DialogResult == DialogResult.Cancel)
+                    {
+                        button.Click += new EventHandler(this.OnOkClicked);
+                    }
                 }
             }
 
-			return _form;
+			return vm;
 		}
 
 
@@ -633,13 +638,8 @@ namespace WinForms.DataVisualization.Designer.Client
 		{
 		}
 
-        protected override void DestroyInstance(object instance)
-        {
-            // don't destroy instance because remove is clicked.
-        }
-
-		#endregion
-	}
+        #endregion
+    }
 
 
 	/// <summary>
@@ -737,7 +737,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         /// <param name="itemType">Item type.</param>
         /// <returns>Newly created item.</returns>
-        protected override object CreateInstance(Type itemType)
+        protected override object? CreateInstance(Type itemType)
 		{
 			if (Context is not null && Context.Instance is not null)
 			{
