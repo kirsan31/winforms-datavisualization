@@ -26,7 +26,6 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows.Forms.DataVisualization.Charting.Borders3D;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -2042,7 +2041,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         SRDescription("DescriptionAttributeChartAreas"),
-        Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor))
+        Editor("ChartCollectionEditor", typeof(UITypeEditor))
         ]
         public ChartAreaCollection ChartAreas
         {
@@ -2058,7 +2057,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeChart"),
         SRDescription("DescriptionAttributeLegends"),
-        Editor(typeof(LegendCellCollectionEditor), typeof(UITypeEditor))
+        Editor("LegendCellCollectionEditor", typeof(UITypeEditor))
         ]
         public LegendCollection Legends
         {
@@ -2074,7 +2073,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeCharttitle"),
         SRDescription("DescriptionAttributeTitles"),
-        Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor))
+        Editor("ChartCollectionEditor", typeof(UITypeEditor))
         ]
         public TitleCollection Titles
         {
@@ -2090,7 +2089,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeChart"),
         SRDescription("DescriptionAttributeAnnotations3"),
-        Editor(typeof(AnnotationCollectionEditor), (typeof(UITypeEditor)))
+        Editor("AnnotationCollectionEditor", (typeof(UITypeEditor)))
         ]
         public AnnotationCollection Annotations
         {

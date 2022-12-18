@@ -53,37 +53,6 @@ namespace WinForms.DataVisualization.Designer.Client
         protected override string HelpTopic => (_helpTopic.Length == 0) ? base.HelpTopic : _helpTopic;
 
         /// <summary>
-        /// Returns the collection form property grid. Added for VS2005 compatibility.
-        /// </summary>
-        /// <param name="controls"></param>
-        /// <returns></returns>
-        private PropertyGrid? GetPropertyGrid(Control.ControlCollection? controls)
-        {
-            if (controls is null)
-                return null;
-
-            foreach (Control control in controls)
-            {
-                PropertyGrid? grid = control as PropertyGrid;
-                if (grid is not null)
-                {
-                    return grid;
-                }
-
-                if (control.Controls.Count > 0)
-                {
-                    grid = GetPropertyGrid(control.Controls);
-                    if (grid is not null)
-                    {
-                        return grid;
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// Collect the collection editor form buttons into array. Added for VS2005 compatibility.
         /// </summary>
         /// <param name="buttons"></param>
@@ -111,7 +80,7 @@ namespace WinForms.DataVisualization.Designer.Client
         {
             // Init topic name
             _helpTopic = string.Empty;
-            PropertyGrid? grid = this.GetPropertyGrid(_form?.Controls);
+            PropertyGrid? grid = Helpers.GetPropertyGrid(_form?.Controls);
 
             // Check currently selected grid item
             if (grid is not null)
@@ -148,7 +117,7 @@ namespace WinForms.DataVisualization.Designer.Client
             // Create collection form using the base class
             _form = base.CreateCollectionForm();
             // Changed Apr 29, DT,  for VS2005 compatibility
-            PropertyGrid? grid = GetPropertyGrid(_form.Controls);
+            PropertyGrid? grid = Helpers.GetPropertyGrid(_form.Controls);
             if (grid is not null)
             {
                 // Show properties help

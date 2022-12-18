@@ -23,7 +23,6 @@ using System.Drawing.Design;
 using System.Globalization;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {

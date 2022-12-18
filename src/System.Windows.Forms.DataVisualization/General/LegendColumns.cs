@@ -22,8 +22,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     using System.Drawing;
     using System.Drawing.Design;
     using System.Drawing.Drawing2D;
-    using System.Windows.Forms.Design.DataVisualization.Charting;
-    using SizeF = Drawing.SizeF;
+        using SizeF = Drawing.SizeF;
 
     #region Enumerations
 

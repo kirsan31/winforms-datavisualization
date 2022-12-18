@@ -19,7 +19,6 @@ using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -1282,7 +1281,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
         SerializationVisibilityAttribute(SerializationVisibility.Hidden),
         SRDescription("DescriptionAttributeAxisX"),
-        Editor(typeof(AnnotationAxisUITypeEditor), typeof(UITypeEditor)),
+        Editor("AnnotationAxisUITypeEditor", typeof(UITypeEditor)),
         TypeConverter(typeof(AnnotationAxisValueConverter)),
         ]
         virtual public Axis AxisX
@@ -1326,7 +1325,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
         SerializationVisibilityAttribute(SerializationVisibility.Hidden),
         SRDescription("DescriptionAttributeAxisY"),
-        Editor(typeof(AnnotationAxisUITypeEditor), typeof(UITypeEditor)),
+        Editor("AnnotationAxisUITypeEditor", typeof(UITypeEditor)),
         TypeConverter(typeof(AnnotationAxisValueConverter)),
         ]
         virtual public Axis AxisY
@@ -1426,7 +1425,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
         SerializationVisibilityAttribute(SerializationVisibility.Hidden),
         SRDescription("DescriptionAttributeAnchorDataPoint"),
-        Editor(typeof(AnchorPointUITypeEditor), typeof(UITypeEditor)),
+        Editor("AnchorPointUITypeEditor", typeof(UITypeEditor)),
         TypeConverter(typeof(AnchorPointValueConverter)),
         ]
         virtual public DataPoint AnchorDataPoint

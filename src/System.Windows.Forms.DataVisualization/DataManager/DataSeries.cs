@@ -18,7 +18,6 @@ using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 using System.Windows.Forms.DataVisualization.Charting.Data;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -1751,7 +1750,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRDescription("DescriptionAttributeSeries_ValueMembersY"),
         DefaultValue(""),
         TypeConverter(typeof(SeriesDataSourceMemberConverter)),
-        Editor(typeof(SeriesDataSourceMemberValueAxisUITypeEditor), typeof(UITypeEditor))
+        Editor("SeriesDataSourceMemberValueAxisUITypeEditor", typeof(UITypeEditor))
         ]
         public string YValueMembers
         {
@@ -1950,7 +1949,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeSeries_Points"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        Editor(typeof(DataPointCollectionEditor), typeof(UITypeEditor))
+        Editor("DataPointCollectionEditor", typeof(UITypeEditor))
         ]
         public DataPointCollection Points
         {
@@ -2253,7 +2252,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRDescription("DescriptionAttributeSeries_Type"),
         DefaultValue(SeriesChartType.Column),
         RefreshProperties(RefreshProperties.All),
-        Editor(typeof(ChartTypeEditor), typeof(UITypeEditor))
+        Editor("ChartTypeEditor", typeof(UITypeEditor))
         ]
         public SeriesChartType ChartType
         {
@@ -2302,7 +2301,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRDescription("DescriptionAttributeSeries_Type"),
         DefaultValue(ChartTypeNames.Column),
         TypeConverter(typeof(ChartTypeConverter)),
-        Editor(typeof(ChartTypeEditor), typeof(UITypeEditor)),
+        Editor("ChartTypeEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All),
         SerializationVisibilityAttribute(SerializationVisibility.Hidden),
         DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden)
