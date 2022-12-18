@@ -4,5 +4,6 @@
     {
         public const string MarkerStyleEditorPaintValue = nameof(MarkerStyleEditorPaintValue);
         public const string GradientEditorPaintValue = nameof(GradientEditorPaintValue);
+        public const string ImageValueEditorPaintValue = nameof(ImageValueEditorPaintValue);
     }
 }
