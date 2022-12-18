@@ -47,9 +47,10 @@
 		<ItemGroup>
 			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\WinForms.DataVisualization.dll" />
 			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\WinForms.DataVisualization.Utilities.dll" />
-			<!--We need this during Control development, so we get proper Debug-Support at runtime. -->
 			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\WinForms.DataVisualization.pdb" />
 			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\WinForms.DataVisualization.Utilities.pdb" />
+			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\WinForms.DataVisualization.xml" />
+			<_File Include="$(SolutionDir)src\System.Windows.Forms.DataVisualization\bin\$(Configuration)\$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf($(TFmWinVer)))))\WinForms.DataVisualization.Utilities.xml" />
 
 			<_File Include="$(SolutionDir)src\WinForms.DataVisualization.Designer.Client\bin\$(Configuration)\$(TargetFrameworkClient)\WinForms.DataVisualization.Designer.Client.dll" TargetDir="Design/WinForms" />
 			<_File Include="$(SolutionDir)src\WinForms.DataVisualization.Designer.ClientServerProtocol\bin\$(Configuration)\$(TargetFrameworkClient)\WinForms.DataVisualization.Designer.ClientServerProtocol.dll" TargetDir="Design/WinForms" />
