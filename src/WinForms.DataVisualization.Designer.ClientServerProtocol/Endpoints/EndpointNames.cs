@@ -3,5 +3,6 @@
     public static class EndpointNames
     {
         public const string MarkerStyleEditorPaintValue = nameof(MarkerStyleEditorPaintValue);
+        public const string GradientEditorPaintValue = nameof(GradientEditorPaintValue);
     }
 }

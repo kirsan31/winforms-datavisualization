@@ -12,8 +12,12 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
-using System.Reflection;
-//using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms.DataVisualization.Charting;
+
+using Microsoft.DotNet.DesignTools.Client;
+using Microsoft.DotNet.DesignTools.Client.Proxies;
+
+using WinForms.DataVisualization.Designer.Protocol.Endpoints;
 
 namespace WinForms.DataVisualization.Designer.Client
 {
@@ -22,12 +26,10 @@ namespace WinForms.DataVisualization.Designer.Client
     /// AxisName editor for the gradient type.
     /// Paints a rectangle with gradient sample.
     /// </summary>
-    internal class GradientEditor : UITypeEditor, IDisposable
+    internal class GradientEditor : UITypeEditor
     {
-        #region Editor method and properties
+        private ChartGraphics? _chartGraph;
 
-        //private ChartGraphics _chartGraph;
-        private bool _disposed;
 
         /// <summary>
         /// Override this function to support palette colors drawing
@@ -39,119 +41,53 @@ namespace WinForms.DataVisualization.Designer.Client
             return true;
         }
 
-#warning designer
+
         /// <summary>
         /// Override this function to support palette colors drawing
         /// </summary>
         /// <param name="e">Paint value event arguments.</param>
-        //public override void PaintValue(PaintValueEventArgs e)
-        //{
-        //    if (e.Value is GradientStyle)
-        //    {
-        //        // Create chart graphics object
-        //        _chartGraph ??= new ChartGraphics(null);
-        //        _chartGraph.Graphics = e.Graphics;
-
-        //        // Try to get original color from the object
-        //        Color color1 = Color.Black;
-        //        Color color2 = Color.White;
-        //        if (e.Context != null && e.Context.Instance != null)
-        //        {
-        //            // Get color properties using reflection
-        //            PropertyInfo propertyInfo = e.Context.Instance.GetType().GetProperty("BackColor");
-        //            if (propertyInfo != null)
-        //            {
-        //                color1 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
-        //            }
-        //            else
-        //            {
-        //                propertyInfo = e.Context.Instance.GetType().GetProperty("BackColor");
-        //                if (propertyInfo != null)
-        //                {
-        //                    color1 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
-        //                }
-        //                else
-        //                {
-        //                    // If object do not have "BackColor" property try using "Color" property 
-        //                    propertyInfo = e.Context.Instance.GetType().GetProperty("Color");
-        //                    if (propertyInfo != null)
-        //                    {
-        //                        color1 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
-        //                    }
-        //                }
-        //            }
-
-        //            propertyInfo = e.Context.Instance.GetType().GetProperty("BackSecondaryColor");
-        //            if (propertyInfo != null)
-        //            {
-        //                color2 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
-        //            }
-        //            else
-        //            {
-        //                propertyInfo = e.Context.Instance.GetType().GetProperty("BackSecondaryColor");
-        //                if (propertyInfo != null)
-        //                {
-        //                    color2 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
-        //                }
-        //            }
-
-        //        }
-
-        //        // Check if colors are valid
-        //        if (color1 == Color.Empty)
-        //        {
-        //            color1 = Color.Black;
-        //        }
-
-        //        if (color2 == Color.Empty)
-        //        {
-        //            color2 = Color.White;
-        //        }
-
-        //        if (color1 == color2)
-        //        {
-        //            color2 = Color.FromArgb(color1.B, color1.R, color1.G);
-        //        }
-
-
-        //        // Draw gradient sample
-        //        if ((GradientStyle)e.Value != GradientStyle.None)
-        //        {
-        //            Brush brush = _chartGraph.GetGradientBrush(e.Bounds, color1, color2, (GradientStyle)e.Value);
-        //            e.Graphics.FillRectangle(brush, e.Bounds);
-
-        //            brush.Dispose();
-        //        }
-        //    }
-        //}
-
-        #endregion
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Disposes resources used by this object.
-        /// </summary>
-        /// <param name="disposing">Whether this method was called form Dispose() or the finalizer.</param>
-        protected virtual void Dispose(bool disposing)
+        public override void PaintValue(PaintValueEventArgs e)
         {
-            if (_disposed)
+            GradientStyle gradientStyle;
+            if (e.Value is not EnumProxy enumProxy || (gradientStyle = enumProxy.AsEnumValue<GradientStyle>()) == GradientStyle.None)
                 return;
 
-            //if (disposing)
-            //    _chartGraph?.Dispose();
+            // Create chart graphics object
+            _chartGraph ??= new ChartGraphics();
+            _chartGraph.Graphics = e.Graphics;
 
-            _disposed = true;
+            // Try to get original color from the object
+            Color color1 = Color.Black;
+            Color color2 = Color.White;
+            if (e.Context?.Instance is not null)
+            {
+                var client = e.Context.GetRequiredService<IDesignToolsClient>();
+                var sender = client.Protocol.GetEndpoint<GradientEditorPaintValueEndpoint>().GetSender(client);
+                var response = sender.SendRequest(new GradientEditorPaintValueRequest(e.Context.Instance));
+                color1 = response.Color1;
+                color2 = response.Color2;
+            }
+
+            // Check if colors are valid
+            if (color1 == Color.Empty)
+            {
+                color1 = Color.Black;
+            }
+
+            if (color2 == Color.Empty)
+            {
+                color2 = Color.White;
+            }
+
+            if (color1 == color2)
+            {
+                color2 = Color.FromArgb(color1.B, color1.R, color1.G);
+            }
+
+            // Draw gradient sample
+            using Brush brush = _chartGraph.GetGradientBrush(e.Bounds, color1, color2, gradientStyle);
+            e.Graphics.FillRectangle(brush, e.Bounds);
+            _chartGraph.Graphics = null;
         }
-
-        /// <summary>
-        /// Disposes all resources used by this object.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        #endregion
     }
 }

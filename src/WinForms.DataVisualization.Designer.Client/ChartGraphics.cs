@@ -851,5 +851,111 @@ namespace WinForms.DataVisualization.Designer.Client
             // Return a gradient color position
             return Color.FromArgb(beginColor.A, (int)dRRed, (int)dRGreen, (int)dRBlue);
         }
+
+        /// <summary>
+        /// This method creates a gradient brush.
+        /// </summary>
+        /// <param name="rectangle">A rectangle which has to be filled with a gradient color.</param>
+        /// <param name="firstColor">First color.</param>
+        /// <param name="secondColor">Second color.</param>
+        /// <param name="type ">Gradient type .</param>
+        /// <returns>Gradient Brush</returns>
+        internal Brush GetGradientBrush(
+            RectangleF rectangle,
+            Color firstColor,
+            Color secondColor,
+            GradientStyle type
+            )
+        {
+            // Increase the brush rectangle by 1 pixel to ensure the fit
+            rectangle.Inflate(1f, 1f);
+            float angle = 0;
+
+            Brush gradientBrush;
+            // Function which create gradient brush fires exception if
+            // rectangle size is zero.
+            if (rectangle.Height == 0 || rectangle.Width == 0)
+            {
+                gradientBrush = new SolidBrush(Color.Black);
+                return gradientBrush;
+            }
+
+            // *******************************************
+            // Linear Gradient
+            // *******************************************
+            // Check linear type .
+            if (type == GradientStyle.LeftRight || type == GradientStyle.VerticalCenter)
+            {
+                angle = 0;
+            }
+            else if (type == GradientStyle.TopBottom || type == GradientStyle.HorizontalCenter)
+            {
+                angle = 90;
+            }
+            else if (type == GradientStyle.DiagonalLeft)
+            {
+                angle = (float)(Math.Atan(rectangle.Width / rectangle.Height) * 180 / Math.PI);
+            }
+            else if (type == GradientStyle.DiagonalRight)
+            {
+                angle = (float)(180 - Math.Atan(rectangle.Width / rectangle.Height) * 180 / Math.PI);
+            }
+
+            // Create a linear gradient brush
+            if (type == GradientStyle.TopBottom || type == GradientStyle.LeftRight
+                || type == GradientStyle.DiagonalLeft || type == GradientStyle.DiagonalRight
+                || type == GradientStyle.HorizontalCenter || type == GradientStyle.VerticalCenter)
+            {
+                RectangleF tempRect = new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+                // For Horizontal and vertical center gradient types
+                if (type == GradientStyle.HorizontalCenter)
+                {
+                    // Resize and wrap gradient
+                    tempRect.Height /= 2F;
+                    LinearGradientBrush linearGradientBrush = new LinearGradientBrush(tempRect, firstColor, secondColor, angle);
+                    gradientBrush = linearGradientBrush;
+                    linearGradientBrush.WrapMode = WrapMode.TileFlipX;
+                }
+                else if (type == GradientStyle.VerticalCenter)
+                {
+                    // Resize and wrap gradient
+                    tempRect.Width /= 2F;
+                    LinearGradientBrush linearGradientBrush = new LinearGradientBrush(tempRect, firstColor, secondColor, angle);
+                    gradientBrush = linearGradientBrush;
+                    linearGradientBrush.WrapMode = WrapMode.TileFlipX;
+                }
+                else
+                {
+                    gradientBrush = new LinearGradientBrush(rectangle, firstColor, secondColor, angle);
+                }
+
+                return gradientBrush;
+            }
+
+            // *******************************************
+            // Gradient is not linear : From Center.
+            // *******************************************
+
+            // Create a path
+            GraphicsPath path = new GraphicsPath();
+
+            // Add a rectangle to the path
+            path.AddRectangle(rectangle);
+
+            // Create a gradient brush
+            PathGradientBrush pathGradientBrush = new PathGradientBrush(path);
+            gradientBrush = pathGradientBrush;
+
+            // Set the center color
+            pathGradientBrush.CenterColor = firstColor;
+
+            // Set the Surround color
+            Color[] colors = { secondColor };
+            pathGradientBrush.SurroundColors = colors;
+
+            path?.Dispose();
+
+            return gradientBrush;
+        }
     }
 }
