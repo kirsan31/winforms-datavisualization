@@ -957,5 +957,27 @@ namespace WinForms.DataVisualization.Designer.Client
 
             return gradientBrush;
         }
+
+        /// <summary>
+        /// Creates a Hatch Brush.
+        /// </summary>
+        /// <param name="hatchStyle">Chart Hatch style.</param>
+        /// <param name="backColor">Back Color.</param>
+        /// <param name="foreColor">Fore Color.</param>
+        /// <returns>Brush</returns>
+        internal Brush GetHatchBrush(
+            ChartHatchStyle hatchStyle,
+            Color backColor,
+            Color foreColor
+            )
+        {
+            // Convert Chart Hatch Style enum
+            // to Hatch Style enum.
+            HatchStyle hatch;
+            hatch = (HatchStyle)Enum.Parse(typeof(HatchStyle), hatchStyle.ToString());
+
+            // Create Hatch Brush
+            return new HatchBrush(hatch, foreColor, backColor);
+        }
     }
 }
