@@ -11,5 +11,6 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
+	  <ProjectReference Include="..\WinForms.DataVisualization.Designer.ClientServerProtocol\DataVisualization.ClientServerProtocol.csproj" />
 	</ItemGroup>
 </Project>

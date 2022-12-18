@@ -13,6 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\WinForms.DataVisualization.Designer.ClientServerProtocol\DataVisualization.ClientServerProtocol.csproj" />
 	  <ProjectReference Include="..\WinForms.DataVisualization.Utilities\Utilities.csproj" />
 	</ItemGroup>
 
