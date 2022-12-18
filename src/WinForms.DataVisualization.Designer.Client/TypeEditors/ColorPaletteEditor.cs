@@ -41,26 +41,17 @@ namespace WinForms.DataVisualization.Designer.Client
         {
             // Get palette colors array
             ChartColorPalette palette;
-            var val = e.Value as Microsoft.DotNet.DesignTools.Client.Proxies.EnumProxy;            
-            if (val is null || (palette = val.AsEnumValue<ChartColorPalette>()) == ChartColorPalette.None)
-            {
-                base.PaintValue(e);
+            if (e.Value is not Microsoft.DotNet.DesignTools.Client.Proxies.EnumProxy enumProxy || (palette = enumProxy.AsEnumValue<ChartColorPalette>()) == ChartColorPalette.None)
                 return;
-            }
 
             Color[] paletteColors = ChartPaletteColors.GetPaletteColors(palette);
             if (paletteColors.Length == 0)
-            {
-                base.PaintValue(e);
                 return;
-            }
 
             int numberOfcolors = paletteColors.Length;
             // Draw first colors of the palette
             if (numberOfcolors > 6)
-            {
                 numberOfcolors = 6;
-            }
 
             int colorStep = paletteColors.Length / numberOfcolors;
             RectangleF rect = e.Bounds;

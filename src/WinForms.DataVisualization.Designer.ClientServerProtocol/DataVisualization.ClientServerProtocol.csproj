@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>$(TargetFrameworkServer);$(TargetFrameworkClient)</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
-	<LangVersion>9.0</LangVersion>
+	<LangVersion>latest</LangVersion>
 	<AssemblyName>WinForms.DataVisualization.Designer.ClientServerProtocol</AssemblyName>
 	<Nullable>enable</Nullable>
 	<UseDesignerSdk>true</UseDesignerSdk>

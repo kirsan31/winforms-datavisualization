@@ -14,7 +14,6 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace WinForms.DataVisualization.Designer.Client
@@ -24,7 +23,7 @@ namespace WinForms.DataVisualization.Designer.Client
     /// </summary>
     internal class ChartGraphics
     {
-        internal Graphics? Graphics { get; set;}
+        internal Graphics? Graphics { get; set; }
 
         #region Markers
 
@@ -192,10 +191,12 @@ namespace WinForms.DataVisualization.Designer.Client
                                     {
                                         focusScale.X = 0;
                                     }
+
                                     if (focusScale.Y < 0)
                                     {
                                         focusScale.Y = 0;
                                     }
+
                                     shadowBrush.FocusScales = focusScale;
 
                                     // Draw shadow
@@ -341,8 +342,8 @@ namespace WinForms.DataVisualization.Designer.Client
 
                                     // Calculate diamond rectangle position
                                     RectangleF diamondRect = RectangleF.Empty;
-                                    diamondRect.X = point.X - ((float)diamondSize) / 2F;
-                                    diamondRect.Y = point.Y - ((float)diamondSize) / 2F - shadowSize;
+                                    diamondRect.X = point.X - (float)diamondSize / 2F;
+                                    diamondRect.Y = point.Y - (float)diamondSize / 2F - shadowSize;
                                     diamondRect.Width = diamondSize;
                                     diamondRect.Height = diamondSize;
 
@@ -669,6 +670,7 @@ namespace WinForms.DataVisualization.Designer.Client
                             {
                                 Graphics.FillPath(sectorBrush, path);
                             }
+
                             path.Reset();
                         }
                     }
@@ -690,6 +692,7 @@ namespace WinForms.DataVisualization.Designer.Client
                     {
                         Graphics.FillPath(sectorBrush, path);
                     }
+
                     path.Reset();
                 }
 
@@ -703,6 +706,7 @@ namespace WinForms.DataVisualization.Designer.Client
                 {
                     Graphics.FillPath(brush, path);
                 }
+
                 if (pen != null)
                 {
                     Graphics.DrawPath(pen, path);
@@ -767,6 +771,7 @@ namespace WinForms.DataVisualization.Designer.Client
             {
                 curentSector = 360f - curentSector;
             }
+
             curentSector /= 180F;
 
             // Get brush

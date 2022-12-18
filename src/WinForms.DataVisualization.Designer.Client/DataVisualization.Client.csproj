@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>$(TargetFrameworkClient)</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
-		<LangVersion>9.0</LangVersion>
+		<LangVersion>latest</LangVersion>
 		<AssemblyName>WinForms.DataVisualization.Designer.Client</AssemblyName>
 		<Nullable>enable</Nullable>
 		<UseDesignerSdk>true</UseDesignerSdk>
