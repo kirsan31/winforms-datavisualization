@@ -25,9 +25,10 @@ namespace WinForms.DataVisualization.Designer.Client
     /// <summary>
     /// Image string editor class.
     /// </summary>
-    internal class ImageValueEditor : FileNameEditor
+    internal class ImageValueEditor : FileNameEditor, IDisposable
     {
         private Dictionary<string, Image>? _imgCache;
+        private bool _disposedValue;
 
         /// <summary>
         /// Override this function to support palette colors drawing
@@ -70,6 +71,30 @@ namespace WinForms.DataVisualization.Designer.Client
 
             if (image is not null)
                 e.Graphics.DrawImage(image, e.Bounds);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposedValue)
+                return;
+
+            if (disposing)
+            {
+                if (_imgCache is not null)
+                {
+                    foreach (var img in _imgCache.Values)
+                        img.Dispose();
+                }
+            }
+
+            _imgCache = null;
+            _disposedValue = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
