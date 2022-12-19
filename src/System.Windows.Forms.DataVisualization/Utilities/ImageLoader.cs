@@ -8,8 +8,9 @@
 //              caches it in the memory for the future use.
 //
 
+#nullable enable
 
-using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
@@ -26,7 +27,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities;
 /// <summary>
 /// ImageLoader utility class loads and returns specified image 
 /// form the File, URI, Web Request or Chart Resources. 
-/// Loaded images are stored in the internal hashtable which 
+/// Loaded images are stored in the internal dictionary which 
 /// allows to improve performance if image need to be used 
 /// several times.
 /// </summary>
@@ -35,10 +36,10 @@ internal class ImageLoader : IDisposable, IServiceProvider
     #region Fields
 
     // Image storage
-    private Hashtable _imageData;
+    private Dictionary<string, Image>? _imageData;
 
     // Reference to the service container
-    private readonly IServiceContainer _serviceContainer;
+    private readonly IServiceContainer? _serviceContainer;
 
     #endregion
 
@@ -77,23 +78,18 @@ internal class ImageLoader : IDisposable, IServiceProvider
     }
 
     /// <summary>
-    /// Dispose images in the hashtable
+    /// Dispose images in the dictionary.
     /// </summary>
     public void Dispose()
     {
-        if (_imageData != null)
-        {
-            foreach (DictionaryEntry entry in _imageData)
-            {
-                if (entry.Value is IDisposable)
-                {
-                    ((IDisposable)entry.Value).Dispose();
-                }
-            }
+        if (_imageData is null)
+            return;
 
-            _imageData = null;
-            GC.SuppressFinalize(this);
-        }
+        foreach (var entry in _imageData.Values)
+            entry?.Dispose();
+
+        _imageData = null;
+        GC.SuppressFinalize(this);
     }
 
     #endregion
@@ -118,99 +114,80 @@ internal class ImageLoader : IDisposable, IServiceProvider
     /// <returns>Image object</returns>
     public Image LoadImage(string imageURL, bool saveImage)
     {
-        Image image = null;
-
         // Check if image is defined in the chart image collection
-        if (_serviceContainer != null)
+        if (_serviceContainer?.GetService(typeof(Chart)) is Chart chart)
         {
-            Chart chart = (Chart)_serviceContainer.GetService(typeof(Chart));
-            if (chart != null)
-            {
-                foreach (NamedImage namedImage in chart.Images)
-                {
-                    if (namedImage.Name == imageURL)
-                    {
-                        return namedImage.Image;
-                    }
-                }
-            }
+            var img = chart.Images.FindByName(imageURL);
+            if (img?.Image is not null)
+                return img.Image;
         }
 
-        // Create new hashtable
-        _imageData ??= new Hashtable(StringComparer.OrdinalIgnoreCase);
+        // Create new dictionary
+        _imageData ??= new Dictionary<string, Image>(StringComparer.OrdinalIgnoreCase);
 
         // First check if image with this name already loaded
-        if (_imageData.Contains(imageURL))
-        {
-            image = (Image)_imageData[imageURL];
-        }
+        _imageData.TryGetValue(imageURL, out Image? image);
+        if (image is not null)
+            return image;
 
         // Try to load image from resource
-        if (image == null)
+        try
         {
-            try
+            Assembly? entryAssembly;
+            // Check if resource class type was specified
+            int columnIndex = imageURL.IndexOf("::", StringComparison.Ordinal);
+            if (columnIndex > 0)
             {
-
+                string resourceRootName = imageURL[..columnIndex];
+                string resourceName = imageURL[(columnIndex + 2)..];
+                ResourceManager resourceManager = new ResourceManager(resourceRootName, Assembly.GetExecutingAssembly());
+                image = resourceManager.GetObject(resourceName) as Image;
+            }
+            else if ((entryAssembly = Assembly.GetEntryAssembly()) is not null)
+            {
                 // Check if resource class type was specified
-                int columnIndex = imageURL.IndexOf("::", StringComparison.Ordinal);
+                columnIndex = imageURL.IndexOf(':');
                 if (columnIndex > 0)
                 {
                     string resourceRootName = imageURL[..columnIndex];
-                    string resourceName = imageURL[(columnIndex + 2)..];
-                    ResourceManager resourceManager = new ResourceManager(resourceRootName, Assembly.GetExecutingAssembly());
-                    image = (Image)resourceManager.GetObject(resourceName);
+                    string resourceName = imageURL[(columnIndex + 1)..];
+                    ResourceManager resourceManager = new ResourceManager(resourceRootName, entryAssembly);
+                    image = resourceManager.GetObject(resourceName) as Image;
                 }
-                else if (Assembly.GetEntryAssembly() != null)
+                else
                 {
-                    // Check if resource class type was specified
-                    columnIndex = imageURL.IndexOf(':');
-                    if (columnIndex > 0)
+                    // Try to load resource from every type defined in entry assembly
+                    foreach (Type type in entryAssembly.GetTypes())
                     {
-                        string resourceRootName = imageURL[..columnIndex];
-                        string resourceName = imageURL[(columnIndex + 1)..];
-                        ResourceManager resourceManager = new ResourceManager(resourceRootName, Assembly.GetEntryAssembly());
-                        image = (Image)resourceManager.GetObject(resourceName);
-                    }
-                    else
-                    {
-                        // Try to load resource from every type defined in entry assembly
-                        Assembly entryAssembly = Assembly.GetEntryAssembly();
-                        if (entryAssembly != null)
+                        ResourceManager resourceManager = new ResourceManager(type);
+                        try
                         {
-                            foreach (Type type in entryAssembly.GetTypes())
-                            {
-                                ResourceManager resourceManager = new ResourceManager(type);
-                                try
-                                {
-                                    image = (Image)resourceManager.GetObject(imageURL);
-                                }
-                                catch (ArgumentNullException)
-                                {
-                                }
-                                catch (MissingManifestResourceException)
-                                {
-                                }
+                            image = resourceManager.GetObject(imageURL) as Image;
+                        }
+                        catch (ArgumentNullException)
+                        {
+                        }
+                        catch (MissingManifestResourceException)
+                        {
+                        }
 
-                                // Check if image was loaded
-                                if (image != null)
-                                {
-                                    break;
-                                }
-                            }
+                        // Check if image was loaded
+                        if (image is not null)
+                        {
+                            break;
                         }
                     }
                 }
             }
-            catch (MissingManifestResourceException)
-            {
-            }
+        }
+        catch (MissingManifestResourceException)
+        {
         }
 
-
         // Try to load image using the Web Request
-        if (image == null)
+        if (image is null)
         {
-            Uri imageUri = null;
+            Uri? imageUri = null;
             try
             {
                 // Try to create URI directly from image URL (will work in case of absolute URL)
@@ -221,12 +198,12 @@ internal class ImageLoader : IDisposable, IServiceProvider
 
 
             // Load image from file or web resource
-            if (imageUri != null)
+            if (imageUri is not null)
             {
                 try
                 {
                     WebRequest request = WebRequest.Create(imageUri);
-                    image = System.Drawing.Image.FromStream(request.GetResponse().GetResponseStream());
+                    image = Image.FromStream(request.GetResponse().GetResponseStream());
                 }
                 catch (ArgumentException)
                 {
@@ -245,7 +222,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
         image ??= LoadFromFile(imageURL);
 
         // Error loading image
-        if (image == null)
+        if (image is null)
         {
             throw new ArgumentException(SR.ExceptionImageLoaderIncorrectImageLocation(imageURL));
         }
@@ -264,12 +241,12 @@ internal class ImageLoader : IDisposable, IServiceProvider
     /// </summary>
     /// <param name="fileName">File name.</param>
     /// <returns>Loaded image or null.</returns>
-    private Image LoadFromFile(string fileName)
+    private Image? LoadFromFile(string fileName)
     {
         // Try to load image from file
         try
         {
-            return System.Drawing.Image.FromFile(fileName);
+            return Image.FromFile(fileName);
         }
         catch (FileNotFoundException)
         {
@@ -288,23 +265,22 @@ internal class ImageLoader : IDisposable, IServiceProvider
     {
         Image image = LoadImage(name);
 
-        if (image == null)
+        if (image is null)
             return false;
 
         GetAdjustedImageSize(image, graphics, ref size);
-
         return true;
     }
 
     /// <summary>
     /// Returns the image size taking the image DPI into consideration.
     /// </summary>
-    /// <param name="image">Image for whcih to calculate the size.</param>
+    /// <param name="image">Image for which to calculate the size.</param>
     /// <param name="graphics">Graphics used to calculate the image size.</param>
     /// <param name="size">Calculated size.</param>
     internal static void GetAdjustedImageSize(Image image, Graphics graphics, ref SizeF size)
     {
-        if (graphics != null)
+        if (graphics is not null)
         {
             //this will work in case the image DPI is specified, otherwise the image DPI will be assumed to be same as the screen DPI
             size.Width = image.Width * graphics.DpiX / image.HorizontalResolution;
@@ -335,7 +311,6 @@ internal class ImageLoader : IDisposable, IServiceProvider
 
         return scaledImage;
     }
-
 
     #endregion
 }

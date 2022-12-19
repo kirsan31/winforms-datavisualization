@@ -28,7 +28,6 @@ namespace WinForms.DataVisualization.Designer.Client
     internal class ImageValueEditor : FileNameEditor, IDisposable
     {
         private Dictionary<string, Image>? _imgCache;
-        private bool _disposedValue;
 
         /// <summary>
         /// Override this function to support palette colors drawing
@@ -62,7 +61,7 @@ namespace WinForms.DataVisualization.Designer.Client
                     {
                         using var ms = new MemoryStream(response.Image);
                         image = Image.FromStream(ms);
-                        _imgCache ??= new Dictionary<string, Image>();
+                        _imgCache ??= new Dictionary<string, Image>(StringComparer.OrdinalIgnoreCase);
                         _imgCache[imageURL] = image;
                     }
                     catch { }
@@ -75,20 +74,16 @@ namespace WinForms.DataVisualization.Designer.Client
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposedValue)
+            if (_imgCache is null)
                 return;
 
             if (disposing)
             {
-                if (_imgCache is not null)
-                {
-                    foreach (var img in _imgCache.Values)
-                        img.Dispose();
-                }
+                foreach (var img in _imgCache.Values)
+                    img?.Dispose();
             }
 
             _imgCache = null;
-            _disposedValue = true;
         }
 
         public void Dispose()
