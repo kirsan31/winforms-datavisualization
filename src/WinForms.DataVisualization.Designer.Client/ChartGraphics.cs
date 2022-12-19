@@ -21,10 +21,8 @@ namespace WinForms.DataVisualization.Designer.Client
     /// <summary>
     /// The ChartGraphics class provides some designer drawing capabilities.
     /// </summary>
-    internal class ChartGraphics
+    internal static class ChartGraphics
     {
-        internal Graphics? Graphics { get; set; }
-
         #region Markers
 
         /// <summary>
@@ -33,7 +31,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <param name="rect">Marker rectangle.</param>
         /// <param name="numberOfCorners">Number of corners (4 and up).</param>
         /// <returns>Array of points.</returns>
-        internal PointF[] CreateStarPolygon(RectangleF rect, int numberOfCorners)
+        internal static PointF[] CreateStarPolygon(RectangleF rect, int numberOfCorners)
         {
             int numberOfCornersX2;
             checked
@@ -80,7 +78,8 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <param name="shadowColor">Marker shadow color.</param>
         /// <param name="imageScaleRect">Rectangle to which marker image should be scaled.</param>
         /// <param name="forceAntiAlias">Always use anti aliasing when drawing the marker.</param>
-        internal void DrawMarkerAbs(
+        internal static void DrawMarkerAbs(
+            Graphics graphics,
             PointF point,
             MarkerStyle markerStyle,
             int markerSize,
@@ -92,7 +91,7 @@ namespace WinForms.DataVisualization.Designer.Client
             bool forceAntiAlias
             )
         {
-            if (Graphics is null)
+            if (graphics is null)
                 return;
 
             // Hide border when zero width specified
@@ -106,9 +105,9 @@ namespace WinForms.DataVisualization.Designer.Client
             {
                 Pen pen;
                 // Enable AntiAliasing
-                SmoothingMode oldSmoothingMode = Graphics.SmoothingMode;
+                SmoothingMode oldSmoothingMode = graphics.SmoothingMode;
                 if (forceAntiAlias)
-                    Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
                 // Create solid color brush
                 using (SolidBrush brush = new SolidBrush(markerColor))
@@ -149,21 +148,21 @@ namespace WinForms.DataVisualization.Designer.Client
                                 // Draw shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
-                                    using Matrix translateMatrix = Graphics.Transform;
+                                    using Matrix translateMatrix = graphics.Transform;
                                     translateMatrix.Translate(shadowSize, shadowSize);
-                                    using Matrix oldMatrix = Graphics.Transform;
-                                    Graphics.Transform = translateMatrix;
+                                    using Matrix oldMatrix = graphics.Transform;
+                                    graphics.Transform = translateMatrix;
 
                                     using var sb = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
-                                    Graphics.FillPolygon(sb, points);
+                                    graphics.FillPolygon(sb, points);
 
-                                    Graphics.Transform = oldMatrix;
+                                    graphics.Transform = oldMatrix;
                                 }
 
                                 // Draw star
-                                Graphics.FillPolygon(brush, points);
+                                graphics.FillPolygon(brush, points);
                                 pen = new Pen(markerBorderColor, markerBorderSize);
-                                Graphics.DrawPolygon(pen, points);
+                                graphics.DrawPolygon(pen, points);
                                 pen.Dispose();
                                 break;
                             }
@@ -200,12 +199,12 @@ namespace WinForms.DataVisualization.Designer.Client
                                     shadowBrush.FocusScales = focusScale;
 
                                     // Draw shadow
-                                    Graphics.FillPath(shadowBrush, path);
+                                    graphics.FillPath(shadowBrush, path);
                                 }
 
-                                Graphics.FillEllipse(brush, rect);
+                                graphics.FillEllipse(brush, rect);
                                 pen = new Pen(markerBorderColor, markerBorderSize);
-                                Graphics.DrawEllipse(pen, rect);
+                                graphics.DrawEllipse(pen, rect);
                                 pen.Dispose();
                                 break;
                             }
@@ -213,11 +212,11 @@ namespace WinForms.DataVisualization.Designer.Client
                             {
                                 // Draw marker shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
-                                    FillRectangleShadowAbs(rect, shadowColor, shadowSize, shadowColor);
+                                    FillRectangleShadowAbs(graphics, rect, shadowColor, shadowSize, shadowColor);
 
-                                Graphics.FillRectangle(brush, rect);
+                                graphics.FillRectangle(brush, rect);
                                 pen = new Pen(markerBorderColor, markerBorderSize);
-                                Graphics.DrawRectangle(pen, (int)Math.Round(rect.X, 0), (int)Math.Round(rect.Y, 0), (int)Math.Round(rect.Width, 0), (int)Math.Round(rect.Height, 0));
+                                graphics.DrawRectangle(pen, (int)Math.Round(rect.X, 0), (int)Math.Round(rect.Y, 0), (int)Math.Round(rect.Width, 0), (int)Math.Round(rect.Height, 0));
                                 pen.Dispose();
                                 break;
                             }
@@ -266,10 +265,10 @@ namespace WinForms.DataVisualization.Designer.Client
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
                                     // Create translation matrix
-                                    using Matrix translateMatrix = Graphics.Transform;
+                                    using Matrix translateMatrix = graphics.Transform;
                                     translateMatrix.Translate(shadowSize + 1, shadowSize + 1);
-                                    using Matrix oldMatrix = Graphics.Transform;
-                                    Graphics.Transform = translateMatrix;
+                                    using Matrix oldMatrix = graphics.Transform;
+                                    graphics.Transform = translateMatrix;
 
                                     // Add polygon to the graphics path
                                     using GraphicsPath path = new GraphicsPath();
@@ -299,21 +298,21 @@ namespace WinForms.DataVisualization.Designer.Client
                                     shadowBrush.FocusScales = focusScale;
 
                                     // Draw shadow
-                                    Graphics.FillPath(shadowBrush, path);
-                                    Graphics.Transform = oldMatrix;
+                                    graphics.FillPath(shadowBrush, path);
+                                    graphics.Transform = oldMatrix;
                                 }
 
                                 // Create translation matrix
-                                using Matrix translateMatrixShape = Graphics.Transform;
-                                using Matrix oldMatrixShape = Graphics.Transform;
-                                Graphics.Transform = translateMatrixShape;
+                                using Matrix translateMatrixShape = graphics.Transform;
+                                using Matrix oldMatrixShape = graphics.Transform;
+                                graphics.Transform = translateMatrixShape;
 
-                                Graphics.FillPolygon(brush, points);
+                                graphics.FillPolygon(brush, points);
                                 pen = new Pen(markerBorderColor, markerBorderSize);
-                                Graphics.DrawPolygon(pen, points);
+                                graphics.DrawPolygon(pen, points);
                                 pen.Dispose();
 
-                                Graphics.Transform = oldMatrixShape;
+                                graphics.Transform = oldMatrixShape;
 
                                 break;
                             }
@@ -332,10 +331,10 @@ namespace WinForms.DataVisualization.Designer.Client
                                 // Draw shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
-                                    using Matrix translateMatrix = Graphics.Transform;
+                                    using Matrix translateMatrix = graphics.Transform;
                                     translateMatrix.Translate(0, 0);
-                                    using Matrix oldMatrix = Graphics.Transform;
-                                    Graphics.Transform = translateMatrix;
+                                    using Matrix oldMatrix = graphics.Transform;
+                                    graphics.Transform = translateMatrix;
 
                                     // Calculate diamond size
                                     float diamondSize = markerSize * (float)Math.Sin(45f / 180f * Math.PI);
@@ -349,16 +348,16 @@ namespace WinForms.DataVisualization.Designer.Client
 
                                     // Set rotation matrix to 45
                                     translateMatrix.RotateAt(45, point);
-                                    Graphics.Transform = translateMatrix;
+                                    graphics.Transform = translateMatrix;
 
-                                    FillRectangleShadowAbs(diamondRect, shadowColor, shadowSize, shadowColor);
+                                    FillRectangleShadowAbs(graphics, diamondRect, shadowColor, shadowSize, shadowColor);
 
-                                    Graphics.Transform = oldMatrix;
+                                    graphics.Transform = oldMatrix;
                                 }
 
-                                Graphics.FillPolygon(brush, points);
+                                graphics.FillPolygon(brush, points);
                                 pen = new Pen(markerBorderColor, markerBorderSize);
-                                Graphics.DrawPolygon(pen, points);
+                                graphics.DrawPolygon(pen, points);
                                 pen.Dispose();
                                 break;
                             }
@@ -375,10 +374,10 @@ namespace WinForms.DataVisualization.Designer.Client
                                 // Draw image shadow
                                 if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
-                                    using Matrix translateMatrix = Graphics.Transform;
+                                    using Matrix translateMatrix = graphics.Transform;
                                     translateMatrix.Translate(shadowSize - 1, shadowSize + 1);
-                                    using Matrix oldMatrix = Graphics.Transform;
-                                    Graphics.Transform = translateMatrix;
+                                    using Matrix oldMatrix = graphics.Transform;
+                                    graphics.Transform = translateMatrix;
 
                                     // Add polygon to the graphics path
                                     using GraphicsPath path = new GraphicsPath();
@@ -408,13 +407,13 @@ namespace WinForms.DataVisualization.Designer.Client
                                     shadowBrush.FocusScales = focusScale;
 
                                     // Draw shadow
-                                    Graphics.FillPath(shadowBrush, path);
-                                    Graphics.Transform = oldMatrix;
+                                    graphics.FillPath(shadowBrush, path);
+                                    graphics.Transform = oldMatrix;
                                 }
 
-                                Graphics.FillPolygon(brush, points);
+                                graphics.FillPolygon(brush, points);
                                 pen = new Pen(markerBorderColor, markerBorderSize);
-                                Graphics.DrawPolygon(pen, points);
+                                graphics.DrawPolygon(pen, points);
                                 pen.Dispose();
                                 break;
                             }
@@ -428,7 +427,7 @@ namespace WinForms.DataVisualization.Designer.Client
                 // Restore SmoothingMode
                 if (forceAntiAlias)
                 {
-                    Graphics.SmoothingMode = oldSmoothingMode;
+                    graphics.SmoothingMode = oldSmoothingMode;
                 }
             }
         }
@@ -444,7 +443,8 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <param name="backColor">Back Color</param>
         /// <param name="circular">Draw circular shape inside the rectangle.</param>
         /// <param name="circularSectorsCount">Number of sectors in circle when drawing the polygon.</param>
-        internal void FillRectangleShadowAbs(
+        internal static void FillRectangleShadowAbs(
+            Graphics graphics,
             RectangleF rect,
             Color shadowColor,
             float shadowOffset,
@@ -452,7 +452,7 @@ namespace WinForms.DataVisualization.Designer.Client
             bool circular = false,
             int circularSectorsCount = 0)
         {
-            if (Graphics is null)
+            if (graphics is null)
                 return;
 
             // Do not draw shadow for empty rectangle
@@ -473,11 +473,11 @@ namespace WinForms.DataVisualization.Designer.Client
             if (!circular && backColor == Color.Transparent)
             {
                 clippingUsed = true;
-                oldClipRegion = Graphics.Clip;
+                oldClipRegion = graphics.Clip;
                 Region region = new Region();
                 region.MakeInfinite();
                 region.Xor(rect);
-                Graphics.Clip = region;
+                graphics.Clip = region;
             }
 
             // Draw usual or "soft" shadows
@@ -498,9 +498,9 @@ namespace WinForms.DataVisualization.Designer.Client
 
                 // Draw rectangle
                 if (circular)
-                    DrawCircleAbs(null, shadowBrush, offset, circularSectorsCount, false);
+                    DrawCircleAbs(graphics, null, shadowBrush, offset, circularSectorsCount, false);
                 else
-                    Graphics.FillRectangle(shadowBrush, offset);
+                    graphics.FillRectangle(shadowBrush, offset);
             }
             else
             {
@@ -570,14 +570,14 @@ namespace WinForms.DataVisualization.Designer.Client
                 shadowBrush.FocusScales = focusScale;
 
                 // Draw rectangle
-                Graphics.FillPath(shadowBrush, path);
+                graphics.FillPath(shadowBrush, path);
             }
 
             // Reset clip region
             if (clippingUsed)
             {
-                Region region = Graphics.Clip;
-                Graphics.Clip = oldClipRegion;
+                Region region = graphics.Clip;
+                graphics.Clip = oldClipRegion;
                 region.Dispose();
             }
         }
@@ -590,9 +590,9 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <param name="position">Circle position.</param>
         /// <param name="polygonSectorsNumber">Number of sectors for the polygon.</param>
         /// <param name="circle3D">Indicates that circle should be 3D..</param>
-        internal void DrawCircleAbs(Pen? pen, Brush brush, RectangleF position, int polygonSectorsNumber, bool circle3D)
+        internal static void DrawCircleAbs(Graphics graphics, Pen? pen, Brush brush, RectangleF position, int polygonSectorsNumber, bool circle3D)
         {
-            if (Graphics is null)
+            if (graphics is null)
                 return;
 
             bool fill3DCircle = circle3D && brush != null;
@@ -602,12 +602,12 @@ namespace WinForms.DataVisualization.Designer.Client
             {
                 if (brush != null)
                 {
-                    Graphics.FillEllipse(brush, position);
+                    graphics.FillEllipse(brush, position);
                 }
 
                 if (pen != null)
                 {
-                    Graphics.DrawEllipse(pen, position);
+                    graphics.DrawEllipse(pen, position);
                 }
             }
 
@@ -619,10 +619,10 @@ namespace WinForms.DataVisualization.Designer.Client
                 PointF prevPoint = PointF.Empty;
                 using GraphicsPath path = new GraphicsPath();
                 // Remember current smoothing mode
-                SmoothingMode oldMode = Graphics.SmoothingMode;
+                SmoothingMode oldMode = graphics.SmoothingMode;
                 if (fill3DCircle)
                 {
-                    Graphics.SmoothingMode = SmoothingMode.None;
+                    graphics.SmoothingMode = SmoothingMode.None;
                 }
 
                 float sectorSize;
@@ -668,7 +668,7 @@ namespace WinForms.DataVisualization.Designer.Client
                             path.AddLine(centerPoint, prevPoint);
                             using (Brush sectorBrush = GetSector3DBrush(brush, curentSector, sectorSize))
                             {
-                                Graphics.FillPath(sectorBrush, path);
+                                graphics.FillPath(sectorBrush, path);
                             }
 
                             path.Reset();
@@ -690,7 +690,7 @@ namespace WinForms.DataVisualization.Designer.Client
                     path.AddLine(centerPoint, prevPoint);
                     using (Brush sectorBrush = GetSector3DBrush(brush, curentSector, sectorSize))
                     {
-                        Graphics.FillPath(sectorBrush, path);
+                        graphics.FillPath(sectorBrush, path);
                     }
 
                     path.Reset();
@@ -699,17 +699,17 @@ namespace WinForms.DataVisualization.Designer.Client
                 // Restore old mode
                 if (fill3DCircle)
                 {
-                    Graphics.SmoothingMode = oldMode;
+                    graphics.SmoothingMode = oldMode;
                 }
 
                 if (brush != null && !circle3D)
                 {
-                    Graphics.FillPath(brush, path);
+                    graphics.FillPath(brush, path);
                 }
 
                 if (pen != null)
                 {
-                    Graphics.DrawPath(pen, path);
+                    graphics.DrawPath(pen, path);
                 }
             }
         }
@@ -719,7 +719,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         /// <param name="rect">Rectangle which has to be rounded</param>
         /// <returns>Rounded rectangle</returns>
-        internal RectangleF Round(RectangleF rect)
+        internal static RectangleF Round(RectangleF rect)
         {
             float left = (float)Math.Round((double)rect.Left);
             float right = (float)Math.Round((double)rect.Right);
@@ -736,7 +736,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <param name="curentSector">Sector position.</param>
         /// <param name="sectorSize">Sector size.</param>
         /// <returns>3D brush.</returns>
-        internal Brush GetSector3DBrush(Brush? brush, float curentSector, float sectorSize)
+        internal static Brush GetSector3DBrush(Brush? brush, float curentSector, float sectorSize)
         {
             // Get color from the brush
             Color brushColor = Color.Gray;
@@ -787,7 +787,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <param name="beginColor">Start color for gradient.</param>
         /// <param name="position">Position used between Start and end color.</param>
         /// <returns>Calculated Gradient color from gradient position</returns>
-        internal Color GetBrightGradientColor(Color beginColor, double position)
+        internal static Color GetBrightGradientColor(Color beginColor, double position)
         {
             double brightness = 0.5;
             if (position < brightness)
@@ -860,7 +860,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <param name="secondColor">Second color.</param>
         /// <param name="type ">Gradient type .</param>
         /// <returns>Gradient Brush</returns>
-        internal Brush GetGradientBrush(
+        internal static Brush GetGradientBrush(
             RectangleF rectangle,
             Color firstColor,
             Color secondColor,
@@ -965,7 +965,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <param name="backColor">Back Color.</param>
         /// <param name="foreColor">Fore Color.</param>
         /// <returns>Brush</returns>
-        internal Brush GetHatchBrush(
+        internal static Brush GetHatchBrush(
             ChartHatchStyle hatchStyle,
             Color backColor,
             Color foreColor

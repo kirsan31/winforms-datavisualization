@@ -28,9 +28,6 @@ namespace WinForms.DataVisualization.Designer.Client
     /// </summary>
     internal class MarkerStyleEditor : UITypeEditor
     {
-        private ChartGraphics? _chartGraph;
-
-
         /// <summary>
         /// Override this function to support palette colors drawing
         /// </summary>
@@ -63,9 +60,6 @@ namespace WinForms.DataVisualization.Designer.Client
             if (response.IsEmpty)
                 return;
 
-            // Create chart graphics object
-            _chartGraph ??= new ChartGraphics();
-            _chartGraph.Graphics = e.Graphics;
             // Draw marker sample
             PointF point = new PointF(e.Bounds.X + e.Bounds.Width / 2F - 0.5F, e.Bounds.Y + e.Bounds.Height / 2F - 0.5F);
             Color color = (response.MarkerColor == Color.Empty) ? Color.Black : response.MarkerColor;
@@ -73,8 +67,7 @@ namespace WinForms.DataVisualization.Designer.Client
             if (size > e.Bounds.Height - 4)
                 size = e.Bounds.Height - 4;
 
-            _chartGraph.DrawMarkerAbs(point, markerStyle, size, color, response.MarkerBorderColor, response.MarkerBorderWidth, 0, Color.Empty, true);
-            _chartGraph.Graphics = null;
+            ChartGraphics.DrawMarkerAbs(e.Graphics, point, markerStyle, size, color, response.MarkerBorderColor, response.MarkerBorderWidth, 0, Color.Empty, true);
         }
     }
 }

@@ -28,9 +28,6 @@ namespace WinForms.DataVisualization.Designer.Client
     /// </summary>
     internal class GradientEditor : UITypeEditor
     {
-        private ChartGraphics? _chartGraph;
-
-
         /// <summary>
         /// Override this function to support palette colors drawing
         /// </summary>
@@ -51,10 +48,6 @@ namespace WinForms.DataVisualization.Designer.Client
             GradientStyle gradientStyle;
             if (e.Value is not EnumProxy enumProxy || (gradientStyle = enumProxy.AsEnumValue<GradientStyle>()) == GradientStyle.None)
                 return;
-
-            // Create chart graphics object
-            _chartGraph ??= new ChartGraphics();
-            _chartGraph.Graphics = e.Graphics;
 
             // Try to get original color from the object
             Color color1 = Color.Black;
@@ -85,9 +78,8 @@ namespace WinForms.DataVisualization.Designer.Client
             }
 
             // Draw gradient sample
-            using Brush brush = _chartGraph.GetGradientBrush(e.Bounds, color1, color2, gradientStyle);
+            using Brush brush = ChartGraphics.GetGradientBrush(e.Bounds, color1, color2, gradientStyle);
             e.Graphics.FillRectangle(brush, e.Bounds);
-            _chartGraph.Graphics = null;
         }
     }
 }

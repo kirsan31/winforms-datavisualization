@@ -27,9 +27,6 @@ namespace WinForms.DataVisualization.Designer.Client
     /// </summary>
     internal class HatchStyleEditor : UITypeEditor
     {
-        // Reference to chart graphics object
-        private ChartGraphics? _chartGraph;
-
         /// <summary>
         /// Override this function to support palette colors drawing
         /// </summary>
@@ -50,10 +47,6 @@ namespace WinForms.DataVisualization.Designer.Client
             ChartHatchStyle chartHatchStyle;
             if (e.Value is not EnumProxy enumProxy || (chartHatchStyle = enumProxy.AsEnumValue<ChartHatchStyle>()) == ChartHatchStyle.None)
                 return;
-
-            // Create chart graphics object
-            _chartGraph ??= new ChartGraphics();
-            _chartGraph.Graphics = e.Graphics;
 
             // Try to get original color from the object
             Color color1 = Color.Black;
@@ -84,9 +77,8 @@ namespace WinForms.DataVisualization.Designer.Client
             }
 
             // Draw hatch sample
-            using Brush brush = _chartGraph.GetHatchBrush(chartHatchStyle, color1, color2);
+            using Brush brush = ChartGraphics.GetHatchBrush(chartHatchStyle, color1, color2);
             e.Graphics.FillRectangle(brush, e.Bounds);
-            _chartGraph.Graphics = null;
         }
     }
 }
