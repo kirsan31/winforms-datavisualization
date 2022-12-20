@@ -11,6 +11,8 @@
 		<DefineConstants>$(DefineConstants)</DefineConstants>
 		<Platforms>AnyCPU</Platforms>
 		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<DebugSymbols>true</DebugSymbols>
 		<AssemblyVersion>$(MajorVer).0.0.0</AssemblyVersion>
 		<FileVersion>$(MajorVer).$(MinorPatchVer).0</FileVersion>
 		<InformationalVersion>$(MajorVer).$(MinorPatchVer)$(PRVer)</InformationalVersion>
@@ -23,13 +25,10 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DebugType>full</DebugType>
-		<DebugSymbols>true</DebugSymbols>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DebugType>pdbonly</DebugType>
-		<DebugSymbols>true</DebugSymbols>
+		<DebugType>pdbonly</DebugType>		
 	</PropertyGroup>
 
 	<ItemGroup>
