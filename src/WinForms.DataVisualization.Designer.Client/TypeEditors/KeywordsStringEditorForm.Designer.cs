@@ -11,14 +11,7 @@
 //
 
 
-using System.Collections;
-using System.Drawing;
-using System.Globalization;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System;
-using System.Collections.Generic;
 
 namespace WinForms.DataVisualization.Designer.Client
 {

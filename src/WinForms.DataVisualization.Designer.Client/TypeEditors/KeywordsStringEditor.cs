@@ -26,7 +26,7 @@ namespace WinForms.DataVisualization.Designer.Client
     /// <summary>
     /// Editor for the string properties that may contain keywords.
     /// </summary>
-    internal class KeywordsStringEditor : System.Drawing.Design.UITypeEditor
+    internal class KeywordsStringEditor : UITypeEditor
     {
         #region Editor methods and properties
 
