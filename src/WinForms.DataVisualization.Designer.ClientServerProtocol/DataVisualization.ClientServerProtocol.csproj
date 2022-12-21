@@ -1,15 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>$(TargetFrameworkServer);$(TargetFrameworkClient)</TargetFrameworks>
-    <UseWindowsForms>true</UseWindowsForms>
-	<LangVersion>latest</LangVersion>
-	<AssemblyName>WinForms.DataVisualization.Designer.ClientServerProtocol</AssemblyName>
-	<Nullable>enable</Nullable>
-	<UseDesignerSdk>true</UseDesignerSdk>
-	<AssemblyVersion>$(MajorVer).0.0.0</AssemblyVersion>
-	<FileVersion>$(MajorVer).$(MinorPatchVer).0</FileVersion>
-	<InformationalVersion>$(MajorVer).$(MinorPatchVer)$(PRVer)</InformationalVersion>
-  </PropertyGroup>
-  
+	<PropertyGroup>
+		<TargetFrameworks>$(TargetFrameworkServer);$(TargetFrameworkClient)</TargetFrameworks>
+		<UseWindowsForms>true</UseWindowsForms>
+		<LangVersion>latest</LangVersion>
+		<AssemblyName>WinForms.DataVisualization.Designer.ClientServerProtocol</AssemblyName>
+		<Nullable>enable</Nullable>
+		<UseDesignerSdk>true</UseDesignerSdk>
+		<AssemblyVersion>$(MajorVer).0.0.0</AssemblyVersion>
+		<FileVersion>$(MajorVer).$(MinorPatchVer).0</FileVersion>
+		<InformationalVersion>$(MajorVer).$(MinorPatchVer)$(PRVer)</InformationalVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WinForms.DataVisualization.Utilities\Utilities.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="WinForms.DataVisualization.Designer.Client" />
+		<InternalsVisibleTo Include="WinForms.DataVisualization.Designer.Server" />
+	</ItemGroup>
+
 </Project>

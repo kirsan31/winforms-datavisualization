@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
+		<UseDesignerSdk>true</UseDesignerSdk>
 		<LangVersion>latest</LangVersion>
 		<AssemblyName>WinForms.DataVisualization.Utilities</AssemblyName>
 		<Nullable>enable</Nullable>
@@ -14,6 +15,8 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="WinForms.DataVisualization" />
 		<InternalsVisibleTo Include="WinForms.DataVisualization.Designer.Client" />
+		<InternalsVisibleTo Include="WinForms.DataVisualization.Designer.Server" />
+		<InternalsVisibleTo Include="WinForms.DataVisualization.Designer.ClientServerProtocol" />
 	</ItemGroup>
 
 	<ItemGroup Label="Embedded Resources">

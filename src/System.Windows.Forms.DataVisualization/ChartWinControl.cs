@@ -2917,21 +2917,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public new object GetService(Type serviceType)
         {
             // Check arguments
-            if (serviceType == null)
+            if (serviceType is null)
                 throw new ArgumentNullException(nameof(serviceType));
 
-            object service = null;
-            if (serviceContainer != null)
-            {
-                service = serviceContainer.GetService(serviceType);
-            }
-
-            if (service == null)
-            {
-                base.GetService(serviceType);
-            }
-
-            return service;
+            return serviceContainer?.GetService(serviceType) ?? base.GetService(serviceType);
         }
 
         /// <summary>
@@ -2946,7 +2935,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// CallOnFormatNumber.
         /// </summary>
         /// <param name="caller">Event caller. Can be ChartPicture, ChartArea or Legend objects.</param>
-        /// <param name="e">Event arguemtns</param>
+        /// <param name="e">Event arguments</param>
         private void OnFormatNumber(object caller, FormatNumberEventArgs e)
         {
             if (FormatNumber != null)
