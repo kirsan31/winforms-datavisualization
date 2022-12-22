@@ -11,8 +11,6 @@
 
 using System;
 using System.Collections;
-using System.ComponentModel;
-using System.Drawing.Design;
 using System.Windows.Forms;
 
 using Microsoft.DotNet.DesignTools.Client.Editors;
@@ -20,357 +18,11 @@ using Microsoft.DotNet.DesignTools.Client.Proxies;
 
 namespace WinForms.DataVisualization.Designer.Client
 {
-
     /// <summary>
-    /// UI type editor for the Y data source members of the series.
+    /// Collection editor that supports property help in the property grid
     /// </summary>
-    internal class SeriesDataSourceMemberValueAxisUITypeEditor : UITypeEditor
+    internal class ChartCollectionEditor : CollectionEditor
     {
-		#region Editor methods and properties
-
-        internal virtual SeriesDataSourceMemberYCheckedListBox GetDropDownControl(/*Chart chart,*/ ITypeDescriptorContext context, object value, bool flag)
-        {
-            return new SeriesDataSourceMemberYCheckedListBox(/*chart,*/ value, flag);
-        }
-
-#warning designer
-        ///// <summary>
-        ///// Display a drop down list with check boxes.
-        ///// </summary>
-        ///// <param name="context">Editing context.</param>
-        ///// <param name="provider">Provider.</param>
-        ///// <param name="value">Value to edit.</param>
-        ///// <returns>Result</returns>
-        //public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
-        //{
-        //	if (context != null && context.Instance != null && provider != null) 
-        //	{
-        //		IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
-        //		if(edSvc != null) 
-        //		{
-        //                  Chart chart = ConverterHelper.GetChartFromContext(context);
-
-        //			if(chart != null)
-        //			{
-
-        //				// Create control for editing
-        //				SeriesDataSourceMemberYCheckedListBox control = this.GetDropDownControl(chart, context, value, true);
-
-        //				// Show drop down control
-        //				edSvc.DropDownControl(control);
-
-        //				// Get new enumeration value
-        //				value = control.GetNewValue();
-        //			}
-        //		}
-        //	}
-
-        //	return value;
-        //}
-
-        ///// <summary>
-        ///// Gets editing style.
-        ///// </summary>
-        ///// <param name="context">Editing context.</param>
-        ///// <returns>Editor style.</returns>
-        //public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) 
-        //{
-        //	if (context != null && context.Instance != null) 
-        //	{
-        //		// Check how many Y values in the series.
-        //		int	yValuesNumber = 1;
-        //		if(context.Instance is Series)
-        //		{
-        //			yValuesNumber = ((Series)context.Instance).YValuesPerPoint;
-        //		}
-        //		else if(context.Instance is Array)
-        //		{
-        //			Array	array = (Array)context.Instance;
-        //			if(array.Length > 0 && array.GetValue(0) is Series)
-        //			{
-        //				yValuesNumber = Math.Max(yValuesNumber, ((Series)array.GetValue(0)).YValuesPerPoint);
-        //			}
-        //		}
-
-        //		return (yValuesNumber == 1) ? UITypeEditorEditStyle.None : UITypeEditorEditStyle.DropDown;
-        //	}
-        //	return base.GetEditStyle(context);
-        //}
-
-        #endregion
-    }
-
-	/// <summary>
-	/// Checked list box, which is used for the series Y data source member UI type editing.
-	/// </summary>
-    internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
-    {
-#warning designer
-        // Chart object 
-        //private Chart _chart;
-
-        // Object to edit
-        protected object editValue;
-
-        // Indicates that editor was used for the Y values members
-        protected bool usedForYValue;
-
-        #region Control constructor
-
-        /// <summary>
-        /// Public constructor.
-        /// </summary>
-        /// <param name="chart">Chart control.</param>
-        /// 
-        /// <param name="editValue">Value to edit.</param>
-        /// <param name="usedForYValue">Indicates that editor was used for the Y values members.</param>
-        public SeriesDataSourceMemberYCheckedListBox(/*Chart chart, */object editValue, bool usedForYValue)
-        {
-            // Set editable value
-            this.editValue = editValue;
-            this.usedForYValue = usedForYValue;
-
-            // Set control border style
-            this.BorderStyle = System.Windows.Forms.BorderStyle.None;
-
-            this.IntegralHeight = false;
-            // Fill member items list
-            //this.FillList();
-
-#warning designer
-            // Set Chart
-            //_chart = chart;
-        }
-
-        #endregion
-
-        #region Control methods
-
-        protected override void OnCreateControl()
-        {
-            this.FillList();
-        }
-
-        internal virtual ArrayList GetMemberNames()
-        {
-#warning designer
-            //object dataSource = null;
-            //if (ChartWinDesigner.controlDesigner != null)
-            //{
-            //    dataSource = ChartWinDesigner.controlDesigner.GetControlDataSource(_chart);
-            //}
-
-            //// Get list of members
-            //if (dataSource != null)
-            //{
-            //    return ChartImage.GetDataSourceMemberNames(dataSource, this.usedForYValue);
-            //}
-
-            return new ArrayList();
-        }
-
-        /// <summary>
-        /// Fills checked list items
-        /// </summary>
-        private void FillList()
-        {
-            // Create array of current names
-            string[]? currentNames = null;
-            if (editValue != null && editValue is string)
-            {
-                string editedString = (string)editValue;
-                currentNames = editedString.Split(',');
-            }
-
-            ArrayList memberNames = this.GetMemberNames();
-
-            // Fill list with all possible values in the enumeration
-            foreach (string name in memberNames)
-            {
-                // Test if item should be checked by default
-                bool isChecked = false;
-                if (currentNames != null)
-                {
-                    foreach (string curName in currentNames)
-                    {
-                        if (name == curName.Trim())
-                        {
-                            isChecked = true;
-                        }
-                    }
-                }
-
-                // Add items into the list
-                this.Items.Add(name, isChecked);
-            }
-        }
-
-        /// <summary>
-        /// Gets new enumeration value.
-        /// </summary>
-        /// <returns>New enum value.</returns>
-        public string GetNewValue()
-        {
-            // Update enumeration flags
-            string result = String.Empty;
-            foreach (object checkedItem in this.CheckedItems)
-            {
-                if (result.Length > 0)
-                {
-                    result += ", ";
-                }
-                result += (string)checkedItem;
-            }
-
-            // Return value
-            return result;
-        }
-
-        #endregion
-    }
-
-	/// <summary>
-	/// Chart type editor. Paint chart type image in the property grid.
-	/// </summary>
-	internal class ChartTypeEditor : UITypeEditor
-	{
-        #region Converter methods
-
-#warning designer
-        // Reference to the chart type registry
-        //private ChartTypeRegistry	_chartTypeRegistry;
-
-        /// <summary>
-        /// Override this function to support chart type drawing
-        /// </summary>
-        /// <param name="context">Descriptor context.</param>
-        /// <returns>Can paint values.</returns>
-        public override bool GetPaintValueSupported(ITypeDescriptorContext context)
-		{
-   //         // Initialize the chartTypeRegistry using context
-			//if (context != null && context.Instance != null)
-			//{
-   //             IChartElement chartElement = context.Instance as IChartElement;
-   //             if (chartElement != null)
-   //             {
-   //                 this._chartTypeRegistry = chartElement.Common.ChartTypeRegistry;
-   //             }
-			//}
-
-            // Always return true
-			return true;
-		}
-
-		///// <summary>
-		///// Override this function to support chart type drawing
-		///// </summary>
-		///// <param name="e">Paint value event arguments.</param>
-		//public override void PaintValue(PaintValueEventArgs e)
-		//{
-		//	string	chartTypeName = String.Empty;
-		//	if(_chartTypeRegistry != null && e != null)
-		//	{
-		//		if(e.Value is string)
-		//		{
-		//			chartTypeName = (string)e.Value;
-		//		}
-		//		else if(e.Value is SeriesChartType)
-		//		{
-		//			chartTypeName = Series.GetChartTypeName((SeriesChartType)e.Value);
-		//		}
-
-
-		//		if(!string.IsNullOrEmpty(chartTypeName))
-		//		{
-		//			IChartType chartType = _chartTypeRegistry.GetChartType(chartTypeName);
-
-		//			// Get imahe from the chart type
-		//			System.Drawing.Image	chartImage = null;
-		//			if(chartType != null)
-		//			{
-		//				chartImage = chartType.GetImage(_chartTypeRegistry);
-		//			}
-
-		//			// Draw image
-		//			if(chartImage != null)
-		//			{
-		//				e.Graphics.DrawImage(chartImage, e.Bounds);
-		//			}
-		//		}
-		//	}
-		//}
-		
-        #endregion
-	}
-
-	/// <summary>
-	/// Designer editor for the data points collection.
-	/// </summary>
-	internal class DataPointCollectionEditor : ChartCollectionEditor
-	{
-		#region Editor methods
-
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public DataPointCollectionEditor(Type type) : base(type)
-        {
-		}
-
-#warning designer
-        ///// <summary>
-        ///// Do not allow to edit if multiple series selected.
-        ///// </summary>
-        ///// <param name="context">Descriptor context.</param>
-        ///// <param name="provider">Service provider.</param>
-        ///// <param name="value">Value to edit.</param>
-        ///// <returns>The new value of the object.</returns>
-        //public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
-        //{
-        //	if (context != null && context.Instance != null)
-        //	{
-        //		// Save current control type descriptor context
-        //		if(!(context.Instance is Series))
-        //		{
-        //                  throw (new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported));
-        //		}
-        //	}
-        //	return base.EditValue(context, provider, value);
-        //}
-
-        //      /// <summary>
-        //      /// Create instance of data point object
-        //      /// </summary>
-        //      /// <param name="itemType">Item type.</param>
-        //      /// <returns>New item instance.</returns>
-        //      protected override object CreateInstance(Type itemType)
-        //{
-        //	if (Context != null && Context.Instance != null)
-        //	{
-        //		if (Context.Instance is Series)
-        //		{
-        //			Series	series = (Series)Context.Instance;
-        //			DataPoint	newDataPoint = new DataPoint(series);
-        //			return newDataPoint;
-        //		}
-        //		else if(Context.Instance is Array)
-        //		{
-        //                  throw new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported);
-        //		}
-        //	}
-
-        //	return base.CreateInstance(itemType);
-        //}
-
-        #endregion
-    }
-
-
-	/// <summary>
-	/// Collection editor that supports property help in the property grid
-	/// </summary>
-	internal class ChartCollectionEditor : CollectionEditor
-	{
         #region Editor methods and properties 
 
         // Collection editor form
@@ -380,14 +32,14 @@ namespace WinForms.DataVisualization.Designer.Client
         //ITypeDescriptorContext _context;
 
         // Help topic string
-        string	_helpTopic = string.Empty;
+        string _helpTopic = string.Empty;
         /// <summary>
         /// Object constructor.
         /// </summary>
         /// <param name="type">AxisName.</param>
         public ChartCollectionEditor(Type type) : base(type)
-		{
-		}
+        {
+        }
 
 #warning designer
         ///// <summary>
@@ -512,20 +164,20 @@ namespace WinForms.DataVisualization.Designer.Client
         /// depending on selected property.
         /// </summary>
         protected override string? HelpTopic
-		{
-			get
-			{
-				return (_helpTopic.Length == 0) ? base.HelpTopic : _helpTopic;
-			}
-		}
+        {
+            get
+            {
+                return (_helpTopic.Length == 0) ? base.HelpTopic : _helpTopic;
+            }
+        }
 
-		/// <summary>
-		/// Displaying help for the currently selected item in the property grid
-		/// </summary>
-		protected override void ShowHelp()
-		{
-			// Init topic name
-			_helpTopic = string.Empty;
+        /// <summary>
+        /// Displaying help for the currently selected item in the property grid
+        /// </summary>
+        protected override void ShowHelp()
+        {
+            // Init topic name
+            _helpTopic = string.Empty;
             PropertyGrid? grid = Helpers.GetPropertyGrid(_form?.Controls);
 
             // Check currently selected grid item
@@ -549,9 +201,9 @@ namespace WinForms.DataVisualization.Designer.Client
             // Call base class
             base.ShowHelp();
 
-			// Re-Init topic name
-			_helpTopic = string.Empty;
-		}
+            // Re-Init topic name
+            _helpTopic = string.Empty;
+        }
 
         /// <summary>
         /// Collect the collection editor form buttons into array. Added for VS2005 compatibility.
@@ -579,7 +231,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// </summary>
         /// <returns>Form object.</returns>
         protected override ICollectionForm CreateCollectionForm(ObjectProxy viewModel)
-		{
+        {
             var vm = base.CreateCollectionForm(viewModel);
             _form = vm as Form;
             if (_form is not null)
@@ -611,32 +263,95 @@ namespace WinForms.DataVisualization.Designer.Client
                 }
             }
 
-			return vm;
-		}
+            return vm;
+        }
 
 
         /// <summary>
         /// Update design-time HTML when OK button is clicked in the collection editor
         /// </summary>
         private void OnOkClicked(object sender, EventArgs e)
-		{
-			// Clear the help topic
-			_helpTopic = string.Empty;
-		}
+        {
+            // Clear the help topic
+            _helpTopic = string.Empty;
+        }
+
+        /// <summary>
+        /// Update design-time HTML when property is added or removed
+        /// </summary>
+        private void OnControlAddedRemoved(object sender, ControlEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Update design-time HTML when property is changed
+        /// </summary>
+        private void OnPropertyChanged(object sender, PropertyValueChangedEventArgs e)
+        {
+        }
+
+        #endregion
+    }
+
+
+    /// <summary>
+    /// Designer editor for the data points collection.
+    /// </summary>
+    internal class DataPointCollectionEditor : ChartCollectionEditor
+	{
+		#region Editor methods
 
 		/// <summary>
-		/// Update design-time HTML when property is added or removed
+		/// Default constructor
 		/// </summary>
-		private void OnControlAddedRemoved(object sender, ControlEventArgs e)
-		{
+		public DataPointCollectionEditor(Type type) : base(type)
+        {
 		}
 
-		/// <summary>
-		/// Update design-time HTML when property is changed
-		/// </summary>
-		private void OnPropertyChanged(object sender, PropertyValueChangedEventArgs e)
-		{
-		}
+#warning designer
+        ///// <summary>
+        ///// Do not allow to edit if multiple series selected.
+        ///// </summary>
+        ///// <param name="context">Descriptor context.</param>
+        ///// <param name="provider">Service provider.</param>
+        ///// <param name="value">Value to edit.</param>
+        ///// <returns>The new value of the object.</returns>
+        //public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
+        //{
+        //	if (context != null && context.Instance != null)
+        //	{
+        //		// Save current control type descriptor context
+        //		if(!(context.Instance is Series))
+        //		{
+        //                  throw (new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported));
+        //		}
+        //	}
+        //	return base.EditValue(context, provider, value);
+        //}
+
+        //      /// <summary>
+        //      /// Create instance of data point object
+        //      /// </summary>
+        //      /// <param name="itemType">Item type.</param>
+        //      /// <returns>New item instance.</returns>
+        //      protected override object CreateInstance(Type itemType)
+        //{
+        //	if (Context != null && Context.Instance != null)
+        //	{
+        //		if (Context.Instance is Series)
+        //		{
+        //			Series	series = (Series)Context.Instance;
+        //			DataPoint	newDataPoint = new DataPoint(series);
+        //			return newDataPoint;
+        //		}
+        //		else if(Context.Instance is Array)
+        //		{
+        //                  throw new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported);
+        //		}
+        //	}
+
+        //	return base.CreateInstance(itemType);
+        //}
 
         #endregion
     }
@@ -752,5 +467,3 @@ namespace WinForms.DataVisualization.Designer.Client
 		#endregion
 	}
 }
-
-
