@@ -763,22 +763,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Get chart type name by it's type
-        /// </summary>
-        /// <param name="type">Chart type.</param>
-        /// <returns>Chart type name.</returns>
-        static internal string GetChartTypeName(SeriesChartType type)
-        {
-            if (type == SeriesChartType.StackedArea100)
-                return ChartTypeNames.OneHundredPercentStackedArea;
-            if (type == SeriesChartType.StackedBar100)
-                return ChartTypeNames.OneHundredPercentStackedBar;
-            if (type == SeriesChartType.StackedColumn100)
-                return ChartTypeNames.OneHundredPercentStackedColumn;
-            return Enum.GetName(typeof(SeriesChartType), type);
-        }
-
-        /// <summary>
         /// Checks if Y values of the series represent date-time.
         /// </summary>
         /// <returns>True if date-time.</returns>
@@ -2286,7 +2270,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             set
             {
-                this.ChartTypeName = Series.GetChartTypeName(value);
+                this.ChartTypeName = ChartTypeNames.GetChartTypeName(value);
             }
         }
 

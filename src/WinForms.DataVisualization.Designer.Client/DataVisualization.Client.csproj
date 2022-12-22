@@ -33,7 +33,7 @@
 
 	<ItemGroup>
 	  <EmbeddedResource Update="Resources\Design.resx">
-	    <LogicalName>System.Windows.Forms.DataVisualization.Charting.Design.resources</LogicalName>
+	    <LogicalName>WinForms.DataVisualization.Designer.Client.resources</LogicalName>
 	  </EmbeddedResource>
 	</ItemGroup>
 </Project>

@@ -10,7 +10,11 @@
 
 
 using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Design;
+using System.Reflection;
+using System.Resources;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace WinForms.DataVisualization.Designer.Client
 {
@@ -18,12 +22,10 @@ namespace WinForms.DataVisualization.Designer.Client
     /// Chart type editor. Paint chart type image in the property grid.
     /// </summary>
     internal class ChartTypeEditor : UITypeEditor
-	{
-        #region Converter methods
+    {
+        private ResourceManager? _resourceManager;
 
-#warning designer
-        // Reference to the chart type registry
-        //private ChartTypeRegistry	_chartTypeRegistry;
+        #region Converter methods
 
         /// <summary>
         /// Override this function to support chart type drawing
@@ -31,60 +33,42 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <param name="context">Descriptor context.</param>
         /// <returns>Can paint values.</returns>
         public override bool GetPaintValueSupported(ITypeDescriptorContext context)
-		{
-   //         // Initialize the chartTypeRegistry using context
-			//if (context != null && context.Instance != null)
-			//{
-   //             IChartElement chartElement = context.Instance as IChartElement;
-   //             if (chartElement != null)
-   //             {
-   //                 this._chartTypeRegistry = chartElement.Common.ChartTypeRegistry;
-   //             }
-			//}
-
+        {
             // Always return true
-			return true;
-		}
+            return true;
+        }
 
-		///// <summary>
-		///// Override this function to support chart type drawing
-		///// </summary>
-		///// <param name="e">Paint value event arguments.</param>
-		//public override void PaintValue(PaintValueEventArgs e)
-		//{
-		//	string	chartTypeName = String.Empty;
-		//	if(_chartTypeRegistry != null && e != null)
-		//	{
-		//		if(e.Value is string)
-		//		{
-		//			chartTypeName = (string)e.Value;
-		//		}
-		//		else if(e.Value is SeriesChartType)
-		//		{
-		//			chartTypeName = Series.GetChartTypeName((SeriesChartType)e.Value);
-		//		}
+        /// <summary>
+        /// Override this function to support chart type drawing
+        /// </summary>
+        /// <param name="e">Paint value event arguments.</param>
+        public override void PaintValue(PaintValueEventArgs e)
+        {
+            if (e.Context?.Instance is null || e.Value is null)
+                return;
 
+            string chartTypeName = string.Empty;
+            if (e.Value is string @string)
+            {
+                chartTypeName = @string;
+            }
+            else if (e.Value is Microsoft.DotNet.DesignTools.Client.Proxies.EnumProxy enumProxy)
+            {
+                chartTypeName = ChartTypeNames.GetChartTypeName(enumProxy.AsEnumValue<SeriesChartType>());
+            }
 
-		//		if(!string.IsNullOrEmpty(chartTypeName))
-		//		{
-		//			IChartType chartType = _chartTypeRegistry.GetChartType(chartTypeName);
+            if (string.IsNullOrEmpty(chartTypeName))
+                return;
 
-		//			// Get imahe from the chart type
-		//			System.Drawing.Image	chartImage = null;
-		//			if(chartType != null)
-		//			{
-		//				chartImage = chartType.GetImage(_chartTypeRegistry);
-		//			}
+            _resourceManager ??= new ResourceManager(typeof(ChartTypeEditor).Namespace, Assembly.GetExecutingAssembly());
 
-		//			// Draw image
-		//			if(chartImage != null)
-		//			{
-		//				e.Graphics.DrawImage(chartImage, e.Bounds);
-		//			}
-		//		}
-		//	}
-		//}
-		
+            // Get image
+            Image? chartImage = _resourceManager.GetObject(chartTypeName + "ChartType") as Image;
+            // Draw image
+            if (chartImage is not null)
+                e.Graphics.DrawImage(chartImage, e.Bounds);
+        }
+
         #endregion
-	}
+    }
 }

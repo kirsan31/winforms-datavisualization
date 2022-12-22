@@ -7,8 +7,8 @@
 //  Purpose:	ChartTypeRegistry is a repository for all standard 
 //              and custom chart types. Each chart type has unique 
 //              name and IChartType derived class which provides
-//              behaviour information about the chart type and
-//              also contains drwaing functionality.
+//              behavior information about the chart type and
+//              also contains drawing functionality.
 //              ChartTypeRegistry can be used by user for custom 
 //              chart type registering and can be retrieved using 
 //              Chart.GetService(typeof(ChartTypeRegistry)) method.
@@ -24,53 +24,6 @@ using System.Resources;
 
 namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 {
-    /// <summary>
-    /// ChartTypeName class contains constant strings defining
-    /// names of all ChartTypes used in the Chart.
-    /// </summary>
-    internal static class ChartTypeNames
-    {
-        #region Chart type names
-
-        internal const string Area = "Area";
-        internal const string RangeBar = "RangeBar";
-        internal const string Bar = "Bar";
-        internal const string SplineArea = "SplineArea";
-        internal const string BoxPlot = "BoxPlot";
-        internal const string Bubble = "Bubble";
-        internal const string Column = "Column";
-        internal const string RangeColumn = "RangeColumn";
-        internal const string Doughnut = "Doughnut";
-        internal const string ErrorBar = "ErrorBar";
-        internal const string FastLine = "FastLine";
-        internal const string FastPoint = "FastPoint";
-        internal const string Funnel = "Funnel";
-        internal const string Pyramid = "Pyramid";
-        internal const string Kagi = "Kagi";
-        internal const string Spline = "Spline";
-        internal const string Line = "Line";
-        internal const string PointAndFigure = "PointAndFigure";
-        internal const string Pie = "Pie";
-        internal const string Point = "Point";
-        internal const string Polar = "Polar";
-        internal const string Radar = "Radar";
-        internal const string SplineRange = "SplineRange";
-        internal const string Range = "Range";
-        internal const string Renko = "Renko";
-        internal const string OneHundredPercentStackedArea = "100%StackedArea";
-        internal const string StackedArea = "StackedArea";
-        internal const string OneHundredPercentStackedBar = "100%StackedBar";
-        internal const string StackedBar = "StackedBar";
-        internal const string OneHundredPercentStackedColumn = "100%StackedColumn";
-        internal const string StackedColumn = "StackedColumn";
-        internal const string StepLine = "StepLine";
-        internal const string Candlestick = "Candlestick";
-        internal const string Stock = "Stock";
-        internal const string ThreeLineBreak = "ThreeLineBreak";
-
-        #endregion // Keyword Names
-    }
-
 	/// <summary>
 	/// ChartTypeRegistry class is a repository for all standard and custom 
     /// chart types. In order for the chart control to display the chart 
@@ -170,7 +123,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <returns>Chart type object derived from IChartType.</returns>
 		public IChartType GetChartType(SeriesChartType chartType)
 		{
-			return this.GetChartType(Series.GetChartTypeName(chartType));
+			return this.GetChartType(ChartTypeNames.GetChartTypeName(chartType));
 		}
 
 		/// <summary>
@@ -235,7 +188,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 	/// <summary>
 	/// IChartType interface must be implemented for any standard or custom 
     /// chart type displayed in the chart control. This interface defines 
-    /// properties which provide information on chart type behaviour including 
+    /// properties which provide information on chart type behavior including 
     /// how many Y values supported, is it a stacked chart type, how it 
     /// interacts with axes and much more.
     /// 
