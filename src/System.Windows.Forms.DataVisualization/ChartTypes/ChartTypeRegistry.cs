@@ -198,22 +198,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			return (IChartType)_createdChartTypes[name];
 		}
 
-		/// <summary>
-		/// Chart images resource manager.
-		/// </summary>
-		public ResourceManager	ResourceManager
-		{
-			get
-			{
-				// Create chart images resource manager
-				if(_resourceManager == null)
-				{
-                    _resourceManager = new ResourceManager(typeof(Chart).Namespace + ".Design", Assembly.GetExecutingAssembly());
-				}
-				return _resourceManager;
-			}
-		}
-
 		#endregion
 
         #region IDisposable Members
@@ -267,12 +251,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// </summary>
 		string Name			{ get; }
 
-		/// <summary>
-		/// Gets chart type image
-		/// </summary>
-		/// <param name="registry">Chart types registry object.</param>
-		/// <returns>Chart type image.</returns>
-        System.Drawing.Image GetImage(ChartTypeRegistry registry);
 
 		/// <summary>
 		/// True if chart type is stacked

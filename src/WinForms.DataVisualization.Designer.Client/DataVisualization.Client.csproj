@@ -30,4 +30,10 @@
 		  <SubType>Form</SubType>
 		</Compile>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\Design.resx">
+	    <LogicalName>System.Windows.Forms.DataVisualization.Charting.Design.resources</LogicalName>
+	  </EmbeddedResource>
+	</ItemGroup>
 </Project>

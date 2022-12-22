@@ -346,16 +346,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         public override bool Stacked { get { return true; } }
 
-        /// <summary>
-        /// Gets chart type image.
-        /// </summary>
-        /// <param name="registry">Chart types registry object.</param>
-        /// <returns>Chart type image.</returns>
-        override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
-        {
-            return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
-        }
-
         #endregion
 
         #region Painting and Selection methods

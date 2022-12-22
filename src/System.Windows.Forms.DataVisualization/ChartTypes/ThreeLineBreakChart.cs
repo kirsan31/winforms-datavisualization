@@ -605,16 +605,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// Number of supported Y value(s) per point 
 		/// </summary>
 		virtual public int YValuesPerPoint	{ get { return 1; } }
-
-		/// <summary>
-		/// Gets chart type image.
-		/// </summary>
-		/// <param name="registry">Chart types registry object.</param>
-		/// <returns>Chart type image.</returns>
-		virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
-		{
-			return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
-		}
 		#endregion
 
 		#region Y values related methods

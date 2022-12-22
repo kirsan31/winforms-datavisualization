@@ -37,9 +37,6 @@
 	</ItemGroup>
 
 	<ItemGroup Label="Embedded Resources">
-		<EmbeddedResource Update="Resources\Design.resx">
-			<LogicalName>System.Windows.Forms.DataVisualization.Charting.Design.resources</LogicalName>
-		</EmbeddedResource>
 		<EmbeddedResource Include="Resources\ChartControl.bmp">
 			<LogicalName>System.Windows.Forms.DataVisualization.Charting.ChartControl.bmp</LogicalName>
 		</EmbeddedResource>

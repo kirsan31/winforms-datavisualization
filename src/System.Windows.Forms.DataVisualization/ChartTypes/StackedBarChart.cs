@@ -318,16 +318,6 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         virtual public string Name { get { return ChartTypeNames.StackedBar; } }
 
         /// <summary>
-        /// Gets chart type image.
-        /// </summary>
-        /// <param name="registry">Chart types registry object.</param>
-        /// <returns>Chart type image.</returns>
-        virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
-        {
-            return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
-        }
-
-        /// <summary>
         /// True if chart type is stacked
         /// </summary>
         public bool Stacked { get { return true; } }
