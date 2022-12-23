@@ -41,8 +41,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
-using Microsoft.DotNet.DesignTools.Protocol.DataPipe;
-
 namespace System.Windows.Forms.DataVisualization.Charting.Utilities;
 
 /// <summary>
@@ -107,7 +105,7 @@ internal class KeywordsRegistry : IServiceProvider
     /// </summary>
     /// <param name="serviceType">Service type to get.</param>
     /// <returns>Custom properties registry service.</returns>
-    [EditorBrowsableAttribute(EditorBrowsableState.Never)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     object IServiceProvider.GetService(Type serviceType)
     {
         if (serviceType == typeof(KeywordsRegistry))
@@ -346,7 +344,7 @@ internal class KeywordsRegistry : IServiceProvider
 /// Description, list of data types and properties it 
 /// applies to and other information.
 /// </summary>
-internal class KeywordInfo : IDataPipeObject
+internal record KeywordInfo
 {
     #region Public Fields
 
@@ -444,7 +442,7 @@ internal class KeywordInfo : IDataPipeObject
     /// Returns a String that represents the current keyword Information.
     /// </summary>
     /// <returns>Returns keyword name.</returns>
-    public override string ToString()
+    public sealed override string ToString()
     {
         return this.Name;
     }
@@ -473,30 +471,5 @@ internal class KeywordInfo : IDataPipeObject
             return new string[] { this.Keyword };
         }
     }
-
-    public void ReadProperties(IDataPipeReader reader)
-    {
-        Name = reader.ReadString(nameof(Name));
-        Keyword = reader.ReadString(nameof(Keyword));
-        KeywordAliases = reader.ReadString(nameof(KeywordAliases));
-        Description = reader.ReadString(nameof(Description));
-        AppliesToTypes = reader.ReadString(nameof(AppliesToTypes));
-        AppliesToProperties = reader.ReadString(nameof(AppliesToProperties));
-        SupportsFormatting = reader.ReadBoolean(nameof(SupportsFormatting));
-        SupportsValueIndex = reader.ReadBoolean(nameof(SupportsValueIndex));
-    }
-
-    public void WriteProperties(IDataPipeWriter writer)
-    {
-        writer.Write(nameof(Name), Name);
-        writer.Write(nameof(Keyword), Keyword);
-        writer.Write(nameof(KeywordAliases), KeywordAliases);
-        writer.Write(nameof(Description), Description);
-        writer.Write(nameof(AppliesToTypes), AppliesToTypes);
-        writer.Write(nameof(AppliesToProperties), AppliesToProperties);
-        writer.Write(nameof(SupportsFormatting), SupportsFormatting);
-        writer.Write(nameof(SupportsValueIndex), SupportsValueIndex);
-    }
-
     #endregion // Methods
 }

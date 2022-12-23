@@ -2,7 +2,6 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
-		<UseDesignerSdk>true</UseDesignerSdk>
 		<LangVersion>latest</LangVersion>
 		<AssemblyName>WinForms.DataVisualization.Utilities</AssemblyName>
 		<Nullable>enable</Nullable>

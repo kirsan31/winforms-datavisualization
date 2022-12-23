@@ -3,14 +3,12 @@
 using Microsoft.DotNet.DesignTools.Protocol.DataPipe;
 using Microsoft.DotNet.DesignTools.Protocol.Endpoints;
 
-using System.Windows.Forms.DataVisualization.Charting.Utilities;
-
 namespace WinForms.DataVisualization.Designer.Protocol.Endpoints
 {
     public class KeywordsStringEditorEditValueResponse : Response
     {
         public bool IsEmpty => RegisteredKeywords is null && MaxYValueNumber == 0;
-        internal IReadOnlyList<KeywordInfo>? RegisteredKeywords { get; private set; }
+        internal IReadOnlyList<KeywordInfoDPO>? RegisteredKeywords { get; private set; }
         public int MaxYValueNumber { get; private set; }
 
 
@@ -18,7 +16,7 @@ namespace WinForms.DataVisualization.Designer.Protocol.Endpoints
 
         public KeywordsStringEditorEditValueResponse(IDataPipeReader reader) : base(reader) { }
 
-        internal KeywordsStringEditorEditValueResponse(IReadOnlyList<KeywordInfo>? registeredKeywords, int maxYValueNumber)
+        internal KeywordsStringEditorEditValueResponse(IReadOnlyList<KeywordInfoDPO>? registeredKeywords, int maxYValueNumber)
         {
             RegisteredKeywords = registeredKeywords;
             MaxYValueNumber = maxYValueNumber;
@@ -26,7 +24,7 @@ namespace WinForms.DataVisualization.Designer.Protocol.Endpoints
 
         protected override void ReadProperties(IDataPipeReader reader)
         {
-            RegisteredKeywords = reader.ReadDataPipeObjectArray<KeywordInfo>(nameof(RegisteredKeywords));
+            RegisteredKeywords = reader.ReadDataPipeObjectArray<KeywordInfoDPO>(nameof(RegisteredKeywords));
             MaxYValueNumber = reader.ReadInt32(nameof(MaxYValueNumber));
         }
 

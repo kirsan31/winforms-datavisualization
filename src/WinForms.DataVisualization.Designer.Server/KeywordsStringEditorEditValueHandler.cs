@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
@@ -83,6 +84,13 @@ internal class KeywordsStringEditorEditValueHandler : RequestHandler<KeywordsStr
             }
         }
 
-        return new KeywordsStringEditorEditValueResponse((chart?.GetService(typeof(KeywordsRegistry)) as KeywordsRegistry)?.registeredKeywords.AsReadOnly(), maxYValueNumber);
+        var registeredKeywords = (chart?.GetService(typeof(KeywordsRegistry)) as KeywordsRegistry)?.registeredKeywords;
+        if (registeredKeywords is not null)
+        {
+            var registeredKeywordsDPO = registeredKeywords.Select(kw => new KeywordInfoDPO(kw)).ToList().AsReadOnly();
+            return new KeywordsStringEditorEditValueResponse(registeredKeywordsDPO, maxYValueNumber);
+        }
+
+        return new KeywordsStringEditorEditValueResponse();
     }
 }
