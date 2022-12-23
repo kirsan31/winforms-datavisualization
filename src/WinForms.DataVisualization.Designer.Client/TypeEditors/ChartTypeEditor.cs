@@ -44,7 +44,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <param name="e">Paint value event arguments.</param>
         public override void PaintValue(PaintValueEventArgs e)
         {
-            if (e.Context?.Instance is null || e.Value is null)
+            if (e.Value is null)
                 return;
 
             string chartTypeName = string.Empty;
