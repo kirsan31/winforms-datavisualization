@@ -10,10 +10,17 @@
 
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
+using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.Design;
+
+using Microsoft.DotNet.DesignTools.Client;
+using Microsoft.DotNet.DesignTools.Client.Proxies;
+
+using WinForms.DataVisualization.Designer.Protocol.Endpoints;
 
 namespace WinForms.DataVisualization.Designer.Client
 {
@@ -22,76 +29,68 @@ namespace WinForms.DataVisualization.Designer.Client
     /// </summary>
     internal class SeriesDataSourceMemberValueAxisUITypeEditor : UITypeEditor
     {
-		#region Editor methods and properties
+        #region Editor methods and properties
+        private int _maxItemCheck;
 
-        internal virtual SeriesDataSourceMemberYCheckedListBox GetDropDownControl(/*Chart chart,*/ ITypeDescriptorContext context, object value, bool flag)
+        /// <summary>
+        /// Display a drop down list with check boxes.
+        /// </summary>
+        /// <param name="context">Editing context.</param>
+        /// <param name="provider">Provider.</param>
+        /// <param name="value">Value to edit.</param>
+        /// <returns>Result</returns>
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            return new SeriesDataSourceMemberYCheckedListBox(/*chart,*/ value, flag);
+            if (context?.Instance is not null && provider is not null)
+            {
+                if (provider.GetService(typeof(IWindowsFormsEditorService)) is not IWindowsFormsEditorService edSvc)
+                    return value;
+
+                var client = provider.GetRequiredService<IDesignToolsClient>();
+                var sender = client.Protocol.GetEndpoint<SeriesDSMemberValueAxisEditorEditValueEndpoint>().GetSender(client);
+                var response = sender.SendRequest(new SeriesDSMemberValueAxisEditorEditValueRequest(context.Instance));
+                if (response?.DSMemberNames is null)
+                    return value;
+
+                // Create control for editing
+                SeriesDataSourceMemberYCheckedListBox control = new SeriesDataSourceMemberYCheckedListBox(response.DSMemberNames.Select(m => m?.String).ToList().AsReadOnly(), _maxItemCheck, value);
+
+                // Show drop down control
+                edSvc.DropDownControl(control);
+
+                // Get new enumeration value
+                value = control.GetNewValue();
+            }
+
+            return value;
         }
 
-#warning designer
-        ///// <summary>
-        ///// Display a drop down list with check boxes.
-        ///// </summary>
-        ///// <param name="context">Editing context.</param>
-        ///// <param name="provider">Provider.</param>
-        ///// <param name="value">Value to edit.</param>
-        ///// <returns>Result</returns>
-        //public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
-        //{
-        //	if (context != null && context.Instance != null && provider != null) 
-        //	{
-        //		IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
-        //		if(edSvc != null) 
-        //		{
-        //                  Chart chart = ConverterHelper.GetChartFromContext(context);
+        /// <summary>
+        /// Gets editing style.
+        /// </summary>
+        /// <param name="context">Editing context.</param>
+        /// <returns>Editor style.</returns>
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+        {
+            if (context?.Instance is null)
+                return base.GetEditStyle(context);
 
-        //			if(chart != null)
-        //			{
+            // Check how many Y values in the series.
+            int yValuesNumber = 1;
+            object instanse = context.Instance;
 
-        //				// Create control for editing
-        //				SeriesDataSourceMemberYCheckedListBox control = this.GetDropDownControl(chart, context, value, true);
+            if (instanse is Array array)
+            {
+                if (array.Length > 0)
+                    instanse = array.GetValue(0);
+            }
 
-        //				// Show drop down control
-        //				edSvc.DropDownControl(control);
+            if (instanse is ObjectProxy objectProxy)
+                yValuesNumber = objectProxy.GetPropertyValue<int>("YValuesPerPoint");
 
-        //				// Get new enumeration value
-        //				value = control.GetNewValue();
-        //			}
-        //		}
-        //	}
-
-        //	return value;
-        //}
-
-        ///// <summary>
-        ///// Gets editing style.
-        ///// </summary>
-        ///// <param name="context">Editing context.</param>
-        ///// <returns>Editor style.</returns>
-        //public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) 
-        //{
-        //	if (context != null && context.Instance != null) 
-        //	{
-        //		// Check how many Y values in the series.
-        //		int	yValuesNumber = 1;
-        //		if(context.Instance is Series)
-        //		{
-        //			yValuesNumber = ((Series)context.Instance).YValuesPerPoint;
-        //		}
-        //		else if(context.Instance is Array)
-        //		{
-        //			Array	array = (Array)context.Instance;
-        //			if(array.Length > 0 && array.GetValue(0) is Series)
-        //			{
-        //				yValuesNumber = Math.Max(yValuesNumber, ((Series)array.GetValue(0)).YValuesPerPoint);
-        //			}
-        //		}
-
-        //		return (yValuesNumber == 1) ? UITypeEditorEditStyle.None : UITypeEditorEditStyle.DropDown;
-        //	}
-        //	return base.GetEditStyle(context);
-        //}
+            _maxItemCheck = yValuesNumber;
+            return yValuesNumber < 2 ? UITypeEditorEditStyle.None : UITypeEditorEditStyle.DropDown;
+        }
 
         #endregion
     }
@@ -101,41 +100,27 @@ namespace WinForms.DataVisualization.Designer.Client
     /// </summary>
     internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
     {
-#warning designer
-        // Chart object 
-        //private Chart _chart;
-
-        // Object to edit
-        protected object editValue;
-
-        // Indicates that editor was used for the Y values members
-        protected bool usedForYValue;
+        private readonly object _editValue;
+        private readonly IReadOnlyList<string?> _memberNames;
+        private readonly int _maxItemCheck;
 
         #region Control constructor
 
         /// <summary>
         /// Public constructor.
         /// </summary>
-        /// <param name="chart">Chart control.</param>
-        /// 
+        /// <param name="memberNames">The member names.</param>
+        /// <param name="maxIttemCheck">The maximum items to check.</param>
         /// <param name="editValue">Value to edit.</param>
-        /// <param name="usedForYValue">Indicates that editor was used for the Y values members.</param>
-        public SeriesDataSourceMemberYCheckedListBox(/*Chart chart, */object editValue, bool usedForYValue)
+        public SeriesDataSourceMemberYCheckedListBox(IReadOnlyList<string?> memberNames, int maxItemCheck, object editValue)
         {
             // Set editable value
-            this.editValue = editValue;
-            this.usedForYValue = usedForYValue;
-
+            this._editValue = editValue;
+            this._memberNames = memberNames ?? new List<string?>(0).AsReadOnly();
             // Set control border style
-            this.BorderStyle = System.Windows.Forms.BorderStyle.None;
-
+            this.BorderStyle = BorderStyle.None;
             this.IntegralHeight = false;
-            // Fill member items list
-            //this.FillList();
-
-#warning designer
-            // Set Chart
-            //_chart = chart;
+            _maxItemCheck = maxItemCheck;
         }
 
         #endregion
@@ -144,25 +129,20 @@ namespace WinForms.DataVisualization.Designer.Client
 
         protected override void OnCreateControl()
         {
+            // Fill member items list
             this.FillList();
+            base.OnCreateControl();
         }
 
-        internal virtual ArrayList GetMemberNames()
+        protected override void OnItemCheck(ItemCheckEventArgs ice)
         {
-#warning designer
-            //object dataSource = null;
-            //if (ChartWinDesigner.controlDesigner != null)
-            //{
-            //    dataSource = ChartWinDesigner.controlDesigner.GetControlDataSource(_chart);
-            //}
+            if (ice.NewValue == CheckState.Checked && CheckedIndices.Count >= _maxItemCheck)
+            {
+                ice.NewValue = CheckState.Unchecked;
+                return;
+            }
 
-            //// Get list of members
-            //if (dataSource != null)
-            //{
-            //    return ChartImage.GetDataSourceMemberNames(dataSource, this.usedForYValue);
-            //}
-
-            return new ArrayList();
+            base.OnItemCheck(ice);
         }
 
         /// <summary>
@@ -172,20 +152,20 @@ namespace WinForms.DataVisualization.Designer.Client
         {
             // Create array of current names
             string[]? currentNames = null;
-            if (editValue != null && editValue is string)
+            if (_editValue is string editedString)
             {
-                string editedString = (string)editValue;
                 currentNames = editedString.Split(',');
             }
 
-            ArrayList memberNames = this.GetMemberNames();
-
             // Fill list with all possible values in the enumeration
-            foreach (string name in memberNames)
+            foreach (string? name in _memberNames)
             {
+                if (name is null)
+                    continue;
+
                 // Test if item should be checked by default
                 bool isChecked = false;
-                if (currentNames != null)
+                if (currentNames is not null)
                 {
                     foreach (string curName in currentNames)
                     {
@@ -208,7 +188,7 @@ namespace WinForms.DataVisualization.Designer.Client
         public string GetNewValue()
         {
             // Update enumeration flags
-            string result = String.Empty;
+            string result = string.Empty;
             foreach (object checkedItem in this.CheckedItems)
             {
                 if (result.Length > 0)

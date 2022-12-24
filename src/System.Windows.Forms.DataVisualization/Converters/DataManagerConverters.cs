@@ -182,7 +182,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 
 					// Populate list with all members names
-					ArrayList	memberNames = ChartImage.GetDataSourceMemberNames(dataSource, usedForYValues);
+					var	memberNames = ChartImage.GetDataSourceMemberNames(dataSource, usedForYValues);
 					foreach(string name in memberNames)
 					{
 						values.Add(name);
@@ -804,43 +804,38 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="context">The context.</param>
         public static Chart GetChartFromContext(ITypeDescriptorContext context)
         {
-            if (context == null || context.Instance == null)
-            {
+            if (context is null)
                 return null;
-            }
 
-            IChartElement element = context.Instance as IChartElement;
-            if (element != null && element.Common != null)
-            {
+			return GetChartFromContextInstance(context.Instance);
+        }
+
+        /// <summary>
+        /// Gets the chart from context.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns></returns>
+        public static Chart GetChartFromContextInstance(object instance)
+        {
+            if (instance is null)
+                return null;
+
+
+            if (instance is IChartElement element && element.Common is not null)
                 return element.Common.Chart;
-            }
 
-            IList list = context.Instance as IList;
-            if (list != null && list.Count > 0)
+            if (instance is IList list && list.Count > 0)
             {
                 element = list[0] as IChartElement;
-                if (element.Common != null)
-                {
+                if (element.Common is not null)
                     return element.Common.Chart;
-                }
-
             }
 
-            Chart chart = context.Instance as Chart;
-            if (chart != null)
-            {
+            if (instance is Chart chart)
                 return chart;
-            }
 
-            IServiceProvider provider = context.Instance as IServiceProvider;
-            if (provider != null)
-            {
-                chart = provider.GetService(typeof(Chart)) as Chart;
-                if (chart != null)
-                {
-                    return chart;
-                }
-            }
+            if (instance is IServiceProvider provider)
+                return provider.GetService(typeof(Chart)) as Chart;
 
             return null;
         }

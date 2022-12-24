@@ -5,6 +5,7 @@
         public const string MarkerStyleEditorPaintValue = nameof(MarkerStyleEditorPaintValue);
         public const string GradientEditorPaintValue = nameof(GradientEditorPaintValue);
         public const string ImageValueEditorPaintValue = nameof(ImageValueEditorPaintValue);
-        public const string KeywordsStringEditorEditValue = nameof(KeywordsStringEditorEditValue);        
+        public const string KeywordsStringEditorEditValue = nameof(KeywordsStringEditorEditValue);
+        public const string SeriesDSMemberValueAxisEditorEditValue = nameof(SeriesDSMemberValueAxisEditorEditValue);
     }
 }

@@ -296,9 +296,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="dataSource">Data source object to get the members for.</param>
         /// <param name="usedForYValue">Indicates that member will be used for Y values.</param>
         /// <returns>List of member names.</returns>
-        static internal ArrayList GetDataSourceMemberNames(object dataSource, bool usedForYValue)
+        static internal List<string> GetDataSourceMemberNames(object dataSource, bool usedForYValue)
         {
-            ArrayList names = new ArrayList();
+            List<string> names = new List<string>();
             if (dataSource != null)
             {
                 // ADDED: for VS2005 compatibility, DT Nov 25, 2004
@@ -1096,7 +1096,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 throw new ArgumentNullException(nameof(dataSource));
 
             // Get list of member names from the data source
-            ArrayList dataSourceFields = GetDataSourceMemberNames(dataSource, true);
+            var dataSourceFields = GetDataSourceMemberNames(dataSource, true);
 
             // Remove X value field if it's there
             if (xField != null && xField.Length > 0)
