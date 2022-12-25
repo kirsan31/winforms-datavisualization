@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using DataVisualization.ClientServerProtocol;
-
 using Microsoft.DotNet.DesignTools.Protocol.DataPipe;
 using Microsoft.DotNet.DesignTools.Protocol.Endpoints;
 
@@ -9,26 +7,26 @@ namespace WinForms.DataVisualization.Designer.Protocol.Endpoints
 {
     public class SeriesDSMemberValueAxisEditorEditValueResponse : Response
     {
-        internal IReadOnlyList<StringDPO>? DSMemberNames { get; private set; }
+        public IReadOnlyList<string>? DSMemberNames { get; private set; }
 
 
         public SeriesDSMemberValueAxisEditorEditValueResponse() { }
 
         public SeriesDSMemberValueAxisEditorEditValueResponse(IDataPipeReader reader) : base(reader) { }
 
-        internal SeriesDSMemberValueAxisEditorEditValueResponse(IReadOnlyList<StringDPO>? registeredKeywords)
+        public SeriesDSMemberValueAxisEditorEditValueResponse(IReadOnlyList<string>? dSMemberNames)
         {
-            DSMemberNames = registeredKeywords;
+            DSMemberNames = dSMemberNames;
         }
 
         protected override void ReadProperties(IDataPipeReader reader)
         {
-            DSMemberNames = reader.ReadDataPipeObjectArray<StringDPO>(nameof(DSMemberNames));
+            DSMemberNames = reader.ReadArray(nameof(DSMemberNames), (r) => r.ReadString()!);
         }
 
         protected override void WriteProperties(IDataPipeWriter writer)
         {
-            writer.WriteDataPipeObjectArray(nameof(DSMemberNames), DSMemberNames);
+            writer.WriteArray(nameof(DSMemberNames), DSMemberNames, (w, s) => w.Write(s));
         }
     }
 }

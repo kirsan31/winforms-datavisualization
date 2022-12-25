@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Linq;
-using System.Windows.Forms.DataVisualization.Charting;
-
-using DataVisualization.ClientServerProtocol;
+﻿using System.Windows.Forms.DataVisualization.Charting;
 
 using Microsoft.DotNet.DesignTools.Protocol.Endpoints;
 
@@ -11,7 +7,7 @@ using WinForms.DataVisualization.Designer.Protocol.Endpoints;
 namespace WinForms.DataVisualization.Designer.Server;
 
 [ExportRequestHandler(EndpointNames.SeriesDSMemberValueAxisEditorEditValue)]
-internal class SeriesDSMemberValueAxisEditorEditValueHandler : RequestHandler<SeriesDSMemberValueAxisEditorEditValueRequest, SeriesDSMemberValueAxisEditorEditValueResponse>
+public class SeriesDSMemberValueAxisEditorEditValueHandler : RequestHandler<SeriesDSMemberValueAxisEditorEditValueRequest, SeriesDSMemberValueAxisEditorEditValueResponse>
 {
     public override SeriesDSMemberValueAxisEditorEditValueResponse HandleRequest(SeriesDSMemberValueAxisEditorEditValueRequest request)
     {
@@ -31,7 +27,6 @@ internal class SeriesDSMemberValueAxisEditorEditValueHandler : RequestHandler<Se
         if (dSMemberNamesList is null)
             return new SeriesDSMemberValueAxisEditorEditValueResponse();
 
-        var dSMemberNamesListDPO = dSMemberNamesList.Select(m => new StringDPO(m)).ToList().AsReadOnly();
-        return new SeriesDSMemberValueAxisEditorEditValueResponse(dSMemberNamesListDPO);
+        return new SeriesDSMemberValueAxisEditorEditValueResponse(dSMemberNamesList);
     }
 }

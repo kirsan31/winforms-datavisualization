@@ -53,7 +53,7 @@ namespace WinForms.DataVisualization.Designer.Client
                     return value;
 
                 // Create control for editing
-                SeriesDataSourceMemberYCheckedListBox control = new SeriesDataSourceMemberYCheckedListBox(response.DSMemberNames.Select(m => m?.String).ToList().AsReadOnly(), _maxItemCheck, value);
+                SeriesDataSourceMemberYCheckedListBox control = new SeriesDataSourceMemberYCheckedListBox(response.DSMemberNames, _maxItemCheck, value);
 
                 // Show drop down control
                 edSvc.DropDownControl(control);
