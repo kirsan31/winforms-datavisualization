@@ -817,4 +817,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         Pyramid,
     };
+
+
+    /// <summary>
+    /// An enumeration of axis names.
+    /// </summary>
+    public enum AxisName
+    {
+        /// <summary>
+        /// Primary X Axis.
+        /// </summary>
+        X,
+
+        /// <summary>
+        /// Primary Y Axis.
+        /// </summary>
+        Y,
+
+        /// <summary>
+        /// Secondary X Axis.
+        /// </summary>
+        X2 = 2,
+
+        /// <summary>
+        /// Secondary Y Axis.
+        /// </summary>
+        Y2 = 3
+    };
 }

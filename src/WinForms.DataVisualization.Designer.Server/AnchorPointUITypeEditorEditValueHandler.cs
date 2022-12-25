@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 
 using Microsoft.DotNet.DesignTools.Protocol.Endpoints;
@@ -14,6 +15,9 @@ public class AnchorPointUITypeEditorEditValueHandler : RequestHandler<AnchorPoin
     {
         if (request.OwnerObj is not Annotation annotation)
             return new AnchorPointUITypeEditorEditValueResponse();
+
+        if (annotation.AnnotationGroup is not null)
+            return new AnchorPointUITypeEditorEditValueResponse(Array.Empty<SeriesDataPointDPO>());
 
         var series = annotation.Chart?.Series;
         if (series is null)

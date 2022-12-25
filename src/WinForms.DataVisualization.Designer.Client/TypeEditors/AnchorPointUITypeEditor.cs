@@ -86,7 +86,7 @@ namespace WinForms.DataVisualization.Designer.Client
         // Annotation object to edit
         private object _dataPoint;
         IWindowsFormsEditorService _edSvc;
-        IReadOnlyList<SeriesDataPointDPO>? _dataPointsBySeries;
+        IReadOnlyList<SeriesDataPointDPO> _dataPointsBySeries;
 
         #endregion
 

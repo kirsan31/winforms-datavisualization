@@ -21,35 +21,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 {
     using Point = Point;
 
-    #region Axis name enumeration
-
-    /// <summary>
-    /// An enumeration of axis names.
-    /// </summary>
-    public enum AxisName
-    {
-        /// <summary>
-        /// Primary X Axis.
-        /// </summary>
-        X,
-
-        /// <summary>
-        /// Primary Y Axis.
-        /// </summary>
-        Y,
-
-        /// <summary>
-        /// Secondary X Axis.
-        /// </summary>
-        X2 = 2,
-
-        /// <summary>
-        /// Secondary Y Axis.
-        /// </summary>
-        Y2 = 3
-    }
-
-    #endregion Axis name enumeration
 
     /// <summary>
     /// The Axis class gives information to the Common.Chart series

@@ -8,62 +8,64 @@
 //
 
 
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
+using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms.Design;
+
+using Microsoft.DotNet.DesignTools.Client;
+using Microsoft.DotNet.DesignTools.Client.Proxies;
+
+using WinForms.DataVisualization.Designer.Protocol.Endpoints;
 
 namespace WinForms.DataVisualization.Designer.Client
 {
     /// <summary>
     /// UI type editor for the annotation axes.
     /// </summary>
-    internal class AnnotationAxisUITypeEditor : System.Drawing.Design.UITypeEditor
+    internal class AnnotationAxisUITypeEditor : UITypeEditor
     {
         #region Editor methods and properties
 
-#warning designer
-        ///// <summary>
-        ///// Display a drop down list with check boxes.
-        ///// </summary>
-        ///// <param name="context">Editing context.</param>
-        ///// <param name="provider">Provider.</param>
-        ///// <param name="value">Value to edit.</param>
-        ///// <returns>Result</returns>
-        //public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
-        //{
-        //    if (context != null && context.Instance != null && provider != null)
-        //    {
-        //        IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
-        //        if (edSvc != null &&
-        //            context.Instance is Annotation)
-        //        {
-        //            // Check if we dealing with X or Y axis
-        //            bool showXAxes = true;
-        //            if (context.PropertyDescriptor != null &&
-        //                context.PropertyDescriptor.Name == "AxisY")
-        //            {
-        //                showXAxes = false;
-        //            }
+        /// <summary>
+        /// Display a drop down list with check boxes.
+        /// </summary>
+        /// <param name="context">Editing context.</param>
+        /// <param name="provider">Provider.</param>
+        /// <param name="value">Value to edit.</param>
+        /// <returns>Result</returns>
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            if (context?.Instance is null || provider?.GetService(typeof(IWindowsFormsEditorService)) is not IWindowsFormsEditorService edSvc)
+                return value;
 
-        //            // Create control for editing
-        //            AnnotationAxisNameTreeView control = new AnnotationAxisNameTreeView(
-        //                edSvc,
-        //                (Annotation)context.Instance,
-        //                value as Axis,
-        //                showXAxes);
+            // Check if we dealing with X or Y axis
+            bool showXAxes;
+            if (context?.PropertyDescriptor.Name == "AxisY")
+                showXAxes = false;
+            else
+                showXAxes = true;
 
-        //            // Show drop down control
-        //            edSvc.DropDownControl(control);
+            var client = provider.GetRequiredService<IDesignToolsClient>();
+            var sender = client.Protocol.GetEndpoint<AnnotationAxisUITypeEditorEditValueEndpoint>().GetSender(client);
+            var response = sender.SendRequest(new AnnotationAxisUITypeEditorEditValueRequest(context.Instance));
+            if (response?.AxesByChartAreas is null)
+                return value;
 
-        //            // Get new enumeration value
-        //            value = control.GetNewValue();
+            // Create control for editing
+            using AnnotationAxisNameTreeView control = new AnnotationAxisNameTreeView(edSvc, response.AxesByChartAreas, value, showXAxes);
 
-        //            // Dispose control
-        //            control.Dispose();
-        //        }
-        //    }
+            // Show drop down control
+            edSvc.DropDownControl(control);
 
-        //    return value;
-        //}
+            // Get new enumeration value
+            value = control.GetNewValue()!;
+
+            return value;
+        }
 
 
         /// <summary>
@@ -73,7 +75,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <returns>Editor style.</returns>
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
-            if (context != null && context.Instance != null)
+            if (context?.Instance is not null)
             {
                 return UITypeEditorEditStyle.DropDown;
             }
@@ -84,153 +86,148 @@ namespace WinForms.DataVisualization.Designer.Client
         #endregion
     }
 
-#warning designer
-    ///// <summary>
-    ///// Annotation axes names tree view, which is used for the UI type editing.
-    ///// </summary>
-    //internal class AnnotationAxisNameTreeView : TreeView
-    //{
-    //    #region Control fields
 
-    //    // Annotation object to edit
-    //    private Annotation _annotation;
-    //    private Axis _axis;
-    //    IWindowsFormsEditorService _edSvc;
-    //    private bool _showXAxes = true;
+    /// <summary>
+    /// Annotation axes names tree view, which is used for the UI type editing.
+    /// </summary>
+    internal class AnnotationAxisNameTreeView : TreeView
+    {
+        #region Control fields
 
-    //    #endregion
+        // Annotation object to edit
+        IReadOnlyList<ChartAreasAxesDPO> _axesByChartAreas;
+        private object _axis;
+        IWindowsFormsEditorService _edSvc;
+        private bool _showXAxes = true;
 
-    //    #region Control constructor
+        #endregion
 
-    //    /// <summary>
-    //    /// Public constructor.
-    //    /// </summary>
-    //    /// <param name="edSvc">Editor service.</param>
-    //    /// <param name="annotation">Annotation to edit.</param>
-    //    /// <param name="axis">Axis object.</param>
-    //    /// <param name="showXAxes">Indicates if X or Y axis should be shown.</param>
-    //    public AnnotationAxisNameTreeView(
-    //        IWindowsFormsEditorService edSvc,
-    //        Annotation annotation,
-    //        Axis axis,
-    //        bool showXAxes)
-    //    {
-    //        // Set editable value
-    //        this._annotation = annotation;
-    //        this._axis = axis;
-    //        this._edSvc = edSvc;
-    //        this._showXAxes = showXAxes;
+        #region Control constructor
 
-    //        // Set control border style
-    //        this.BorderStyle = BorderStyle.None;
+        /// <summary>
+        /// Public constructor.
+        /// </summary>
+        /// <param name="edSvc">Editor service.</param>
+        /// <param name="annotation">Annotation to edit.</param>
+        /// <param name="axis">Axis object.</param>
+        /// <param name="showXAxes">Indicates if X or Y axis should be shown.</param>
+        public AnnotationAxisNameTreeView(IWindowsFormsEditorService edSvc, IReadOnlyList<ChartAreasAxesDPO> axesByChartAreas, object axis, bool showXAxes)
+        {
+            // Set editable value
+            this._axesByChartAreas = axesByChartAreas;
+            this._axis = axis;
+            this._edSvc = edSvc;
+            this._showXAxes = showXAxes;
 
-    //        // Fill tree with data point names
-    //        this.FillTree();
-    //    }
+            // Set control border style
+            this.BorderStyle = BorderStyle.None;
 
-    //    #endregion
+            // Fill tree with data point names
+            this.FillTree();
+        }
 
-    //    #region Control methods
+        #endregion
 
-    //    /// <summary>
-    //    /// Fills data points name tree.
-    //    /// </summary>
-    //    private void FillTree()
-    //    {
-    //        bool nodeSelected = false;
-    //        this.BeginUpdate();
+        #region Control methods
 
-    //        // Add "None" option
-    //        TreeNode noPoint = this.Nodes.Add("NotSet");
+        /// <summary>
+        /// Fills data points name tree.
+        /// </summary>
+        private void FillTree()
+        {
+            bool nodeSelected = false;
+            this.BeginUpdate();
 
-    //        // Get chart object
-    //        if (this._annotation != null &&
-    //            _annotation.AnnotationGroup == null &&
-    //            this._annotation.Chart != null)
-    //        {
-    //            Chart chart = this._annotation.Chart;
+            // Add "None" option
+            TreeNode noPoint = this.Nodes.Add("NotSet");
 
-    //            // Loop through all chart areas
-    //            foreach (ChartArea chartArea in chart.ChartAreas)
-    //            {
-    //                TreeNode areaNode = this.Nodes.Add(chartArea.Name);
-    //                areaNode.Tag = chartArea;
+            // Get chart object
+            if (_axesByChartAreas is not null)
+            {
+                // Loop through all chart areas
+                foreach (var axA in _axesByChartAreas)
+                {
+                    if (axA is null || axA.Axes is null || axA.ChartAreaName is null)
+                        continue;
 
-    //                // Loop through all axes
-    //                foreach (Axis curAxis in chartArea.Axes)
-    //                {
-    //                    // Hide X or Y axes
-    //                    if (curAxis.AxisName == AxisName.Y || curAxis.AxisName == AxisName.Y2)
-    //                    {
-    //                        if (_showXAxes)
-    //                        {
-    //                            continue;
-    //                        }
-    //                    }
-    //                    if (curAxis.AxisName == AxisName.X || curAxis.AxisName == AxisName.X2)
-    //                    {
-    //                        if (!_showXAxes)
-    //                        {
-    //                            continue;
-    //                        }
-    //                    }
+                    TreeNode areaNode = this.Nodes.Add(axA.ChartAreaName);
 
-    //                    // Create child node
-    //                    TreeNode axisNode = areaNode.Nodes.Add(curAxis.Name);
-    //                    axisNode.Tag = curAxis;
+                    // Loop through all axes
+                    foreach (var curAxis in axA.Axes)
+                    {
+                        if (curAxis is not ObjectProxy proxy)
+                            continue;
 
-    //                    // Check if this node should be selected
-    //                    if (_axis == curAxis)
-    //                    {
-    //                        areaNode.Expand();
-    //                        this.SelectedNode = axisNode;
-    //                        nodeSelected = true;
-    //                    }
-    //                }
-    //            }
-    //        }
+                        var axisName = proxy.GetPropertyValue<AxisName>("AxisName");
+                        // Hide X or Y axes
+                        if (axisName == AxisName.Y || axisName == AxisName.Y2)
+                        {
+                            if (_showXAxes)
+                            {
+                                continue;
+                            }
+                        }
 
-    //        // Select default node
-    //        if (!nodeSelected)
-    //        {
-    //            this.SelectedNode = noPoint;
-    //        }
+                        if (axisName == AxisName.X || axisName == AxisName.X2)
+                        {
+                            if (!_showXAxes)
+                            {
+                                continue;
+                            }
+                        }
 
-    //        this.EndUpdate();
-    //    }
+                        var name = proxy.GetPropertyValue<string>("Name");
+                        // Create child node
+                        TreeNode axisNode = areaNode.Nodes.Add(name);
+                        axisNode.Tag = curAxis;
 
-    //    /// <summary>
-    //    /// Gets new data point.
-    //    /// </summary>
-    //    /// <returns>New enum value.</returns>
-    //    public Axis GetNewValue()
-    //    {
-    //        if (this.SelectedNode is not null && this.SelectedNode.Tag is not null && this.SelectedNode.Tag is Axis)
-    //        {
-    //            return (Axis)this.SelectedNode.Tag;
-    //        }
+                        // Check if this node should be selected
+                        if (_axis == curAxis)
+                        {
+                            areaNode.Expand();
+                            this.SelectedNode = axisNode;
+                            nodeSelected = true;
+                        }
+                    }
+                }
+            }
 
-    //        return null;
-    //    }
+            // Select default node
+            if (!nodeSelected)
+            {
+                this.SelectedNode = noPoint;
+            }
 
-    //    /// <summary>
-    //    /// Mouse double clicked.
-    //    /// </summary>
-    //    protected override void OnDoubleClick(EventArgs e)
-    //    {
-    //        base.OnDoubleClick(e);
-    //        if (this._edSvc is not null)
-    //        {
-    //            if (GetNewValue() is not null)
-    //            {
-    //                this._edSvc.CloseDropDown();
-    //            }
-    //            else if (this.SelectedNode is not null && this.SelectedNode.Text == "NotSet")
-    //            {
-    //                this._edSvc.CloseDropDown();
-    //            }
-    //        }
-    //    }
-    //    #endregion
-    //}
+            this.EndUpdate();
+        }
+
+        /// <summary>
+        /// Gets new data point.
+        /// </summary>
+        /// <returns>New enum value.</returns>
+        public object? GetNewValue()
+        {
+            return this.SelectedNode?.Tag;
+        }
+
+        /// <summary>
+        /// Mouse double clicked.
+        /// </summary>
+        protected override void OnDoubleClick(EventArgs e)
+        {
+            base.OnDoubleClick(e);
+            if (this._edSvc is not null)
+            {
+                if (GetNewValue() is not null)
+                {
+                    this._edSvc.CloseDropDown();
+                }
+                else if (this.SelectedNode?.Text == "NotSet")
+                {
+                    this._edSvc.CloseDropDown();
+                }
+            }
+        }
+        #endregion
+    }
 }
