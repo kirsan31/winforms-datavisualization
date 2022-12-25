@@ -7,5 +7,6 @@
         public const string ImageValueEditorPaintValue = nameof(ImageValueEditorPaintValue);
         public const string KeywordsStringEditorEditValue = nameof(KeywordsStringEditorEditValue);
         public const string SeriesDSMemberValueAxisEditorEditValue = nameof(SeriesDSMemberValueAxisEditorEditValue);
+        public const string AnchorPointUITypeEditorEditValue = nameof(AnchorPointUITypeEditorEditValue);        
     }
 }

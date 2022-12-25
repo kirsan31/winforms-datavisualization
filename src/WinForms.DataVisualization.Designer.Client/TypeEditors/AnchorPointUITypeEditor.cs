@@ -8,53 +8,54 @@
 //
 
 
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
+using System.Windows.Forms;
+using System.Windows.Forms.Design;
+
+using Microsoft.DotNet.DesignTools.Client;
+
+using WinForms.DataVisualization.Designer.Protocol.Endpoints;
 
 namespace WinForms.DataVisualization.Designer.Client
 {
     /// <summary>
     /// UI type editor for the annotation anchor point
     /// </summary>
-    internal class AnchorPointUITypeEditor : System.Drawing.Design.UITypeEditor
+    internal class AnchorPointUITypeEditor : UITypeEditor
     {
         #region Editor methods and properties
 
-#warning designer
-        ///// <summary>
-        ///// Display a drop down list with check boxes.
-        ///// </summary>
-        ///// <param name="context">Editing context.</param>
-        ///// <param name="provider">Provider.</param>
-        ///// <param name="value">Value to edit.</param>
-        ///// <returns>Result</returns>
-        //public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
-        //{
-        //    if (context != null && context.Instance != null && provider != null)
-        //    {
-        //        IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
-        //        if (edSvc != null &&
-        //            context.Instance is Annotation)
-        //        {
-        //            // Create control for editing
-        //            AnchorPointNameTreeView control = new AnchorPointNameTreeView(
-        //                edSvc,
-        //                (Annotation)context.Instance,
-        //                value as DataPoint);
+        /// <summary>
+        /// Display a drop down list with check boxes.
+        /// </summary>
+        /// <param name="context">Editing context.</param>
+        /// <param name="provider">Provider.</param>
+        /// <param name="value">Value to edit.</param>
+        /// <returns>Result</returns>
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            if (context?.Instance is null || provider?.GetService(typeof(IWindowsFormsEditorService)) is not IWindowsFormsEditorService edSvc)
+                return value;
 
-        //            // Show drop down control
-        //            edSvc.DropDownControl(control);
+            var client = provider.GetRequiredService<IDesignToolsClient>();
+            var sender = client.Protocol.GetEndpoint<AnchorPointUITypeEditorEditValueEndpoint>().GetSender(client);
+            var response = sender.SendRequest(new AnchorPointUITypeEditorEditValueRequest(context.Instance));
+            if (response?.DataPointsBySeries is null)
+                return value;
 
-        //            // Get new enumeration value
-        //            value = control.GetNewValue();
+            // Create control for editing
+            using AnchorPointNameTreeView control = new AnchorPointNameTreeView(edSvc, response.DataPointsBySeries, value);
 
-        //            // Dispose control
-        //            control.Dispose();
-        //        }
-        //    }
+            // Show drop down control
+            edSvc.DropDownControl(control);
 
-        //    return value;
-        //}
+            // Get new enumeration value
+            value = control.GetNewValue()!;
+            return value!;
+        }
 
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <returns>Editor style.</returns>
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
-            if (context != null && context.Instance != null)
+            if (context?.Instance is not null)
             {
                 return UITypeEditorEditStyle.DropDown;
             }
@@ -75,143 +76,128 @@ namespace WinForms.DataVisualization.Designer.Client
         #endregion
     }
 
-#warning designer
-    ///// <summary>
-    ///// Anchor data points name tree view, which is used for the UI type editing.
-    ///// </summary>
-    //internal class AnchorPointNameTreeView : TreeView
-    //{
-    //    #region Control fields
+    /// <summary>
+    /// Anchor data points name tree view, which is used for the UI type editing.
+    /// </summary>
+    internal class AnchorPointNameTreeView : TreeView
+    {
+        #region Control fields
 
-    //    // Annotation object to edit
-    //    private Annotation _annotation;
-    //    private DataPoint _dataPoint;
-    //    IWindowsFormsEditorService _edSvc;
+        // Annotation object to edit
+        private object _dataPoint;
+        IWindowsFormsEditorService _edSvc;
+        IReadOnlyList<SeriesDataPointDPO>? _dataPointsBySeries;
 
-    //    #endregion
+        #endregion
 
-    //    #region Control constructor
+        #region Control constructor
 
-    //    /// <summary>
-    //    /// Public constructor.
-    //    /// </summary>
-    //    /// <param name="edSvc">Editor service.</param>
-    //    /// <param name="annotation">Annotation to edit.</param>
-    //    /// <param name="dataPoint">Annotation anchor data point to edit.</param>
-    //    public AnchorPointNameTreeView(
-    //        IWindowsFormsEditorService edSvc,
-    //        Annotation annotation,
-    //        DataPoint dataPoint)
-    //    {
-    //        // Set editable value
-    //        this._annotation = annotation;
-    //        this._dataPoint = dataPoint;
-    //        this._edSvc = edSvc;
+        /// <summary>
+        /// Public constructor.
+        /// </summary>
+        /// <param name="edSvc">Editor service.</param>
+        /// <param name="annotation">Annotation to edit.</param>
+        /// <param name="dataPoint">Annotation anchor data point to edit.</param>
+        public AnchorPointNameTreeView(IWindowsFormsEditorService edSvc, IReadOnlyList<SeriesDataPointDPO> dataPointsBySeries, object dataPoint)
+        {
+            // Set editable value
+            this._dataPoint = dataPoint;
+            this._edSvc = edSvc;
+            this._dataPointsBySeries = dataPointsBySeries;
 
-    //        // Set control border style
-    //        this.BorderStyle = BorderStyle.None;
+            // Set control border style
+            this.BorderStyle = BorderStyle.None;
 
-    //        // Fill tree with data point names
-    //        this.FillTree();
-    //    }
+            // Fill tree with data point names
+            this.FillTree();
+        }
 
-    //    #endregion
+        #endregion
 
-    //    #region Control methods
+        #region Control methods
 
-    //    /// <summary>
-    //    /// Fills data points name tree.
-    //    /// </summary>
-    //    private void FillTree()
-    //    {
-    //        bool nodeSelected = false;
-    //        this.BeginUpdate();
+        /// <summary>
+        /// Fills data points name tree.
+        /// </summary>
+        private void FillTree()
+        {
+            bool nodeSelected = false;
+            this.BeginUpdate();
 
-    //        // Add "None" option
-    //        TreeNode noPoint = this.Nodes.Add("NotSet");
+            // Add "None" option
+            TreeNode noPoint = this.Nodes.Add("NotSet");
 
-    //        // Get chart object
-    //        if (this._annotation != null &&
-    //            _annotation.AnnotationGroup == null &&
-    //            this._annotation.Chart != null)
-    //        {
-    //            Chart chart = this._annotation.Chart;
+            if (_dataPointsBySeries is not null)
+            {
+                // Loop through all series
+                foreach (var dpS in _dataPointsBySeries)
+                {
+                    if (dpS is null || dpS.DataPoints is null || dpS.SeriesName is null)
+                        continue;
 
-    //            // Loop through all series
-    //            foreach (Series series in chart.Series)
-    //            {
-    //                TreeNode seriesNode = this.Nodes.Add(series.Name);
-    //                seriesNode.Tag = series;
+                    TreeNode seriesNode = this.Nodes.Add(dpS.SeriesName);
 
-    //                // Indicate that there are no points in series
-    //                if (series.Points.Count == 0)
-    //                {
-    //                    seriesNode.Nodes.Add("(empty)");
-    //                }
+                    // Indicate that there are no points in series
+                    if (dpS.DataPoints.Count == 0)
+                    {
+                        seriesNode.Nodes.Add("(empty)");
+                    }
 
-    //                // Loop through all points
-    //                int index = 1;
-    //                foreach (DataPoint point in series.Points)
-    //                {
-    //                    TreeNode dataPointNode = seriesNode.Nodes.Add("DataPoint" + index.ToString(System.Globalization.CultureInfo.InvariantCulture));
-    //                    dataPointNode.Tag = point;
-    //                    ++index;
+                    // Loop through all points
+                    int index = 1;
+                    foreach (var point in dpS.DataPoints)
+                    {
+                        TreeNode dataPointNode = seriesNode.Nodes.Add("DataPoint" + index.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                        dataPointNode.Tag = point;
+                        ++index;
 
-    //                    // Check if this node should be selected
-    //                    if (point == _dataPoint)
-    //                    {
-    //                        seriesNode.Expand();
-    //                        this.SelectedNode = dataPointNode;
-    //                        nodeSelected = true;
-    //                    }
-    //                }
-    //            }
-    //        }
+                        // Check if this node should be selected
+                        if (point == _dataPoint)
+                        {
+                            seriesNode.Expand();
+                            this.SelectedNode = dataPointNode;
+                            nodeSelected = true;
+                        }
+                    }
+                }
+            }
 
-    //        // Select default node
-    //        if (!nodeSelected)
-    //        {
-    //            this.SelectedNode = noPoint;
-    //        }
+            // Select default node
+            if (!nodeSelected)
+            {
+                this.SelectedNode = noPoint;
+            }
 
-    //        this.EndUpdate();
-    //    }
+            this.EndUpdate();
+        }
 
-    //    /// <summary>
-    //    /// Gets new data point.
-    //    /// </summary>
-    //    /// <returns>New enum value.</returns>
-    //    public DataPoint GetNewValue()
-    //    {
-    //        if (this.SelectedNode != null &&
-    //            this.SelectedNode.Tag != null &&
-    //            this.SelectedNode.Tag is DataPoint)
-    //        {
-    //            return (DataPoint)this.SelectedNode.Tag;
-    //        }
-    //        return null;
-    //    }
+        /// <summary>
+        /// Gets new data point.
+        /// </summary>
+        /// <returns>New enum value.</returns>
+        public object? GetNewValue()
+        {
+            return this.SelectedNode?.Tag;
+        }
 
-    //    /// <summary>
-    //    /// Mouse double clicked.
-    //    /// </summary>
-    //    protected override void OnDoubleClick(EventArgs e)
-    //    {
-    //        base.OnDoubleClick(e);
-    //        if (this._edSvc != null)
-    //        {
-    //            if (GetNewValue() != null)
-    //            {
-    //                this._edSvc.CloseDropDown();
-    //            }
-    //            else if (this.SelectedNode != null &&
-    //                this.SelectedNode.Text == "NotSet")
-    //            {
-    //                this._edSvc.CloseDropDown();
-    //            }
-    //        }
-    //    }
-    //    #endregion
-    //}
-
+        /// <summary>
+        /// Mouse double clicked.
+        /// </summary>
+        protected override void OnDoubleClick(EventArgs e)
+        {
+            base.OnDoubleClick(e);
+            if (this._edSvc is not null)
+            {
+                if (GetNewValue() is not null)
+                {
+                    this._edSvc.CloseDropDown();
+                }
+                else if (this.SelectedNode?.Text == "NotSet")
+                {
+                    this._edSvc.CloseDropDown();
+                }
+            }
+        }
+        #endregion
+    }
 }
