@@ -2066,13 +2066,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="element">The chart object.</param>
         /// <param name="elementType">Type of the element.</param>
         /// <returns> A <see cref="ChartElementOutline"/> object which contains
-        /// 1) An array of points in absolute coordinates which can be used as outline markers arround this chart element.
-        /// 2) A GraphicsPath for drawing aouline around this chart emenent.
+        /// 1) An array of points in absolute coordinates which can be used as outline markers around this chart element.
+        /// 2) A GraphicsPath for drawing outline around this chart element.
         /// </returns>
         /// <remarks>
         /// If the <paramref name="element"/> is not part of the chart or <paramref name="elementType"/> cannot be combined 
         /// with <paramref name="element"/> then the result will contain empty array of marker points. 
-        /// The marker points are sorted clockwize.
+        /// The marker points are sorted clockwise.
         /// </remarks>
         public ChartElementOutline GetChartElementOutline(object element, ChartElementType elementType)
         {
@@ -2083,6 +2083,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #region Control protected methods
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Forms.Control.GotFocus" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnGotFocus(EventArgs e)
         {
             base.OnGotFocus(e);
@@ -2091,6 +2095,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             ControlPaint.DrawFocusRectangle(g, new Rectangle(1, 1, Size.Width - 2, Size.Height - 2));
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Forms.Control.LostFocus" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnLostFocus(EventArgs e)
         {
             base.OnLostFocus(e);
@@ -2131,7 +2139,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Enable control invalidation
             disableInvalidates = false;
 
-            // If control is durty - invalidate it
+            // If control is dirty - invalidate it
             if (this.dirtyFlag)
             {
                 base.Invalidate();
