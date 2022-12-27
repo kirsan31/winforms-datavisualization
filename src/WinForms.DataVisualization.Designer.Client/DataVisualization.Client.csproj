@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>$(TargetFrameworkClient)</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
-		<LangVersion>9.0</LangVersion>
+		<LangVersion>latest</LangVersion>
 		<AssemblyName>WinForms.DataVisualization.Designer.Client</AssemblyName>
 		<Nullable>enable</Nullable>
 		<UseDesignerSdk>true</UseDesignerSdk>
@@ -13,6 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\WinForms.DataVisualization.Designer.ClientServerProtocol\DataVisualization.ClientServerProtocol.csproj" />
 	  <ProjectReference Include="..\WinForms.DataVisualization.Utilities\Utilities.csproj" />
 	</ItemGroup>
 
@@ -25,8 +26,14 @@
 		<Compile Update="TypeEditors\KeywordEditor.cs">
 			<SubType>Form</SubType>
 		</Compile>
-		<Compile Update="TypeEditors\KeywordsStringEditor.cs">
-			<SubType>Form</SubType>
+		<Compile Update="TypeEditors\KeywordsStringEditorForm.cs">
+		  <SubType>Form</SubType>
 		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\Design.resx">
+	    <LogicalName>WinForms.DataVisualization.Designer.Client.resources</LogicalName>
+	  </EmbeddedResource>
 	</ItemGroup>
 </Project>

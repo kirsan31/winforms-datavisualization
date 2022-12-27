@@ -42,16 +42,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         public override string Name
         { get { return ChartTypeNames.SplineArea; } }
 
-        /// <summary>
-        /// Gets chart type image.
-        /// </summary>
-        /// <param name="registry">Chart types registry object.</param>
-        /// <returns>Chart type image.</returns>
-        public override System.Drawing.Image GetImage(ChartTypeRegistry registry)
-        {
-            return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
-        }
-
         #endregion IChartType interface implementation
 
         #region Default tension method
@@ -169,16 +159,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         public override LegendImageStyle GetLegendImageStyle(Series series)
         {
             return LegendImageStyle.Rectangle;
-        }
-
-        /// <summary>
-        /// Gets chart type image.
-        /// </summary>
-        /// <param name="registry">Chart types registry object.</param>
-        /// <returns>Chart type image.</returns>
-        public override System.Drawing.Image GetImage(ChartTypeRegistry registry)
-        {
-            return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
         }
 
         #endregion IChartType interface implementation

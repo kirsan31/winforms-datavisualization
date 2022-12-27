@@ -12,8 +12,12 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
-using System.Reflection;
-//using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms.DataVisualization.Charting;
+
+using Microsoft.DotNet.DesignTools.Client;
+using Microsoft.DotNet.DesignTools.Client.Proxies;
+
+using WinForms.DataVisualization.Designer.Protocol.Endpoints;
 
 namespace WinForms.DataVisualization.Designer.Client
 {
@@ -21,14 +25,8 @@ namespace WinForms.DataVisualization.Designer.Client
     /// AxisName editor for the hatch type.
     /// Paints a rectangle with hatch sample.
     /// </summary>
-    internal class HatchStyleEditor : UITypeEditor, IDisposable
+    internal class HatchStyleEditor : UITypeEditor
     {
-        #region Editor methods and properties
-
-        // Reference to chart graphics object
-        //private ChartGraphics _chartGraph;
-        private bool _disposed;
-
         /// <summary>
         /// Override this function to support palette colors drawing
         /// </summary>
@@ -39,118 +37,48 @@ namespace WinForms.DataVisualization.Designer.Client
             return true;
         }
 
-#warning designer
+
         /// <summary>
         /// Override this function to support palette colors drawing
         /// </summary>
         /// <param name="e">Paint value event arguments.</param>
-        //public override void PaintValue(PaintValueEventArgs e)
-        //{
-        //    if (e.Value is ChartHatchStyle)
-        //    {
-        //        // Create chart graphics object
-        //        _chartGraph ??= new ChartGraphics(null);
-        //        _chartGraph.Graphics = e.Graphics;
-
-        //        // Try to get original color from the object
-        //        Color color1 = Color.Black;
-        //        Color color2 = Color.White;
-        //        if (e.Context != null && e.Context.Instance != null)
-        //        {
-        //            // Get color properties using reflection
-        //            PropertyInfo propertyInfo = e.Context.Instance.GetType().GetProperty("BackColor");
-        //            if (propertyInfo != null)
-        //            {
-        //                color1 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
-        //            }
-        //            else
-        //            {
-        //                propertyInfo = e.Context.Instance.GetType().GetProperty("BackColor");
-        //                if (propertyInfo != null)
-        //                {
-        //                    color1 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
-        //                }
-        //                else
-        //                {
-        //                    // If object do not have "BackColor" property try using "Color" property 
-        //                    propertyInfo = e.Context.Instance.GetType().GetProperty("Color");
-        //                    if (propertyInfo != null)
-        //                    {
-        //                        color1 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
-        //                    }
-        //                }
-        //            }
-
-        //            propertyInfo = e.Context.Instance.GetType().GetProperty("BackSecondaryColor");
-        //            if (propertyInfo != null)
-        //            {
-        //                color2 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
-        //            }
-        //            else
-        //            {
-        //                propertyInfo = e.Context.Instance.GetType().GetProperty("BackSecondaryColor");
-        //                if (propertyInfo != null)
-        //                {
-        //                    color2 = (Color)propertyInfo.GetValue(e.Context.Instance, null);
-        //                }
-        //            }
-
-        //        }
-
-        //        // Check if colors are valid
-        //        if (color1 == Color.Empty)
-        //        {
-        //            color1 = Color.Black;
-        //        }
-
-        //        if (color2 == Color.Empty)
-        //        {
-        //            color2 = Color.White;
-        //        }
-
-        //        if (color1 == color2)
-        //        {
-        //            color2 = Color.FromArgb(color1.B, color1.R, color1.G);
-        //        }
-
-        //        // Draw hatch sample
-        //        if ((ChartHatchStyle)e.Value != ChartHatchStyle.None)
-        //        {
-        //            Brush brush = _chartGraph.GetHatchBrush((ChartHatchStyle)e.Value, color1, color2);
-        //            e.Graphics.FillRectangle(brush, e.Bounds);
-
-        //            brush.Dispose();
-        //        }
-        //    }
-        //}
-
-        #endregion
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Disposes resources used by this object.
-        /// </summary>
-        /// <param name="disposing">Whether this method was called form Dispose() or the finalizer.</param>
-        protected virtual void Dispose(bool disposing)
+        public override void PaintValue(PaintValueEventArgs e)
         {
-            if (_disposed)
+            ChartHatchStyle chartHatchStyle;
+            if (e.Value is not EnumProxy enumProxy || (chartHatchStyle = enumProxy.AsEnumValue<ChartHatchStyle>()) == ChartHatchStyle.None)
                 return;
 
-            //if (disposing)
-            //    _chartGraph?.Dispose();
+            // Try to get original color from the object
+            Color color1 = Color.Black;
+            Color color2 = Color.White;
+            if (e.Context?.Instance is not null)
+            {
+                var client = e.Context.GetRequiredService<IDesignToolsClient>();
+                var sender = client.Protocol.GetEndpoint<GradientEditorPaintValueEndpoint>().GetSender(client);
+                var response = sender.SendRequest(new GradientEditorPaintValueRequest(e.Context.Instance));
+                color1 = response.Color1;
+                color2 = response.Color2;
+            }
 
-            _disposed = true;
+            // Check if colors are valid
+            if (color1 == Color.Empty)
+            {
+                color1 = Color.Black;
+            }
+
+            if (color2 == Color.Empty)
+            {
+                color2 = Color.White;
+            }
+
+            if (color1 == color2)
+            {
+                color2 = Color.FromArgb(color1.B, color1.R, color1.G);
+            }
+
+            // Draw hatch sample
+            using Brush brush = ChartGraphics.GetHatchBrush(chartHatchStyle, color1, color2);
+            e.Graphics.FillRectangle(brush, e.Bounds);
         }
-
-        /// <summary>
-        /// Disposes all resources used by this object.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        #endregion
     }
 }

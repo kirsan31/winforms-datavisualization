@@ -12,7 +12,6 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -451,7 +450,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributePosition"),
         SRDescription("DescriptionAttributePathPoints"),
         EditorBrowsableAttribute(EditorBrowsableState.Never),
-        Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor)),
+        Editor("ChartCollectionEditor", typeof(UITypeEditor)),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         ]
         public AnnotationPathPointCollection GraphicsPathPoints

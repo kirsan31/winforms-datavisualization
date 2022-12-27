@@ -120,16 +120,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		virtual public string Name			{ get{ return ChartTypeNames.Pie;}}
 
 		/// <summary>
-		/// Gets chart type image.
-		/// </summary>
-		/// <param name="registry">Chart types registry object.</param>
-		/// <returns>Chart type image.</returns>
-		virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
-		{
-			return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
-		}
-
-		/// <summary>
 		/// True if chart type is stacked
 		/// </summary>
 		virtual public bool Stacked		{ get{ return false;}}

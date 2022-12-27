@@ -13,7 +13,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -749,7 +748,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRDescription("DescriptionAttributeAxisScaleSegmentCollection_AxisScaleSegmentCollection"),
         SerializationVisibilityAttribute(SerializationVisibility.Hidden),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-        Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor))
+        Editor("ChartCollectionEditor", typeof(UITypeEditor))
         ]
         internal AxisScaleSegmentCollection ScaleSegments
         {

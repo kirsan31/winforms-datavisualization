@@ -8,20 +8,26 @@
 //
 
 
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Design;
+using System.IO;
 using System.Windows.Forms.Design;
-//using System.Drawing.Design;
-//using System.Windows.Forms.DataVisualization.Charting;
-//using System.Windows.Forms.DataVisualization.Charting.Utilities;
+
+using Microsoft.DotNet.DesignTools.Client;
+
+using WinForms.DataVisualization.Designer.Protocol.Endpoints;
 
 namespace WinForms.DataVisualization.Designer.Client
 {
     /// <summary>
     /// Image string editor class.
     /// </summary>
-    internal class ImageValueEditor : FileNameEditor
+    internal class ImageValueEditor : FileNameEditor, IDisposable
     {
-        #region Editor method and properties
+        private Dictionary<string, Image>? _imgCache;
 
         /// <summary>
         /// Override this function to support palette colors drawing
@@ -33,46 +39,57 @@ namespace WinForms.DataVisualization.Designer.Client
             return true;
         }
 
-#warning designer
-        ///// <summary>
-        ///// Override this function to support palette colors drawing
-        ///// </summary>
-        ///// <param name="e">Paint value event arguments.</param>
-        //public override void PaintValue(PaintValueEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (e.Value is string)
-        //        {
-        //            // Get image loader 
-        //            ImageLoader imageLoader = null;
-        //            if (e.Context != null && e.Context.Instance != null)
-        //            {
-        //                if (e.Context.Instance is Chart)
-        //                {
-        //                    Chart chart = (Chart)e.Context.Instance;
-        //                    imageLoader = (ImageLoader)chart.GetService(typeof(ImageLoader));
-        //                }
-        //                else if (e.Context.Instance is IChartElement)
-        //                {
-        //                    IChartElement chartElement = (IChartElement)e.Context.Instance;
-        //                    imageLoader = (ImageLoader)chartElement.Common.ImageLoader;
-        //                }
-        //            }
+        /// <summary>
+        /// Override this function to support palette colors drawing
+        /// </summary>
+        /// <param name="e">Paint value event arguments.</param>
+        public override void PaintValue(PaintValueEventArgs e)
+        {
+            if (e.Context?.Instance is null || e.Value is not string imageURL || string.IsNullOrEmpty(imageURL))
+                return;
 
-        //            if (imageLoader != null && !string.IsNullOrEmpty((string)e.Value))
-        //            {
-        //                // Load a image
-        //                System.Drawing.Image image = imageLoader.LoadImage((string)e.Value);
+            Image? image = null;
+            _imgCache?.TryGetValue(imageURL, out image);
+            if (image is null)
+            {
+                var client = e.Context.GetRequiredService<IDesignToolsClient>();
+                var sender = client.Protocol.GetEndpoint<ImageValueEditorPaintValueEndpoint>().GetSender(client);
+                var response = sender.SendRequest(new ImageValueEditorPaintValueRequest(e.Context.Instance, imageURL));
+                if (response.Image is not null)
+                {
+                    try
+                    {
+                        using var ms = new MemoryStream(response.Image);
+                        image = Image.FromStream(ms);
+                        _imgCache ??= new Dictionary<string, Image>(StringComparer.OrdinalIgnoreCase);
+                        _imgCache[imageURL] = image;
+                    }
+                    catch { }
+                }
+            }
 
-        //                // Draw Image
-        //                e.Graphics.DrawImage(image, e.Bounds);
-        //            }
-        //        }
-        //    }
-        //    catch (ArgumentException)
-        //    { }
-        //}
-        #endregion
+            if (image is not null)
+                e.Graphics.DrawImage(image, e.Bounds);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_imgCache is null)
+                return;
+
+            if (disposing)
+            {
+                foreach (var img in _imgCache.Values)
+                    img?.Dispose();
+            }
+
+            _imgCache = null;
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

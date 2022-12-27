@@ -262,7 +262,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the chart element with the specified name.
+        /// Gets or sets the chart element with the specified name.<br/>
+        /// This method approaches an O(1) operation.
         /// </summary>
         /// <value></value>
         public T this[string name]
@@ -281,6 +282,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         throw new ArgumentException(SR.ExceptionNameNotFound(name, this.GetType().Name), ex);
                     }
                 }
+
                 throw new ArgumentException(SR.ExceptionNameNotFound(name, this.GetType().Name));
             }
 
@@ -328,7 +330,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Methods
 
         /// <summary>
-        /// Determines whether the chart element with the specified name already exists in the collection.
+        /// Determines whether the chart element with the specified name already exists in the collection.<br/>
+        /// This method approaches an O(1) operation.
         /// </summary>
         /// <param name="name">The new chart element name.</param>
         /// <returns>
@@ -359,7 +362,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Indexes the of chart element with the specified name.
+        /// Indexes the of chart element with the specified name.<br/>
+        /// This method approaches an O(1) operation.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
@@ -393,7 +397,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Finds the chart element by the name.
+        /// Finds the chart element by the name.<br/>
+        /// This method approaches an O(1) operation.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>

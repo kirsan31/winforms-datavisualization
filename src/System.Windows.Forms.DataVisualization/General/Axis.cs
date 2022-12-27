@@ -16,41 +16,11 @@ using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
     using Point = Point;
 
-    #region Axis name enumeration
-
-    /// <summary>
-    /// An enumeration of axis names.
-    /// </summary>
-    public enum AxisName
-    {
-        /// <summary>
-        /// Primary X Axis.
-        /// </summary>
-        X,
-
-        /// <summary>
-        /// Primary Y Axis.
-        /// </summary>
-        Y,
-
-        /// <summary>
-        /// Secondary X Axis.
-        /// </summary>
-        X2 = 2,
-
-        /// <summary>
-        /// Secondary Y Axis.
-        /// </summary>
-        Y2 = 3
-    }
-
-    #endregion Axis name enumeration
 
     /// <summary>
     /// The Axis class gives information to the Common.Chart series
@@ -948,7 +918,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeStripLines"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor))
+        Editor("ChartCollectionEditor", typeof(UITypeEditor))
         ]
         public StripLinesCollection StripLines
         {

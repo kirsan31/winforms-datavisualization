@@ -8,9 +8,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="WinForms.DataVisualization.Debug" Version="$(MajorVer).*" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="WinForms.DataVisualization" Version="$(MajorVer).*-*" Condition="'$(Configuration)'=='Release'" />
+		<PackageReference Include="WinForms.DataVisualization.Debug" Version="$(MajorVer).*-*" Condition="'$(Configuration)'=='Debug'" />
+	</ItemGroup>
 
   <!--<ItemGroup>
     <ProjectReference Include="..\src\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
