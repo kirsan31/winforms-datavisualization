@@ -1,19 +1,20 @@
 # WinForms Data Visualization
 
-This repository is a fork of https://github.com/dotnet/winforms-datavisualization that contains source code of the `System.Windows.Forms.DataVisualization` namespace that provides charting for WinForms.
+[![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/WinForms.DataVisualization)](https://www.nuget.org/packages/WinForms.DataVisualization/)
+
+This repository is a .NET continuation of .NET Framework [`System.Windows.Forms.DataVisualization`](https://github.com/dotnet/winforms-datavisualization) that provides charting for [WinForms](https://github.com/dotnet/winforms).
 
 ## What is done.
-- .Net6+ support.
+- .NET 6+ support.
 - Lots of performance improvements.
-- Partial new WinForms designer support.  
+- New WinForms designer support (not complete yet).  
   - Serialization / deserialization - all existing forms will work and you can drag chart control from toolbox on new forms. 
   - Editors porting status information is [here](Editors.md).
 - Small bugs fixes.
 - [Nuget package](https://www.nuget.org/packages/WinForms.DataVisualization/).
 
 ## To Do.
-- Adapt custom editors as match as possible.
-- Probably full designer parity with .net framework version 🤔
+- Full designer parity with .net framework version.
 
 ## Getting started with Chart Controls
 

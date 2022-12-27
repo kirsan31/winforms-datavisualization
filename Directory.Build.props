@@ -9,13 +9,24 @@
 
 	<PropertyGroup>
 		<MajorVer>1</MajorVer>
-		<MinorPatchVer>5.0</MinorPatchVer>
+		<MinorPatchVer>6.0</MinorPatchVer>
 		<PRVer>-pr</PRVer>
 		<NugetReleaseNotes>
-			Lots of designer improvements:
-			Many editors are partially ported.
-			AxesArrayEditor, ColorPaletteEditor, FlagsEnumUITypeEditor are fully ported.
-			Control ToolBox icon restored.
+			Porting of the following editors has been completed:
+			
+			AnchorPointUITypeEditor
+			AnnotationAxisUITypeEditor
+			ChartTypeEditor
+			GradientEditor
+			HatchStyleEditor
+			ImageValueEditor
+			KeywordsStringEditor
+			MarkerStyleEditor
+			SeriesDataSourceMemberValueAxisUITypeEditor
+
+			All collection editors are now working as client server architecture and have descriptions + help.
+			Added xml docs to Nuget package.
+			ImageLoader optimization.
 		</NugetReleaseNotes>
 	</PropertyGroup>
 </Project>
