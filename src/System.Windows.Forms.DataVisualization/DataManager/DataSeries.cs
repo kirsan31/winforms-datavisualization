@@ -119,7 +119,7 @@ public class SeriesCollection : ChartNamedElementCollection<Series>, IDisposable
     /// Updates the Series' references to ChartAreas.
     /// </summary>
     /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="Charting.NameReferenceChangedEventArgs"/> instance containing the event data.</param>
+    /// <param name="e">The <see cref="NameReferenceChangedEventArgs"/> instance containing the event data.</param>
     internal void ChartAreaNameReferenceChanged(object sender, NameReferenceChangedEventArgs e)
     {
         foreach (Series series in this)
@@ -133,7 +133,7 @@ public class SeriesCollection : ChartNamedElementCollection<Series>, IDisposable
     /// Updates the Series' references to Legends.
     /// </summary>
     /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="Charting.NameReferenceChangedEventArgs"/> instance containing the event data.</param>
+    /// <param name="e">The <see cref="NameReferenceChangedEventArgs"/> instance containing the event data.</param>
     internal void LegendNameReferenceChanged(object sender, NameReferenceChangedEventArgs e)
     {
         foreach (Series series in this)
@@ -2147,8 +2147,8 @@ public class Series : DataPointCustomProperties, IDisposable
     Bindable(true),
     DefaultValue(true),
     SRDescription("DescriptionAttributeSeries_Enabled"),
-    NotifyParentPropertyAttribute(true),
-    ParenthesizePropertyNameAttribute(true),
+    NotifyParentProperty(true),
+    ParenthesizePropertyName(true),
     ]
     public bool Enabled
     {
@@ -2209,7 +2209,7 @@ public class Series : DataPointCustomProperties, IDisposable
     /// </summary>
     [
     Browsable(false),
-    EditorBrowsableAttribute(EditorBrowsableState.Never),
+    EditorBrowsable(EditorBrowsableState.Never),
     SRCategory("CategoryAttributeChart"),
     Bindable(true),
     SRDescription("DescriptionAttributeSeries_Type"),
@@ -2217,45 +2217,36 @@ public class Series : DataPointCustomProperties, IDisposable
     TypeConverter(typeof(ChartTypeConverter)),
     Editor("ChartTypeEditor", typeof(UITypeEditor)),
     RefreshProperties(RefreshProperties.All),
-    SerializationVisibilityAttribute(SerializationVisibility.Hidden),
-    DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden)
+    SerializationVisibility(SerializationVisibility.Hidden),
+    DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)
     ]
     public string ChartTypeName
     {
         get => _chartType;
         set
         {
-            if (_chartType != value && value.Length > 0)
+            if (_chartType != value && value.Length > 0 && Common?.ChartTypeRegistry is not null)
             {
-                if (Common != null)
+                IChartType type = Common.ChartTypeRegistry.GetChartType(value);
+                if (_yValuesPerPoint < type.YValuesPerPoint)
                 {
-                    ChartTypeRegistry chartTypeRegistry = Common.ChartTypeRegistry;
-                    if (chartTypeRegistry != null)
-                    {
-                        IChartType type = chartTypeRegistry.GetChartType(value);
-                        if (_yValuesPerPoint < type.YValuesPerPoint)
-                        {
-                            // Set minimum Y values number for the chart type
-                            _yValuesPerPoint = type.YValuesPerPoint;
+                    // Set minimum Y values number for the chart type
+                    _yValuesPerPoint = type.YValuesPerPoint;
 
-                            // Resize Y value(s) array of data points
-                            if (Points.Count > 0)
-                            {
-                                // Resize data points Y value(s) arrays
-                                foreach (DataPoint dp in Points)
-                                {
-                                    dp.ResizeYValueArray(_yValuesPerPoint);
-                                }
-                            }
-                        }
-                        // Refresh Minimum and Maximum from data
-                        // after recalc and set data
-                        if (Chart != null && Chart.chartPicture != null)
+                    // Resize Y value(s) array of data points
+                    if (Points.Count > 0)
+                    {
+                        // Resize data points Y value(s) arrays
+                        foreach (DataPoint dp in Points)
                         {
-                            Chart.chartPicture.ResetMinMaxFromData();
+                            dp.ResizeYValueArray(_yValuesPerPoint);
                         }
                     }
                 }
+
+                // Refresh Minimum and Maximum from data
+                // after recalc and set data
+                Chart?.chartPicture?.ResetMinMaxFromData();
             }
 
             _chartType = value;

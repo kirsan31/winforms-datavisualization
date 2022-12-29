@@ -80,7 +80,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // True for all chart types, which have axes. False for doughnut and pie chart.
         internal bool requireAxes = true;
 
-        // Indicates that chart area has circular shape (like in radar or polar chart)
+        /// <summary>
+        /// Indicates that chart area has circular shape (like in radar or polar chart)
+        /// </summary>
         internal bool chartAreaIsCurcular;
 
         // Chart Area contains 100 % stacked chart types

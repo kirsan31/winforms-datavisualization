@@ -11,18 +11,11 @@
 
 using System;
 using System.Collections;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Drawing.Design;
 using System.Windows.Forms;
 
-using Microsoft.DotNet.DesignTools.Client;
-using Microsoft.DotNet.DesignTools.Client.Editors;
 using Microsoft.DotNet.DesignTools.Client.Proxies;
-using Microsoft.DotNet.DesignTools.Protocol.Endpoints;
 
 using WinForms.DataVisualization.Designer.Protocol;
-using WinForms.DataVisualization.Designer.Protocol.Endpoints;
 
 namespace WinForms.DataVisualization.Designer.Client
 {
@@ -34,9 +27,10 @@ namespace WinForms.DataVisualization.Designer.Client
         #region Editor methods and properties 
 
         // Collection editor form
-        Form? _form;
+        private Form? _form;
+
         // Help topic string
-        string _helpTopic = string.Empty;
+        private string _helpTopic = string.Empty;
 
 
         /// <summary>
@@ -53,13 +47,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// Override the HelpTopic property to provide different topics,
         /// depending on selected property.
         /// </summary>
-        protected override string? HelpTopic
-        {
-            get
-            {
-                return (_helpTopic.Length == 0) ? base.HelpTopic : _helpTopic;
-            }
-        }
+        protected override string? HelpTopic => (_helpTopic.Length == 0) ? base.HelpTopic : _helpTopic;
 
         /// <summary>
         /// Displaying help for the currently selected item in the property grid
@@ -188,172 +176,28 @@ namespace WinForms.DataVisualization.Designer.Client
     /// Designer editor for the data points collection.
     /// </summary>
     internal class DataPointCollectionEditor : ChartCollectionEditor
-	{
-		#region Editor methods
+    {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public DataPointCollectionEditor(Type type) : base(type) { }
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public DataPointCollectionEditor(Type type) : base(type)
-        {
-		}
 
-#warning designer
-        ///// <summary>
-        ///// Do not allow to edit if multiple series selected.
-        ///// </summary>
-        ///// <param name="context">Descriptor context.</param>
-        ///// <param name="provider">Service provider.</param>
-        ///// <param name="value">Value to edit.</param>
-        ///// <returns>The new value of the object.</returns>
-        //public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) 
-        //{
-        //	if (context != null && context.Instance != null)
-        //	{
-        //		// Save current control type descriptor context
-        //		if(!(context.Instance is Series))
-        //		{
-        //                  throw (new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported));
-        //		}
-        //	}
-        //	return base.EditValue(context, provider, value);
-        //}
-
-        //      /// <summary>
-        //      /// Create instance of data point object
-        //      /// </summary>
-        //      /// <param name="itemType">Item type.</param>
-        //      /// <returns>New item instance.</returns>
-        //      protected override object CreateInstance(Type itemType)
-        //{
-        //	if (Context != null && Context.Instance != null)
-        //	{
-        //		if (Context.Instance is Series)
-        //		{
-        //			Series	series = (Series)Context.Instance;
-        //			DataPoint	newDataPoint = new DataPoint(series);
-        //			return newDataPoint;
-        //		}
-        //		else if(Context.Instance is Array)
-        //		{
-        //                  throw new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported);
-        //		}
-        //	}
-
-        //	return base.CreateInstance(itemType);
-        //}
-
-        #endregion
+        protected override string Name => CollectionEditorNames.DataPointCollectionEditor;
     }
 
 
-	/// <summary>
-	/// Designer editor for the data series collection.
-	/// </summary>
-	internal class SeriesCollectionEditor : ChartCollectionEditor
-	{
-		#region Editor methods
-
-		/// <summary>
-		/// Object constructor.
-		/// </summary>
-		public SeriesCollectionEditor(Type type) : base(type)
-        {
-		}
-
-#warning dsigner
-        //internal static Series CreateNewSeries(Chart control, string suggestedChartArea)
-        //{
-        //    int countSeries = control.Series.Count + 1;
-        //    string seriesName = "Series" + countSeries.ToString(System.Globalization.CultureInfo.InvariantCulture);
-
-        //    // Check if this name already in use
-        //    bool seriesFound = true;
-        //    while (seriesFound)
-        //    {
-        //        seriesFound = false;
-        //        foreach (Series series in control.Series)
-        //        {
-        //            if (series.Name == seriesName)
-        //            {
-        //                seriesFound = true;
-        //            }
-        //        }
-
-        //        if (seriesFound)
-        //        {
-        //            ++countSeries;
-        //            seriesName = "Series" + countSeries.ToString(System.Globalization.CultureInfo.InvariantCulture);
-        //        }
-        //    }
-
-        //    // Create new series
-        //    Series newSeries = new Series(seriesName);
-
-        //    // Check if default chart area name exists
-        //    if (control.ChartAreas.Count > 0)
-        //    {
-        //        bool defaultFound = false;
-
-        //        if (!string.IsNullOrEmpty(suggestedChartArea) &&
-        //            control.ChartAreas.IndexOf(suggestedChartArea) != -1)
-        //        {
-        //            newSeries.ChartArea = suggestedChartArea;
-        //            defaultFound = true;
-        //        }
-        //        else
-        //        {
-        //            foreach (ChartArea area in control.ChartAreas)
-        //            {
-        //                if (area.Name == newSeries.ChartArea)
-        //                {
-        //                    defaultFound = true;
-        //                    break;
-        //                }
-        //            }
-        //        }
-
-        //        // If default chart area was not found - use name of the first area
-        //        if (!defaultFound)
-        //        {
-        //            newSeries.ChartArea = control.ChartAreas[0].Name;
-        //        }
-
-        //        // Check if series area is circular
-        //        if (control.ChartAreas[newSeries.ChartArea].chartAreaIsCurcular)
-        //        {
-        //            // Change default chart type
-        //            newSeries.ChartTypeName = ChartTypeNames.Radar;
-
-        //            // Check if it's a Polar chart type
-        //            IChartType chartType = control.ChartAreas[newSeries.ChartArea].GetCircularChartType() as IChartType;
-        //            if (chartType != null && string.Equals(chartType.Name, ChartTypeNames.Polar, StringComparison.OrdinalIgnoreCase))
-        //            {
-        //                newSeries.ChartTypeName = ChartTypeNames.Polar;
-        //            }
-        //        }
-        //    }
-
-        //    return newSeries;
-        //}
-
+    /// <summary>
+    /// Designer editor for the data series collection.
+    /// </summary>
+    internal class SeriesCollectionEditor : ChartCollectionEditor
+    {
         /// <summary>
-        /// Create series instance in the editor 
+        /// Object constructor.
         /// </summary>
-        /// <param name="itemType">Item type.</param>
-        /// <returns>Newly created item.</returns>
-        protected override object? CreateInstance(Type itemType)
-		{
-			if (Context is not null && Context.Instance is not null)
-			{
-#warning dsigner
-                //Chart	control = (Chart)Helpers.GetChartReference(Context.Instance);
-                //            return SeriesCollectionEditor.CreateNewSeries(control, String.Empty);
-            }
+        public SeriesCollectionEditor(Type type) : base(type) { }
 
-			return base.CreateInstance(itemType);
-		}
-	
-		#endregion
-	}
+
+        protected override string Name => CollectionEditorNames.SeriesCollectionEditor;
+    }
 }
