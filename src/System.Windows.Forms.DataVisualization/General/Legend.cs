@@ -836,6 +836,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Clear all legend item cells cached information
             foreach (LegendItem legendItem in this.legendItems)
             {
+                if (legendItem.Cells is null)
+                    continue;
+
                 foreach (LegendCell cell in legendItem.Cells)
                 {
                     cell.ResetCache();
@@ -2496,7 +2499,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMisc"),
         Bindable(true),
         SRDescription("DescriptionAttributeLegend_Name"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public override string Name
         {
@@ -2520,7 +2523,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(Constants.NotSetValue),
         SRDescription("DescriptionAttributeLegend_DockToChartArea"),
         TypeConverter(typeof(LegendAreaNameConverter)),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public string DockedToChartArea
         {
@@ -2559,7 +2562,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(true),
         SRDescription("DescriptionAttributeLegend_DockInsideChartArea"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public bool IsDockedInsideChartArea
         {
@@ -2585,9 +2588,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeLegend_Position"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ElementPositionConverter)),
-        SerializationVisibilityAttribute(SerializationVisibility.Element)
+        SerializationVisibility(SerializationVisibility.Element)
         ]
         public ElementPosition Position
         {
@@ -2637,7 +2640,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(false),
         SRDescription("DescriptionAttributeLegend_EquallySpacedItems"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public bool IsEquallySpacedItems
         {
@@ -2660,8 +2663,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(true),
         SRDescription("DescriptionAttributeLegend_Enabled"),
-        NotifyParentPropertyAttribute(true),
-        ParenthesizePropertyNameAttribute(true)
+        NotifyParentProperty(true),
+        ParenthesizePropertyName(true)
         ]
         public bool Enabled
         {
@@ -2684,7 +2687,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(true),
         SRDescription("DescriptionAttributeLegend_AutoFitText"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public bool IsTextAutoFit
         {
@@ -2722,8 +2725,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(LegendStyle.Table),
         SRDescription("DescriptionAttributeLegend_LegendStyle"),
-        NotifyParentPropertyAttribute(true),
-        ParenthesizePropertyNameAttribute(true)
+        NotifyParentProperty(true),
+        ParenthesizePropertyName(true)
         ]
         public LegendStyle LegendStyle
         {
@@ -2819,8 +2822,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(LegendTableStyle.Auto),
         SRDescription("DescriptionAttributeLegend_TableStyle"),
-        NotifyParentPropertyAttribute(true),
-        ParenthesizePropertyNameAttribute(true)
+        NotifyParentProperty(true),
+        ParenthesizePropertyName(true)
         ]
         public LegendTableStyle TableStyle
         {
@@ -2971,7 +2974,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         SRDescription("DescriptionAttributeBackColor"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
@@ -2996,7 +2999,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         SRDescription("DescriptionAttributeBorderColor"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
@@ -3022,7 +3025,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(ChartDashStyle.Solid),
         SRDescription("DescriptionAttributeBorderDashStyle"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public ChartDashStyle BorderDashStyle
         {
@@ -3046,7 +3049,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(1),
         SRDescription("DescriptionAttributeBorderWidth"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public int BorderWidth
         {
@@ -3074,7 +3077,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(""),
         SRDescription("DescriptionAttributeBackImage"),
         Editor("ImageValueEditor", typeof(UITypeEditor)),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public string BackImage
         {
@@ -3096,7 +3099,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(ChartImageWrapMode.Tile),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeImageWrapMode")
         ]
         public ChartImageWrapMode BackImageWrapMode
@@ -3119,7 +3122,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(typeof(Color), ""),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor))
@@ -3144,7 +3147,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(ChartImageAlignmentStyle.TopLeft),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeBackImageAlign")
         ]
         public ChartImageAlignmentStyle BackImageAlignment
@@ -3168,7 +3171,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(GradientStyle.None),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeBackGradientStyle"),
         Editor("GradientEditor", typeof(UITypeEditor))
         ]
@@ -3204,7 +3207,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(typeof(Color), ""),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeBackSecondaryColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor))
@@ -3239,7 +3242,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(ChartHatchStyle.None),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeBackHatchStyle"),
         Editor("HatchStyleEditor", typeof(UITypeEditor))
         ]
@@ -3265,7 +3268,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
         SRDescription("DescriptionAttributeLegend_Font"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public Font Font
         {
@@ -3291,7 +3294,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeLegendFontColor"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
@@ -3316,7 +3319,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(StringAlignment.Near),
         SRDescription("DescriptionAttributeLegend_Alignment"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public StringAlignment Alignment
         {
@@ -3339,7 +3342,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(Docking.Right),
         SRDescription("DescriptionAttributeLegend_Docking"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public Docking Docking
         {
@@ -3366,7 +3369,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(0),
         SRDescription("DescriptionAttributeShadowOffset"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public int ShadowOffset
         {
@@ -3393,7 +3396,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(Color), "128, 0, 0, 0"),
         SRDescription("DescriptionAttributeShadowColor"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
@@ -3418,11 +3421,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Browsable(false),
         Bindable(false),
         DefaultValue(Constants.NotSetValue),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeLegend_InsideChartArea"),
-        EditorBrowsableAttribute(EditorBrowsableState.Never),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Content),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        EditorBrowsable(EditorBrowsableState.Never),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
+        SerializationVisibility(SerializationVisibility.Hidden),
         TypeConverter(typeof(LegendAreaNameConverter))
         ]
         public string InsideChartArea
@@ -3457,7 +3460,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeLegend_CustomItems"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         Editor("LegendItemCollectionEditor", typeof(UITypeEditor))
@@ -5125,10 +5128,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets the Legend object which the item belongs to.
         /// </summary>
         [
-            Bindable(false),
-            Browsable(false),
-            DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-            SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        Bindable(false),
+        Browsable(false),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
         ]
         public Legend Legend
         {
@@ -5148,8 +5151,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         SRDescription("DescriptionAttributeLegendItem_Name"),
-        NotifyParentPropertyAttribute(true),
-                ParenthesizePropertyNameAttribute(true)
+        NotifyParentProperty(true),
+        ParenthesizePropertyName(true)
         ]
         public override string Name
         {
@@ -5171,7 +5174,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeLegendItem_Color"),
         DefaultValue(typeof(Color), ""),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
@@ -5197,7 +5200,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRDescription("DescriptionAttributeLegendItem_Image"),
         DefaultValue(""),
         Editor("ImageValueEditor", typeof(UITypeEditor)),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public string Image
         {
@@ -5220,7 +5223,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(LegendImageStyle), "Rectangle"),
         SRDescription("DescriptionAttributeLegendItem_Style"),
-                ParenthesizePropertyNameAttribute(true)
+        ParenthesizePropertyName(true)
         ]
         public LegendImageStyle ImageStyle
         {
@@ -5289,7 +5292,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(typeof(Color), ""),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor))
@@ -5404,7 +5407,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         DefaultValue(true),
         SRDescription("DescriptionAttributeLegendItem_Enabled"),
-        ParenthesizePropertyNameAttribute(true),
+        ParenthesizePropertyName(true),
         ]
         public bool Enabled
         {
@@ -5671,8 +5674,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         [
         Browsable(false),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
         SRDescription("DescriptionAttributeLegendItem_SeriesName"),
         DefaultValue("")
         ]
@@ -5693,8 +5696,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         [
         Browsable(false),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
         SRDescription("DescriptionAttributeLegendItem_SeriesPointIndex"),
         DefaultValue(-1)
         ]
