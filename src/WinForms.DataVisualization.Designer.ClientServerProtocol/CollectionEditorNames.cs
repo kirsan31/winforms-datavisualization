@@ -5,5 +5,6 @@
         public const string ChartCollectionEditor = nameof(ChartCollectionEditor);
         public const string DataPointCollectionEditor = nameof(DataPointCollectionEditor);
         public const string SeriesCollectionEditor = nameof(SeriesCollectionEditor);
+        public const string AnnotationCollectionEditor = nameof(AnnotationCollectionEditor);
     }
 }
