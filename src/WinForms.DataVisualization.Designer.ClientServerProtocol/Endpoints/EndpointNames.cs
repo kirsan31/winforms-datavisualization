@@ -9,5 +9,6 @@
         public const string SeriesDSMemberValueAxisEditorEditValue = nameof(SeriesDSMemberValueAxisEditorEditValue);
         public const string AnchorPointUITypeEditorEditValue = nameof(AnchorPointUITypeEditorEditValue);
         public const string AnnotationAxisUITypeEditorEditValue = nameof(AnnotationAxisUITypeEditorEditValue);
+        public const string ChartCollectionEditorEditValue = nameof(ChartCollectionEditorEditValue);
     }
 }
