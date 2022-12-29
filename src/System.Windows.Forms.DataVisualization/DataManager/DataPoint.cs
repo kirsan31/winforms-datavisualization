@@ -5312,7 +5312,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return CheckIfSerializationRequired(CommonCustomProperties.Font);
             else
             {
-                return series.font != series.FontCache.DefaultFont;
+                return series.font != (series.FontCache?.DefaultFont ?? series.font);
             }
         }
 

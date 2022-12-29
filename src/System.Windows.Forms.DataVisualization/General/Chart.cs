@@ -2892,6 +2892,9 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
         // Legend items loop
         foreach (Legend legend in Legends)
         {
+            if (!(legend.CustomItems?.Count > 0))
+                continue;
+
             foreach (LegendItem legendItem in legend.CustomItems)
             {
                 // ToolTip empty

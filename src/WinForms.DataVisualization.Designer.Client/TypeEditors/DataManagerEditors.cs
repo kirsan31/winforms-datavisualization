@@ -21,6 +21,7 @@ using Microsoft.DotNet.DesignTools.Client.Editors;
 using Microsoft.DotNet.DesignTools.Client.Proxies;
 using Microsoft.DotNet.DesignTools.Protocol.Endpoints;
 
+using WinForms.DataVisualization.Designer.Protocol;
 using WinForms.DataVisualization.Designer.Protocol.Endpoints;
 
 namespace WinForms.DataVisualization.Designer.Client
@@ -34,93 +35,18 @@ namespace WinForms.DataVisualization.Designer.Client
 
         // Collection editor form
         Form? _form;
-        //object? _chart;
-        //ITypeDescriptorContext? _context;
-
         // Help topic string
         string _helpTopic = string.Empty;
+
+
         /// <summary>
         /// Object constructor.
         /// </summary>
         /// <param name="type">AxisName.</param>
-        public ChartCollectionEditor(Type type) : base(type)
-        {
-        }
+        public ChartCollectionEditor(Type type) : base(type) { }
 
-        /// <summary>
-        /// Edit object's value.
-        /// </summary>
-        /// <param name="context">Descriptor context.</param>
-        /// <param name="provider">Service provider.</param>
-        /// <param name="value">Value to edit.</param>
-        /// <returns>The new value of the object.</returns>
-        public override object? EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
-        {
-            //_context = context;
-            // Save current control type descriptor context
-            //_chart = context.Instance;
 
-            if (provider is null || value is not ObjectProxy proxy || (proxy.TypeIdentity.Name != "ChartAreaCollection" && proxy.TypeIdentity.Name != "LegendCollection"))
-                return base.EditValue(context, provider!, value);
-
-            Endpoint<ChartCollectionEditorEditValueRequest, Response.Empty>.Sender? sender = null;
-            try
-            {
-                var client = provider.GetRequiredService<IDesignToolsClient>();
-                sender = client.Protocol.GetEndpoint<ChartCollectionEditorEditValueEndpoint>().GetSender(client);
-                sender.Value.SendRequest(new ChartCollectionEditorEditValueRequest(value, true));
-                return base.EditValue(context, provider, value);
-            }
-            finally
-            {
-                sender?.SendRequest(new ChartCollectionEditorEditValueRequest(value, false));
-            }
-        }
-
-        ///// <summary>
-        ///// Sets the specified array as the items of the collection.
-        ///// </summary>
-        ///// <param name="editValue">The collection to edit.</param>
-        ///// <param name="value">An array of objects to set as the collection items.</param>
-        ///// <returns>
-        ///// The newly created collection object or, otherwise, the collection indicated by the <paramref name="editValue"/> parameter.
-        ///// </returns>
-        //protected override object SetItems(object editValue, object[] value)
-        //{
-        //    object result = base.SetItems(editValue, value);
-
-        //    IComponentChangeService svc = _context.GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-        //    INameController controller = editValue as INameController;
-        //    if (controller != null && svc != null && (editValue is ChartAreaCollection || editValue is LegendCollection))
-        //    {
-        //        IList newList = (IList)result;
-        //        bool elementsRemoved = false;
-        //        foreach (ChartNamedElement element in controller.Snapshot)
-        //        {
-        //            if (newList.IndexOf(element) < 0)
-        //            {
-        //                elementsRemoved = true;
-        //            }
-        //        }
-
-        //        if (elementsRemoved)
-        //        {
-        //            svc.OnComponentChanging(this._chart, null);
-        //            ChartNamedElement defaultElement = (ChartNamedElement)(newList.Count > 0 ? newList[0] : null);
-        //            foreach (ChartNamedElement element in controller.Snapshot)
-        //            {
-        //                if (newList.IndexOf(element) < 0)
-        //                {
-        //                    controller.OnNameReferenceChanged(new NameReferenceChangedEventArgs(element, defaultElement));
-        //                }
-        //            }
-
-        //            svc.OnComponentChanged(this._chart, null, null, null);
-        //        }
-        //    }
-
-        //    return result;
-        //}
+        protected override string Name => CollectionEditorNames.ChartCollectionEditor;
 
 
         /// <summary>

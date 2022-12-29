@@ -2620,12 +2620,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Determoines if this position should be serialized.
+        /// Determines if this position should be serialized.
         /// </summary>
         /// <returns></returns>
         internal bool ShouldSerializePosition()
         {
-            return !this.Position.Auto;
+            return !this.Position?.Auto ?? false;
         }
 
         /// <summary>
@@ -4516,7 +4516,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>True if legend is enabled.</returns>
         internal bool IsEnabled()
         {
-            if (this.Enabled)
+            if (this.Enabled && !_disposedValue) // _disposedValue check will fix many design time null reference
             {
                 // Check if legend is docked to the chart area
                 if (this.DockedToChartArea.Length > 0 &&
@@ -4536,6 +4536,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 return true;
             }
+
             return false;
         }
 
@@ -4616,6 +4617,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     _font = null;
                     autofitFont = null;
                 }
+
                 _disposedValue = true;
             }
         }

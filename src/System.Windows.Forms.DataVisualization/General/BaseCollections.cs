@@ -543,8 +543,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             get
             {
-                return _disableDeleteCount == 0;
+                return _disableDeleteCount != 0;
             }
+
             set
             {
                 _disableDeleteCount += value ? 1 : -1;

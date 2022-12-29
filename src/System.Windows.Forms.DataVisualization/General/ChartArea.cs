@@ -468,7 +468,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns></returns>
         internal bool ShouldSerializePosition()
         {
-            return !this.Position.Auto;
+            return !this.Position?.Auto ?? false;
         }
 
         /// <summary>
@@ -520,7 +520,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns></returns>
         internal bool ShouldSerializeInnerPlotPosition()
         {
-            return !this.InnerPlotPosition.Auto;
+            return !this.InnerPlotPosition?.Auto ?? false;
         }
 
         /// <summary>
