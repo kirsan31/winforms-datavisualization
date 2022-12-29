@@ -44,7 +44,7 @@ namespace WinForms.DataVisualization.Designer.Client
 
             // Check if we dealing with X or Y axis
             bool showXAxes;
-            if (context?.PropertyDescriptor.Name == "AxisY")
+            if (context.PropertyDescriptor.Name == "AxisY")
                 showXAxes = false;
             else
                 showXAxes = true;

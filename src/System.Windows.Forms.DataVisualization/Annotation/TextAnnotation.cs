@@ -33,16 +33,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Annotation text
         private string _text = "";
 
-        // Indicates multiline text
+        // Indicates multi line text
         private bool _isMultiline;
 
         // Current content size
         internal SizeF contentSize = SizeF.Empty;
 
-        // Indicates that annotion is an ellipse
+        // Indicates that annotation is an ellipse
         internal bool isEllipse;
 
         // Control used to edit text
+        [Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2213:Disposable fields should be disposed", Justification = "<Pending>")]
         private TextBox _editTextBox;
 
         #region Construction and Initialization

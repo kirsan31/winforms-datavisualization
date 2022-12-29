@@ -4,6 +4,8 @@ using System.Windows.Forms.DataVisualization.Charting;
 using Xunit;
 
 namespace Tests;
+
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1026:Theory methods should use all of their parameters", Justification = "<Pending>")]
 public class ChartNamedElementCollection_Tests
 {    
     [Theory]
@@ -118,8 +120,5 @@ internal class NamedClass : ChartNamedElementCollection<DataPointCustomPropertie
     /// Initializes a new instance of the <see cref="NamedClass`1"/> class.
     /// </summary>
     /// <param name="parent">The parent chart element.</param>
-    internal NamedClass(System.Windows.Forms.DataVisualization.Charting.IChartElement? parent) : base(parent)
-    {
-
-    }
+    internal NamedClass(IChartElement? parent) : base(parent) { }
 }

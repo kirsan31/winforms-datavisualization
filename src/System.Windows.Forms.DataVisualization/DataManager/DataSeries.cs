@@ -1134,7 +1134,7 @@ public class Series : DataPointCustomProperties, IDisposable
                 result[keyEndIndex] == 'Y' &&
                 char.IsDigit(result[keyEndIndex + 1]))
             {
-                yValueIndex = int.Parse(result.Substring(keyEndIndex + 1, 1), CultureInfo.InvariantCulture);
+                yValueIndex = int.Parse(result.AsSpan(keyEndIndex + 1, 1), provider: CultureInfo.InvariantCulture);
                 keyEndIndex += 2;
             }
 

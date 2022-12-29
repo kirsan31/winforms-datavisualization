@@ -112,6 +112,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
     /// <param name="imageURL">Image name (FileName, URL, Resource).</param>
     /// <param name="saveImage">True if loaded image should be saved in cache.</param>
     /// <returns>Image object</returns>
+    [Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1304:Specify CultureInfo", Justification = "<Pending>")]
     public Image LoadImage(string imageURL, bool saveImage)
     {
         // Check if image is defined in the chart image collection
