@@ -10,7 +10,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Description>This package contains the Windows Forms charting controls for .NET. Ported from System.Windows.Forms.DataVisualization, optimized and designer support added.</Description>
+		<Description>This package contains the Windows Forms charting controls for .NET. Ported from System.Windows.Forms.DataVisualization, speed optimized and full designer support added.</Description>
 		<RepositoryUrl>https://github.com/kirsan31/winforms-datavisualization</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/kirsan31/winforms-datavisualization</PackageProjectUrl>
 		<PackageIcon>Icon.png</PackageIcon>

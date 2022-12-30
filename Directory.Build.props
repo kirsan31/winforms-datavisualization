@@ -9,24 +9,11 @@
 
 	<PropertyGroup>
 		<MajorVer>1</MajorVer>
-		<MinorPatchVer>6.0</MinorPatchVer>
+		<MinorPatchVer>7.0</MinorPatchVer>
 		<PRVer>-pr</PRVer>
 		<NugetReleaseNotes>
-			Porting of the following editors has been completed:
-			
-			AnchorPointUITypeEditor
-			AnnotationAxisUITypeEditor
-			ChartTypeEditor
-			GradientEditor
-			HatchStyleEditor
-			ImageValueEditor
-			KeywordsStringEditor
-			MarkerStyleEditor
-			SeriesDataSourceMemberValueAxisUITypeEditor
-
-			All collection editors are now working as client server architecture and have descriptions + help.
-			Added xml docs to Nuget package.
-			ImageLoader optimization.
+			All collection editors are ported - control now have full design parity with .net framework version.
+			Small bug fixes and improvements.
 		</NugetReleaseNotes>
 	</PropertyGroup>
 </Project>
