@@ -947,7 +947,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal void Set3DAnglesAndReverseMode()
         {
             // Clear series reversed flag
-            _reverseSeriesOrder = false;
+            ReverseSeriesOrder = false;
 
             // If 3D charting is enabled
             if (this.Area3DStyle.Enable3D)
@@ -972,7 +972,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this.SetData(false, false);
 
                     // Reversed series order
-                    _reverseSeriesOrder = true;
+                    ReverseSeriesOrder = true;
 
                     // Reversed primary and secondary X axis
                     if (!this.switchValueAxes)

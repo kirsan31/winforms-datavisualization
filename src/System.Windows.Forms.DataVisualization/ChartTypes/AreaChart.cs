@@ -591,12 +591,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="pointLoopIndex">Index of points loop.</param>
         /// <param name="tension">Line tension.</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
-        /// <param name="topDarkening">Darkenning scale for top surface. 0 - None.</param>
-        /// <param name="bottomDarkening">Darkenning scale for bottom surface. 0 - None.</param>
+        /// <param name="topDarkening">Darkening scale for top surface. 0 - None.</param>
+        /// <param name="bottomDarkening">Darkening scale for bottom surface. 0 - None.</param>
         /// <param name="thirdPointPosition">Position where the third point is actually located or float.NaN if same as in "firstPoint".</param>
         /// <param name="fourthPointPosition">Position where the fourth point is actually located or float.NaN if same as in "secondPoint".</param>
         /// <param name="clippedSegment">Indicates that drawn segment is 3D clipped. Only top/bottom should be drawn.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         protected override GraphicsPath Draw3DSurface(
             ChartArea area,
             ChartGraphics graph,
@@ -824,14 +824,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="tension">Line tension.</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
         /// <param name="surfaceSegmentType">Define surface segment type if it consists of several segments.</param>
-        /// <param name="topDarkening">Darkenning scale for top surface. 0 - None.</param>
-        /// <param name="bottomDarkening">Darkenning scale for bottom surface. 0 - None.</param>
+        /// <param name="topDarkening">Darkening scale for top surface. 0 - None.</param>
+        /// <param name="bottomDarkening">Darkening scale for bottom surface. 0 - None.</param>
         /// <param name="thirdPointPosition">Position where the third point is actually located or float.NaN if same as in "firstPoint".</param>
         /// <param name="fourthPointPosition">Position where the fourth point is actually located or float.NaN if same as in "secondPoint".</param>
         /// <param name="clippedSegment">Indicates that drawn segment is 3D clipped. Only top/bottom should be drawn.</param>
-        /// <param name="clipOnTop">Indicates that top segment line should be clipped to the pkot area.</param>
-        /// <param name="clipOnBottom">Indicates that bottom segment line should be clipped to the pkot area.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <param name="clipOnTop">Indicates that top segment line should be clipped to the plot area.</param>
+        /// <param name="clipOnBottom">Indicates that bottom segment line should be clipped to the plot area.</param>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         protected override GraphicsPath Draw3DSurface(
             DataPoint3D firstPoint,
             DataPoint3D secondPoint,
