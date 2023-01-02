@@ -1176,7 +1176,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Color surfaceBorderColor = borderColor;
             if (surfaceBorderColor == Color.Empty)
             {
-                // If border color is emty use color slightly darker than main back color
+                // If border color is empty use color slightly darker than main back color
                 surfaceBorderColor = ChartGraphics.GetGradientColor(backColor, Color.Black, 0.2);
             }
 
@@ -2066,7 +2066,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Color surfaceBorderColor = borderColor;
             if (surfaceBorderColor == Color.Empty)
             {
-                // If border color is emty use color slightly darker than main back color
+                // If border color is empty use color slightly darker than main back color
                 surfaceBorderColor = ChartGraphics.GetGradientColor(backColor, Color.Black, 0.2);
             }
 

@@ -1382,7 +1382,7 @@ internal class LineChart : PointChart
                             area.Area3DStyle.LightStyle,
                             prevDataPointEx,
                             pointAttr.zPosition,
-                            pointAttr.depth,
+                            (area.ReverseSeriesOrder ? -1 : 1) * pointAttr.depth,
                             dataPointDrawingOrder,
                             index,
                             pointsLoop,

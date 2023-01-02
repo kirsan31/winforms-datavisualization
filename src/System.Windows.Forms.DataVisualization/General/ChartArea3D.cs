@@ -116,6 +116,8 @@ public class ChartArea3DStyle
     // Indicates that series should be drawn as isClustered.
     private bool _isClustered;
 
+    private bool _zDepthRealCalc;
+
     // 3D area lightStyle style.
     private LightStyle _lightStyle = LightStyle.Simplistic;
 
@@ -226,6 +228,27 @@ public class ChartArea3DStyle
         set
         {
             _isClustered = value;
+            this._chartArea?.Invalidate();
+        }
+    }
+
+
+
+    /// <summary>
+    /// Gets or sets a value indicating whether Z depth will be calculated base on all series (BorderWidth or PixelPointDepth) and PixelPointGapDepth properties. Not working with Stacked charts and Clustered style.
+    /// </summary>
+    [
+    Category("CategoryAttribute3D"),
+    Bindable(true),
+    DefaultValue(false),
+    Description("Gets or sets a value indicating whether Z depth will be calculated base on all series (BorderWidth or PixelPointDepth) and PixelPointGapDepth properties. Not working with Stacked charts and Clustered style."),
+    ]
+    public bool ZDepthRealCalc
+    {
+        get => _zDepthRealCalc;
+        set
+        {
+            _zDepthRealCalc = value;
             this._chartArea?.Invalidate();
         }
     }
@@ -437,11 +460,15 @@ public partial class ChartArea
     private SurfaceNames _visibleSurfaces;
 
     // Z axis depth of series points
-    private double _pointsDepth;
+    private float _pointsDepth;
 
     // Z axis depth of the gap between isClustered series
-    private double _pointsGapDepth;
+    private float _pointsGapDepth;
 
+    /// <summary>
+    /// Z axis depth and gap depth for <see cref="ChartArea3DStyle.ZDepthRealCalc"/>
+    /// </summary>
+    private List<(float Depth, float GapDepth)> _pointsZDepth;
     /// <summary>
     /// Old X axis reversed flag
     /// </summary>
@@ -746,6 +773,35 @@ public partial class ChartArea
     /// <returns>Returns the depth of the chart area scene.</returns>
     private float GetArea3DSceneDepth()
     {
+        if (Area3DStyle.ZDepthRealCalc)
+        {
+            float zDepth = 0;
+            GetNumberOfClusters(); // need to fill seriesClusters
+            for (int i = 0; i < _series.Count; i++)
+            {
+                _pointsZDepth ??= new List<(float Depth, float GapDepth)>(_series.Count);
+                var ser = Common.DataManager.Series[_series[i]];
+                float pointsDepth = ser.BorderWidth;
+                float pointsGapDepth = pointsDepth * 0.8f * Area3DStyle.PointGapDepth / 100f;                
+                // Get point depth and gap from series
+                (pointsDepth, pointsGapDepth) = ser.GetRelativePointDepthAndGap(
+                        Common.graph,
+                        ser.XAxisType == AxisType.Primary ? axisX : axisX2,
+                        pointsDepth,
+                        pointsGapDepth);
+
+                if (i >= _pointsZDepth.Count)
+                    _pointsZDepth.Add((pointsDepth, pointsGapDepth));
+                else
+                    _pointsZDepth[i] = (pointsDepth, pointsGapDepth);
+                
+                if (pointsDepth + pointsGapDepth > zDepth)
+                    zDepth = pointsDepth + pointsGapDepth;
+            }
+
+            return zDepth + zDepth / 25; // 4% to not to draw on the edge
+        }
+
         //***********************************************************
         //** Calculate the smallest interval between points
         //***********************************************************
@@ -883,19 +939,23 @@ public partial class ChartArea
         //***********************************************************
         //** Check if series provide custom value for point\gap depth
         //***********************************************************
-        _pointsDepth = clusteredInterval * pointWidthSize * this.Area3DStyle.PointDepth / 100.0;
-        _pointsDepth = categoricalAxis.GetPixelInterval(_pointsDepth);
-        if (smallestIntervalSeries != null)
+        if (smallestIntervalSeries is not null)
         {
-            _pointsDepth = smallestIntervalSeries.GetPointWidth(
+            _pointsDepth = (float)smallestIntervalSeries.GetPointWidth(
                 this.Common.graph,
                 categoricalAxis,
                 clusteredInterval,
                 0.8) / seriesNumber;
-            _pointsDepth *= this.Area3DStyle.PointDepth / 100.0;
+
+            _pointsDepth *= this.Area3DStyle.PointDepth / 100f;
+        }
+        else
+        {
+            _pointsDepth = (float)(clusteredInterval * pointWidthSize * this.Area3DStyle.PointDepth / 100d);
+            _pointsDepth = categoricalAxis.GetPixelInterval(_pointsDepth);
         }
 
-        _pointsGapDepth = _pointsDepth * 0.8 * this.Area3DStyle.PointGapDepth / 100.0;
+        _pointsGapDepth = _pointsDepth * 0.8f * this.Area3DStyle.PointGapDepth / 100f;
 
         // Get point depth and gap from series
         smallestIntervalSeries?.GetPointDepthAndGap(
@@ -907,7 +967,7 @@ public partial class ChartArea
         //***********************************************************
         //** Calculate scene depth
         //***********************************************************
-        return (float)((_pointsGapDepth + _pointsDepth) * GetNumberOfClusters());
+        return (_pointsGapDepth + _pointsDepth) * GetNumberOfClusters();
     }
 
     /// <summary>
@@ -919,15 +979,22 @@ public partial class ChartArea
     internal void GetSeriesZPositionAndDepth(Series series, out float depth, out float positionZ)
     {
         // Check arguments
-        if (series == null)
+        if (series is null)
             throw new ArgumentNullException(nameof(series));
 
-        // Get series cluster index
-        int seriesIndex = GetSeriesClusterIndex(series);
-
         // Initialize the output parameters
-        depth = (float)_pointsDepth;
-        positionZ = (float)(_pointsGapDepth / 2.0 + (_pointsDepth + _pointsGapDepth) * seriesIndex);
+        if (Area3DStyle.ZDepthRealCalc)
+        {
+            (depth, positionZ) = _pointsZDepth[Common.DataManager.Series.IndexOf(series.Name)];
+
+            if (ReverseSeriesOrder)
+                positionZ = areaSceneDepth - positionZ;
+        }
+        else
+        {
+            depth = _pointsDepth;
+            positionZ = _pointsGapDepth / 2f + (_pointsDepth + _pointsGapDepth) * GetSeriesClusterIndex(series);
+        }
     }
 
     /// <summary>
@@ -936,101 +1003,108 @@ public partial class ChartArea
     /// <returns>Number of clusters on the Z axis.</returns>
     internal int GetNumberOfClusters()
     {
-        if (this.seriesClusters == null)
+        if (seriesClusters is not null)
+            return seriesClusters.Count;
+
+        // Reset series cluster list
+        seriesClusters = new List<List<string>>();
+        if (Area3DStyle.ZDepthRealCalc)
         {
-            // Lists that hold processed chart types and stacked groups
-            var processedChartTypes = new HashSet<string>();
-            var processedStackedGroups = new HashSet<string>();
+            foreach (string seriesName in _series)
+                seriesClusters.Add(new List<string> { seriesName });
 
-            // Reset series cluster list
-            this.seriesClusters = new List<List<string>>();
+            return _series.Count;
+        }
 
-            // Iterate through all series that belong to this chart area
-            int clusterIndex = -1;
-            foreach (string seriesName in this._series)
+        // Lists that hold processed chart types and stacked groups
+        var processedChartTypes = new HashSet<string>();
+        var processedStackedGroups = new HashSet<string>();
+
+        // Iterate through all series that belong to this chart area
+        int clusterIndex = -1;
+        foreach (string seriesName in this._series)
+        {
+            // Get series object by name
+            Series curSeries = this.Common.DataManager.Series[seriesName];
+
+            // Check if stacked chart type is using multiple groups that
+            // can be displayed in individual clusters
+            if (!this.Area3DStyle.IsClustered &&
+                Common.ChartTypeRegistry.GetChartType(curSeries.ChartTypeName).SupportStackedGroups)
             {
-                // Get series object by name
-                Series curSeries = this.Common.DataManager.Series[seriesName];
+                // Get group name
+                string stackGroupName = StackedColumnChart.GetSeriesStackGroupName(curSeries);
 
-                // Check if stacked chart type is using multiple groups that
-                // can be displayed in individual clusters
-                if (!this.Area3DStyle.IsClustered &&
-                    Common.ChartTypeRegistry.GetChartType(curSeries.ChartTypeName).SupportStackedGroups)
+                // Check if group was already counted
+                if (!processedStackedGroups.Add(stackGroupName))
                 {
-                    // Get group name
-                    string stackGroupName = StackedColumnChart.GetSeriesStackGroupName(curSeries);
-
-                    // Check if group was already counted
-                    if (!processedStackedGroups.Add(stackGroupName))
+                    // Find in which cluster this stacked group is located
+                    bool found = false;
+                    for (int index = 0; !found && index < this.seriesClusters.Count; index++)
                     {
-                        // Find in which cluster this stacked group is located
-                        bool found = false;
-                        for (int index = 0; !found && index < this.seriesClusters.Count; index++)
+                        foreach (string name in this.seriesClusters[index])
                         {
-                            foreach (string name in this.seriesClusters[index])
+                            // Get series object by name
+                            Series ser = this.Common.DataManager.Series[name];
+                            if (stackGroupName == StackedColumnChart.GetSeriesStackGroupName(ser))
                             {
-                                // Get series object by name
-                                Series ser = this.Common.DataManager.Series[name];
-                                if (stackGroupName == StackedColumnChart.GetSeriesStackGroupName(ser))
-                                {
-                                    clusterIndex = index;
-                                    found = true;
-                                }
+                                clusterIndex = index;
+                                found = true;
                             }
                         }
-                    }
-                    else
-                    {
-                        // Increase cluster index
-                        clusterIndex = this.seriesClusters.Count;
-                    }
-                }
-
-                // Check if series is displayed in the same cluster than other series
-                else if (Common.ChartTypeRegistry.GetChartType(curSeries.ChartTypeName).Stacked ||
-                    (this.Area3DStyle.IsClustered && Common.ChartTypeRegistry.GetChartType(curSeries.ChartTypeName).SideBySideSeries))
-                {
-                    // Check if this chart type is already in the list
-                    if (!processedChartTypes.Add(curSeries.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture)))
-                    {
-                        // Find in which cluster this chart type is located
-                        bool found = false;
-                        for (int index = 0; !found && index < this.seriesClusters.Count; index++)
-                        {
-                            foreach (string name in this.seriesClusters[index])
-                            {
-                                // Get series object by name
-                                Series ser = this.Common.DataManager.Series[name];
-                                if (ser.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture) ==
-                                    curSeries.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture))
-                                {
-                                    clusterIndex = index;
-                                    found = true;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // Increase cluster index
-                        clusterIndex = this.seriesClusters.Count;
                     }
                 }
                 else
                 {
-                    // Create New cluster
+                    // Increase cluster index
                     clusterIndex = this.seriesClusters.Count;
                 }
-
-                // Create an item in the cluster list that will hold all series names
-                if (this.seriesClusters.Count <= clusterIndex)
-                {
-                    this.seriesClusters.Add(new List<string>());
-                }
-
-                // Add series name into the current cluster
-                this.seriesClusters[clusterIndex].Add(seriesName);
             }
+
+            // Check if series is displayed in the same cluster than other series
+            else if (Common.ChartTypeRegistry.GetChartType(curSeries.ChartTypeName).Stacked ||
+                (this.Area3DStyle.IsClustered && Common.ChartTypeRegistry.GetChartType(curSeries.ChartTypeName).SideBySideSeries))
+            {
+                // Check if this chart type is already in the list
+                if (!processedChartTypes.Add(curSeries.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture)))
+                {
+                    // Find in which cluster this chart type is located
+                    bool found = false;
+                    for (int index = 0; !found && index < this.seriesClusters.Count; index++)
+                    {
+                        foreach (string name in this.seriesClusters[index])
+                        {
+                            // Get series object by name
+                            Series ser = this.Common.DataManager.Series[name];
+                            if (ser.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture) ==
+                                curSeries.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture))
+                            {
+                                clusterIndex = index;
+                                found = true;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Increase cluster index
+                    clusterIndex = this.seriesClusters.Count;
+                }
+            }
+            else
+            {
+                // Create New cluster
+                clusterIndex = this.seriesClusters.Count;
+            }
+
+            // Create an item in the cluster list that will hold all series names
+            if (this.seriesClusters.Count <= clusterIndex)
+            {
+                this.seriesClusters.Add(new List<string>());
+            }
+
+            // Add series name into the current cluster
+            this.seriesClusters[clusterIndex].Add(seriesName);
         }
 
         return this.seriesClusters.Count;
@@ -1044,10 +1118,7 @@ public partial class ChartArea
     internal int GetSeriesClusterIndex(Series series)
     {
         // Fill list of clusters
-        if (this.seriesClusters == null)
-        {
-            this.GetNumberOfClusters();
-        }
+        GetNumberOfClusters();
 
         // Iterate through all clusters
         for (int clusterIndex = 0; clusterIndex < this.seriesClusters.Count; clusterIndex++)

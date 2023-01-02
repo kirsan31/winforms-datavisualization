@@ -843,7 +843,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     GraphicsPath rectPath = graph.Fill3DRectangle(
                         rectSize,
                         pointEx.zPosition,
-                        pointEx.depth,
+                        (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth,
                         area.matrix3D,
                         area.Area3DStyle.LightStyle,
                         point.Color,
@@ -1327,7 +1327,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                 // Transform coordinates
                 Point3D[] marker3DPosition = new Point3D[1];
-                marker3DPosition[0] = new Point3D(labelPosition.X, labelPosition.Y, (float)(pointEx.zPosition + pointEx.depth));
+                marker3DPosition[0] = new Point3D(labelPosition.X, labelPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth);
                 area.matrix3D.TransformPoints(marker3DPosition);
 
                 labelPosition.X = marker3DPosition[0].X;

@@ -556,27 +556,25 @@ public class Series : DataPointCustomProperties, IDisposable
     }
 
     /// <summary>
-    /// Gets custom points depth and gap depth from series properties.
+    /// Gets custom points depth and gap depth in relative coordinates from series properties.
     /// </summary>
     /// <param name="graph">Chart graphics.</param>
     /// <param name="axis">Categorical axis.</param>
-    /// <param name="pointDepth">Returns point depth.</param>
-    /// <param name="pointGapDepth">Return point gap depth.</param>
+    /// <param name="pointDepth">Returns point depth in relative coordinates.</param>
+    /// <param name="pointGapDepth">Return point gap depth in relative coordinates.</param>
     internal void GetPointDepthAndGap(
         ChartGraphics graph,
         Axis axis,
-        ref double pointDepth,
-        ref double pointGapDepth)
+        ref float pointDepth,
+        ref float pointGapDepth)
     {
-
-
         // Check if series provide custom value for point depth in pixels
         string attribValue = this[CustomPropertyName.PixelPointDepth];
-        if (attribValue != null)
+        if (attribValue is not null)
         {
             try
             {
-                pointDepth = CommonElements.ParseDouble(attribValue);
+                pointDepth = CommonElements.ParseFloat(attribValue);
             }
             catch
             {
@@ -587,26 +585,26 @@ public class Series : DataPointCustomProperties, IDisposable
             {
                 throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointDepth"));
             }
+
             if (pointDepth > CustomPropertyRegistry.MaxValueOfPixelAttribute)
             {
                 throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointDepth", 0.ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture)));
             }
 
-            SizeF relativeSize = graph.GetRelativeSize(new SizeF((float)pointDepth, (float)pointDepth));
-            pointDepth = relativeSize.Width;
+            SizeF relativeSize = graph.GetRelativeSize(new SizeF(pointDepth, pointDepth));            
             if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
-            {
                 pointDepth = relativeSize.Height;
-            }
+            else
+                pointDepth = relativeSize.Width;
         }
 
         // Check if series provide custom value for point gap depth in pixels
         attribValue = this[CustomPropertyName.PixelPointGapDepth];
-        if (attribValue != null)
+        if (attribValue is not null)
         {
             try
             {
-                pointGapDepth = CommonElements.ParseDouble(attribValue);
+                pointGapDepth = CommonElements.ParseFloat(attribValue);
             }
             catch
             {
@@ -617,20 +615,96 @@ public class Series : DataPointCustomProperties, IDisposable
             {
                 throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointGapDepth"));
             }
+
             if (pointGapDepth > CustomPropertyRegistry.MaxValueOfPixelAttribute)
             {
                 throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointGapDepth", 0.ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture)));
             }
 
-            SizeF relativeSize = graph.GetRelativeSize(new SizeF((float)pointGapDepth, (float)pointGapDepth));
-            pointGapDepth = relativeSize.Width;
+            SizeF relativeSize = graph.GetRelativeSize(new SizeF(pointGapDepth, pointGapDepth));            
             if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
-            {
                 pointGapDepth = relativeSize.Height;
+            else
+                pointGapDepth = relativeSize.Width;
+        }
+    }
+
+    /// <summary>
+    /// Gets custom points depth and gap depth in relative coordinates from series properties.
+    /// </summary>
+    /// <param name="graph">Chart graphics.</param>
+    /// <param name="axis">Categorical axis.</param>
+    /// <param name="pointDepthAbsolue">Initial point depth in absolute coordinates. Will be transform to relative if PixelPointDepth is not set.</param>
+    /// <param name="pointGapDepthRelative">In relative coordinates. We simple return this value back if PixelPointGapDepth is not set.</param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    internal (float pointDepth, float pointGapDepth) GetRelativePointDepthAndGap(
+        ChartGraphics graph,
+        Axis axis,
+        float pointDepthAbsolue,
+        float pointGapDepthRelative)
+    {
+        // Check if series provide custom value for point depth in pixels
+        string attribValue = this[CustomPropertyName.PixelPointDepth];
+        if (attribValue is not null)
+        {
+            try
+            {
+                pointDepthAbsolue = CommonElements.ParseFloat(attribValue);
+            }
+            catch
+            {
+                throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PixelPointDepth"));
+            }
+
+            if (pointDepthAbsolue <= 0)
+            {
+                throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointDepth"));
+            }
+
+            if (pointDepthAbsolue > CustomPropertyRegistry.MaxValueOfPixelAttribute)
+            {
+                throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointDepth", 0.ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture)));
             }
         }
 
+        SizeF relativeSize = graph.GetRelativeSize(new SizeF(pointDepthAbsolue, pointDepthAbsolue));
+        if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
+            pointDepthAbsolue = relativeSize.Height;
+        else
+            pointDepthAbsolue = relativeSize.Width;
 
+        // Check if series provide custom value for point gap depth in pixels
+        attribValue = this[CustomPropertyName.PixelPointGapDepth];
+        if (attribValue is not null)
+        {
+            try
+            {
+                pointGapDepthRelative = CommonElements.ParseFloat(attribValue);
+            }
+            catch
+            {
+                throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PixelPointGapDepth"));
+            }
+
+            if (pointGapDepthRelative <= 0)
+            {
+                throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointGapDepth"));
+            }
+
+            if (pointGapDepthRelative > CustomPropertyRegistry.MaxValueOfPixelAttribute)
+            {
+                throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointGapDepth", 0.ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture)));
+            }
+
+            relativeSize = graph.GetRelativeSize(new SizeF(pointGapDepthRelative, pointGapDepthRelative));            
+            if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
+                pointGapDepthRelative = relativeSize.Height;
+            else
+                pointGapDepthRelative = relativeSize.Width;
+        }
+
+        return (pointDepthAbsolue, pointGapDepthRelative);
     }
 
 
