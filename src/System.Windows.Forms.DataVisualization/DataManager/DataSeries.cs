@@ -630,11 +630,11 @@ public class Series : DataPointCustomProperties, IDisposable
     }
 
     /// <summary>
-    /// Gets custom points depth and gap depth in relative coordinates from series properties.
+    /// Transform <paramref name="pointDepthAbsolue"/> to relative coordinates and gets custom points gap depth in relative coordinates from series properties.
     /// </summary>
     /// <param name="graph">Chart graphics.</param>
     /// <param name="axis">Categorical axis.</param>
-    /// <param name="pointDepthAbsolue">Initial point depth in absolute coordinates. Will be transform to relative if PixelPointDepth is not set.</param>
+    /// <param name="pointDepthAbsolue">Initial point depth in absolute coordinates. Will be transform to relative coordinates.</param>
     /// <param name="pointGapDepthRelative">In relative coordinates. We simple return this value back if PixelPointGapDepth is not set.</param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -644,30 +644,6 @@ public class Series : DataPointCustomProperties, IDisposable
         float pointDepthAbsolue,
         float pointGapDepthRelative)
     {
-        // Check if series provide custom value for point depth in pixels
-        string attribValue = this[CustomPropertyName.PixelPointDepth];
-        if (attribValue is not null)
-        {
-            try
-            {
-                pointDepthAbsolue = CommonElements.ParseFloat(attribValue);
-            }
-            catch
-            {
-                throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PixelPointDepth"));
-            }
-
-            if (pointDepthAbsolue <= 0)
-            {
-                throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointDepth"));
-            }
-
-            if (pointDepthAbsolue > CustomPropertyRegistry.MaxValueOfPixelAttribute)
-            {
-                throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointDepth", 0.ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture)));
-            }
-        }
-
         SizeF relativeSize = graph.GetRelativeSize(new SizeF(pointDepthAbsolue, pointDepthAbsolue));
         if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
             pointDepthAbsolue = relativeSize.Height;
@@ -675,7 +651,7 @@ public class Series : DataPointCustomProperties, IDisposable
             pointDepthAbsolue = relativeSize.Width;
 
         // Check if series provide custom value for point gap depth in pixels
-        attribValue = this[CustomPropertyName.PixelPointGapDepth];
+        var attribValue = this[CustomPropertyName.PixelPointGapDepth];
         if (attribValue is not null)
         {
             try

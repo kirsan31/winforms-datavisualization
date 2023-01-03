@@ -1141,7 +1141,8 @@ internal class PointChart : IChartType
         //** Transform marker position in 3D space
         //************************************************************
         // Get projection coordinates
-        Point3D[] marker3DPosition = new Point3D[1] { new Point3D(markerPosition.X, markerPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * (this.middleMarker ? pointEx.depth / 2f : pointEx.depth)) };
+        Point3D[] marker3DPosition = new Point3D[1] { new Point3D(markerPosition.X, markerPosition.Y, pointEx.zPosition + (area.Area3DStyle.ZDepthRealCalc ? 0 :
+            (area.ReverseSeriesOrder ? -1 : 1) * (middleMarker ? pointEx.depth / 2f : pointEx.depth))) };
 
         // Transform coordinates of text size
         area.matrix3D.TransformPoints(marker3DPosition);
@@ -1173,7 +1174,7 @@ internal class PointChart : IChartType
                 // Draw the marker
                 rectPath = graph.DrawMarker3D(area.matrix3D,
                     area.Area3DStyle.LightStyle,
-                    pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * (this.middleMarker ? pointEx.depth / 2f : pointEx.depth),
+                    pointEx.zPosition + (area.Area3DStyle.ZDepthRealCalc ? 0 : (area.ReverseSeriesOrder ? -1 : 1) * (middleMarker ? pointEx.depth / 2f : pointEx.depth)),
                     markerPosition,
                     (pointMarkerStyle == MarkerStyle.None) ? MarkerStyle.Circle : pointMarkerStyle,
                     (int)markerSize.Height,
@@ -1687,7 +1688,7 @@ internal class PointChart : IChartType
                 marker3DPosition[0] = new Point3D(
                     markerPosition.X,
                     markerPosition.Y,
-                    seriesZPosition + (this.middleMarker ? seriesDepth / 2f : seriesDepth));
+                    seriesZPosition + (area.Area3DStyle.ZDepthRealCalc ? 0 : (middleMarker ? seriesDepth / 2f : seriesDepth)));
 
                 // Transform coordinates
                 area.matrix3D.TransformPoints(marker3DPosition);

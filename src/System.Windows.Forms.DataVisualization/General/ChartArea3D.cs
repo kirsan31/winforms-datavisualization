@@ -235,13 +235,13 @@ public class ChartArea3DStyle
 
 
     /// <summary>
-    /// Gets or sets a value indicating whether Z depth will be calculated base on all series (BorderWidth or PixelPointDepth) and PixelPointGapDepth properties. Not working with Stacked charts and Clustered style.
+    /// Gets or sets a value indicating whether Z depth will be calculated base on series BorderWidth and PixelPointGapDepth properties. Not working with Stacked and Clustered style charts.
     /// </summary>
     [
     Category("CategoryAttribute3D"),
     Bindable(true),
     DefaultValue(false),
-    Description("Gets or sets a value indicating whether Z depth will be calculated base on all series (BorderWidth or PixelPointDepth) and PixelPointGapDepth properties. Not working with Stacked charts and Clustered style."),
+    Description("Gets or sets a value indicating whether Z depth will be calculated base on series BorderWidth and PixelPointGapDepth properties. Not working with Stacked and Clustered style charts."),
     ]
     public bool ZDepthRealCalc
     {
@@ -781,22 +781,24 @@ public partial class ChartArea
             {
                 _pointsZDepth ??= new List<(float Depth, float GapDepth)>(_series.Count);
                 var ser = Common.DataManager.Series[_series[i]];
-                float pointsDepth = ser.BorderWidth;
-                float pointsGapDepth = pointsDepth * 0.8f * Area3DStyle.PointGapDepth / 100f;                
+                if (!ser.IsVisible())
+                    continue;
+              
                 // Get point depth and gap from series
-                (pointsDepth, pointsGapDepth) = ser.GetRelativePointDepthAndGap(
+                var depth = ser.GetRelativePointDepthAndGap(
                         Common.graph,
                         ser.XAxisType == AxisType.Primary ? axisX : axisX2,
-                        pointsDepth,
-                        pointsGapDepth);
+                        ser.ChartType == SeriesChartType.Point || ser.ChartType == SeriesChartType.FastPoint ? ser.MarkerSize :
+                            Math.Max(ser.BorderWidth, ser.markerStyle == MarkerStyle.None ? 0 : ser.markerSize),
+                        ser.BorderWidth * 0.8f * Area3DStyle.PointGapDepth / 100f);
 
                 if (i >= _pointsZDepth.Count)
-                    _pointsZDepth.Add((pointsDepth, pointsGapDepth));
+                    _pointsZDepth.Add(depth);
                 else
-                    _pointsZDepth[i] = (pointsDepth, pointsGapDepth);
+                    _pointsZDepth[i] = depth;
                 
-                if (pointsDepth + pointsGapDepth > zDepth)
-                    zDepth = pointsDepth + pointsGapDepth;
+                if (depth.pointDepth + depth.pointGapDepth > zDepth)
+                    zDepth = depth.pointDepth + depth.pointGapDepth;
             }
 
             return zDepth + zDepth / 25; // 4% to not to draw on the edge
