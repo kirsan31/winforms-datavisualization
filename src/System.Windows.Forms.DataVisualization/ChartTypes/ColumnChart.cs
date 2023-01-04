@@ -1326,8 +1326,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 labelPosition.Y = columnPosition.Y + columnPosition.Height / 2f;
 
                 // Transform coordinates
-                Point3D[] marker3DPosition = new Point3D[1];
-                marker3DPosition[0] = new Point3D(labelPosition.X, labelPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth);
+                Point3D[] marker3DPosition = { new Point3D(labelPosition.X, labelPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth) };
                 area.matrix3D.TransformPoints(marker3DPosition);
 
                 labelPosition.X = marker3DPosition[0].X;

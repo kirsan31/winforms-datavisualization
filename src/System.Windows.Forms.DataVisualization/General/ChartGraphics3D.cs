@@ -3457,8 +3457,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** Transform marker position in 3D space
             //************************************************************
             // Get projection coordinates
-            Point3D[] marker3DPosition = new Point3D[1];
-            marker3DPosition[0] = new Point3D(point.X, point.Y, positionZ);
+            Point3D[] marker3DPosition = { new Point3D(point.X, point.Y, positionZ) };
 
             // Transform coordinates of the marker center
             matrix.TransformPoints(marker3DPosition);

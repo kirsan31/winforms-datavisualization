@@ -1731,8 +1731,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     //** Transform marker position in 3D space
                     //************************************************************
                     // Get projection coordinates
-                    Point3D[] marker3DPosition = new Point3D[1];
-                    marker3DPosition[0] = new Point3D(markerPosition.X, markerPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth / 2f);
+                    Point3D[] marker3DPosition = { new Point3D(markerPosition.X, markerPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth / 2f) };
 
                     // Transform coordinates of text size
                     area.matrix3D.TransformPoints(marker3DPosition);

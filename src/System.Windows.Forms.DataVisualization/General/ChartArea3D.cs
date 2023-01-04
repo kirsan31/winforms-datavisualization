@@ -1589,17 +1589,17 @@ public partial class ChartArea
     }
 
     /// <summary>
-    /// Gets number of stack groups in specified array of series names.
+    /// Gets number of stack groups in specified list of series names and fill <see cref="StackGroupNames"/>.
     /// </summary>
-    /// <param name="seriesNamesList">Array of series names.</param>
+    /// <param name="seriesNamesList">List of series names.</param>
     /// <returns>Number of stack groups. One by default.</returns>
     private int GetNumberOfStackGroups(List<string> seriesNamesList)
     {
         this.StackGroupNames = new List<string>();
-        foreach (object seriesName in seriesNamesList)
+        foreach (var seriesName in seriesNamesList)
         {
             // Get series object
-            Series ser = this.Common.DataManager.Series[(string)seriesName];
+            Series ser = this.Common.DataManager.Series[seriesName];
 
             // Get stack group name from the series
             string stackGroupName = string.Empty;
