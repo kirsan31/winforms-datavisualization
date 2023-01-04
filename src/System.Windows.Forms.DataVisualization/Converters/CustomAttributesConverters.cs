@@ -171,7 +171,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					CustomPropertyRegistry registry = (CustomPropertyRegistry)series.Common.container.GetService(typeof(CustomPropertyRegistry));
 					foreach(CustomPropertyInfo attrInfo in registry.registeredCustomProperties)
 					{
-						// Check if attribute description matches curent selection in property browser
+						// Check if attribute description matches current selection in property browser
 						if(IsApplicableCustomProperty(attrInfo, context.Instance))
 						{
 							// Get array of property properties

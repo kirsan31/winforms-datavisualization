@@ -10,6 +10,7 @@
 //
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
@@ -3672,7 +3673,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     // Check labels fit. Only horizontal or vertical fit is checked depending
                     // on the axis orientation.
-                    ArrayList labelPositions = new ArrayList();
+                    List<RectangleF> labelPositions = new ();
                     bool fitDone = CheckLabelsFit(
                         chartGraph,
                         this.markSize + this.scrollBarSize + this.titleSize,
@@ -3688,10 +3689,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         for (int index = 0; fitDone && index < labelPositions.Count; index++)
                         {
-                            RectangleF rect1 = (RectangleF)labelPositions[index];
+                            RectangleF rect1 = labelPositions[index];
                             for (int index2 = index + 1; fitDone && index2 < labelPositions.Count; index2++)
                             {
-                                RectangleF rect2 = (RectangleF)labelPositions[index2];
+                                RectangleF rect2 = labelPositions[index2];
                                 if (rect1.IntersectsWith(rect2))
                                 {
                                     fitDone = false;
@@ -4756,7 +4757,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool secondPass,
             bool checkWidth,
             bool checkHeight,
-            ArrayList labelPositions)
+            List<RectangleF> labelPositions)
         {
             // Reset list of label positions
             labelPositions?.Clear();
@@ -5093,6 +5094,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     labelPosition.Height = height;
                                 }
                             }
+
                             labelPositions.Add(labelPosition);
                         }
 

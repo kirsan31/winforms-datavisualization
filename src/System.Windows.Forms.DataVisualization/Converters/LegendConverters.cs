@@ -22,7 +22,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Converter methods
 
 		/// <summary>
-		/// Standart values supported - return true
+		/// Standard values supported - return true
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
 		/// <returns>Standard values supported.</returns>
@@ -32,7 +32,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-		/// Standart values are not exclusive - return false
+		/// Standard values are not exclusive - return false
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
 		/// <returns>Non exclusive standard values.</returns>
@@ -45,13 +45,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// Fill in the list of data series names.
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
-		/// <returns>Standart values collection.</returns>
+		/// <returns>Standard values collection.</returns>
 		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 		{
-			ArrayList values = new ArrayList();
-            values.Add(Constants.NotSetValue);
+            ArrayList values = new ArrayList
+            {
+                Constants.NotSetValue
+            };
 
-			ChartAreaCollection	areaCollection = null;
+            ChartAreaCollection	areaCollection = null;
 			string	areaName = "";
 			if (context != null && context.Instance != null)
 			{
@@ -166,9 +168,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 	/// <summary>
 	/// Designer converter class
-	/// Converts Size.Emty tofrom "Auto".
+	/// Converts Size.Emty to \ from "Auto".
 	/// </summary>
-    internal class SizeEmptyValueConverter : System.Drawing.SizeConverter
+    internal class SizeEmptyValueConverter : Drawing.SizeConverter
 	{
 	#region Converter methods
 
@@ -198,10 +200,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="context">Descriptor context.</param>
 		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 		{
-			ArrayList values = new ArrayList();
-			values.Add(System.Drawing.Size.Empty);
-		
-			return new StandardValuesCollection(values);
+            ArrayList values = new ArrayList
+            {
+                Drawing.Size.Empty
+            };
+
+            return new StandardValuesCollection(values);
 		}
 
 		/// <summary>
@@ -210,13 +214,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="context">Descriptor context.</param>
 		/// <param name="culture">Culture information.</param>
 		/// <param name="value">Value to convert.</param>
-		/// <param name="destinationType">Convertion destination type.</param>
+		/// <param name="destinationType">Conversion destination type.</param>
 		/// <returns>Converted object.</returns>
-		public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType) 
+		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) 
 		{  
 			if (destinationType == typeof(string))
 			{
-				if(((System.Drawing.Size)value).IsEmpty)
+				if(((Drawing.Size)value).IsEmpty)
 				{
                     return Constants.AutoValue;
 				}
@@ -229,7 +233,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Convert minimum or maximum values from string
 		/// </summary>
-		public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
 			// If converting from string value
             string stringValue = value as string;
@@ -237,7 +241,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
                 if (string.Equals(stringValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase))
 				{
-					return System.Drawing.Size.Empty;
+					return Drawing.Size.Empty;
 				}
 			}
 		
@@ -397,10 +401,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="context">Descriptor context.</param>
 		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 		{
-			ArrayList values = new ArrayList();
-			values.Add(-1);
-		
-			return new StandardValuesCollection(values);
+            ArrayList values = new ArrayList
+            {
+                -1
+            };
+
+            return new StandardValuesCollection(values);
 		}
 
 		/// <summary>
@@ -409,9 +415,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="context">Descriptor context.</param>
 		/// <param name="culture">Culture information.</param>
 		/// <param name="value">Value to convert.</param>
-		/// <param name="destinationType">Convertion destination type.</param>
+		/// <param name="destinationType">Conversion destination type.</param>
 		/// <returns>Converted object.</returns>
-		public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType) 
+		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) 
 		{  
 			int	intValue = (int)value;
 			if (destinationType == typeof(string))
@@ -429,7 +435,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Convert minimum or maximum values from string
 		/// </summary>
-		public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
 			// If converting from string value
             string stringValue = value as string;

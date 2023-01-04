@@ -109,7 +109,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Used for column chart margin
         internal double marginTemp;
 
-        private readonly ArrayList _stripLineOffsets = new ArrayList();
+        private readonly List<double> _stripLineOffsets = new ();
 
         // Data members, which store properties values
         private bool _isLogarithmic;
@@ -1106,10 +1106,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     if (_stripLineOffsets.Count > index)
                     {
-                        strip.IntervalOffset = (double)_stripLineOffsets[index];
+                        strip.IntervalOffset = _stripLineOffsets[index];
                     }
                     index++;
                 }
+
                 _stripLineOffsets.Clear();
                 offsetTempSet = false;
                 margin = marginTemp;
