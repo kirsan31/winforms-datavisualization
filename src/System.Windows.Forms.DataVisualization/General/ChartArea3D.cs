@@ -468,7 +468,7 @@ public partial class ChartArea
     /// <summary>
     /// Z axis depth and gap depth for <see cref="ChartArea3DStyle.ZDepthRealCalc"/>
     /// </summary>
-    private List<(float Depth, float GapDepth)> _pointsZDepth;
+    private readonly Dictionary<string, (float Depth, float GapDepth)> _pointsZDepth = new Dictionary<string, (float Depth, float GapDepth)>();
     /// <summary>
     /// Old X axis reversed flag
     /// </summary>
@@ -777,13 +777,10 @@ public partial class ChartArea
         {
             float zDepth = 0;
             GetNumberOfClusters(); // need to fill seriesClusters
-            for (int i = 0; i < _series.Count; i++)
+            foreach (string serN in _series)
             {
-                _pointsZDepth ??= new List<(float Depth, float GapDepth)>(_series.Count);
-                var ser = Common.DataManager.Series[_series[i]];
-                if (!ser.IsVisible())
-                    continue;
-              
+                var ser = Common.DataManager.Series[serN];
+
                 // Get point depth and gap from series
                 var depth = ser.GetRelativePointDepthAndGap(
                         Common.graph,
@@ -792,11 +789,7 @@ public partial class ChartArea
                             Math.Max(ser.BorderWidth, ser.markerStyle == MarkerStyle.None ? 0 : ser.markerSize),
                         ser.BorderWidth * 0.8f * Area3DStyle.PointGapDepth / 100f);
 
-                if (i >= _pointsZDepth.Count)
-                    _pointsZDepth.Add(depth);
-                else
-                    _pointsZDepth[i] = depth;
-                
+                _pointsZDepth[serN] = depth;
                 if (depth.pointDepth + depth.pointGapDepth > zDepth)
                     zDepth = depth.pointDepth + depth.pointGapDepth;
             }
@@ -978,6 +971,7 @@ public partial class ChartArea
     /// <param name="series">Series object.</param>
     /// <param name="depth">Returns series depth.</param>
     /// <param name="positionZ">Returns series Z position.</param>
+    /// <exception cref="System.ArgumentNullException">series</exception>
     internal void GetSeriesZPositionAndDepth(Series series, out float depth, out float positionZ)
     {
         // Check arguments
@@ -987,7 +981,10 @@ public partial class ChartArea
         // Initialize the output parameters
         if (Area3DStyle.ZDepthRealCalc)
         {
-            (depth, positionZ) = _pointsZDepth[Common.DataManager.Series.IndexOf(series.Name)];
+            var res = _pointsZDepth.TryGetValue(series.Name, out var depthT);
+            (depth, positionZ) = depthT;
+            if (!res)
+                return;
 
             if (ReverseSeriesOrder)
                 positionZ = areaSceneDepth - positionZ;
