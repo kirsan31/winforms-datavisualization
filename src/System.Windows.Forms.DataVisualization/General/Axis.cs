@@ -2792,7 +2792,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 tempMinimum = minimum;
                 tempCrossing = crossing;
                 tempAutoMinimum = _autoMinimum;
-                tempAutoMaximum = _autoMaximum;
+                tempAutoMaximum = AutoMaximum;
 
                 tempMajorGridInterval = majorGrid.interval;
                 tempMajorTickMarkInterval = majorTickMark.interval;
@@ -2891,7 +2891,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             minimum = tempMinimum;
             crossing = tempCrossing;
             _autoMinimum = tempAutoMinimum;
-            _autoMaximum = tempAutoMaximum;
+            AutoMaximum = tempAutoMaximum;
 
             majorGrid.interval = tempMajorGridInterval;
             majorTickMark.interval = tempMajorTickMarkInterval;

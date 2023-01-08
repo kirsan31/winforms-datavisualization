@@ -1105,21 +1105,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** Check if new scaleView position is inside axis scale
             //** minimum/maximum without margin.
             //****************************************************************
-            if (viewPosition < (axis.minimum + axis.marginView))
+            if (viewPosition < axis.minimum)
             {
                 if (viewSizeType == DateTimeIntervalType.Auto || viewSizeType == DateTimeIntervalType.Number)
                 {
-                    viewSize -= axis.minimum + axis.marginView - viewPosition;
+                    viewSize -= axis.minimum - viewPosition;
                 }
-                viewPosition = axis.minimum + axis.marginView;
+
+                viewPosition = axis.minimum;
             }
-            else if (viewPosition > (axis.maximum - axis.marginView))
+            else if (viewPosition > axis.maximum)
             {
                 if (viewSizeType == DateTimeIntervalType.Auto || viewSizeType == DateTimeIntervalType.Number)
                 {
-                    viewSize -= viewPosition - (axis.maximum - axis.marginView);
+                    viewSize -= viewPosition - axis.maximum;
                 }
-                viewPosition = axis.maximum - axis.marginView;
+
+                viewPosition = axis.maximum;
             }
 
             //****************************************************************
@@ -1127,7 +1129,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** set by the user
             //****************************************************************
             double newViewSize = ChartHelper.GetIntervalSize(viewPosition, viewSize, viewSizeType);
-            double minViewSize = ChartHelper.GetIntervalSize(viewPosition, 1, this.MinSizeType);
+            double minViewSize;
             if (!double.IsNaN(this.MinSize))
             {
                 minViewSize = ChartHelper.GetIntervalSize(viewPosition, this.MinSize, this.MinSizeType);
@@ -1138,6 +1140,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     newViewSize = ChartHelper.GetIntervalSize(viewPosition, viewSize, viewSizeType);
                 }
             }
+            else
+                minViewSize = ChartHelper.GetIntervalSize(viewPosition, 1, this.MinSizeType);
 
             //****************************************************************
             //** Check if new scaleView size is smaller than (0.000000001)
@@ -1153,16 +1157,30 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** Check if new scaleView end position (position + size) is inside
             //** axis scale minimum/maximum without margin.
             //****************************************************************
-            while ((viewPosition + newViewSize) > (axis.maximum - axis.marginView))
+            while (viewPosition + newViewSize > axis.maximum)
             {
                 double currentSize = viewSize;
                 DateTimeIntervalType currentSizeType = viewSizeType;
 
                 // Try to reduce the scaleView size
                 if (newViewSize > minViewSize)
-                {
+                {                    
+                    if (viewSizeType == DateTimeIntervalType.Auto || viewSizeType == DateTimeIntervalType.Number)
+                    {
+                        if (axis.maximum - viewPosition >= minViewSize)
+                        {
+                            viewSize = axis.maximum - viewPosition;
+                        }
+                        else
+                        {
+                            viewSize = minViewSize;
+                            viewPosition = axis.maximum - newViewSize;                            
+                        }
+
+                        break;
+                    }
                     // Try to adjust the scaleView size
-                    if (viewSize > 1)
+                    else if (viewSize > 1) 
                     {
                         --viewSize;
                     }
@@ -1203,7 +1221,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     else
                     {
-                        viewPosition = axis.maximum - axis.marginView - minViewSize;
+                        viewPosition = axis.maximum - minViewSize;
                         break;
                     }
 
@@ -1216,14 +1234,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         viewSizeType = currentSizeType;
 
                         // Adjust the start position
-                        viewPosition = axis.maximum - axis.marginView - minViewSize;
+                        viewPosition = axis.maximum - minViewSize;
                         break;
                     }
                 }
                 else
                 {
                     // Adjust the start position
-                    viewPosition = axis.maximum - axis.marginView - newViewSize;
+                    viewPosition = axis.maximum - newViewSize;
                     break;
                 }
             }
