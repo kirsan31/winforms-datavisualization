@@ -65,7 +65,13 @@
 		</ItemGroup>
 	</Target>
 
-	<Target Name="CopyPackageR" AfterTargets="Pack" Condition="'$(Configuration)'=='Release'">
+	<Target Name="CopyPackage" AfterTargets="Pack">
+		<Message Text="### Start copy package..." Importance="high" />
+		<Copy SourceFiles="$(OutputPath)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)NuGet\BuildOut\" />
+		<Message Text="### Finished copy package." Importance="high" />
+	</Target>
+
+	<!--<Target Name="CopyPackageR" AfterTargets="Pack" Condition="'$(Configuration)'=='Release'">
 		<Message Text="### Start copy package..." Importance="high" />
 		<Copy SourceFiles="$(OutputPath)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)NuGet\BuildOut\" />
 		<Message Text="### Finished copy package." Importance="high" />
@@ -77,5 +83,5 @@
 		<Message Text="### Finished copy package. Start restore..." Importance="high" />
 		<Exec Command="nuget.exe restore &quot;$(SolutionDir)DesignerTest\DesignerTest.csproj&quot; -ConfigFile &quot;$(SolutionDir)NuGet.config&quot;" />
 		<Message Text="### Finished restore." Importance="high" />
-	</Target>
+	</Target>-->
 </Project>
