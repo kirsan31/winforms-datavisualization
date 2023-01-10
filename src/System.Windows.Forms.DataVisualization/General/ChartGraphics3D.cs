@@ -405,24 +405,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Selection mode
             if (common.ProcessModeRegions && type != ChartElementType.Nothing)
             {
-                using (GraphicsPath path = new GraphicsPath())
+                using GraphicsPath path = new GraphicsPath();
+
+                if (Math.Abs(points[0].X - points[1].X) > Math.Abs(points[0].Y - points[1].Y))
                 {
-
-                    if (Math.Abs(points[0].X - points[1].X) > Math.Abs(points[0].Y - points[1].Y))
-                    {
-                        path.AddLine(points[0].X, points[0].Y - 1, points[1].X, points[1].Y - 1);
-                        path.AddLine(points[1].X, points[1].Y + 1, points[0].X, points[0].Y + 1);
-                        path.CloseAllFigures();
-                    }
-                    else
-                    {
-                        path.AddLine(points[0].X - 1, points[0].Y, points[1].X - 1, points[1].Y);
-                        path.AddLine(points[1].X + 1, points[1].Y, points[0].X + 1, points[0].Y);
-                        path.CloseAllFigures();
-
-                    }
-                    common.HotRegionsList.AddHotRegion(path, true, type, obj);
+                    path.AddLine(points[0].X, points[0].Y - 1, points[1].X, points[1].Y - 1);
+                    path.AddLine(points[1].X, points[1].Y + 1, points[0].X, points[0].Y + 1);
+                    path.CloseAllFigures();
                 }
+                else
+                {
+                    path.AddLine(points[0].X - 1, points[0].Y, points[1].X - 1, points[1].Y);
+                    path.AddLine(points[1].X + 1, points[1].Y, points[0].X + 1, points[0].Y);
+                    path.CloseAllFigures();
+
+                }
+                common.HotRegionsList.AddHotRegion(path, true, type, obj);
             }
 
             if (common.ProcessModePaint)
@@ -556,8 +554,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         path.AddLine(bottomCenter, topCenter);
                     }
                     // Get surface colors
-                    Color frontLightColor, leftLightColor, topLightColor, backLightColor, rightLightColor, bottomLightColor;
-                    area.matrix3D.GetLight(brush.Color, out frontLightColor, out backLightColor, out leftLightColor, out rightLightColor, out topLightColor, out bottomLightColor);
+                    area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
 
                     Color lightColor;
                     if (area.Area3DStyle.Inclination < 0)
@@ -617,8 +614,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Get surface colors
-                    Color frontLightColor, leftLightColor, topLightColor, backLightColor, rightLightColor, bottomLightColor;
-                    area.matrix3D.GetLight(brush.Color, out frontLightColor, out backLightColor, out leftLightColor, out rightLightColor, out topLightColor, out bottomLightColor);
+                    area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
 
                     Color lightColor;
                     if (area.Area3DStyle.Inclination < 0)
@@ -681,105 +677,103 @@ namespace System.Windows.Forms.DataVisualization.Charting
             CommonElements common = area.Common;
 
             // Create a graphics path
-            using (GraphicsPath path = new GraphicsPath())
+            using GraphicsPath path = new GraphicsPath();
+
+            // It is enough to transform only two points from 
+            // rectangle. This code will create RectangleF from 
+            // top left and bottom right points. 
+            RectangleF pieTopRectangle = new RectangleF();
+            pieTopRectangle.X = topFirstRectPoint.X;
+            pieTopRectangle.Y = topFirstRectPoint.Y;
+            pieTopRectangle.Height = topSecondRectPoint.Y - topFirstRectPoint.Y;
+            pieTopRectangle.Width = topSecondRectPoint.X - topFirstRectPoint.X;
+
+            RectangleF pieBottomRectangle = new RectangleF();
+            pieBottomRectangle.X = bottomFirstRectPoint.X;
+            pieBottomRectangle.Y = bottomFirstRectPoint.Y;
+            pieBottomRectangle.Height = bottomSecondRectPoint.Y - bottomFirstRectPoint.Y;
+            pieBottomRectangle.Width = bottomSecondRectPoint.X - bottomFirstRectPoint.X;
+
+            // Angle correction algorithm. After rotation AddArc method should used 
+            // different transformed angles. This method transforms angles.
+            double angleCorrection = pieTopRectangle.Height / pieTopRectangle.Width;
+
+            float endAngle;
+            endAngle = AngleCorrection(startAngle + sweepAngle, angleCorrection);
+            startAngle = AngleCorrection(startAngle, angleCorrection);
+
+            sweepAngle = endAngle - startAngle;
+
+            // Add Line between first points
+            path.AddLine(topFirstPoint, bottomFirstPoint);
+
+            if (pieBottomRectangle.Height <= 0)
+            {
+                // If x angle is 0 this arc will be line in projection.
+                path.AddLine(bottomFirstPoint.X, bottomFirstPoint.Y, bottomSecondPoint.X, bottomSecondPoint.Y);
+            }
+            else
+            {
+                // Add Arc
+                path.AddArc(pieBottomRectangle.X, pieBottomRectangle.Y, pieBottomRectangle.Width, pieBottomRectangle.Height, startAngle, sweepAngle);
+            }
+
+            // Add Line between second points
+            path.AddLine(bottomSecondPoint, topSecondPoint);
+
+            if (pieTopRectangle.Height <= 0)
+            {
+                // If x angle is 0 this arc will be line in projection.
+                path.AddLine(topFirstPoint.X, topFirstPoint.Y, topSecondPoint.X, topSecondPoint.Y);
+            }
+            else
+            {
+                path.AddArc(pieTopRectangle.X, pieTopRectangle.Y, pieTopRectangle.Width, pieTopRectangle.Height, startAngle + sweepAngle, -sweepAngle);
+            }
+
+            if (common.ProcessModePaint)
+            {
+                // Drawing Mode
+                FillPath(brush, path);
+
+                if (point.BorderColor != Color.Empty &&
+                    point.BorderWidth > 0 &&
+                    point.BorderDashStyle != ChartDashStyle.NotSet)
+                {
+                    DrawGraphicsPath(pen, path);
+                }
+
+            }
+            if (common.ProcessModeRegions)
             {
 
-                // It is enough to transform only two points from 
-                // rectangle. This code will create RectangleF from 
-                // top left and bottom right points. 
-                RectangleF pieTopRectangle = new RectangleF();
-                pieTopRectangle.X = topFirstRectPoint.X;
-                pieTopRectangle.Y = topFirstRectPoint.Y;
-                pieTopRectangle.Height = topSecondRectPoint.Y - topFirstRectPoint.Y;
-                pieTopRectangle.Width = topSecondRectPoint.X - topFirstRectPoint.X;
-
-                RectangleF pieBottomRectangle = new RectangleF();
-                pieBottomRectangle.X = bottomFirstRectPoint.X;
-                pieBottomRectangle.Y = bottomFirstRectPoint.Y;
-                pieBottomRectangle.Height = bottomSecondRectPoint.Y - bottomFirstRectPoint.Y;
-                pieBottomRectangle.Width = bottomSecondRectPoint.X - bottomFirstRectPoint.X;
-
-                // Angle correction algorithm. After rotation AddArc method should used 
-                // different transformed angles. This method transforms angles.
-                double angleCorrection = pieTopRectangle.Height / pieTopRectangle.Width;
-
-                float endAngle;
-                endAngle = AngleCorrection(startAngle + sweepAngle, angleCorrection);
-                startAngle = AngleCorrection(startAngle, angleCorrection);
-
-                sweepAngle = endAngle - startAngle;
-
-                // Add Line between first points
-                path.AddLine(topFirstPoint, bottomFirstPoint);
-
-                if (pieBottomRectangle.Height <= 0)
+                // Check if processing collected data point
+                if (point.IsCustomPropertySet("_COLLECTED_DATA_POINT"))
                 {
-                    // If x angle is 0 this arc will be line in projection.
-                    path.AddLine(bottomFirstPoint.X, bottomFirstPoint.Y, bottomSecondPoint.X, bottomSecondPoint.Y);
-                }
-                else
-                {
-                    // Add Arc
-                    path.AddArc(pieBottomRectangle.X, pieBottomRectangle.Y, pieBottomRectangle.Width, pieBottomRectangle.Height, startAngle, sweepAngle);
-                }
-
-                // Add Line between second points
-                path.AddLine(bottomSecondPoint, topSecondPoint);
-
-                if (pieTopRectangle.Height <= 0)
-                {
-                    // If x angle is 0 this arc will be line in projection.
-                    path.AddLine(topFirstPoint.X, topFirstPoint.Y, topSecondPoint.X, topSecondPoint.Y);
-                }
-                else
-                {
-                    path.AddArc(pieTopRectangle.X, pieTopRectangle.Y, pieTopRectangle.Width, pieTopRectangle.Height, startAngle + sweepAngle, -sweepAngle);
-                }
-
-                if (common.ProcessModePaint)
-                {
-                    // Drawing Mode
-                    FillPath(brush, path);
-
-                    if (point.BorderColor != Color.Empty &&
-                        point.BorderWidth > 0 &&
-                        point.BorderDashStyle != ChartDashStyle.NotSet)
-                    {
-                        DrawGraphicsPath(pen, path);
-                    }
-
-                }
-                if (common.ProcessModeRegions)
-                {
-
-                    // Check if processing collected data point
-                    if (point.IsCustomPropertySet("_COLLECTED_DATA_POINT"))
-                    {
-                        // Add point to the map area
-                        common.HotRegionsList.AddHotRegion(
-                            this,
-                            path,
-                            false,
-                            point.ReplaceKeywords(point.ToolTip),
-                            string.Empty,
-                            string.Empty,
-                            string.Empty,
-                            point,
-                            ChartElementType.DataPoint);
-
-                        return;
-                    }
-
-
-
+                    // Add point to the map area
                     common.HotRegionsList.AddHotRegion(
+                        this,
                         path,
                         false,
-                        this,
+                        point.ReplaceKeywords(point.ToolTip),
+                        string.Empty,
+                        string.Empty,
+                        string.Empty,
                         point,
-                        point.series.Name,
-                        pointIndex);
+                        ChartElementType.DataPoint);
+
+                    return;
                 }
+
+
+
+                common.HotRegionsList.AddHotRegion(
+                    path,
+                    false,
+                    this,
+                    point,
+                    point.series.Name,
+                    pointIndex);
             }
         }
 
@@ -805,97 +799,92 @@ namespace System.Windows.Forms.DataVisualization.Charting
             CommonElements common = area.Common;
 
             // Create a graphics path
-            using (GraphicsPath path = new GraphicsPath())
+            using GraphicsPath path = new GraphicsPath();
+
+            // It is enough to transform only two points from 
+            // rectangle. This code will create RectangleF from 
+            // top left and bottom right points. 
+            RectangleF pieRectangle = new RectangleF();
+            pieRectangle.X = firstRectPoint.X;
+            pieRectangle.Y = firstRectPoint.Y;
+            pieRectangle.Height = secondRectPoint.Y - firstRectPoint.Y;
+            pieRectangle.Width = secondRectPoint.X - firstRectPoint.X;
+
+            // Angle correction algorithm. After rotation AddArc method should used 
+            // different transformed angles. This method transforms angles.
+            double angleCorrection = pieRectangle.Height / pieRectangle.Width;
+
+            float endAngle;
+            endAngle = AngleCorrection(startAngle + sweepAngle, angleCorrection);
+            startAngle = AngleCorrection(startAngle, angleCorrection);
+
+            sweepAngle = endAngle - startAngle;
+
+            // Add Line between The Center and Arc
+            path.AddLine(center, firstPoint);
+
+            // Add Arc
+            if (pieRectangle.Height > 0)
+            {
+                // If x angle is 0 this arc will be line in projection.
+                path.AddArc(pieRectangle.X, pieRectangle.Y, pieRectangle.Width, pieRectangle.Height, startAngle, sweepAngle);
+            }
+
+            // Add Line between the end of the arc and the centre.
+            path.AddLine(secondPoint, center);
+
+            if (common.ProcessModePaint)
+            {
+                // Get surface colors
+                area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
+
+                Pen newPen = (Pen)pen.Clone();
+
+                if (area.Area3DStyle.LightStyle == LightStyle.Realistic && point.BorderColor == Color.Empty)
+                {
+                    newPen.Color = frontLightColor;
+                }
+
+                // Drawing Mode
+                if (fill)
+                {
+                    using Brush lightBrush = new SolidBrush(frontLightColor);
+                    FillPath(lightBrush, path);
+                }
+
+                if (point.BorderColor != Color.Empty &&
+                    point.BorderWidth > 0 &&
+                    point.BorderDashStyle != ChartDashStyle.NotSet)
+                {
+                    DrawGraphicsPath(newPen, path);
+                }
+            }
+
+            if (common.ProcessModeRegions && fill)
             {
 
-                // It is enough to transform only two points from 
-                // rectangle. This code will create RectangleF from 
-                // top left and bottom right points. 
-                RectangleF pieRectangle = new RectangleF();
-                pieRectangle.X = firstRectPoint.X;
-                pieRectangle.Y = firstRectPoint.Y;
-                pieRectangle.Height = secondRectPoint.Y - firstRectPoint.Y;
-                pieRectangle.Width = secondRectPoint.X - firstRectPoint.X;
 
-                // Angle correction algorithm. After rotation AddArc method should used 
-                // different transformed angles. This method transforms angles.
-                double angleCorrection = pieRectangle.Height / pieRectangle.Width;
-
-                float endAngle;
-                endAngle = AngleCorrection(startAngle + sweepAngle, angleCorrection);
-                startAngle = AngleCorrection(startAngle, angleCorrection);
-
-                sweepAngle = endAngle - startAngle;
-
-                // Add Line between The Center and Arc
-                path.AddLine(center, firstPoint);
-
-                // Add Arc
-                if (pieRectangle.Height > 0)
+                // Check if processing collected data point
+                if (point.IsCustomPropertySet("_COLLECTED_DATA_POINT"))
                 {
-                    // If x angle is 0 this arc will be line in projection.
-                    path.AddArc(pieRectangle.X, pieRectangle.Y, pieRectangle.Width, pieRectangle.Height, startAngle, sweepAngle);
+                    // Add point to the map area
+                    common.HotRegionsList.AddHotRegion(
+                        this,
+                        path,
+                        false,
+                        point.ReplaceKeywords(point.ToolTip),
+                        string.Empty,
+                        string.Empty,
+                        string.Empty,
+                        point,
+                        ChartElementType.DataPoint);
+
+                    return;
                 }
 
-                // Add Line between the end of the arc and the centre.
-                path.AddLine(secondPoint, center);
-
-                if (common.ProcessModePaint)
-                {
-                    // Get surface colors
-                    Color frontLightColor, leftLightColor, topLightColor, backLightColor, rightLightColor, bottomLightColor;
-                    area.matrix3D.GetLight(brush.Color, out frontLightColor, out backLightColor, out leftLightColor, out rightLightColor, out topLightColor, out bottomLightColor);
-
-                    Pen newPen = (Pen)pen.Clone();
-
-                    if (area.Area3DStyle.LightStyle == LightStyle.Realistic && point.BorderColor == Color.Empty)
-                    {
-                        newPen.Color = frontLightColor;
-                    }
-
-                    // Drawing Mode
-                    if (fill)
-                    {
-                        using (Brush lightBrush = new SolidBrush(frontLightColor))
-                        {
-                            FillPath(lightBrush, path);
-                        }
-                    }
-
-                    if (point.BorderColor != Color.Empty &&
-                        point.BorderWidth > 0 &&
-                        point.BorderDashStyle != ChartDashStyle.NotSet)
-                    {
-                        DrawGraphicsPath(newPen, path);
-                    }
-                }
-
-                if (common.ProcessModeRegions && fill)
-                {
 
 
-                    // Check if processing collected data point
-                    if (point.IsCustomPropertySet("_COLLECTED_DATA_POINT"))
-                    {
-                        // Add point to the map area
-                        common.HotRegionsList.AddHotRegion(
-                            this,
-                            path,
-                            false,
-                            point.ReplaceKeywords(point.ToolTip),
-                            string.Empty,
-                            string.Empty,
-                            string.Empty,
-                            point,
-                            ChartElementType.DataPoint);
-
-                        return;
-                    }
-
-
-
-                    common.HotRegionsList.AddHotRegion(path, false, this, point, point.series.Name, pointIndex);
-                }
+                common.HotRegionsList.AddHotRegion(path, false, this, point, point.series.Name, pointIndex);
             }
         }
 
@@ -925,114 +914,109 @@ namespace System.Windows.Forms.DataVisualization.Charting
             doughnutRadius = 1F - doughnutRadius / 100F;
 
             // Create a graphics path
-            using (GraphicsPath path = new GraphicsPath())
+            using GraphicsPath path = new GraphicsPath();
+
+            // It is enough to transform only two points from 
+            // rectangle. This code will create RectangleF from 
+            // top left and bottom right points. 
+            RectangleF pieRectangle = new RectangleF();
+            pieRectangle.X = firstRectPoint.X;
+            pieRectangle.Y = firstRectPoint.Y;
+            pieRectangle.Height = secondRectPoint.Y - firstRectPoint.Y;
+            pieRectangle.Width = secondRectPoint.X - firstRectPoint.X;
+
+            RectangleF pieDoughnutRectangle = new RectangleF();
+            pieDoughnutRectangle.X = pieRectangle.X + pieRectangle.Width * (1F - doughnutRadius) / 2F;
+            pieDoughnutRectangle.Y = pieRectangle.Y + pieRectangle.Height * (1F - doughnutRadius) / 2F;
+            pieDoughnutRectangle.Height = pieRectangle.Height * doughnutRadius;
+            pieDoughnutRectangle.Width = pieRectangle.Width * doughnutRadius;
+
+            // Angle correction algorithm. After rotation AddArc method should used 
+            // different transformed angles. This method transforms angles.
+            double angleCorrection = pieRectangle.Height / pieRectangle.Width;
+
+            float endAngle;
+            endAngle = AngleCorrection(startAngle + sweepAngle, angleCorrection);
+            startAngle = AngleCorrection(startAngle, angleCorrection);
+
+            sweepAngle = endAngle - startAngle;
+
+            // Add Line between The Doughnut Arc and Arc
+            path.AddLine(fourPoint, firstPoint);
+
+            // Add Arc
+            if (pieRectangle.Height > 0)
+            {
+                // If x angle is 0 this arc will be line in projection.
+                path.AddArc(pieRectangle.X, pieRectangle.Y, pieRectangle.Width, pieRectangle.Height, startAngle, sweepAngle);
+            }
+
+            // Add Line between the end of the arc and The Doughnut Arc.
+            path.AddLine(secondPoint, threePoint);
+
+            // Add Doughnut Arc
+            if (pieDoughnutRectangle.Height > 0)
+            {
+                path.AddArc(pieDoughnutRectangle.X, pieDoughnutRectangle.Y, pieDoughnutRectangle.Width, pieDoughnutRectangle.Height, startAngle + sweepAngle, -sweepAngle);
+            }
+
+            if (common.ProcessModePaint)
+            {
+                // Get surface colors
+                area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
+
+                Pen newPen = (Pen)pen.Clone();
+
+                if (area.Area3DStyle.LightStyle == LightStyle.Realistic && point.BorderColor == Color.Empty)
+                {
+                    newPen.Color = frontLightColor;
+                }
+
+                // Drawing Mode
+                if (fill)
+                {
+                    using Brush lightBrush = new SolidBrush(frontLightColor);
+                    FillPath(lightBrush, path);
+                }
+
+                if (point.BorderColor != Color.Empty &&
+                    point.BorderWidth > 0 &&
+                    point.BorderDashStyle != ChartDashStyle.NotSet)
+                {
+                    DrawGraphicsPath(newPen, path);
+                }
+            }
+
+            if (common.ProcessModeRegions && fill)
             {
 
-                // It is enough to transform only two points from 
-                // rectangle. This code will create RectangleF from 
-                // top left and bottom right points. 
-                RectangleF pieRectangle = new RectangleF();
-                pieRectangle.X = firstRectPoint.X;
-                pieRectangle.Y = firstRectPoint.Y;
-                pieRectangle.Height = secondRectPoint.Y - firstRectPoint.Y;
-                pieRectangle.Width = secondRectPoint.X - firstRectPoint.X;
 
-                RectangleF pieDoughnutRectangle = new RectangleF();
-                pieDoughnutRectangle.X = pieRectangle.X + pieRectangle.Width * (1F - doughnutRadius) / 2F;
-                pieDoughnutRectangle.Y = pieRectangle.Y + pieRectangle.Height * (1F - doughnutRadius) / 2F;
-                pieDoughnutRectangle.Height = pieRectangle.Height * doughnutRadius;
-                pieDoughnutRectangle.Width = pieRectangle.Width * doughnutRadius;
-
-                // Angle correction algorithm. After rotation AddArc method should used 
-                // different transformed angles. This method transforms angles.
-                double angleCorrection = pieRectangle.Height / pieRectangle.Width;
-
-                float endAngle;
-                endAngle = AngleCorrection(startAngle + sweepAngle, angleCorrection);
-                startAngle = AngleCorrection(startAngle, angleCorrection);
-
-                sweepAngle = endAngle - startAngle;
-
-                // Add Line between The Doughnut Arc and Arc
-                path.AddLine(fourPoint, firstPoint);
-
-                // Add Arc
-                if (pieRectangle.Height > 0)
+                // Check if processing collected data point
+                if (point.IsCustomPropertySet("_COLLECTED_DATA_POINT"))
                 {
-                    // If x angle is 0 this arc will be line in projection.
-                    path.AddArc(pieRectangle.X, pieRectangle.Y, pieRectangle.Width, pieRectangle.Height, startAngle, sweepAngle);
-                }
-
-                // Add Line between the end of the arc and The Doughnut Arc.
-                path.AddLine(secondPoint, threePoint);
-
-                // Add Doughnut Arc
-                if (pieDoughnutRectangle.Height > 0)
-                {
-                    path.AddArc(pieDoughnutRectangle.X, pieDoughnutRectangle.Y, pieDoughnutRectangle.Width, pieDoughnutRectangle.Height, startAngle + sweepAngle, -sweepAngle);
-                }
-
-                if (common.ProcessModePaint)
-                {
-                    // Get surface colors
-                    Color frontLightColor, leftLightColor, topLightColor, backLightColor, rightLightColor, bottomLightColor;
-                    area.matrix3D.GetLight(brush.Color, out frontLightColor, out backLightColor, out leftLightColor, out rightLightColor, out topLightColor, out bottomLightColor);
-
-                    Pen newPen = (Pen)pen.Clone();
-
-                    if (area.Area3DStyle.LightStyle == LightStyle.Realistic && point.BorderColor == Color.Empty)
-                    {
-                        newPen.Color = frontLightColor;
-                    }
-
-                    // Drawing Mode
-                    if (fill)
-                    {
-                        using (Brush lightBrush = new SolidBrush(frontLightColor))
-                        {
-                            FillPath(lightBrush, path);
-                        }
-                    }
-
-                    if (point.BorderColor != Color.Empty &&
-                        point.BorderWidth > 0 &&
-                        point.BorderDashStyle != ChartDashStyle.NotSet)
-                    {
-                        DrawGraphicsPath(newPen, path);
-                    }
-                }
-
-                if (common.ProcessModeRegions && fill)
-                {
-
-
-                    // Check if processing collected data point
-                    if (point.IsCustomPropertySet("_COLLECTED_DATA_POINT"))
-                    {
-                        // Add point to the map area
-                        common.HotRegionsList.AddHotRegion(
-                            this,
-                            path,
-                            false,
-                            point.ReplaceKeywords(point.ToolTip),
-                            string.Empty,
-                            string.Empty,
-                            string.Empty,
-                            point,
-                            ChartElementType.DataPoint);
-
-                        return;
-                    }
-
-                    // Add points to the map area
+                    // Add point to the map area
                     common.HotRegionsList.AddHotRegion(
+                        this,
                         path,
                         false,
-                        this,
+                        point.ReplaceKeywords(point.ToolTip),
+                        string.Empty,
+                        string.Empty,
+                        string.Empty,
                         point,
-                        point.series.Name,
-                        pointIndex);
+                        ChartElementType.DataPoint);
+
+                    return;
                 }
+
+                // Add points to the map area
+                common.HotRegionsList.AddHotRegion(
+                    path,
+                    false,
+                    this,
+                    point,
+                    point.series.Name,
+                    pointIndex);
             }
         }
 
@@ -1090,31 +1074,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Make all angles to be between -90 and 90.			
             if (angle > -90 && angle < 90)
             {
-                angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
+                angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
             }
             else if (angle > -270 && angle < -90)
             {
-                angle = angle + 180;
-                angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
-                angle = angle - 180;
+                angle += 180;
+                angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
+                angle -= 180;
             }
             else if (angle > 90 && angle < 270)
             {
-                angle = angle - 180;
-                angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
-                angle = angle + 180;
+                angle -= 180;
+                angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
+                angle += 180;
             }
             else if (angle > 270 && angle < 450)
             {
-                angle = angle - 360;
-                angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
-                angle = angle + 360;
+                angle -= 360;
+                angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
+                angle += 360;
             }
             else if (angle > 450)
             {
-                angle = angle - 540;
-                angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
-                angle = angle + 540;
+                angle -= 540;
+                angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
+                angle += 540;
             }
             return angle;
         }
@@ -1158,7 +1142,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             SurfaceNames thinBorders)
         {
             // Create graphics path for selection
-            bool drawElements = ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement);
+            bool drawElements = (operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement;
             GraphicsPath resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
                 ? new GraphicsPath() : null;
 
@@ -1263,25 +1247,25 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (frontLinePoint1 != PointF.Empty && frontLinePen != null)
                 {
-                    if ((frontLinePoint1.X == polygonPoints[0].X &&
+                    if (frontLinePoint1.X == polygonPoints[0].X &&
                         frontLinePoint1.Y == polygonPoints[0].Y ||
                         frontLinePoint2.X == polygonPoints[1].X &&
-                        frontLinePoint2.Y == polygonPoints[1].Y) ||
+                        frontLinePoint2.Y == polygonPoints[1].Y ||
 
-                        (frontLinePoint1.X == polygonPoints[1].X &&
+                        frontLinePoint1.X == polygonPoints[1].X &&
                         frontLinePoint1.Y == polygonPoints[1].Y ||
                         frontLinePoint2.X == polygonPoints[0].X &&
-                        frontLinePoint2.Y == polygonPoints[0].Y) ||
+                        frontLinePoint2.Y == polygonPoints[0].Y ||
 
-                        (frontLinePoint1.X == polygonPoints[3].X &&
+                        frontLinePoint1.X == polygonPoints[3].X &&
                         frontLinePoint1.Y == polygonPoints[3].Y ||
                         frontLinePoint2.X == polygonPoints[2].X &&
-                        frontLinePoint2.Y == polygonPoints[2].Y) ||
+                        frontLinePoint2.Y == polygonPoints[2].Y ||
 
-                        (frontLinePoint1.X == polygonPoints[2].X &&
+                        frontLinePoint1.X == polygonPoints[2].X &&
                         frontLinePoint1.Y == polygonPoints[2].Y ||
                         frontLinePoint2.X == polygonPoints[3].X &&
-                        frontLinePoint2.Y == polygonPoints[3].Y))
+                        frontLinePoint2.Y == polygonPoints[3].Y)
                     {
                         // Do not draw the line if it will be overlapped with current
                     }
@@ -1748,7 +1732,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //**********************************************************************
             //** Create graphics path for selection
             //**********************************************************************
-            bool drawElements = ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement);
+            bool drawElements = (operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement;
             GraphicsPath resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath) ? new GraphicsPath() : null;
 
             //**********************************************************************
@@ -2209,7 +2193,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     LineSegmentType tempLineSegmentType = LineSegmentType.Single;
 
                     // Check left line visibility
-                    thickBorderOnLeft = (ChartGraphics.ShouldDrawLineChartSurface(
+                    thickBorderOnLeft = ChartGraphics.ShouldDrawLineChartSurface(
                         area,
                         reversedSeriesOrder,
                         SurfaceNames.Left,
@@ -2219,11 +2203,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         firstPoint,
                         secondPoint,
                         multiSeries,
-                        ref tempLineSegmentType) == 2);
+                        ref tempLineSegmentType) == 2;
 
 
                     // Check right line visibility
-                    thickBorderOnRight = (ChartGraphics.ShouldDrawLineChartSurface(
+                    thickBorderOnRight = ChartGraphics.ShouldDrawLineChartSurface(
                         area,
                         reversedSeriesOrder,
                         SurfaceNames.Right,
@@ -2233,7 +2217,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         firstPoint,
                         secondPoint,
                         multiSeries,
-                        ref tempLineSegmentType) == 2);
+                        ref tempLineSegmentType) == 2;
                 }
 
                 // Switch left & right border if series is reversed
@@ -2475,17 +2459,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool rightPointVisible = false;
             if (surfaceName == SurfaceNames.Left)
             {
-                // Find Left point 
-                DataPoint3D leftPoint = null, leftPointAttr = null;
                 int pointArrayIndex = int.MinValue;
+                // Find Left point 
+                DataPoint3D leftPoint;
+                DataPoint3D leftPointAttr;
                 if (!reversedSeriesOrder)
                 {
-                    leftPoint = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
-                    leftPointAttr = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), (multiSeries) ? secondPoint : null, ref pointArrayIndex);
+                    leftPoint = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
+                    leftPointAttr = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), multiSeries ? secondPoint : null, ref pointArrayIndex);
                 }
                 else
                 {
-                    leftPoint = ChartGraphics.FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
+                    leftPoint = ChartGraphics.FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
                     leftPointAttr = leftPoint;
                 }
                 if (leftPoint != null)
@@ -2508,10 +2493,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Check if found point is outside the scaleView
-                    double xValue = (leftPoint.indexedSeries) ? leftPoint.index : leftPoint.dataPoint.XValue;
+                    double xValue = leftPoint.indexedSeries ? leftPoint.index : leftPoint.dataPoint.XValue;
                     if (xValue > hAxisMax || xValue < hAxisMin)
                     {
-                        DataPoint3D currentPoint = null;
+                        DataPoint3D currentPoint;
                         if (reversedSeriesOrder)
                         {
                             currentPoint = (firstPoint.index > secondPoint.index) ? firstPoint : secondPoint;
@@ -2520,7 +2505,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             currentPoint = (firstPoint.index < secondPoint.index) ? firstPoint : secondPoint;
                         }
-                        double currentXValue = (currentPoint.indexedSeries) ? currentPoint.index : currentPoint.dataPoint.XValue;
+                        double currentXValue = currentPoint.indexedSeries ? currentPoint.index : currentPoint.dataPoint.XValue;
                         if (currentXValue > hAxisMax || currentXValue < hAxisMin)
                         {
                             leftPointVisible = false;
@@ -2532,17 +2517,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Find Right point 
             if (surfaceName == SurfaceNames.Right)
             {
-                DataPoint3D rightPoint = null, rightPointAttr = null;
                 int pointArrayIndex = int.MinValue;
+                DataPoint3D rightPoint;
+                DataPoint3D rightPointAttr;
                 if (!reversedSeriesOrder)
                 {
-                    rightPoint = ChartGraphics.FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
+                    rightPoint = ChartGraphics.FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
                     rightPointAttr = rightPoint;
                 }
                 else
                 {
-                    rightPoint = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
-                    rightPointAttr = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), (multiSeries) ? secondPoint : null, ref pointArrayIndex);
+                    rightPoint = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
+                    rightPointAttr = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), multiSeries ? secondPoint : null, ref pointArrayIndex);
                 }
                 if (rightPoint != null)
                 {
@@ -2564,10 +2550,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Check if found point is outside the scaleView
-                    double xValue = (rightPoint.indexedSeries) ? rightPoint.index : rightPoint.dataPoint.XValue;
+                    double xValue = rightPoint.indexedSeries ? rightPoint.index : rightPoint.dataPoint.XValue;
                     if (xValue > hAxisMax || xValue < hAxisMin)
                     {
-                        DataPoint3D currentPoint = null;
+                        DataPoint3D currentPoint;
                         if (reversedSeriesOrder)
                         {
                             currentPoint = (firstPoint.index > secondPoint.index) ? firstPoint : secondPoint;
@@ -2576,7 +2562,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             currentPoint = (firstPoint.index < secondPoint.index) ? firstPoint : secondPoint;
                         }
-                        double currentXValue = (currentPoint.indexedSeries) ? currentPoint.index : currentPoint.dataPoint.XValue;
+                        double currentXValue = currentPoint.indexedSeries ? currentPoint.index : currentPoint.dataPoint.XValue;
                         if (currentXValue > hAxisMax || currentXValue < hAxisMin)
                         {
                             rightPointVisible = false;
@@ -2873,8 +2859,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Get surface colors
-            Color frontLightColor, leftLightColor, topLightColor, backLightColor, rightLightColor, bottomLightColor;
-            matrix.GetLight(backColor, out frontLightColor, out backLightColor, out leftLightColor, out rightLightColor, out topLightColor, out bottomLightColor);
+            matrix.GetLight(backColor, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
 
             // Darken colors by specified values
             if (topRightDarkening != 0f)
@@ -2944,42 +2929,42 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                         switch (currentSurface)
                         {
-                            case (SurfaceNames.Front):
+                            case SurfaceNames.Front:
                                 surfaceColor = frontLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[0].X, cubePoints[0].Y);
                                 pointsSurface[1] = new PointF(cubePoints[1].X, cubePoints[1].Y);
                                 pointsSurface[2] = new PointF(cubePoints[2].X, cubePoints[2].Y);
                                 pointsSurface[3] = new PointF(cubePoints[3].X, cubePoints[3].Y);
                                 break;
-                            case (SurfaceNames.Back):
+                            case SurfaceNames.Back:
                                 surfaceColor = backLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[4].X, cubePoints[4].Y);
                                 pointsSurface[1] = new PointF(cubePoints[5].X, cubePoints[5].Y);
                                 pointsSurface[2] = new PointF(cubePoints[6].X, cubePoints[6].Y);
                                 pointsSurface[3] = new PointF(cubePoints[7].X, cubePoints[7].Y);
                                 break;
-                            case (SurfaceNames.Left):
+                            case SurfaceNames.Left:
                                 surfaceColor = leftLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[0].X, cubePoints[0].Y);
                                 pointsSurface[1] = new PointF(cubePoints[1].X, cubePoints[1].Y);
                                 pointsSurface[2] = new PointF(cubePoints[5].X, cubePoints[5].Y);
                                 pointsSurface[3] = new PointF(cubePoints[4].X, cubePoints[4].Y);
                                 break;
-                            case (SurfaceNames.Right):
+                            case SurfaceNames.Right:
                                 surfaceColor = rightLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[3].X, cubePoints[3].Y);
                                 pointsSurface[1] = new PointF(cubePoints[2].X, cubePoints[2].Y);
                                 pointsSurface[2] = new PointF(cubePoints[6].X, cubePoints[6].Y);
                                 pointsSurface[3] = new PointF(cubePoints[7].X, cubePoints[7].Y);
                                 break;
-                            case (SurfaceNames.Top):
+                            case SurfaceNames.Top:
                                 surfaceColor = topLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[0].X, cubePoints[0].Y);
                                 pointsSurface[1] = new PointF(cubePoints[3].X, cubePoints[3].Y);
                                 pointsSurface[2] = new PointF(cubePoints[7].X, cubePoints[7].Y);
                                 pointsSurface[3] = new PointF(cubePoints[4].X, cubePoints[4].Y);
                                 break;
-                            case (SurfaceNames.Bottom):
+                            case SurfaceNames.Bottom:
                                 surfaceColor = bottomLightColor;
                                 pointsSurface[0] = new PointF(cubePoints[1].X, cubePoints[1].Y);
                                 pointsSurface[1] = new PointF(cubePoints[2].X, cubePoints[2].Y);
@@ -3015,25 +3000,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
 
                             // Draw surface border
-                            using (Pen pen = new Pen(borderColor, borderWidth))
+                            using Pen pen = new Pen(borderColor, borderWidth);
+                            pen.DashStyle = GetPenStyle(borderDashStyle);
+                            if (lightStyle != LightStyle.None &&
+                                (borderWidth == 0 || borderDashStyle == ChartDashStyle.NotSet || borderColor == Color.Empty))
                             {
-                                pen.DashStyle = GetPenStyle(borderDashStyle);
-                                if (lightStyle != LightStyle.None &&
-                                    (borderWidth == 0 || borderDashStyle == ChartDashStyle.NotSet || borderColor == Color.Empty))
-                                {
-                                    // Draw line of the same color inside the bar
-                                    pen.Color = surfaceColor;
-                                    pen.Width = 1;
-                                    pen.Alignment = PenAlignment.Inset;
-                                }
-
-                                pen.StartCap = LineCap.Round;
-                                pen.EndCap = LineCap.Round;
-                                DrawLine(pen, pointsSurface[0], pointsSurface[1]);
-                                DrawLine(pen, pointsSurface[1], pointsSurface[2]);
-                                DrawLine(pen, pointsSurface[2], pointsSurface[3]);
-                                DrawLine(pen, pointsSurface[3], pointsSurface[0]);
+                                // Draw line of the same color inside the bar
+                                pen.Color = surfaceColor;
+                                pen.Width = 1;
+                                pen.Alignment = PenAlignment.Inset;
                             }
+
+                            pen.StartCap = LineCap.Round;
+                            pen.EndCap = LineCap.Round;
+                            DrawLine(pen, pointsSurface[0], pointsSurface[1]);
+                            DrawLine(pen, pointsSurface[1], pointsSurface[2]);
+                            DrawLine(pen, pointsSurface[2], pointsSurface[3]);
+                            DrawLine(pen, pointsSurface[3], pointsSurface[0]);
                         }
 
                         // Add surface coordinate to the path
@@ -3075,7 +3058,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Calculate wedge size to fit the rectangle
                 RectangleF positionAbs = GetAbsoluteRectangle(position);
-                float size = (isVertical) ? positionAbs.Width / 2f : positionAbs.Height / 2f;
+                float size = isVertical ? positionAbs.Width / 2f : positionAbs.Height / 2f;
                 if (isVertical && 2f * size > positionAbs.Height)
                 {
                     size = positionAbs.Height / 2f;
@@ -3132,10 +3115,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     path.CloseAllFigures();
 
                     // Create brush and fill path
-                    using (SolidBrush brush = new SolidBrush(Color.FromArgb(90, Color.Black)))
-                    {
-                        this.FillPath(brush, path);
-                    }
+                    using SolidBrush brush = new SolidBrush(Color.FromArgb(90, Color.Black));
+                    this.FillPath(brush, path);
                 }
 
                 // Draw top/right triangle
@@ -3153,31 +3134,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Create brush and fill path
-                    using (SolidBrush brush = new SolidBrush(Color.FromArgb(50, Color.Black)))
+                    using SolidBrush brush = new SolidBrush(Color.FromArgb(50, Color.Black));
+                    // Fill shadow path on the left-bottom side of the bar
+                    this.FillPath(brush, path);
+
+                    // Draw Lines
+                    using (Pen penDark = new Pen(Color.FromArgb(20, Color.Black), 1))
                     {
-                        // Fill shadow path on the left-bottom side of the bar
-                        this.FillPath(brush, path);
-
-                        // Draw Lines
-                        using (Pen penDark = new Pen(Color.FromArgb(20, Color.Black), 1))
-                        {
-                            this.DrawPath(penDark, path);
-                            this.DrawLine(
-                                penDark,
-                                gradientPointsAbs[4],
-                                gradientPointsAbs[5]);
-                        }
-
-                        // Draw Lines
-                        using (Pen pen = new Pen(Color.FromArgb(40, Color.White), 1))
-                        {
-                            this.DrawPath(pen, path);
-                            this.DrawLine(
-                                pen,
-                                gradientPointsAbs[4],
-                                gradientPointsAbs[5]);
-                        }
+                        this.DrawPath(penDark, path);
+                        this.DrawLine(
+                            penDark,
+                            gradientPointsAbs[4],
+                            gradientPointsAbs[5]);
                     }
+
+                    // Draw Lines
+                    using Pen pen = new Pen(Color.FromArgb(40, Color.White), 1);
+                    this.DrawPath(pen, path);
+                    this.DrawLine(
+                        pen,
+                        gradientPointsAbs[4],
+                        gradientPointsAbs[5]);
                 }
 
                 // Draw bottom/left triangle
@@ -3195,21 +3172,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Create brush
-                    using (SolidBrush brush = new SolidBrush(Color.FromArgb(50, Color.Black)))
-                    {
-                        // Fill shadow path on the left-bottom side of the bar
-                        this.FillPath(brush, path);
+                    using SolidBrush brush = new SolidBrush(Color.FromArgb(50, Color.Black));
+                    // Fill shadow path on the left-bottom side of the bar
+                    this.FillPath(brush, path);
 
-                        // Draw edges
-                        using (Pen penDark = new Pen(Color.FromArgb(20, Color.Black), 1))
-                        {
-                            this.DrawPath(penDark, path);
-                        }
-                        using (Pen pen = new Pen(Color.FromArgb(40, Color.White), 1))
-                        {
-                            this.DrawPath(pen, path);
-                        }
+                    // Draw edges
+                    using (Pen penDark = new Pen(Color.FromArgb(20, Color.Black), 1))
+                    {
+                        this.DrawPath(penDark, path);
                     }
+                    using Pen pen = new Pen(Color.FromArgb(40, Color.White), 1);
+                    this.DrawPath(pen, path);
                 }
 
 
@@ -3271,15 +3244,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Create brush
                     if (bounds.Width > 0f && bounds.Height > 0f)
                     {
-                        using (LinearGradientBrush topBrush = new LinearGradientBrush(
+                        using LinearGradientBrush topBrush = new LinearGradientBrush(
                                   bounds,
                                   (!isVertical) ? Color.Transparent : Color.FromArgb(120, Color.White),
                                   (!isVertical) ? Color.FromArgb(120, Color.White) : Color.Transparent,
-                                  (isVertical) ? LinearGradientMode.Vertical : LinearGradientMode.Horizontal))
-                        {
-                            // Fill shadow path on the top side of the bar
-                            this.FillPath(topBrush, path);
-                        }
+                                  isVertical ? LinearGradientMode.Vertical : LinearGradientMode.Horizontal);
+                        // Fill shadow path on the top side of the bar
+                        this.FillPath(topBrush, path);
                     }
                 }
 
@@ -3327,15 +3298,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Create brush
                     if (bounds.Width > 0f && bounds.Height > 0f)
                     {
-                        using (LinearGradientBrush topBrush = new LinearGradientBrush(
+                        using LinearGradientBrush topBrush = new LinearGradientBrush(
                                   bounds,
-                                  (isVertical) ? Color.Transparent : Color.FromArgb(80, Color.Black),
-                                  (isVertical) ? Color.FromArgb(80, Color.Black) : Color.Transparent,
-                                  (isVertical) ? LinearGradientMode.Vertical : LinearGradientMode.Horizontal))
-                        {
-                            // Fill shadow path on the top side of the bar
-                            this.FillPath(topBrush, path);
-                        }
+                                  isVertical ? Color.Transparent : Color.FromArgb(80, Color.Black),
+                                  isVertical ? Color.FromArgb(80, Color.Black) : Color.Transparent,
+                                  isVertical ? LinearGradientMode.Vertical : LinearGradientMode.Horizontal);
+                        // Fill shadow path on the top side of the bar
+                        this.FillPath(topBrush, path);
                     }
                 }
 
@@ -3380,11 +3349,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     path.AddPolygon(gradientPointsAbs);
 
                     // Create brush
-                    using (SolidBrush leftTopBrush = new SolidBrush(Color.FromArgb(100, Color.White)))
-                    {
-                        // Fill shadow path on the left-bottom side of the bar
-                        this.FillPath(leftTopBrush, path);
-                    }
+                    using SolidBrush leftTopBrush = new SolidBrush(Color.FromArgb(100, Color.White));
+                    // Fill shadow path on the left-bottom side of the bar
+                    this.FillPath(leftTopBrush, path);
                 }
 
                 // Right/bottom Side
@@ -3410,11 +3377,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     path.AddPolygon(gradientPointsAbs);
 
                     // Create brush
-                    using (SolidBrush bottomRightBrush = new SolidBrush(Color.FromArgb(80, Color.Black)))
-                    {
-                        // Fill shadow path on the left-bottom side of the bar
-                        this.FillPath(bottomRightBrush, path);
-                    }
+                    using SolidBrush bottomRightBrush = new SolidBrush(Color.FromArgb(80, Color.Black));
+                    // Fill shadow path on the left-bottom side of the bar
+                    this.FillPath(bottomRightBrush, path);
                 }
             }
         }
@@ -3511,139 +3476,127 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (markerStyle != MarkerStyle.None && markerSize > 0 && markerColor != Color.Empty)
             {
                 // Create solid color brush
-                using (SolidBrush brush = new SolidBrush(markerColor))
+                using SolidBrush brush = new SolidBrush(markerColor);
+
+                // Calculate marker rectangle
+                RectangleF rect = RectangleF.Empty;
+                rect.X = markerRotatedPosition.X - markerSize / 2F;
+                rect.Y = markerRotatedPosition.Y - markerSize / 2F;
+                rect.Width = markerSize;
+                rect.Height = markerSize;
+
+                // Calculate relative marker size
+                SizeF markerRelativeSize = graph.GetRelativeSize(new SizeF(markerSize, markerSize));
+
+                // Draw marker depending on style
+                switch (markerStyle)
                 {
-
-                    // Calculate marker rectangle
-                    RectangleF rect = RectangleF.Empty;
-                    rect.X = markerRotatedPosition.X - markerSize / 2F;
-                    rect.Y = markerRotatedPosition.Y - markerSize / 2F;
-                    rect.Width = markerSize;
-                    rect.Height = markerSize;
-
-                    // Calculate relative marker size
-                    SizeF markerRelativeSize = graph.GetRelativeSize(new SizeF(markerSize, markerSize));
-
-                    // Draw marker depending on style
-                    switch (markerStyle)
-                    {
-                        case (MarkerStyle.Circle):
+                    case MarkerStyle.Circle:
+                        {
+                            if ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement)
                             {
-                                if ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement)
+                                // Draw marker shadow
+                                if (shadowSize != 0 && shadowColor != Color.Empty)
                                 {
-                                    // Draw marker shadow
-                                    if (shadowSize != 0 && shadowColor != Color.Empty)
+                                    if (!graph.softShadows)
                                     {
-                                        if (!graph.softShadows)
-                                        {
-                                            using (Brush shadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor)))
-                                            {
-                                                RectangleF shadowRect = rect;
-                                                shadowRect.X += shadowSize;
-                                                shadowRect.Y += shadowSize;
-                                                graph.FillEllipse(shadowBrush, shadowRect);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            // Add circle to the graphics path
-                                            using (GraphicsPath path = new GraphicsPath())
-                                            {
-                                                path.AddEllipse(rect.X + shadowSize - 1, rect.Y + shadowSize - 1, rect.Width + 2, rect.Height + 2);
-
-                                                // Create path brush
-                                                using (PathGradientBrush shadowBrush = new PathGradientBrush(path))
-                                                {
-                                                    shadowBrush.CenterColor = shadowColor;
-
-                                                    // Set the color along the entire boundary of the path
-                                                    Color[] colors = { Color.Transparent };
-                                                    shadowBrush.SurroundColors = colors;
-                                                    shadowBrush.CenterPoint = new PointF(markerRotatedPosition.X, markerRotatedPosition.Y);
-
-                                                    // Define brush focus scale
-                                                    PointF focusScale = new PointF(1 - 2f * shadowSize / rect.Width, 1 - 2f * shadowSize / rect.Height);
-                                                    if (focusScale.X < 0)
-                                                    {
-                                                        focusScale.X = 0;
-                                                    }
-                                                    if (focusScale.Y < 0)
-                                                    {
-                                                        focusScale.Y = 0;
-                                                    }
-                                                    shadowBrush.FocusScales = focusScale;
-
-                                                    // Draw shadow
-                                                    graph.FillPath(shadowBrush, path);
-                                                }
-                                            }
-                                        }
+                                        using Brush shadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
+                                        RectangleF shadowRect = rect;
+                                        shadowRect.X += shadowSize;
+                                        shadowRect.Y += shadowSize;
+                                        graph.FillEllipse(shadowBrush, shadowRect);
                                     }
-
-                                    // Create path gradient brush
-                                    using (GraphicsPath brushPath = new GraphicsPath())
+                                    else
                                     {
-                                        RectangleF rectLightCenter = new RectangleF(rect.Location, rect.Size);
-                                        rectLightCenter.Inflate(rectLightCenter.Width / 4f, rectLightCenter.Height / 4f);
-                                        brushPath.AddEllipse(rectLightCenter);
-                                        using (PathGradientBrush circleBrush = new PathGradientBrush(brushPath))
+                                        // Add circle to the graphics path
+                                        using GraphicsPath path = new GraphicsPath();
+                                        path.AddEllipse(rect.X + shadowSize - 1, rect.Y + shadowSize - 1, rect.Width + 2, rect.Height + 2);
+
+                                        // Create path brush
+                                        using PathGradientBrush shadowBrush = new PathGradientBrush(path);
+                                        shadowBrush.CenterColor = shadowColor;
+
+                                        // Set the color along the entire boundary of the path
+                                        Color[] colors = { Color.Transparent };
+                                        shadowBrush.SurroundColors = colors;
+                                        shadowBrush.CenterPoint = new PointF(markerRotatedPosition.X, markerRotatedPosition.Y);
+
+                                        // Define brush focus scale
+                                        PointF focusScale = new PointF(1 - 2f * shadowSize / rect.Width, 1 - 2f * shadowSize / rect.Height);
+                                        if (focusScale.X < 0)
                                         {
-                                            circleBrush.CenterColor = ChartGraphics.GetGradientColor(markerColor, Color.White, 0.85);
-                                            circleBrush.SurroundColors = new Color[] { markerColor };
-
-                                            // Calculate the center point of the gradient
-                                            Point3D[] centerPoint = new Point3D[] { new Point3D(point.X, point.Y, positionZ + markerRelativeSize.Width) };
-                                            matrix.TransformPoints(centerPoint);
-                                            centerPoint[0].PointF = graph.GetAbsolutePoint(centerPoint[0].PointF);
-                                            circleBrush.CenterPoint = centerPoint[0].PointF;
-
-                                            // Draw circle (sphere)
-                                            graph.FillEllipse(circleBrush, rect);
-                                            using var pen = new Pen(markerBorderColor, markerBorderSize);
-
-                                            graph.DrawEllipse(pen, rect);
+                                            focusScale.X = 0;
                                         }
+                                        if (focusScale.Y < 0)
+                                        {
+                                            focusScale.Y = 0;
+                                        }
+                                        shadowBrush.FocusScales = focusScale;
+
+                                        // Draw shadow
+                                        graph.FillPath(shadowBrush, path);
                                     }
                                 }
 
-                                // Prepare marker path
-                                if ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
-                                {
-                                    resultPath.AddEllipse(rect);
-                                }
+                                // Create path gradient brush
+                                using GraphicsPath brushPath = new GraphicsPath();
+                                RectangleF rectLightCenter = new RectangleF(rect.Location, rect.Size);
+                                rectLightCenter.Inflate(rectLightCenter.Width / 4f, rectLightCenter.Height / 4f);
+                                brushPath.AddEllipse(rectLightCenter);
+                                using PathGradientBrush circleBrush = new PathGradientBrush(brushPath);
+                                circleBrush.CenterColor = ChartGraphics.GetGradientColor(markerColor, Color.White, 0.85);
+                                circleBrush.SurroundColors = new Color[] { markerColor };
 
-                                break;
+                                // Calculate the center point of the gradient
+                                Point3D[] centerPoint = new Point3D[] { new Point3D(point.X, point.Y, positionZ + markerRelativeSize.Width) };
+                                matrix.TransformPoints(centerPoint);
+                                centerPoint[0].PointF = graph.GetAbsolutePoint(centerPoint[0].PointF);
+                                circleBrush.CenterPoint = centerPoint[0].PointF;
+
+                                // Draw circle (sphere)
+                                graph.FillEllipse(circleBrush, rect);
+                                using var pen = new Pen(markerBorderColor, markerBorderSize);
+
+                                graph.DrawEllipse(pen, rect);
                             }
-                        case (MarkerStyle.Square):
+
+                            // Prepare marker path
+                            if ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
                             {
-
-                                // Calculate marker non-rotated rectangle
-                                RectangleF rectNonRotated = RectangleF.Empty;
-                                rectNonRotated.X = point.X - ((float)markerRelativeSize.Width) / 2F;
-                                rectNonRotated.Y = point.Y - ((float)markerRelativeSize.Height) / 2F;
-                                rectNonRotated.Width = markerRelativeSize.Width;
-                                rectNonRotated.Height = markerRelativeSize.Height;
-
-                                // Draw 3D bar
-                                resultPath = this.Fill3DRectangle(
-                                    rectNonRotated,
-                                    positionZ - markerRelativeSize.Width / 2f,
-                                    markerRelativeSize.Width,
-                                    matrix,
-                                    lightStyle,
-                                    markerColor,
-                                    markerBorderColor,
-                                    markerBorderSize,
-                                    ChartDashStyle.Solid,
-                                    operationType);
-
-                                break;
+                                resultPath.AddEllipse(rect);
                             }
-                        default:
-                            {
-                                throw (new InvalidOperationException(SR.ExceptionGraphics3DMarkerStyleUnknown));
-                            }
-                    }
+
+                            break;
+                        }
+                    case MarkerStyle.Square:
+                        {
+
+                            // Calculate marker non-rotated rectangle
+                            RectangleF rectNonRotated = RectangleF.Empty;
+                            rectNonRotated.X = point.X - ((float)markerRelativeSize.Width) / 2F;
+                            rectNonRotated.Y = point.Y - ((float)markerRelativeSize.Height) / 2F;
+                            rectNonRotated.Width = markerRelativeSize.Width;
+                            rectNonRotated.Height = markerRelativeSize.Height;
+
+                            // Draw 3D bar
+                            resultPath = this.Fill3DRectangle(
+                                rectNonRotated,
+                                positionZ - markerRelativeSize.Width / 2f,
+                                markerRelativeSize.Width,
+                                matrix,
+                                lightStyle,
+                                markerColor,
+                                markerBorderColor,
+                                markerBorderSize,
+                                ChartDashStyle.Solid,
+                                operationType);
+
+                            break;
+                        }
+                    default:
+                        {
+                            throw new InvalidOperationException(SR.ExceptionGraphics3DMarkerStyleUnknown);
+                        }
                 }
             }
 
@@ -3750,7 +3703,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check imput array size
             if (cubePoints.Length != 8)
             {
-                throw (new ArgumentException(SR.ExceptionGraphics3DCoordinatesInvalid, nameof(cubePoints)));
+                throw new ArgumentException(SR.ExceptionGraphics3DCoordinatesInvalid, nameof(cubePoints));
             }
 
             // Detect surfaces visibility
@@ -4009,8 +3962,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Get surface colors
-            Color frontLightColor, leftLightColor, topLightColor, backLightColor, rightLightColor, bottomLightColor;
-            matrix.GetLight(backColor, out frontLightColor, out backLightColor, out leftLightColor, out rightLightColor, out topLightColor, out bottomLightColor);
+            matrix.GetLight(backColor, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
 
             // Darken colors by specified values
             if (topRightDarkening != 0f)
@@ -4109,7 +4061,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                         switch (currentSurface)
                         {
-                            case (SurfaceNames.Front):
+                            case SurfaceNames.Front:
                                 {
                                     // Set front surface color
                                     surfaceColor = backColor;
@@ -4124,7 +4076,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         pathToDraw,
                                         topRigthSide,
                                         bottomLeftSide,
-                                        (matrix.Perspective == 0) ? veticalOrientation : false,
+                                        (matrix.Perspective == 0) && veticalOrientation,
                                         cylinderAngle,
                                         out leftSideLinePoint,
                                         out rightSideLinePoint);
@@ -4137,7 +4089,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         pathToDraw,
                                         bottomLeftSide,
                                         topRigthSide,
-                                        (matrix.Perspective == 0) ? veticalOrientation : false,
+                                        (matrix.Perspective == 0) && veticalOrientation,
                                         cylinderAngle,
                                         out leftOppSideLinePoint,
                                         out rightOppSideLinePoint);
@@ -4167,7 +4119,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                                 boundsRectMiddlePoint.Y = boundsRect.Y + boundsRect.Height / 2f;
 
                                                 PointF centralLinePoint = PointF.Empty;
-                                                double centralLineAngle = ((cylinderAngle) * Math.PI / 180f);
+                                                double centralLineAngle = cylinderAngle * Math.PI / 180f;
                                                 if (cylinderAngle == 0 || cylinderAngle == 180 || cylinderAngle == -180)
                                                 {
                                                     centralLinePoint.X = boundsRectMiddlePoint.X + 100f;
@@ -4188,7 +4140,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                                 {
                                                     centralLinePoint.Y = boundsRectMiddlePoint.Y + 100f;
                                                     centralLinePoint.X = (float)(centralLinePoint.Y - (boundsRectMiddlePoint.Y - Math.Tan(centralLineAngle) * boundsRectMiddlePoint.X));
-                                                    centralLinePoint.X /= (float)(Math.Tan(centralLineAngle));
+                                                    centralLinePoint.X /= (float)Math.Tan(centralLineAngle);
                                                 }
 
 
@@ -4236,28 +4188,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                                     break;
                                 }
-                            case (SurfaceNames.Top):
+                            case SurfaceNames.Top:
                                 if (veticalOrientation)
                                 {
                                     surfaceColor = topLightColor;
                                     pathToDraw = topRigthSide;
                                 }
                                 break;
-                            case (SurfaceNames.Bottom):
+                            case SurfaceNames.Bottom:
                                 if (veticalOrientation)
                                 {
                                     surfaceColor = bottomLightColor;
                                     pathToDraw = bottomLeftSide;
                                 }
                                 break;
-                            case (SurfaceNames.Right):
+                            case SurfaceNames.Right:
                                 if (!veticalOrientation)
                                 {
                                     surfaceColor = rightLightColor;
                                     pathToDraw = topRigthSide;
                                 }
                                 break;
-                            case (SurfaceNames.Left):
+                            case SurfaceNames.Left:
                                 if (!veticalOrientation)
                                 {
                                     surfaceColor = leftLightColor;
@@ -4277,30 +4229,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Draw only completely visible surfaces
                                 if ((visibleSurfaces & currentSurface) != 0)
                                 {
-                                    using (Brush brush = new SolidBrush(surfaceColor))
-                                    {
-                                        FillPath((frontSurfaceBrush == null) ? brush : frontSurfaceBrush, pathToDraw);
-                                    }
+                                    using Brush brush = new SolidBrush(surfaceColor);
+                                    FillPath((frontSurfaceBrush == null) ? brush : frontSurfaceBrush, pathToDraw);
                                 }
 
                                 // Draw surface border
-                                using (Pen pen = new Pen(borderColor, borderWidth))
+                                using Pen pen = new Pen(borderColor, borderWidth);
+                                pen.DashStyle = GetPenStyle(borderDashStyle);
+                                if (lightStyle != LightStyle.None &&
+                                    (borderWidth == 0 || borderDashStyle == ChartDashStyle.NotSet || borderColor == Color.Empty))
                                 {
-                                    pen.DashStyle = GetPenStyle(borderDashStyle);
-                                    if (lightStyle != LightStyle.None &&
-                                        (borderWidth == 0 || borderDashStyle == ChartDashStyle.NotSet || borderColor == Color.Empty))
-                                    {
-                                        // Draw line of the darker color inside the cylinder
-                                        pen.Color = frontSurfaceBrush == null ? surfaceColor : ChartGraphics.GetGradientColor(backColor, Color.Black, 0.3);
-                                        pen.Width = 1;
-                                        pen.Alignment = PenAlignment.Inset;
-                                    }
-
-                                    pen.StartCap = LineCap.Round;
-                                    pen.EndCap = LineCap.Round;
-                                    pen.LineJoin = LineJoin.Bevel;
-                                    DrawPath(pen, pathToDraw);
+                                    // Draw line of the darker color inside the cylinder
+                                    pen.Color = frontSurfaceBrush == null ? surfaceColor : ChartGraphics.GetGradientColor(backColor, Color.Black, 0.3);
+                                    pen.Width = 1;
+                                    pen.Alignment = PenAlignment.Inset;
                                 }
+
+                                pen.StartCap = LineCap.Round;
+                                pen.EndCap = LineCap.Round;
+                                pen.LineJoin = LineJoin.Bevel;
+                                DrawPath(pen, pathToDraw);
                             }
 
                             // Add surface coordinate to the path

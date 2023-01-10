@@ -44,7 +44,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Convert collection to string
 			if (destinationType == typeof(string)) 
 			{
-                return (new CollectionConverter()).ConvertToString(new ArrayList());
+                return new CollectionConverter().ConvertToString(new ArrayList());
 			}
 
 			return base.ConvertTo(context, culture, value, destinationType);

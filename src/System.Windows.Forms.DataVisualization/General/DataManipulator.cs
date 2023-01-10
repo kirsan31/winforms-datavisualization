@@ -429,11 +429,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Sort other series (depending on the first)
                 int toIndex = 0;
-                int fromIndex = 0;
                 foreach (DataPoint point in series[0].Points)
                 {
                     // Move point from index is stored in point attribute (as index before sorting)
-                    fromIndex = int.Parse(point["_Index"], System.Globalization.CultureInfo.InvariantCulture);
+                    int fromIndex = int.Parse(point["_Index"], System.Globalization.CultureInfo.InvariantCulture);
 
                     // Move points in series
                     for (int seriesIndex = 1; seriesIndex < series.Length; seriesIndex++)
@@ -633,7 +632,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Add offset to the start position
             if (intervalOffset != 0)
             {
-                fromX = fromX + ChartHelper.GetIntervalSize(fromX, intervalOffset, ConvertIntervalType(intervalOffsetType), null, 0, DateTimeIntervalType.Number, true, false);
+                fromX += ChartHelper.GetIntervalSize(fromX, intervalOffset, ConvertIntervalType(intervalOffsetType), null, 0, DateTimeIntervalType.Number, true, false);
             }
 
 
@@ -742,23 +741,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             switch (type)
             {
-                case (IntervalType.Milliseconds):
+                case IntervalType.Milliseconds:
                     return DateTimeIntervalType.Milliseconds;
-                case (IntervalType.Seconds):
+                case IntervalType.Seconds:
                     return DateTimeIntervalType.Seconds;
-                case (IntervalType.Days):
+                case IntervalType.Days:
                     return DateTimeIntervalType.Days;
-                case (IntervalType.Hours):
+                case IntervalType.Hours:
                     return DateTimeIntervalType.Hours;
-                case (IntervalType.Minutes):
+                case IntervalType.Minutes:
                     return DateTimeIntervalType.Minutes;
-                case (IntervalType.Months):
+                case IntervalType.Months:
                     return DateTimeIntervalType.Months;
-                case (IntervalType.Number):
+                case IntervalType.Number:
                     return DateTimeIntervalType.Number;
-                case (IntervalType.Weeks):
+                case IntervalType.Weeks:
                     return DateTimeIntervalType.Weeks;
-                case (IntervalType.Years):
+                case IntervalType.Years:
                     return DateTimeIntervalType.Years;
             }
 
@@ -1013,7 +1012,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             {
                                 xValue = point.AxisLabel;
                             }
-                            dataRow["X"] = (zeroXValues) ? pointIndex : xValue;
+                            dataRow["X"] = zeroXValues ? pointIndex : xValue;
 
                             // Set row Y value(s)
                             for (int yIndex = 0; yIndex < ser.YValuesPerPoint; yIndex++)
@@ -1177,7 +1176,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (pointCount <= 0)
             {
-                throw (new ArgumentOutOfRangeException(nameof(pointCount), SR.ExceptionDataManipulatorPointCountIsZero));
+                throw new ArgumentOutOfRangeException(nameof(pointCount), SR.ExceptionDataManipulatorPointCountIsZero);
             }
 
             //**************************************************
@@ -1234,7 +1233,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //**************************************************
             //** Sort input data 
             //**************************************************
-            this.Sort((getTopValues) ? PointSortOrder.Descending : PointSortOrder.Ascending,
+            this.Sort(getTopValues ? PointSortOrder.Descending : PointSortOrder.Ascending,
                 usingValue,
                 output);
 
@@ -1279,7 +1278,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (filterInterface == null)
             {
-                throw (new ArgumentNullException(nameof(filterInterface)));
+                throw new ArgumentNullException(nameof(filterInterface));
             }
 
             //**************************************************
@@ -1483,27 +1482,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 bool matchCriteria = false;
                 switch (_compareMethod)
                 {
-                    case (CompareMethod.EqualTo):
+                    case CompareMethod.EqualTo:
                         matchCriteria = point.GetValueByName(_usingValue)
                             == _compareValue;
                         break;
-                    case (CompareMethod.LessThan):
+                    case CompareMethod.LessThan:
                         matchCriteria = point.GetValueByName(_usingValue)
                             < _compareValue;
                         break;
-                    case (CompareMethod.LessThanOrEqualTo):
+                    case CompareMethod.LessThanOrEqualTo:
                         matchCriteria = point.GetValueByName(_usingValue)
                             <= _compareValue;
                         break;
-                    case (CompareMethod.MoreThan):
+                    case CompareMethod.MoreThan:
                         matchCriteria = point.GetValueByName(_usingValue)
                             > _compareValue;
                         break;
-                    case (CompareMethod.MoreThanOrEqualTo):
+                    case CompareMethod.MoreThanOrEqualTo:
                         matchCriteria = point.GetValueByName(_usingValue)
                             >= _compareValue;
                         break;
-                    case (CompareMethod.NotEqualTo):
+                    case CompareMethod.NotEqualTo:
                         matchCriteria = point.GetValueByName(_usingValue)
                             != _compareValue;
                         break;
@@ -1527,7 +1526,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check if there are items in the array
             if (indexes.Length == 0)
             {
-                throw (new ArgumentException(SR.ExceptionDataManipulatorIndexUndefined, nameof(rangeElements)));
+                throw new ArgumentException(SR.ExceptionDataManipulatorIndexUndefined, nameof(rangeElements));
             }
 
             // Allocate memory for the result array
@@ -1558,12 +1557,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                         catch (System.Exception)
                         {
-                            throw (new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, nameof(rangeElements)));
+                            throw new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, nameof(rangeElements));
                         }
                     }
                     else
                     {
-                        throw (new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, nameof(rangeElements)));
+                        throw new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, nameof(rangeElements));
                     }
                 }
                 else
@@ -1576,7 +1575,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     catch (System.Exception)
                     {
-                        throw (new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, nameof(rangeElements)));
+                        throw new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, nameof(rangeElements));
                     }
                 }
 
@@ -1605,32 +1604,32 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 switch (dateRange)
                 {
-                    case (DateRangeType.Year):
+                    case DateRangeType.Year:
                         if (dateTimeValue.Year >= rangeElements[index] &&
                             dateTimeValue.Year <= rangeElements[index + 1])
                             return true;
                         break;
-                    case (DateRangeType.Month):
+                    case DateRangeType.Month:
                         if (dateTimeValue.Month >= rangeElements[index] &&
                             dateTimeValue.Month <= rangeElements[index + 1])
                             return true;
                         break;
-                    case (DateRangeType.DayOfWeek):
+                    case DateRangeType.DayOfWeek:
                         if ((int)dateTimeValue.DayOfWeek >= rangeElements[index] &&
                             (int)dateTimeValue.DayOfWeek <= rangeElements[index + 1])
                             return true;
                         break;
-                    case (DateRangeType.DayOfMonth):
+                    case DateRangeType.DayOfMonth:
                         if (dateTimeValue.Day >= rangeElements[index] &&
                             dateTimeValue.Day <= rangeElements[index + 1])
                             return true;
                         break;
-                    case (DateRangeType.Hour):
+                    case DateRangeType.Hour:
                         if (dateTimeValue.Hour >= rangeElements[index] &&
                             dateTimeValue.Hour <= rangeElements[index + 1])
                             return true;
                         break;
-                    case (DateRangeType.Minute):
+                    case DateRangeType.Minute:
                         if (dateTimeValue.Minute >= rangeElements[index] &&
                             dateTimeValue.Minute <= rangeElements[index + 1])
                             return true;
@@ -2209,8 +2208,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //**************************************************
             //** Check and parse formula
             //**************************************************
-            int outputValuesNumber;
-            GroupingFunctionInfo[] functions = GetGroupingFunctions(inputSeries, formula, out outputValuesNumber);
+            GroupingFunctionInfo[] functions = GetGroupingFunctions(inputSeries, formula, out int outputValuesNumber);
 
             //**************************************************
             //** Loop through all input series
@@ -2463,8 +2461,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //**************************************************
             //** Check and parse formula
             //**************************************************
-            int outputValuesNumber = 1;
-            GroupingFunctionInfo[] functions = GetGroupingFunctions(inputSeries, formula, out outputValuesNumber);
+            GroupingFunctionInfo[] functions = GetGroupingFunctions(inputSeries, formula, out int outputValuesNumber);
 
             //**************************************************
             //** Loop through all input series
@@ -2513,22 +2510,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 //**************************************************
                 int intervalFirstIndex = 0;
                 int intervalLastIndex = 0;
-                double intervalFrom = 0;
-                double intervalTo = 0;
 
                 // Set interval start point
-                intervalFrom = input.Points[0].XValue;
+                double intervalFrom = input.Points[0].XValue;
 
                 // Adjust start point depending on the interval type
                 intervalFrom = ChartHelper.AlignIntervalStart(intervalFrom, interval, ConvertIntervalType(intervalType));
-
-                // Add offset to the start position
-                double offsetFrom = 0;
+                double intervalTo;
                 if (intervalOffset != 0)
                 {
-                    offsetFrom = intervalFrom + ChartHelper.GetIntervalSize(intervalFrom,
-                        intervalOffset,
-                        ConvertIntervalType(intervalOffsetType));
+                    // Add offset to the start position
+                    double offsetFrom = intervalFrom + ChartHelper.GetIntervalSize(intervalFrom,
+        intervalOffset,
+        ConvertIntervalType(intervalOffsetType));
 
                     // Check if there are points left outside first group
                     if (input.Points[0].XValue < offsetFrom)
@@ -2583,7 +2577,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (input.Points[pointIndex].XValue < input.Points[pointIndex - 1].XValue)
                         {
-                            throw (new InvalidOperationException(SR.ExceptionDataManipulatorGroupedSeriesNotSorted));
+                            throw new InvalidOperationException(SR.ExceptionDataManipulatorGroupedSeriesNotSorted);
                         }
                     }
 
@@ -2838,7 +2832,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     // Process point values depending on the formula
                     if (functionInfo.function == GroupingFunction.Min &&
-                        (!point.IsEmpty && this.IsEmptyPointIgnored))
+                        !point.IsEmpty && this.IsEmptyPointIgnored)
                     {
                         pointTempValues[functionInfo.outputIndex] =
                             Math.Min(pointTempValues[functionInfo.outputIndex], point.YValues[funcIndex - 1]);
@@ -3018,7 +3012,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // At least one formula must be specified
             if (valueFormulas.Length == 0)
             {
-                throw (new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaUndefined));
+                throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaUndefined);
             }
 
             // Check each formula in the array
@@ -3030,8 +3024,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 formulaString = formulaString.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
 
                 // Get value index and formula type from the string
-                int valueIndex = 1;
-                GroupingFunction formulaType = ParseFormulaAndValueType(formulaString, out valueIndex);
+                GroupingFunction formulaType = ParseFormulaAndValueType(formulaString, out int valueIndex);
 
                 // Save the default (first) formula
                 if (defaultFormula.function == GroupingFunction.None)
@@ -3042,13 +3035,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Check that value index do not exceed the max values number
                 if (valueIndex >= result.Length)
                 {
-                    throw (new ArgumentException(SR.ExceptionDataManipulatorYValuesIndexExceeded(formulaString)));
+                    throw new ArgumentException(SR.ExceptionDataManipulatorYValuesIndexExceeded(formulaString));
                 }
 
                 // Check if formula for this value type was already set
                 if (result[valueIndex].function != GroupingFunction.None)
                 {
-                    throw (new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaAlreadyDefined(formulaString)));
+                    throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaAlreadyDefined(formulaString));
                 }
 
                 // Set formula type
@@ -3093,7 +3086,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 result[0].function != GroupingFunction.Last &&
                 result[0].function != GroupingFunction.Center)
             {
-                throw (new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaUnsupported));
+                throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaUnsupported);
             }
 
             return result;
@@ -3117,7 +3110,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // There must be at least one and no more than two result strings
             if (formulaParts.Length < 1 && formulaParts.Length > 2)
             {
-                throw (new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString)));
+                throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString));
             }
 
             // Check specified value type
@@ -3144,13 +3137,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                         catch (System.Exception)
                         {
-                            throw (new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString)));
+                            throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString));
                         }
                     }
                 }
                 else
                 {
-                    throw (new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString)));
+                    throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString));
                 }
             }
 
@@ -3183,7 +3176,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return GroupingFunction.Center;
 
             // Invalid formula name
-            throw (new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaNameInvalid(formulaString)));
+            throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaNameInvalid(formulaString));
         }
 
         /// <summary>
@@ -3197,13 +3190,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // At least one series must be in the input series
             if (inputSeries == null || inputSeries.Length == 0)
             {
-                throw (new ArgumentException(SR.ExceptionDataManipulatorGroupingInputSeriesUndefined));
+                throw new ArgumentException(SR.ExceptionDataManipulatorGroupingInputSeriesUndefined);
             }
 
             // Output series must be empty or have the same number of items
             if (outputSeries != null && outputSeries.Length != inputSeries.Length)
             {
-                throw (new ArgumentException(SR.ExceptionDataManipulatorGroupingInputOutputSeriesNumberMismatch));
+                throw new ArgumentException(SR.ExceptionDataManipulatorGroupingInputOutputSeriesNumberMismatch);
             }
         }
 

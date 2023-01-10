@@ -100,7 +100,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 					else
 					{
-						throw(new ArgumentException( SR.ExceptionElementPositionConverter ));
+						throw new ArgumentException( SR.ExceptionElementPositionConverter );
 					}
 				}
 			}

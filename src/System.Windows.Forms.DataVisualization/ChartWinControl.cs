@@ -25,9 +25,7 @@ using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 using System.Windows.Forms.DataVisualization.Charting.Data;
 using System.Windows.Forms.DataVisualization.Charting.Formulas;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
-using Microsoft.DotNet.DesignTools.Serialization;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -87,11 +85,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <summary>
     /// Chart windows forms control
     /// </summary>
-    [ToolboxBitmap(typeof(Chart), "ChartControl.ico")]
+    [ToolboxBitmap(typeof(Chart), "ChartControl.bmp")]
     [SRDescription("DescriptionAttributeChart_Chart")]
-    [Designer(typeof(ChartWinDesigner))]
-    [DesignerSerializer(typeof(ChartWinDesignerSerializer), typeof(CodeDomSerializer))]
-    [DisplayNameAttribute("Chart")]
+    [Designer("WinForms.DataVisualization.Designer.Server.ChartWinDesigner")]
+    [DesignerSerializer("WinForms.DataVisualization.Designer.Server.ChartWinDesignerSerializer", typeof(CodeDomSerializer))]
+    [DisplayName("Chart")]
     public class Chart : System.Windows.Forms.Control, ISupportInitialize
     {
         #region Control fields
@@ -568,15 +566,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             RectangleF rect = new RectangleF(3, 3, this.Width - 6, this.Height - 6);
 
             // Draw exception text
-            using (StringFormat format = new StringFormat())
-            {
-                format.Alignment = StringAlignment.Center;
-                format.LineAlignment = StringAlignment.Center;
-                using (Font font = new Font(FontCache.DefaultFamilyName, 8))
-                {
-                    graphics.DrawString(addMessage, font, Brushes.Black, rect, format);
-                }
-            }
+            using StringFormat format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            format.LineAlignment = StringAlignment.Center;
+            using Font font = new Font(FontCache.DefaultFamilyName, 8);
+            graphics.DrawString(addMessage, font, Brushes.Black, rect, format);
         }
 
         /// <summary>
@@ -1046,7 +1040,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeChart"),
         SRDescription("DescriptionAttributeChart_Series"),
-        Editor(typeof(SeriesCollectionEditor), typeof(UITypeEditor)),
+        Editor("SeriesCollectionEditor", typeof(UITypeEditor)),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         ]
         public SeriesCollection Series
@@ -1063,7 +1057,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeChart"),
         SRDescription("DescriptionAttributeLegends"),
-        Editor(typeof(LegendCollectionEditor), typeof(UITypeEditor)),
+        Editor("LegendCollectionEditor", typeof(UITypeEditor)),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         ]
         public LegendCollection Legends
@@ -1080,7 +1074,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeChart"),
         SRDescription("DescriptionAttributeTitles"),
-        Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor)),
+        Editor("ChartCollectionEditor", typeof(UITypeEditor)),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         ]
         public TitleCollection Titles
@@ -1097,7 +1091,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeChart"),
         SRDescription("DescriptionAttributeAnnotations3"),
-        Editor(typeof(AnnotationCollectionEditor), typeof(UITypeEditor)),
+        Editor("AnnotationCollectionEditor", typeof(UITypeEditor)),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         ]
         public AnnotationCollection Annotations
@@ -1137,7 +1131,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributePalette"),
         DefaultValue(ChartColorPalette.BrightPastel),
-        Editor(typeof(ColorPaletteEditor), typeof(UITypeEditor)),
+        Editor("ColorPaletteEditor", typeof(UITypeEditor)),
         ]
         public ChartColorPalette Palette
         {
@@ -1165,7 +1159,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(AntiAliasingStyles), "All"),
         SRDescription("DescriptionAttributeAntiAlias"),
-        Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor)),
+        Editor("FlagsEnumUITypeEditor", typeof(UITypeEditor)),
         ]
         public System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles AntiAliasing
         {
@@ -1249,7 +1243,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeChartAreas"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor)),
+        Editor("ChartCollectionEditor", typeof(UITypeEditor)),
         ]
         public ChartAreaCollection ChartAreas
         {
@@ -1268,7 +1262,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), "White"),
         SRDescription("DescriptionAttributeBackColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         ]
         public override Color BackColor
         {
@@ -1303,7 +1297,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeForeColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         ]
         public override Color ForeColor
         {
@@ -1408,7 +1402,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(ChartHatchStyle.None),
         SRDescription("DescriptionAttributeBackHatchStyle"),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor)),
+        Editor("HatchStyleEditor", typeof(UITypeEditor)),
         ]
         public ChartHatchStyle BackHatchStyle
         {
@@ -1439,7 +1433,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(""),
         SRDescription("DescriptionAttributeBackImage"),
         NotifyParentPropertyAttribute(true),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         ]
         public string BackImage
         {
@@ -1497,7 +1491,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         ]
         public Color BackImageTransparentColor
         {
@@ -1553,7 +1547,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(GradientStyle.None),
         SRDescription("DescriptionAttributeBackGradientStyle"),
-        Editor(typeof(GradientEditor), typeof(UITypeEditor)),
+        Editor("GradientEditor", typeof(UITypeEditor)),
         ]
         public GradientStyle BackGradientStyle
         {
@@ -1582,7 +1576,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeBackSecondaryColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         ]
         public Color BackSecondaryColor
         {
@@ -1615,7 +1609,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
         SerializationVisibilityAttribute(SerializationVisibility.Hidden),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         ]
         public Color BorderColor
         {
@@ -1706,7 +1700,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), "White"),
         SRDescription("DescriptionAttributeBorderColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         ]
         public Color BorderlineColor
         {
@@ -1834,12 +1828,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int versionIndex = buildNumber.IndexOf("VERSION=", StringComparison.Ordinal);
                     if (versionIndex >= 0)
                     {
-                        buildNumber = buildNumber.Substring(versionIndex + 8);
+                        buildNumber = buildNumber[(versionIndex + 8)..];
                     }
                     versionIndex = buildNumber.IndexOf(",", StringComparison.Ordinal);
                     if (versionIndex >= 0)
                     {
-                        buildNumber = buildNumber.Substring(0, versionIndex);
+                        buildNumber = buildNumber[..versionIndex];
                     }
                 }
                 return buildNumber;
@@ -1933,7 +1927,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             foreach (Series series in this.Series)
             {
                 // Check if palette colors should be aplied to the points
-                bool applyToPoints = false;
+                bool applyToPoints;
                 if (series.Palette != ChartColorPalette.None)
                 {
                     applyToPoints = true;
@@ -2072,13 +2066,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="element">The chart object.</param>
         /// <param name="elementType">Type of the element.</param>
         /// <returns> A <see cref="ChartElementOutline"/> object which contains
-        /// 1) An array of points in absolute coordinates which can be used as outline markers arround this chart element.
-        /// 2) A GraphicsPath for drawing aouline around this chart emenent.
+        /// 1) An array of points in absolute coordinates which can be used as outline markers around this chart element.
+        /// 2) A GraphicsPath for drawing outline around this chart element.
         /// </returns>
         /// <remarks>
         /// If the <paramref name="element"/> is not part of the chart or <paramref name="elementType"/> cannot be combined 
         /// with <paramref name="element"/> then the result will contain empty array of marker points. 
-        /// The marker points are sorted clockwize.
+        /// The marker points are sorted clockwise.
         /// </remarks>
         public ChartElementOutline GetChartElementOutline(object element, ChartElementType elementType)
         {
@@ -2089,37 +2083,39 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #region Control protected methods
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Forms.Control.GotFocus" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnGotFocus(EventArgs e)
         {
             base.OnGotFocus(e);
 
-            using (Graphics g = Graphics.FromHwndInternal(Handle))
-            {
-                ControlPaint.DrawFocusRectangle(g, new Rectangle(1, 1, Size.Width - 2, Size.Height - 2));
-            }
+            using Graphics g = Graphics.FromHwndInternal(Handle);
+            ControlPaint.DrawFocusRectangle(g, new Rectangle(1, 1, Size.Width - 2, Size.Height - 2));
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Forms.Control.LostFocus" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnLostFocus(EventArgs e)
         {
             base.OnLostFocus(e);
 
-            using (Graphics g = Graphics.FromHwndInternal(Handle))
-            {
-                using (Brush b = new SolidBrush(BackColor))
-                {
-                    Rectangle topBorder = new Rectangle(1, 1, Size.Width - 2, 1);
-                    g.FillRectangle(b, topBorder);
+            using Graphics g = Graphics.FromHwndInternal(Handle);
+            using Brush b = new SolidBrush(BackColor);
+            Rectangle topBorder = new Rectangle(1, 1, Size.Width - 2, 1);
+            g.FillRectangle(b, topBorder);
 
-                    Rectangle rightBorder = new Rectangle(Size.Width - 2, 1, 1, Size.Height - 2);
-                    g.FillRectangle(b, rightBorder);
+            Rectangle rightBorder = new Rectangle(Size.Width - 2, 1, 1, Size.Height - 2);
+            g.FillRectangle(b, rightBorder);
 
-                    Rectangle bottomBorder = new Rectangle(1, Size.Height - 2, Size.Width - 2, 1);
-                    g.FillRectangle(b, bottomBorder);
+            Rectangle bottomBorder = new Rectangle(1, Size.Height - 2, Size.Width - 2, 1);
+            g.FillRectangle(b, bottomBorder);
 
-                    Rectangle leftBorder = new Rectangle(1, 1, 1, Size.Height - 2);
-                    g.FillRectangle(b, leftBorder);
-                }
-            }
+            Rectangle leftBorder = new Rectangle(1, 1, 1, Size.Height - 2);
+            g.FillRectangle(b, leftBorder);
         }
 
         #endregion
@@ -2143,7 +2139,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Enable control invalidation
             disableInvalidates = false;
 
-            // If control is durty - invalidate it
+            // If control is dirty - invalidate it
             if (this.dirtyFlag)
             {
                 base.Invalidate();
@@ -2929,21 +2925,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public new object GetService(Type serviceType)
         {
             // Check arguments
-            if (serviceType == null)
+            if (serviceType is null)
                 throw new ArgumentNullException(nameof(serviceType));
 
-            object service = null;
-            if (serviceContainer != null)
-            {
-                service = serviceContainer.GetService(serviceType);
-            }
-
-            if (service == null)
-            {
-                base.GetService(serviceType);
-            }
-
-            return service;
+            return serviceContainer?.GetService(serviceType) ?? base.GetService(serviceType);
         }
 
         /// <summary>
@@ -2958,7 +2943,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// CallOnFormatNumber.
         /// </summary>
         /// <param name="caller">Event caller. Can be ChartPicture, ChartArea or Legend objects.</param>
-        /// <param name="e">Event arguemtns</param>
+        /// <param name="e">Event arguments</param>
         private void OnFormatNumber(object caller, FormatNumberEventArgs e)
         {
             if (FormatNumber != null)

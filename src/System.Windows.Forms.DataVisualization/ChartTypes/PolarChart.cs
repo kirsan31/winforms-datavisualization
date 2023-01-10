@@ -118,8 +118,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			if(interval != 0)
 			{
 				// Get X axis scale size
-				double max = (area.AxisX.AutoMaximum) ? 360.0 : area.AxisX.Maximum;
-				double min = (area.AxisX.AutoMinimum) ? 0.0 : area.AxisX.Minimum;
+				double max = area.AxisX.AutoMaximum ? 360.0 : area.AxisX.Maximum;
+				double min = area.AxisX.AutoMinimum ? 0.0 : area.AxisX.Minimum;
 
 				// Calculate number of sectors
 				sectorNumber = (int)(Math.Abs(max - min) / interval);
@@ -169,7 +169,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 ser.IsCustomPropertySet(CustomPropertyName.PolarDrawingStyle))
 			{
 				string	attributeValue =
-                    (point.IsCustomPropertySet(CustomPropertyName.PolarDrawingStyle)) ?
+                    point.IsCustomPropertySet(CustomPropertyName.PolarDrawingStyle) ?
                     point[CustomPropertyName.PolarDrawingStyle] :
                     ser[CustomPropertyName.PolarDrawingStyle];
 				if(string.Equals(attributeValue, "Line", StringComparison.OrdinalIgnoreCase))
@@ -182,7 +182,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				else
 				{
-					throw(new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attributeValue, "PolarDrawingStyle")));
+					throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attributeValue, "PolarDrawingStyle"));
 				}
 			}
 			return drawingStyle;

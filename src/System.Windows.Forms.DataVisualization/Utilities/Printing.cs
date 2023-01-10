@@ -52,7 +52,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			if(container == null)
 			{
-				throw(new ArgumentNullException(SR.ExceptionInvalidServiceContainer));
+				throw new ArgumentNullException(SR.ExceptionInvalidServiceContainer);
 			}
 			_serviceContainer = container;
 		}
@@ -68,7 +68,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				return this;
 			}
-			throw (new ArgumentException( SR.ExceptionChartSerializerUnsupportedType( serviceType.ToString() ) ) );
+			throw new ArgumentException( SR.ExceptionChartSerializerUnsupportedType( serviceType.ToString() ) ) ;
 		}
 		#endregion
 

@@ -2,35 +2,31 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
-//  Purpose:	Chart Legend consist of default and custom legend 
+//  Purpose:	Chart Legend consist of default and custom legend
 //              items. Default items are automatically added based
 //              on the data series and custom items are added by
-//              the user. Each item usually consist of 2 cells; 
-//              series color marker and series name. Legend item 
+//              the user. Each item usually consist of 2 cells;
+//              series color marker and series name. Legend item
 //              cells form vertical columns in the legend.
-//              Please refer to the Chart documentation which 
+//              Please refer to the Chart documentation which
 //              contains images and samples describing legend features.
 //  :
-//  NOTE: In early versions of the Chart control only 1 legend was 
-//  exposed through the Legend property of the root chart object. 
-//  Due to the customer requests, support for unlimited number of 
-//  legends was added through the LegendCollection exposed as a 
-//  Legends property in the root chart object. Old propertys was 
-//  deprecated and marked as non-browsable. 
+//  NOTE: In early versions of the Chart control only 1 legend was
+//  exposed through the Legend property of the root chart object.
+//  Due to the customer requests, support for unlimited number of
+//  legends was added through the LegendCollection exposed as a
+//  Legends property in the root chart object. Old propertys was
+//  deprecated and marked as non-browsable.
 //
-
 
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -57,7 +53,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Items will be added into the legend in the same order as the chart series.
         /// </summary>
         ReversedSeriesOrder
-
     };
 
     /// <summary>
@@ -105,8 +100,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         ThickGradientLine,
     }
-
-
 
     /// <summary>
     /// An enumeration that specifies a style for a legend item's symbol.
@@ -161,23 +154,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Auto,
 
         /// <summary>
-        /// The legend items will be fit horizontally within the legend.  
+        /// The legend items will be fit horizontally within the legend.
         /// It is preferred to use this style when the docking is set to top or bottom.
         /// </summary>
         Wide,
 
         /// <summary>
-        /// The legend items will be fit vertically within the legend.  
+        /// The legend items will be fit vertically within the legend.
         /// It is preferred to use this style when docking is set to left or right.
         /// </summary>
         Tall
     };
 
-    #endregion
+    #endregion Legend enumerations
 
     /// <summary>
     /// The legend class represents a single chart legend. It contains visual
-    /// appearance, position and content properties. This class is also 
+    /// appearance, position and content properties. This class is also
     /// responsible for drawing and positioning of the legend.
     /// </summary>
     [
@@ -192,6 +185,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         //** Private data members, which store properties values
         //***********************************************************
         private ElementPosition _position;
+
         private bool _enabled = true;
 
         private LegendStyle _legendStyle = LegendStyle.Table;
@@ -232,7 +226,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Number of rows and columns
         private int _itemColumns;
 
-
         // Font calculated by auto fitting
 #pragma warning disable CA2213 // Disposable fields should be disposed
         internal Font autofitFont;
@@ -240,7 +233,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Indicates that all items in the legend should be equally spaced
         private bool _isEquallySpacedItems;
-
 
         // Indicate that legend rows should be drawn with isInterlaced background color.
         private bool _interlacedRows;
@@ -263,7 +255,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Legend column collection
         private LegendCellColumnCollection _cellColumns;
 
-        // Indicates that legend items automatically added based on the exsisting 
+        // Indicates that legend items automatically added based on the exsisting
         // series in reversed order.
         private LegendItemOrder _legendItemOrder = LegendItemOrder.Auto;
 
@@ -341,17 +333,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private bool _legendItemsTruncated;
 
         // Size of the dots (pixels) that will drawn on the bottom of the legend when it is truncated
-        private int _truncatedDotsSize = 3;
+        private readonly int _truncatedDotsSize = 3;
 
         // Maximum number of cells in the legend item
         private int _numberOfCells = -1;
 
         // Pixel size of the 'W' character
         internal Size singleWCharacterSize = Size.Empty;
+
         private bool _disposedValue;
 
-
-        #endregion
+        #endregion Fields
 
         #region Constructors
 
@@ -384,7 +376,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _titleFont = _fontCache.DefaultBoldFont;
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Legend position & size methods
 
@@ -401,7 +393,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Rectangle legendPosition = Rectangle.Round(chartGraph.GetAbsoluteRectangle(legendPositionRel));
 
             //***********************************************************
-            //** Use size of the "W" characters in current font to 
+            //** Use size of the "W" characters in current font to
             //** calculate legend spacing
             //***********************************************************
             this.singleWCharacterSize = chartGraph.MeasureStringAbs("W", this.Font);
@@ -442,7 +434,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this._titlePosition.Y += this.GetBorderSize();
             }
 
-
             //***********************************************************
             //** Calculate how much space required for the header.
             //***********************************************************
@@ -480,7 +471,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this._headerPosition.Y += this.GetBorderSize();
             }
 
-
             //***********************************************************
             //** Calculate size available for all legend items
             //***********************************************************
@@ -512,7 +502,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this._legendItemsTruncated = false;
 
             // Check if legend items fit into the legend area
-            bool autoFitDone = (this._horizontalSpaceLeft >= 0 && this._verticalSpaceLeft >= 0);
+            bool autoFitDone = this._horizontalSpaceLeft >= 0 && this._verticalSpaceLeft >= 0;
 
             // Calculate total number of items fit and make sure we fit all of them
             this._numberOfLegendItemsToProcess = this.legendItems.Count;
@@ -536,7 +526,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     if (this.IsTextAutoFit &&
                         (this.Font.Size - this._autoFitFontSizeAdjustment) > this._autoFitMinFontSize)
                     {
-                        // Reduce font size by one 
+                        // Reduce font size by one
                         ++this._autoFitFontSizeAdjustment;
 
                         // Calculate new font size
@@ -554,7 +544,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             this.Font.Style,
                             this.Font.Unit);
 
-                        // Calculate number of rows and columns 
+                        // Calculate number of rows and columns
                         this.GetNumberOfRowsAndColumns(
                             chartGraph,
                             this._legendItemsAreaPosition.Size,
@@ -564,7 +554,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             out this._horizontalSpaceLeft,
                             out this._verticalSpaceLeft);
 
-                        autoFitDone = (this._horizontalSpaceLeft >= 0 && this._verticalSpaceLeft >= 0);
+                        autoFitDone = this._horizontalSpaceLeft >= 0 && this._verticalSpaceLeft >= 0;
 
                         // Calculate total number of items fit and make sure we fit all of them
                         itemsFit = 0;
@@ -576,7 +566,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             autoFitDone = false;
                         }
-
                     }
                     else
                     {
@@ -584,14 +573,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (this._numberOfLegendItemsToProcess > 2)
                         {
                             // Handle case of 1 column that do not fit horizontally
-                            if (this._itemColumns == 1 && (this._horizontalSpaceLeft < 0 && this._verticalSpaceLeft >= 0))
+                            if (this._itemColumns == 1 && this._horizontalSpaceLeft < 0 && this._verticalSpaceLeft >= 0)
                             {
                                 autoFitDone = true;
                                 this._numberOfLegendItemsToProcess =
                                     Math.Min(this._numberOfLegendItemsToProcess, this._numberOfRowsPerColumn[0]);
                             }
                             // Handle case of 1 row that do not fit vertically
-                            else if (this.GetMaximumNumberOfRows() == 1 && (this._verticalSpaceLeft < 0 && this._horizontalSpaceLeft >= 0))
+                            else if (this.GetMaximumNumberOfRows() == 1 && this._verticalSpaceLeft < 0 && this._horizontalSpaceLeft >= 0)
                             {
                                 autoFitDone = true;
                                 this._numberOfLegendItemsToProcess =
@@ -651,12 +640,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 out this._cellHeights,
                                 out this._horizontalSpaceLeft,
                                 out this._verticalSpaceLeft);
-
                         }
                     }
                 } while (!autoFitDone);
             }
-
 
             //***********************************************************
             //** Calculate position of all cells
@@ -849,6 +836,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Clear all legend item cells cached information
             foreach (LegendItem legendItem in this.legendItems)
             {
+                if (legendItem.Cells is null)
+                    continue;
+
                 foreach (LegendCell cell in legendItem.Cells)
                 {
                     cell.ResetCache();
@@ -868,7 +858,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (this.legendItems.Count > 0)
                 {
                     //***********************************************************
-                    //** Use size of the "W" character in current font to 
+                    //** Use size of the "W" character in current font to
                     //** calculate legend spacing
                     //***********************************************************
                     this.singleWCharacterSize = chartGraph.MeasureStringAbs("W", this.Font);
@@ -883,7 +873,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         this._itemColumnSpacingRel += 1;
                     }
-
 
                     //***********************************************************
                     //** Add size required for the legend tile
@@ -928,10 +917,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this._autoFitFontSizeAdjustment = 0;
 
                     this.autofitFont = this.Font;
-                    int vertSpaceLeft = 0;
-                    int horizSpaceLeft = 0;
                     bool reduceFont = this.IsTextAutoFit;
-                    bool autoFit = false;
+                    int vertSpaceLeft;
+                    int horizSpaceLeft;
+                    bool autoFit;
                     do
                     {
                         // Get number of columns and rows that we can fit in the legend
@@ -950,14 +939,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             itemsFit += this._numberOfRowsPerColumn[index];
                         }
-                        autoFit = (horizSpaceLeft >= 0 && vertSpaceLeft >= 0 && itemsFit >= this.legendItems.Count);
+                        autoFit = horizSpaceLeft >= 0 && vertSpaceLeft >= 0 && itemsFit >= this.legendItems.Count;
 
                         // Check if items fit
                         if (reduceFont && !autoFit)
                         {
                             if ((this.Font.Size - this._autoFitFontSizeAdjustment) > this._autoFitMinFontSize)
                             {
-                                // Reduce font size by one 
+                                // Reduce font size by one
                                 ++this._autoFitFontSizeAdjustment;
 
                                 // Calculate new font size
@@ -982,19 +971,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                     } while (reduceFont && !autoFit);
 
-                    // Slightly reduce used space 
+                    // Slightly reduce used space
                     horizSpaceLeft -= Math.Min(4, horizSpaceLeft);
                     vertSpaceLeft -= Math.Min(2, vertSpaceLeft);
-
 
                     //***********************************************************
                     //** Calculate legend size
                     //***********************************************************
-                    optimalSize.Width = (legenItemsMaxSize.Width - horizSpaceLeft);
+                    optimalSize.Width = legenItemsMaxSize.Width - horizSpaceLeft;
                     optimalSize.Width = Math.Max(optimalSize.Width, titleSize.Width);
                     optimalSize.Width += 2 * (this._offset.Width + this.GetBorderSize());
 
-                    optimalSize.Height = (legenItemsMaxSize.Height - vertSpaceLeft) + titleSize.Height + highestHeader.Height;
+                    optimalSize.Height = legenItemsMaxSize.Height - vertSpaceLeft + titleSize.Height + highestHeader.Height;
                     optimalSize.Height += 2 * (this._offset.Height + this.GetBorderSize());
 
                     // Adjust legend items area height by size required to show
@@ -1030,8 +1018,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return chartGraph.GetRelativeSize(optimalSize);
         }
 
-
-
         /// <summary>
         /// Recalculates legend position.
         /// </summary>
@@ -1049,16 +1035,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
             SizeF maxSize = new SizeF(chartAreasRectangle.Width - 2 * elementSpacing, chartAreasRectangle.Height - 2 * elementSpacing);
             if (this.DockedToChartArea == Constants.NotSetValue)
             {
-
-                // Note: 'maxLegendSize' parameter is ignored. New legend property 
+                // Note: 'maxLegendSize' parameter is ignored. New legend property
                 // 'maximumLegendAutoSize' is used instead.
                 if (this.Docking == Docking.Top || this.Docking == Docking.Bottom)
                 {
-                    maxSize.Height = (maxSize.Height / 100F) * this._maximumLegendAutoSize;
+                    maxSize.Height = maxSize.Height / 100F * this._maximumLegendAutoSize;
                 }
                 else
                 {
-                    maxSize.Width = (maxSize.Width / 100F) * this._maximumLegendAutoSize;
+                    maxSize.Width = maxSize.Width / 100F * this._maximumLegendAutoSize;
                 }
             }
 
@@ -1158,8 +1143,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.Position.SetPositionNoAuto(legendPosition.X, legendPosition.Y, legendPosition.Width, legendPosition.Height);
         }
 
-
-
         /// <summary>
         /// Get number of columns and rows that can be fit in specified size.
         /// </summary>
@@ -1175,16 +1158,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             out int[] numberOfRowsPerColumn,
             out int columnNumber)
         {
-            int horSpaceLeft = 0;
-            int vertSpaceLeft = 0;
             this.GetNumberOfRowsAndColumns(
                 chartGraph,
                 legendSize,
                 numberOfItemsToCheck,
                 out numberOfRowsPerColumn,
                 out columnNumber,
-                out horSpaceLeft,
-                out vertSpaceLeft);
+                out _,
+                out _);
         }
 
         /// <summary>
@@ -1209,8 +1190,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Initialize output parameters
             numberOfRowsPerColumn = null;
             columnNumber = 1;
-            horSpaceLeft = 0;
-            vertSpaceLeft = 0;
 
             // If number of items to check is nor set use total number of items in the collection
             if (numberOfItemsToCheck < 0)
@@ -1249,7 +1228,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     // Iterate from second item trying to add them and check if their fit
                     bool exitLoop = false;
-                    int legendItemIndex = 1;
+                    int legendItemIndex;
                     for (legendItemIndex = 1; !exitLoop && legendItemIndex < numberOfItemsToCheck; legendItemIndex++)
                     {
                         // Try to increase number of rows in the current column
@@ -1319,8 +1298,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         numberOfRowsPerColumn,
                                         out this._subColumnSizes,
                                         out this._cellHeights,
-                                        out horSpaceLeft,
-                                        out vertSpaceLeft);
+                                        out _,
+                                        out _);
                                 }
                             }
                             else
@@ -1334,7 +1313,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // where last column has sinificantly lower height of all rows
                     if (columnNumber > 1)
                     {
-                        // Try reducing number of rows in the "tall" calumns and move them 
+                        // Try reducing number of rows in the "tall" calumns and move them
                         // into the last column.
                         bool done = false;
                         while (!done)
@@ -1394,17 +1373,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         this._numberOfRowsPerColumn[columnNumber - 1] += itemsToAdd;
 
                                         // Check if legend items fit into the legend area
-                                        bool autoFitDone = this.CheckLegendItemsFit(
-                                            chartGraph,
-                                            legendSize,
-                                            legendItemIndex + 1,
-                                            this._autoFitFontSizeAdjustment,
-                                            columnNumber,
-                                            numberOfRowsPerColumn,
-                                            out this._subColumnSizes,
-                                            out this._cellHeights,
-                                            out horSpaceLeft,
-                                            out vertSpaceLeft);
+                                        _ = this.CheckLegendItemsFit(
+                                           chartGraph,
+                                           legendSize,
+                                           legendItemIndex + 1,
+                                           this._autoFitFontSizeAdjustment,
+                                           columnNumber,
+                                           numberOfRowsPerColumn,
+                                           out this._subColumnSizes,
+                                           out this._cellHeights,
+                                           out _,
+                                           out _);
 
                                         // Try doing one more time
                                         done = false;
@@ -1421,7 +1400,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     // Iterate from second item trying to add them and check if they fit
                     bool exitLoop = false;
-                    int legendItemIndex = 1;
+                    int legendItemIndex;
                     for (legendItemIndex = 1; !exitLoop && legendItemIndex < numberOfItemsToCheck; legendItemIndex++)
                     {
                         // Try to increase number of columns
@@ -1518,7 +1497,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                             out this._subColumnSizes,
                                             out this._cellHeights,
                                             out horSpaceLeft,
-                                            out vertSpaceLeft);
+                                            out _);
 
                                         exitLoop = true;
                                         break;
@@ -1553,8 +1532,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         out this._subColumnSizes,
                                         out this._cellHeights,
                                         out horSpaceLeft,
-                                        out vertSpaceLeft);
-
+                                        out _);
                                 }
 
                                 // If there is more than 1 column and items do not fit
@@ -1670,10 +1648,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             bool fitFlag = true;
 
-            // Initialize output values
-            horizontalSpaceLeft = 0;
-            verticalSpaceLeft = 0;
-
             // Use current legend item count if number of items to check is not specified
             if (numberOfItemsToCheck < 0)
             {
@@ -1686,20 +1660,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Each column may have its own number of rows. Calculate the maximum number of rows.
             int maxNumberOfRows = this.GetMaximumNumberOfRows(numberOfRowsPerColumn);
 
-            // Create multidimensional arrays that will be holding the widths and heightsof all 
-            // individual cells. First dimension will be the legend column index, second dimension 
+            // Create multidimensional arrays that will be holding the widths and heightsof all
+            // individual cells. First dimension will be the legend column index, second dimension
             // is row index and the third is sub-column (cell) index.
             int[,,] cellWidths = new int[numberOfColumns, maxNumberOfRows, numberOfSubColumns];
             cellHeights = new int[numberOfColumns, maxNumberOfRows];
 
-
             //*************************************************************************
             //** Measure legend font single character
             //*************************************************************************
-            this.singleWCharacterSize = graph.MeasureStringAbs("W", (this.autofitFont == null) ? this.Font : this.autofitFont);
-            Size doubleCharacterSize = graph.MeasureStringAbs("WW", (this.autofitFont == null) ? this.Font : this.autofitFont);
+            this.singleWCharacterSize = graph.MeasureStringAbs("W", this.autofitFont ?? this.Font);
+            Size doubleCharacterSize = graph.MeasureStringAbs("WW", this.autofitFont ?? this.Font);
             this.singleWCharacterSize.Width = doubleCharacterSize.Width - this.singleWCharacterSize.Width;
-
 
             //*************************************************************************
             //** Iterate through all legend items and measure each individual cell
@@ -1724,7 +1696,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         legendColumn = this.CellColumns[cellIndex];
                     }
 
-                    // Check if current cell should be skipped becuse it's overlapped 
+                    // Check if current cell should be skipped becuse it's overlapped
                     // by the previous sell that uses CellSpan.
                     if (numberOfCellsToSkip > 0)
                     {
@@ -1744,7 +1716,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     Size cellSize = legendCell.MeasureCell(
                         graph,
                         fontSizeReducedBy,
-                        (this.autofitFont == null) ? this.Font : this.autofitFont,
+                        this.autofitFont ?? this.Font,
                         this.singleWCharacterSize);
 
                     // Check for column maximum/minimum cell width restrictions
@@ -1807,8 +1779,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Get current cell size
                         int cellWidth = cellWidths[currentColumn, currentRow, currentSubColumn];
 
-                        // Skip overlapped cells and cells that use ColumnSpan during the 
-                        // first iteration. Their size will be determined during the 
+                        // Skip overlapped cells and cells that use ColumnSpan during the
+                        // first iteration. Their size will be determined during the
                         // second iteration.
                         if (cellWidth < 0)
                         {
@@ -1872,7 +1844,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             //*************************************************************************
-            //** Adjust width of the cells to fit cell content displayed across 
+            //** Adjust width of the cells to fit cell content displayed across
             //** several cells (CellSpanning).
             //*************************************************************************
             if (secondIterationRequired)
@@ -1900,7 +1872,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 ++cellSpan;
                             }
 
-
                             // Cell span was detected
                             if (cellSpan > 0)
                             {
@@ -1922,7 +1893,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
             }
-
 
             //*************************************************************************
             //** Check if equally spaced legend columns are used
@@ -2018,7 +1988,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return this._numberOfCells;
         }
 
-        #endregion // Legend Items Fitting Methods
+        #endregion Legend Items Fitting Methods
 
         #region Legend items collection filling methods
 
@@ -2036,7 +2006,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (this.Common.ChartPicture.Legends.IndexOf(series.Legend) < 0)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionLegendReferencedInSeriesNotFound(series.Name, series.Legend)));
+                    throw new InvalidOperationException(SR.ExceptionLegendReferencedInSeriesNotFound(series.Name, series.Legend));
                 }
             }
 
@@ -2072,7 +2042,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         // Check if we should add all data points into the legend
                         IChartType chartType = this.Common.ChartTypeRegistry.GetChartType(series.ChartTypeName);
-
 
                         // Check if series legend items should be reversed
                         if (this.LegendItemOrder == LegendItemOrder.Auto)
@@ -2148,7 +2117,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         this,
                                         this.Tag,
                                         point.XValue,
-                                        "", // Do not use point label format! For Y values only! point.LabelFormat, 
+                                        "", // Do not use point label format! For Y values only! point.LabelFormat,
                                         point.series.XValueType,
                                         ChartElementType.LegendItem);
                                 }
@@ -2221,7 +2190,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-
             // Check if series legend items should be reversed
             if (this.LegendItemOrder == LegendItemOrder.SameAsSeriesOrder ||
                 (this.LegendItemOrder == LegendItemOrder.Auto && seriesWithReversedLegendItemsPresent))
@@ -2229,7 +2197,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Reversed series generated legend items
                 legendItems.Reverse();
             }
-
 
             // Add custom items
             foreach (LegendItem item in this._customLegends)
@@ -2245,8 +2212,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (this.Common.Chart.IsDesignMode())
                 {
-                    LegendItem item = new LegendItem(this.Name + " - " + SR.DescriptionTypeEmpty, Color.White, "");
-                    item.ImageStyle = LegendImageStyle.Line;
+                    LegendItem item = new LegendItem(this.Name + " - " + SR.DescriptionTypeEmpty, Color.White, "")
+                    {
+                        ImageStyle = LegendImageStyle.Line
+                    };
                     legendItems.Add(item);
                 }
             }
@@ -2256,10 +2225,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 item.AddAutomaticCells(this);
             }
-
         }
 
-        #endregion
+        #endregion Legend items collection filling methods
 
         #region Legend painting methods
 
@@ -2314,8 +2282,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** RecalculateAxesScale legend information
             //***********************************************************
             this.RecalcLegendInfo(chartGraph);
-
-
 
             //***********************************************************
             //** Paint legend
@@ -2468,7 +2434,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             //***********************************************************
-            //** Draw special indicator on the bottom of the legend if 
+            //** Draw special indicator on the bottom of the legend if
             //** it was truncated.
             //***********************************************************
             if (this._legendItemsTruncated &&
@@ -2476,7 +2442,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Calculate dots step (no more than 10 pixel)
                 int markerCount = 3;
-                int step = (this._legendItemsAreaPosition.Width / 3) / markerCount;
+                int step = this._legendItemsAreaPosition.Width / 3 / markerCount;
                 step = Math.Min(step, 10);
 
                 // Calculate start point
@@ -2503,9 +2469,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Shift to the right
                     point.X += step;
                 }
-
             }
-
 
             // Call Paint event
             if (Common.ProcessModePaint)
@@ -2522,10 +2486,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     legendItem.Cells.Clear();
                 }
             }
-
         }
 
-        #endregion
+        #endregion Legend painting methods
 
         #region	Legend properties
 
@@ -2536,7 +2499,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeMisc"),
         Bindable(true),
         SRDescription("DescriptionAttributeLegend_Name"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public override string Name
         {
@@ -2560,7 +2523,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(Constants.NotSetValue),
         SRDescription("DescriptionAttributeLegend_DockToChartArea"),
         TypeConverter(typeof(LegendAreaNameConverter)),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public string DockedToChartArea
         {
@@ -2590,8 +2553,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets a property which indicates whether 
-        /// the legend is docked inside the chart area.  
+        /// Gets or sets a property which indicates whether
+        /// the legend is docked inside the chart area.
         /// This property is only available when DockedToChartArea is set.
         /// </summary>
         [
@@ -2599,7 +2562,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(true),
         SRDescription("DescriptionAttributeLegend_DockInsideChartArea"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public bool IsDockedInsideChartArea
         {
@@ -2625,9 +2588,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeLegend_Position"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ElementPositionConverter)),
-        SerializationVisibilityAttribute(SerializationVisibility.Element)
+        SerializationVisibility(SerializationVisibility.Element)
         ]
         public ElementPosition Position
         {
@@ -2642,8 +2605,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     else
                     {
-                        ElementPosition newPosition = new ElementPosition();
-                        newPosition.Auto = false;
+                        ElementPosition newPosition = new ElementPosition
+                        {
+                            Auto = false
+                        };
                         newPosition.SetPositionNoAuto(_position.X, _position.Y, _position.Width, _position.Height);
                         return newPosition;
                     }
@@ -2658,17 +2623,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Determoines if this position should be serialized.
+        /// Determines if this position should be serialized.
         /// </summary>
         /// <returns></returns>
         internal bool ShouldSerializePosition()
         {
-            return !this.Position.Auto;
+            return !this.Position?.Auto ?? false;
         }
 
-
         /// <summary>
-        /// Gets or sets a property which indicates whether 
+        /// Gets or sets a property which indicates whether
         /// all legend items are equally spaced.
         /// </summary>
         [
@@ -2676,7 +2640,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(false),
         SRDescription("DescriptionAttributeLegend_EquallySpacedItems"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public bool IsEquallySpacedItems
         {
@@ -2699,8 +2663,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(true),
         SRDescription("DescriptionAttributeLegend_Enabled"),
-        NotifyParentPropertyAttribute(true),
-        ParenthesizePropertyNameAttribute(true)
+        NotifyParentProperty(true),
+        ParenthesizePropertyName(true)
         ]
         public bool Enabled
         {
@@ -2723,7 +2687,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(true),
         SRDescription("DescriptionAttributeLegend_AutoFitText"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public bool IsTextAutoFit
         {
@@ -2761,8 +2725,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(LegendStyle.Table),
         SRDescription("DescriptionAttributeLegend_LegendStyle"),
-        NotifyParentPropertyAttribute(true),
-        ParenthesizePropertyNameAttribute(true)
+        NotifyParentProperty(true),
+        ParenthesizePropertyName(true)
         ]
         public LegendStyle LegendStyle
         {
@@ -2777,9 +2741,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
-        /// Gets or sets the minimum font size that can be used by the legend text's auto-fitting algorithm. 
+        /// Gets or sets the minimum font size that can be used by the legend text's auto-fitting algorithm.
         /// </summary>
         [
         SRCategory("CategoryAttributeAppearance"),
@@ -2797,7 +2760,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Font size cannot be less than 5
                 if (value < 5)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionLegendAutoFitMinFontSizeInvalid));
+                    throw new InvalidOperationException(SR.ExceptionLegendAutoFitMinFontSizeInvalid);
                 }
 
                 this._autoFitMinFontSize = value;
@@ -2827,7 +2790,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0f || value > 100f)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendMaximumAutoSizeInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendMaximumAutoSizeInvalid);
                 }
                 this._maximumLegendAutoSize = value;
                 this.Invalidate(false);
@@ -2841,7 +2804,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeCellColumns"),
         SRDescription("DescriptionAttributeLegend_CellColumns"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        Editor(typeof(LegendCellColumnCollectionEditor), typeof(UITypeEditor)),
+        Editor("LegendCellColumnCollectionEditor", typeof(UITypeEditor)),
         ]
         public LegendCellColumnCollection CellColumns
         {
@@ -2859,8 +2822,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(LegendTableStyle.Auto),
         SRDescription("DescriptionAttributeLegend_TableStyle"),
-        NotifyParentPropertyAttribute(true),
-        ParenthesizePropertyNameAttribute(true)
+        NotifyParentProperty(true),
+        ParenthesizePropertyName(true)
         ]
         public LegendTableStyle TableStyle
         {
@@ -2907,7 +2870,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeLegend_HeaderSeparatorColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color HeaderSeparatorColor
         {
@@ -2957,7 +2920,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeLegend_ItemColumnSeparatorColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color ItemColumnSeparatorColor
         {
@@ -2974,7 +2937,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
         }
-
 
         /// <summary>
         /// Gets or sets the legend table column spacing, as a percentage of the legend text font.
@@ -2996,15 +2958,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     if (value < 0)
                     {
-                        throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendColumnSpacingInvalid));
+                        throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendColumnSpacingInvalid);
                     }
                     this._itemColumnSpacing = value;
                     this.Invalidate(false);
                 }
             }
         }
-
-
 
         /// <summary>
         /// Gets or sets the legend background color.
@@ -3014,9 +2974,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         SRDescription("DescriptionAttributeBackColor"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BackColor
         {
@@ -3039,9 +2999,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         SRDescription("DescriptionAttributeBorderColor"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BorderColor
         {
@@ -3065,7 +3025,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(ChartDashStyle.Solid),
         SRDescription("DescriptionAttributeBorderDashStyle"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public ChartDashStyle BorderDashStyle
         {
@@ -3089,7 +3049,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(1),
         SRDescription("DescriptionAttributeBorderWidth"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public int BorderWidth
         {
@@ -3101,7 +3061,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendBorderWidthIsNegative));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendBorderWidthIsNegative);
                 }
                 _borderWidth = value;
                 this.Invalidate(false);
@@ -3116,8 +3076,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(""),
         SRDescription("DescriptionAttributeBackImage"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
-        NotifyParentPropertyAttribute(true)
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
+        NotifyParentProperty(true)
         ]
         public string BackImage
         {
@@ -3139,7 +3099,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(ChartImageWrapMode.Tile),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeImageWrapMode")
         ]
         public ChartImageWrapMode BackImageWrapMode
@@ -3162,10 +3122,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(typeof(Color), ""),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BackImageTransparentColor
         {
@@ -3187,7 +3147,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(ChartImageAlignmentStyle.TopLeft),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeBackImageAlign")
         ]
         public ChartImageAlignmentStyle BackImageAlignment
@@ -3211,9 +3171,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(GradientStyle.None),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeBackGradientStyle"),
-        Editor(typeof(GradientEditor), typeof(UITypeEditor))
+        Editor("GradientEditor", typeof(UITypeEditor))
         ]
         public GradientStyle BackGradientStyle
         {
@@ -3235,7 +3195,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <seealso cref="BackGradientStyle"/>
         /// </summary>
         /// <value>
-        /// A <see cref="Color"/> value used for the secondary color of background with 
+        /// A <see cref="Color"/> value used for the secondary color of background with
         /// hatching or gradient fill.
         /// </value>
         /// <remarks>
@@ -3247,10 +3207,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(typeof(Color), ""),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeBackSecondaryColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BackSecondaryColor
         {
@@ -3282,9 +3242,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(ChartHatchStyle.None),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeBackHatchStyle"),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
+        Editor("HatchStyleEditor", typeof(UITypeEditor))
         ]
         public ChartHatchStyle BackHatchStyle
         {
@@ -3308,7 +3268,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
         SRDescription("DescriptionAttributeLegend_Font"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public Font Font
         {
@@ -3334,9 +3294,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeLegendFontColor"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color ForeColor
         {
@@ -3359,7 +3319,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(StringAlignment.Near),
         SRDescription("DescriptionAttributeLegend_Alignment"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public StringAlignment Alignment
         {
@@ -3382,7 +3342,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(Docking.Right),
         SRDescription("DescriptionAttributeLegend_Docking"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public Docking Docking
         {
@@ -3409,7 +3369,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(0),
         SRDescription("DescriptionAttributeShadowOffset"),
-        NotifyParentPropertyAttribute(true)
+        NotifyParentProperty(true)
         ]
         public int ShadowOffset
         {
@@ -3436,9 +3396,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(Color), "128, 0, 0, 0"),
         SRDescription("DescriptionAttributeShadowColor"),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color ShadowColor
         {
@@ -3461,11 +3421,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Browsable(false),
         Bindable(false),
         DefaultValue(Constants.NotSetValue),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeLegend_InsideChartArea"),
-        EditorBrowsableAttribute(EditorBrowsableState.Never),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Content),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        EditorBrowsable(EditorBrowsableState.Never),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
+        SerializationVisibility(SerializationVisibility.Hidden),
         TypeConverter(typeof(LegendAreaNameConverter))
         ]
         public string InsideChartArea
@@ -3494,17 +3454,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Gets the custom legend items.
         /// </summary>
         [
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeLegend_CustomItems"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        Editor(typeof(LegendItemCollectionEditor), typeof(UITypeEditor))
+        Editor("LegendItemCollectionEditor", typeof(UITypeEditor))
         ]
         public LegendItemsCollection CustomItems
         {
@@ -3513,8 +3472,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 return _customLegends;
             }
         }
-
-
 
         /// <summary>
         /// Gets or sets a property that defines the preferred number of characters in a line of the legend text.
@@ -3541,7 +3498,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     if (value < 0)
                     {
-                        throw (new ArgumentException(SR.ExceptionTextThresholdIsNegative, nameof(value)));
+                        throw new ArgumentException(SR.ExceptionTextThresholdIsNegative, nameof(value));
                     }
                     this._textWrapThreshold = value;
                     this.Invalidate(false);
@@ -3550,11 +3507,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets a property that specifies the order that legend items are shown. This property only affects 
+        /// Gets or sets a property that specifies the order that legend items are shown. This property only affects
         /// legend items automatically added for the chart series and has no effect on custom legend items.
         /// </summary>
         /// <remarks>
-        /// When the <b>LegendItemOrder</b> property is set to <b>Auto</b>, the legend will automatically be reversed 
+        /// When the <b>LegendItemOrder</b> property is set to <b>Auto</b>, the legend will automatically be reversed
         /// if StackedColumn, StackedColumn100, StackedArea or StackedArea100 chart types are used.
         /// </remarks>
         [
@@ -3579,7 +3536,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets a flag which indicates whether 
+        /// Gets or sets a flag which indicates whether
         /// legend rows should be drawn with interlaced background color.
         /// </summary>
         [
@@ -3604,14 +3561,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the legend interlaced row's background color. Only applicable if interlaced rows are used. 
+        /// Gets or sets the legend interlaced row's background color. Only applicable if interlaced rows are used.
         /// </summary>
         [
         SRCategory("CategoryAttributeAppearance"),
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeLegend_InterlacedRowsColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color InterlacedRowsColor
         {
@@ -3665,7 +3622,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeLegend_TitleColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color TitleForeColor
         {
@@ -3684,14 +3641,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the background color of the legend title. 
+        /// Gets or sets the background color of the legend title.
         /// </summary>
         [
         SRCategory("CategoryAttributeTitle"),
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeTitleBackColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color TitleBackColor
         {
@@ -3710,7 +3667,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the font of the legend title. 
+        /// Gets or sets the font of the legend title.
         /// </summary>
         [
         SRCategory("CategoryAttributeTitle"),
@@ -3789,7 +3746,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeLegend_TitleSeparatorColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color TitleSeparatorColor
         {
@@ -3806,8 +3763,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
         }
-
-
 
         #endregion // Legend Title Properties
 
@@ -3954,7 +3909,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 fillRect.Height += this._offset.Height;
                             }
 
-                            // Stretch header fill rectangle and separators when vertical 
+                            // Stretch header fill rectangle and separators when vertical
                             // separator are used or if there is 1 column with header background
                             if ((this._itemColumns == 1 && headerBackFill) ||
                                 this.ItemColumnSeparator != LegendSeparatorStyle.None)
@@ -3989,7 +3944,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     fillRect.X -= this._itemColumnSpacingRel / 2;
                                 }
 
-                                // For the last cell in all columns except the last one 
+                                // For the last cell in all columns except the last one
                                 // make sure we also fill the item column spacing
                                 if (columnIndex != (this._itemColumns - 1) &&
                                     subColumnIndex == (numberOfSubColumns - 1))
@@ -4010,12 +3965,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     // Fill title background
                                     if (fillRect.Right > legendPosition.Right)
                                     {
-                                        fillRect.Width -= (legendPosition.Right - fillRect.Right);
+                                        fillRect.Width -= legendPosition.Right - fillRect.Right;
                                     }
                                     if (fillRect.X < legendPosition.X)
                                     {
                                         fillRect.X += legendPosition.X - fillRect.X;
-                                        fillRect.Width -= (legendPosition.X - fillRect.X);
+                                        fillRect.Width -= legendPosition.X - fillRect.X;
                                     }
                                     fillRect.Intersect(legendPosition);
                                     chartGraph.FillRectangleRel(
@@ -4034,29 +3989,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         Color.Empty,
                                         0,
                                         PenAlignment.Inset);
-
                                 }
 
                                 // Draw header text
-                                using (SolidBrush textBrush = new SolidBrush(legendColumn.HeaderForeColor))
-                                {
-                                    // Set text alignment
-                                    using (StringFormat format = new StringFormat())
-                                    {
-                                        format.Alignment = legendColumn.HeaderAlignment;
-                                        format.LineAlignment = StringAlignment.Center;
-                                        format.FormatFlags = StringFormatFlags.LineLimit;
-                                        format.Trimming = StringTrimming.EllipsisCharacter;
+                                using SolidBrush textBrush = new SolidBrush(legendColumn.HeaderForeColor);
+                                // Set text alignment
+                                using StringFormat format = new StringFormat();
+                                format.Alignment = legendColumn.HeaderAlignment;
+                                format.LineAlignment = StringAlignment.Center;
+                                format.FormatFlags = StringFormatFlags.LineLimit;
+                                format.Trimming = StringTrimming.EllipsisCharacter;
 
-                                        // Draw string using relative coordinates
-                                        chartGraph.DrawStringRel(
-                                            legendColumn.HeaderText,
-                                            legendColumn.HeaderFont,
-                                            textBrush,
-                                            chartGraph.GetRelativeRectangle(rect),
-                                            format);
-                                    }
-                                }
+                                // Draw string using relative coordinates
+                                chartGraph.DrawStringRel(
+                                    legendColumn.HeaderText,
+                                    legendColumn.HeaderFont,
+                                    textBrush,
+                                    chartGraph.GetRelativeRectangle(rect),
+                                    format);
                             }
                         }
                     }
@@ -4067,7 +4017,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     separatorRect.Width = columnWidth;
                     if (this.HeaderSeparator == LegendSeparatorStyle.Line || this.HeaderSeparator == LegendSeparatorStyle.DoubleLine)
                     {
-                        // NOTE: For some reason a line with a single pen width is drawn 1 pixel longer than 
+                        // NOTE: For some reason a line with a single pen width is drawn 1 pixel longer than
                         // any other line. Reduce width to solve the issue.
                         legendPosition.Width -= 1;
                     }
@@ -4097,7 +4047,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         Color.Empty,
                         0,
                         PenAlignment.Inset);
-
                 }
 
                 // Add legend header hot region
@@ -4105,7 +4054,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     Common.HotRegionsList.AddHotRegion(chartGraph.GetRelativeRectangle(this._headerPosition), this, ChartElementType.LegendHeader, true);
                 }
-
             }
         }
 
@@ -4184,7 +4132,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 Rectangle separatorPosition = this._titlePosition;
                 if (this.TitleSeparator == LegendSeparatorStyle.Line || this.TitleSeparator == LegendSeparatorStyle.DoubleLine)
                 {
-                    // NOTE: For some reason a line with a single pen width is drawn 1 pixel longer than 
+                    // NOTE: For some reason a line with a single pen width is drawn 1 pixel longer than
                     // any other line. Reduce width to solve the issue.
                     legendPosition.Width -= 1;
                 }
@@ -4211,7 +4159,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         Color.Empty,
                         0,
                         PenAlignment.Inset);
-
                 }
             }
         }
@@ -4223,8 +4170,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Separator size in relative coordinates.</returns>
         internal Size GetSeparatorSize(LegendSeparatorStyle separatorType)
         {
-            Size size = Size.Empty;
-
+            Size size;
             if (separatorType == LegendSeparatorStyle.None)
             {
                 size = Size.Empty;
@@ -4259,7 +4205,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else
             {
-                throw (new InvalidOperationException(SR.ExceptionLegendSeparatorTypeUnknown(separatorType.ToString())));
+                throw new InvalidOperationException(SR.ExceptionLegendSeparatorTypeUnknown(separatorType.ToString()));
             }
 
             // For the vertical part of the separator always add additiobal spacing
@@ -4305,7 +4251,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         ChartDashStyle.Solid,
                         new PointF(rect.Left, rect.Bottom - 1),
                         new PointF(rect.Right, rect.Bottom - 1));
-
                 }
                 else
                 {
@@ -4329,7 +4274,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         ChartDashStyle.Dash,
                         new PointF(rect.Left, rect.Bottom - 1),
                         new PointF(rect.Right, rect.Bottom - 1));
-
                 }
                 else
                 {
@@ -4353,7 +4297,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         ChartDashStyle.Dot,
                         new PointF(rect.Left, rect.Bottom - 1),
                         new PointF(rect.Right, rect.Bottom - 1));
-
                 }
                 else
                 {
@@ -4570,17 +4513,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return style;
         }
 
-
-
         /// <summary>
         /// Helper method that checks if legend is enabled.
         /// </summary>
         /// <returns>True if legend is enabled.</returns>
         internal bool IsEnabled()
         {
-            if (this.Enabled)
+            if (this.Enabled && !_disposedValue) // _disposedValue check will fix many design time null reference
             {
-
                 // Check if legend is docked to the chart area
                 if (this.DockedToChartArea.Length > 0 &&
                     this.Common != null &&
@@ -4597,9 +4537,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
 
-
                 return true;
             }
+
             return false;
         }
 
@@ -4607,7 +4547,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Invalidate chart legend when one of the properties is changed
         /// </summary>
         /// <param name="invalidateLegendOnly">Indicates that only legend area should be invalidated.</param>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "This parameter is used when compiling for the WinForms version of Chart")]
         internal void Invalidate(bool invalidateLegendOnly)
         {
             if (Chart != null && !Chart.disableInvalidates)
@@ -4658,29 +4597,30 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         _fontCache.Dispose();
                         _fontCache = null;
                     }
-                    
+
                     if (legendItems != null)
                     {
                         legendItems.Dispose();
                         legendItems = null;
                     }
-                    
+
                     if (_cellColumns != null)
                     {
                         _cellColumns.Dispose();
                         _cellColumns = null;
                     }
-                    
+
                     if (_customLegends != null)
                     {
                         _customLegends.Dispose();
                         _customLegends = null;
                     }
-                    
+
                     _position = null;
                     _font = null;
                     autofitFont = null;
                 }
+
                 _disposedValue = true;
             }
         }
@@ -4693,7 +4633,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
 
         #endregion
     }
@@ -4709,6 +4648,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private bool _disposedValue;
 
         #region Constructors
+
         /// <summary>
         /// LegendCollection constructor.
         /// </summary>
@@ -4721,6 +4661,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #endregion
 
         #region Properties
+
         /// <summary>
         /// Gets the default legend name.
         /// </summary>
@@ -4728,6 +4669,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             get { return this.Count > 0 ? this[0].Name : String.Empty; }
         }
+
         #endregion
 
         #region Methods
@@ -4784,7 +4726,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (Common != null && Common.ChartPicture != null)
             {
                 // Get elemets spacing
-                float areaSpacing = Math.Min((chartAreasRectangle.Height / 100F) * elementSpacing, (chartAreasRectangle.Width / 100F) * elementSpacing);
+                float areaSpacing = Math.Min(chartAreasRectangle.Height / 100F * elementSpacing, chartAreasRectangle.Width / 100F * elementSpacing);
 
                 // Loop through all legends
                 foreach (Legend legend in this)
@@ -4792,7 +4734,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Check if all chart area names are valid
                     if (legend.DockedToChartArea != Constants.NotSetValue && this.Chart.ChartAreas.IndexOf(legend.DockedToChartArea) < 0)
                     {
-                        throw (new ArgumentException(SR.ExceptionLegendDockedChartAreaIsMissing(legend.DockedToChartArea)));
+                        throw new ArgumentException(SR.ExceptionLegendDockedChartAreaIsMissing(legend.DockedToChartArea));
                     }
 
                     // Process only legends docked to specified area
@@ -4869,7 +4811,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                         catch
                         {
-                            throw (new ArgumentException(SR.ExceptionLegendDockedChartAreaIsMissing(legend.DockedToChartArea)));
+                            throw new ArgumentException(SR.ExceptionLegendDockedChartAreaIsMissing(legend.DockedToChartArea));
                         }
                     }
                 }
@@ -4877,7 +4819,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Loop through all chart areas
                 foreach (ChartArea area in Common.ChartPicture.ChartAreas)
                 {
-
                     // Check if chart area is visible
                     if (area.Visible)
 
@@ -4886,7 +4827,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         RectangleF legendPlottingRectangle = area.PlotAreaPosition.ToRectangleF();
 
                         // Get elemets spacing
-                        float areaSpacing = Math.Min((legendPlottingRectangle.Height / 100F) * elementSpacing, (legendPlottingRectangle.Width / 100F) * elementSpacing);
+                        float areaSpacing = Math.Min(legendPlottingRectangle.Height / 100F * elementSpacing, legendPlottingRectangle.Width / 100F * elementSpacing);
 
                         // Loop through all legends
                         foreach (Legend legend in this)
@@ -4910,6 +4851,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #endregion
 
         #region Event handlers
+
         internal void ChartAreaNameReferenceChanged(object sender, NameReferenceChangedEventArgs e)
         {
             //If all the chart areas are removed and then the first one is added we don't want to dock the legends
@@ -4920,6 +4862,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (legend.DockedToChartArea == e.OldName)
                     legend.DockedToChartArea = e.NewName;
         }
+
         #endregion
 
         #region IDisposable Members
@@ -5084,7 +5027,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #endregion
     }
 
-
     /// <summary>
     /// The LegendItem class represents a single item (row) in the legend.
     /// It contains properties which describe visual appearance and
@@ -5100,16 +5042,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Private data members, which store properties values
         private Color _color = Color.Empty;
+
         private string _image = "";
         private string _seriesName = "";
         private int _seriesPointIndex = -1;
 
-        // Chart image map properties 
+        // Chart image map properties
         private string _toolTip = "";
-
 
         // Additional appearance properties
         internal LegendImageStyle style = LegendImageStyle.Rectangle;
+
         internal GradientStyle backGradientStyle = GradientStyle.None;
         internal Color backSecondaryColor = Color.Empty;
         internal Color backImageTransparentColor = Color.Empty;
@@ -5124,6 +5067,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Marker properties
         internal MarkerStyle markerStyle = MarkerStyle.None;
+
         internal int markerSize = 5;
         internal string markerImage = "";
         internal Color markerImageTransparentColor = Color.Empty;
@@ -5157,7 +5101,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         public LegendItem()
         {
-
             // Create collection of legend item cells
             this._cells = new LegendCellCollection(this);
         }
@@ -5185,10 +5128,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets the Legend object which the item belongs to.
         /// </summary>
         [
-            Bindable(false),
-            Browsable(false),
-            DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-            SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        Bindable(false),
+        Browsable(false),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
         ]
         public Legend Legend
         {
@@ -5208,8 +5151,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         SRDescription("DescriptionAttributeLegendItem_Name"),
-        NotifyParentPropertyAttribute(true),
-                ParenthesizePropertyNameAttribute(true)
+        NotifyParentProperty(true),
+        ParenthesizePropertyName(true)
         ]
         public override string Name
         {
@@ -5231,9 +5174,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeLegendItem_Color"),
         DefaultValue(typeof(Color), ""),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color Color
         {
@@ -5256,8 +5199,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeLegendItem_Image"),
         DefaultValue(""),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
-        NotifyParentPropertyAttribute(true)
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
+        NotifyParentProperty(true)
         ]
         public string Image
         {
@@ -5280,7 +5223,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(typeof(LegendImageStyle), "Rectangle"),
         SRDescription("DescriptionAttributeLegendItem_Style"),
-                ParenthesizePropertyNameAttribute(true)
+        ParenthesizePropertyName(true)
         ]
         public LegendImageStyle ImageStyle
         {
@@ -5295,7 +5238,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Gets or sets the border color of the legend item.
         /// </summary>
@@ -5305,7 +5247,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeBorderColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BorderColor
         {
@@ -5328,7 +5270,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(ChartHatchStyle.None),
         SRDescription("DescriptionAttributeBackHatchStyle"),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
+        Editor("HatchStyleEditor", typeof(UITypeEditor))
         ]
         public ChartHatchStyle BackHatchStyle
         {
@@ -5350,10 +5292,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         Bindable(true),
         DefaultValue(typeof(Color), ""),
-        NotifyParentPropertyAttribute(true),
+        NotifyParentProperty(true),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BackImageTransparentColor
         {
@@ -5376,7 +5318,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(GradientStyle.None),
         SRDescription("DescriptionAttributeBackGradientStyle"),
-        Editor(typeof(GradientEditor), typeof(UITypeEditor))
+        Editor("GradientEditor", typeof(UITypeEditor))
         ]
         public GradientStyle BackGradientStyle
         {
@@ -5398,7 +5340,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <seealso cref="BackGradientStyle"/>
         /// </summary>
         /// <value>
-        /// A <see cref="Color"/> value used for the secondary color of background with 
+        /// A <see cref="Color"/> value used for the secondary color of background with
         /// hatching or gradient fill.
         /// </value>
         /// <remarks>
@@ -5411,7 +5353,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeBackSecondaryColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BackSecondaryColor
         {
@@ -5423,7 +5365,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value != Color.Empty && (value.A != 255 || value == Color.Transparent))
                 {
-                    throw (new ArgumentException(SR.ExceptionBackSecondaryColorIsTransparent));
+                    throw new ArgumentException(SR.ExceptionBackSecondaryColorIsTransparent);
                 }
 
                 backSecondaryColor = value;
@@ -5451,14 +5393,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsZero));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsZero);
                 }
                 borderWidth = value;
                 this.Invalidate(false);
             }
         }
-
-
 
         /// <summary>
         /// Gets or sets a flag which indicates whether the Legend item is enabled.
@@ -5467,7 +5407,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         DefaultValue(true),
         SRDescription("DescriptionAttributeLegendItem_Enabled"),
-        ParenthesizePropertyNameAttribute(true),
+        ParenthesizePropertyName(true),
         ]
         public bool Enabled
         {
@@ -5500,14 +5440,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendMarkerBorderWidthIsNegative));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendMarkerBorderWidthIsNegative);
                 }
                 this._markerBorderWidth = value;
                 this.Invalidate(false);
             }
         }
-
-
 
         /// <summary>
         /// Gets or sets the legend item border style.
@@ -5570,7 +5508,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), "128,0,0,0"),
         SRDescription("DescriptionAttributeShadowColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color ShadowColor
         {
@@ -5593,7 +5531,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(MarkerStyle.None),
         SRDescription("DescriptionAttributeLegendItem_MarkerStyle"),
-        Editor(typeof(MarkerStyleEditor), typeof(UITypeEditor)),
+        Editor("MarkerStyleEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public MarkerStyle MarkerStyle
@@ -5640,7 +5578,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         DefaultValue(""),
         SRDescription("DescriptionAttributeMarkerImage"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public string MarkerImage
@@ -5665,7 +5603,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public Color MarkerImageTransparentColor
@@ -5690,7 +5628,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeLegendItem_MarkerColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public Color MarkerColor
@@ -5715,7 +5653,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeMarkerBorderColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         RefreshProperties(RefreshProperties.All)
         ]
         public Color MarkerBorderColor
@@ -5731,14 +5669,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Gets or sets the series name of the legend item..
         /// </summary>
         [
         Browsable(false),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
         SRDescription("DescriptionAttributeLegendItem_SeriesName"),
         DefaultValue("")
         ]
@@ -5759,8 +5696,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         [
         Browsable(false),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        SerializationVisibility(SerializationVisibility.Hidden),
         SRDescription("DescriptionAttributeLegendItem_SeriesPointIndex"),
         DefaultValue(-1)
         ]
@@ -5775,9 +5712,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _seriesPointIndex = value;
             }
         }
-
-
-
 
         /// <summary>
         /// Gets or sets the separator style of the legend item.
@@ -5811,7 +5745,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeLegendItem_SeparatorColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color SeparatorColor
         {
@@ -5829,7 +5763,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// The LegendCellCollection class is a collection of legend item cells.
         /// </summary>
@@ -5837,7 +5770,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         SRDescription("DescriptionAttributeLegendItem_Cells"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        Editor(typeof(LegendCollectionEditor), typeof(UITypeEditor))
+        Editor("LegendCollectionEditor", typeof(UITypeEditor))
         ]
         public LegendCellCollection Cells
         {
@@ -5869,7 +5802,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     Chart.selection.enabledChecked = false;
                 }
-
             }
             get
             {
@@ -5899,7 +5831,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // and legend text cells
                     if (legend.CellColumns.Count == 0)
                     {
-                        // VSTS 96787 - Text Direction (RTL/LTR)	
+                        // VSTS 96787 - Text Direction (RTL/LTR)
                         if (legend.Common != null && legend.Common.ChartPicture.RightToLeft == RightToLeft.Yes)
                         {
                             this.Cells.Add(LegendCellType.Text, KeywordName.LegendText, ContentAlignment.MiddleLeft);
@@ -5929,7 +5861,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
         }
-
 
         /// <summary>
         /// Sets legend item properties from the series
@@ -5973,7 +5904,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             markerColor = properties.MarkerColor;
             markerBorderColor = properties.MarkerBorderColor;
 
-
             this._markerBorderWidth = properties.MarkerBorderWidth;
 
             float dpi = 96;
@@ -5981,7 +5911,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (Common != null)
                 dpi = Common.graph.Graphics.DpiX;
 
-            int maxBorderWidth = (int)Math.Round((2 * dpi) / 96);
+            int maxBorderWidth = (int)Math.Round(2 * dpi / 96);
 
             if (this._markerBorderWidth > maxBorderWidth)
             {
@@ -6014,14 +5944,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Invalidate chart (or just legend )when collection is changed
         /// </summary>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "This parameter is used when compiling for the WinForms version of Chart")]
         private void Invalidate(bool invalidateLegendOnly)
         {
-            if (Legend != null)
-            {
-                // Invalidate control
-                Legend.Invalidate(invalidateLegendOnly);
-            }
+            // Invalidate control
+            Legend?.Invalidate(invalidateLegendOnly);
         }
 
         #endregion

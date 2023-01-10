@@ -91,7 +91,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			Chart	chart = series.Chart;
 			if(chart == null)
 			{
-                throw (new InvalidOperationException(SR.ExceptionThreeLineBreakNullReference));
+                throw new InvalidOperationException(SR.ExceptionThreeLineBreakNullReference);
 			}
 
             // ThreeLineBreak chart may not be combined with any other chart types
@@ -100,7 +100,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 if (currentSeries.IsVisible() && currentSeries != series && area == chart.ChartAreas[currentSeries.ChartArea])
                 {
-                    throw (new InvalidOperationException(SR.ExceptionThreeLineBreakCanNotCobine));
+                    throw new InvalidOperationException(SR.ExceptionThreeLineBreakCanNotCobine);
                 }
             }
 
@@ -166,10 +166,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Save flag that axis interval is automatic
 						series["OldAutomaticXAxisInterval"] = "true";
 
-						// Calculate and set axis date-time interval
-						DateTimeIntervalType	intervalType = DateTimeIntervalType.Auto;
-						xAxis.interval = xAxis.CalcInterval(minX, maxX, true, out intervalType, series.XValueType);
-						xAxis.intervalType = intervalType;
+                        // Calculate and set axis date-time interval
+                        xAxis.interval = xAxis.CalcInterval(minX, maxX, true, out DateTimeIntervalType intervalType, series.XValueType);
+                        xAxis.intervalType = intervalType;
 					}
 				}
 			}
@@ -191,11 +190,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 Chart chart = series.Chart;
                 if (chart == null)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionThreeLineBreakNullReference));
+                    throw new InvalidOperationException(SR.ExceptionThreeLineBreakNullReference);
                 }
 
                 // Get original ThreeLineBreak series
-                Series threeLineBreakSeries = chart.Series[series.Name.Substring(29)];
+                Series threeLineBreakSeries = chart.Series[series.Name[29..]];
                 Series.MovePositionMarkers(threeLineBreakSeries, series);
                 // Copy data back to original ThreeLineBreak series
                 threeLineBreakSeries.Points.Clear();
@@ -210,12 +209,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Restore ThreeLineBreak series properties
                 threeLineBreakSeries.ChartType = SeriesChartType.ThreeLineBreak;
 
-                bool xValIndexed;
-                bool parseSucceed = bool.TryParse(threeLineBreakSeries["OldXValueIndexed"], out xValIndexed);
+                bool parseSucceed = bool.TryParse(threeLineBreakSeries["OldXValueIndexed"], out bool xValIndexed);
                 threeLineBreakSeries.IsXValueIndexed = parseSucceed && xValIndexed;
 
-                int yValsPerPoint;
-                parseSucceed = int.TryParse(threeLineBreakSeries["OldYValuesPerPoint"], NumberStyles.Any, CultureInfo.InvariantCulture, out yValsPerPoint);
+                parseSucceed = int.TryParse(threeLineBreakSeries["OldYValuesPerPoint"], NumberStyles.Any, CultureInfo.InvariantCulture, out int yValsPerPoint);
 
                 if (parseSucceed)
                 {
@@ -268,12 +265,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				catch
 				{
-                    throw (new InvalidOperationException(SR.ExceptionThreeLineBreakUsedYValueInvalid));
+                    throw new InvalidOperationException(SR.ExceptionThreeLineBreakUsedYValueInvalid);
 				}
 
 				if(yValueIndex >= series.YValuesPerPoint)
 				{
-                    throw (new InvalidOperationException(SR.ExceptionThreeLineBreakUsedYValueOutOfRange));
+                    throw new InvalidOperationException(SR.ExceptionThreeLineBreakUsedYValueOutOfRange);
 				}
 			}
 
@@ -287,12 +284,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				catch
 				{
-                    throw (new InvalidOperationException(SR.ExceptionThreeLineBreakNumberOfLinesInBreakFormatInvalid));
+                    throw new InvalidOperationException(SR.ExceptionThreeLineBreakNumberOfLinesInBreakFormatInvalid);
 				}
 
 				if(linesInBreak <= 0)
 				{
-                    throw (new InvalidOperationException(SR.ExceptionThreeLineBreakNumberOfLinesInBreakValueInvalid));
+                    throw new InvalidOperationException(SR.ExceptionThreeLineBreakNumberOfLinesInBreakValueInvalid);
 				}
 			}
 
@@ -341,7 +338,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					}
 					catch
 					{
-                        throw (new InvalidOperationException(SR.ExceptionThreeLineBreakUpBrickColorInvalid));
+                        throw new InvalidOperationException(SR.ExceptionThreeLineBreakUpBrickColorInvalid);
 					}
 				}
 
@@ -382,7 +379,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 								{
 									if(((double)highLowHistory[index]) > lineBreakHigh)
 									{
-										lineBreakHigh = ((double)highLowHistory[index]);
+										lineBreakHigh = (double)highLowHistory[index];
 									}
 								}
 
@@ -400,7 +397,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 								{
 									if(((double)highLowHistory[index]) < lineBreakLow)
 									{
-										lineBreakLow = ((double)highLowHistory[index]);
+										lineBreakLow = (double)highLowHistory[index];
 									}
 								}
 
@@ -608,16 +605,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// Number of supported Y value(s) per point 
 		/// </summary>
 		virtual public int YValuesPerPoint	{ get { return 1; } }
-
-		/// <summary>
-		/// Gets chart type image.
-		/// </summary>
-		/// <param name="registry">Chart types registry object.</param>
-		/// <returns>Chart type image.</returns>
-		virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
-		{
-			return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
-		}
 		#endregion
 
 		#region Y values related methods

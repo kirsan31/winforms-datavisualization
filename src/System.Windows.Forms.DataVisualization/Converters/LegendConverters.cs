@@ -345,12 +345,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 					catch
 					{
-                        throw (new InvalidOperationException(SR.ExceptionLegendDesignerMarginObjectInvalid(stringValue)));
+                        throw new InvalidOperationException(SR.ExceptionLegendDesignerMarginObjectInvalid(stringValue));
 					}
 				}
 				else
 				{
-                    throw (new InvalidOperationException(SR.ExceptionLegendDesignerMarginObjectInvalid(stringValue)));
+                    throw new InvalidOperationException(SR.ExceptionLegendDesignerMarginObjectInvalid(stringValue));
 				}
 
 				return margins;

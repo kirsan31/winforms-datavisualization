@@ -28,7 +28,6 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -475,28 +474,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private void Draw3DStrip(ChartGraphics graph, RectangleF rect, bool horizontal )
 		{
 			ChartArea	area = this.Axis.ChartArea;
-			GraphicsPath path = null;
-			DrawingOperationTypes operationType = DrawingOperationTypes.DrawElement;
+            DrawingOperationTypes operationType = DrawingOperationTypes.DrawElement;
 
 			if( this.Axis.Common.ProcessModeRegions )
 			{
 				operationType |= DrawingOperationTypes.CalcElementPath;
 			}
 
-			// Draw strip on the back/front wall
-			path = graph.Fill3DRectangle(
-				rect, 
-                area.IsMainSceneWallOnFront() ? area.areaSceneDepth : 0f, 
-                0, 
-                area.matrix3D, 
+            // Draw strip on the back/front wall
+            GraphicsPath path = graph.Fill3DRectangle(
+                rect,
+                area.IsMainSceneWallOnFront() ? area.areaSceneDepth : 0f,
+                0,
+                area.matrix3D,
                 area.Area3DStyle.LightStyle,
-				this.BackColor, 
-                this.BorderColor, 
-				this.BorderWidth, 
-                this.BorderDashStyle, 
-				operationType );
+                BackColor,
+                BorderColor,
+                BorderWidth,
+                BorderDashStyle,
+                operationType);
 
-			if( this.Axis.Common.ProcessModeRegions )
+            if ( this.Axis.Common.ProcessModeRegions )
 			{
 				this.Axis.Common.HotRegionsList.AddHotRegion( graph, path, false, this.ToolTip, null, null, null, this, ChartElementType.StripLines );
 			}
@@ -587,170 +585,165 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				// Get title text
 				string	titleText = this.Text;
 
-				// Prepare string format
-                using (StringFormat format = new StringFormat())
+                // Prepare string format
+                using StringFormat format = new StringFormat();
+                format.Alignment = this.TextAlignment;
+
+                if (graph.IsRightToLeft)
                 {
-                    format.Alignment = this.TextAlignment;
-                    
-                    if (graph.IsRightToLeft)
+                    if (format.Alignment == StringAlignment.Far)
                     {
-                        if (format.Alignment == StringAlignment.Far)
-                        {
-                            format.Alignment = StringAlignment.Near;
-                        }
-                        else if (format.Alignment == StringAlignment.Near)
-                        {
-                            format.Alignment = StringAlignment.Far;
-                        }
+                        format.Alignment = StringAlignment.Near;
                     }
-                    
-                    format.LineAlignment = this.TextLineAlignment;
-
-                    // Adjust default title angle for horizontal lines
-                    int angle = 0;
-                    switch (this.TextOrientation)
+                    else if (format.Alignment == StringAlignment.Near)
                     {
-                        case (TextOrientation.Rotated90):
-                            angle = 90;
-                            break;
-                        case (TextOrientation.Rotated270):
+                        format.Alignment = StringAlignment.Far;
+                    }
+                }
+
+                format.LineAlignment = this.TextLineAlignment;
+
+                // Adjust default title angle for horizontal lines
+                int angle = 0;
+                switch (this.TextOrientation)
+                {
+                    case TextOrientation.Rotated90:
+                        angle = 90;
+                        break;
+                    case TextOrientation.Rotated270:
+                        angle = 270;
+                        break;
+                    case TextOrientation.Auto:
+                        if (this.Axis.AxisPosition == AxisPosition.Bottom || this.Axis.AxisPosition == AxisPosition.Top)
+                        {
                             angle = 270;
-                            break;
-                        case (TextOrientation.Auto):
-                            if (this.Axis.AxisPosition == AxisPosition.Bottom || this.Axis.AxisPosition == AxisPosition.Top)
-                            {
-                                angle = 270;
-                            }
-                            break;
-                    }
+                        }
+                        break;
+                }
 
-                    // Set vertical text for horizontal lines
-                    if (angle == 90)
-                    {
-                        format.FormatFlags = StringFormatFlags.DirectionVertical;
-                        angle = 0;
-                    }
-                    else if (angle == 270)
-                    {
-                        format.FormatFlags = StringFormatFlags.DirectionVertical;
-                        angle = 180;
-                    }
+                // Set vertical text for horizontal lines
+                if (angle == 90)
+                {
+                    format.FormatFlags = StringFormatFlags.DirectionVertical;
+                    angle = 0;
+                }
+                else if (angle == 270)
+                {
+                    format.FormatFlags = StringFormatFlags.DirectionVertical;
+                    angle = 180;
+                }
 
-                    // Measure string size
-                    SizeF size = graph.MeasureStringRel(titleText.Replace("\\n", "\n"), this.Font, new SizeF(100, 100), format, this.GetTextOrientation());
+                // Measure string size
+                SizeF size = graph.MeasureStringRel(titleText.Replace("\\n", "\n"), this.Font, new SizeF(100, 100), format, this.GetTextOrientation());
+
+                // Adjust text size
+                float zPositon = 0f;
+                if (this.Axis.ChartArea.Area3DStyle.Enable3D)
+                {
+                    // Get projection coordinates
+                    Point3D[] textSizeProjection = new Point3D[3];
+                    zPositon = this.Axis.ChartArea.IsMainSceneWallOnFront() ? this.Axis.ChartArea.areaSceneDepth : 0f;
+                    textSizeProjection[0] = new Point3D(0f, 0f, zPositon);
+                    textSizeProjection[1] = new Point3D(size.Width, 0f, zPositon);
+                    textSizeProjection[2] = new Point3D(0f, size.Height, zPositon);
+
+                    // Transform coordinates of text size
+                    this.Axis.ChartArea.matrix3D.TransformPoints(textSizeProjection);
 
                     // Adjust text size
-                    float zPositon = 0f;
-                    if (this.Axis.ChartArea.Area3DStyle.Enable3D)
+                    int index = this.Axis.ChartArea.IsMainSceneWallOnFront() ? 0 : 1;
+                    size.Width *= size.Width / (textSizeProjection[index].X - textSizeProjection[(index == 0) ? 1 : 0].X);
+                    size.Height *= size.Height / (textSizeProjection[2].Y - textSizeProjection[0].Y);
+                }
+
+
+                // Get relative size of the border width
+                SizeF sizeBorder = graph.GetRelativeSize(new SizeF(this.BorderWidth, this.BorderWidth));
+
+                // Find the center of rotation
+                PointF rotationCenter = PointF.Empty;
+                if (format.Alignment == StringAlignment.Near)
+                { // Near
+                    rotationCenter.X = rect.X + size.Width / 2 + sizeBorder.Width;
+                }
+                else if (format.Alignment == StringAlignment.Far)
+                { // Far
+                    rotationCenter.X = rect.Right - size.Width / 2 - sizeBorder.Width;
+                }
+                else
+                { // Center
+                    rotationCenter.X = (rect.Left + rect.Right) / 2;
+                }
+
+                if (format.LineAlignment == StringAlignment.Near)
+                { // Near
+                    rotationCenter.Y = rect.Top + size.Height / 2 + sizeBorder.Height;
+                }
+                else if (format.LineAlignment == StringAlignment.Far)
+                { // Far
+                    rotationCenter.Y = rect.Bottom - size.Height / 2 - sizeBorder.Height;
+                }
+                else
+                { // Center
+                    rotationCenter.Y = (rect.Bottom + rect.Top) / 2;
+                }
+
+                // Reset string alignment to center point
+                format.Alignment = StringAlignment.Center;
+                format.LineAlignment = StringAlignment.Center;
+
+                if (this.Axis.ChartArea.Area3DStyle.Enable3D)
+                {
+                    // Get projection coordinates
+                    Point3D[] rotationCenterProjection = new Point3D[2];
+                    rotationCenterProjection[0] = new Point3D(rotationCenter.X, rotationCenter.Y, zPositon);
+                    if (format.FormatFlags == StringFormatFlags.DirectionVertical)
                     {
-                        // Get projection coordinates
-                        Point3D[] textSizeProjection = new Point3D[3];
-                        zPositon = this.Axis.ChartArea.IsMainSceneWallOnFront() ? this.Axis.ChartArea.areaSceneDepth : 0f;
-                        textSizeProjection[0] = new Point3D(0f, 0f, zPositon);
-                        textSizeProjection[1] = new Point3D(size.Width, 0f, zPositon);
-                        textSizeProjection[2] = new Point3D(0f, size.Height, zPositon);
-
-                        // Transform coordinates of text size
-                        this.Axis.ChartArea.matrix3D.TransformPoints(textSizeProjection);
-
-                        // Adjust text size
-                        int index = this.Axis.ChartArea.IsMainSceneWallOnFront() ? 0 : 1;
-                        size.Width *= size.Width / (textSizeProjection[index].X - textSizeProjection[(index == 0) ? 1 : 0].X);
-                        size.Height *= size.Height / (textSizeProjection[2].Y - textSizeProjection[0].Y);
-                    }
-
-
-                    // Get relative size of the border width
-                    SizeF sizeBorder = graph.GetRelativeSize(new SizeF(this.BorderWidth, this.BorderWidth));
-
-                    // Find the center of rotation
-                    PointF rotationCenter = PointF.Empty;
-                    if (format.Alignment == StringAlignment.Near)
-                    { // Near
-                        rotationCenter.X = rect.X + size.Width / 2 + sizeBorder.Width;
-                    }
-                    else if (format.Alignment == StringAlignment.Far)
-                    { // Far
-                        rotationCenter.X = rect.Right - size.Width / 2 - sizeBorder.Width;
+                        rotationCenterProjection[1] = new Point3D(rotationCenter.X, rotationCenter.Y - 20f, zPositon);
                     }
                     else
-                    { // Center
-                        rotationCenter.X = (rect.Left + rect.Right) / 2;
-                    }
-
-                    if (format.LineAlignment == StringAlignment.Near)
-                    { // Near
-                        rotationCenter.Y = rect.Top + size.Height / 2 + sizeBorder.Height;
-                    }
-                    else if (format.LineAlignment == StringAlignment.Far)
-                    { // Far
-                        rotationCenter.Y = rect.Bottom - size.Height / 2 - sizeBorder.Height;
-                    }
-                    else
-                    { // Center
-                        rotationCenter.Y = (rect.Bottom + rect.Top) / 2;
-                    }
-
-                    // Reset string alignment to center point
-                    format.Alignment = StringAlignment.Center;
-                    format.LineAlignment = StringAlignment.Center;
-
-                    if (this.Axis.ChartArea.Area3DStyle.Enable3D)
                     {
-                        // Get projection coordinates
-                        Point3D[] rotationCenterProjection = new Point3D[2];
-                        rotationCenterProjection[0] = new Point3D(rotationCenter.X, rotationCenter.Y, zPositon);
+                        rotationCenterProjection[1] = new Point3D(rotationCenter.X - 20f, rotationCenter.Y, zPositon);
+                    }
+
+                    // Transform coordinates of text rotation point
+                    this.Axis.ChartArea.matrix3D.TransformPoints(rotationCenterProjection);
+
+                    // Adjust rotation point
+                    rotationCenter = rotationCenterProjection[0].PointF;
+
+                    // Adjust angle of the text
+                    if (angle == 0 || angle == 180 || angle == 90 || angle == 270)
+                    {
                         if (format.FormatFlags == StringFormatFlags.DirectionVertical)
                         {
-                            rotationCenterProjection[1] = new Point3D(rotationCenter.X, rotationCenter.Y - 20f, zPositon);
-                        }
-                        else
-                        {
-                            rotationCenterProjection[1] = new Point3D(rotationCenter.X - 20f, rotationCenter.Y, zPositon);
+                            angle += 90;
                         }
 
-                        // Transform coordinates of text rotation point
-                        this.Axis.ChartArea.matrix3D.TransformPoints(rotationCenterProjection);
+                        // Convert coordinates to absolute
+                        rotationCenterProjection[0].PointF = graph.GetAbsolutePoint(rotationCenterProjection[0].PointF);
+                        rotationCenterProjection[1].PointF = graph.GetAbsolutePoint(rotationCenterProjection[1].PointF);
 
-                        // Adjust rotation point
-                        rotationCenter = rotationCenterProjection[0].PointF;
-
-                        // Adjust angle of the text
-                        if (angle == 0 || angle == 180 || angle == 90 || angle == 270)
-                        {
-                            if (format.FormatFlags == StringFormatFlags.DirectionVertical)
-                            {
-                                angle += 90;
-                            }
-
-                            // Convert coordinates to absolute
-                            rotationCenterProjection[0].PointF = graph.GetAbsolutePoint(rotationCenterProjection[0].PointF);
-                            rotationCenterProjection[1].PointF = graph.GetAbsolutePoint(rotationCenterProjection[1].PointF);
-
-                            // Calcuate axis angle
-                            float angleXAxis = (float)Math.Atan(
-                                (rotationCenterProjection[1].Y - rotationCenterProjection[0].Y) /
-                                (rotationCenterProjection[1].X - rotationCenterProjection[0].X));
-                            angleXAxis = (float)Math.Round(angleXAxis * 180f / (float)Math.PI);
-                            angle += (int)angleXAxis;
-                        }
+                        // Calcuate axis angle
+                        float angleXAxis = (float)Math.Atan(
+                            (rotationCenterProjection[1].Y - rotationCenterProjection[0].Y) /
+                            (rotationCenterProjection[1].X - rotationCenterProjection[0].X));
+                        angleXAxis = (float)Math.Round(angleXAxis * 180f / (float)Math.PI);
+                        angle += (int)angleXAxis;
                     }
-
-                    // Draw string
-                    using (Brush brush = new SolidBrush(this.ForeColor))
-                    {
-                        graph.DrawStringRel(
-                            titleText.Replace("\\n", "\n"),
-                            this.Font,
-                            brush,
-                            rotationCenter,
-                            format,
-                            angle,
-                            this.GetTextOrientation());
-                    }
-
                 }
-			}
+
+                // Draw string
+                using Brush brush = new SolidBrush(this.ForeColor);
+                graph.DrawStringRel(
+                    titleText.Replace("\\n", "\n"),
+                    this.Font,
+                    brush,
+                    rotationCenter,
+                    format,
+                    angle,
+                    this.GetTextOrientation());
+            }
 		}
 
 		#endregion
@@ -891,7 +884,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				if(value < 0)
 				{
-                    throw (new ArgumentException(SR.ExceptionStripLineWidthIsNegative, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionStripLineWidthIsNegative, nameof(value));
 				}
 				_stripWidth = value;
 				this.Invalidate(); 
@@ -930,7 +923,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeBackColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BackColor
 		{
@@ -954,7 +947,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeBorderColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BorderColor
 		{
@@ -1021,7 +1014,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		Bindable(true),
 		DefaultValue(""),
         SRDescription("DescriptionAttributeBackImage"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         NotifyParentPropertyAttribute(true)
 		]
 		public string BackImage
@@ -1070,7 +1063,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BackImageTransparentColor
 		{
@@ -1125,7 +1118,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		Bindable(true),
 		DefaultValue(GradientStyle.None),
         SRDescription("DescriptionAttributeBackGradientStyle"),
-        Editor(typeof(GradientEditor), typeof(UITypeEditor))
+        Editor("GradientEditor", typeof(UITypeEditor))
         ]
         public GradientStyle BackGradientStyle
 		{
@@ -1160,7 +1153,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeBackSecondaryColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color BackSecondaryColor
 		{
@@ -1192,7 +1185,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		Bindable(true),
 		DefaultValue(ChartHatchStyle.None),
         SRDescription("DescriptionAttributeBackHatchStyle"),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
+        Editor("HatchStyleEditor", typeof(UITypeEditor))
         ]
         public ChartHatchStyle BackHatchStyle
 		{
@@ -1260,7 +1253,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRDescription("DescriptionAttributeStripLine_TitleColor"),
 		NotifyParentPropertyAttribute(true),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public Color ForeColor
 		{

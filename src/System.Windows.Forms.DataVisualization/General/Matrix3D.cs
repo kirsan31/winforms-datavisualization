@@ -176,7 +176,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>True if matrix was initialized.</returns>
 		public bool IsInitialized()
 		{
-			return (this._mainMatrix != null);
+			return this._mainMatrix != null;
 		}
 
 		/// <summary>
@@ -422,8 +422,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			foreach( Point3D point in points )
 			{
-				point.X = point.X - _shiftX;   
-				point.Y = point.Y - _shiftY;   
+				point.X -= _shiftX;   
+				point.Y -= _shiftY;   
 			}
 		}
 
@@ -457,8 +457,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Perspective Factor - Intensity of projection.
 			foreach( Point3D point in points )
 			{
-				point.X = point.X + ( _perspectiveZ - point.Z ) * yFactor;   
-				point.Y = point.Y - ( _perspectiveZ - point.Z ) * xFactor;  
+				point.X += ( _perspectiveZ - point.Z ) * yFactor;   
+				point.Y -= ( _perspectiveZ - point.Z ) * xFactor;  
 			}
 		}
 
@@ -1150,7 +1150,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>Calculated Gradient color from gradient position</returns>
 		private Color GetBrightGradientColor( Color beginColor, double position )
 		{
-			position = position * 2;
+			position *= 2;
 			double brightness = 0.5;
 			if( position < brightness )
 			{

@@ -14,7 +14,6 @@ using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.DataVisualization.Charting.Borders3D;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -66,7 +65,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(typeof(Color), "Black"),
 		SRDescription("DescriptionAttributeLineColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         override public Color LineColor
 		{
@@ -149,7 +148,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRDescription("DescriptionAttributeBackColor"),
 		NotifyParentPropertyAttribute(true),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         override public Color BackColor
 		{
@@ -181,7 +180,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(ChartHatchStyle.None),
 		NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeBackHatchStyle"),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
+        Editor("HatchStyleEditor", typeof(UITypeEditor))
         ]
         override public ChartHatchStyle BackHatchStyle
 		{
@@ -213,7 +212,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(GradientStyle.None),
 		NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeBackGradientStyle"),
-        Editor(typeof(GradientEditor), typeof(UITypeEditor))
+        Editor("GradientEditor", typeof(UITypeEditor))
         ]
         override public GradientStyle BackGradientStyle
 		{
@@ -248,7 +247,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeBackSecondaryColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         override public Color BackSecondaryColor
 		{
@@ -338,12 +337,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </param>
 		override internal void Paint(Chart chart, ChartGraphics graphics)
 		{
-			// Get annotation position in relative coordinates
-			PointF firstPoint = PointF.Empty;
-			PointF anchorPoint = PointF.Empty;
-			SizeF size = SizeF.Empty;
-			GetRelativePosition(out firstPoint, out size, out anchorPoint);
-			PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+            // Get annotation position in relative coordinates
+            GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
+            PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 			// Create selection rectangle
 			RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
@@ -568,12 +564,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </param>
         override internal void Paint(Chart chart, ChartGraphics graphics)
 		{
-			// Get annotation position in relative coordinates
-			PointF firstPoint = PointF.Empty;
-			PointF anchorPoint = PointF.Empty;
-			SizeF size = SizeF.Empty;
-			GetRelativePosition(out firstPoint, out size, out anchorPoint);
-			PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+            // Get annotation position in relative coordinates
+            GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
+            PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 			// Create selection rectangle
 			RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));

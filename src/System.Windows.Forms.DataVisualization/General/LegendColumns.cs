@@ -22,8 +22,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     using System.Drawing;
     using System.Drawing.Design;
     using System.Drawing.Drawing2D;
-    using System.Windows.Forms.Design.DataVisualization.Charting;
-    using SizeF = Drawing.SizeF;
+        using SizeF = Drawing.SizeF;
 
     #region Enumerations
 
@@ -245,7 +244,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeSeriesItems"),
         DefaultValue(KeywordName.LegendText),
         SRDescription("DescriptionAttributeLegendCellColumn_Text"),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public virtual string Text
         {
@@ -268,7 +267,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeForeColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public virtual Color ForeColor
         {
@@ -291,7 +290,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeBackColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public virtual Color BackColor
         {
@@ -347,7 +346,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value.Width < 0 || value.Height < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionSeriesSymbolSizeIsNegative, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionSeriesSymbolSizeIsNegative, nameof(value));
                 }
                 this._seriesSymbolSize = value;
                 this.Invalidate();
@@ -430,7 +429,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeSeriesItems"),
         SRDescription("DescriptionAttributeToolTip"),
         DefaultValue(""),
-        Editor(typeof(KeywordsStringEditor), typeof(UITypeEditor)),
+        Editor("KeywordsStringEditor", typeof(UITypeEditor)),
         ]
         public virtual string ToolTip
         {
@@ -478,7 +477,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeLegendCellColumn_HeaderColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public virtual Color HeaderForeColor
         {
@@ -501,7 +500,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeHeaderBackColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public virtual Color HeaderBackColor
         {
@@ -580,7 +579,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < -1)
                 {
-                    throw (new ArgumentException(SR.ExceptionMinimumCellWidthIsWrong, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionMinimumCellWidthIsWrong, nameof(value));
                 }
 
                 this._minimumCellWidth = value;
@@ -607,7 +606,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < -1)
                 {
-                    throw (new ArgumentException(SR.ExceptionMaximumCellWidthIsWrong, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionMaximumCellWidthIsWrong, nameof(value));
                 }
                 this._maximumCellWidth = value;
                 this.Invalidate();
@@ -919,7 +918,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeForeColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public virtual Color ForeColor
         {
@@ -942,7 +941,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeBackColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public virtual Color BackColor
         {
@@ -985,7 +984,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRCategory("CategoryAttributeAppearance"),
         DefaultValue(""),
         SRDescription("DescriptionAttributeLegendCell_Image"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+        Editor("ImageValueEditor", typeof(UITypeEditor)),
         ]
         public virtual string Image
         {
@@ -1008,7 +1007,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeImageTransparentColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+        Editor("ChartColorEditor", typeof(UITypeEditor))
         ]
         public virtual Color ImageTransparentColor
         {
@@ -1046,7 +1045,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value.Width < 0 || value.Height < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionLegendCellImageSizeIsNegative, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionLegendCellImageSizeIsNegative, nameof(value));
                 }
                 this._imageSize = value;
                 this.Invalidate();
@@ -1072,7 +1071,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value.Width < 0 || value.Height < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionLegendCellSeriesSymbolSizeIsNegative, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionLegendCellSeriesSymbolSizeIsNegative, nameof(value));
                 }
                 this._seriesSymbolSize = value;
                 this.Invalidate();
@@ -1118,7 +1117,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 1)
                 {
-                    throw (new ArgumentException(SR.ExceptionLegendCellSpanIsLessThenOne, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionLegendCellSpanIsLessThenOne, nameof(value));
                 }
                 this._cellSpan = value;
                 this.Invalidate();
@@ -1272,8 +1271,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Get cell font
             Size cellSize = Size.Empty;
-            bool disposeFont = false;
-            Font cellFont = this.GetCellFont(legendAutoFont, fontSizeReducedBy, out disposeFont);
+            Font cellFont = this.GetCellFont(legendAutoFont, fontSizeReducedBy, out bool disposeFont);
 
             // Measure cell content size based on the type
             if (this.CellType == LegendCellType.SeriesSymbol)
@@ -1312,7 +1310,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else
             {
-                throw (new InvalidOperationException(SR.ExceptionLegendCellTypeUnknown(this.CellType.ToString())));
+                throw new InvalidOperationException(SR.ExceptionLegendCellTypeUnknown(this.CellType.ToString()));
             }
 
             // Add cell margins 
@@ -1330,7 +1328,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (disposeFont)
             {
                 cellFont.Dispose();
-                cellFont = null;
             }
 
             // Save calculated size
@@ -1590,7 +1587,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             // Insert new line character in the string
                             lineLength = 0;
-                            resultString = string.Concat(resultString.AsSpan(0, charIndex), "\n", resultString.Substring(charIndex + 1).TrimStart());
+                            resultString = string.Concat(resultString.AsSpan(0, charIndex), "\n", resultString[(charIndex + 1)..].TrimStart());
                         }
                     }
                 }
@@ -1692,17 +1689,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Check legend cell type
                 switch (this.CellType)
                 {
-                    case (LegendCellType.Text):
+                    case LegendCellType.Text:
                         this.PaintCellText(chartGraph, fontSizeReducedBy, legendAutoFont);
                         break;
-                    case (LegendCellType.Image):
+                    case LegendCellType.Image:
                         this.PaintCellImage(chartGraph, singleWCharacterSize);
                         break;
-                    case (LegendCellType.SeriesSymbol):
+                    case LegendCellType.SeriesSymbol:
                         this.PaintCellSeriesSymbol(chartGraph, singleWCharacterSize);
                         break;
                     default:
-                        throw (new InvalidOperationException(SR.ExceptionLegendCellTypeUnknown(this.CellType.ToString())));
+                        throw new InvalidOperationException(SR.ExceptionLegendCellTypeUnknown(this.CellType.ToString()));
                 }
 
                 // Fire an event for custom cell drawing
@@ -1744,8 +1741,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Font legendAutoFont)
         {
             // Get cell font
-            bool disposeFont = false;
-            Font cellFont = this.GetCellFont(legendAutoFont, fontSizeReducedBy, out disposeFont);
+            Font cellFont = this.GetCellFont(legendAutoFont, fontSizeReducedBy, out bool disposeFont);
 
             // Start Svg Selection mode
             chartGraph.StartHotRegion(this.GetCellUrl(), this.GetCellToolTip());
@@ -1754,59 +1750,57 @@ namespace System.Windows.Forms.DataVisualization.Charting
             using (SolidBrush fontBrush = new SolidBrush(this.GetCellForeColor()))
             {
                 // Create cell text format
-                using (StringFormat format = StringFormat.GenericDefault)
+                using StringFormat format = StringFormat.GenericDefault;
+                format.FormatFlags = StringFormatFlags.LineLimit;
+                format.Trimming = StringTrimming.EllipsisCharacter;
+                format.Alignment = StringAlignment.Center;
+                if (this.Alignment == ContentAlignment.BottomLeft ||
+                    this.Alignment == ContentAlignment.MiddleLeft ||
+                    this.Alignment == ContentAlignment.TopLeft)
                 {
-                    format.FormatFlags = StringFormatFlags.LineLimit;
-                    format.Trimming = StringTrimming.EllipsisCharacter;
-                    format.Alignment = StringAlignment.Center;
-                    if (this.Alignment == ContentAlignment.BottomLeft ||
-                        this.Alignment == ContentAlignment.MiddleLeft ||
-                        this.Alignment == ContentAlignment.TopLeft)
-                    {
-                        format.Alignment = StringAlignment.Near;
-                    }
-                    else if (this.Alignment == ContentAlignment.BottomRight ||
-                        this.Alignment == ContentAlignment.MiddleRight ||
-                        this.Alignment == ContentAlignment.TopRight)
-                    {
-                        format.Alignment = StringAlignment.Far;
-                    }
-                    format.LineAlignment = StringAlignment.Center;
-                    if (this.Alignment == ContentAlignment.BottomCenter ||
-                        this.Alignment == ContentAlignment.BottomLeft ||
-                        this.Alignment == ContentAlignment.BottomRight)
-                    {
-                        format.LineAlignment = StringAlignment.Far;
-                    }
-                    else if (this.Alignment == ContentAlignment.TopCenter ||
-                        this.Alignment == ContentAlignment.TopLeft ||
-                        this.Alignment == ContentAlignment.TopRight)
-                    {
-                        format.LineAlignment = StringAlignment.Near;
-                    }
-
-                    // Measure string height out of one character
-                    SizeF charSize = chartGraph.MeasureStringAbs(this.GetCellText(), cellFont, new SizeF(10000f, 10000f), format);
-
-                    // If height of one characte is more than rectangle heigjt - remove LineLimit flag
-                    if (charSize.Height > this.cellPosition.Height && (format.FormatFlags & StringFormatFlags.LineLimit) != 0)
-                    {
-                        format.FormatFlags ^= StringFormatFlags.LineLimit;
-                    }
-
-                    else if (charSize.Height < this.cellPosition.Height && (format.FormatFlags & StringFormatFlags.LineLimit) == 0)
-                    {
-                        format.FormatFlags |= StringFormatFlags.LineLimit;
-                    }
-
-                    // Draw text
-                    chartGraph.DrawStringRel(
-                        this.GetCellText(),
-                        cellFont,
-                        fontBrush,
-                        chartGraph.GetRelativeRectangle(this.cellPosition),
-                        format);
+                    format.Alignment = StringAlignment.Near;
                 }
+                else if (this.Alignment == ContentAlignment.BottomRight ||
+                    this.Alignment == ContentAlignment.MiddleRight ||
+                    this.Alignment == ContentAlignment.TopRight)
+                {
+                    format.Alignment = StringAlignment.Far;
+                }
+                format.LineAlignment = StringAlignment.Center;
+                if (this.Alignment == ContentAlignment.BottomCenter ||
+                    this.Alignment == ContentAlignment.BottomLeft ||
+                    this.Alignment == ContentAlignment.BottomRight)
+                {
+                    format.LineAlignment = StringAlignment.Far;
+                }
+                else if (this.Alignment == ContentAlignment.TopCenter ||
+                    this.Alignment == ContentAlignment.TopLeft ||
+                    this.Alignment == ContentAlignment.TopRight)
+                {
+                    format.LineAlignment = StringAlignment.Near;
+                }
+
+                // Measure string height out of one character
+                SizeF charSize = chartGraph.MeasureStringAbs(this.GetCellText(), cellFont, new SizeF(10000f, 10000f), format);
+
+                // If height of one characte is more than rectangle heigjt - remove LineLimit flag
+                if (charSize.Height > this.cellPosition.Height && (format.FormatFlags & StringFormatFlags.LineLimit) != 0)
+                {
+                    format.FormatFlags ^= StringFormatFlags.LineLimit;
+                }
+
+                else if (charSize.Height < this.cellPosition.Height && (format.FormatFlags & StringFormatFlags.LineLimit) == 0)
+                {
+                    format.FormatFlags |= StringFormatFlags.LineLimit;
+                }
+
+                // Draw text
+                chartGraph.DrawStringRel(
+                    this.GetCellText(),
+                    cellFont,
+                    fontBrush,
+                    chartGraph.GetRelativeRectangle(this.cellPosition),
+                    format);
             }
 
             // End Svg Selection mode
@@ -1816,7 +1810,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (disposeFont)
             {
                 cellFont.Dispose();
-                cellFont = null;
             }
         }
 
@@ -1885,8 +1878,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 imagePosition.Width = (int)(imagePosition.Width / scaleValue);
 
                 // Get image location
-                imagePosition.X = (int)((this.cellPosition.X + this.cellPosition.Width / 2f) - imagePosition.Width / 2f);
-                imagePosition.Y = (int)((this.cellPosition.Y + this.cellPosition.Height / 2f) - imagePosition.Height / 2f);
+                imagePosition.X = (int)(this.cellPosition.X + this.cellPosition.Width / 2f - imagePosition.Width / 2f);
+                imagePosition.Y = (int)(this.cellPosition.Y + this.cellPosition.Height / 2f - imagePosition.Height / 2f);
 
                 // Adjust image location based on the cell content alignment
                 if (this.Alignment == ContentAlignment.BottomLeft ||
@@ -1990,8 +1983,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Get symbol location
-            seriesMarkerPosition.X = (int)((this.cellPosition.X + this.cellPosition.Width / 2f) - seriesMarkerPosition.Width / 2f);
-            seriesMarkerPosition.Y = (int)((this.cellPosition.Y + this.cellPosition.Height / 2f) - seriesMarkerPosition.Height / 2f);
+            seriesMarkerPosition.X = (int)(this.cellPosition.X + this.cellPosition.Width / 2f - seriesMarkerPosition.Width / 2f);
+            seriesMarkerPosition.Y = (int)(this.cellPosition.Y + this.cellPosition.Height / 2f - seriesMarkerPosition.Height / 2f);
 
             // Adjust image location based on the cell content alignment
             if (this.Alignment == ContentAlignment.BottomLeft ||
@@ -2054,8 +2047,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     imageScale.Height = (int)(imageScale.Height / scaleValue);
                     imageScale.Width = (int)(imageScale.Width / scaleValue);
 
-                    imageScale.X = (int)((seriesMarkerPosition.X + seriesMarkerPosition.Width / 2f) - imageScale.Width / 2f);
-                    imageScale.Y = (int)((seriesMarkerPosition.Y + seriesMarkerPosition.Height / 2f) - imageScale.Height / 2f);
+                    imageScale.X = (int)(seriesMarkerPosition.X + seriesMarkerPosition.Width / 2f - imageScale.Width / 2f);
+                    imageScale.Y = (int)(seriesMarkerPosition.Y + seriesMarkerPosition.Height / 2f - imageScale.Height / 2f);
 
                     // Set image transparent color
                     using Drawing.Imaging.ImageAttributes imageAttributes = new Drawing.Imaging.ImageAttributes();
@@ -2079,12 +2072,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             else
             {
-                int maxShadowOffset = (int)Math.Round((3 * chartGraph.Graphics.DpiX) / 96);
-                int maxBorderWidth = (int)Math.Round((3 * chartGraph.Graphics.DpiX) / 96);
+                int maxShadowOffset = (int)Math.Round(3 * chartGraph.Graphics.DpiX / 96);
+                int maxBorderWidth = (int)Math.Round(3 * chartGraph.Graphics.DpiX / 96);
 
                 if (legendItem.ImageStyle == LegendImageStyle.Rectangle)
                 {
-                    int maxBorderWidthRect = (int)Math.Round((2 * chartGraph.Graphics.DpiX) / 96);
+                    int maxBorderWidthRect = (int)Math.Round(2 * chartGraph.Graphics.DpiX / 96);
 
                     // Draw series rectangle
                     chartGraph.FillRectangleRel(
@@ -2335,7 +2328,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarginTopIsNegative, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionMarginTopIsNegative, nameof(value));
                 }
                 this._top = value;
                 this.Invalidate();
@@ -2362,7 +2355,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarginBottomIsNegative, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionMarginBottomIsNegative, nameof(value));
                 }
                 this._bottom = value;
                 this.Invalidate();
@@ -2389,7 +2382,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarginLeftIsNegative, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionMarginLeftIsNegative, nameof(value));
                 }
                 this._left = value;
                 this.Invalidate();
@@ -2416,7 +2409,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 0)
                 {
-                    throw (new ArgumentException(SR.ExceptionMarginRightIsNegative, nameof(value)));
+                    throw new ArgumentException(SR.ExceptionMarginRightIsNegative, nameof(value));
                 }
                 this._right = value;
                 this.Invalidate();
@@ -2487,7 +2480,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </returns>
         public bool IsEmpty()
         {
-            return (this.Top == 0 && this.Bottom == 0 && this.Left == 0 && this.Right == 0);
+            return this.Top == 0 && this.Bottom == 0 && this.Left == 0 && this.Right == 0;
         }
 
         /// <summary>

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>$(TargetFrameworkServer)</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="WinForms.DataVisualization" Version="$(MajorVer).*-*" Condition="'$(Configuration)'=='Release'" />
+		<PackageReference Include="WinForms.DataVisualization.Debug" Version="$(MajorVer).*-*" Condition="'$(Configuration)'=='Debug'" />
+	</ItemGroup>
+
+  <!--<ItemGroup>
+    <ProjectReference Include="..\src\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
+  </ItemGroup>-->
+
+  <!--<ItemGroup>
+    <Reference Include="System.Windows.Forms.DataVisualization">
+      <HintPath>..\src\System.Windows.Forms.DataVisualization\bin\Debug\net6.0-windows\WinForms.DataVisualization.dll</HintPath>
+    </Reference>
+  </ItemGroup>-->
+
+</Project>

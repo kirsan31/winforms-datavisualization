@@ -1,52 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFrameworks>$(TargetFrameworkServer)</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
-		<AssemblyName>System.Windows.Forms.DataVisualization</AssemblyName>
+		<AssemblyName>WinForms.DataVisualization</AssemblyName>
+		<RootNamespace>System.Windows.Forms.DataVisualization.Charting</RootNamespace>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<CLSCompliant>false</CLSCompliant>
 		<NoWarn>$(NoWarn);618</NoWarn>
 		<DefineConstants>$(DefineConstants)</DefineConstants>
 		<Platforms>AnyCPU</Platforms>
 		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-		<Deterministic>false</Deterministic>
-		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-		<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-		<AssemblyVersion>1.3.*</AssemblyVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<DebugSymbols>true</DebugSymbols>
+		<AssemblyVersion>$(MajorVer).0.0.0</AssemblyVersion>
+		<FileVersion>$(MajorVer).$(MinorPatchVer).0</FileVersion>
+		<InformationalVersion>$(MajorVer).$(MinorPatchVer)$(PRVer)</InformationalVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="Tests" />
+		<InternalsVisibleTo Include="WinForms.DataVisualization.Designer.Server" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DebugType>full</DebugType>
-		<DebugSymbols>true</DebugSymbols>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DebugType>pdbonly</DebugType>
-		<DebugSymbols>true</DebugSymbols>
+		<DebugType>pdbonly</DebugType>		
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="Annotation\AnnotationDesign.cs" />
-		<Compile Remove="Common\EditorNames.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.WinForms.Designer.SDK" Version="1.0.0-prerelease-preview5.21520.4" />
+		<ProjectReference Include="..\WinForms.DataVisualization.Utilities\Utilities.csproj" />
 	</ItemGroup>
 
 	<ItemGroup Label="Embedded Resources">
-		<EmbeddedResource Update="Common\SR.resx">
-			<LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
-		</EmbeddedResource>
-		<EmbeddedResource Update="SR.resx">
-			<GenerateSource>true</GenerateSource>
-			<Namespace>System.Windows.Forms.DataVisualization.Charting</Namespace>
+		<EmbeddedResource Include="Resources\ChartControl.bmp">
+			<LogicalName>System.Windows.Forms.DataVisualization.Charting.ChartControl.bmp</LogicalName>
 		</EmbeddedResource>
 	</ItemGroup>
 </Project>

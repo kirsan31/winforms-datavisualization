@@ -223,13 +223,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 				totalS += ( avr - averageTotal ) * ( avr - averageTotal );
 			}
 
-			totalS /= ( m - 1 );
+			totalS /=  m - 1 ;
 
 			// Group Sample Variance
 			double groupS = Mean( variance );
 
 			// F Statistica
-			double f = totalS * ( n ) / groupS;
+			double f = totalS *  n  / groupS;
 
 			// ****************************************
 			// Sum of Squares
@@ -245,7 +245,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 				}
 			}
 
-			grandTotalAverage /= ( m * n );
+			grandTotalAverage /=  m * n ;
 
 			// Treatment Sum of Squares
 			double trss = 0;
@@ -332,11 +332,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			// There is no enough input series
 			if( inputValues.Length != 3 )
 				throw new ArgumentException( SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
-			
-			outLabels = null;
 
-			// Output arrays
-			outputValues = new double [2][];
+
+            // Output arrays
+            outputValues = new double [2][];
 
 			// Output Labels
 			outLabels = new string [1][];
@@ -380,11 +379,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			// There is no enough input series
 			if( inputValues.Length != 3 )
 				throw new ArgumentException( SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
-			
-			outLabels = null;
 
-			// Output arrays
-			outputValues = new double [2][];
+
+            // Output arrays
+            outputValues = new double [2][];
 
 			// Output Labels
 			outLabels = new string [1][];
@@ -794,7 +792,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 				s = ( ( inputValues[1].Length - 1 ) * variance1 + ( inputValues[2].Length - 1 ) * variance2 ) / ( inputValues[1].Length + inputValues[2].Length - 2 );
 
 				// T value
-				T = ( mean1 - mean2 - HypothesizedMeanDifference ) / ( Math.Sqrt( s * ( 1.0 / inputValues[1].Length + 1.0 / inputValues[2].Length ) ) );
+				T = ( mean1 - mean2 - HypothesizedMeanDifference ) /  Math.Sqrt( s * ( 1.0 / inputValues[1].Length + 1.0 / inputValues[2].Length ) ) ;
 		
 			}
 			else
@@ -803,7 +801,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 				double n = inputValues[2].Length;
 				double s1 = variance1;
 				double s2 = variance2;
-				double f = ( s1 / m + s2 / n ) * ( s1 / m + s2 / n ) / ( ( s1 / m ) * ( s1 / m ) / ( m - 1 ) + ( s2 / n ) * ( s2 / n ) / ( n - 1 ) );
+				double f = ( s1 / m + s2 / n ) * ( s1 / m + s2 / n ) / (  s1 / m  * ( s1 / m ) / ( m - 1 ) +  s2 / n  * ( s2 / n ) / ( n - 1 ) );
 				freedom = (int)Math.Round(f);
 
 				s = Math.Sqrt( variance1 / inputValues[1].Length + variance2 / inputValues[2].Length );
@@ -961,7 +959,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 
 			variance = Math.Sqrt( Variance( difference, true ) );
 
-			double T = ( Math.Sqrt( inputValues[1].Length ) * ( mean - HypothesizedMeanDifference ) ) / variance;
+			double T =  Math.Sqrt( inputValues[1].Length ) * ( mean - HypothesizedMeanDifference )  / variance;
 
 			freedom = inputValues[1].Length - 1;
 			
@@ -1060,11 +1058,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidTailedParameter);
 			}
 
-			
-			outLabels = null;
 
-			// Output arrays
-			outputValues = new double [2][];
+
+            // Output arrays
+            outputValues = new double [2][];
 
 			// Output Labels
 			outLabels = new string [1][];
@@ -1129,11 +1126,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			{
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
 			}
-			
-			outLabels = null;
 
-			// Output arrays
-			outputValues = new double [2][];
+
+            // Output arrays
+            outputValues = new double [2][];
 
 			// Output Labels
 			outLabels = new string [1][];
@@ -1168,11 +1164,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			{
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidZValue);
 			}
-			
-			outLabels = null;
 
-			// Output arrays
-			outputValues = new double [2][];
+
+            // Output arrays
+            outputValues = new double [2][];
 
 			// Output Labels
 			outLabels = new string [1][];
@@ -1222,11 +1217,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			{
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
 			}
-		
-			outLabels = null;
 
-			// Output arrays
-			outputValues = new double [2][];
+
+            // Output arrays
+            outputValues = new double [2][];
 
 			// Output Labels
 			outLabels = new string [1][];
@@ -1292,11 +1286,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			{
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
 			}
-			
-			outLabels = null;
 
-			// Output arrays
-			outputValues = new double [2][];
+
+            // Output arrays
+            outputValues = new double [2][];
 
 			// Output Labels
 			outLabels = new string [1][];
@@ -1336,11 +1329,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			{
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
 			}
-			
-			outLabels = null;
 
-			// Output arrays
-			outputValues = new double [2][];
+
+            // Output arrays
+            outputValues = new double [2][];
 
 			// Output Labels
 			outLabels = new string [1][];
@@ -1646,10 +1638,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			if( inputValues.Length != 2 )
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidSeriesNumber);
 
-			outLabels = null;
 
-			// Output arrays
-			outputValues = new double [2][];
+            // Output arrays
+            outputValues = new double [2][];
 
 			// Output Labels
 			outLabels = new string [1][];
@@ -1733,12 +1724,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			catch(System.Exception)
 			{
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
-			}	
-					
-			outLabels = null;
+			}
 
-			// Output arrays
-			outputValues = new double [2][];
+
+            // Output arrays
+            outputValues = new double [2][];
 
 			// Output Labels
 			outLabels = new string [1][];
@@ -1781,11 +1771,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			{
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesGammaBetaNegativeParameters);
 			}
-			
-			outLabels = null;
 
-			// Output arrays
-			outputValues = new double [2][];
+
+            // Output arrays
+            outputValues = new double [2][];
 
 			// Output Labels
 			outLabels = new string [1][];
@@ -2087,7 +2076,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 			{
 				r = x * x;
 				r = x * ( ( ( a[3] * r + a[2] ) * r + a[1] ) * r + a[0] ) / ( ( ( ( b[3] * r + b[2] ) * r + b[1] ) * r + b[0] ) * r + 1.0 );
-				return( r );
+				return r ;
 			}
 			r= probability;
 			if( x > 0.0 ) 

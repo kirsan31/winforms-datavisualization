@@ -2,17 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Globalization;
 using System.Diagnostics.CodeAnalysis;
-using System.Collections;
+using System.Globalization;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
-
     /// <summary>
     /// Base class for all chart element collections
     /// </summary>
@@ -24,7 +21,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private IChartElement _parent;
         private CommonElements _common;
         internal int _suspendUpdates;
-        #endregion
+
+        #endregion Member variables
 
         #region Properties
 
@@ -40,6 +38,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 Invalidate();
             }
         }
+
         /// <summary>
         /// Gets the CommonElements of the chart.
         /// </summary>
@@ -72,7 +71,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Gets the items as List&lt;T&gt;. Use this property to perform advanced List specific operations (Sorting, etc)
         /// </summary>
-        internal List<T> ItemList 
+        internal List<T> ItemList
         {
             get { return Items as List<T>; }
         }
@@ -81,7 +80,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             get { return _suspendUpdates > 0; }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Constructors
 
@@ -94,7 +94,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _parent = parent;
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Methods
 
@@ -110,7 +110,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Suspends invalidation
         /// </summary>
-        public virtual void SuspendUpdates() 
+        public virtual void SuspendUpdates()
         {
             _suspendUpdates++;
         }
@@ -120,11 +120,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         public virtual void ResumeUpdates()
         {
-            if (_suspendUpdates>0)
+            if (_suspendUpdates > 0)
                 _suspendUpdates--;
 
-            if (_suspendUpdates==0)
-                this.Invalidate(); 
+            if (_suspendUpdates == 0)
+                this.Invalidate();
         }
 
         /// <summary>
@@ -158,12 +158,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Deinitializes the specified item.
+        /// Deinitialize the specified item.
         /// </summary>
         /// <param name="item">The item.</param>
-        internal virtual void Deinitialize( T item)
+        internal virtual void Deinitialize(T item)
         {
-
         }
 
         /// <summary>
@@ -172,14 +171,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="item">The item.</param>
         internal virtual void Initialize(T item)
         {
-
         }
 
         /// <summary>
         /// Removes the element at the specified index of the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
         /// </summary>
         /// <param name="index">The zero-based index of the element to remove.</param>
-        [SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         protected override void RemoveItem(int index)
         {
             var item = this[index];
@@ -194,7 +191,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.</param>
         /// <param name="item">The object to insert. The value can be null for reference types.</param>
-        [SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         protected override void InsertItem(int index, T item)
         {
             this.Initialize(item);
@@ -208,7 +204,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="index">The zero-based index of the element to replace.</param>
         /// <param name="item">The new value for the element at the specified index. The value can be null for reference types.</param>
-        [SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         protected override void SetItem(int index, T item)
         {
             this.Initialize(item);
@@ -217,7 +212,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Invalidate();
         }
 
-        #endregion
+        #endregion Methods
 
         #region IChartElement Members
 
@@ -234,10 +229,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         CommonElements IChartElement.Common
         {
-            get{ return this.Common; }
+            get { return this.Common; }
         }
 
-        #endregion
+        #endregion IChartElement Members
     }
 
     /// <summary>
@@ -247,12 +242,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
     public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>, INameController
         where T : ChartNamedElement
     {
-
         #region Fields
+
         private List<T> _cachedState;
         private int _disableDeleteCount;
         private readonly Dictionary<string, int> _nameIdxDic = new Dictionary<string, int>();
-        #endregion
+
+        #endregion Fields
 
         #region Properties
 
@@ -266,7 +262,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets the chart element with the specified name.
+        /// Gets or sets the chart element with the specified name.<br/>
+        /// This method approaches an O(1) operation.
         /// </summary>
         /// <value></value>
         public T this[string name]
@@ -285,6 +282,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         throw new ArgumentException(SR.ExceptionNameNotFound(name, this.GetType().Name), ex);
                     }
                 }
+
                 throw new ArgumentException(SR.ExceptionNameNotFound(name, this.GetType().Name));
             }
 
@@ -297,19 +295,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 if (!nameFound && !itemFound)
                     this.Add(value);
-
                 else if (nameFound && !itemFound)
                     this[nameIndex] = value;
-
                 else if (!nameFound && itemFound)
                     throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(name, this.GetType().Name));
-                    
                 else if (nameFound && itemFound && nameIndex != itemIndex)
                     throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(name, this.GetType().Name));
-                    
             }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Constructors
 
@@ -322,19 +317,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Events
 
         internal event EventHandler<NameReferenceChangedEventArgs> NameReferenceChanged;
+
         internal event EventHandler<NameReferenceChangedEventArgs> NameReferenceChanging;
 
-        #endregion
+        #endregion Events
 
         #region Methods
 
         /// <summary>
-        /// Determines whether the chart element with the specified name already exists in the collection.
+        /// Determines whether the chart element with the specified name already exists in the collection.<br/>
+        /// This method approaches an O(1) operation.
         /// </summary>
         /// <param name="name">The new chart element name.</param>
         /// <returns>
@@ -365,7 +362,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Indexes the of chart element with the specified name.
+        /// Indexes the of chart element with the specified name.<br/>
+        /// This method approaches an O(1) operation.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
@@ -393,13 +391,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="name">Chart element name.</param>
         internal bool IsNameReferenceValid(string name)
         {
-            return  string.IsNullOrEmpty(name) || 
+            return string.IsNullOrEmpty(name) ||
                     name == Constants.NotSetValue ||
                     IndexOf(name) >= 0;
         }
 
         /// <summary>
-        /// Finds the chart element by the name.
+        /// Finds the chart element by the name.<br/>
+        /// This method approaches an O(1) operation.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
@@ -441,7 +440,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _nameIdxDic.Add(item.Name, index);
 
             if (this.Count == 1 && item != null)
-            { 
+            {
                 // First element is added to the list -> fire the NameReferenceChanged event to update all the dependent elements
                 ((INameController)this).OnNameReferenceChanged(new NameReferenceChangedEventArgs(null, item));
             }
@@ -466,7 +465,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             ChartNamedElement removedElement = index < Count ? this[index] : null;
 
             ((INameController)this).OnNameReferenceChanging(new NameReferenceChangedEventArgs(removedElement, item));
-            
+
             base.SetItem(index, item); // if index < 0 or >= Count we will have ArgumentOutOfRangeException here
             _nameIdxDic.Remove(removedElement.Name); // removedElement not null here
             _nameIdxDic.Add(item.Name, index);
@@ -499,7 +498,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     if (dEntry.Value > index)
                         _nameIdxDic[dEntry.Key] = dEntry.Value - 1;
                 }
-            }            
+            }
 
             if (_disableDeleteCount == 0)
             {
@@ -514,11 +513,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Fixes the name references of the item.
         /// </summary>
         internal virtual void FixNameReferences(T item)
-        { 
+        {
             //Nothing to fix at the base class...
         }
 
-        #endregion
+        #endregion Methods
 
         #region INameController Members
 
@@ -544,8 +543,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             get
             {
-                return _disableDeleteCount == 0;
+                return _disableDeleteCount != 0;
             }
+
             set
             {
                 _disableDeleteCount += value ? 1 : -1;
@@ -560,8 +560,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (!IsSuspended)
             {
-                if (this.NameReferenceChanging != null)
-                    this.NameReferenceChanging(this, e);
+                this.NameReferenceChanging?.Invoke(this, e);
             }
         }
 
@@ -573,8 +572,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (!IsSuspended)
             {
-                if (this.NameReferenceChanged != null)
-                    this.NameReferenceChanged(this, e);
+                this.NameReferenceChanged?.Invoke(this, e);
             }
         }
 
@@ -584,15 +582,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="save">if set to <c>true</c> collection items will be saved.</param>
         /// <param name="changingCallback">The changing callback.</param>
         /// <param name="changedCallback">The changed callback.</param>
-        void INameController.DoSnapshot(bool save, 
-            EventHandler<NameReferenceChangedEventArgs> changingCallback, 
+        void INameController.DoSnapshot(bool save,
+            EventHandler<NameReferenceChangedEventArgs> changingCallback,
             EventHandler<NameReferenceChangedEventArgs> changedCallback)
         {
             if (save)
             {
                 _cachedState = new List<T>(this);
                 if (changingCallback != null) this.NameReferenceChanging += changingCallback;
-                if (changedCallback  != null) this.NameReferenceChanged += changedCallback;
+                if (changedCallback != null) this.NameReferenceChanged += changedCallback;
             }
             else
             {
@@ -626,7 +624,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             get { return _cachedState; }
         }
 
+        #endregion INameController Members
 
-        #endregion   
     }
 }

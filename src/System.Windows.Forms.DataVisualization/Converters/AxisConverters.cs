@@ -107,8 +107,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>Converted object.</returns>
 		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
-			object	result = null;
-			bool	convertFromDate = false;
+            bool convertFromDate = false;
             string stringValue = value as string;
 
 			// If context interface provided check if we are dealing with DateTime values
@@ -156,7 +155,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			}
 
-			// Try to convert from double string
+            object result;
+            // Try to convert from double string
             try
             {
                 result = base.ConvertFrom(context, culture, value);
@@ -170,11 +170,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 result = null;
             }
 
-			// Try to convert from date/time string
+            // Try to convert from date/time string
             if (stringValue != null && (convertFromDate || result == null))
             {
-                DateTime valueAsDate;
-                bool parseSucceed = DateTime.TryParse(stringValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out valueAsDate);
+                bool parseSucceed = DateTime.TryParse(stringValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime valueAsDate);
 
                 if (parseSucceed)
                 {
@@ -341,7 +340,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>Converted object.</returns>
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            object result = null;
             bool convertFromDate = false;
             string stringValue = value as string;
 
@@ -372,6 +370,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
+            object result;
             // Try to convert from double string
             try
             {
@@ -389,8 +388,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Try to convert from date/time string
             if (stringValue != null && (convertFromDate || result == null))
             {
-                DateTime valueAsDate;
-                bool parseSucceed = DateTime.TryParse(stringValue, CultureInfo.CurrentCulture, DateTimeStyles.None, out valueAsDate);
+                bool parseSucceed = DateTime.TryParse(stringValue, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime valueAsDate);
 
                 if (parseSucceed)
                 {

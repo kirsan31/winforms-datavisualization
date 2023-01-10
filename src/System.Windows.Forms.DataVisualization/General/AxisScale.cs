@@ -2,12 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
-//  Purpose:	Base class for the Axis class which defines axis 
-//				csale related properties and methods.
+//  Purpose:	Base class for the Axis class which defines axis
+//				scale related properties and methods.
 //
-
 
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +13,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -36,8 +33,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         VariableCount
     }
-
-
 
     /// <summary>
     /// An enumeration of axis position.
@@ -74,25 +69,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// No arrow
         /// </summary>
         None,
+
         /// <summary>
         /// Triangle type
         /// </summary>
         Triangle,
+
         /// <summary>
         /// Sharp triangle type
         /// </summary>
         SharpTriangle,
+
         /// <summary>
         /// Lines type
         /// </summary>
         Lines
     }
 
-    #endregion
+    #endregion Axis enumerations
 
     /// <summary>
-    /// The Axis class keeps information about minimum, maximum 
-    /// and interval values and it is responsible for setting 
+    /// The Axis class keeps information about minimum, maximum
+    /// and interval values and it is responsible for setting
     /// these values automatically. It also handles
     /// logarithmic and reversed axis.
     /// </summary>
@@ -100,20 +98,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
     {
         #region Axis scale fields
 
-        // Represents the distance between the data points and its 
-        // chart area margin, Measured as a percentage of default 
+        // Represents the distance between the data points and its
+        // chart area margin, Measured as a percentage of default
         // margin size.
         internal double margin = 100.0;
+
         internal double marginView;
         internal bool offsetTempSet;
 
         // Used for column chart margin
         internal double marginTemp;
-        private ArrayList _stripLineOffsets = new ArrayList();
 
+        private readonly ArrayList _stripLineOffsets = new ArrayList();
 
         // Data members, which store properties values
         private bool _isLogarithmic;
+
         internal double logarithmBase = 10.0;
         internal bool isReversed;
         internal bool isStartedFromZero = true;
@@ -123,9 +123,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal Grid majorGrid;
         internal bool enabled;
         internal bool autoEnabled = true;
-#pragma warning disable CA2213 // Disposable fields should be disposed
         internal LabelStyle labelStyle;
-#pragma warning restore CA2213 // Disposable fields should be disposed
         private DateTimeIntervalType _internalIntervalType = DateTimeIntervalType.Auto;
         internal double maximum = Double.NaN;
         internal double crossing = Double.NaN;
@@ -133,6 +131,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Temporary Minimum and maximum values.
         internal double tempMaximum = Double.NaN;
+
         internal double tempMinimum = Double.NaN;
         internal double tempCrossing = Double.NaN;
         internal CustomLabelsCollection tempLabels;
@@ -165,7 +164,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private AxisPosition _axisPosition = AxisPosition.Left;
 
         /// <summary>
-        /// Opposite Axis for this Axis. Necessary for Crossing.		
+        /// Opposite Axis for this Axis. Necessary for Crossing.
         /// </summary>
 #pragma warning disable CA2213 // Disposable fields should be disposed
         internal Axis oppositeAxis;
@@ -177,10 +176,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Axis scroll bar class
         internal AxisScrollBar scrollBar;
 
-        // For scater chart X values could be rounded.
+        // For scatter chart X values could be rounded.
         internal bool roundedXValues;
 
-        // If Axis is logarithmic value shoud be converted to 
+        // If Axis is logarithmic value should be converted to
         // linear only once.
         internal bool logarithmicConvertedToLinear;
 
@@ -190,12 +189,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // IsLogarithmic maximum value
         internal double logarithmicMaximum;
 
-        // Correction of interval because of 
+        // Correction of interval because of
         // 3D Rotation and perspective
         internal double interval3DCorrection = Double.NaN;
 
-        // Axis coordinate convertion optimization fields
+        // Axis coordinate conversion optimization fields
         internal bool optimizedGetPosition;
+
         internal double paintViewMax;
         internal double paintViewMin;
         internal double paintRange;
@@ -205,22 +205,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal double paintAreaPositionRight;
         internal double paintChartAreaSize;
 
-
-
         // Determines how number of intervals automatically calculated
         private IntervalAutoMode _intervalAutoMode = IntervalAutoMode.FixedCount;
 
         // True if scale segments are used
         internal bool scaleSegmentsUsed;
 
-
-
-        // Preffered number of intervals on the axis
+        // Preferred number of intervals on the axis
         internal int prefferedNumberofIntervals = 5;
 
-        private Stack<Double> _intervalsStore = new Stack<Double>();
+        private readonly Stack<Double> _intervalsStore = new Stack<Double>();
 
-        #endregion
+        #endregion Axis scale fields
 
         #region Axis scale properties
 
@@ -259,8 +255,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
-
         /// <summary>
         /// Gets or sets a flag which indicates whether the number of intervals
         /// on the axis is fixed or varies with the axis size.
@@ -282,8 +276,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.Invalidate();
             }
         }
-
-
 
         /// <summary>
         /// Gets or sets a flag which indicates whether the axis is reversed.
@@ -338,7 +330,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         /// <summary>
         /// Gets or sets a flag to add a margin to the axis.
-        /// If true, a space is added between the first/last data 
+        /// If true, a space is added between the first/last data
         /// point and the border of chart area.
         /// </summary>
         [
@@ -471,7 +463,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             this.Invalidate();
         }
-
 
         /// <summary>
         /// Gets or sets the maximum axis value.
@@ -610,7 +601,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-
         /// <summary>
         /// Enables or disables the axis.
         /// </summary>
@@ -661,8 +651,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets or sets a flag which indicates whether the axis is logarithmic. 
-        /// Zeros or negative data values are not allowed on logarithmic charts. 
+        /// Gets or sets a flag which indicates whether the axis is logarithmic.
+        /// Zeros or negative data values are not allowed on logarithmic charts.
         /// </summary>
         [
         SRCategory("CategoryAttributeScale"),
@@ -685,7 +675,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Base of the logarithm used in logarithmic scale. 
+        /// Base of the logarithm used in logarithmic scale.
         /// By default, this value is 10.
         /// </summary>
         [
@@ -705,7 +695,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (value < 2.0)
                 {
-                    throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleLogarithmBaseInvalid));
+                    throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleLogarithmBaseInvalid);
                 }
 
                 logarithmBase = value;
@@ -714,11 +704,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Axis scale properties
 
         #region Axis Segments and Scale Breaks Properties
-
-
 
         // Field that stores Axis automatic scale breaks style.
         internal AxisScaleBreakStyle axisScaleBreakStyle;
@@ -760,7 +748,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRDescription("DescriptionAttributeAxisScaleSegmentCollection_AxisScaleSegmentCollection"),
         SerializationVisibilityAttribute(SerializationVisibility.Hidden),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-        Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor))
+        Editor("ChartCollectionEditor", typeof(UITypeEditor))
         ]
         internal AxisScaleSegmentCollection ScaleSegments
         {
@@ -770,9 +758,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion // Axis Segments and Scale Breaks Properties
+        #endregion Axis Segments and Scale Breaks Properties
 
-        #region Axis data scaleView properies and methods
+        #region Axis data scaleView properties and methods
 
         /// <summary>
         /// Gets or sets the scale view settings of the axis.
@@ -841,7 +829,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets automatic maximum value (from data point values). 
+        /// Gets automatic maximum value (from data point values).
         /// </summary>
         internal bool AutoMaximum
         {
@@ -849,19 +837,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets automatic minimum value (from data point values). 
+        /// Gets automatic minimum value (from data point values).
         /// </summary>
         internal bool AutoMinimum
         {
             get { return _autoMinimum; }
         }
 
-        #endregion
+        #endregion Axis data scaleView properties and methods
 
-        #region Axis position converters methos
+        #region Axis position converters methods
 
         /// <summary>
-        /// This function converts axis value to relative position (0-100%). 
+        /// This function converts axis value to relative position (0-100%).
         /// If an axis has a logarithmic scale, the value is converted to a linear scale.
         /// </summary>
         /// <param name="axisValue">Value from axis.</param>
@@ -879,7 +867,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This function converts an axis value to relative position (0-100%). 
+        /// This function converts an axis value to relative position (0-100%).
         /// If an axis has a logarithmic scale, the value is converted to a linear scale.
         /// </summary>
         /// <param name="axisValue">Axis value.</param>
@@ -890,7 +878,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This function converts an axis value to a pixel position. 
+        /// This function converts an axis value to a pixel position.
         /// If an axis has a logarithmic scale, the value is converted to a linear scale.
         /// </summary>
         /// <param name="axisValue">Value from axis.</param>
@@ -937,21 +925,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (validateInput &&
                 (position < 0 || position > 100))
             {
-                throw (new ArgumentException(SR.ExceptionAxisScalePositionInvalid, nameof(position)));
+                throw new ArgumentException(SR.ExceptionAxisScalePositionInvalid, nameof(position));
             }
 
             // Check if plot area position was already calculated
             if (PlotAreaPosition == null)
             {
-                throw (new InvalidOperationException(SR.ExceptionAxisScalePositionToValueCallFailed));
+                throw new InvalidOperationException(SR.ExceptionAxisScalePositionToValueCallFailed);
             }
 
             // Convert chart picture position to plotting position
             if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
-                position = position - PlotAreaPosition.X;
+                position -= PlotAreaPosition.X;
             else
                 position = PlotAreaPosition.Bottom - position;
-
 
             // The Chart area size
             double ChartArea;
@@ -959,7 +946,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 ChartArea = PlotAreaPosition.Width;
             else
                 ChartArea = PlotAreaPosition.Height;
-
 
             // The Real range as double
             double viewMax = ViewMaximum;
@@ -1006,12 +992,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return PositionToValue(val);
         }
 
-        #endregion
+        #endregion Axis position converters methods
 
         #region Axis scale methods
 
         /// <summary>
-        /// Sets axis position. Axis position depends 
+        /// Sets axis position. Axis position depends
         /// on crossing and reversed value.
         /// </summary>
         internal void SetAxisPosition()
@@ -1039,8 +1025,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 return;
             }
-            // Conditions when this code changes margin size: Column chart, 
-            // margin is turned off, Interval offset is not used for 
+            // Conditions when this code changes margin size: Column chart,
+            // margin is turned off, Interval offset is not used for
             // gridlines, tick marks and labels.
             Series ser = ChartArea.GetFirstSeries();
             if ((ser.ChartType == SeriesChartType.Column ||
@@ -1056,7 +1042,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 margin != 100.0 && !offsetTempSet &&
                 this._autoMinimum)
             {
-
                 // Find offset correction for Column chart margin.
                 double offset;
                 marginTemp = margin;
@@ -1074,8 +1059,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     pointWidthSize = 0.8;
                 }
 
-                margin = (pointWidthSize / 2) * 100;
-                offset = (margin) / 100;
+                margin = pointWidthSize / 2 * 100;
+                offset = margin / 100;
                 double contraOffset = (100 - margin) / 100;
 
                 if (this._intervalsStore.Count == 0)
@@ -1132,8 +1117,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This function will create auto maximum and minimum values 
-        /// using the interval. This function will make a gap between 
+        /// This function will create auto maximum and minimum values
+        /// using the interval. This function will make a gap between
         /// data points and border of the chart area.
         /// </summary>
         /// <param name="inter">Interval</param>
@@ -1193,18 +1178,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return inter;
         }
 
-
         /// <summary>
         /// Recalculates an intelligent interval from real interval.
         /// </summary>
         /// <param name="diff">Real interval.</param>
-        /// <returns>Inteligent interval.</returns>
+        /// <returns>Intelligent interval.</returns>
         internal double CalcInterval(double diff)
         {
             // If the interval is zero return error
             if (diff == 0.0)
             {
-                throw (new ArgumentOutOfRangeException(nameof(diff), SR.ExceptionAxisScaleIntervalIsZero));
+                throw new ArgumentOutOfRangeException(nameof(diff), SR.ExceptionAxisScaleIntervalIsZero);
             }
 
             // If the real interval is > 1.0
@@ -1213,13 +1197,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             while (temp > 1.0)
             {
                 step++;
-                temp = temp / 10.0;
+                temp /= 10.0;
                 if (step > 1000)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionAxisScaleMinimumMaximumInvalid));
+                    throw new InvalidOperationException(SR.ExceptionAxisScaleMinimumMaximumInvalid);
                 }
             }
-
 
             // If the real interval is < 1.0
             temp = diff;
@@ -1231,14 +1214,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             while (temp < 1.0)
             {
                 step--;
-                temp = temp * 10.0;
+                temp *= 10.0;
                 if (step < -1000)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionAxisScaleMinimumMaximumInvalid));
+                    throw new InvalidOperationException(SR.ExceptionAxisScaleMinimumMaximumInvalid);
                 }
             }
 
-            double power = (this.IsLogarithmic) ? this.logarithmBase : 10.0;
+            double power = this.IsLogarithmic ? this.logarithmBase : 10.0;
             double tempDiff = diff / Math.Pow(power, step);
 
             if (tempDiff < 3)
@@ -1253,7 +1236,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Recalculates a intelligent interval from real interval 
+        /// Recalculates a intelligent interval from real interval
         /// obtained from maximum and minimum values
         /// </summary>
         /// <param name="min">Minimum</param>
@@ -1265,10 +1248,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return CalcInterval((max - min) / 5);
         }
 
-
         /// <summary>
-        /// Recalculates a intelligent interval from real interval 
-        /// obtained from maximum, minimum and date type if 
+        /// Recalculates a intelligent interval from real interval
+        /// obtained from maximum, minimum and date type if
         /// the values is date-time value.
         /// </summary>
         /// <param name="min">Minimum value.</param>
@@ -1343,7 +1325,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         type = DateTimeIntervalType.Seconds;
                         return 10;
                     }
-
                 }// For Range less than 120 seconds interval is 10 sec
                 else if (inter <= 2.0 && valuesType != ChartValueType.Date)
                 {
@@ -1450,13 +1431,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     type = DateTimeIntervalType.Months;
                     return 3;
                 }
-                // For Range less than 48 months interval is 6 months 
+                // For Range less than 48 months interval is 6 months
                 else if (inter <= 60 * 24 * 30.5 * 48)
                 {
                     type = DateTimeIntervalType.Months;
                     return 6;
                 }
-                // For Range more than 48 months interval is year 
+                // For Range more than 48 months interval is year
                 else if (inter >= 60 * 24 * 30.5 * 48)
                 {
                     type = DateTimeIntervalType.Years;
@@ -1467,7 +1448,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Else numbers
             type = DateTimeIntervalType.Number;
             return CalcInterval(min, max);
-
         }
 
         /// <summary>
@@ -1480,7 +1460,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // If the interval is zero return error
             if (years <= 1.0)
             {
-                throw (new ArgumentOutOfRangeException(nameof(years), SR.ExceptionAxisScaleIntervalIsLessThen1Year));
+                throw new ArgumentOutOfRangeException(nameof(years), SR.ExceptionAxisScaleIntervalIsLessThen1Year);
             }
 
             if (years < 5)
@@ -1493,7 +1473,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method returns the number of units 
+        /// This method returns the number of units
         /// between min and max.
         /// </summary>
         /// <param name="min">Minimum.</param>
@@ -1512,10 +1492,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Date-time type or Auto.</returns>
         internal ChartValueType GetDateTimeType()
         {
-            List<string> list = null;
-
             ChartValueType dateType = ChartValueType.Auto;
 
+            List<string> list;
             // Check if Value type is date from first series in the axis
             if (axisType == AxisName.X)
             {
@@ -1619,8 +1598,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Set auto minimum number. The minimum number 
-        /// which was sent to this function will be used to 
+        /// Set auto minimum number. The minimum number
+        /// which was sent to this function will be used to
         /// estimate a rounded minimum.
         /// </summary>
         /// <param name="min"> This value is a recommendation for the minimum value. </param>
@@ -1634,8 +1613,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Set auto maximum number. The maximum number 
-        /// which was sent to this function will be used to 
+        /// Set auto maximum number. The maximum number
+        /// which was sent to this function will be used to
         /// estimate a rounded maximum.
         /// </summary>
         /// <param name="max">This value is a recommendation for the maximum value.</param>
@@ -1649,14 +1628,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Find opposite axis of this axis.  What is opposite 
-        /// axis depend on first series in chart area and primary 
+        /// Find opposite axis of this axis.  What is opposite
+        /// axis depend on first series in chart area and primary
         /// and secondary X and Y axes for the first series.
         /// </summary>
         /// <returns>Opposite axis</returns>
         internal Axis GetOppositeAxis()
         {
-            // Oppoiste axis found
+            // Opposite axis found
             if (oppositeAxis != null)
             {
                 return oppositeAxis;
@@ -1719,15 +1698,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This function converts Values from Axes to 
+        /// This function converts Values from Axes to
         /// linear relative positions.
         /// </summary>
         /// <param name="axisValue">Value from axis.</param>
         /// <returns>Relative position.</returns>
         internal double GetLinearPosition(double axisValue)
         {
-            bool circularArea = (ChartArea == null || !ChartArea.chartAreaIsCurcular) ?
-                false : true;
+            bool circularArea = ChartArea != null && ChartArea.chartAreaIsCurcular;
 
             // Check if some value calculation is optimized
             if (!this.optimizedGetPosition)
@@ -1763,17 +1741,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // The Chart area pixel size
             double position = valueMultiplier * (axisValue - paintViewMin);
 
-
-
             // Check if axis scale segments are enabled
             if (this.scaleSegmentsUsed)
             {
                 AxisScaleSegment scaleSegment = this.ScaleSegments.FindScaleSegmentForAxisValue(axisValue);
                 if (scaleSegment != null)
                 {
-                    double segmentSize = 0.0;
-                    double segmentPosition = 0.0;
-                    scaleSegment.GetScalePositionAndSize(paintChartAreaSize, out segmentPosition, out segmentSize);
+                    scaleSegment.GetScalePositionAndSize(paintChartAreaSize, out double segmentPosition, out double segmentSize);
 
                     // Make sure value do not exceed max possible
                     if (!this.ScaleSegments.AllowOutOfScaleValues)
@@ -1790,13 +1764,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                     double segmentScaleRange = scaleSegment.ScaleMaximum - scaleSegment.ScaleMinimum;
 
-                    position = (segmentSize / segmentScaleRange) * (axisValue - scaleSegment.ScaleMinimum);
+                    position = segmentSize / segmentScaleRange * (axisValue - scaleSegment.ScaleMinimum);
                     position += segmentPosition;
                 }
             }
 
-
-            // Window position 
+            // Window position
             // (Do Not use .Right or .Bottom methods below) - rounding issue!
             if (isReversed)
             {
@@ -1816,23 +1789,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return position;
         }
 
-
-        #endregion
+        #endregion Axis scale methods
 
         #region Axis estimate axis methods
 
         /// <summary>
-        /// This function recalculates minimum maximum and interval. 
-        /// The function uses current values for minimum and maximum to 
-        /// find rounding values. If the value from the data source for the 
-        /// maximum value is 376.5 this function will return 380. This function 
+        /// This function recalculates minimum maximum and interval.
+        /// The function uses current values for minimum and maximum to
+        /// find rounding values. If the value from the data source for the
+        /// maximum value is 376.5 this function will return 380. This function
         /// also set interval type for date
         /// </summary>
         internal void EstimateAxis()
         {
             double axisInterval;
 
-            // Check if veiw size specified without scaleView position
+            // Check if view size specified without scaleView position
             if (!Double.IsNaN(this.ScaleView.Size))
             {
                 // If size set only use axis minimum for scaleView position
@@ -1865,18 +1837,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else // No Zooming mode
             {
-                // Estimate axis shoud be always called for non logarithmic axis
+                // Estimate axis should be always called for non logarithmic axis
                 axisInterval = EstimateAxis(ref this.minimum, ref this.maximum, _autoMaximum, _autoMinimum);
             }
 
             // Set intervals for grids, tick marks and labels
             if (axisInterval <= 0.0)
             {
-                throw (new InvalidOperationException(SR.ExceptionAxisScaleAutoIntervalInvalid));
+                throw new InvalidOperationException(SR.ExceptionAxisScaleAutoIntervalInvalid);
             }
             else
             {
-                // This code checks if all series in the chart area have “integer type” 
+                // This code checks if all series in the chart area have “integer type”
                 // for specified axes, which means int, uint, long and ulong and rounds interval.
 #if SUBAXES
 				if( ChartArea.SeriesIntegerType( this.axisType, ((Axis)this).SubAxisName ) )
@@ -1899,10 +1871,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This function recalculates minimum maximum and interval. 
-        /// The function uses current values for minimum and maximum to 
-        /// find rounding values. If the value from the data source for the 
-        /// maximum value is 376.5 this function will return 380. This function 
+        /// This function recalculates minimum maximum and interval.
+        /// The function uses current values for minimum and maximum to
+        /// find rounding values. If the value from the data source for the
+        /// maximum value is 376.5 this function will return 380. This function
         /// also set interval type for date
         /// </summary>
         /// <param name="minimumValue">Minimum</param>
@@ -1919,14 +1891,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (!this.Common.ChartPicture.SuppressExceptions)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionAxisScaleMinimumValueIsGreaterThenMaximumDataPoint));
+                    throw new InvalidOperationException(SR.ExceptionAxisScaleMinimumValueIsGreaterThenMaximumDataPoint);
                 }
                 else
                 {
                     // Max axis scale should be always bigger
-                    double tempValue = maximumValue;
-                    maximumValue = minimumValue;
-                    minimumValue = tempValue;
+                    (minimumValue, maximumValue) = (maximumValue, minimumValue);
                 }
             }
 
@@ -1954,7 +1924,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Set intervals for grids, tick marks and labels
             if (axisInterval <= 0.0)
             {
-                throw (new InvalidOperationException(SR.ExceptionAxisScaleAutoIntervalInvalid));
+                throw new InvalidOperationException(SR.ExceptionAxisScaleAutoIntervalInvalid);
             }
             else
             {
@@ -1963,12 +1933,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             return axisInterval;
-
         }
 
         /// <summary>
-        /// This function recalculates minimum maximum and interval for 
-        /// logarithmic axis. The function uses current values for minimum and 
+        /// This function recalculates minimum maximum and interval for
+        /// logarithmic axis. The function uses current values for minimum and
         /// maximum to find new rounding values.
         /// </summary>
         /// <param name="minimumValue">Current Minimum value</param>
@@ -1991,7 +1960,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // For log axis margin always turn on.
             margin = 100;
 
-            // Supress zero and negative values with logarithmic axis exceptions
+            // Suppress zero and negative values with logarithmic axis exceptions
             if (this.Common != null && this.Common.Chart != null && this.Common.Chart.chartPicture.SuppressExceptions)
             {
                 if (minimumValue <= 0.0)
@@ -2012,13 +1981,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (minimumValue <= 0.0 || maximumValue <= 0.0 || crossingValue <= 0.0)
             {
                 if (minimumValue <= 0.0)
-                    throw (new ArgumentOutOfRangeException(nameof(minimumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues));
+                    throw new ArgumentOutOfRangeException(nameof(minimumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues);
                 if (maximumValue <= 0.0)
-                    throw (new ArgumentOutOfRangeException(nameof(maximumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues));
+                    throw new ArgumentOutOfRangeException(nameof(maximumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues);
             }
-
-            // Change crossing to linear scale
-            crossingValue = Math.Log(crossingValue, this.logarithmBase);
 
             // Change minimum and maximum to linear scale
             minimumValue = Math.Log(minimumValue, this.logarithmBase);
@@ -2060,8 +2026,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This function recalculates minimum maximum and interval for 
-        /// Date axis. The function uses current values for minimum and 
+        /// This function recalculates minimum maximum and interval for
+        /// Date axis. The function uses current values for minimum and
         /// maximum to find new rounding values.
         /// </summary>
         /// <param name="minimumValue">Current Minimum value</param>
@@ -2085,8 +2051,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Find interval for this date type
             axisInterval = CalcInterval(min, max, true, out _internalIntervalType, valuesType);
 
-
-            // For 3D Charts interval could be changed. After rotation 
+            // For 3D Charts interval could be changed. After rotation
             // projection of axis could be very small.
             if (!double.IsNaN(this.interval3DCorrection) &&
                 ChartArea.Area3DStyle.Enable3D &&
@@ -2117,14 +2082,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         false,
                         false);
 
-                    // Align minimum sacale value on the interval
+                    // Align minimum scale value on the interval
                     minimumValue = ChartHelper.AlignIntervalStart(
                         minimumValue,
                         axisInterval * margin / 100,
                         _internalIntervalType);
                 }
 
-                // Increase maximum if not zero. Make a space between chart type 
+                // Increase maximum if not zero. Make a space between chart type
                 // and the end of the chart area.
                 if (autoMaximum && max > 0 && margin != 0.0)
                 {
@@ -2142,8 +2107,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This function recalculates minimum maximum and interval for 
-        /// number type axis. The function uses current values for minimum and 
+        /// This function recalculates minimum maximum and interval for
+        /// number type axis. The function uses current values for minimum and
         /// maximum to find new rounding values.
         /// </summary>
         /// <param name="minimumValue">Current Minimum value</param>
@@ -2173,20 +2138,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     diff = (max - min) / preferredNumberOfIntervals;
                 }
-
             }
             else
             {
                 diff = (max - min) / preferredNumberOfIntervals;
             }
 
-            // For 3D Charts interval could be changed. After rotation 
+            // For 3D Charts interval could be changed. After rotation
             // projection of axis could be very small.
             if (!double.IsNaN(this.interval3DCorrection) &&
                 ChartArea.Area3DStyle.Enable3D &&
                 !ChartArea.chartAreaIsCurcular)
             {
-                diff = diff / this.interval3DCorrection;
+                diff /= this.interval3DCorrection;
 
                 // Do not change minimum and maximum with 3D correction.
                 if (max - min < diff)
@@ -2202,15 +2166,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-
             if (autoMaximum || autoMinimum)
             {
                 if (diff == 0)
                 {
                     // Can not find interval. Minimum and maximum are same
-
-                    max = min + 1;
-                    diff = 0.2;
                     axisInterval = 0.2;
                 }
                 else
@@ -2223,7 +2183,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 axisInterval = diff;
             }
 
-            // Case when minimum or maximum is set and interval is > maximum. 
+            // Case when minimum or maximum is set and interval is > maximum.
             // Reasons overflow exception.
             if (this.interval != 0 && this.interval > axisInterval && minimumValue + this.interval > maximumValue)
             {
@@ -2247,8 +2207,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 bool maxIsZero = false;
                 if (ChartArea.hundredPercent)
                 {
-                    minIsZero = (minimumValue == 0.0);
-                    maxIsZero = (maximumValue == 0.0);
+                    minIsZero = minimumValue == 0.0;
+                    maxIsZero = maximumValue == 0.0;
                 }
 
                 // Round min/max values
@@ -2279,7 +2239,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return axisInterval;
         }
 
-        #endregion
+        #endregion Axis estimate axis methods
     }
 }
-

@@ -182,16 +182,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         virtual public int YValuesPerPoint { get { return 1; } }
 
-        /// <summary>
-        /// Gets chart type image.
-        /// </summary>
-        /// <param name="registry">Chart types registry object.</param>
-        /// <returns>Chart type image.</returns>
-        virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
-        {
-            return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
-        }
-
         #endregion
 
         #region Painting
@@ -238,14 +228,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Get 3D series depth and Z position
                 if (this.chartArea3DEnabled)
                 {
-                    float seriesDepth;
-                    area.GetSeriesZPositionAndDepth(series, out seriesDepth, out this.seriesZCoordinate);
+                    area.GetSeriesZPositionAndDepth(series, out float seriesDepth, out this.seriesZCoordinate);
                     this.seriesZCoordinate += seriesDepth / 2.0f;
                 }
 
                 // Set active horizontal/vertical axis
-                Axis hAxis = area.GetAxis(AxisName.X, series.XAxisType, (area.Area3DStyle.Enable3D) ? string.Empty : series.XSubAxisName);
-                Axis vAxis = area.GetAxis(AxisName.Y, series.YAxisType, (area.Area3DStyle.Enable3D) ? string.Empty : series.YSubAxisName);
+                Axis hAxis = area.GetAxis(AxisName.X, series.XAxisType, area.Area3DStyle.Enable3D ? string.Empty : series.XSubAxisName);
+                Axis vAxis = area.GetAxis(AxisName.Y, series.YAxisType, area.Area3DStyle.Enable3D ? string.Empty : series.YSubAxisName);
                 double hAxisMin = hAxis.ViewMinimum;
                 double hAxisMax = hAxis.ViewMaximum;
                 double vAxisMin = vAxis.ViewMinimum;
@@ -258,8 +247,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     string attrValue = series[CustomPropertyName.PermittedPixelError];
 
-                    float pixelError;
-                    bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.CurrentCulture, out pixelError);
+                    bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.CurrentCulture, out float pixelError);
 
                     if (parseSucceed)
                     {
@@ -267,13 +255,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
                     else
                     {
-                        throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PermittedPixelError")));
+                        throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PermittedPixelError"));
                     }
 
                     // "PermittedPixelError" attribute value should be in range from zero to 1
                     if (permittedPixelError < 0f || permittedPixelError > 1f)
                     {
-                        throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotInRange0to1("PermittedPixelError")));
+                        throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotInRange0to1("PermittedPixelError"));
                     }
                 }
 
@@ -329,7 +317,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 foreach (DataPoint point in series.Points)
                 {
                     // Get point X and Y values
-                    xValue = (indexedSeries) ? index + 1 : point.XValue;
+                    xValue = indexedSeries ? index + 1 : point.XValue;
                     xValue = hAxis.GetLogValue(xValue);
                     yValue = vAxis.GetLogValue(point.YValues[0]);
                     currentPointIsEmpty = point.IsEmpty;
@@ -367,7 +355,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         (vAxis.GetLinearPosition(yValue) * yPixelConverter);
 
                     // Draw point marker
-                    MarkerStyle currentMarkerStyle = (currentPointIsEmpty) ? emptyMarkerStyle : markerStyle;
+                    MarkerStyle currentMarkerStyle = currentPointIsEmpty ? emptyMarkerStyle : markerStyle;
                     if (currentMarkerStyle != MarkerStyle.None)
                     {
                         this.DrawMarker(
@@ -377,8 +365,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             currentPoint,
                             currentMarkerStyle,
                             markerSize,
-                            (currentPointIsEmpty) ? emptyMarkerBrush : markerBrush,
-                            (currentPointIsEmpty) ? emptyBorderPen : borderPen);
+                            currentPointIsEmpty ? emptyMarkerBrush : markerBrush,
+                            currentPointIsEmpty ? emptyBorderPen : borderPen);
                     }
 
                     // Remember last point coordinates
@@ -433,10 +421,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Draw Marker
             switch (markerStyle)
             {
-                case (MarkerStyle.Star4):
-                case (MarkerStyle.Star5):
-                case (MarkerStyle.Star6):
-                case (MarkerStyle.Star10):
+                case MarkerStyle.Star4:
+                case MarkerStyle.Star5:
+                case MarkerStyle.Star6:
+                case MarkerStyle.Star10:
                     {
                         // Set number of corners
                         int cornerNumber = 4;
@@ -466,7 +454,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         }
                         break;
                     }
-                case (MarkerStyle.Circle):
+                case MarkerStyle.Circle:
                     {
                         graph.FillEllipse(brush, markerBounds);
 
@@ -478,7 +466,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                         break;
                     }
-                case (MarkerStyle.Square):
+                case MarkerStyle.Square:
                     {
                         graph.FillRectangle(brush, markerBounds);
 
@@ -495,7 +483,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                         break;
                     }
-                case (MarkerStyle.Cross):
+                case MarkerStyle.Cross:
                     {
                         // Calculate cross line width and size
                         float crossLineWidth = (float)Math.Ceiling(markerSize / 4F);
@@ -547,7 +535,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         }
                         break;
                     }
-                case (MarkerStyle.Diamond):
+                case MarkerStyle.Diamond:
                     {
                         PointF[] points = new PointF[4];
                         points[0].X = markerBounds.X;
@@ -568,7 +556,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         }
                         break;
                     }
-                case (MarkerStyle.Triangle):
+                case MarkerStyle.Triangle:
                     {
                         PointF[] points = new PointF[3];
                         points[0].X = markerBounds.X;
@@ -589,7 +577,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
                 default:
                     {
-                        throw (new InvalidOperationException(SR.ExceptionFastPointMarkerStyleUnknown));
+                        throw new InvalidOperationException(SR.ExceptionFastPointMarkerStyleUnknown);
                     }
             }
 

@@ -87,7 +87,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			Chart	chart = series.Chart;
 			if(chart == null)
 			{
-                throw (new InvalidOperationException(SR.ExceptionRenkoNullReference));
+                throw new InvalidOperationException(SR.ExceptionRenkoNullReference);
 			}
 
             // Renko chart may not be combined with any other chart types
@@ -96,7 +96,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 if (currentSeries.IsVisible() && currentSeries != series && area == chart.ChartAreas[currentSeries.ChartArea])
                 {
-                    throw (new InvalidOperationException(SR.ExceptionRenkoCanNotCobine));
+                    throw new InvalidOperationException(SR.ExceptionRenkoCanNotCobine);
                 }
             }
 
@@ -163,10 +163,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						// Save flag that axis interval is automatic
 						series["OldAutomaticXAxisInterval"] = "true";
 
-						// Calculate and set axis date-time interval
-						DateTimeIntervalType	intervalType = DateTimeIntervalType.Auto;
-						xAxis.interval = xAxis.CalcInterval(minX, maxX, true, out intervalType, series.XValueType);
-						xAxis.intervalType = intervalType;
+                        // Calculate and set axis date-time interval
+                        xAxis.interval = xAxis.CalcInterval(minX, maxX, true, out DateTimeIntervalType intervalType, series.XValueType);
+                        xAxis.intervalType = intervalType;
 					}
 				}
 			}
@@ -188,11 +187,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 Chart chart = series.Chart;
                 if (chart == null)
                 {
-                    throw (new InvalidOperationException(SR.ExceptionRenkoNullReference));
+                    throw new InvalidOperationException(SR.ExceptionRenkoNullReference);
                 }
 
                 // Get original Renko series
-                Series renkoSeries = chart.Series[series.Name.Substring(20)];
+                Series renkoSeries = chart.Series[series.Name[20..]];
                 Series.MovePositionMarkers(renkoSeries, series);
                 // Copy data back to original Renko series
                 renkoSeries.Points.Clear();
@@ -207,12 +206,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Restore renko series properties
                 renkoSeries.ChartType = SeriesChartType.Renko;
 
-                bool isXValIndexed;
-                bool parseSucceed = bool.TryParse(renkoSeries["OldXValueIndexed"], out isXValIndexed);
+                bool parseSucceed = bool.TryParse(renkoSeries["OldXValueIndexed"], out bool isXValIndexed);
                 renkoSeries.IsXValueIndexed = parseSucceed && isXValIndexed;
 
-                int yValsPerPoint;
-                parseSucceed = int.TryParse(renkoSeries["OldYValuesPerPoint"], NumberStyles.Any, CultureInfo.InvariantCulture, out yValsPerPoint);
+                parseSucceed = int.TryParse(renkoSeries["OldYValuesPerPoint"], NumberStyles.Any, CultureInfo.InvariantCulture, out int yValsPerPoint);
 
                 if (parseSucceed)
                 {
@@ -271,7 +268,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				bool	usePercentage = attrValue.EndsWith("%", StringComparison.Ordinal);
 				if(usePercentage)
 				{
-					attrValue = attrValue.Substring(0, attrValue.Length - 1);
+					attrValue = attrValue[..^1];
 				}
 
 				try
@@ -289,18 +286,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				catch
 				{
-                    throw (new InvalidOperationException(SR.ExceptionRenkoBoxSizeFormatInvalid));
+                    throw new InvalidOperationException(SR.ExceptionRenkoBoxSizeFormatInvalid);
 				}
 			}
 
 			// Calculate box size using the percentage of price range
 			if(percentOfPriceRange > 0.0)
 			{
-				// Set default box size
-				boxSize = 1.0;
+                // Set default box size
 
-				// Calculate percent of the highest and lowest price difference.
-				double highest = double.MinValue;
+                // Calculate percent of the highest and lowest price difference.
+                double highest = double.MinValue;
 				double lowest = double.MaxValue;
 				foreach(DataPoint dp in originalData.Points)
 				{
@@ -373,12 +369,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 				catch
 				{
-                    throw (new InvalidOperationException(SR.ExceptionRenkoUsedYValueFormatInvalid));
+                    throw new InvalidOperationException(SR.ExceptionRenkoUsedYValueFormatInvalid);
 				}
 
 				if(yValueIndex >= series.YValuesPerPoint)
 				{
-                    throw (new InvalidOperationException(SR.ExceptionRenkoUsedYValueOutOfRange));
+                    throw new InvalidOperationException(SR.ExceptionRenkoUsedYValueOutOfRange);
 				}
 			}
 
@@ -421,7 +417,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						}
 						catch
 						{
-                            throw (new InvalidOperationException(SR.ExceptionRenkoUpBrickColorInvalid));
+                            throw new InvalidOperationException(SR.ExceptionRenkoUpBrickColorInvalid);
 						}
 					}
 
@@ -611,16 +607,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// Number of supported Y value(s) per point 
 		/// </summary>
 		virtual public int YValuesPerPoint	{ get { return 1; } }
-
-		/// <summary>
-		/// Gets chart type image.
-		/// </summary>
-		/// <param name="registry">Chart types registry object.</param>
-		/// <returns>Chart type image.</returns>
-        virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
-		{
-			return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
-		}
 		#endregion
 
 		#region Y values related methods

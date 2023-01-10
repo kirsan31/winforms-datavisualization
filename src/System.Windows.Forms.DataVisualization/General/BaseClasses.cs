@@ -7,19 +7,18 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
-
     /// <summary>
-    /// ChartElement is the most basic element of the chart element hierarchy. 
+    /// ChartElement is the most basic element of the chart element hierarchy.
     /// </summary>
     public abstract class ChartElement : IChartElement
     {
         #region Member variables
 
-        private IChartElement  _parent;
+        private IChartElement _parent;
         private CommonElements _common;
         private object _tag;
 
-        #endregion
+        #endregion Member variables
 
         #region Properties
 
@@ -55,7 +54,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Gets a shortcut to Common intance providing access to the various chart related services.
+        /// Gets a shortcut to Common instance providing access to the various chart related services.
         /// </summary>
         /// <value>The Common instance.</value>
         internal CommonElements Common
@@ -89,7 +88,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
@@ -109,23 +108,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _parent = parent;
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Methods
 
         /// <summary>
         /// Invalidates this chart element.
         /// </summary>
-        internal virtual void Invalidate() 
+        internal virtual void Invalidate()
         {
-            if (_parent != null)
-                _parent.Invalidate();
+            _parent?.Invalidate();
         }
 
-        #endregion
+        #endregion Methods
 
         #region IChartElement Members
-
 
         IChartElement IChartElement.Parent
         {
@@ -140,10 +137,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         CommonElements IChartElement.Common
         {
-            get{ return this.Common; }
+            get { return this.Common; }
         }
 
-        #endregion
+        #endregion IChartElement Members
 
         #region Methods
 
@@ -165,7 +162,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>
         /// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public override string ToString()
         {
             return this.ToStringInternal();
@@ -193,7 +189,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
         /// </returns>
         /// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
-        [SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public override bool Equals(object obj)
         {
             return this.EqualsInternal(obj);
@@ -205,16 +200,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>
         /// A hash code for the current <see cref="T:System.Object"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
 
-        #endregion
-
+        #endregion Methods
     }
-    
+
     /// <summary>
     /// ChartNamedElement is a base class for most chart elements. Series, ChartAreas, Legends and other chart elements have a Name and reuse the unique name generation and validation logic provided by the ChartNamedElementCollection.
     /// </summary>
@@ -224,7 +217,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         private string _name = String.Empty;
 
-        #endregion
+        #endregion Member variables
 
         #region Properties
 
@@ -233,18 +226,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <value>The name.</value>
         [DefaultValue("")]
-        public virtual string Name 
+        public virtual string Name
         {
             get { return _name; }
-            set 
+            set
             {
                 if (_name != value)
                 {
                     if (Parent is INameController nameController)
-                    {                        
+                    {
                         if (!nameController.IsUniqueName(value))
                             throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(value, nameController.GetType().Name));
-                        
+
                         // Fire the name change events in case when the old name is not empty
                         NameReferenceChangedEventArgs args = new NameReferenceChangedEventArgs(this, _name, value);
                         nameController.OnNameReferenceChanging(args);
@@ -261,7 +254,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
@@ -270,7 +263,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         protected ChartNamedElement()
             : base()
-        { 
+        {
         }
 
         /// <summary>
@@ -293,7 +286,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _name = name;
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Methods
 
@@ -306,56 +299,60 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal override string ToStringInternal()
         {
             string typeName = GetType().Name;
-            return (string.IsNullOrEmpty(_name)) ? typeName : typeName + '-' + _name;
+            return string.IsNullOrEmpty(_name) ? typeName : typeName + '-' + _name;
         }
-        
-        #endregion
 
+        #endregion Methods
     }
 
-
     /// <summary>
-    /// NameReferenceChanged events help chart maintain referencial integrity.
+    /// NameReferenceChanged events help chart maintain referential integrity.
     /// </summary>
     internal class NameReferenceChangedEventArgs : EventArgs
     {
-        #region MemberValiables
+        #region Member variables
 
-        ChartNamedElement _oldElement;
-        string _oldName;
-        string _newName;
+        private readonly ChartNamedElement _oldElement;
+        private readonly string _oldName;
+        private readonly string _newName;
 
-        #endregion
+        #endregion Member variables
 
         #region Properties
+
         public ChartNamedElement OldElement
         {
             get { return _oldElement; }
         }
+
         public string OldName
         {
             get { return _oldName; }
         }
+
         public string NewName
         {
             get { return _newName; }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Constructor
+
         public NameReferenceChangedEventArgs(ChartNamedElement oldElement, ChartNamedElement newElement)
         {
             _oldElement = oldElement;
-            _oldName = oldElement!=null ? oldElement.Name : string.Empty;
-            _newName = newElement!=null ? newElement.Name : string.Empty;
+            _oldName = oldElement?.Name ?? string.Empty;
+            _newName = newElement?.Name ?? string.Empty;
         }
+
         public NameReferenceChangedEventArgs(ChartNamedElement oldElement, string oldName, string newName)
         {
             _oldElement = oldElement;
             _oldName = oldName;
             _newName = newName;
         }
-        #endregion
-    }
 
+        #endregion Constructor
+    }
 }

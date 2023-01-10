@@ -98,7 +98,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				if(context.Instance is DataPointCustomProperties)
 				{
                     ((DataPointCustomProperties)context.Instance).CustomProperties = stringValue;
-					CustomProperties newAttributes = new CustomProperties(((DataPointCustomProperties)context.Instance));
+					CustomProperties newAttributes = new CustomProperties((DataPointCustomProperties)context.Instance);
 					return newAttributes;
 				}
 
@@ -116,7 +116,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				else if (context.Instance is Array)
 				{
 					DataPointCustomProperties attributes = null;
-					foreach (object obj in ((Array)context.Instance))
+					foreach (object obj in (Array)context.Instance)
 					{
 						if (obj is DataPointCustomProperties)
 						{
@@ -366,8 +366,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>Array of properties.</returns>
 		private Attribute[] GetPropertyAttributes(CustomPropertyInfo attrInfo)
 		{
-			// Create default value attribute
-			DefaultValueAttribute defaultValueAttribute = null;
+            // Create default value attribute
+            DefaultValueAttribute defaultValueAttribute;
             if (attrInfo.DefaultValue.GetType() == attrInfo.ValueType)
             {
                 defaultValueAttribute = new DefaultValueAttribute(attrInfo.DefaultValue);
@@ -378,7 +378,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else
             {
-                throw (new InvalidOperationException(SR.ExceptionCustomAttributeDefaultValueTypeInvalid));
+                throw new InvalidOperationException(SR.ExceptionCustomAttributeDefaultValueTypeInvalid);
             }
 			// Add all properties into the list
 			ArrayList propList = new ArrayList();
@@ -511,27 +511,27 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 				else
 				{
-					object val = null;
 
-					// Check if custom attribute with this name is set
-					string stringValue = customAttr.DataPointCustomProperties[this._name];
-					if(this._customAttributeInfo != null)
-					{
-						if(stringValue == null || stringValue.Length == 0)
-						{
-							val = GetValueFromString(this._customAttributeInfo.DefaultValue);
-						}
-						else
-						{
-							val = GetValueFromString(stringValue);
-						}
-					}
-					else
-					{
-						val = stringValue;
-					}
-					
-					return val;
+                    // Check if custom attribute with this name is set
+                    string stringValue = customAttr.DataPointCustomProperties[this._name];
+                    object val;
+                    if (this._customAttributeInfo != null)
+                    {
+                        if (stringValue == null || stringValue.Length == 0)
+                        {
+                            val = GetValueFromString(this._customAttributeInfo.DefaultValue);
+                        }
+                        else
+                        {
+                            val = GetValueFromString(stringValue);
+                        }
+                    }
+                    else
+                    {
+                        val = stringValue;
+                    }
+
+                    return val;
 				}
 			}
 
@@ -599,7 +599,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			{
 				// Get default value string
 				string defaultValue = GetStringFromValue(this._customAttributeInfo.DefaultValue);
-				return (string.Equals(val, defaultValue, StringComparison.Ordinal));
+				return string.Equals(val, defaultValue, StringComparison.Ordinal);
 			}
 
 			/// <summary>
@@ -651,7 +651,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						}
 						else
 						{
-                            throw (new InvalidOperationException(SR.ExceptionCustomAttributeTypeUnsupported( this._customAttributeInfo.ValueType.ToString() )));
+                            throw new InvalidOperationException(SR.ExceptionCustomAttributeTypeUnsupported( this._customAttributeInfo.ValueType.ToString() ));
 						}
 
 					}
@@ -713,7 +713,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					if(value.GetType() != this._customAttributeInfo.MaxValue.GetType())
 					{
-						throw(new InvalidOperationException(SR.ExceptionCustomAttributeTypeOrMaximumPossibleValueInvalid( attrName ) ) );
+						throw new InvalidOperationException(SR.ExceptionCustomAttributeTypeOrMaximumPossibleValueInvalid( attrName ) ) ;
 					}
 
 					if(value is float)
@@ -739,7 +739,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 					else
 					{
-                        throw (new InvalidOperationException(SR.ExceptionCustomAttributeTypeOrMinimumPossibleValueUnsupported(attrName)));
+                        throw new InvalidOperationException(SR.ExceptionCustomAttributeTypeOrMinimumPossibleValueUnsupported(attrName));
 					}
 
 				}
@@ -749,7 +749,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					if(value.GetType() != this._customAttributeInfo.MinValue.GetType())
 					{
-                        throw (new InvalidOperationException(SR.ExceptionCustomAttributeTypeOrMinimumPossibleValueInvalid( attrName ) ) );
+                        throw new InvalidOperationException(SR.ExceptionCustomAttributeTypeOrMinimumPossibleValueInvalid( attrName ) ) ;
 					}
 					
 					if(value is float)
@@ -775,7 +775,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 					else
 					{
-						throw(new InvalidOperationException(SR.ExceptionCustomAttributeTypeOrMinimumPossibleValueUnsupported(attrName)));
+						throw new InvalidOperationException(SR.ExceptionCustomAttributeTypeOrMinimumPossibleValueUnsupported(attrName));
 					}
 				}
 
@@ -784,15 +784,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					if(this._customAttributeInfo.MaxValue != null && this._customAttributeInfo.MinValue != null)
 					{
-						throw(new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange(attrName, this._customAttributeInfo.MinValue.ToString(),this._customAttributeInfo.MaxValue.ToString() )));
+						throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange(attrName, this._customAttributeInfo.MinValue.ToString(),this._customAttributeInfo.MaxValue.ToString() ));
 					}
 					else if(this._customAttributeInfo.MinValue != null)
 					{
-						throw(new InvalidOperationException(SR.ExceptionCustomAttributeMustBeBiggerThenValue(attrName, this._customAttributeInfo.MinValue.ToString())));
+						throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeBiggerThenValue(attrName, this._customAttributeInfo.MinValue.ToString()));
 					}
 					else if(this._customAttributeInfo.MaxValue != null)
 					{
-						throw(new InvalidOperationException(SR.ExceptionCustomAttributeMustBeMoreThenValue(attrName, this._customAttributeInfo.MaxValue.ToString())));
+						throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeMoreThenValue(attrName, this._customAttributeInfo.MaxValue.ToString()));
 					}
 				}
 			}

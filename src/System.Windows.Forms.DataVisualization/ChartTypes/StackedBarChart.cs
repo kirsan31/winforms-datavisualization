@@ -110,10 +110,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <returns>Y value of the point.</returns>
         override public double GetYValue(CommonElements common, ChartArea area, Series series, DataPoint point, int pointIndex, int yValueIndex)
         {
-            // Array of Y totals for individual series index in the current stacked group
-            double[] currentGroupTotalPerPoint = null;
-
-
             string currentStackedGroupName = HundredPercentStackedColumnChart.GetSeriesStackGroupName(series);
             if (this._stackedGroupsTotalPerPoint == null)
             {
@@ -148,8 +144,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 }
             }
 
+            // Array of Y totals for individual series index in the current stacked group
             // Find array of total Y values based on the current stacked group name
-            currentGroupTotalPerPoint = (double[])this._stackedGroupsTotalPerPoint[currentStackedGroupName];
+            double[] currentGroupTotalPerPoint = (double[])_stackedGroupsTotalPerPoint[currentStackedGroupName];
 
 
             if (!area.Area3DStyle.Enable3D)
@@ -167,7 +164,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     return 0.0;
                 }
-                return (point.YValues[0] / currentGroupTotalPerPoint[pointIndex]) * 100.0;
+                return point.YValues[0] / currentGroupTotalPerPoint[pointIndex] * 100.0;
             }
 
             // Get point Height if pointIndex == -1
@@ -222,7 +219,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         }
                         else
                         {
-                            yValue = (ser.Points[pointIndex].YValues[0] / currentGroupTotalPerPoint[pointIndex]) * 100.0;
+                            yValue = ser.Points[pointIndex].YValues[0] / currentGroupTotalPerPoint[pointIndex] * 100.0;
                         }
                     }
                     else
@@ -233,7 +230,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         }
                         else
                         {
-                            yValue = (ser.Points[pointIndex].YValues[0] / currentGroupTotalPerPoint[pointIndex]) * 100.0;
+                            yValue = ser.Points[pointIndex].YValues[0] / currentGroupTotalPerPoint[pointIndex] * 100.0;
                         }
                         if (yValue >= 0.0 && !double.IsNaN(prevPosY))
                         {
@@ -319,16 +316,6 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         /// Chart type name
         /// </summary>
         virtual public string Name { get { return ChartTypeNames.StackedBar; } }
-
-        /// <summary>
-        /// Gets chart type image.
-        /// </summary>
-        /// <param name="registry">Chart types registry object.</param>
-        /// <returns>Chart type image.</returns>
-        virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
-        {
-            return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
-        }
 
         /// <summary>
         /// True if chart type is stacked
@@ -665,9 +652,8 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                                  ser.XValueType == ChartValueType.DateTimeOffset))
                             {
                                 // Check if interval is the same
-                                bool sameInterval = false;
                                 List<string> typeSeries = area.GetSeriesFromChartType(Name);
-                                area.GetPointsInterval(typeSeries, vAxis.IsLogarithmic, vAxis.logarithmBase, true, out sameInterval);
+                                area.GetPointsInterval(typeSeries, vAxis.IsLogarithmic, vAxis.logarithmBase, true, out bool sameInterval);
 
                                 // Special case when there is only one data point and date scale is used.
                                 if (!double.IsNaN(vAxis.majorGrid.GetInterval()) && vAxis.majorGrid.GetIntervalType() != DateTimeIntervalType.NotSet)
@@ -690,7 +676,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
 
 
                         // Adjust width by number of stacked groups
-                        width = width / stackGroupNames.Count;
+                        width /= stackGroupNames.Count;
 
 
                         // Call Back Paint event
@@ -705,11 +691,11 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         {
                             if (yValue >= 0)
                             {
-                                yValue = yValue + PreviousPosY;
+                                yValue += PreviousPosY;
                             }
                             else
                             {
-                                yValue = yValue + PreviousNegY;
+                                yValue += PreviousNegY;
                             }
                         }
 
@@ -779,7 +765,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         {
                             // Set the bar rectangle
                             rectSize.Y = (float)(xPosition - width / 2);
-                            rectSize.Height = (float)(width);
+                            rectSize.Height = (float)width;
 
                             // The left side of rectangle has always 
                             // smaller value than a right value
@@ -872,7 +858,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                                         ser.ShadowColor,
                                         shadowOffset,
                                         PenAlignment.Inset,
-                                        (shadow) ? BarDrawingStyle.Default : ChartGraphics.GetBarDrawingStyle(point),
+                                        shadow ? BarDrawingStyle.Default : ChartGraphics.GetBarDrawingStyle(point),
                                         false);
 
                                     // End Svg Selection mode
@@ -965,7 +951,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     int index = stackGroupName.IndexOf("__", StringComparison.Ordinal);
                     if (index >= 0)
                     {
-                        stackGroupName = stackGroupName.Substring(index + 2);
+                        stackGroupName = stackGroupName[(index + 2)..];
                     }
                     if (stackGroupName.Length > 0)
                     {
@@ -1002,198 +988,194 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
             RectangleF rectangle)
         {
             // Label text format
-            using (StringFormat format = new StringFormat())
+            using StringFormat format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            format.LineAlignment = StringAlignment.Center;
+
+            // Disable the clip region
+            Region oldClipRegion = graph.Clip;
+            graph.Clip = new Region();
+
+            if (point.IsValueShownAsLabel || point.Label.Length > 0)
             {
-                format.Alignment = StringAlignment.Center;
-                format.LineAlignment = StringAlignment.Center;
-
-                // Disable the clip region
-                Region oldClipRegion = graph.Clip;
-                graph.Clip = new Region();
-
-                if (point.IsValueShownAsLabel || point.Label.Length > 0)
+                // Round Y values for 100% stacked bar
+                double pointLabelValue = GetYValue(common, area, series, point, pointIndex, 0);
+                if (this.hundredPercentStacked && point.LabelFormat.Length == 0)
                 {
-                    // Round Y values for 100% stacked bar
-                    double pointLabelValue = GetYValue(common, area, series, point, pointIndex, 0);
-                    if (this.hundredPercentStacked && point.LabelFormat.Length == 0)
-                    {
-                        pointLabelValue = Math.Round(pointLabelValue, 2);
-                    }
-
-                    // Get label text
-                    string text;
-                    if (point.Label.Length == 0)
-                    {
-                        text = ValueConverter.FormatValue(
-                            series.Chart,
-                            point,
-                            point.Tag,
-                            pointLabelValue,
-                            point.LabelFormat,
-                            series.YValueType,
-                            ChartElementType.DataPoint);
-                    }
-                    else
-                    {
-                        text = point.ReplaceKeywords(point.Label);
-                    }
-
-                    // Calculate position
-                    PointF labelPosition = PointF.Empty;
-                    labelPosition.X = rectangle.X + rectangle.Width / 2f;
-                    labelPosition.Y = rectangle.Y + rectangle.Height / 2f;
-
-                    // Get text angle
-                    int textAngle = point.LabelAngle;
-
-                    // Check if text contains white space only
-                    if (text.Trim().Length != 0)
-                    {
-                        //************************************************************
-                        // Measure string
-                        //************************************************************
-                        using var sf = StringFormat.GenericTypographic;
-                        SizeF sizeFont = graph.GetRelativeSize(
-                            graph.MeasureString(
-                            text,
-                            point.Font,
-                            new SizeF(1000f, 1000f),
-                            sf));
-
-                        //************************************************************
-                        // Check labels style custom properties 
-                        //************************************************************
-                        BarValueLabelDrawingStyle drawingStyle = BarValueLabelDrawingStyle.Center;
-                        string valueLabelAttrib = "";
-                        if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
-                        {
-                            valueLabelAttrib = point[CustomPropertyName.BarLabelStyle];
-                        }
-                        else if (series.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
-                        {
-                            valueLabelAttrib = series[CustomPropertyName.BarLabelStyle];
-                        }
-
-                        if (valueLabelAttrib != null && valueLabelAttrib.Length > 0)
-                        {
-                            if (string.Equals(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase))
-                                drawingStyle = BarValueLabelDrawingStyle.Left;
-                            else if (string.Equals(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase))
-                                drawingStyle = BarValueLabelDrawingStyle.Right;
-                            else if (string.Equals(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase))
-                                drawingStyle = BarValueLabelDrawingStyle.Center;
-                            else if (string.Equals(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase))
-                                drawingStyle = BarValueLabelDrawingStyle.Outside;
-                        }
-
-                        //************************************************************
-                        // Adjust label position based on the label drawing style
-                        //************************************************************
-                        if (drawingStyle == BarValueLabelDrawingStyle.Left)
-                        {
-                            labelPosition.X = rectangle.X + sizeFont.Width / 2f;
-                        }
-                        else if (drawingStyle == BarValueLabelDrawingStyle.Right)
-                        {
-                            labelPosition.X = rectangle.Right - sizeFont.Width / 2f;
-                        }
-                        else if (drawingStyle == BarValueLabelDrawingStyle.Outside)
-                        {
-                            labelPosition.X = rectangle.Right + sizeFont.Width / 2f;
-                        }
-
-
-                        // Check if Smart Labels are enabled
-                        if (series.SmartLabelStyle.Enabled)
-                        {
-                            // Force some SmartLabelStyle settings for column chart
-                            bool oldMarkerOverlapping = series.SmartLabelStyle.IsMarkerOverlappingAllowed;
-                            LabelAlignmentStyles oldMovingDirection = series.SmartLabelStyle.MovingDirection;
-                            series.SmartLabelStyle.IsMarkerOverlappingAllowed = true;
-                            if (series.SmartLabelStyle.MovingDirection == (LabelAlignmentStyles.Top | LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Right | LabelAlignmentStyles.Left | LabelAlignmentStyles.TopLeft | LabelAlignmentStyles.TopRight | LabelAlignmentStyles.BottomLeft | LabelAlignmentStyles.BottomRight))
-                            {
-                                series.SmartLabelStyle.MovingDirection = LabelAlignmentStyles.Left | LabelAlignmentStyles.Right;
-                            }
-
-                            // Adjust label position using SmartLabelStyle algorithm
-                            labelPosition = area.smartLabels.AdjustSmartLabelPosition(
-                                common,
-                                graph,
-                                area,
-                                series.SmartLabelStyle,
-                                labelPosition,
-                                sizeFont,
-                                format,
-                                labelPosition,
-                                new SizeF(0f, 0f),
-                                LabelAlignmentStyles.Center);
-
-                            // Restore forced values
-                            series.SmartLabelStyle.IsMarkerOverlappingAllowed = oldMarkerOverlapping;
-                            series.SmartLabelStyle.MovingDirection = oldMovingDirection;
-
-                            // Smart labels always use 0 degrees text angle
-                            textAngle = 0;
-                        }
-
-
-
-                        // Draw label
-                        if (!labelPosition.IsEmpty)
-                        {
-                            // Get label background position
-                            RectangleF labelBackPosition = RectangleF.Empty;
-                            SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-                            sizeLabel.Height += sizeFont.Height / 8;
-                            sizeLabel.Width += sizeLabel.Width / text.Length;
-                            labelBackPosition = new RectangleF(
-                                labelPosition.X - sizeLabel.Width / 2,
-                                labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
-                                sizeLabel.Width,
-                                sizeLabel.Height);
-
-
-
-                            // Adjust label background position that can be changed by the 
-                            // Smart Labels algorithm
-                            // NOTE: Fixes issue #4688
-                            labelBackPosition = area.smartLabels.GetLabelPosition(
-                                graph,
-                                labelPosition,
-                                sizeLabel,
-                                format,
-                                true);
-
-
-
-                            // Draw label text
-                            using (Brush brush = new SolidBrush(point.LabelForeColor))
-                            {
-                                graph.DrawPointLabelStringRel(
-                                    common,
-                                    text,
-                                    point.Font,
-                                    brush,
-                                    labelPosition,
-                                    format,
-                                    textAngle,
-                                    labelBackPosition,
-                                    point.LabelBackColor,
-                                    point.LabelBorderColor,
-                                    point.LabelBorderWidth,
-                                    point.LabelBorderDashStyle,
-                                    series,
-                                    point,
-                                    pointIndex);
-                            }
-                        }
-
-                    }
+                    pointLabelValue = Math.Round(pointLabelValue, 2);
                 }
 
-                // Restore old clip region
-                graph.Clip = oldClipRegion;
+                // Get label text
+                string text;
+                if (point.Label.Length == 0)
+                {
+                    text = ValueConverter.FormatValue(
+                        series.Chart,
+                        point,
+                        point.Tag,
+                        pointLabelValue,
+                        point.LabelFormat,
+                        series.YValueType,
+                        ChartElementType.DataPoint);
+                }
+                else
+                {
+                    text = point.ReplaceKeywords(point.Label);
+                }
+
+                // Calculate position
+                PointF labelPosition = PointF.Empty;
+                labelPosition.X = rectangle.X + rectangle.Width / 2f;
+                labelPosition.Y = rectangle.Y + rectangle.Height / 2f;
+
+                // Get text angle
+                int textAngle = point.LabelAngle;
+
+                // Check if text contains white space only
+                if (text.Trim().Length != 0)
+                {
+                    //************************************************************
+                    // Measure string
+                    //************************************************************
+                    using var sf = StringFormat.GenericTypographic;
+                    SizeF sizeFont = graph.GetRelativeSize(
+                        graph.MeasureString(
+                        text,
+                        point.Font,
+                        new SizeF(1000f, 1000f),
+                        sf));
+
+                    //************************************************************
+                    // Check labels style custom properties 
+                    //************************************************************
+                    BarValueLabelDrawingStyle drawingStyle = BarValueLabelDrawingStyle.Center;
+                    string valueLabelAttrib = "";
+                    if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
+                    {
+                        valueLabelAttrib = point[CustomPropertyName.BarLabelStyle];
+                    }
+                    else if (series.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
+                    {
+                        valueLabelAttrib = series[CustomPropertyName.BarLabelStyle];
+                    }
+
+                    if (valueLabelAttrib != null && valueLabelAttrib.Length > 0)
+                    {
+                        if (string.Equals(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase))
+                            drawingStyle = BarValueLabelDrawingStyle.Left;
+                        else if (string.Equals(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase))
+                            drawingStyle = BarValueLabelDrawingStyle.Right;
+                        else if (string.Equals(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase))
+                            drawingStyle = BarValueLabelDrawingStyle.Center;
+                        else if (string.Equals(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase))
+                            drawingStyle = BarValueLabelDrawingStyle.Outside;
+                    }
+
+                    //************************************************************
+                    // Adjust label position based on the label drawing style
+                    //************************************************************
+                    if (drawingStyle == BarValueLabelDrawingStyle.Left)
+                    {
+                        labelPosition.X = rectangle.X + sizeFont.Width / 2f;
+                    }
+                    else if (drawingStyle == BarValueLabelDrawingStyle.Right)
+                    {
+                        labelPosition.X = rectangle.Right - sizeFont.Width / 2f;
+                    }
+                    else if (drawingStyle == BarValueLabelDrawingStyle.Outside)
+                    {
+                        labelPosition.X = rectangle.Right + sizeFont.Width / 2f;
+                    }
+
+
+                    // Check if Smart Labels are enabled
+                    if (series.SmartLabelStyle.Enabled)
+                    {
+                        // Force some SmartLabelStyle settings for column chart
+                        bool oldMarkerOverlapping = series.SmartLabelStyle.IsMarkerOverlappingAllowed;
+                        LabelAlignmentStyles oldMovingDirection = series.SmartLabelStyle.MovingDirection;
+                        series.SmartLabelStyle.IsMarkerOverlappingAllowed = true;
+                        if (series.SmartLabelStyle.MovingDirection == (LabelAlignmentStyles.Top | LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Right | LabelAlignmentStyles.Left | LabelAlignmentStyles.TopLeft | LabelAlignmentStyles.TopRight | LabelAlignmentStyles.BottomLeft | LabelAlignmentStyles.BottomRight))
+                        {
+                            series.SmartLabelStyle.MovingDirection = LabelAlignmentStyles.Left | LabelAlignmentStyles.Right;
+                        }
+
+                        // Adjust label position using SmartLabelStyle algorithm
+                        labelPosition = area.smartLabels.AdjustSmartLabelPosition(
+                            common,
+                            graph,
+                            area,
+                            series.SmartLabelStyle,
+                            labelPosition,
+                            sizeFont,
+                            format,
+                            labelPosition,
+                            new SizeF(0f, 0f),
+                            LabelAlignmentStyles.Center);
+
+                        // Restore forced values
+                        series.SmartLabelStyle.IsMarkerOverlappingAllowed = oldMarkerOverlapping;
+                        series.SmartLabelStyle.MovingDirection = oldMovingDirection;
+
+                        // Smart labels always use 0 degrees text angle
+                        textAngle = 0;
+                    }
+
+
+
+                    // Draw label
+                    if (!labelPosition.IsEmpty)
+                    {
+                        // Get label background position
+                        RectangleF labelBackPosition = RectangleF.Empty;
+                        SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
+                        sizeLabel.Height += sizeFont.Height / 8;
+                        sizeLabel.Width += sizeLabel.Width / text.Length;
+                        labelBackPosition = new RectangleF(
+                            labelPosition.X - sizeLabel.Width / 2,
+                            labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
+                            sizeLabel.Width,
+                            sizeLabel.Height);
+
+
+
+                        // Adjust label background position that can be changed by the 
+                        // Smart Labels algorithm
+                        // NOTE: Fixes issue #4688
+                        labelBackPosition = area.smartLabels.GetLabelPosition(
+                            graph,
+                            labelPosition,
+                            sizeLabel,
+                            format,
+                            true);
+
+
+
+                        // Draw label text
+                        using Brush brush = new SolidBrush(point.LabelForeColor);
+                        graph.DrawPointLabelStringRel(
+                            common,
+                            text,
+                            point.Font,
+                            brush,
+                            labelPosition,
+                            format,
+                            textAngle,
+                            labelBackPosition,
+                            point.LabelBackColor,
+                            point.LabelBorderColor,
+                            point.LabelBorderWidth,
+                            point.LabelBorderDashStyle,
+                            series,
+                            point,
+                            pointIndex);
+                    }
+
+                }
             }
+
+            // Restore old clip region
+            graph.Clip = oldClipRegion;
         }
 
         #endregion
@@ -1326,12 +1308,10 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
             Series seriesToDraw)
         {
 
+
             // Get list of series to draw
-            List<string> typeSeries = null;
-
-
             // Get all series names that belong the same cluster
-            typeSeries = area.GetClusterSeriesNames(seriesToDraw.Name);
+            List<string> typeSeries = area.GetClusterSeriesNames(seriesToDraw.Name);
 
 
             //************************************************************
@@ -1518,7 +1498,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     double zero = hAxis.GetLinearPosition(barZeroValue);
 
                     // Set x position
-                    double xValue = (pointEx.indexedSeries) ? pointEx.index : point.XValue;
+                    double xValue = pointEx.indexedSeries ? pointEx.index : point.XValue;
                     xValue = vAxis.GetLogValue(xValue);
 
 
@@ -1528,7 +1508,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     {
                         // Set the bar rectangle
                         rectSize.Y = (float)(pointEx.xPosition - pointEx.width / 2);
-                        rectSize.Height = (float)(pointEx.width);
+                        rectSize.Height = (float)pointEx.width;
 
                         // The left side of rectangle has always 
                         // smaller value than a right value
@@ -1560,8 +1540,6 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     {
                         continue;
                     }
-
-                    GraphicsPath rectPath = null;
 
                     // Check if column is completly out of the data scaleView
                     if (xValue < vAxis.ViewMinimum ||
@@ -1609,7 +1587,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     graph.StartHotRegion(point);
 
                     // Draw the Bar rectangle
-                    rectPath = graph.Fill3DRectangle(
+                    GraphicsPath rectPath = graph.Fill3DRectangle(
                         rectSize,
                         pointEx.zPosition,
                         pointEx.depth,
@@ -1681,7 +1659,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     double height = pointEx.yPosition; ;
 
                     // Set x position
-                    double xValue = (pointEx.indexedSeries) ? pointEx.index : point.XValue;
+                    double xValue = pointEx.indexedSeries ? pointEx.index : point.XValue;
 
                     // Set Start position for a bar
                     double barZeroValue = yValue - GetYValue(common, area, ser, pointEx.dataPoint, pointEx.index - 1, -1);
@@ -1693,7 +1671,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     {
                         // Set the bar rectangle
                         rectSize.Y = (float)(pointEx.xPosition - pointEx.width / 2);
-                        rectSize.Height = (float)(pointEx.width);
+                        rectSize.Height = (float)pointEx.width;
 
                         // The left side of rectangle has always 
                         // smaller value than a right value
@@ -1776,309 +1754,305 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                 RectangleF rectLabel = RectangleF.Empty;
 
                 // Label text format
-                using (StringFormat format = new StringFormat())
+                using StringFormat format = new StringFormat();
+
+                //************************************************************
+                // Get label text 
+                //************************************************************
+                string text;
+                if (point.Label.Length == 0)
                 {
-
-                    //************************************************************
-                    // Get label text 
-                    //************************************************************
-                    string text;
-                    if (point.Label.Length == 0)
+                    // Round Y values for 100% stacked bar
+                    double pointLabelValue = GetYValue(common, area, ser, point, pointIndex, -2);
+                    if (this.hundredPercentStacked && point.LabelFormat.Length == 0)
                     {
-                        // Round Y values for 100% stacked bar
-                        double pointLabelValue = GetYValue(common, area, ser, point, pointIndex, -2);
-                        if (this.hundredPercentStacked && point.LabelFormat.Length == 0)
-                        {
-                            pointLabelValue = Math.Round(pointLabelValue, 2);
-                        }
-
-                        text = ValueConverter.FormatValue(
-                            ser.Chart,
-                            point,
-                            point.Tag,
-                            pointLabelValue,
-                            point.LabelFormat,
-                            ser.YValueType,
-                            ChartElementType.DataPoint);
-                    }
-                    else
-                    {
-                        text = point.ReplaceKeywords(point.Label);
+                        pointLabelValue = Math.Round(pointLabelValue, 2);
                     }
 
+                    text = ValueConverter.FormatValue(
+                        ser.Chart,
+                        point,
+                        point.Tag,
+                        pointLabelValue,
+                        point.LabelFormat,
+                        ser.YValueType,
+                        ChartElementType.DataPoint);
+                }
+                else
+                {
+                    text = point.ReplaceKeywords(point.Label);
+                }
 
-                    //************************************************************
-                    // Check labels style custom properties 
-                    //************************************************************
-                    BarValueLabelDrawingStyle drawingStyle = BarValueLabelDrawingStyle.Center;
-                    string valueLabelAttrib = "";
-                    if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
-                    {
-                        valueLabelAttrib = point[CustomPropertyName.BarLabelStyle];
-                    }
-                    else if (ser.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
-                    {
-                        valueLabelAttrib = ser[CustomPropertyName.BarLabelStyle];
-                    }
 
-                    if (valueLabelAttrib != null && valueLabelAttrib.Length > 0)
-                    {
-                        if (string.Equals(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase))
-                            drawingStyle = BarValueLabelDrawingStyle.Left;
-                        else if (string.Equals(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase))
-                            drawingStyle = BarValueLabelDrawingStyle.Right;
-                        else if (string.Equals(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase))
-                            drawingStyle = BarValueLabelDrawingStyle.Center;
-                        else if (string.Equals(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase))
-                            drawingStyle = BarValueLabelDrawingStyle.Outside;
-                    }
+                //************************************************************
+                // Check labels style custom properties 
+                //************************************************************
+                BarValueLabelDrawingStyle drawingStyle = BarValueLabelDrawingStyle.Center;
+                string valueLabelAttrib = "";
+                if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
+                {
+                    valueLabelAttrib = point[CustomPropertyName.BarLabelStyle];
+                }
+                else if (ser.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
+                {
+                    valueLabelAttrib = ser[CustomPropertyName.BarLabelStyle];
+                }
 
-                    //************************************************************
-                    // Make sure label fits. Otherwise change it style
-                    //************************************************************
-                    bool labelFit = false;
-                    while (!labelFit)
-                    {
-                        // Label text format
-                        format.Alignment = StringAlignment.Near;
-                        format.LineAlignment = StringAlignment.Center;
+                if (valueLabelAttrib != null && valueLabelAttrib.Length > 0)
+                {
+                    if (string.Equals(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase))
+                        drawingStyle = BarValueLabelDrawingStyle.Left;
+                    else if (string.Equals(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase))
+                        drawingStyle = BarValueLabelDrawingStyle.Right;
+                    else if (string.Equals(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase))
+                        drawingStyle = BarValueLabelDrawingStyle.Center;
+                    else if (string.Equals(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase))
+                        drawingStyle = BarValueLabelDrawingStyle.Outside;
+                }
 
-                        // LabelStyle rectangle
-                        if (barStartPosition < barSize)
-                        {
-                            rectLabel.X = rectSize.Right;
-                            rectLabel.Width = area.PlotAreaPosition.Right - rectSize.Right;
-                        }
-                        else
-                        {
-                            rectLabel.X = area.PlotAreaPosition.X;
-                            rectLabel.Width = rectSize.X - area.PlotAreaPosition.X;
-                        }
-
-                        // Adjust label rectangle
-                        rectLabel.Y = rectSize.Y - (float)width / 2F;
-                        rectLabel.Height = rectSize.Height + (float)width;
-
-                        // Adjust label position depending on the drawing style
-                        if (drawingStyle == BarValueLabelDrawingStyle.Left)
-                        {
-                            rectLabel = rectSize;
-                            format.Alignment = StringAlignment.Near;
-                        }
-                        else if (drawingStyle == BarValueLabelDrawingStyle.Center)
-                        {
-                            rectLabel = rectSize;
-                            format.Alignment = StringAlignment.Center;
-                        }
-                        else if (drawingStyle == BarValueLabelDrawingStyle.Right)
-                        {
-                            rectLabel = rectSize;
-                            format.Alignment = StringAlignment.Far;
-                        }
-
-                        // Reversed string alignment
-                        if (barStartPosition >= barSize)
-                        {
-                            if (format.Alignment == StringAlignment.Far)
-                                format.Alignment = StringAlignment.Near;
-                            else if (format.Alignment == StringAlignment.Near)
-                                format.Alignment = StringAlignment.Far;
-                        }
-
-                        // Stacked bar chart can not change the BarValueLabelDrawingStyle trying to
-                        // fit data point labels because it will cause label overlapping.
-                        // NOTE: Code below is commented. Fixes issue #4687 - AG
-                        labelFit = true;
-
-                        //					// Make sure value label fits rectangle. 
-                        //					SizeF valueTextSize = graph.MeasureStringRel(text, point.Font);
-                        //					if(!labelSwitched && valueTextSize.Width > rectLabel.Width)
-                        //					{
-                        //						// Switch label style only once
-                        //						labelSwitched = true;
-                        //
-                        //						// If text do not fit - try to switch between Outside/Inside drawing styles
-                        //						if(drawingStyle == BarValueLabelDrawingStyle.Outside)
-                        //						{
-                        //							drawingStyle = BarValueLabelDrawingStyle.Right;
-                        //						}
-                        //						else
-                        //						{
-                        //							drawingStyle = BarValueLabelDrawingStyle.Outside;
-                        //						}
-                        //					}
-                        //					else
-                        //					{
-                        //						labelFit = true;
-                        //					}
-                    }
-
-                    //************************************************************
-                    // Find text rotation center point
-                    //************************************************************
-
-                    // Measure string size
-                    SizeF size = graph.MeasureStringRel(text, point.Font, new SizeF(rectLabel.Width, rectLabel.Height), format);
-
-                    PointF rotationCenter = PointF.Empty;
-                    if (format.Alignment == StringAlignment.Near)
-                    { // Near
-                        rotationCenter.X = rectLabel.X + size.Width / 2;
-                    }
-                    else if (format.Alignment == StringAlignment.Far)
-                    { // Far
-                        rotationCenter.X = rectLabel.Right - size.Width / 2;
-                    }
-                    else
-                    { // Center
-                        rotationCenter.X = (rectLabel.Left + rectLabel.Right) / 2;
-                    }
-
-                    if (format.LineAlignment == StringAlignment.Near)
-                    { // Near
-                        rotationCenter.Y = rectLabel.Top + size.Height / 2;
-                    }
-                    else if (format.LineAlignment == StringAlignment.Far)
-                    { // Far
-                        rotationCenter.Y = rectLabel.Bottom - size.Height / 2;
-                    }
-                    else
-                    { // Center
-                        rotationCenter.Y = (rectLabel.Bottom + rectLabel.Top) / 2;
-                    }
-
-                    // Reset string alignment to center point
-                    format.Alignment = StringAlignment.Center;
+                //************************************************************
+                // Make sure label fits. Otherwise change it style
+                //************************************************************
+                bool labelFit = false;
+                while (!labelFit)
+                {
+                    // Label text format
+                    format.Alignment = StringAlignment.Near;
                     format.LineAlignment = StringAlignment.Center;
 
-
-                    //************************************************************
-                    // Adjust label rotation angle
-                    //************************************************************
-                    int angle = point.LabelAngle;
-
-                    // Get projection coordinates
-                    Point3D[] rotationCenterProjection = new Point3D[] {
-                                                                         new Point3D(rotationCenter.X, rotationCenter.Y, pointEx.zPosition + pointEx.depth),
-                                                                         new Point3D(rotationCenter.X - 20f, rotationCenter.Y, pointEx.zPosition + pointEx.depth) };
-                    // Transform coordinates of text rotation point
-                    area.matrix3D.TransformPoints(rotationCenterProjection);
-
-                    // Adjust rotation point
-                    rotationCenter = rotationCenterProjection[0].PointF;
-
-                    // Adjust angle of the horisontal text
-                    if (angle == 0 || angle == 180)
+                    // LabelStyle rectangle
+                    if (barStartPosition < barSize)
                     {
-                        // Convert coordinates to absolute
-                        rotationCenterProjection[0].PointF = graph.GetAbsolutePoint(rotationCenterProjection[0].PointF);
-                        rotationCenterProjection[1].PointF = graph.GetAbsolutePoint(rotationCenterProjection[1].PointF);
-
-                        // Calcuate axis angle
-                        float angleXAxis = (float)Math.Atan(
-                            (rotationCenterProjection[1].Y - rotationCenterProjection[0].Y) /
-                            (rotationCenterProjection[1].X - rotationCenterProjection[0].X));
-                        angleXAxis = (float)Math.Round(angleXAxis * 180f / (float)Math.PI);
-                        angle += (int)angleXAxis;
+                        rectLabel.X = rectSize.Right;
+                        rectLabel.Width = area.PlotAreaPosition.Right - rectSize.Right;
+                    }
+                    else
+                    {
+                        rectLabel.X = area.PlotAreaPosition.X;
+                        rectLabel.Width = rectSize.X - area.PlotAreaPosition.X;
                     }
 
-                    SizeF sizeFont = SizeF.Empty;
+                    // Adjust label rectangle
+                    rectLabel.Y = rectSize.Y - (float)width / 2F;
+                    rectLabel.Height = rectSize.Height + (float)width;
 
-
-                    // Check if Smart Labels are enabled
-                    if (ser.SmartLabelStyle.Enabled)
+                    // Adjust label position depending on the drawing style
+                    if (drawingStyle == BarValueLabelDrawingStyle.Left)
                     {
-                        using var sf = StringFormat.GenericTypographic;
+                        rectLabel = rectSize;
+                        format.Alignment = StringAlignment.Near;
+                    }
+                    else if (drawingStyle == BarValueLabelDrawingStyle.Center)
+                    {
+                        rectLabel = rectSize;
+                        format.Alignment = StringAlignment.Center;
+                    }
+                    else if (drawingStyle == BarValueLabelDrawingStyle.Right)
+                    {
+                        rectLabel = rectSize;
+                        format.Alignment = StringAlignment.Far;
+                    }
+
+                    // Reversed string alignment
+                    if (barStartPosition >= barSize)
+                    {
+                        if (format.Alignment == StringAlignment.Far)
+                            format.Alignment = StringAlignment.Near;
+                        else if (format.Alignment == StringAlignment.Near)
+                            format.Alignment = StringAlignment.Far;
+                    }
+
+                    // Stacked bar chart can not change the BarValueLabelDrawingStyle trying to
+                    // fit data point labels because it will cause label overlapping.
+                    // NOTE: Code below is commented. Fixes issue #4687 - AG
+                    labelFit = true;
+
+                    //					// Make sure value label fits rectangle. 
+                    //					SizeF valueTextSize = graph.MeasureStringRel(text, point.Font);
+                    //					if(!labelSwitched && valueTextSize.Width > rectLabel.Width)
+                    //					{
+                    //						// Switch label style only once
+                    //						labelSwitched = true;
+                    //
+                    //						// If text do not fit - try to switch between Outside/Inside drawing styles
+                    //						if(drawingStyle == BarValueLabelDrawingStyle.Outside)
+                    //						{
+                    //							drawingStyle = BarValueLabelDrawingStyle.Right;
+                    //						}
+                    //						else
+                    //						{
+                    //							drawingStyle = BarValueLabelDrawingStyle.Outside;
+                    //						}
+                    //					}
+                    //					else
+                    //					{
+                    //						labelFit = true;
+                    //					}
+                }
+
+                //************************************************************
+                // Find text rotation center point
+                //************************************************************
+
+                // Measure string size
+                SizeF size = graph.MeasureStringRel(text, point.Font, new SizeF(rectLabel.Width, rectLabel.Height), format);
+
+                PointF rotationCenter = PointF.Empty;
+                if (format.Alignment == StringAlignment.Near)
+                { // Near
+                    rotationCenter.X = rectLabel.X + size.Width / 2;
+                }
+                else if (format.Alignment == StringAlignment.Far)
+                { // Far
+                    rotationCenter.X = rectLabel.Right - size.Width / 2;
+                }
+                else
+                { // Center
+                    rotationCenter.X = (rectLabel.Left + rectLabel.Right) / 2;
+                }
+
+                if (format.LineAlignment == StringAlignment.Near)
+                { // Near
+                    rotationCenter.Y = rectLabel.Top + size.Height / 2;
+                }
+                else if (format.LineAlignment == StringAlignment.Far)
+                { // Far
+                    rotationCenter.Y = rectLabel.Bottom - size.Height / 2;
+                }
+                else
+                { // Center
+                    rotationCenter.Y = (rectLabel.Bottom + rectLabel.Top) / 2;
+                }
+
+                // Reset string alignment to center point
+                format.Alignment = StringAlignment.Center;
+                format.LineAlignment = StringAlignment.Center;
+
+
+                //************************************************************
+                // Adjust label rotation angle
+                //************************************************************
+                int angle = point.LabelAngle;
+
+                // Get projection coordinates
+                Point3D[] rotationCenterProjection = new Point3D[] {
+                                                                         new Point3D(rotationCenter.X, rotationCenter.Y, pointEx.zPosition + pointEx.depth),
+                                                                         new Point3D(rotationCenter.X - 20f, rotationCenter.Y, pointEx.zPosition + pointEx.depth) };
+                // Transform coordinates of text rotation point
+                area.matrix3D.TransformPoints(rotationCenterProjection);
+
+                // Adjust rotation point
+                rotationCenter = rotationCenterProjection[0].PointF;
+
+                // Adjust angle of the horisontal text
+                if (angle == 0 || angle == 180)
+                {
+                    // Convert coordinates to absolute
+                    rotationCenterProjection[0].PointF = graph.GetAbsolutePoint(rotationCenterProjection[0].PointF);
+                    rotationCenterProjection[1].PointF = graph.GetAbsolutePoint(rotationCenterProjection[1].PointF);
+
+                    // Calcuate axis angle
+                    float angleXAxis = (float)Math.Atan(
+                        (rotationCenterProjection[1].Y - rotationCenterProjection[0].Y) /
+                        (rotationCenterProjection[1].X - rotationCenterProjection[0].X));
+                    angleXAxis = (float)Math.Round(angleXAxis * 180f / (float)Math.PI);
+                    angle += (int)angleXAxis;
+                }
+
+                SizeF sizeFont = SizeF.Empty;
+
+
+                // Check if Smart Labels are enabled
+                if (ser.SmartLabelStyle.Enabled)
+                {
+                    using var sf = StringFormat.GenericTypographic;
+                    sizeFont = graph.GetRelativeSize(
+                        graph.MeasureString(
+                        text,
+                        point.Font,
+                        new SizeF(1000f, 1000f),
+                        sf));
+
+                    // Force some SmartLabelStyle settings for column chart
+                    bool oldMarkerOverlapping = ser.SmartLabelStyle.IsMarkerOverlappingAllowed;
+                    LabelAlignmentStyles oldMovingDirection = ser.SmartLabelStyle.MovingDirection;
+                    ser.SmartLabelStyle.IsMarkerOverlappingAllowed = true;
+                    if (ser.SmartLabelStyle.MovingDirection == (LabelAlignmentStyles.Top | LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Right | LabelAlignmentStyles.Left | LabelAlignmentStyles.TopLeft | LabelAlignmentStyles.TopRight | LabelAlignmentStyles.BottomLeft | LabelAlignmentStyles.BottomRight))
+                    {
+                        ser.SmartLabelStyle.MovingDirection = LabelAlignmentStyles.Left | LabelAlignmentStyles.Right;
+                    }
+
+                    // Adjust label position using SmartLabelStyle algorithm
+                    rotationCenter = area.smartLabels.AdjustSmartLabelPosition(
+                        common,
+                        graph,
+                        area,
+                        ser.SmartLabelStyle,
+                        rotationCenter,
+                        sizeFont,
+                        format,
+                        rotationCenter,
+                        new SizeF(0f, 0f),
+                        LabelAlignmentStyles.Center);
+
+                    // Restore forced values
+                    ser.SmartLabelStyle.IsMarkerOverlappingAllowed = oldMarkerOverlapping;
+                    ser.SmartLabelStyle.MovingDirection = oldMovingDirection;
+
+                    // Smart labels always use 0 degrees text angle
+                    angle = 0;
+                }
+
+
+
+
+
+                //************************************************************
+                // Draw label
+                //************************************************************
+                if (!rotationCenter.IsEmpty)
+                {
+                    // Measure string
+                    if (sizeFont.IsEmpty)
+                    {
+                        using var formatTmp = StringFormat.GenericTypographic;
                         sizeFont = graph.GetRelativeSize(
                             graph.MeasureString(
                             text,
                             point.Font,
                             new SizeF(1000f, 1000f),
-                            sf));
-
-                        // Force some SmartLabelStyle settings for column chart
-                        bool oldMarkerOverlapping = ser.SmartLabelStyle.IsMarkerOverlappingAllowed;
-                        LabelAlignmentStyles oldMovingDirection = ser.SmartLabelStyle.MovingDirection;
-                        ser.SmartLabelStyle.IsMarkerOverlappingAllowed = true;
-                        if (ser.SmartLabelStyle.MovingDirection == (LabelAlignmentStyles.Top | LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Right | LabelAlignmentStyles.Left | LabelAlignmentStyles.TopLeft | LabelAlignmentStyles.TopRight | LabelAlignmentStyles.BottomLeft | LabelAlignmentStyles.BottomRight))
-                        {
-                            ser.SmartLabelStyle.MovingDirection = LabelAlignmentStyles.Left | LabelAlignmentStyles.Right;
-                        }
-
-                        // Adjust label position using SmartLabelStyle algorithm
-                        rotationCenter = area.smartLabels.AdjustSmartLabelPosition(
-                            common,
-                            graph,
-                            area,
-                            ser.SmartLabelStyle,
-                            rotationCenter,
-                            sizeFont,
-                            format,
-                            rotationCenter,
-                            new SizeF(0f, 0f),
-                            LabelAlignmentStyles.Center);
-
-                        // Restore forced values
-                        ser.SmartLabelStyle.IsMarkerOverlappingAllowed = oldMarkerOverlapping;
-                        ser.SmartLabelStyle.MovingDirection = oldMovingDirection;
-
-                        // Smart labels always use 0 degrees text angle
-                        angle = 0;
+                            formatTmp));
                     }
 
+                    // Get label background position
+                    RectangleF labelBackPosition = RectangleF.Empty;
+                    SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
+                    sizeLabel.Height += sizeFont.Height / 8;
+                    sizeLabel.Width += sizeLabel.Width / text.Length;
+                    labelBackPosition = new RectangleF(
+                        rotationCenter.X - sizeLabel.Width / 2,
+                        rotationCenter.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
+                        sizeLabel.Width,
+                        sizeLabel.Height);
 
-
-
-
-                    //************************************************************
-                    // Draw label
-                    //************************************************************
-                    if (!rotationCenter.IsEmpty)
-                    {
-                        // Measure string
-                        if (sizeFont.IsEmpty)
-                        {
-                            using var formatTmp = StringFormat.GenericTypographic;
-                            sizeFont = graph.GetRelativeSize(
-                                graph.MeasureString(
-                                text,
-                                point.Font,
-                                new SizeF(1000f, 1000f),
-                                formatTmp));
-                        }
-
-                        // Get label background position
-                        RectangleF labelBackPosition = RectangleF.Empty;
-                        SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-                        sizeLabel.Height += sizeFont.Height / 8;
-                        sizeLabel.Width += sizeLabel.Width / text.Length;
-                        labelBackPosition = new RectangleF(
-                            rotationCenter.X - sizeLabel.Width / 2,
-                            rotationCenter.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
-                            sizeLabel.Width,
-                            sizeLabel.Height);
-
-                        // Draw label text
-                        using (Brush brush = new SolidBrush(point.LabelForeColor))
-                        {
-                            graph.DrawPointLabelStringRel(
-                                common,
-                                text,
-                                point.Font,
-                                brush,
-                                rotationCenter,
-                                format,
-                                angle,
-                                labelBackPosition,
-                                point.LabelBackColor,
-                                point.LabelBorderColor,
-                                point.LabelBorderWidth,
-                                point.LabelBorderDashStyle,
-                                ser,
-                                point,
-                                pointIndex);
-                        }
-                    }
+                    // Draw label text
+                    using Brush brush = new SolidBrush(point.LabelForeColor);
+                    graph.DrawPointLabelStringRel(
+                        common,
+                        text,
+                        point.Font,
+                        brush,
+                        rotationCenter,
+                        format,
+                        angle,
+                        labelBackPosition,
+                        point.LabelBackColor,
+                        point.LabelBorderColor,
+                        point.LabelBorderWidth,
+                        point.LabelBorderDashStyle,
+                        ser,
+                        point,
+                        pointIndex);
                 }
             }
         }

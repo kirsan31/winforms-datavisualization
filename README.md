@@ -1,13 +1,24 @@
-# Data Visualization
+# WinForms Data Visualization
 
-This repository contains partial source code of the `System.Windows.Forms.DataVisualization` namespace that provides charting for WinForms. We ported and open sourced those components to enable charting features for WinForms applications that are developed on .NET Core 3.
+[![Nuget](https://img.shields.io/nuget/v/WinForms.DataVisualization?style=flat-square)](https://www.nuget.org/packages/WinForms.DataVisualization/) 
+[![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/WinForms.DataVisualization)](https://www.nuget.org/packages/WinForms.DataVisualization#versions-body-tab)
 
-**This repo is read-only**. We consider the `System.Windows.Forms.DataVisualization` deprecated and we only provide it to ease porting to .NET Core 3. We're not going to innovate in this component and subsequently will not accept any PRs
+This repository is a .NET continuation of .NET Framework [`System.Windows.Forms.DataVisualization`](https://github.com/dotnet/winforms-datavisualization) that provides charting for [WinForms](https://github.com/dotnet/winforms).
 
-## Getting started with Chart Controls
+## What is done.
+- .NET 6+ support.  
+- **Full support of new WinForms designer.**  
+- Lots of performance improvements.
+- [Nuget package](https://www.nuget.org/packages/WinForms.DataVisualization/).  
+- Small bugs fixes.
 
-The best way to learn about Chart Controls is by looking at the [sample solution](https://github.com/dotnet/winforms-datavisualization/tree/master/sample) where via interactive experience with the app you can learn about every chart type and every major feature. While modifying the control parameters and instantly seeing how that affects the look of the control, you can also get the generated C# or Visual Basic code to use in your apps.
+### Main differences from available free WinForms chart controls.
+
+- Lots of customization options with wide designer support.
+- Using of GDI+ graphics. *This is the killer feature when using charts over RDP.*
+
+### Getting started with Chart Controls
+
+The best way to learn about Chart Controls is by looking at the [sample solution](sample/ChartSamples) where via interactive experience with the app you can learn about every chart type and every major feature. While modifying the control parameters and instantly seeing how that affects the look of the control, you can also get the generated C# or Visual Basic code to use in your apps.
 
 ![Chart Controls](sample-screenshot.png)
-
-There is also a [.NET Framework version](https://code.msdn.microsoft.com/Windows-Forms-Samples-26bf2a53) of this sample available on Microsoft samples portal.

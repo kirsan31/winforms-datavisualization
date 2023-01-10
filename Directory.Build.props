@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<PropertyGroup>
+		<TargetFrameworkClient>net472</TargetFrameworkClient>
+		<TargetFrameworkServer>net6.0-windows;net7.0-windows</TargetFrameworkServer>
+		<TFmWinVer>7.0</TFmWinVer>
+		<NugetTFm>net6.0-windows$(TFmWinVer);net7.0-windows$(TFmWinVer)</NugetTFm>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MajorVer>1</MajorVer>
+		<MinorPatchVer>7.0</MinorPatchVer>
+		<PRVer></PRVer>
+		<NugetReleaseNotes>
+			1.7 release.
+			Tiny performance optimization since 1.7 preview.
+		</NugetReleaseNotes>
+	</PropertyGroup>
+</Project>

@@ -2,12 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 //
-//  Purpose:	Base class for the Axis class which defines axis 
+//  Purpose:	Base class for the Axis class which defines axis
 //				labels related properties and methods.
 //
-
 
 using System.Collections;
 using System.Collections.Generic;
@@ -15,12 +13,11 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
     /// <summary>
-    /// The Axis class provides functionality for 
+    /// The Axis class provides functionality for
     /// drawing axis labels.
     /// </summary>
     public partial class Axis
@@ -30,7 +27,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Custom Labels collection
         private CustomLabelsCollection _customLabels;
 
-        #endregion
+        #endregion Fields
 
         #region Axis labels properties
 
@@ -67,7 +64,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         Bindable(true),
         SRDescription("DescriptionAttributeCustomLabels"),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-        Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor))
+        Editor("ChartCollectionEditor", typeof(UITypeEditor))
         ]
         public CustomLabelsCollection CustomLabels
         {
@@ -77,7 +74,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
-        #endregion
+        #endregion Axis labels properties
 
         #region Axis labels methods
 
@@ -183,9 +180,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Checks if the other (primary/secondary) axis has custom labels labels.
+        /// Checks if the other (primary/secondary) axis has custom labels.
         /// These labels will be added if this axis has no series attached and no custom labels.
-        /// This works only on category axes. 
+        /// This works only on category axes.
         /// </summary>
         internal void PostFillLabels()
         {
@@ -222,7 +219,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Fill labels from data from data manager or 
+        /// Fill labels from data from data manager or
         /// from axis scale.
         /// </summary>
         /// <param name="removeFirstRow">True if first row of auto generated labels must be removed.</param>
@@ -269,7 +266,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
-
             // Remove the first row of labels if custom labels not exist
             if (removeFirstRow)
             {
@@ -297,12 +293,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 case AxisName.X:
                     dataSeries = ChartArea.GetXAxesSeries(AxisType.Primary, this.SubAxisName);
                     break;
+
                 case AxisName.Y:
                     dataSeries = ChartArea.GetYAxesSeries(AxisType.Primary, this.SubAxisName);
                     break;
+
                 case AxisName.X2:
                     dataSeries = ChartArea.GetXAxesSeries(AxisType.Secondary, this.SubAxisName);
                     break;
+
                 case AxisName.Y2:
                     dataSeries = ChartArea.GetYAxesSeries(AxisType.Secondary, this.SubAxisName);
                     break;
@@ -653,7 +652,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                         labValue = (double)((decimal)position + (decimal)labelStyle.GetInterval());
 
-                        // This line is introduce because sometimes 0 value will appear as 
+                        // This line is introduce because sometimes 0 value will appear as
                         // very small value close to zero.
                         double inter = Math.Log(labelStyle.GetInterval());
                         double valu = Math.Log(Math.Abs(labValue));
@@ -733,9 +732,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method checks if there is a data point which has value X equal 
-        /// to valuePosition, and returns label from data point if such value exist. 
-        /// If data point with this value not exists empty string will be returned. 
+        /// This method checks if there is a data point which has value X equal
+        /// to valuePosition, and returns label from data point if such value exist.
+        /// If data point with this value not exists empty string will be returned.
         /// If all data points have X value zero, index is used instead of X value.
         /// </summary>
         /// <param name="series">Data series</param>
@@ -793,7 +792,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
 
-                // VSTS 140676: Search for IndexedSeriesLabelsSourceAttr attribute 
+                // VSTS 140676: Search for IndexedSeriesLabelsSourceAttr attribute
                 // to find if we have indexed series as source of formula generated non indexed series.
                 string labelSeriesName = ser[DataFormula.IndexedSeriesLabelsSourceAttr];
                 if (!string.IsNullOrEmpty(labelSeriesName))
@@ -808,7 +807,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                     }
                 }
-
             }
 
             if (!allEmpty)
@@ -822,9 +820,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method checks if there is a data point which has value X equal 
-        /// to valuePosition, and returns label from data point if such value exist. 
-        /// If data point with this value not exists empty string will be returned. 
+        /// This method checks if there is a data point which has value X equal
+        /// to valuePosition, and returns label from data point if such value exist.
+        /// If data point with this value not exists empty string will be returned.
         /// If all data points have X value zero, index is used instead of X value.
         /// </summary>
         /// <param name="series">Data series</param>
@@ -887,7 +885,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Find x value using Data point X values
                     if (point.XValue == valuePosition)
                     {
-                        // Return  label 
+                        // Return  label
                         return point.ReplaceKeywords(point.AxisLabel);
                     }
                 }
@@ -896,6 +894,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return string.Empty;
         }
 
-        #endregion
+        #endregion Axis labels methods
     }
 }

@@ -12,7 +12,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
-using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
@@ -254,7 +253,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeForeColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         Browsable(false),
 		]
 		override public Color ForeColor
@@ -315,7 +314,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(typeof(Color), "Black"),
 		SRDescription("DescriptionAttributeLineColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         Browsable(false),
 		]
 		override public Color LineColor
@@ -409,7 +408,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRDescription("DescriptionAttributeBackColor"),
 		NotifyParentPropertyAttribute(true),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         Browsable(false),
 		]
 		override public Color BackColor
@@ -445,7 +444,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(ChartHatchStyle.None),
 		NotifyParentPropertyAttribute(true),
 		SRDescription("DescriptionAttributeBackHatchStyle"),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor)),
+        Editor("HatchStyleEditor", typeof(UITypeEditor)),
         Browsable(false),
 		]
 		override public ChartHatchStyle BackHatchStyle
@@ -481,7 +480,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(GradientStyle.None),
 		NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeBackGradientStyle"),
-        Editor(typeof(GradientEditor), typeof(UITypeEditor)),
+        Editor("GradientEditor", typeof(UITypeEditor)),
         Browsable(false),
 		]		
 		override public GradientStyle BackGradientStyle
@@ -520,7 +519,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeBackSecondaryColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         Browsable(false),
 		] 
 		override public Color BackSecondaryColor
@@ -551,7 +550,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(typeof(Color), "128,0,0,0"),
         SRDescription("DescriptionAttributeShadowColor"),
         TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
+        Editor("ChartColorEditor", typeof(UITypeEditor)),
         Browsable(false),
 		]
 		override public Color ShadowColor
@@ -764,7 +763,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[
 		SRCategory("CategoryAttributeAnnotations"),
 		SRDescription("DescriptionAttributeAnnotationGroup_Annotations"),
-        Editor(typeof(AnnotationCollectionEditor), typeof(UITypeEditor)),
+        Editor("AnnotationCollectionEditor", typeof(UITypeEditor)),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Content), 
 		]
 		public AnnotationCollection Annotations
@@ -854,12 +853,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			if( (this.Common.ProcessModePaint && this.IsSelected) ||
 				this.Common.ProcessModeRegions )
 			{
-				// Get annotation position in relative coordinates
-				PointF firstPoint = PointF.Empty;
-				PointF anchorPoint = PointF.Empty;
-				SizeF size = SizeF.Empty;
-				GetRelativePosition(out firstPoint, out size, out anchorPoint);
-				PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+                // Get annotation position in relative coordinates
+                GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
+                PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 				// Create selection rectangle
 				RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
