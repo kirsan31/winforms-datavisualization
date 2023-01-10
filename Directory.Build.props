@@ -10,10 +10,10 @@
 	<PropertyGroup>
 		<MajorVer>1</MajorVer>
 		<MinorPatchVer>7.0</MinorPatchVer>
-		<PRVer>-pr</PRVer>
+		<PRVer></PRVer>
 		<NugetReleaseNotes>
-			All collection editors are ported - control now have full design parity with .net framework version.
-			Small bug fixes and improvements.
+			1.7 release.
+			Tiny performance optimization since 1.7 preview.
 		</NugetReleaseNotes>
 	</PropertyGroup>
 </Project>
