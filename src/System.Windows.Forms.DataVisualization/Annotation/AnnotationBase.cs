@@ -2018,7 +2018,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             anchorY = vertAxis.ValueToPosition(anchorY);
                         }
 
-                        // Apply 3D transforamtion if required
+                        // Apply 3D transformation if required
                         ChartArea chartArea = null;
                         if (horizAxis != null && horizAxis.ChartArea != null)
                         {
@@ -2049,7 +2049,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             Point3D[] annot3DPoints = new Point3D[1];
                             annot3DPoints[0] = new Point3D((float)anchorX, (float)anchorY, positionZ);
 
-                            // Tranform cube coordinates
+                            // Transform cube coordinates
                             chartArea.matrix3D.TransformPoints(annot3DPoints);
 
                             // Get transformed coordinates
@@ -2526,7 +2526,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             bool isTextAnnotation = this is TextAnnotation;
             //***********************************************************************
-            //** Apply 3D transforamtion if required
+            //** Apply 3D transformation if required
             //***********************************************************************
             ChartArea chartArea = null;
             if (horizAxis != null && horizAxis.ChartArea != null)
@@ -2560,7 +2560,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 annot3DPoints[1] = new Point3D((float)(relativeX + relativeWidth), (float)(relativeY + relativeHeight), positionZ);
                 annot3DPoints[2] = new Point3D((float)anchorX, (float)anchorY, positionZ);
 
-                // Tranform cube coordinates
+                // Transform cube coordinates
                 chartArea.matrix3D.TransformPoints(annot3DPoints);
 
                 // Get transformed coordinates
@@ -2913,6 +2913,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             return;
         }
+
         /// <summary>
         /// Adjust annotation location and\or size as a result of user action.
         /// </summary>
@@ -3029,7 +3030,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     firstPoint.Y -= movingDistance.Height;
                 }
 
-                // Make sure we do not override automatic Width and Heigth
+                // Make sure we do not override automatic Width and Height
                 if (resizeMode == ResizingMode.Moving)
                 {
                     if (double.IsNaN(this.Width))
@@ -3306,7 +3307,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         anchorY = vertAxis.ValueToPosition(anchorY);
                     }
 
-                    // Apply 3D transforamtion if required
+                    // Apply 3D transformation if required
                     ChartArea chartArea = null;
                     if (horizAxis != null && horizAxis.ChartArea != null)
                     {
@@ -3337,7 +3338,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         Point3D[] annot3DPoints = new Point3D[1];
                         annot3DPoints[0] = new Point3D((float)anchorX, (float)anchorY, positionZ);
 
-                        // Tranform cube coordinates
+                        // Transform cube coordinates
                         chartArea.matrix3D.TransformPoints(annot3DPoints);
 
                         // Get transformed coordinates
@@ -3499,7 +3500,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (buttons == MouseButtons.Right)
             {
-                // Stop any pacement
+                // Stop any placement
                 this.EndPlacement();
             }
             if (buttons == MouseButtons.Left &&
@@ -3507,7 +3508,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (this.lastPlacementPosition.IsEmpty)
                 {
-                    // Remeber position where mouse was clicked
+                    // Remember position where mouse was clicked
                     this.lastPlacementPosition = this.GetGraphics().GetRelativePoint(point);
 
 
@@ -3861,7 +3862,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         chartArea = vertAxis.ChartArea;
                     }
 
-                    // Apply 3D transforamtion if required
+                    // Apply 3D transformation if required
                     if (chartArea != null && chartArea.Area3DStyle.Enable3D == true)
                     {
                         if (!chartArea.chartAreaIsCurcular &&
@@ -3883,7 +3884,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             Point3D[] annot3DPoints = new Point3D[1];
                             annot3DPoints[0] = new Point3D((float)anchorX, (float)anchorY, positionZ);
 
-                            // Tranform cube coordinates
+                            // Transform cube coordinates
                             chartArea.matrix3D.TransformPoints(annot3DPoints);
 
                             // Get transformed coordinates

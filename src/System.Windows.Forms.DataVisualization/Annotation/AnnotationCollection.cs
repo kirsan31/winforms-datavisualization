@@ -18,7 +18,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <seealso cref="Charting.Chart.Annotations"/>
     /// </summary>
     /// <remarks>
-    /// All chart annotations are stored in this collection.  It is exposed as 
+    /// All chart annotations are stored in this collection. It is exposed as 
     /// a <see cref="Charting.Chart.Annotations"/> property of the chart. It is also used to 
     /// store annotations inside the <see cref="AnnotationGroup"/> class.
     /// <para>
@@ -171,7 +171,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         chartPicture.nonTopLevelChartBuffer = null;
                     }
 
-                    // Copy chart area plotting rectangle from the chart's dubble buffer image into area dubble buffer image
+                    // Copy chart area plotting rectangle from the chart's double buffer image into area double buffer image
                     if (this.Chart.paintBufferBitmap != null &&
                         this.Chart.paintBufferBitmap.Size.Width >= chartPosition.Size.Width &&
                         this.Chart.paintBufferBitmap.Size.Height >= chartPosition.Size.Height)
@@ -199,7 +199,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     bool resetClip = false;
 
-                    // Check if anchor point assosiated with plot area is inside the scaleView
+                    // Check if anchor point associated with plot area is inside the scaleView
                     if (annotation.IsAnchorVisible())
                     {
                         // Set annotation object clipping
@@ -311,7 +311,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 PointF pointRel = Common.graph.GetRelativePoint(point);
                 foreach (Annotation annot in this)
                 {
-                    // Reset selcted path point
+                    // Reset selected path point
                     annot.currentPathPointIndex = -1;
 
                     // Check if annotation is selected
@@ -379,7 +379,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 bool updateRequired = false;
                 this._resizingMode = ResizingMode.None;
 
-                // Check if mouse buton was pressed in any selection handles areas
+                // Check if mouse button was pressed in any selection handles areas
                 Annotation annotation =
                     HitTestSelectionHandles(new PointF(e.X, e.Y), ref this._resizingMode);
 
@@ -456,7 +456,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Remember last clicked and selected annotation
                     lastClickedAnnotation = annotation;
 
-                    // Rember mouse position
+                    // Remember mouse position
                     this._movingResizingStartPoint = new PointF(e.X, e.Y);
 
                     // Start moving, repositioning or resizing of annotation
