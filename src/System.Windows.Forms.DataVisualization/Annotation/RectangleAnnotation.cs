@@ -30,7 +30,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	{
 		#region Fields
 
-		// Indicates that annotion rectangle should be drawn
+		// Indicates that annotation rectangle should be drawn
 		internal	bool		isRectVisible = true;
 
 		#endregion
@@ -595,7 +595,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			if(this.Common.ProcessModePaint)
 			{
-				// Do not draw border if size is less that 10 pixels
+				// Do not draw border if size is less than 10 pixels
 				RectangleF absRectanglePosition = graphics.GetAbsoluteRectangle(rectanglePosition);
 				if(absRectanglePosition.Width > 30f &&
 					absRectanglePosition.Height > 30f)
@@ -645,7 +645,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				IBorderType	border3D = this.Common.BorderTypeRegistry.GetBorderType(_borderSkin.SkinStyle.ToString());
 				if(border3D != null)
 				{
-					// Adjust are position to the border size
+					// Adjust area position to the border size
 					RectangleF rectangle = new RectangleF(0f, 0f, 100f, 100f);
 					border3D.AdjustAreasPosition(this.GetGraphics(), ref rectangle);
 					rect = new RectangleF(

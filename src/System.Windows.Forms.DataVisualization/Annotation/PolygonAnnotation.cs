@@ -737,7 +737,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Position Changing
 
         /// <summary>
-        /// Changes annotation position, so it exactly matches the bounary of the 
+        /// Changes annotation position, so it exactly matches the boundary of the 
         /// polyline path.
         /// </summary>
         private void ResizeToPathBoundary()
@@ -796,7 +796,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.startMoveAnchorLocationRel = new PointF(anchorPoint.X, anchorPoint.Y);
             }
 
-            // Convert moving distance to coordinates relative to the anotation
+            // Convert moving distance to coordinates relative to the annotation
             if (pixelCoord)
             {
                 movingDistance = this.GetGraphics().GetRelativeSize(movingDistance);
@@ -920,7 +920,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (buttons == MouseButtons.Right)
             {
-                // Stop pacement
+                // Stop placement
                 this.EndPlacement();
             }
             if (buttons == MouseButtons.Left &&
@@ -937,7 +937,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this.Width = 100f;
                     this.Height = 100f;
 
-                    // Remeber position where mouse was clicked
+                    // Remember position where mouse was clicked
                     this.lastPlacementPosition = newPoint;
                 }
                 else
@@ -945,7 +945,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     if (this.lastPlacementPosition.X == newPoint.X &&
                         this.lastPlacementPosition.Y == newPoint.Y)
                     {
-                        // Stop pacement
+                        // Stop placement
                         this.EndPlacement();
                     }
                 }
@@ -991,7 +991,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (buttons == MouseButtons.Left &&
                 isFreeDrawPlacement)
             {
-                // Stop pacement
+                // Stop placement
                 this.EndPlacement();
             }
 

@@ -486,7 +486,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
                 else
                 {
-                    // Calculate intersection point of the line with two bounaries Y = 0 and Y = 100
+                    // Calculate intersection point of the line with two boundaries Y = 0 and Y = 100
                     PointF intersectionPoint1 = PointF.Empty;
                     intersectionPoint1.Y = 0f;
                     intersectionPoint1.X = (0f - point1.Y) *
@@ -500,7 +500,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         (point2.Y - point1.Y) +
                         point1.X;
 
-                    // Select point closect to the intersection
+                    // Select point closest to the intersection
                     point1 = (point1.Y < point2.Y) ? intersectionPoint1 : intersectionPoint2;
                     point2 = (point1.Y < point2.Y) ? intersectionPoint2 : intersectionPoint1;
                 }
