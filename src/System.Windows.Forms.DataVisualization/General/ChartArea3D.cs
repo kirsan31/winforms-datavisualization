@@ -235,13 +235,13 @@ public class ChartArea3DStyle
 
 
     /// <summary>
-    /// Gets or sets a value indicating whether Z depth will be calculated base on series BorderWidth and PixelPointGapDepth properties. Not working with Stacked and Clustered style charts.
+    /// Gets or sets a value indicating whether Z depth will be calculated base on series ZValue property. Only for Lines and Points family charts.
     /// </summary>
     [
     Category("CategoryAttribute3D"),
     Bindable(true),
     DefaultValue(false),
-    Description("Gets or sets a value indicating whether Z depth will be calculated base on series BorderWidth and PixelPointGapDepth properties. Not working with Stacked and Clustered style charts."),
+    Description("Gets or sets a value indicating whether Z depth will be calculated base on series " + CustomPropertyName.ZValue + " property. Only for Lines and Points family charts."),
     ]
     public bool ZDepthRealCalc
     {
@@ -466,9 +466,9 @@ public partial class ChartArea
     private float _pointsGapDepth;
 
     /// <summary>
-    /// Z axis depth and gap depth for <see cref="ChartArea3DStyle.ZDepthRealCalc"/>
+    /// Z axis depth and position for <see cref="ChartArea3DStyle.ZDepthRealCalc"/>.
     /// </summary>
-    private readonly Dictionary<string, (float Depth, float GapDepth)> _pointsZDepth = new Dictionary<string, (float Depth, float GapDepth)>();
+    private readonly Dictionary<string, (float Depth, float PositionZ)> _pointsZDepth = new Dictionary<string, (float Depth, float PositionZ)>();
     /// <summary>
     /// Old X axis reversed flag
     /// </summary>
@@ -775,26 +775,19 @@ public partial class ChartArea
     {
         if (Area3DStyle.ZDepthRealCalc)
         {
-            float zDepth = 0;
             GetNumberOfClusters(); // need to fill seriesClusters
+            // Get point depth and Z value from series
             foreach (string serN in _series)
             {
                 var ser = Common.DataManager.Series[serN];
-
-                // Get point depth and gap from series
-                var depth = ser.GetRelativePointDepthAndGap(
+                _pointsZDepth[serN] = ser.GetZValues(
                         Common.graph,
                         ser.XAxisType == AxisType.Primary ? axisX : axisX2,
                         ser.ChartType == SeriesChartType.Point || ser.ChartType == SeriesChartType.FastPoint ? ser.MarkerSize :
-                            Math.Max(ser.BorderWidth, ser.markerStyle == MarkerStyle.None ? 0 : ser.markerSize),
-                        ser.BorderWidth * 0.8f * Area3DStyle.PointGapDepth / 100f);
-
-                _pointsZDepth[serN] = depth;
-                if (depth.pointDepth + depth.pointGapDepth > zDepth)
-                    zDepth = depth.pointDepth + depth.pointGapDepth;
+                            Math.Max(ser.BorderWidth, ser.markerStyle == MarkerStyle.None ? 0 : ser.markerSize));
             }
 
-            return zDepth + zDepth / 25; // 4% to not to draw on the edge
+            return 100; // always return 100% here
         }
 
         //***********************************************************

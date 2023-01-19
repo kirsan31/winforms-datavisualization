@@ -4595,6 +4595,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
+        /// This method takes width and height that use absolute coordinates
+        /// and returns a SizeF object that uses relative coordinates.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <returns>
+        /// SizeF object in relative coordinates.
+        /// </returns>
+        public SizeF GetRelativeSize(float width, float height)
+        {
+            // Convert absolute coordinates to relative coordinates
+            return new SizeF(width * 100F / (_width - 1), height * 100F / (_height - 1));
+        }
+
+        /// <summary>
         /// This method takes a PointF object and converts its relative coordinates
         /// to absolute coordinates.
         /// </summary>

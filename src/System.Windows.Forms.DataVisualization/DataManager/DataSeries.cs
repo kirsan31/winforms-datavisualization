@@ -630,57 +630,41 @@ public class Series : DataPointCustomProperties, IDisposable
     }
 
     /// <summary>
-    /// Transform <paramref name="pointDepthAbsolue"/> to relative coordinates and gets custom points gap depth in relative coordinates from series properties.
+    /// Transform <paramref name="seriesDepthAbsolue"/> to relative coordinates and gets custom ZValue from series properties.
     /// </summary>
     /// <param name="graph">Chart graphics.</param>
     /// <param name="axis">Categorical axis.</param>
-    /// <param name="pointDepthAbsolue">Initial point depth in absolute coordinates. Will be transform to relative coordinates.</param>
-    /// <param name="pointGapDepthRelative">In relative coordinates. We simple return this value back if PixelPointGapDepth is not set.</param>
-    /// <returns></returns>
+    /// <param name="seriesDepthAbsolue">Initial series depth in absolute coordinates. Will be transform to relative coordinates.</param>
     /// <exception cref="System.InvalidOperationException"></exception>
-    internal (float pointDepth, float pointGapDepth) GetRelativePointDepthAndGap(
-        ChartGraphics graph,
-        Axis axis,
-        float pointDepthAbsolue,
-        float pointGapDepthRelative)
+    internal (float pointDepth, float pointZpos) GetZValues(ChartGraphics graph, Axis axis, float seriesDepthAbsolue)
     {
-        SizeF relativeSize = graph.GetRelativeSize(new SizeF(pointDepthAbsolue, pointDepthAbsolue));
+        SizeF relativeSize = graph.GetRelativeSize(seriesDepthAbsolue, seriesDepthAbsolue);
         if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
-            pointDepthAbsolue = relativeSize.Height;
+            seriesDepthAbsolue = relativeSize.Height;
         else
-            pointDepthAbsolue = relativeSize.Width;
+            seriesDepthAbsolue = relativeSize.Width;
 
-        // Check if series provide custom value for point gap depth in pixels
-        var attribValue = this[CustomPropertyName.PixelPointGapDepth];
+        // Check if series provide custom value for ZValue
+        var attribValue = this[CustomPropertyName.ZValue];
+        float pointZpos = 0;
         if (attribValue is not null)
         {
             try
             {
-                pointGapDepthRelative = CommonElements.ParseFloat(attribValue);
+                pointZpos = CommonElements.ParseFloat(attribValue);
             }
             catch
             {
-                throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PixelPointGapDepth"));
+                throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2(CustomPropertyName.ZValue));
             }
 
-            if (pointGapDepthRelative <= 0)
+            if (pointZpos > 100 || pointZpos < 0)
             {
-                throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointGapDepth"));
+                throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange(CustomPropertyName.ZValue, 0.ToString(CultureInfo.CurrentCulture), 100.ToString(CultureInfo.CurrentCulture)));
             }
-
-            if (pointGapDepthRelative > CustomPropertyRegistry.MaxValueOfPixelAttribute)
-            {
-                throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointGapDepth", 0.ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture)));
-            }
-
-            relativeSize = graph.GetRelativeSize(new SizeF(pointGapDepthRelative, pointGapDepthRelative));
-            if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
-                pointGapDepthRelative = relativeSize.Height;
-            else
-                pointGapDepthRelative = relativeSize.Width;
         }
 
-        return (pointDepthAbsolue, pointGapDepthRelative);
+        return (seriesDepthAbsolue, pointZpos);
     }
 
 
