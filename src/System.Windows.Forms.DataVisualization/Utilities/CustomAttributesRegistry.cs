@@ -258,7 +258,7 @@ internal enum LabelAlignments
 public static class CustomPropertyName
 {
     #region Common Custom Properties Names
-
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public const string DrawSideBySide = "DrawSideBySide";
     public const string EmptyPointValue = "EmptyPointValue";
     public const string IsXAxisQuantitative = "IsXAxisQuantitative";
@@ -347,6 +347,7 @@ public static class CustomPropertyName
     public const string PyramidOutsideLabelPlacement = "PyramidOutsideLabelPlacement";
     public const string PyramidValueType = "PyramidValueType";
     public const string ZValue = nameof(ZValue);
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
     #endregion // Common Custom Properties Names
 }
