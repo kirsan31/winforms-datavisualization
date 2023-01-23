@@ -1182,10 +1182,10 @@ internal class PointChart : IChartType
                     GetMarkerBorderSize(point),
                     pointMarkerImage,
                     point.MarkerImageTransparentColor,
-                    (point.series != null) ? point.series.ShadowOffset : 0,
-                    (point.series != null) ? point.series.ShadowColor : Color.Empty,
+                    point.series?.ShadowOffset ?? 0,
+                    point.series?.ShadowColor ?? Color.Empty,
                     new RectangleF(markerRotatedPosition.X, markerRotatedPosition.Y, markerSize.Width, markerSize.Height),
-                    drawingOperationType);
+                    drawingOperationType, area.Area3DStyle.ZDepthRealCalc);
 
                 // End Svg Selection mode
                 graph.EndHotRegion();

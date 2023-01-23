@@ -2426,7 +2426,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 resultPath.AddPolygon(polygonPoints);
             }
 
-            if(thickBorderPen is not null && thickBorderPen != frontLinePen)
+            if (thickBorderPen is not null && thickBorderPen != frontLinePen)
                 thickBorderPen.Dispose();
 
             if (thinBorderPen is not null && thinBorderPen != frontLinePen)
@@ -3431,7 +3431,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="shadowColor">Marker shadow color.</param>
         /// <param name="imageScaleRect">Rectangle to which marker image should be scaled.</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
-        /// <returns>Returns element shape path if operationType parameter is set to ElementPath, otherwise Null.</returns>
+        /// <param name="force2DMarker">if set to <see langword="true" /> drawing 2D markers even for <see cref="MarkerStyle.Square"/> and <see cref="MarkerStyle.Square"/> styles.</param>
+        /// <returns>
+        /// Returns element shape path if operationType parameter is set to ElementPath, otherwise Null.
+        /// </returns>
+        /// <exception cref="System.InvalidOperationException"></exception>
         internal GraphicsPath DrawMarker3D(
             Matrix3D matrix,
             LightStyle lightStyle,
@@ -3447,7 +3451,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             int shadowSize,
             Color shadowColor,
             RectangleF imageScaleRect,
-            DrawingOperationTypes operationType)
+            DrawingOperationTypes operationType,
+            bool force2DMarker = false)
         {
             ChartGraphics graph = this;
             GraphicsPath resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
@@ -3469,9 +3474,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //************************************************************
             //** For those markers that do not have a 3D version - draw the same as in 2D
             //************************************************************
-            if (markerImage.Length > 0 ||
-                !(markerStyle == MarkerStyle.Circle ||
-                markerStyle == MarkerStyle.Square))
+            if (force2DMarker || markerImage.Length > 0 || !(markerStyle == MarkerStyle.Circle || markerStyle == MarkerStyle.Square))
             {
                 // Call 2D version of the method
                 if ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement)
