@@ -259,7 +259,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 
     #endregion
 
-    #region Data point methods
+    #region Methods
 
     /// <summary>
     /// Adds the new DataPoint to a collection and sets its Y values.
@@ -483,7 +483,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                             newDataPoint.SetValueXY(0, yValuesObj);
                         }
 
-                        DataPointInit(ref newDataPoint);
+                        //DataPointInit(ref newDataPoint);  // not needed here - will be called during adding in Initialize
                         newDataPoint.IsEmpty = true;
                         this.Add(newDataPoint);
                     }
@@ -498,7 +498,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                             newDataPoint.SetValueXY(0, yValuesObj);
                         }
 
-                        DataPointInit(ref newDataPoint);
+                        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
                         this.Add(newDataPoint);
                     }
                 }
@@ -662,7 +662,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                             newDataPoint.SetValueXY(0, yValuesObj);
                         }
 
-                        DataPointInit(ref newDataPoint);
+                        //DataPointInit(ref newDataPoint); // // not needed here - will be called during adding in Initialize
                         newDataPoint.IsEmpty = true;
                         this.Add(newDataPoint);
                     }
@@ -677,7 +677,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                             newDataPoint.SetValueXY(0, yValuesObj);
                         }
 
-                        DataPointInit(ref newDataPoint);
+                        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
                         this.Add(newDataPoint);
                     }
 
@@ -854,7 +854,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                             newDataPoint.SetValueXY(0, yValuesObj);
                         }
 
-                        DataPointInit(ref newDataPoint);
+                        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
                         newDataPoint.IsEmpty = true;
                         this.Add(newDataPoint);
                     }
@@ -869,7 +869,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                             newDataPoint.SetValueXY(0, yValuesObj);
                         }
 
-                        DataPointInit(ref newDataPoint);
+                        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
                         this.Add(newDataPoint);
                     }
                 }
@@ -918,7 +918,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         // Create new point object
         DataPoint newDataPoint = new DataPoint(series);
         newDataPoint.SetValueY(yValue);
-        DataPointInit(ref newDataPoint);
+        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
         Add(newDataPoint);
         return Count - 1;
     }
@@ -954,7 +954,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         // Create new point object
         DataPoint newDataPoint = new DataPoint(series);
         newDataPoint.SetValueY(yValue);
-        DataPointInit(ref newDataPoint);
+        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
         Add(newDataPoint);
         return Count - 1;
     }
@@ -970,7 +970,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         // Create new point object
         DataPoint newDataPoint = new DataPoint(series);
         newDataPoint.SetValueXY(xValue, yValue);
-        DataPointInit(ref newDataPoint);
+        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
         Add(newDataPoint);
         return Count - 1;
     }
@@ -1024,7 +1024,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         // Create new point object
         DataPoint newDataPoint = new DataPoint(series);
         newDataPoint.SetValueXY(xValue, yValue);
-        DataPointInit(ref newDataPoint);
+        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
         Add(newDataPoint);
         return Count - 1;
     }
@@ -1039,7 +1039,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
     {
         DataPoint newDataPoint = new DataPoint(series);
         newDataPoint.SetValueXY(xValue, yValue);
-        DataPointInit(ref newDataPoint);
+        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
         this.Insert(index, newDataPoint);
     }
 
@@ -1052,8 +1052,22 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
     {
         DataPoint newDataPoint = new DataPoint(series);
         newDataPoint.SetValueY(yValue);
-        DataPointInit(ref newDataPoint);
+        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
         this.Insert(index, newDataPoint);
+    }
+
+    /// <summary>
+    /// Removes all elements after <paramref name="index"/> from the <see cref="DataPointCollection"/>.
+    /// </summary>
+    /// <param name="index">The index after witch to remove elements. To remove all elements pass -1 here.</param>
+    public void ClearAfter(int index)
+    {
+        if (Count == 0 || index + 1 >= Count) // not need to refresh Minimum and Maximum if we will not remove anything.
+            return;
+
+        // Refresh Minimum and Maximum from data after recalc and set data
+        Common?.ChartPicture?.ResetMinMaxFromData();
+        base.ClearItemsAfter(index);
     }
 
     /// <summary>
@@ -1454,7 +1468,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         return type;
     }
 
-    #endregion Data point methods
+    #endregion Methods
 
     #region DataPoint finding functions
 
@@ -1689,6 +1703,9 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
     /// </summary>
     protected override void ClearItems()
     {
+        if (Count == 0) // not need to refresh Minimum and Maximum if we already have empty collection.
+            return;
+
         // Refresh Minimum and Maximum from data after recalc and set data
         Common?.ChartPicture?.ResetMinMaxFromData();
         base.ClearItems();
@@ -1751,8 +1768,7 @@ public class DataPoint : DataPointCustomProperties
     /// </summary>
     /// <param name="xValue">X value.</param>
     /// <param name="yValue">Y value.</param>
-    public DataPoint(double xValue, double yValue)
-        : base(null, true)
+    public DataPoint(double xValue, double yValue) : base(null, true)
     {
         // Set Y value
         this._yValue = new double[1];
@@ -1767,8 +1783,7 @@ public class DataPoint : DataPointCustomProperties
     /// </summary>
     /// <param name="xValue">X value.</param>
     /// <param name="yValues">Array of Y values.</param>
-    public DataPoint(double xValue, double[] yValues)
-        : base(null, true)
+    public DataPoint(double xValue, double[] yValues) : base(null, true)
     {
         // Set Y value
         this._yValue = yValues;
@@ -1786,8 +1801,7 @@ public class DataPoint : DataPointCustomProperties
     /// <param name="xValue">X value.</param>
     /// <param name="yValues">String of comma separated Y values.</param>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public DataPoint(double xValue, string yValues)
-        : base(null, true)
+    public DataPoint(double xValue, string yValues) : base(null, true)
     {
         string[] values = yValues.Split(',');
 
@@ -2109,7 +2123,7 @@ public class DataPoint : DataPointCustomProperties
         }
 
         // Get Date or Time if required
-        if (base.series != null)
+        if (base.series is not null)
         {
             for (int i = 0; i < yValue.Length; i++)
             {
@@ -2536,7 +2550,7 @@ public class DataPoint : DataPointCustomProperties
     TypeConverter(typeof(DataPointValueConverter)),
     DefaultValue(typeof(double), "0.0"),
     DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-]
+    ]
     public double XValue
     {
         get => _xValue;
@@ -2551,14 +2565,14 @@ public class DataPoint : DataPointCustomProperties
     /// List of Y values of the data point.
     /// </summary>
     [
-        SRCategory("CategoryAttributeData"),
-        SRDescription("DescriptionAttributeDataPoint_YValues"),
-        Bindable(true),
-        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-        TypeConverter(typeof(DoubleArrayConverter)),
-        Editor(typeof(UITypeEditor), typeof(UITypeEditor)),
-        RefreshProperties(RefreshProperties.All),
-        SerializationVisibility(SerializationVisibility.Attribute)
+    SRCategory("CategoryAttributeData"),
+    SRDescription("DescriptionAttributeDataPoint_YValues"),
+    Bindable(true),
+    DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+    TypeConverter(typeof(DoubleArrayConverter)),
+    Editor(typeof(UITypeEditor), typeof(UITypeEditor)),
+    RefreshProperties(RefreshProperties.All),
+    SerializationVisibility(SerializationVisibility.Attribute)
     ]
     public double[] YValues
     {
@@ -2623,7 +2637,6 @@ public class DataPoint : DataPointCustomProperties
     }
 
     #endregion
-
 }
 
 /// <summary>
@@ -3175,7 +3188,6 @@ public class DataPointCustomProperties : ChartNamedElement
     /// Format string of the data point label.
     /// </summary>
     [
-
     SRCategory("CategoryAttributeLabel"),
     Bindable(true),
     SRDescription("DescriptionAttributeLabelFormat")
@@ -3227,7 +3239,6 @@ public class DataPointCustomProperties : ChartNamedElement
     /// A flag which indicates whether to show the data point's value on the label.
     /// </summary>
     [
-
     SRCategory("CategoryAttributeLabel"),
     Bindable(true),
     SRDescription("DescriptionAttributeShowLabelAsValue")
@@ -4311,7 +4322,6 @@ public class DataPointCustomProperties : ChartNamedElement
     /// Gets or sets the border width of the marker.
     /// </summary>
     [
-
     SRCategory("CategoryAttributeMarker"),
     Bindable(true),
     SRDescription("DescriptionAttributeMarkerBorderWidth")

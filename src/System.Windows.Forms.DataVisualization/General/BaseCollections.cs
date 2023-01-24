@@ -132,11 +132,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         protected override void ClearItems()
         {
+            ClearItemsAfter(-1);
+        }
+
+        /// <summary>
+        /// Removes all elements after <paramref name="index"/> from the <see cref="T:System.Collections.ObjectModel.Collection`1" />.
+        /// </summary>
+        /// <param name="index">The index after witch to remove elements. To remove all elements pass -1 here.</param>
+        protected void ClearItemsAfter(int index)
+        {
+            if (++index < 0)
+                index = 0;
+
             SuspendUpdates();
-            while (this.Count > 0)
+            while (this.Count > index)
             {
                 this.RemoveItem(this.Count - 1); // Due to List<T>.RemoveAt implementation. Thanks to https://github.com/dotnet/winforms-datavisualization/pull/23
             }
+
             ResumeUpdates();
         }
 
