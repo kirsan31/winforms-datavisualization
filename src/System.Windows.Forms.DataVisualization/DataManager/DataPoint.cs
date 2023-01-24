@@ -121,7 +121,7 @@ public class DataPointComparer : IComparer<DataPoint>
     public DataPointComparer(Series series, PointSortOrder sortOrder, string sortBy)
     {
         // Check if sorting value is valid
-        sortBy = sortBy.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+        sortBy = sortBy.ToUpper(CultureInfo.InvariantCulture);
         if (string.Equals(sortBy, "X", StringComparison.Ordinal))
         {
             _sortingValueIndex = -1;
@@ -138,7 +138,7 @@ public class DataPointComparer : IComparer<DataPoint>
                 sortBy.StartsWith("Y", StringComparison.Ordinal) &&
                 char.IsDigit(sortBy[1]))
         {
-            _sortingValueIndex = int.Parse(sortBy[1..], System.Globalization.CultureInfo.InvariantCulture) - 1;
+            _sortingValueIndex = int.Parse(sortBy[1..], CultureInfo.InvariantCulture) - 1;
         }
         else
         {
@@ -148,7 +148,7 @@ public class DataPointComparer : IComparer<DataPoint>
         // Check if data series support as many Y values as required
         if (_sortingValueIndex > 0 && _sortingValueIndex >= series.YValuesPerPoint)
         {
-            throw new ArgumentException(SR.ExceptionDataPointConverterUnavailableSorting(sortBy, series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)), nameof(sortBy));
+            throw new ArgumentException(SR.ExceptionDataPointConverterUnavailableSorting(sortBy, series.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)), nameof(sortBy));
         }
 
         this._sortingOrder = sortOrder;
@@ -354,7 +354,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         }
 
         if (yFieldNames.GetLength(0) > series.YValuesPerPoint)
-            throw new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+            throw new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
 
         // Convert other fields/properties names to two arrays of names
         string[] otherAttributeNames = null;
@@ -549,7 +549,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         // Check if number of Y values do not out of range
         if (yValues.GetLength(0) > series.YValuesPerPoint)
         {
-            throw new ArgumentOutOfRangeException(nameof(yValues), SR.ExceptionDataPointYValuesBindingCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+            throw new ArgumentOutOfRangeException(nameof(yValues), SR.ExceptionDataPointYValuesBindingCountMismatch(series.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
         }
 
         // Remove all existing data points
@@ -721,7 +721,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         if (yValue is string)
             throw new ArgumentException(SR.ExceptionDataBindYValuesToString, nameof(yValue));
         if (yFields == null)
-            throw new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+            throw new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
 
         // Convert comma separated field names string to array of names
         string[] yFieldNames = yFields.Replace(",,", "\n").Split(',');
@@ -731,7 +731,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         }
 
         if (yFieldNames.GetLength(0) > series.YValuesPerPoint)
-            throw new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+            throw new ArgumentOutOfRangeException(nameof(yFields), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
 
         // Remove all existing data points
         this.Clear();
@@ -928,6 +928,25 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
     /// </summary>
     /// <param name="yValue">List of Y values of the data point.</param>
     /// <returns>Index of newly added data point.</returns>
+    public int AddY(params double[] yValue)
+    {
+        //Check arguments
+        if (yValue is null)
+            throw new ArgumentNullException(nameof(yValue));
+
+        // Create new point object
+        DataPoint newDataPoint = new DataPoint(series);
+        newDataPoint.SetValueY(yValue);
+        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
+        Add(newDataPoint);
+        return Count - 1;
+    }
+
+    /// <summary>
+    /// Adds one data point with one or more Y values.
+    /// </summary>
+    /// <param name="yValue">List of Y values of the data point.</param>
+    /// <returns>Index of newly added data point.</returns>
     public int AddY(params object[] yValue)
     {
         //Check arguments
@@ -935,9 +954,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
             throw new ArgumentNullException(nameof(yValue));
 
         // Auto detect DateTime values type
-        if (this.series.YValueType == ChartValueType.Auto &&
-            yValue.Length > 0 &&
-            yValue[0] is not null)
+        if (this.series.YValueType == ChartValueType.Auto && yValue.Length > 0 && yValue[0] is not null)
         {
             if (yValue[0] is DateTime)
             {
@@ -964,7 +981,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
     /// </summary>
     /// <param name="yValue">Y value of the data point.</param>
     /// <param name="xValue">X value of the data point.</param>
-    /// <returns>Index of newly added data poit.</returns>
+    /// <returns>Index of newly added data point.</returns>
     public int AddXY(double xValue, double yValue)
     {
         // Create new point object
@@ -980,7 +997,27 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
     /// </summary>
     /// <param name="yValue">List of Y values of the data point.</param>
     /// <param name="xValue">X value of the data point.</param>
-    /// <returns>Index of newly added data poit.</returns>
+    /// <returns>Index of newly added data point.</returns>
+    public int AddXY(double xValue, params double[] yValue)
+    {
+        // Auto detect DateTime and String values type
+        if (this.series.XValueType == ChartValueType.Auto)
+            this.series.autoXValueType = true;
+
+        // Create new point object
+        DataPoint newDataPoint = new DataPoint(series);
+        newDataPoint.SetValueXY(xValue, yValue);
+        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
+        Add(newDataPoint);
+        return Count - 1;
+    }
+
+    /// <summary>
+    /// Adds one data point with X value and one or more Y values.
+    /// </summary>
+    /// <param name="yValue">List of Y values of the data point.</param>
+    /// <param name="xValue">X value of the data point.</param>
+    /// <returns>Index of newly added data point.</returns>
     public int AddXY(object xValue, params object[] yValue)
     {
 
@@ -1030,6 +1067,34 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
     }
 
     /// <summary>
+    /// Insert one data point with X value and one Y value.
+    /// </summary>
+    /// <param name="index">Index after which to insert the data point.</param>
+    /// <param name="xValue">X value of the data point.</param>
+    /// <param name="yValue">Y value of the data point.</param>
+    public void InsertXY(int index, double xValue, double yValue)
+    {
+        DataPoint newDataPoint = new DataPoint(series);
+        newDataPoint.SetValueXY(xValue, yValue);
+        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
+        this.Insert(index, newDataPoint);
+    }
+
+    /// <summary>
+    /// Insert one data point with X value and one or more Y values.
+    /// </summary>
+    /// <param name="index">Index after which to insert the data point.</param>
+    /// <param name="xValue">X value of the data point.</param>
+    /// <param name="yValue">List of Y values of the data point.</param>
+    public void InsertXY(int index, double xValue, params double[] yValue)
+    {
+        DataPoint newDataPoint = new DataPoint(series);
+        newDataPoint.SetValueXY(xValue, yValue);
+        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
+        this.Insert(index, newDataPoint);
+    }
+
+    /// <summary>
     /// Insert one data point with X value and one or more Y values.
     /// </summary>
     /// <param name="index">Index after which to insert the data point.</param>
@@ -1039,6 +1104,32 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
     {
         DataPoint newDataPoint = new DataPoint(series);
         newDataPoint.SetValueXY(xValue, yValue);
+        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
+        this.Insert(index, newDataPoint);
+    }
+
+    /// <summary>
+    /// Insert one data point with one Y value.
+    /// </summary>
+    /// <param name="index">Index after which to insert the data point.</param>
+    /// <param name="yValue">Y value of the data point.</param>
+    public void InsertY(int index, double yValue)
+    {
+        DataPoint newDataPoint = new DataPoint(series);
+        newDataPoint.SetValueY(yValue);
+        //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
+        this.Insert(index, newDataPoint);
+    }
+
+    /// <summary>
+    /// Insert one data point with one or more Y values.
+    /// </summary>
+    /// <param name="index">Index after which to insert the data point.</param>
+    /// <param name="yValue">List of Y values of the data point.</param>
+    public void InsertY(int index, params double[] yValue)
+    {
+        DataPoint newDataPoint = new DataPoint(series);
+        newDataPoint.SetValueY(yValue);
         //DataPointInit(ref newDataPoint); // not needed here - will be called during adding in Initialize
         this.Insert(index, newDataPoint);
     }
@@ -1067,7 +1158,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 
         // Refresh Minimum and Maximum from data after recalc and set data
         Common?.ChartPicture?.ResetMinMaxFromData();
-        base.ClearItemsAfter(index);
+        ClearItemsAfter(index);
     }
 
     /// <summary>
@@ -1953,14 +2044,66 @@ public class DataPoint : DataPointCustomProperties
     }
 
     /// <summary>
-    /// Set X value and one or more Y values of the data point.
+    /// Set X and Y value of the data point. If <paramref name="yValue"/> is <see cref="double.NaN"/> will set <see cref="IsEmpty"/> and Y value to 0.
+    /// </summary>
+    /// <param name="xValue">X value of the data point.</param>
+    /// <param name="yValue">Y value of the data point.</param>
+    public void SetValueXY(double xValue, double yValue)
+    {        
+        if (double.IsNaN(yValue))
+        {
+            // Set point empty flag and values to zero
+            this.IsEmpty = true;
+            this._yValue[0] = 0.0;
+            // set X
+            this._xValue = xValue;
+            return;
+        }
+
+        // Set Y value first
+        SetValueY(yValue);
+        // set X
+        this._xValue = xValue;
+    }
+
+    /// <summary>
+    /// Set X value and one or more Y values of the data point. If one of the <paramref name="yValue"/> is <see cref="double.NaN"/> will set <see cref="IsEmpty"/> and all Y values to 0.
+    /// </summary>
+    /// <param name="xValue">X value of the data point.</param>
+    /// <param name="yValue">List of Y values of the data point.</param>
+    public void SetValueXY(double xValue, params double[] yValue)
+    {
+        // Set Y value first
+        SetValueY(yValue);
+        // set X
+        this._xValue = xValue;
+
+        // Check if one of Y values are not available
+        for (int i = 0; i < _yValue.Length; i++)
+        {
+            if (!double.IsNaN(this._yValue[i]))
+                continue;
+
+            // Set point empty flag and values to zero
+            this.IsEmpty = true;
+            for (int valueIndex = 0; valueIndex < this._yValue.Length; valueIndex++)
+            {
+                this._yValue[valueIndex] = 0.0;
+            }
+
+            break;
+        }
+    }
+
+    /// <summary>
+    /// Set X value and one or more Y values of the data point. If one of the <paramref name="yValue"/> is <see cref="double.NaN"/> will set <see cref="IsEmpty"/> and all Y values to 0.
     /// </summary>
     /// <param name="xValue">X value of the data point.</param>
     /// <param name="yValue">List of Y values of the data point.</param>
     public void SetValueXY(object xValue, params object[] yValue)
     {
         // Check arguments
-        if (xValue == null)
+        if (xValue is null)
             throw new ArgumentNullException(nameof(xValue));
 
         // Set Y value first
@@ -1968,75 +2111,155 @@ public class DataPoint : DataPointCustomProperties
 
         // Check if parameters type matches with series type
         Type paramType = xValue.GetType();
-        base.series?.CheckSupportedTypes(paramType);
+        series?.CheckSupportedTypes(paramType);
 
         // Save value in the array
-        if (paramType == typeof(string))
-        {
-            AxisLabel = (string)xValue;
-        }
-        else if (paramType == typeof(DateTime))
-        {
-            this._xValue = ((DateTime)xValue).ToOADate();
-        }
+        if (xValue is string str)
+            AxisLabel = str;
+        else if (xValue is DateTime dtm)
+            this._xValue = dtm.ToOADate();
         else
-        {
             this._xValue = ConvertValue(xValue);
-        }
 
         // Get Date or Time if required
-        if (base.series != null && xValue is DateTime)
+        if (series is not null && xValue is DateTime dttm)
         {
-            if (base.series.XValueType == ChartValueType.Date)
+            if (series.XValueType == ChartValueType.Date)
             {
-                DateTime time = new DateTime(
-                    ((DateTime)xValue).Year,
-                    ((DateTime)xValue).Month,
-                    ((DateTime)xValue).Day,
-                    0,
-                    0,
-                    0,
-                    0);
-                this._xValue = time.ToOADate();
+                this._xValue = dttm.Date.ToOADate();
             }
-            else if (base.series.XValueType == ChartValueType.Time)
+            else if (series.XValueType == ChartValueType.Time)
             {
                 DateTime time = new DateTime(
                     1899,
                     12,
                     30,
-                    ((DateTime)xValue).Hour,
-                    ((DateTime)xValue).Minute,
-                    ((DateTime)xValue).Second,
-                    ((DateTime)xValue).Millisecond);
+                    dttm.Hour,
+                    dttm.Minute,
+                    dttm.Second,
+                    dttm.Millisecond);
                 this._xValue = time.ToOADate();
             }
         }
 
-        // Check if one of Y values are not avilable
-        bool empty = false;
-        foreach (double d in this._yValue)
+        // Check if one of Y values are not available
+        for (int i = 0; i < _yValue.Length; i++)
         {
-            if (double.IsNaN(d))
-            {
-                empty = true;
-                break;
-            }
-        }
+            if (!double.IsNaN(this._yValue[i]))
+                continue;
 
-        // Set point empty flag and values to zero
-        if (empty)
-        {
+            // Set point empty flag and values to zero
             this.IsEmpty = true;
             for (int valueIndex = 0; valueIndex < this._yValue.Length; valueIndex++)
             {
                 this._yValue[valueIndex] = 0.0;
+            }
+
+            break;
+        }
+    }
+
+    /// <summary>
+    /// Set Y value of the data point.
+    /// </summary>
+    /// <param name="yValue">Y value of the data point.</param>
+    public void SetValueY(double yValue)
+    {
+        _yValue[0] = yValue;
+
+        if (series is null)
+            return;
+
+        // Get Date or Time if required
+        if (series.YValueType == ChartValueType.Date)
+        {
+            if (yValue == 0.0)
+                this._yValue[0] = Math.Floor(yValue);
+            else
+                this._yValue[0] = DateTime.FromOADate(yValue).Date.ToOADate();
+        }
+        else if (series.YValueType == ChartValueType.Time)
+        {
+            if (yValue == 0.0)
+            {
+                this._yValue[0] = this._xValue - Math.Floor(yValue);
+            }
+            else
+            {
+                DateTime yTime = DateTime.FromOADate(yValue);
+                DateTime time = new DateTime(
+                    1899,
+                    12,
+                    30,
+                    yTime.Hour,
+                    yTime.Minute,
+                    yTime.Second,
+                    yTime.Millisecond);
+
+                this._yValue[0] = time.ToOADate();
             }
         }
     }
 
     /// <summary>
     /// Set one or more Y values of the data point.
+    /// </summary>
+    /// <param name="yValue">List of Y values of the data point.</param>
+    public void SetValueY(params double[] yValue)
+    {
+        // Check number of parameters. Should be more than 0 and 
+        if (yValue.Length == 0 || (series is not null && yValue.Length > series.YValuesPerPoint))
+            throw new ArgumentOutOfRangeException(nameof(yValue), SR.ExceptionDataPointYValuesSettingCountMismatch(series.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
+
+        // Make sure the Y values array is big enough
+        if (this._yValue.Length < yValue.Length)
+            this._yValue = new double[yValue.Length];
+
+        // Save value in the array
+        Array.Copy(yValue, _yValue, yValue.Length);
+
+        if (series is null)
+            return;
+
+        // Get Date or Time if required
+        if (series.YValueType == ChartValueType.Date)
+        {
+            for (int i = 0; i < yValue.Length; i++)
+            {
+                if (yValue[i] == 0.0)
+                    this._yValue[i] = Math.Floor(this._yValue[i]);
+                else
+                    this._yValue[i] = DateTime.FromOADate(yValue[i]).Date.ToOADate();
+            }
+        }
+        else if (series.YValueType == ChartValueType.Time)
+        {
+            for (int i = 0; i < yValue.Length; i++)
+            {
+                if (yValue[i] == 0.0)
+                {
+                     this._yValue[i] = this._xValue - Math.Floor(this._yValue[i]);
+                }
+                else
+                {
+                    DateTime yTime = DateTime.FromOADate(yValue[i]);
+                    DateTime time = new DateTime(
+                        1899,
+                        12,
+                        30,
+                        yTime.Hour,
+                        yTime.Minute,
+                        yTime.Second,
+                        yTime.Millisecond);
+
+                    this._yValue[i] = time.ToOADate();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Set one or more Y values of the data point. If first of the <paramref name="yValue"/> is <see langword="null" /> or <see cref="DBNull"/> will set <see cref="IsEmpty"/>.
     /// </summary>
     /// <param name="yValue">List of Y values of the data point.</param>
     public void SetValueY(params object[] yValue)
@@ -2046,8 +2269,8 @@ public class DataPoint : DataPointCustomProperties
             throw new ArgumentNullException(nameof(yValue));
 
         // Check number of parameters. Should be more than 0 and 
-        if (yValue.Length == 0 || (base.series is not null && yValue.Length > base.series.YValuesPerPoint))
-            throw new ArgumentOutOfRangeException(nameof(yValue), SR.ExceptionDataPointYValuesSettingCountMismatch(base.series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+        if (yValue.Length == 0 || (series is not null && yValue.Length > series.YValuesPerPoint))
+            throw new ArgumentOutOfRangeException(nameof(yValue), SR.ExceptionDataPointYValuesSettingCountMismatch(series.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
 
         // Check if there is a Null Y value
         for (int i = 0; i < yValue.Length; i++)
@@ -2056,21 +2279,17 @@ public class DataPoint : DataPointCustomProperties
             {
                 yValue[i] = 0.0;
                 if (i == 0)
-                {
                     this.IsEmpty = true;
-                }
             }
         }
 
         // Check if parameters type matches with series type
         Type paramType = yValue[0].GetType();
-        base.series?.CheckSupportedTypes(paramType);
+        series?.CheckSupportedTypes(paramType);
 
         // Make sure the Y values array is big enough
         if (this._yValue.Length < yValue.Length)
-        {
             this._yValue = new double[yValue.Length];
-        }
 
         // Save value in the array
         if (paramType == typeof(string))
@@ -2085,7 +2304,7 @@ public class DataPoint : DataPointCustomProperties
             catch
             {
                 // Get reference to the chart object
-                if (Common != null && Common.ChartPicture != null && Common.ChartPicture.SuppressExceptions)
+                if (Common?.ChartPicture?.SuppressExceptions == true)
                 {
                     this.IsEmpty = true;
                     for (int i = 0; i < yValue.Length; i++)
@@ -2122,66 +2341,57 @@ public class DataPoint : DataPointCustomProperties
             }
         }
 
+        if (series is null)
+            return;
+
         // Get Date or Time if required
-        if (base.series is not null)
+        for (int i = 0; i < yValue.Length; i++)
         {
-            for (int i = 0; i < yValue.Length; i++)
+            if (yValue[i] is null || (yValue[i] is double dbl && dbl == 0.0))
             {
-                if (yValue[i] is null || (yValue[i] is double dbl && dbl == 0.0))
+                if (series.YValueType == ChartValueType.Date)
                 {
-                    if (base.series.YValueType == ChartValueType.Date)
-                    {
-                        this._yValue[i] = Math.Floor(this._yValue[i]);
-                    }
-                    else if (base.series.YValueType == ChartValueType.Time)
-                    {
-                        this._yValue[i] = this._xValue - Math.Floor(this._yValue[i]);
-                    }
+                    this._yValue[i] = Math.Floor(this._yValue[i]);
                 }
-                else
+                else if (series.YValueType == ChartValueType.Time)
                 {
-                    if (base.series.YValueType == ChartValueType.Date)
-                    {
-                        DateTime yDate;
-                        if (yValue[i] is DateTime dt)
-                            yDate = dt;
-                        else if (yValue[i] is double dbl1)
-                            yDate = DateTime.FromOADate(dbl1);
-                        else
-                            yDate = Convert.ToDateTime(yValue[i], CultureInfo.InvariantCulture); //This will throw an exception in case when the yValue type is not compatible with the DateTime
+                    this._yValue[i] = this._xValue - Math.Floor(this._yValue[i]);
+                }
+            }
+            else
+            {
+                if (series.YValueType == ChartValueType.Date)
+                {
+                    DateTime yDate;
+                    if (yValue[i] is DateTime dt)
+                        yDate = dt;
+                    else if (yValue[i] is double dbl1)
+                        yDate = DateTime.FromOADate(dbl1);
+                    else
+                        yDate = Convert.ToDateTime(yValue[i], CultureInfo.InvariantCulture); //This will throw an exception in case when the yValue type is not compatible with the DateTime
 
-                        DateTime date = new DateTime(
-                            yDate.Year,
-                            yDate.Month,
-                            yDate.Day,
-                            0,
-                            0,
-                            0,
-                            0);
+                    this._yValue[i] = yDate.Date.ToOADate();
+                }
+                else if (series.YValueType == ChartValueType.Time)
+                {
+                    DateTime yTime;
+                    if (yValue[i] is DateTime tm)
+                        yTime = tm;
+                    if (yValue[i] is double dbl2)
+                        yTime = DateTime.FromOADate(dbl2);
+                    else
+                        yTime = Convert.ToDateTime(yValue[i], CultureInfo.InvariantCulture); //This will throw an exception in case when the yValue type is not compatible with the DateTime
 
-                        this._yValue[i] = date.ToOADate();
-                    }
-                    else if (base.series.YValueType == ChartValueType.Time)
-                    {
-                        DateTime yTime;
-                        if (yValue[i] is DateTime tm)
-                            yTime = tm;
-                        if (yValue[i] is double dbl2)
-                            yTime = DateTime.FromOADate(dbl2);
-                        else
-                            yTime = Convert.ToDateTime(yValue[i], CultureInfo.InvariantCulture); //This will throw an exception in case when the yValue type is not compatible with the DateTime
+                    DateTime time = new DateTime(
+                        1899,
+                        12,
+                        30,
+                        yTime.Hour,
+                        yTime.Minute,
+                        yTime.Second,
+                        yTime.Millisecond);
 
-                        DateTime time = new DateTime(
-                            1899,
-                            12,
-                            30,
-                            yTime.Hour,
-                            yTime.Minute,
-                            yTime.Second,
-                            yTime.Millisecond);
-
-                        this._yValue[i] = time.ToOADate();
-                    }
+                    this._yValue[i] = time.ToOADate();
                 }
             }
         }
@@ -2248,7 +2458,7 @@ public class DataPoint : DataPointCustomProperties
         if (valueName == null)
             throw new ArgumentNullException(nameof(valueName));
 
-        valueName = valueName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+        valueName = valueName.ToUpper(CultureInfo.InvariantCulture);
         if (string.Equals(valueName, "X", StringComparison.Ordinal))
         {
             return this.XValue;
@@ -2265,7 +2475,7 @@ public class DataPoint : DataPointCustomProperties
                 int yIndex;
                 try
                 {
-                    yIndex = int.Parse(valueName[1..], System.Globalization.CultureInfo.InvariantCulture) - 1;
+                    yIndex = int.Parse(valueName[1..], CultureInfo.InvariantCulture) - 1;
                 }
                 catch (Exception)
                 {
@@ -2316,7 +2526,7 @@ public class DataPoint : DataPointCustomProperties
         result = result.Replace(KeywordName.AxisLabel, this.AxisLabel);
 
         // #CUSTOMPROPERTY - one of the custom properties by name
-        result = DataPoint.ReplaceCustomPropertyKeyword(result, this);
+        result = ReplaceCustomPropertyKeyword(result, this);
 
         if (this.series is not null)
         {
@@ -2608,10 +2818,10 @@ public class DataPoint : DataPointCustomProperties
     ]
     public bool IsEmpty
     {
-        get => base.isEmptyPoint;
+        get => isEmptyPoint;
         set
         {
-            base.isEmptyPoint = value;
+            isEmptyPoint = value;
             this.Invalidate(true);
         }
     }
@@ -2732,7 +2942,7 @@ public class DataPointCustomProperties : ChartNamedElement
         }
 
         // Check if trying to delete the common attribute
-        string[] AttributesNames = CommonCustomProperties.GetNames(typeof(CommonCustomProperties));
+        string[] AttributesNames = Enum.GetNames(typeof(CommonCustomProperties));
         foreach (string commonName in AttributesNames)
         {
             if (name == commonName)
@@ -3940,7 +4150,7 @@ public class DataPointCustomProperties : ChartNamedElement
 
                     if (SystemInformation.HighContrast)
                     {
-                        return Drawing.SystemColors.WindowText;
+                        return SystemColors.WindowText;
                     }
 
                     return series.fontColor;
@@ -4411,7 +4621,7 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             // Save all custom properties in a string
             string result = string.Empty;
-            string[] attributesNames = CommonCustomProperties.GetNames(typeof(CommonCustomProperties));
+            string[] attributesNames = Enum.GetNames(typeof(CommonCustomProperties));
             for (int i = properties.Count - 1; i >= 0; i--)
             {
                 if (this[i] != null)
@@ -4749,7 +4959,7 @@ public class DataPointCustomProperties : ChartNamedElement
                         return (Color)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.LabelBackColor);
 
                     if (SystemInformation.HighContrast)
-                        return Drawing.SystemColors.Window;
+                        return SystemColors.Window;
 
                     return series.labelBackColor;
                 }
@@ -4799,7 +5009,7 @@ public class DataPointCustomProperties : ChartNamedElement
                         return (Color)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.LabelBorderColor);
 
                     if (SystemInformation.HighContrast)
-                        return Drawing.SystemColors.ActiveBorder;
+                        return SystemColors.ActiveBorder;
 
                     return series.labelBorderColor;
                 }
