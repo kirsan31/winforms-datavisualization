@@ -9,11 +9,10 @@
 
 	<PropertyGroup>
 		<MajorVer>1</MajorVer>
-		<MinorPatchVer>7.0</MinorPatchVer>
-		<PRVer></PRVer>
+		<MinorPatchVer>8.0</MinorPatchVer>
+		<PRVer>-pr</PRVer>
 		<NugetReleaseNotes>
-			1.7 release.
-			Tiny performance optimization since 1.7 preview.
+			1.8 preview. New 3D mode - ZDepthRealCalc. Many performance optimizations.
 		</NugetReleaseNotes>
 	</PropertyGroup>
 </Project>

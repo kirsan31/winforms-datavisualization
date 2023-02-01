@@ -657,11 +657,6 @@ public class Series : DataPointCustomProperties, IDisposable
             {
                 throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2(CustomPropertyName.ZValue));
             }
-
-            if (pointZpos > 100 || pointZpos < 0)
-            {
-                throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange(CustomPropertyName.ZValue, 0.ToString(CultureInfo.CurrentCulture), 100.ToString(CultureInfo.CurrentCulture)));
-            }
         }
 
         return (seriesDepthAbsolue, pointZpos);
