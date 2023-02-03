@@ -930,19 +930,28 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
     /// <returns>Axis value.</returns>
     public double PixelPositionToValue(double position)
     {
-        // Convert it to pixels
-        double val = position;
+        // Convert to relative position and get axis value
+        return PositionToValue(PixelToRelativePosition(position));
+    }
+
+    /// <summary>
+    /// This function converts a pixel position to relative position.
+    /// </summary>
+    /// <param name="position">Pixel position.</param>
+    /// <returns>Relative position.</returns>
+    public double PixelToRelativePosition(double position)
+    {
+        // Convert to relative
         if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
         {
-            val *= 100F / (this.Common.ChartPicture.Width - 1);
+            position *= 100F / (this.Common.ChartPicture.Width - 1);
         }
         else
         {
-            val *= 100F / (this.Common.ChartPicture.Height - 1);
+            position *= 100F / (this.Common.ChartPicture.Height - 1);
         }
 
-        // Get from relative position
-        return PositionToValue(val);
+        return position;
     }
 
     #endregion Axis position converters methods

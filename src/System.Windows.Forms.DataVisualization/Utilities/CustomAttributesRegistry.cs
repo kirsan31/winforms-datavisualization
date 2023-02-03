@@ -346,6 +346,9 @@ public static class CustomPropertyName
     public const string PyramidInsideLabelAlignment = "PyramidInsideLabelAlignment";
     public const string PyramidOutsideLabelPlacement = "PyramidOutsideLabelPlacement";
     public const string PyramidValueType = "PyramidValueType";
+    /// <summary>
+    /// Z value of the series (float number from 0 to 100% of the chart area). For <see cref="ChartArea3DStyle.ZDepthRealCalc"/> 3D mode.
+    /// </summary>
     public const string ZValue = nameof(ZValue);
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
@@ -1156,7 +1159,7 @@ internal class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.ZValue,
             typeof(float),
             0f,
-            "Z value of the series (0 - 100% of chart area). For " + nameof(ChartArea3DStyle.ZDepthRealCalc) + " 3D mode.",
+            "Z value of the series (float number from 0 to 100% of the chart area). For " + nameof(ChartArea3DStyle.ZDepthRealCalc) + " 3D mode.",
             chartTypes,
             true,
             false)
