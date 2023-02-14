@@ -1,0 +1,18 @@
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms.DataVisualization.Charting.Utilities;
+using System.Globalization;
+...
+
+// show the chart in 3D
+chart1.ChartAreas["Default"].Area3DStyle.Enable3D = true;
+
+// enable ZDepthRealCalc mode
+chart1.ChartAreas["Default"].Area3DStyle.ZDepthRealCalc = true;
+
+// recommended
+chart1.ChartAreas["Default"].Area3DStyle.IsRightAngleAxes = false;
+	
+// set first series ZValue to 54% (example value)
+chart1.Series[0][CustomPropertyName.ZValue] = 54.ToString(NumberFormatInfo.InvariantInfo);
+
+...

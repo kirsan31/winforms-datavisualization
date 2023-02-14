@@ -473,6 +473,12 @@
 		<None Update="ChartFeatures\ChartArea\Appearance\vbcode.txt">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="ChartFeatures\ChartArea\ChartArea3D ZDepthRealCalc\cscode.txt">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="ChartFeatures\ChartArea\ChartArea3D ZDepthRealCalc\sampleConfig.xml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="ChartFeatures\ChartArea\ChartArea3D\cscode.txt">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
