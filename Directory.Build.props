@@ -12,7 +12,8 @@
 		<MinorPatchVer>8.0</MinorPatchVer>
 		<PRVer>-pr</PRVer>
 		<NugetReleaseNotes>
-			1.8 preview. New 3D mode - ZDepthRealCalc. Many performance optimizations.
+			1.8 preview. New 3D mode - ZDepthRealCalc. Some new API elements. Many performance optimizations.
+			More info: https://github.com/kirsan31/winforms-datavisualization/releases/tag/1.8pr
 		</NugetReleaseNotes>
 	</PropertyGroup>
 </Project>
