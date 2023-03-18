@@ -84,7 +84,7 @@ internal class PointChart : IChartType
     /// <summary>
     /// Stores information about 3D labels. Used to draw 3D labels in layers.
     /// </summary>
-    internal ArrayList label3DInfoList;
+    internal List<Label3DInfo> label3DInfoList;
 
     #endregion
 
@@ -1011,8 +1011,7 @@ internal class PointChart : IChartType
         else
         {
             // Draw just one chart series
-            typeSeries = new List<string>();
-            typeSeries.Add(seriesToDraw.Name);
+            typeSeries = new List<string> { seriesToDraw.Name };
         }
 
 
@@ -1022,7 +1021,7 @@ internal class PointChart : IChartType
         ArrayList dataPointDrawingOrder = area.GetDataPointDrawingOrder(typeSeries, this, selection, COPCoordinates.X, null, this.YValueIndex, false);
 
         //************************************************************
-        //** Loop through all data poins
+        //** Loop through all data points
         //************************************************************
         foreach (object obj in dataPointDrawingOrder)
         {
@@ -1141,8 +1140,8 @@ internal class PointChart : IChartType
         //** Transform marker position in 3D space
         //************************************************************
         // Get projection coordinates
-        Point3D[] marker3DPosition = new Point3D[1];
-        marker3DPosition[0] = new Point3D(markerPosition.X, markerPosition.Y, pointEx.zPosition + (this.middleMarker ? pointEx.depth / 2f : pointEx.depth));
+        Point3D[] marker3DPosition = { new Point3D(markerPosition.X, markerPosition.Y, pointEx.zPosition + (area.Area3DStyle.ZDepthRealCalc ? 0 :
+            (area.ReverseSeriesOrder ? -1 : 1) * (middleMarker ? pointEx.depth / 2f : pointEx.depth))) };
 
         // Transform coordinates of text size
         area.matrix3D.TransformPoints(marker3DPosition);
@@ -1174,7 +1173,7 @@ internal class PointChart : IChartType
                 // Draw the marker
                 rectPath = graph.DrawMarker3D(area.matrix3D,
                     area.Area3DStyle.LightStyle,
-                    pointEx.zPosition + (this.middleMarker ? pointEx.depth / 2f : pointEx.depth),
+                    pointEx.zPosition + (area.Area3DStyle.ZDepthRealCalc ? 0 : (area.ReverseSeriesOrder ? -1 : 1) * (middleMarker ? pointEx.depth / 2f : pointEx.depth)),
                     markerPosition,
                     (pointMarkerStyle == MarkerStyle.None) ? MarkerStyle.Circle : pointMarkerStyle,
                     (int)markerSize.Height,
@@ -1183,10 +1182,10 @@ internal class PointChart : IChartType
                     GetMarkerBorderSize(point),
                     pointMarkerImage,
                     point.MarkerImageTransparentColor,
-                    (point.series != null) ? point.series.ShadowOffset : 0,
-                    (point.series != null) ? point.series.ShadowColor : Color.Empty,
+                    point.series?.ShadowOffset ?? 0,
+                    point.series?.ShadowColor ?? Color.Empty,
                     new RectangleF(markerRotatedPosition.X, markerRotatedPosition.Y, markerSize.Width, markerSize.Height),
-                    drawingOperationType);
+                    drawingOperationType, area.Area3DStyle.ZDepthRealCalc);
 
                 // End Svg Selection mode
                 graph.EndHotRegion();
@@ -1200,22 +1199,24 @@ internal class PointChart : IChartType
         //** with current Z position are drawn.
         //** This is done to achieve correct Z order layering of labels.
         //**********************************************************************
-        if (this.label3DInfoList != null &&
-            this.label3DInfoList.Count > 0 &&
-            ((Label3DInfo)this.label3DInfoList[^1]).PointEx.zPosition != pointEx.zPosition)
+        if (this.label3DInfoList?.Count > 0 &&
+            (this.label3DInfoList[^1]).PointEx.zPosition != pointEx.zPosition)
         {
             // Draw labels with information previously collected
             this.DrawAccumulated3DLabels(graph, common, area);
         }
 
         // Check if labels info list was created
-        this.label3DInfoList ??= new ArrayList();
+        this.label3DInfoList ??= new ();
 
         // Store information about the label for future drawing
-        Label3DInfo label3DInfo = new Label3DInfo();
-        label3DInfo.PointEx = pointEx;
-        label3DInfo.MarkerPosition = markerRotatedPosition;
-        label3DInfo.MarkerSize = markerSize;
+        Label3DInfo label3DInfo = new Label3DInfo
+        {
+            PointEx = pointEx,
+            MarkerPosition = markerRotatedPosition,
+            MarkerSize = markerSize
+        };
+
         this.label3DInfoList.Add(label3DInfo);
 
         if (common.ProcessModeRegions)
@@ -1285,7 +1286,7 @@ internal class PointChart : IChartType
         CommonElements common,
         ChartArea area)
     {
-        if (this.label3DInfoList != null)
+        if (this.label3DInfoList is not null)
         {
             foreach (Label3DInfo labelInfo in this.label3DInfoList)
             {
@@ -1684,11 +1685,10 @@ internal class PointChart : IChartType
                 // Get series depth and Z position
                 area.GetSeriesZPositionAndDepth(series, out float seriesDepth, out float seriesZPosition);
 
-                Point3D[] marker3DPosition = new Point3D[1];
-                marker3DPosition[0] = new Point3D(
+                Point3D[] marker3DPosition = { new Point3D(
                     markerPosition.X,
                     markerPosition.Y,
-                    seriesZPosition + (this.middleMarker ? seriesDepth / 2f : seriesDepth));
+                    seriesZPosition + (area.Area3DStyle.ZDepthRealCalc ? 0 : (middleMarker ? seriesDepth / 2f : seriesDepth))) };
 
                 // Transform coordinates
                 area.matrix3D.TransformPoints(marker3DPosition);

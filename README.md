@@ -9,6 +9,8 @@ This repository is a [.NET](https://dotnet.microsoft.com/) continuation of [.NET
 - .NET 6+ support.  
 - **Full support of new WinForms designer.**  
 - Lots of performance improvements.
+- New [3D mode](Docs/ZDepthRealCalc/ZDepthRealCalc.md) for emulating Z axis.
+- [New API elements](Docs/NewAPI.md).
 - [Nuget package](https://www.nuget.org/packages/WinForms.DataVisualization/).  
 - Small bugs fixes.
 

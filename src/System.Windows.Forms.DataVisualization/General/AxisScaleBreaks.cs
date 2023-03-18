@@ -7,6 +7,7 @@
 //
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
@@ -732,7 +733,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             double dataRangePercent = (maxYValue - minYValue) / ((maximum - minimum) / 100.0);
 
             // Get sequences of empty segments
-            ArrayList emptySequences = new ArrayList();
+            List<int> emptySequences = new ();
             bool doneFlag = false;
             while (!doneFlag)
             {
@@ -862,12 +863,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="excludedSegments">Array of segment indexes.</param>
         /// <param name="segmentIndex">Index of the segment to check.</param>
         /// <returns>True if segment with specified index is marked as excluded.</returns>
-        private bool IsExcludedSegment(ArrayList excludedSegments, int segmentIndex)
+        private bool IsExcludedSegment(List<int> excludedSegments, int segmentIndex)
         {
             for (int index = 0; index < excludedSegments.Count; index += 2)
             {
-                if (segmentIndex >= (int)excludedSegments[index] &&
-                    segmentIndex < (int)excludedSegments[index] + (int)excludedSegments[index + 1])
+                if (segmentIndex >= excludedSegments[index] &&
+                    segmentIndex < excludedSegments[index] + excludedSegments[index + 1])
                 {
                     return true;
                 }

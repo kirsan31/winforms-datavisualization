@@ -1124,7 +1124,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
         /// <param name="lineSegmentType">AxisName of line segment. Used for step lines and splines.</param>
         /// <param name="thinBorders">Thin border will be drawn on specified sides.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         internal GraphicsPath Draw3DPolygon(
             ChartArea area,
             Matrix3D matrix,
@@ -1176,8 +1176,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Color surfaceBorderColor = borderColor;
             if (surfaceBorderColor == Color.Empty)
             {
-                // If border color is emty use color slightly darker than main back color
-                surfaceBorderColor = ChartGraphics.GetGradientColor(backColor, Color.Black, 0.2);
+                // If border color is empty use color slightly darker than main back color
+                surfaceBorderColor = GetGradientColor(backColor, Color.Black, 0.2);
             }
 
             //**********************************************************************
@@ -1241,7 +1241,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             //**********************************************************************
-            //** Redraw front line of the previuos line segment.
+            //** Redraw front line of the previous line segment.
             //**********************************************************************
             if (area.Area3DStyle.Perspective == 0)
             {
@@ -1292,7 +1292,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 //**********************************************************************
-                //** Check if front line should be redrawn whith the next segment.
+                //** Check if front line should be redrawn with the next segment.
                 //**********************************************************************
                 if (drawElements)
                 {
@@ -1474,7 +1474,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="multiSeries">Multiple series are drawn at the same time.</param>
         /// <param name="yValueIndex">Index of the Y value to use.</param>
         /// <param name="clipInsideArea">Surface should be clipped inside plotting area.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         internal GraphicsPath Draw3DSplineSurface(
             ChartArea area,
             Matrix3D matrix,
@@ -1587,7 +1587,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     dp1.yPosition = splinePathPoints[pIndex].Y;
                 }
 
-                // Get sefment type
+                // Get segment type
                 lineSegmentType = LineSegmentType.Middle;
                 if (pIndex == 1)
                 {
@@ -1675,7 +1675,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="multiSeries">Multiple series are drawn at the same time.</param>
         /// <param name="yValueIndex">Index of the Y value to use.</param>
         /// <param name="clipInsideArea">Surface should be clipped inside plotting area.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if <paramref name="operationType"/> parameter is set to <see cref="DrawingOperationTypes.CalcElementPath"/>, otherwise Null.</returns>
         internal GraphicsPath Draw3DSurface(
             ChartArea area,
             Matrix3D matrix,
@@ -1767,19 +1767,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 plotAreaPositionRight += 0.001M;
                 plotAreaPositionBottom += 0.001M;
 
-                // Chech data points X values
+                // Check data points X values
                 if ((decimal)firstPoint.xPosition < plotAreaPositionX ||
                     (decimal)firstPoint.xPosition > plotAreaPositionRight ||
                     (decimal)secondPoint.xPosition < plotAreaPositionX ||
                     (decimal)secondPoint.xPosition > plotAreaPositionRight)
                 {
-                    // Check if surface completly out of the plot area
+                    // Check if surface completely out of the plot area
                     if ((decimal)firstPoint.xPosition < plotAreaPositionX &&
                         (decimal)secondPoint.xPosition < plotAreaPositionX)
                     {
                         return resultPath;
                     }
-                    // Check if surface completly out of the plot area
+                    // Check if surface completely out of the plot area
                     if ((decimal)firstPoint.xPosition > plotAreaPositionRight &&
                         (decimal)secondPoint.xPosition > plotAreaPositionRight)
                     {
@@ -1821,7 +1821,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
 
-                // Chech data points Y values
+                // Check data points Y values
                 if ((decimal)firstPoint.yPosition < plotAreaPositionY ||
                     (decimal)firstPoint.yPosition > plotAreaPositionBottom ||
                     (decimal)secondPoint.yPosition < plotAreaPositionY ||
@@ -1849,8 +1849,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Calculate color used to draw "cut" surfaces
-                    Color cutSurfaceBackColor = ChartGraphics.GetGradientColor(backColor, Color.Black, 0.5);
-                    Color cutSurfaceBorderColor = ChartGraphics.GetGradientColor(borderColor, Color.Black, 0.5);
+                    Color cutSurfaceBackColor = GetGradientColor(backColor, Color.Black, 0.5);
+                    Color cutSurfaceBorderColor = GetGradientColor(borderColor, Color.Black, 0.5);
 
                     // Draw just one surface
                     if (surfaceCompletlyOutside)
@@ -1961,10 +1961,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             segmentIndex == 2 && reversed)
                         {
                             // Draw first segment
-                            if (intersectionPoint2 == null)
-                            {
-                                intersectionPoint2 = intersectionPoint;
-                            }
+                            intersectionPoint2 ??= intersectionPoint;
                             intersectionPoint2.dataPoint = secondPoint.dataPoint;
                             intersectionPoint2.index = secondPoint.index;
 
@@ -2026,6 +2023,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             resultPath.SetMarkers();
                             resultPath.AddPath(segmentPath, true);
                         }
+
                         segmentPath?.Dispose();
                     }
 
@@ -2043,10 +2041,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Define 4 points polygon
             Point3D[] points3D = new Point3D[4];
-            points3D[0] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ + depth);
-            points3D[1] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ + depth);
-            points3D[2] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ);
-            points3D[3] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ);
+
+            if (area.Area3DStyle.ZDepthRealCalc)
+            {
+                points3D[0] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ + borderWidth / 2f);
+                points3D[1] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ + borderWidth / 2f);
+                points3D[2] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ - borderWidth / 2f);
+                points3D[3] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ - borderWidth / 2f);
+            }
+            else
+            {
+                points3D[0] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ + depth);
+                points3D[1] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ + depth);
+                points3D[2] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ);
+                points3D[3] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ);
+            }
 
             // Transform coordinates
             matrix.TransformPoints(points3D);
@@ -2061,327 +2070,343 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //**********************************************************************
             //** Define drawing colors
             //**********************************************************************
-            bool topIsVisible = IsSurfaceVisible(points3D[0], points3D[1], points3D[2]);
-            Color polygonColor = matrix.GetPolygonLight(points3D, backColor, topIsVisible, area.Area3DStyle.Rotation, surfaceName, area.ReverseSeriesOrder);
+            Color polygonColor = default;
             Color surfaceBorderColor = borderColor;
+            if (!area.Area3DStyle.ZDepthRealCalc)
+                polygonColor = matrix.GetPolygonLight(points3D, backColor, IsSurfaceVisible(points3D[0], points3D[1], points3D[2]), area.Area3DStyle.Rotation, surfaceName, area.ReverseSeriesOrder);
+
             if (surfaceBorderColor == Color.Empty)
             {
-                // If border color is emty use color slightly darker than main back color
-                surfaceBorderColor = ChartGraphics.GetGradientColor(backColor, Color.Black, 0.2);
+                if (area.Area3DStyle.ZDepthRealCalc)
+                {
+                    surfaceBorderColor = backColor;
+                }
+                else
+                {
+                    // If border color is empty use color slightly darker than main back color
+                    surfaceBorderColor = GetGradientColor(backColor, Color.Black, 0.2);
+                }
             }
 
             //**********************************************************************
             //** Draw elements if required.
             //**********************************************************************
 #pragma warning disable CA2000 // Dispose objects before losing scope
-            Pen thinBorderPen = new Pen(surfaceBorderColor, 1);
+            Pen thinBorderPen = !drawElements || area.Area3DStyle.ZDepthRealCalc || (borderWidth > 1 && forceThickBorder && !forceThinBorder) ? null : new Pen(surfaceBorderColor, 1);
 #pragma warning restore CA2000 // Dispose objects before losing scope
             if (drawElements)
             {
-                // Draw the polygon
-                if (backColor != Color.Transparent)
+                if (area.Area3DStyle.ZDepthRealCalc)
                 {
-                    // Remember SmoothingMode and turn off anti aliasing
-                    SmoothingMode oldSmoothingMode = SmoothingMode;
-                    SmoothingMode = SmoothingMode.Default;
-
-                    // Draw the polygon
-                    using (Brush brush = new SolidBrush(polygonColor))
+                    using Pen linePen = new Pen(surfaceBorderColor, borderWidth)
                     {
-                        FillPolygon(brush, polygonPoints);
-                    }
+                        StartCap = LineCap.Round,
+                        EndCap = LineCap.Round,
+                        DashStyle = GetPenStyle(borderDashStyle)
+                    };
 
-                    // Return old smoothing mode
-                    SmoothingMode = oldSmoothingMode;
-                }
-
-                // Draw thin polygon border of darker color
-                if (forceThinBorder || forceThickBorder)
-                {
-                    if (forceThickBorder)
-                    {
-                        using Pen linePen = new Pen(surfaceBorderColor, borderWidth);
-                        linePen.StartCap = LineCap.Round;
-                        linePen.EndCap = LineCap.Round;
-
-                        DrawLine(linePen, polygonPoints[0], polygonPoints[1]);
-                        DrawLine(linePen, polygonPoints[2], polygonPoints[3]);
-                        DrawLine(linePen, polygonPoints[3], polygonPoints[0]);
-                        DrawLine(linePen, polygonPoints[1], polygonPoints[2]);
-                    }
-                    else
-                    {
-                        // Front & Back lines
-                        DrawLine(thinBorderPen, polygonPoints[0], polygonPoints[1]);
-                        DrawLine(thinBorderPen, polygonPoints[2], polygonPoints[3]);
-                        if (lineSegmentType == LineSegmentType.First)
-                        {
-                            // Left line
-                            DrawLine(thinBorderPen, polygonPoints[3], polygonPoints[0]);
-                        }
-                        else if (lineSegmentType == LineSegmentType.Last)
-                        {
-                            // Right Line
-                            DrawLine(thinBorderPen, polygonPoints[1], polygonPoints[2]);
-                        }
-                        else
-                        {
-                            // Left & Right lines
-                            DrawLine(thinBorderPen, polygonPoints[3], polygonPoints[0]);
-                            DrawLine(thinBorderPen, polygonPoints[1], polygonPoints[2]);
-                        }
-                    }
-
+                    DrawLine(linePen, (polygonPoints[0].X + polygonPoints[3].X) / 2, (polygonPoints[0].Y + polygonPoints[3].Y) / 2, (polygonPoints[1].X + polygonPoints[2].X) / 2, (polygonPoints[1].Y + polygonPoints[2].Y) / 2);
                 }
                 else
                 {
-                    // Draw thin polygon border of same color (solves anti-aliasing issues)
-                    if (polygonColor.A == 255)
+                    // Draw the polygon
+                    if (backColor != Color.Transparent)
                     {
-                        using var pen = new Pen(polygonColor, 1);
-                        DrawPolygon(pen, polygonPoints);
+                        // Remember SmoothingMode and turn off anti aliasing
+                        SmoothingMode oldSmoothingMode = SmoothingMode;
+                        SmoothingMode = SmoothingMode.Default;
+
+                        // Draw the polygon
+                        using (Brush brush = new SolidBrush(polygonColor))
+                        {
+                            FillPolygon(brush, polygonPoints);
+                        }
+
+                        // Return old smoothing mode
+                        SmoothingMode = oldSmoothingMode;
                     }
 
-                    // Draw thin Front & Back lines
-                    DrawLine(thinBorderPen, polygonPoints[0], polygonPoints[1]);
-                    DrawLine(thinBorderPen, polygonPoints[2], polygonPoints[3]);
+                    // Draw thin polygon border of darker color
+                    if (forceThinBorder || forceThickBorder)
+                    {
+                        if (forceThickBorder)
+                        {
+                            using Pen linePen = new Pen(surfaceBorderColor, borderWidth);
+                            linePen.StartCap = LineCap.Round;
+                            linePen.EndCap = LineCap.Round;
+
+                            DrawLine(linePen, polygonPoints[0], polygonPoints[1]);
+                            DrawLine(linePen, polygonPoints[2], polygonPoints[3]);
+                            DrawLine(linePen, polygonPoints[3], polygonPoints[0]);
+                            DrawLine(linePen, polygonPoints[1], polygonPoints[2]);
+                        }
+                        else
+                        {
+                            // Front & Back lines
+                            DrawLine(thinBorderPen, polygonPoints[0], polygonPoints[1]);
+                            DrawLine(thinBorderPen, polygonPoints[2], polygonPoints[3]);
+                            if (lineSegmentType == LineSegmentType.First)
+                            {
+                                // Left line
+                                DrawLine(thinBorderPen, polygonPoints[3], polygonPoints[0]);
+                            }
+                            else if (lineSegmentType == LineSegmentType.Last)
+                            {
+                                // Right Line
+                                DrawLine(thinBorderPen, polygonPoints[1], polygonPoints[2]);
+                            }
+                            else
+                            {
+                                // Left & Right lines
+                                DrawLine(thinBorderPen, polygonPoints[3], polygonPoints[0]);
+                                DrawLine(thinBorderPen, polygonPoints[1], polygonPoints[2]);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        // Draw thin polygon border of same color (solves anti-aliasing issues)
+                        if (polygonColor.A == 255)
+                        {
+                            using var pen = new Pen(polygonColor, 1);
+                            DrawPolygon(pen, polygonPoints);
+                        }
+
+                        // Draw thin Front & Back lines
+                        DrawLine(thinBorderPen, polygonPoints[0], polygonPoints[1]);
+                        DrawLine(thinBorderPen, polygonPoints[2], polygonPoints[3]);
+                    }
                 }
             }
 
-            //**********************************************************************
-            //** Draw thick border line on visible sides
-            //**********************************************************************
             Pen thickBorderPen = null;
-            if (borderWidth > 1 && !forceThickBorder)
+            if (!area.Area3DStyle.ZDepthRealCalc)
             {
-                // Create thick border line pen
+                //**********************************************************************
+                //** Draw thick border line on visible sides
+                //**********************************************************************                
+                if (borderWidth > 1 && !forceThickBorder)
+                {
+                    // Create thick border line pen
 #pragma warning disable CA2000 // Dispose objects before losing scope
-                thickBorderPen = new Pen(surfaceBorderColor, borderWidth);
+                    thickBorderPen = new Pen(surfaceBorderColor, borderWidth)
+                    {
+                        StartCap = LineCap.Round,
+                        EndCap = LineCap.Round
+                    };
 #pragma warning restore CA2000 // Dispose objects before losing scope
-                thickBorderPen.StartCap = LineCap.Round;
-                thickBorderPen.EndCap = LineCap.Round;
 
-                //****************************************************************
-                //** Switch first and second points.
-                //****************************************************************
-                if (firstPoint.index > secondPoint.index)
-                {
-                    DataPoint3D tempPoint = firstPoint;
-                    firstPoint = secondPoint;
-                    secondPoint = tempPoint;
-                }
+                    //****************************************************************
+                    //** Switch first and second points.
+                    //****************************************************************
+                    if (firstPoint.index > secondPoint.index)
+                    {
+                        (secondPoint, firstPoint) = (firstPoint, secondPoint);
+                    }
 
-                //**********************************************************************
-                //** Check if there are visible (non-empty) lines to the left & right 
-                //** of the current line.
-                //**********************************************************************
+                    //**********************************************************************
+                    //** Check if there are visible (non-empty) lines to the left & right 
+                    //** of the current line.
+                    //**********************************************************************
 
-                // Get visibility of bounding rectangle
-                float minX = (float)Math.Min(points3D[0].X, points3D[1].X);
-                float minY = (float)Math.Min(points3D[0].Y, points3D[1].Y);
-                float maxX = (float)Math.Max(points3D[0].X, points3D[1].X);
-                float maxY = (float)Math.Max(points3D[0].Y, points3D[1].Y);
-                RectangleF position = new RectangleF(minX, minY, maxX - minX, maxY - minY);
-                SurfaceNames visibleSurfaces = GetVisibleSurfaces(position, positionZ, depth, matrix);
-
-                // Check left line visibility
-                bool thickBorderOnLeft = false;
-                bool thickBorderOnRight = false;
-
-                if (lineSegmentType != LineSegmentType.Middle)
-                {
-                    LineSegmentType tempLineSegmentType = LineSegmentType.Single;
+                    // Get visibility of bounding rectangle
+                    float minX = (float)Math.Min(points3D[0].X, points3D[1].X);
+                    float minY = (float)Math.Min(points3D[0].Y, points3D[1].Y);
+                    float maxX = (float)Math.Max(points3D[0].X, points3D[1].X);
+                    float maxY = (float)Math.Max(points3D[0].Y, points3D[1].Y);
+                    RectangleF position = new RectangleF(minX, minY, maxX - minX, maxY - minY);
+                    SurfaceNames visibleSurfaces = GetVisibleSurfaces(position, positionZ, depth, matrix);
 
                     // Check left line visibility
-                    thickBorderOnLeft = ChartGraphics.ShouldDrawLineChartSurface(
-                        area,
-                        reversedSeriesOrder,
-                        SurfaceNames.Left,
-                        visibleSurfaces,
-                        polygonColor,
-                        points,
-                        firstPoint,
-                        secondPoint,
-                        multiSeries,
-                        ref tempLineSegmentType) == 2;
+                    bool thickBorderOnLeft = false;
+                    bool thickBorderOnRight = false;
+
+                    if (lineSegmentType != LineSegmentType.Middle)
+                    {
+                        LineSegmentType tempLineSegmentType = LineSegmentType.Single;
+
+                        // Check left line visibility
+                        thickBorderOnLeft = ShouldDrawLineChartSurface(
+                            area,
+                            reversedSeriesOrder,
+                            SurfaceNames.Left,
+                            visibleSurfaces,
+                            polygonColor,
+                            points,
+                            firstPoint,
+                            secondPoint,
+                            multiSeries,
+                            ref tempLineSegmentType) == 2;
 
 
-                    // Check right line visibility
-                    thickBorderOnRight = ChartGraphics.ShouldDrawLineChartSurface(
-                        area,
-                        reversedSeriesOrder,
-                        SurfaceNames.Right,
-                        visibleSurfaces,
-                        polygonColor,
-                        points,
-                        firstPoint,
-                        secondPoint,
-                        multiSeries,
-                        ref tempLineSegmentType) == 2;
-                }
+                        // Check right line visibility
+                        thickBorderOnRight = ShouldDrawLineChartSurface(
+                            area,
+                            reversedSeriesOrder,
+                            SurfaceNames.Right,
+                            visibleSurfaces,
+                            polygonColor,
+                            points,
+                            firstPoint,
+                            secondPoint,
+                            multiSeries,
+                            ref tempLineSegmentType) == 2;
+                    }
 
-                // Switch left & right border if series is reversed
-                if (reversedSeriesOrder)
-                {
-                    bool tempVal = thickBorderOnLeft;
-                    thickBorderOnLeft = thickBorderOnRight;
-                    thickBorderOnRight = tempVal;
-                }
+                    // Switch left & right border if series is reversed
+                    if (reversedSeriesOrder)
+                    {
+                        (thickBorderOnRight, thickBorderOnLeft) = (thickBorderOnLeft, thickBorderOnRight);
+                    }
 
-                // Draw thick border for single segment lines only
-                // or for the first & last segment
-                if (lineSegmentType != LineSegmentType.First && lineSegmentType != LineSegmentType.Single)
-                {
-                    thickBorderOnLeft = false;
-                }
-                if (lineSegmentType != LineSegmentType.Last && lineSegmentType != LineSegmentType.Single)
-                {
-                    thickBorderOnRight = false;
+                    // Draw thick border for single segment lines only
+                    // or for the first & last segment
+                    if (lineSegmentType != LineSegmentType.First && lineSegmentType != LineSegmentType.Single)
+                    {
+                        thickBorderOnLeft = false;
+                    }
+                    if (lineSegmentType != LineSegmentType.Last && lineSegmentType != LineSegmentType.Single)
+                    {
+                        thickBorderOnRight = false;
+                    }
+
+                    //**********************************************************************
+                    //** Draw border on the front side of line surface (only when visible)
+                    //**********************************************************************
+                    if (matrix.Perspective != 0 ||
+                        (matrix.AngleX != 90 && matrix.AngleX != -90 &&
+                        matrix.AngleY != 90 && matrix.AngleY != -90 &&
+                        matrix.AngleY != 180 && matrix.AngleY != -180))
+                    {
+                        // Draw thick line on the front side of the line surface
+                        if (drawElements)
+                        {
+                            DrawLine(
+                                thickBorderPen,
+                                (float)Math.Round(polygonPoints[0].X),
+                                (float)Math.Round(polygonPoints[0].Y),
+                                (float)Math.Round(polygonPoints[1].X),
+                                (float)Math.Round(polygonPoints[1].Y));
+                        }
+
+                        // Calculate path for selection
+                        // Add front line to the path
+                        resultPath?.AddLine(
+                            (float)Math.Round(polygonPoints[0].X),
+                            (float)Math.Round(polygonPoints[0].Y),
+                            (float)Math.Round(polygonPoints[1].X),
+                            (float)Math.Round(polygonPoints[1].Y));
+                    }
+
+
+                    //**********************************************************************
+                    //** Draw border on the left side of line surface (only when visible)
+                    //**********************************************************************
+
+                    // Use flat end for Right & Left border
+                    thickBorderPen.EndCap = LineCap.Flat;
+
+                    // Draw border on the left side
+                    if (matrix.Perspective != 0 || (matrix.AngleX != 90 && matrix.AngleX != -90))
+                    {
+                        if (thickBorderOnLeft)
+                        {
+                            if (drawElements)
+                            {
+                                DrawLine(
+                                    thickBorderPen,
+                                    (float)Math.Round(polygonPoints[3].X),
+                                    (float)Math.Round(polygonPoints[3].Y),
+                                    (float)Math.Round(polygonPoints[0].X),
+                                    (float)Math.Round(polygonPoints[0].Y));
+                            }
+
+                            // Calculate path for selection
+                            // Add left line to the path
+                            resultPath?.AddLine(
+                                (float)Math.Round(polygonPoints[3].X),
+                                (float)Math.Round(polygonPoints[3].Y),
+                                (float)Math.Round(polygonPoints[0].X),
+                                (float)Math.Round(polygonPoints[0].Y));
+                        }
+                    }
+
+                    //**********************************************************************
+                    //** Draw border on the right side of the line surface
+                    //**********************************************************************
+                    if (matrix.Perspective != 0 || (matrix.AngleX != 90 && matrix.AngleX != -90))
+                    {
+                        if (thickBorderOnRight)
+                        {
+                            if (drawElements)
+                            {
+                                DrawLine(
+                                    thickBorderPen,
+                                    (float)Math.Round(polygonPoints[1].X),
+                                    (float)Math.Round(polygonPoints[1].Y),
+                                    (float)Math.Round(polygonPoints[2].X),
+                                    (float)Math.Round(polygonPoints[2].Y));
+                            }
+
+                            // Calculate path for selection
+                            // Add right line to the path
+                            resultPath?.AddLine(
+                                (float)Math.Round(polygonPoints[1].X),
+                                (float)Math.Round(polygonPoints[1].Y),
+                                (float)Math.Round(polygonPoints[2].X),
+                                (float)Math.Round(polygonPoints[2].Y));
+                        }
+                    }
                 }
 
                 //**********************************************************************
-                //** Draw border on the front side of line surface (only when visible)
+                // Redraw front line of the previous line segment.
+                // Solves 3D visibility problem between wide border line and line surface.
                 //**********************************************************************
-                if (matrix.Perspective != 0 ||
-                    (matrix.AngleX != 90 && matrix.AngleX != -90 &&
-                    matrix.AngleY != 90 && matrix.AngleY != -90 &&
-                    matrix.AngleY != 180 && matrix.AngleY != -180))
+                if (area.Area3DStyle.Perspective == 0)
                 {
-                    // Draw thick line on the front side of the line surface
+                    if (frontLinePoint1 != PointF.Empty && frontLinePen != null)
+                    {
+                        // Draw line
+                        DrawLine(
+                            frontLinePen,
+                            (float)Math.Round(frontLinePoint1.X),
+                            (float)Math.Round(frontLinePoint1.Y),
+                            (float)Math.Round(frontLinePoint2.X),
+                            (float)Math.Round(frontLinePoint2.Y));
+
+                        // Reset line properties
+                        if (frontLinePen is not null)
+                        {
+                            frontLinePen.Dispose();
+                            frontLinePen = null;
+                        }
+
+                        frontLinePoint1 = PointF.Empty;
+                        frontLinePoint2 = PointF.Empty;
+                    }
+
+                    //**********************************************************************
+                    //** Check if front line should be redrawn with the next segment.
+                    //**********************************************************************
                     if (drawElements)
                     {
-                        DrawLine(
-                            thickBorderPen,
-                            (float)Math.Round(polygonPoints[0].X),
-                            (float)Math.Round(polygonPoints[0].Y),
-                            (float)Math.Round(polygonPoints[1].X),
-                            (float)Math.Round(polygonPoints[1].Y));
+                        frontLinePen?.Dispose();
+                        frontLinePen = (borderWidth > 1) ? thickBorderPen : thinBorderPen;
+                        frontLinePoint1 = polygonPoints[0];
+                        frontLinePoint2 = polygonPoints[1];
                     }
-
-                    // Calculate path for selection
-                    if (resultPath != null)
-                    {
-                        // Add front line to the path
-                        resultPath.AddLine(
-                            (float)Math.Round(polygonPoints[0].X),
-                            (float)Math.Round(polygonPoints[0].Y),
-                            (float)Math.Round(polygonPoints[1].X),
-                            (float)Math.Round(polygonPoints[1].Y));
-                    }
-                }
-
-
-                //**********************************************************************
-                //** Draw border on the left side of line surface (only when visible)
-                //**********************************************************************
-
-                // Use flat end for Right & Left border
-                thickBorderPen.EndCap = LineCap.Flat;
-
-                // Draw border on the left side
-                if (matrix.Perspective != 0 || (matrix.AngleX != 90 && matrix.AngleX != -90))
-                {
-                    if (thickBorderOnLeft)
-                    {
-                        if (drawElements)
-                        {
-                            DrawLine(
-                                thickBorderPen,
-                                (float)Math.Round(polygonPoints[3].X),
-                                (float)Math.Round(polygonPoints[3].Y),
-                                (float)Math.Round(polygonPoints[0].X),
-                                (float)Math.Round(polygonPoints[0].Y));
-                        }
-
-                        // Calculate path for selection
-                        if (resultPath != null)
-                        {
-                            // Add left line to the path
-                            resultPath.AddLine(
-                                (float)Math.Round(polygonPoints[3].X),
-                                (float)Math.Round(polygonPoints[3].Y),
-                                (float)Math.Round(polygonPoints[0].X),
-                                (float)Math.Round(polygonPoints[0].Y));
-                        }
-                    }
-                }
-
-                //**********************************************************************
-                //** Draw border on the right side of the line surface
-                //**********************************************************************
-                if (matrix.Perspective != 0 || (matrix.AngleX != 90 && matrix.AngleX != -90))
-                {
-                    if (thickBorderOnRight)
-                    {
-                        if (drawElements)
-                        {
-                            DrawLine(
-                                thickBorderPen,
-                                (float)Math.Round(polygonPoints[1].X),
-                                (float)Math.Round(polygonPoints[1].Y),
-                                (float)Math.Round(polygonPoints[2].X),
-                                (float)Math.Round(polygonPoints[2].Y));
-                        }
-
-                        // Calculate path for selection
-                        if (resultPath != null)
-                        {
-                            // Add right line to the path
-                            resultPath.AddLine(
-                                (float)Math.Round(polygonPoints[1].X),
-                                (float)Math.Round(polygonPoints[1].Y),
-                                (float)Math.Round(polygonPoints[2].X),
-                                (float)Math.Round(polygonPoints[2].Y));
-                        }
-                    }
-                }
-            }
-
-            //**********************************************************************
-            // Redraw front line of the previuos line segment.
-            // Solves 3D visibility problem between wide border line and line surface.
-            //**********************************************************************
-            if (area.Area3DStyle.Perspective == 0)
-            {
-                if (frontLinePoint1 != PointF.Empty && frontLinePen != null)
-                {
-                    // Draw line
-                    DrawLine(
-                        frontLinePen,
-                        (float)Math.Round(frontLinePoint1.X),
-                        (float)Math.Round(frontLinePoint1.Y),
-                        (float)Math.Round(frontLinePoint2.X),
-                        (float)Math.Round(frontLinePoint2.Y));
-
-                    // Reset line properties
-                    if (frontLinePen is not null)
-                    {
-                        frontLinePen.Dispose();
-                        frontLinePen = null;
-                    }
-                    frontLinePoint1 = PointF.Empty;
-                    frontLinePoint2 = PointF.Empty;
-                }
-
-                //**********************************************************************
-                //** Check if front line should be redrawn with the next segment.
-                //**********************************************************************
-                if (drawElements)
-                {
-                    frontLinePen?.Dispose();
-                    frontLinePen = (borderWidth > 1) ? thickBorderPen : thinBorderPen;
-                    frontLinePoint1 = polygonPoints[0];
-                    frontLinePoint2 = polygonPoints[1];
                 }
             }
 
             //**********************************************************************
             //** Calculate path for selection
             //**********************************************************************
-            if (resultPath != null)
+            if (resultPath is not null)
             {
                 // Widen all the lines currently in the path
-                if (thickBorderPen != null)
+                if (thickBorderPen is not null)
                 {
                     try
                     {
@@ -2401,10 +2426,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 resultPath.AddPolygon(polygonPoints);
             }
 
-            if(thickBorderPen is not null && thickBorderPen != frontLinePen)
+            if (thickBorderPen is not null && thickBorderPen != frontLinePen)
                 thickBorderPen.Dispose();
 
-            if (thinBorderPen != frontLinePen)
+            if (thinBorderPen is not null && thinBorderPen != frontLinePen)
                 thinBorderPen.Dispose();
 
             return resultPath;
@@ -2465,12 +2490,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 DataPoint3D leftPointAttr;
                 if (!reversedSeriesOrder)
                 {
-                    leftPoint = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
-                    leftPointAttr = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), multiSeries ? secondPoint : null, ref pointArrayIndex);
+                    leftPoint = FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
+                    leftPointAttr = FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), multiSeries ? secondPoint : null, ref pointArrayIndex);
                 }
                 else
                 {
-                    leftPoint = ChartGraphics.FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
+                    leftPoint = FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
                     leftPointAttr = leftPoint;
                 }
                 if (leftPoint != null)
@@ -2522,13 +2547,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 DataPoint3D rightPointAttr;
                 if (!reversedSeriesOrder)
                 {
-                    rightPoint = ChartGraphics.FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
+                    rightPoint = FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
                     rightPointAttr = rightPoint;
                 }
                 else
                 {
-                    rightPoint = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
-                    rightPointAttr = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), multiSeries ? secondPoint : null, ref pointArrayIndex);
+                    rightPoint = FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, multiSeries ? secondPoint : null, ref pointArrayIndex);
+                    rightPointAttr = FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), multiSeries ? secondPoint : null, ref pointArrayIndex);
                 }
                 if (rightPoint != null)
                 {
@@ -2745,7 +2770,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="borderWidth">Border Width</param>
         /// <param name="borderDashStyle">Border Style</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         internal GraphicsPath Fill3DRectangle(
             RectangleF position,
             float positionZ,
@@ -2793,7 +2818,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="barDrawingStyle">Bar drawing style.</param>
         /// <param name="veticalOrientation">Defines if bar is vertical or horizontal.</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         internal GraphicsPath Fill3DRectangle(
             RectangleF position,
             float positionZ,
@@ -2848,14 +2873,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             cubePoints[6] = new Point3D(position.Right, position.Bottom, positionZ);
             cubePoints[7] = new Point3D(position.Right, position.Y, positionZ);
 
-            // Tranform cube coordinates
+            // Transform cube coordinates
             matrix.TransformPoints(cubePoints);
 
             // For lightStyle style Non, Border color always exist.
             if (lightStyle == LightStyle.None &&
                 (borderWidth == 0 || borderDashStyle == ChartDashStyle.NotSet || borderColor == Color.Empty))
             {
-                borderColor = ChartGraphics.GetGradientColor(backColor, Color.Black, 0.5);
+                borderColor = GetGradientColor(backColor, Color.Black, 0.5);
             }
 
             // Get surface colors
@@ -2866,22 +2891,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (veticalOrientation)
                 {
-                    topLightColor = ChartGraphics.GetGradientColor(topLightColor, Color.Black, topRightDarkening);
+                    topLightColor = GetGradientColor(topLightColor, Color.Black, topRightDarkening);
                 }
                 else
                 {
-                    rightLightColor = ChartGraphics.GetGradientColor(rightLightColor, Color.Black, topRightDarkening);
+                    rightLightColor = GetGradientColor(rightLightColor, Color.Black, topRightDarkening);
                 }
             }
             if (bottomLeftDarkening != 0f)
             {
                 if (veticalOrientation)
                 {
-                    bottomLightColor = ChartGraphics.GetGradientColor(bottomLightColor, Color.Black, bottomLeftDarkening);
+                    bottomLightColor = GetGradientColor(bottomLightColor, Color.Black, bottomLeftDarkening);
                 }
                 else
                 {
-                    leftLightColor = ChartGraphics.GetGradientColor(leftLightColor, Color.Black, bottomLeftDarkening);
+                    leftLightColor = GetGradientColor(leftLightColor, Color.Black, bottomLeftDarkening);
                 }
             }
 
@@ -2982,7 +3007,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Draw surface
                         if ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement)
                         {
-                            // Draw only completly visible surfaces
+                            // Draw only completely visible surfaces
                             if ((visibleSurfaces & currentSurface) != 0)
                             {
                                 using (Brush brush = new SolidBrush(surfaceColor))
@@ -3022,7 +3047,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Add surface coordinate to the path
                         if ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
                         {
-                            // Only if surface is completly visible
+                            // Only if surface is completely visible
                             if ((visibleSurfaces & currentSurface) != 0)
                             {
                                 resultPath.SetMarkers();
@@ -3086,7 +3111,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     gradientPoints[5] = new Point3D(position.Right - sizeRel.Width, position.Top + position.Height / 2f, positionZ + depth);
                 }
 
-                // Tranform cube coordinates
+                // Transform cube coordinates
                 matrix.TransformPoints(gradientPoints);
 
                 // Convert points to absolute
@@ -3223,7 +3248,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 gradientPoints[2] = new Point3D(gradientRect.Right, gradientRect.Bottom, positionZ + depth);
                 gradientPoints[3] = new Point3D(gradientRect.Right, gradientRect.Top, positionZ + depth);
 
-                // Tranform cube coordinates
+                // Transform cube coordinates
                 matrix.TransformPoints(gradientPoints);
 
                 // Convert points to absolute
@@ -3277,7 +3302,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 gradientPoints[2] = new Point3D(gradientRect.Right, gradientRect.Bottom, positionZ + depth);
                 gradientPoints[3] = new Point3D(gradientRect.Right, gradientRect.Top, positionZ + depth);
 
-                // Tranform cube coordinates
+                // Transform cube coordinates
                 matrix.TransformPoints(gradientPoints);
 
                 // Convert points to absolute
@@ -3333,7 +3358,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 gradientPoints[4] = new Point3D(position.Left + shadowSizeRel.Width, position.Top + shadowSizeRel.Height, positionZ + depth);
                 gradientPoints[5] = new Point3D(position.Left + shadowSizeRel.Width, position.Bottom - shadowSizeRel.Height, positionZ + depth);
 
-                // Tranform cube coordinates
+                // Transform cube coordinates
                 matrix.TransformPoints(gradientPoints);
 
                 // Convert points to absolute
@@ -3362,7 +3387,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 gradientPoints[4] = new Point3D(position.Right - shadowSizeRel.Width, position.Bottom - shadowSizeRel.Height, positionZ + depth);
                 gradientPoints[5] = new Point3D(position.Right - shadowSizeRel.Width, position.Top + shadowSizeRel.Height, positionZ + depth);
 
-                // Tranform cube coordinates
+                // Transform cube coordinates
                 matrix.TransformPoints(gradientPoints);
 
                 // Convert points to absolute
@@ -3406,7 +3431,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="shadowColor">Marker shadow color.</param>
         /// <param name="imageScaleRect">Rectangle to which marker image should be scaled.</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to ElementPath, otherwise Null.</returns>
+        /// <param name="force2DMarker">if set to <see langword="true" /> drawing 2D markers even for <see cref="MarkerStyle.Square"/> and <see cref="MarkerStyle.Square"/> styles.</param>
+        /// <returns>
+        /// Returns element shape path if operationType parameter is set to ElementPath, otherwise Null.
+        /// </returns>
+        /// <exception cref="System.InvalidOperationException"></exception>
         internal GraphicsPath DrawMarker3D(
             Matrix3D matrix,
             LightStyle lightStyle,
@@ -3422,7 +3451,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             int shadowSize,
             Color shadowColor,
             RectangleF imageScaleRect,
-            DrawingOperationTypes operationType)
+            DrawingOperationTypes operationType,
+            bool force2DMarker = false)
         {
             ChartGraphics graph = this;
             GraphicsPath resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
@@ -3432,8 +3462,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** Transform marker position in 3D space
             //************************************************************
             // Get projection coordinates
-            Point3D[] marker3DPosition = new Point3D[1];
-            marker3DPosition[0] = new Point3D(point.X, point.Y, positionZ);
+            Point3D[] marker3DPosition = { new Point3D(point.X, point.Y, positionZ) };
 
             // Transform coordinates of the marker center
             matrix.TransformPoints(marker3DPosition);
@@ -3445,9 +3474,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //************************************************************
             //** For those markers that do not have a 3D version - draw the same as in 2D
             //************************************************************
-            if (markerImage.Length > 0 ||
-                !(markerStyle == MarkerStyle.Circle ||
-                markerStyle == MarkerStyle.Square))
+            if (force2DMarker || markerImage.Length > 0 || !(markerStyle == MarkerStyle.Circle || markerStyle == MarkerStyle.Square))
             {
                 // Call 2D version of the method
                 if ((operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement)
@@ -3544,7 +3571,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 rectLightCenter.Inflate(rectLightCenter.Width / 4f, rectLightCenter.Height / 4f);
                                 brushPath.AddEllipse(rectLightCenter);
                                 using PathGradientBrush circleBrush = new PathGradientBrush(brushPath);
-                                circleBrush.CenterColor = ChartGraphics.GetGradientColor(markerColor, Color.White, 0.85);
+                                circleBrush.CenterColor = GetGradientColor(markerColor, Color.White, 0.85);
                                 circleBrush.SurroundColors = new Color[] { markerColor };
 
                                 // Calculate the center point of the gradient
@@ -3685,7 +3712,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             cubePoints[6] = new Point3D(position.Right, position.Bottom, positionZ);
             cubePoints[7] = new Point3D(position.Right, position.Y, positionZ);
 
-            // Tranform coordinates 
+            // Transform coordinates 
             matrix.TransformPoints(cubePoints);
 
             // Detect surfaces visibility
@@ -3756,7 +3783,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>True if surface is visible</returns>
 		internal static bool IsSurfaceVisible(Point3D first, Point3D second, Point3D tree)
         {
-            // Check if points are oriented clocwise in 2D projection.
+            // Check if points are oriented clockwise in 2D projection.
             // If points are clockwise the surface is visible.
             float a = (first.Y - second.Y) / (first.X - second.X);
             float b = first.Y - a * first.X;
@@ -3894,7 +3921,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="borderDashStyle">Border Style</param>
         /// <param name="veticalOrientation">Defines if bar is vertical or horizontal.</param>
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         internal GraphicsPath Fill3DRectangleAsCylinder(
             RectangleF position,
             float positionZ,
@@ -3943,7 +3970,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 cubePoints[7] = new Point3D(position.Right, middleYValue, positionZ);
             }
 
-            // Tranform cylinder coordinates
+            // Transform cylinder coordinates
             matrix.TransformPoints(cubePoints);
 
             // Covert coordinates to absolute
@@ -3958,7 +3985,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (lightStyle == LightStyle.None &&
                 (borderWidth == 0 || borderDashStyle == ChartDashStyle.NotSet || borderColor == Color.Empty))
             {
-                borderColor = ChartGraphics.GetGradientColor(backColor, Color.Black, 0.5);
+                borderColor = GetGradientColor(backColor, Color.Black, 0.5);
             }
 
             // Get surface colors
@@ -3969,22 +3996,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (veticalOrientation)
                 {
-                    topLightColor = ChartGraphics.GetGradientColor(topLightColor, Color.Black, topRightDarkening);
+                    topLightColor = GetGradientColor(topLightColor, Color.Black, topRightDarkening);
                 }
                 else
                 {
-                    rightLightColor = ChartGraphics.GetGradientColor(rightLightColor, Color.Black, topRightDarkening);
+                    rightLightColor = GetGradientColor(rightLightColor, Color.Black, topRightDarkening);
                 }
             }
             if (bottomLeftDarkening != 0f)
             {
                 if (veticalOrientation)
                 {
-                    bottomLightColor = ChartGraphics.GetGradientColor(bottomLightColor, Color.Black, bottomLeftDarkening);
+                    bottomLightColor = GetGradientColor(bottomLightColor, Color.Black, bottomLeftDarkening);
                 }
                 else
                 {
-                    leftLightColor = ChartGraphics.GetGradientColor(leftLightColor, Color.Black, bottomLeftDarkening);
+                    leftLightColor = GetGradientColor(leftLightColor, Color.Black, bottomLeftDarkening);
                 }
             }
 
@@ -4105,8 +4132,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         RectangleF boundsRect = pathToDraw.GetBounds();
                                         if (boundsRect.Height > 0 && boundsRect.Width > 0)
                                         {
-                                            Color lightColor = ChartGraphics.GetGradientColor(backColor, Color.White, 0.3);
-                                            Color darkColor = ChartGraphics.GetGradientColor(backColor, Color.Black, 0.3);
+                                            Color lightColor = GetGradientColor(backColor, Color.White, 0.3);
+                                            Color darkColor = GetGradientColor(backColor, Color.Black, 0.3);
 
                                             // Create gradient
                                             if (!leftSideLinePoint.IsEmpty &&
@@ -4144,13 +4171,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                                 }
 
 
-                                                PointF middlePoint1 = ChartGraphics.GetLinesIntersection(
+                                                PointF middlePoint1 = GetLinesIntersection(
                                                     boundsRectMiddlePoint.X, boundsRectMiddlePoint.Y,
                                                     centralLinePoint.X, centralLinePoint.Y,
                                                     leftSideLinePoint.X, leftSideLinePoint.Y,
                                                     leftOppSideLinePoint.X, leftOppSideLinePoint.Y);
 
-                                                PointF middlePoint2 = ChartGraphics.GetLinesIntersection(
+                                                PointF middlePoint2 = GetLinesIntersection(
                                                     boundsRectMiddlePoint.X, boundsRectMiddlePoint.Y,
                                                     centralLinePoint.X, centralLinePoint.Y,
                                                     rightSideLinePoint.X, rightSideLinePoint.Y,
@@ -4240,7 +4267,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     (borderWidth == 0 || borderDashStyle == ChartDashStyle.NotSet || borderColor == Color.Empty))
                                 {
                                     // Draw line of the darker color inside the cylinder
-                                    pen.Color = frontSurfaceBrush == null ? surfaceColor : ChartGraphics.GetGradientColor(backColor, Color.Black, 0.3);
+                                    pen.Color = frontSurfaceBrush == null ? surfaceColor : GetGradientColor(backColor, Color.Black, 0.3);
                                     pen.Width = 1;
                                     pen.Alignment = PenAlignment.Inset;
                                 }

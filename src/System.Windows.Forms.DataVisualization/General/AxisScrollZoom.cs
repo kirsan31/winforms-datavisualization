@@ -23,7 +23,6 @@
 
 using System.Collections;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
@@ -93,14 +92,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Axis data scaleView size units type
         private DateTimeIntervalType _sizeType = DateTimeIntervalType.Auto;
 
-        // Axis data scaleView minimum scaleView/scrolling size
-        private double _minSize = double.NaN;
-
         // Axis data scaleView minimum scaleView/scrolling size units type
         private DateTimeIntervalType _minSizeType = DateTimeIntervalType.Auto;
-
-        // Axis data scaleView zooming UI interface enabled flag
-        private bool _zoomable = true;
 
         // Axis data scaleView scroll line size
         private double _smallScrollSize = double.NaN;
@@ -157,7 +150,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeAxisView"),
         Bindable(true),
-        DefaultValue(Double.NaN),
+        DefaultValue(double.NaN),
         SRDescription("DescriptionAttributeAxisDataView_Position"),
         TypeConverter(typeof(DoubleDateNanValueConverter)),
         ParenthesizePropertyNameAttribute(true)
@@ -169,8 +162,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Axis scaleView is not supported in circular chart areas
                 if (this.axis != null && this.axis.ChartArea != null && this.axis.ChartArea.chartAreaIsCurcular)
                 {
-                    return Double.NaN;
+                    return double.NaN;
                 }
+
                 return _position;
             }
             set
@@ -212,7 +206,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeAxisView"),
         Bindable(true),
-        DefaultValue(Double.NaN),
+        DefaultValue(double.NaN),
         SRDescription("DescriptionAttributeAxisDataView_Size"),
         TypeConverter(typeof(DoubleNanValueConverter)),
         ParenthesizePropertyNameAttribute(true)
@@ -224,7 +218,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Axis scaleView is not supported in circular chart areas
                 if (this.axis != null && this.axis.ChartArea != null && this.axis.ChartArea.chartAreaIsCurcular)
                 {
-                    return Double.NaN;
+                    return double.NaN;
                 }
 
                 return _size;
@@ -276,10 +270,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public DateTimeIntervalType SizeType
         {
-            get
-            {
-                return _sizeType;
-            }
+            get => _sizeType;
             set
             {
                 if (_sizeType != value)
@@ -318,16 +309,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
         SerializationVisibility(SerializationVisibility.Hidden),
         ]
-        public bool IsZoomed
-        {
-            get
-            {
-                return
-                    !double.IsNaN(this.Size) &&
+        public bool IsZoomed => !double.IsNaN(this.Size) &&
                     this.Size != 0.0 &&
                     !double.IsNaN(this.Position);
-            }
-        }
 
         /// <summary>
         /// Gets or sets the minimum size of the AxisScaleView.
@@ -335,21 +319,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeAxisView"),
         Bindable(true),
-        DefaultValue(Double.NaN),
+        DefaultValue(double.NaN),
         SRDescription("DescriptionAttributeAxisDataView_MinSize"),
         TypeConverter(typeof(DoubleNanValueConverter))
         ]
-        public double MinSize
-        {
-            get
-            {
-                return _minSize;
-            }
-            set
-            {
-                _minSize = value;
-            }
-        }
+        public double MinSize { get; set; } = double.NaN;
 
         /// <summary>
         /// Gets or sets the unit of measurement of the MinSize property.
@@ -362,14 +336,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public DateTimeIntervalType MinSizeType
         {
-            get
-            {
-                return _minSizeType;
-            }
-            set
-            {
-                _minSizeType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
-            }
+            get => _minSizeType;
+            set => _minSizeType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
         }
 
         /// <summary>
@@ -381,17 +349,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         DefaultValue(true),
         SRDescription("DescriptionAttributeAxisDataView_Zoomable"),
         ]
-        public bool Zoomable
-        {
-            get
-            {
-                return _zoomable;
-            }
-            set
-            {
-                _zoomable = value;
-            }
-        }
+        public bool Zoomable { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the small scrolling size.
@@ -399,16 +357,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRCategory("CategoryAttributeAxisView"),
         Bindable(true),
-        DefaultValue(Double.NaN),
+        DefaultValue(double.NaN),
         SRDescription("DescriptionAttributeAxisDataView_SmallScrollSize"),
         TypeConverter(typeof(AxisMinMaxAutoValueConverter))
         ]
         public double SmallScrollSize
         {
-            get
-            {
-                return _smallScrollSize;
-            }
+            get => _smallScrollSize;
             set
             {
                 if (_smallScrollSize != value)
@@ -436,10 +391,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public DateTimeIntervalType SmallScrollSizeType
         {
-            get
-            {
-                return _smallScrollSizeType;
-            }
+            get => _smallScrollSizeType;
             set
             {
                 if (_smallScrollSizeType != value)
@@ -468,10 +420,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public double SmallScrollMinSize
         {
-            get
-            {
-                return _smallScrollMinSize;
-            }
+            get => _smallScrollMinSize;
             set
             {
                 if (_smallScrollMinSize != value)
@@ -501,10 +450,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public DateTimeIntervalType SmallScrollMinSizeType
         {
-            get
-            {
-                return _smallScrollMinSizeType;
-            }
+            get => _smallScrollMinSizeType;
             set
             {
                 if (_smallScrollMinSizeType != value)
@@ -538,10 +484,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             get
             {
                 // If zooming is enabled
-                if (!Double.IsNaN(this.Size))
+                if (!double.IsNaN(this.Size))
                 {
                     // If size set only use axis minimum for scaleView position
-                    if (Double.IsNaN(this.Position))
+                    if (double.IsNaN(this.Position))
                     {
                         this.Position = this.axis.Minimum;
                     }
@@ -576,10 +522,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             get
             {
                 // If zooming is enabled
-                if (!Double.IsNaN(this.Size))
+                if (!double.IsNaN(this.Size))
                 {
                     // If size set only use axis minimum for scaleView position
-                    if (Double.IsNaN(this.Position))
+                    if (double.IsNaN(this.Position))
                     {
                         this.Position = this.axis.Minimum;
                     }
@@ -656,6 +602,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         newPosition = axis.maximum - axis.marginView;
                     }
+
                     break;
 
                 case ScrollType.Last:
@@ -669,6 +616,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             newPosition = axis.minimum + axis.marginView + viewSize;
                         }
+
                         break;
                     }
             }
@@ -706,11 +654,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             double viewSize = ChartHelper.GetIntervalSize(newPosition, this.Size, this.SizeType);
 
             // Validate new scaleView position
-            if (newPosition < (axis.minimum + axis.marginView))
+            if (newPosition < axis.minimum + axis.marginView)
             {
                 newPosition = axis.minimum + axis.marginView;
             }
-            else if (newPosition > (axis.maximum - axis.marginView - viewSize))
+            else if (newPosition > axis.maximum - axis.marginView - viewSize)
             {
                 newPosition = axis.maximum - axis.marginView - viewSize;
             }
@@ -923,10 +871,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // Clear data
                 int itemsToRemove = numberOfViews * 3;
-                if (itemsToRemove > (dataViewStates.Count - dataStartIndex))
+                if (itemsToRemove > dataViewStates.Count - dataStartIndex)
                 {
                     itemsToRemove = dataViewStates.Count - dataStartIndex;
                 }
+
                 dataViewStates.RemoveRange(dataStartIndex, itemsToRemove);
 
                 // clean up the history state when the numberOfViews == 0 (reset all by docs)
@@ -934,10 +883,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     dataViewStates.Clear();
                 }
-                if (Double.IsNaN(this.Position) || Double.IsNaN(this.Size))
+
+                if (double.IsNaN(this.Position) || double.IsNaN(this.Size))
                 {
-                    this.Position = Double.NaN;
-                    this.Size = Double.NaN;
+                    this.Position = double.NaN;
+                    this.Size = double.NaN;
                 }
             }
 
@@ -1020,6 +970,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             rounder = 1;
                         }
+
                         newSize = rounder * this.SmallScrollMinSize;
                     }
 
@@ -1105,21 +1056,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** Check if new scaleView position is inside axis scale
             //** minimum/maximum without margin.
             //****************************************************************
-            if (viewPosition < (axis.minimum + axis.marginView))
+            if (viewPosition < axis.minimum)
             {
                 if (viewSizeType == DateTimeIntervalType.Auto || viewSizeType == DateTimeIntervalType.Number)
                 {
-                    viewSize -= axis.minimum + axis.marginView - viewPosition;
+                    viewSize -= axis.minimum - viewPosition;
                 }
-                viewPosition = axis.minimum + axis.marginView;
+
+                viewPosition = axis.minimum;
             }
-            else if (viewPosition > (axis.maximum - axis.marginView))
+            else if (viewPosition > axis.maximum)
             {
                 if (viewSizeType == DateTimeIntervalType.Auto || viewSizeType == DateTimeIntervalType.Number)
                 {
-                    viewSize -= viewPosition - (axis.maximum - axis.marginView);
+                    viewSize -= viewPosition - axis.maximum;
                 }
-                viewPosition = axis.maximum - axis.marginView;
+
+                viewPosition = axis.maximum;
             }
 
             //****************************************************************
@@ -1127,7 +1080,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** set by the user
             //****************************************************************
             double newViewSize = ChartHelper.GetIntervalSize(viewPosition, viewSize, viewSizeType);
-            double minViewSize = ChartHelper.GetIntervalSize(viewPosition, 1, this.MinSizeType);
+            double minViewSize;
             if (!double.IsNaN(this.MinSize))
             {
                 minViewSize = ChartHelper.GetIntervalSize(viewPosition, this.MinSize, this.MinSizeType);
@@ -1138,6 +1091,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     newViewSize = ChartHelper.GetIntervalSize(viewPosition, viewSize, viewSizeType);
                 }
             }
+            else
+                minViewSize = ChartHelper.GetIntervalSize(viewPosition, 1, this.MinSizeType);
 
             //****************************************************************
             //** Check if new scaleView size is smaller than (0.000000001)
@@ -1153,7 +1108,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** Check if new scaleView end position (position + size) is inside
             //** axis scale minimum/maximum without margin.
             //****************************************************************
-            while ((viewPosition + newViewSize) > (axis.maximum - axis.marginView))
+            while (viewPosition + newViewSize > axis.maximum)
             {
                 double currentSize = viewSize;
                 DateTimeIntervalType currentSizeType = viewSizeType;
@@ -1161,8 +1116,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Try to reduce the scaleView size
                 if (newViewSize > minViewSize)
                 {
+                    if (viewSizeType == DateTimeIntervalType.Auto || viewSizeType == DateTimeIntervalType.Number)
+                    {
+                        if (axis.maximum - viewPosition >= minViewSize)
+                        {
+                            viewSize = axis.maximum - viewPosition;
+                        }
+                        else
+                        {
+                            viewSize = minViewSize;
+                            viewPosition = axis.maximum - newViewSize;
+                        }
+
+                        break;
+                    }
                     // Try to adjust the scaleView size
-                    if (viewSize > 1)
+                    else if (viewSize > 1)
                     {
                         --viewSize;
                     }
@@ -1203,7 +1172,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                     else
                     {
-                        viewPosition = axis.maximum - axis.marginView - minViewSize;
+                        viewPosition = axis.maximum - minViewSize;
                         break;
                     }
 
@@ -1216,14 +1185,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         viewSizeType = currentSizeType;
 
                         // Adjust the start position
-                        viewPosition = axis.maximum - axis.marginView - minViewSize;
+                        viewPosition = axis.maximum - minViewSize;
                         break;
                     }
                 }
                 else
                 {
                     // Adjust the start position
-                    viewPosition = axis.maximum - axis.marginView - newViewSize;
+                    viewPosition = axis.maximum - newViewSize;
                     break;
                 }
             }
@@ -1254,10 +1223,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Private fields
 
         // Private fields for properties values storage
-        private readonly Axis _axis;
-
-        private double _newPosition = double.NaN;
-        private double _newSize = double.NaN;
         private DateTimeIntervalType _newSizeType = DateTimeIntervalType.Auto;
 
         #endregion Private fields
@@ -1271,8 +1236,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="newPosition">New scale view start position.</param>
         public ViewEventArgs(Axis axis, double newPosition)
         {
-            this._axis = axis;
-            this._newPosition = newPosition;
+            this.Axis = axis;
+            this.NewPosition = newPosition;
         }
 
         /// <summary>
@@ -1284,9 +1249,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="newSizeType">New unit of measurement of the size.</param>
         public ViewEventArgs(Axis axis, double newPosition, double newSize, DateTimeIntervalType newSizeType)
         {
-            this._axis = axis;
-            this._newPosition = newPosition;
-            this._newSize = newSize;
+            this.Axis = axis;
+            this.NewPosition = newPosition;
+            this.NewSize = newSize;
             this._newSizeType = newSizeType;
         }
 
@@ -1300,13 +1265,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRDescription("DescriptionAttributeAxis"),
         ]
-        public Axis Axis
-        {
-            get
-            {
-                return _axis;
-            }
-        }
+        public Axis Axis { get; }
 
         /// <summary>
         /// ChartArea of the event.
@@ -1314,13 +1273,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRDescription("DescriptionAttributeChartArea"),
         ]
-        public ChartArea ChartArea
-        {
-            get
-            {
-                return _axis.ChartArea;
-            }
-        }
+        public ChartArea ChartArea => Axis.ChartArea;
 
         /// <summary>
         /// New scale view start position.
@@ -1328,17 +1281,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRDescription("DescriptionAttributeViewEventArgs_NewPosition"),
         ]
-        public double NewPosition
-        {
-            get
-            {
-                return _newPosition;
-            }
-            set
-            {
-                _newPosition = value;
-            }
-        }
+        public double NewPosition { get; set; } = double.NaN;
 
         /// <summary>
         /// New scale view size.
@@ -1346,17 +1289,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         [
         SRDescription("DescriptionAttributeViewEventArgs_NewSize"),
         ]
-        public double NewSize
-        {
-            get
-            {
-                return _newSize;
-            }
-            set
-            {
-                _newSize = value;
-            }
-        }
+        public double NewSize { get; set; } = double.NaN;
 
         /// <summary>
         /// New unit of measurement of the scale view.
@@ -1366,14 +1299,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public DateTimeIntervalType NewSizeType
         {
-            get
-            {
-                return _newSizeType;
-            }
-            set
-            {
-                _newSizeType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
-            }
+            get => _newSizeType;
+            set => _newSizeType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
         }
 
         #endregion Properties
@@ -1418,7 +1345,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             ArrayList values = new ArrayList
             {
-                Double.NaN
+                double.NaN
             };
 
             return new StandardValuesCollection(values);
@@ -1437,7 +1364,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             double doubleValue = (double)value;
             if (destinationType == typeof(string))
             {
-                if (Double.IsNaN(doubleValue))
+                if (double.IsNaN(doubleValue))
                 {
                     return Constants.NotSetValue;
                 }
@@ -1457,7 +1384,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (string.Equals(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase))
                 {
-                    return Double.NaN;
+                    return double.NaN;
                 }
             }
 
@@ -1505,7 +1432,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             ArrayList values = new ArrayList
             {
-                Double.NaN
+                double.NaN
             };
 
             return new StandardValuesCollection(values);
@@ -1524,7 +1451,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check for NaN
             if (destinationType == typeof(string))
             {
-                if (Double.IsNaN((double)value))
+                if (double.IsNaN((double)value))
                 {
                     return Constants.NotSetValue;
                 }
@@ -1554,6 +1481,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         return strValue;
                 }
             }
+
             return base.ConvertTo(context, culture, value, destinationType);
         }
 
@@ -1613,7 +1541,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (string.Equals(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase))
                 {
-                    return Double.NaN;
+                    return double.NaN;
                 }
             }
 

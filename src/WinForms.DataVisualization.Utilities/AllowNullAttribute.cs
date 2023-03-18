@@ -5,6 +5,5 @@
     /// </summary>
     /// <seealso cref="System.Attribute" />
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property, Inherited = false)]
-    public class AllowNullAttribute : Attribute
-    { }
+    internal class AllowNullAttribute : Attribute { }
 }

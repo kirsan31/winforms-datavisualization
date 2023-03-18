@@ -1590,7 +1590,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     GraphicsPath rectPath = graph.Fill3DRectangle(
                         rectSize,
                         pointEx.zPosition,
-                        pointEx.depth,
+                        (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth,
                         area.matrix3D,
                         area.Area3DStyle.LightStyle,
                         point.Color,
@@ -1936,8 +1936,8 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
 
                 // Get projection coordinates
                 Point3D[] rotationCenterProjection = new Point3D[] {
-                                                                         new Point3D(rotationCenter.X, rotationCenter.Y, pointEx.zPosition + pointEx.depth),
-                                                                         new Point3D(rotationCenter.X - 20f, rotationCenter.Y, pointEx.zPosition + pointEx.depth) };
+                    new Point3D(rotationCenter.X, rotationCenter.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth),
+                    new Point3D(rotationCenter.X - 20f, rotationCenter.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth) };
                 // Transform coordinates of text rotation point
                 area.matrix3D.TransformPoints(rotationCenterProjection);
 

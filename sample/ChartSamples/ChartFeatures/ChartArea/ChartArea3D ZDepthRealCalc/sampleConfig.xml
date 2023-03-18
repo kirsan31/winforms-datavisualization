@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<SampleConfigs>
+
+	<SampleConfig ParentNodeID = "LineCharts">
+		<Title>3D ZDepthRealCalc mode</Title>
+		<Thumbnail>thumbnail.jpg</Thumbnail>
+		<ShortBlurb>3D ZDepthRealCalc mode</ShortBlurb>
+		<SampleControl>ChartArea3DZRC</SampleControl>
+		<InfoPages>
+			<InfoPage Title="C# Source">cscode.txt</InfoPage>
+		</InfoPages>
+
+		<Keywords>
+			<Keyword>ZDepthRealCalc</Keyword>
+			<Keyword>Chart area, 3D ZDepthRealCalc</Keyword>
+			<Keyword>3D, ZDepthRealCalc</Keyword>
+		</Keywords>
+	</SampleConfig>
+	
+	<SampleConfig ParentNodeID = "PointCharts">
+		<Title>3D ZDepthRealCalc mode</Title>
+		<Thumbnail>thumbnail.jpg</Thumbnail>
+		<ShortBlurb>3D ZDepthRealCalc mode</ShortBlurb>
+		<SampleControl>ChartArea3DZRC</SampleControl>
+		<InfoPages>
+			<InfoPage Title="C# Source">cscode.txt</InfoPage>
+		</InfoPages>
+
+		<Keywords>
+			<Keyword>ZDepthRealCalc</Keyword>
+			<Keyword>Chart area, 3D ZDepthRealCalc</Keyword>
+			<Keyword>3D, ZDepthRealCalc</Keyword>
+		</Keywords>
+	</SampleConfig>
+	
+	<SampleConfig ParentNodeID = "ChartArea">
+		<Title>3D ZDepthRealCalc mode</Title>
+		<Thumbnail>thumbnail.jpg</Thumbnail>
+		<ShortBlurb>3D ZDepthRealCalc mode</ShortBlurb>
+		<SampleControl>ChartArea3DZRC</SampleControl>
+		<InfoPages>
+			<InfoPage Title="C# Source">cscode.txt</InfoPage>
+		</InfoPages>
+
+		<Keywords>
+			<Keyword>ZDepthRealCalc</Keyword>
+			<Keyword>Chart area, 3D ZDepthRealCalc</Keyword>
+			<Keyword>3D, ZDepthRealCalc</Keyword>
+		</Keywords>
+	</SampleConfig>
+
+</SampleConfigs>

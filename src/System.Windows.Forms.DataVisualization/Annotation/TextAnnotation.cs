@@ -446,7 +446,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             RectangleF textActualPosition = RectangleF.Empty;
 
             //***************************************************************
-            //** Adjust text position uing text spacing
+            //** Adjust text position using text spacing
             //***************************************************************
             RectangleF textSpacing = GetTextSpacing(out bool annotationRelative);
             float spacingScaleX = 1f;

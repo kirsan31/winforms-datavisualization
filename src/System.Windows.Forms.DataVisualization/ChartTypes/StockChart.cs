@@ -1833,11 +1833,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     // Get series depth and Z position
                     area.GetSeriesZPositionAndDepth(series, out float seriesDepth, out float seriesZPosition);
 
-                    Point3D[] marker3DPosition = new Point3D[1];
-                    marker3DPosition[0] = new Point3D(
+                    Point3D[] marker3DPosition = { new Point3D(
                         markerPosition.X,
                         markerPosition.Y,
-                        (float)(seriesZPosition + seriesDepth / 2f));
+                        (float)(seriesZPosition + seriesDepth / 2f)) };
 
                     // Transform coordinates
                     area.matrix3D.TransformPoints(marker3DPosition);

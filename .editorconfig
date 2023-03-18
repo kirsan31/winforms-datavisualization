@@ -109,7 +109,8 @@ dotnet_diagnostic.CA1837.severity = warning
 dotnet_diagnostic.CA1838.severity = warning
 
 # CA2000: Dispose objects before losing scope
-dotnet_diagnostic.CA2000.severity = warning
+# https://github.com/dotnet/roslyn-analyzers/issues/6412
+dotnet_diagnostic.CA2000.severity = None
 
 # CA2009: Do not call ToImmutableCollection on an ImmutableCollection value
 dotnet_diagnostic.CA2009.severity = warning
@@ -137,9 +138,6 @@ dotnet_diagnostic.CA1060.severity = suggestion
 
 # CA2213: Disposable fields should be disposed
 dotnet_diagnostic.CA2213.severity = warning
-
-# CA2000: Dispose objects before losing scope
-dotnet_diagnostic.CA2000.severity = warning
 
 # CA2227: Collection properties should be read only
 dotnet_diagnostic.CA2227.severity = suggestion

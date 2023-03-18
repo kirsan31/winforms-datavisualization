@@ -271,17 +271,17 @@ public class Series : DataPointCustomProperties, IDisposable
     /// <summary>
     /// Data point label text.
     /// </summary>
-    internal string label = "";
+    internal string label = string.Empty;
 
     /// <summary>
     /// Data point X axis label text.
     /// </summary>
-    internal string axisLabel = "";
+    internal string axisLabel = string.Empty;
 
     /// <summary>
     /// Data point label format string
     /// </summary>
-    internal string labelFormat = "";
+    internal string labelFormat = string.Empty;
 
     /// <summary>
     /// If true shows point's value as a label.
@@ -316,7 +316,7 @@ public class Series : DataPointCustomProperties, IDisposable
     /// <summary>
     /// Data point background image
     /// </summary>
-    internal string backImage = "";
+    internal string backImage = string.Empty;
 
     /// <summary>
     /// Data point background image drawing mode.
@@ -376,7 +376,7 @@ public class Series : DataPointCustomProperties, IDisposable
     /// <summary>
     /// Data point marker image
     /// </summary>
-    internal string markerImage = "";
+    internal string markerImage = string.Empty;
 
     /// <summary>
     /// Data point marker image transparent color.
@@ -396,7 +396,7 @@ public class Series : DataPointCustomProperties, IDisposable
     /// <summary>
     /// The tooltip.
     /// </summary>
-    internal string toolTip = "";
+    internal string toolTip = string.Empty;
 
     /// <summary>
     /// Indicates that item is shown in the legend.
@@ -406,12 +406,12 @@ public class Series : DataPointCustomProperties, IDisposable
     /// <summary>
     /// Text of the item in the legend
     /// </summary>
-    internal string legendText = "";
+    internal string legendText = string.Empty;
 
     /// <summary>
     /// Tooltip of the item in the legend
     /// </summary>
-    internal string legendToolTip = "";
+    internal string legendToolTip = string.Empty;
 
     /// <summary>
     /// Data point label back color
@@ -436,7 +436,7 @@ public class Series : DataPointCustomProperties, IDisposable
     /// <summary>
     /// Tooltip of the data point label
     /// </summary>
-    internal string labelToolTip = "";
+    internal string labelToolTip = string.Empty;
 
     #endregion
 
@@ -556,27 +556,25 @@ public class Series : DataPointCustomProperties, IDisposable
     }
 
     /// <summary>
-    /// Gets custom points depth and gap depth from series properties.
+    /// Gets custom points depth and gap depth in relative coordinates from series properties.
     /// </summary>
     /// <param name="graph">Chart graphics.</param>
     /// <param name="axis">Categorical axis.</param>
-    /// <param name="pointDepth">Returns point depth.</param>
-    /// <param name="pointGapDepth">Return point gap depth.</param>
+    /// <param name="pointDepth">Returns point depth in relative coordinates.</param>
+    /// <param name="pointGapDepth">Return point gap depth in relative coordinates.</param>
     internal void GetPointDepthAndGap(
         ChartGraphics graph,
         Axis axis,
-        ref double pointDepth,
-        ref double pointGapDepth)
+        ref float pointDepth,
+        ref float pointGapDepth)
     {
-
-
         // Check if series provide custom value for point depth in pixels
         string attribValue = this[CustomPropertyName.PixelPointDepth];
-        if (attribValue != null)
+        if (attribValue is not null)
         {
             try
             {
-                pointDepth = CommonElements.ParseDouble(attribValue);
+                pointDepth = CommonElements.ParseFloat(attribValue);
             }
             catch
             {
@@ -587,26 +585,26 @@ public class Series : DataPointCustomProperties, IDisposable
             {
                 throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointDepth"));
             }
+
             if (pointDepth > CustomPropertyRegistry.MaxValueOfPixelAttribute)
             {
                 throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointDepth", 0.ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture)));
             }
 
-            SizeF relativeSize = graph.GetRelativeSize(new SizeF((float)pointDepth, (float)pointDepth));
-            pointDepth = relativeSize.Width;
+            SizeF relativeSize = graph.GetRelativeSize(new SizeF(pointDepth, pointDepth));
             if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
-            {
                 pointDepth = relativeSize.Height;
-            }
+            else
+                pointDepth = relativeSize.Width;
         }
 
         // Check if series provide custom value for point gap depth in pixels
         attribValue = this[CustomPropertyName.PixelPointGapDepth];
-        if (attribValue != null)
+        if (attribValue is not null)
         {
             try
             {
-                pointGapDepth = CommonElements.ParseDouble(attribValue);
+                pointGapDepth = CommonElements.ParseFloat(attribValue);
             }
             catch
             {
@@ -617,20 +615,51 @@ public class Series : DataPointCustomProperties, IDisposable
             {
                 throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointGapDepth"));
             }
+
             if (pointGapDepth > CustomPropertyRegistry.MaxValueOfPixelAttribute)
             {
                 throw new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointGapDepth", 0.ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture)));
             }
 
-            SizeF relativeSize = graph.GetRelativeSize(new SizeF((float)pointGapDepth, (float)pointGapDepth));
-            pointGapDepth = relativeSize.Width;
+            SizeF relativeSize = graph.GetRelativeSize(new SizeF(pointGapDepth, pointGapDepth));
             if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
-            {
                 pointGapDepth = relativeSize.Height;
+            else
+                pointGapDepth = relativeSize.Width;
+        }
+    }
+
+    /// <summary>
+    /// Transform <paramref name="seriesDepthAbsolue"/> to relative coordinates and gets custom ZValue from series properties.
+    /// </summary>
+    /// <param name="graph">Chart graphics.</param>
+    /// <param name="axis">Categorical axis.</param>
+    /// <param name="seriesDepthAbsolue">Initial series depth in absolute coordinates. Will be transform to relative coordinates.</param>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    internal (float pointDepth, float pointZpos) GetZValues(ChartGraphics graph, Axis axis, float seriesDepthAbsolue)
+    {
+        SizeF relativeSize = graph.GetRelativeSize(seriesDepthAbsolue, seriesDepthAbsolue);
+        if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
+            seriesDepthAbsolue = relativeSize.Height;
+        else
+            seriesDepthAbsolue = relativeSize.Width;
+
+        // Check if series provide custom value for ZValue
+        var attribValue = this[CustomPropertyName.ZValue];
+        float pointZpos = 0;
+        if (attribValue is not null)
+        {
+            try
+            {
+                pointZpos = CommonElements.ParseFloat(attribValue);
+            }
+            catch
+            {
+                throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2(CustomPropertyName.ZValue));
             }
         }
 
-
+        return (seriesDepthAbsolue, pointZpos);
     }
 
 
@@ -1013,7 +1042,7 @@ public class Series : DataPointCustomProperties, IDisposable
 
         // #SERIESNAME - series name
         result = result.Replace(KeywordName.SeriesName, this.Name);
-        result = result.Replace(KeywordName.Ser, this.Name);			// #SER Depricated Keyword
+        result = result.Replace(KeywordName.Ser, this.Name); // #SER Deprecated Keyword
 
         // #CUSTOMPROPERTY - one of the custom attributes by name
         result = DataPoint.ReplaceCustomPropertyKeyword(result, this);
@@ -1028,7 +1057,7 @@ public class Series : DataPointCustomProperties, IDisposable
             KeywordName.Total,
             SeriesValuesFormulaType.Total,
             this.YValueType,
-            "");
+            string.Empty);
 
         // #AVG - total of Y values
         result = ReplaceOneKeyword(
@@ -1040,7 +1069,7 @@ public class Series : DataPointCustomProperties, IDisposable
             KeywordName.Avg,
             SeriesValuesFormulaType.Average,
             this.YValueType,
-            "");
+            string.Empty);
 
         // #MAX - total of Y values
         result = ReplaceOneKeyword(
@@ -1052,7 +1081,7 @@ public class Series : DataPointCustomProperties, IDisposable
             KeywordName.Max,
             SeriesValuesFormulaType.Maximum,
             this.YValueType,
-            "");
+            string.Empty);
 
         // #MIN - total of Y values
         result = ReplaceOneKeyword(
@@ -1064,7 +1093,7 @@ public class Series : DataPointCustomProperties, IDisposable
             KeywordName.Min,
             SeriesValuesFormulaType.Minimum,
             this.YValueType,
-            "");
+            string.Empty);
 
         // #FIRST - total of Y values
         result = ReplaceOneKeyword(
@@ -1076,7 +1105,7 @@ public class Series : DataPointCustomProperties, IDisposable
             KeywordName.First,
             SeriesValuesFormulaType.First,
             this.YValueType,
-            "");
+            string.Empty);
 
         // #LAST - total of Y values
         result = ReplaceOneKeyword(
@@ -1088,7 +1117,7 @@ public class Series : DataPointCustomProperties, IDisposable
             KeywordName.Last,
             SeriesValuesFormulaType.Last,
             this.YValueType,
-            "");
+            string.Empty);
 
 
         // #LEGENDTEXT - series name

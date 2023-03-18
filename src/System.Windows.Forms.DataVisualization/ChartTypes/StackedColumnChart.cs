@@ -1597,7 +1597,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                 using GraphicsPath rectPath = graph.Fill3DRectangle(
                     rectSize,
                     pointEx.zPosition,
-                    pointEx.depth,
+                    (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth,
                     area.matrix3D,
                     area.Area3DStyle.LightStyle,
                     point.Color,
@@ -1781,8 +1781,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                 labelPosition.Y = rectangle.Y + rectangle.Height / 2f;
 
                 // Transform coordinates
-                Point3D[] marker3DPosition = new Point3D[1];
-                marker3DPosition[0] = new Point3D(labelPosition.X, labelPosition.Y, (float)(pointEx.zPosition + pointEx.depth));
+                Point3D[] marker3DPosition = { new Point3D(labelPosition.X, labelPosition.Y, (float)(pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth)) };
                 area.matrix3D.TransformPoints(marker3DPosition);
 
                 labelPosition.X = marker3DPosition[0].X;

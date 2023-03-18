@@ -1187,8 +1187,7 @@ internal class LineChart : PointChart
         else
         {
             // Draw just one chart series
-            typeSeries = new List<string>();
-            typeSeries.Add(seriesToDraw.Name);
+            typeSeries = new List<string> { seriesToDraw.Name };
         }
 
         //***************************************************************
@@ -1284,7 +1283,7 @@ internal class LineChart : PointChart
         allPointsLoopsNumber = GetPointLoopNumber(selection, dataPointDrawingOrder);
 
         //************************************************************
-        //** Loop through all data poins (one or two times)
+        //** Loop through all data points (one or two times)
         //************************************************************
         for (int pointsLoop = 0; pointsLoop < allPointsLoopsNumber; pointsLoop++)
         {
@@ -1382,7 +1381,7 @@ internal class LineChart : PointChart
                             area.Area3DStyle.LightStyle,
                             prevDataPointEx,
                             pointAttr.zPosition,
-                            pointAttr.depth,
+                            (area.ReverseSeriesOrder ? -1 : 1) * pointAttr.depth,
                             dataPointDrawingOrder,
                             index,
                             pointsLoop,
@@ -1480,7 +1479,7 @@ internal class LineChart : PointChart
             ref pointArrayIndex);
 
 
-        // Fint point with line properties
+        // Find point with line properties
         DataPoint3D pointAttr = secondPoint;
         if (prevDataPointEx.dataPoint.IsEmpty)
         {

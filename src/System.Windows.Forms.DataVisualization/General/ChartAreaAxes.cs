@@ -38,7 +38,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal Axis axisY2;
 #pragma warning restore CA2213 // Disposable fields should be disposed
 
-        // Array of series which belong to this chart area
+        /// <summary>
+        /// Array of series which belong to this chart area. Disabled series are not included.
+        /// </summary>
         private readonly List<string> _series = new List<string>();
 
         // Array of chart types which belong to this chart area
@@ -112,7 +114,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Data series which belongs to this chart area.
+        /// Data series which belongs to this chart area. Disabled series are not included.
         /// </summary>
         internal List<string> Series
         {

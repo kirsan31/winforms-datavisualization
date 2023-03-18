@@ -6,6 +6,8 @@ This control is a [.NET](https://dotnet.microsoft.com/) continuation of [.NET Fr
 - .NET 6+ support.  
 - **Full support of new WinForms designer.**  
 - Lots of performance improvements.
+- New 3D mode for emulating Z axis.
+- New API elements.
 - This Nuget package.  
 - Small bugs fixes.
 
@@ -13,4 +15,5 @@ This control is a [.NET](https://dotnet.microsoft.com/) continuation of [.NET Fr
 
 - Lots of customization options with wide designer support.
 - Using of GDI+ graphics. *This is the killer feature when using charts over RDP.*
-- [More info](https://github.com/kirsan31/winforms-datavisualization).
+
+[More info](https://github.com/kirsan31/winforms-datavisualization).

@@ -1514,7 +1514,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     rectPath = graph.Fill3DRectangle(
                             rectSize,
                             pointEx.zPosition,
-                            pointEx.depth,
+                            (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth,
                             area.matrix3D,
                             area.Area3DStyle.LightStyle,
                             point.Color,
@@ -1731,8 +1731,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     //** Transform marker position in 3D space
                     //************************************************************
                     // Get projection coordinates
-                    Point3D[] marker3DPosition = new Point3D[1];
-                    marker3DPosition[0] = new Point3D(markerPosition.X, markerPosition.Y, (float)(pointEx.zPosition + pointEx.depth / 2f));
+                    Point3D[] marker3DPosition = { new Point3D(markerPosition.X, markerPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth / 2f) };
 
                     // Transform coordinates of text size
                     area.matrix3D.TransformPoints(marker3DPosition);
@@ -1743,7 +1742,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     graph.DrawMarker3D(
                         area.matrix3D,
                         area.Area3DStyle.LightStyle,
-                        pointEx.zPosition + pointEx.depth / 2f,
+                        pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth / 2f,
                         markerPosition,
                         point.MarkerStyle,
                         BarChart.GetAdjustedPixelSize(point.MarkerSize, graph),
@@ -2036,8 +2035,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                 // Get projection coordinates
                 Point3D[] rotationCenterProjection = new Point3D[] {
-                        new Point3D(rotationCenter.X, rotationCenter.Y, pointEx.zPosition + pointEx.depth),
-                        new Point3D(rotationCenter.X - 20f, rotationCenter.Y, pointEx.zPosition + pointEx.depth) };
+                        new Point3D(rotationCenter.X, rotationCenter.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth),
+                        new Point3D(rotationCenter.X - 20f, rotationCenter.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth) };
 
                 // Transform coordinates of text rotation point
                 area.matrix3D.TransformPoints(rotationCenterProjection);
