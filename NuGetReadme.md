@@ -16,4 +16,4 @@ This control is a [.NET](https://dotnet.microsoft.com/) continuation of [.NET Fr
 - Lots of customization options with wide designer support.
 - Using of GDI+ graphics. *This is the killer feature when using charts over RDP.*
 
-[More info](https://github.com/kirsan31/winforms-datavisualization/tree/New3D).
+[More info](https://github.com/kirsan31/winforms-datavisualization).
