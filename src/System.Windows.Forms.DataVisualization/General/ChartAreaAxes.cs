@@ -411,7 +411,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Get series
                 Series series = Common.DataManager.Series[seriesName];
                 // Check if series is indexed
-                if (!ChartHelper.IndexedSeries(series))
+                if (!series.IsXValueIndexed)
                 {
                     // found one non-indexed series - we will treat all series as non indexed.
                     indexedSeries = false;

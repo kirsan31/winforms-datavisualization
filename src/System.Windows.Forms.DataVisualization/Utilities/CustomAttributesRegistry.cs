@@ -261,7 +261,6 @@ public static class CustomPropertyName
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public const string DrawSideBySide = "DrawSideBySide";
     public const string EmptyPointValue = "EmptyPointValue";
-    public const string IsXAxisQuantitative = "IsXAxisQuantitative";
     public const string BarLabelStyle = "BarLabelStyle";
     public const string StackedGroupName = "StackedGroupName";
     public const string DrawingStyle = "DrawingStyle";
@@ -447,18 +446,6 @@ internal class CustomPropertyRegistry : IServiceProvider
             true,
             false);
         registeredCustomProperties.Add(attrInfo);
-
-        //***********************************************************************
-        //** IsXAxisQuantitative properties
-        //***********************************************************************
-        registeredCustomProperties.Add(new CustomPropertyInfo(
-            CustomPropertyName.IsXAxisQuantitative,
-            typeof(bool),
-            "false",
-            SR.DescriptionCustomAttributeIsXAxisQuantitive,
-            IsXAxisQuantitativeChartTypes.ToArray(),
-            true,
-            false));
 
         //***********************************************************************
         //** EmptyPointValue properties

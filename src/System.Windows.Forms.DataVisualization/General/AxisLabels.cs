@@ -309,55 +309,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // There aren't data series connected with this axis.
             if (dataSeries.Count == 0)
-            {
                 return;
-            }
 
             // Check if series X values all set to zeros
             bool seriesXValuesZeros = ChartHelper.SeriesXValuesZeros(this.Common, dataSeries);
-
             // Check if series is indexed (All X values zeros or IsXValueIndexed flag set)
             bool indexedSeries = true;
             if (!seriesXValuesZeros)
-            {
                 indexedSeries = ChartHelper.IndexedSeries(this.Common, dataSeries);
-            }
 
             // Show End Labels
             int endLabels = 0;
             if (labelStyle.IsEndLabelVisible)
-            {
                 endLabels = 1;
-            }
 
             // Get chart type of the first series
-            IChartType chartType = Common.ChartTypeRegistry.GetChartType(ChartArea.GetFirstSeries().ChartTypeName);
-            bool fromSeries = false;
-            if (!chartType.RequireAxes)
-            {
+            if (!Common.ChartTypeRegistry.GetChartType(ChartArea.GetFirstSeries().ChartTypeName).RequireAxes)
                 return;
-            }
-            else if (axisType == AxisName.Y || axisType == AxisName.Y2)
-            {
-                fromSeries = false;
-            }
-            else
-            {
-                fromSeries = true;
-            }
 
-            // X values from data points are not 0.
-            if (fromSeries && !ChartHelper.SeriesXValuesZeros(this.Common, dataSeries))
-            {
-                fromSeries = false;
-            }
-
-            // X values from data points are not 0.
-            if (fromSeries && (labelStyle.GetIntervalOffset() != 0 || labelStyle.GetInterval() != 0))
-            {
-                fromSeries = false;
-            }
-
+            // must be X axis
+            // X values from data points are all 0.
+            // label interval == 0.
+            var fromSeries = axisType != AxisName.Y && axisType != AxisName.Y2 && seriesXValuesZeros && labelStyle.GetIntervalOffset() == 0 && labelStyle.GetInterval() == 0;          
             // Get value type
             ChartValueType valueType;
             if (axisType == AxisName.X || axisType == AxisName.X2)
@@ -460,13 +433,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         // Add X labels
-                        if (axisType == AxisName.X || axisType == AxisName.X2)
-                        {
-                            if (dataPoint.AxisLabel.Length > 0)
-                            {
-                                CustomLabels[pointIndx].Text = dataPoint.AxisLabel;
-                            }
-                        }
+                        if (dataPoint.AxisLabel.Length > 0)
+                            CustomLabels[pointIndx].Text = dataPoint.AxisLabel;
 
                         pointIndx++;
                     }
@@ -839,9 +807,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             int pointIndx = 1;
 
             if (axisType == AxisName.Y || axisType == AxisName.Y2)
-            {
                 return string.Empty;
-            }
 
             if (!((axisType == AxisName.X && series.XAxisType == AxisType.Primary) || (axisType == AxisName.X2 && series.XAxisType == AxisType.Secondary)))
             {
@@ -889,8 +855,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         return point.ReplaceKeywords(point.AxisLabel);
                     }
                 }
+
                 pointIndx++;
             }
+
             return string.Empty;
         }
 

@@ -254,7 +254,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         prevNegY = yValue;
                     }
                     prevPositionX = ser.Points[pointIndex].XValue;
-                    if (prevPositionX == 0.0 && ChartHelper.IndexedSeries(series))
+                    if (prevPositionX == 0.0 && series.IsXValueIndexed)
                     {
                         prevPositionX = pointIndex + 1;
                     }
@@ -1572,9 +1572,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             foreach (Series ser in common.DataManager.Series)
             {
                 // Check series of the current chart type & area
-                if (string.Equals(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) &&
-string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) &&
-                    ser.IsVisible())
+                if (string.Equals(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) && string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) && ser.IsVisible())
                 {
                     yValue = ser.Points[pointIndex].YValues[0];
                     if (area.Area3DStyle.Enable3D && yValue < 0.0)
@@ -1600,7 +1598,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         break;
                     }
 
-                    // Remember privious position
+                    // Remember previous position
                     if (yValue >= 0.0)
                     {
                         prevPosY = yValue;
@@ -1610,7 +1608,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         prevNegY = yValue;
                     }
                     prevPositionX = ser.Points[pointIndex].XValue;
-                    if (prevPositionX == 0.0 && ChartHelper.IndexedSeries(series))
+                    if (prevPositionX == 0.0 && series.IsXValueIndexed)
                     {
                         prevPositionX = pointIndex + 1;
                     }

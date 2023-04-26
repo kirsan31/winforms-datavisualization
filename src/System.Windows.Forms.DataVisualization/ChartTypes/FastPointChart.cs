@@ -293,7 +293,7 @@ internal class FastPointChart : IChartType
 #pragma warning restore CA2000 // Dispose objects before losing scope
 
             // Check if series is indexed
-            bool indexedSeries = ChartHelper.IndexedSeries(series);
+            bool indexedSeries = series.IsXValueIndexed;
 
             // Get marker size taking in consideration current DPIs
             int markerSize = series.MarkerSize;

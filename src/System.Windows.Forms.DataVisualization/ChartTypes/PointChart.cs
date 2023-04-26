@@ -264,7 +264,7 @@ internal class PointChart : IChartType
         }
         else
         {
-            indexedSeries = ChartHelper.IndexedSeries(common.DataManager.Series[ShiftedSerName]);
+            indexedSeries = common.DataManager.Series[ShiftedSerName].IsXValueIndexed;
         }
 
         //************************************************************

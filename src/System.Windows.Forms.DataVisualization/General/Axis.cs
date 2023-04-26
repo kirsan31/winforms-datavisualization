@@ -3703,7 +3703,7 @@ public partial class Axis : ChartNamedElement, IDisposable
         {
             if (this.axisType == AxisName.X || this.axisType == AxisName.X2)
             {
-                if (ChartHelper.IndexedSeries(series))
+                if (series.IsXValueIndexed)
                 {
                     minIntervalSzie = 1.0;
                 }

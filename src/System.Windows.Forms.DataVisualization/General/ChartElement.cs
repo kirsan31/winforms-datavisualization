@@ -770,30 +770,23 @@ internal class ChartHelper
     }
 
     /// <summary>
-    /// Check if series is indexed. IsXValueIndexed flag is set or all X values are zeros.
+    /// Check if any series is indexed.
     /// </summary>
-    /// <param name="series">Data series to test.</param>
-    /// <returns>True if series is indexed.</returns>
-    internal static bool IndexedSeries(Series series)
+    /// <param name="common">Reference to common chart classes.</param>
+    /// <param name="series">Data series names.</param>
+    /// <returns>True if any series is indexed.</returns>
+    internal static bool IndexedSeries(CommonElements common, List<string> series)
     {
-        // X value indexed flag set
-        if (series.IsXValueIndexed)
+        // Data series loop
+        foreach (string ser in series)
         {
-            return true;
+            Series localSeries = common.DataManager.Series[ser];
+            // Check series indexed flag
+            if (localSeries.IsXValueIndexed)
+                return true; // If flag set in at least one series - all series are indexed
         }
 
-        if (Utilities.CustomPropertyRegistry.IsXAxisQuantitativeChartTypes.Contains(series.ChartType) &&
-            series.IsCustomPropertySet(Utilities.CustomPropertyName.IsXAxisQuantitative))
-        {
-            string attribValue = series[Utilities.CustomPropertyName.IsXAxisQuantitative];
-            if (string.Equals(attribValue, "True", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-        }
-
-        // Check if series has all X values set to zero
-        return SeriesXValuesZeros(series);
+        return false;
     }
 
     /// <summary>
@@ -804,9 +797,7 @@ internal class ChartHelper
     {
         // Check if X value zeros check was already done
         if (series.xValuesZerosChecked)
-        {
             return series.xValuesZeros;
-        }
 
         // Data point loop
         series.xValuesZerosChecked = true;
@@ -825,37 +816,6 @@ internal class ChartHelper
     }
 
     /// <summary>
-    /// Check if any series is indexed. IsXValueIndexed flag is set or all X values are zeros.
-    /// </summary>
-    /// <param name="common">Reference to common chart classes.</param>
-    /// <param name="series">Data series names.</param>
-    /// <returns>True if any series is indexed.</returns>
-    internal static bool IndexedSeries(CommonElements common, List<string> series)
-    {
-        // Data series loop
-        bool zeroXValues = true;
-        foreach (string ser in series)
-        {
-            Series localSeries = common.DataManager.Series[ser];
-
-            // Check series indexed flag
-            if (localSeries.IsXValueIndexed)
-            {
-                // If flag set in at least one series - all series are indexed
-                return true;
-            }
-
-            // Check if series has all X values set to zero
-            if (zeroXValues && !IndexedSeries(localSeries))
-            {
-                zeroXValues = false;
-            }
-        }
-
-        return zeroXValues;
-    }
-
-    /// <summary>
     /// Check if all data points in many series have X value set to 0.
     /// </summary>
     /// <param name="common">Reference to common chart classes.</param>
@@ -868,9 +828,7 @@ internal class ChartHelper
         {
             // Check one series X values
             if (!SeriesXValuesZeros(common.DataManager.Series[ser]))
-            {
                 return false;
-            }
         }
 
         return true;

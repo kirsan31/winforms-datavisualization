@@ -283,9 +283,9 @@ internal class FastLineChart : IChartType
             emptyLinePen.EndCap = LineCap.Round;
 
             // Check if series is indexed
-            bool indexedSeries = ChartHelper.IndexedSeries(series);
+            bool indexedSeries = series.IsXValueIndexed;
 
-            // Loop through all ponts in the series
+            // Loop through all points in the series
             int index = 0;
             double yValueRangeMin = double.NaN;
             double yValueRangeMax = double.NaN;
