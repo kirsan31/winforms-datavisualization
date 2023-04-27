@@ -208,7 +208,7 @@ public partial class Axis : ChartNamedElement, IDisposable
         // DT: Axis could be already created. Don't recreate new LabelStyle and other objects.
         // Initialize axis labels
         labelStyle ??= new LabelStyle(this);
-        _customLabels ??= new CustomLabelsCollection(this);
+        CustomLabels ??= new CustomLabelsCollection(this);
         // Create axis data scaleView object
         _scaleView ??= new AxisScaleView(this);
         // Create axis scroll bar class
@@ -5921,7 +5921,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                     this.scrollBar = null;
                 }
 
-                _customLabels = null;
+                CustomLabels = null;
                 tempLabels = null;
                 labelStyle = null;
                 oppositeAxis = null;
