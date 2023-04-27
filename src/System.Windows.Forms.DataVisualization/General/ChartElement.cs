@@ -777,15 +777,23 @@ internal class ChartHelper
     /// <returns>True if any series is indexed.</returns>
     internal static bool IndexedSeries(CommonElements common, List<string> series)
     {
+        if (common.DataManager.indexedSeries is not null)
+            return common.DataManager.indexedSeries.Value;
+
         // Data series loop
         foreach (string ser in series)
         {
             Series localSeries = common.DataManager.Series[ser];
             // Check series indexed flag
             if (localSeries.IsXValueIndexed)
-                return true; // If flag set in at least one series - all series are indexed
+            {
+                // If flag set in at least one series - all series are indexed
+                common.DataManager.indexedSeries = true;
+                return true;
+            }
         }
 
+        common.DataManager.indexedSeries = false;
         return false;
     }
 
@@ -795,24 +803,14 @@ internal class ChartHelper
     /// <param name="series">Data series to check.</param>
     private static bool SeriesXValuesZeros(Series series)
     {
-        // Check if X value zeros check was already done
-        if (series.xValuesZerosChecked)
-            return series.xValuesZeros;
-
         // Data point loop
-        series.xValuesZerosChecked = true;
-        series.xValuesZeros = true;
         foreach (DataPoint point in series.Points)
         {
             if (point.XValue != 0.0)
-            {
-                // If any data point has value different than 0 return false
-                series.xValuesZeros = false;
-                break;
-            }
+                return false;
         }
 
-        return series.xValuesZeros;
+        return true;
     }
 
     /// <summary>
@@ -823,14 +821,21 @@ internal class ChartHelper
     /// <returns>True if all data points have value 0.</returns>
     internal static bool SeriesXValuesZeros(CommonElements common, List<string> series)
     {
+        if (common.DataManager.xValuesZeros is not null)
+            return common.DataManager.xValuesZeros.Value;
+
         // Data series loop
         foreach (string ser in series)
         {
             // Check one series X values
             if (!SeriesXValuesZeros(common.DataManager.Series[ser]))
+            {
+                common.DataManager.xValuesZeros = false;
                 return false;
+            }
         }
 
+        common.DataManager.xValuesZeros = true;
         return true;
     }
 

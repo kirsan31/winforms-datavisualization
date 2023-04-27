@@ -29,6 +29,16 @@ internal sealed class DataManager : ChartElement, IServiceProvider, IDisposable
     // Service container reference
     internal IServiceContainer serviceContainer;
 
+    /// <summary>
+    /// Indicates if at least one series is indexed (in this case we tread that all series are indexed). null if not checked yet.
+    /// </summary>
+    internal bool? indexedSeries;
+
+    /// <summary>
+    /// Indicates if all series has all X values set to 0. null if not checked yet.
+    /// </summary>
+    internal bool? xValuesZeros;
+
     #endregion
 
     #region Constructors and initialization
@@ -39,12 +49,7 @@ internal sealed class DataManager : ChartElement, IServiceProvider, IDisposable
     /// <param name="container">Service container object.</param>
     public DataManager(IServiceContainer container)
     {
-        if (container == null)
-        {
-            throw new ArgumentNullException(SR.ExceptionInvalidServiceContainer);
-        }
-
-        serviceContainer = container;
+        serviceContainer = container ?? throw new ArgumentNullException(SR.ExceptionInvalidServiceContainer);
         Common = new CommonElements(container);
         Series = new SeriesCollection(this);
     }
@@ -97,14 +102,12 @@ internal sealed class DataManager : ChartElement, IServiceProvider, IDisposable
     {
         // Prepare series for drawing
         int markerIndex = 1;
+        indexedSeries = null;
+        xValuesZeros = null;
+
         for (int index = 0; index < this.Series.Count; index++)
         {
             Series series = this.Series[index];
-
-            // Reset series "X values are zeros" flag
-            series.xValuesZerosChecked = false;
-            series.xValuesZeros = false;
-
             // Set series colors from palette
             IChartType chartType = e.CommonElements.ChartTypeRegistry.GetChartType(series.ChartTypeName);
             bool paletteColorsInPoints = chartType.ApplyPaletteColorsToPoints;
@@ -125,7 +128,7 @@ internal sealed class DataManager : ChartElement, IServiceProvider, IDisposable
                 series.tempMarkerStyleIsSet = false;
             }
 
-            // Set marker style for chart types based on markes
+            // Set marker style for chart types based on markers
             if (chartType.GetLegendImageStyle(series) == LegendImageStyle.Marker && series.MarkerStyle == MarkerStyle.None)
             {
                 series.MarkerStyle = (MarkerStyle)markerIndex++;

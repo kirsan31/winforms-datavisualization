@@ -9,14 +9,9 @@
 
 	<PropertyGroup>
 		<MajorVer>1</MajorVer>
-		<MinorPatchVer>8.0</MinorPatchVer>
-		<PRVer></PRVer>
+		<MinorPatchVer>9.0</MinorPatchVer>
+		<PRVer>-pr</PRVer>
 		<NugetReleaseNotes>
-			New 3D mode - ZDepthRealCalc.
-			Some new API elements.
-			Many performance optimizations.
-			Small bug fixes.
-			More info: https://github.com/kirsan31/winforms-datavisualization/releases/tag/1.8
 		</NugetReleaseNotes>
 	</PropertyGroup>
 </Project>

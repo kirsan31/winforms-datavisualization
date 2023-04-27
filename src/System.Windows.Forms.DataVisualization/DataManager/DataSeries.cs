@@ -249,12 +249,6 @@ public class Series : DataPointCustomProperties, IDisposable
     // Indicates that there is no custom axis labels in data points or series
     internal bool noLabelsInPoints = true;
 
-    // Indicates if series has all X values set to 0
-    internal bool xValuesZeros;
-
-    // Indicates if check for series X zero values was done
-    internal bool xValuesZerosChecked;
-
 
     // fake data points for selector service in design time.
     // note: in design time fake points are generated 
