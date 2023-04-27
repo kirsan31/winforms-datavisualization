@@ -287,60 +287,55 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Get data series for this axis.
-            List<string> dataSeries = null;
+            List<string> dataSeriesNames = null;
             switch (axisType)
             {
                 case AxisName.X:
-                    dataSeries = ChartArea.GetXAxesSeries(AxisType.Primary, this.SubAxisName);
+                    dataSeriesNames = ChartArea.GetXAxesSeries(AxisType.Primary, this.SubAxisName);
                     break;
 
                 case AxisName.Y:
-                    dataSeries = ChartArea.GetYAxesSeries(AxisType.Primary, this.SubAxisName);
+                    dataSeriesNames = ChartArea.GetYAxesSeries(AxisType.Primary, this.SubAxisName);
                     break;
 
                 case AxisName.X2:
-                    dataSeries = ChartArea.GetXAxesSeries(AxisType.Secondary, this.SubAxisName);
+                    dataSeriesNames = ChartArea.GetXAxesSeries(AxisType.Secondary, this.SubAxisName);
                     break;
 
                 case AxisName.Y2:
-                    dataSeries = ChartArea.GetYAxesSeries(AxisType.Secondary, this.SubAxisName);
+                    dataSeriesNames = ChartArea.GetYAxesSeries(AxisType.Secondary, this.SubAxisName);
                     break;
             }
 
             // There aren't data series connected with this axis.
-            if (dataSeries.Count == 0)
+            if (dataSeriesNames.Count == 0)
                 return;
-
-            // Check if series X values all set to zeros
-            bool seriesXValuesZeros = ChartHelper.SeriesXValuesZeros(this.Common, dataSeries);
-            // Check if series is indexed (All X values zeros or IsXValueIndexed flag set)
-            bool indexedSeries = true;
-            if (!seriesXValuesZeros)
-                indexedSeries = ChartHelper.IndexedSeries(this.Common, dataSeries);
-
-            // Show End Labels
-            int endLabels = 0;
-            if (labelStyle.IsEndLabelVisible)
-                endLabels = 1;
 
             // Get chart type of the first series
             if (!Common.ChartTypeRegistry.GetChartType(ChartArea.GetFirstSeries().ChartTypeName).RequireAxes)
                 return;
 
+            // Check if series is indexed - IsXValueIndexed flag set
+            bool indexedSeries = ChartHelper.IndexedSeries(this.Common, dataSeriesNames);
+            // Check if series X values all set to zeros (only matters when series is indexed)
+            bool seriesXValuesZeros = indexedSeries && ChartHelper.SeriesXValuesZeros(this.Common, dataSeriesNames);
+            // Show End Labels
+            int endLabels = labelStyle.IsEndLabelVisible ? 1 : 0;
+
             // must be X axis
             // X values from data points are all 0.
             // label interval == 0.
-            var fromSeries = axisType != AxisName.Y && axisType != AxisName.Y2 && seriesXValuesZeros && labelStyle.GetIntervalOffset() == 0 && labelStyle.GetInterval() == 0;          
+            var fromSeries = seriesXValuesZeros && axisType != AxisName.Y && axisType != AxisName.Y2 && labelStyle.GetIntervalOffset() == 0 && labelStyle.GetInterval() == 0;          
             // Get value type
             ChartValueType valueType;
             if (axisType == AxisName.X || axisType == AxisName.X2)
             {
                 // If X value is indexed the type is always String. So we use indexed type instead
-                valueType = Common.DataManager.Series[dataSeries[0]].indexedXValueType;
+                valueType = Common.DataManager.Series[dataSeriesNames[0]].indexedXValueType;
             }
             else
             {
-                valueType = Common.DataManager.Series[dataSeries[0]].YValueType;
+                valueType = Common.DataManager.Series[dataSeriesNames[0]].YValueType;
             }
 
             if (labelStyle.GetIntervalType() != DateTimeIntervalType.Auto &&
@@ -366,7 +361,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (fromSeries)
             {
                 int numOfPoints;
-                numOfPoints = Common.DataManager.GetNumberOfPoints(dataSeries);
+                numOfPoints = Common.DataManager.GetNumberOfPoints(dataSeriesNames);
 
                 // Show end labels
                 if (endLabels == 1)
@@ -415,7 +410,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 int pointIndx;
-                foreach (string seriesIndx in dataSeries)
+                foreach (string seriesIndx in dataSeriesNames)
                 {
                     // End labels enabled
                     if (endLabels == 1)
@@ -562,27 +557,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         //    continue;
                         //}
 
-                        string pointLabel = GetPointLabel(dataSeries, labValue, !seriesXValuesZeros, indexedSeries);
+                        string pointLabel = GetPointLabel(dataSeriesNames, labValue, !seriesXValuesZeros, indexedSeries);
                         if (pointLabel.Length == 0)
                         {
                             // Do not draw last label for indexed series
-                            if (position <= this.maximum)
+                            // Add a label to the collection
+                            if (position <= this.maximum && (!indexedSeries || position != this.maximum))
                             {
-                                // Add a label to the collection
-                                if (position != this.maximum || !Common.DataManager.Series[dataSeries[0]].IsXValueIndexed)
-                                {
-                                    CustomLabels.Add(beginPosition,
-                                        endPosition,
-                                        ValueConverter.FormatValue(
-                                            this.Common.Chart,
-                                            this,
-                                            null,
-                                            labValue,
-                                            this.LabelStyle.Format,
-                                            valueType,
-                                            ChartElementType.AxisLabels),
-                                        false);
-                                }
+                                CustomLabels.Add(beginPosition,
+                                    endPosition,
+                                    ValueConverter.FormatValue(
+                                        this.Common.Chart,
+                                        this,
+                                        null,
+                                        labValue,
+                                        this.LabelStyle.Format,
+                                        valueType,
+                                        ChartElementType.AxisLabels),
+                                    false);
                             }
                         }
                         else
@@ -661,7 +653,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             continue;
                         }
 
-                        string pointLabel = GetPointLabel(dataSeries, labValue, !seriesXValuesZeros, indexedSeries);
+                        string pointLabel = GetPointLabel(dataSeriesNames, labValue, !seriesXValuesZeros, indexedSeries);
                         if (pointLabel.Length > 15 && labValue < 0.000001)
                         {
                             labValue = 0.0;
@@ -670,7 +662,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (pointLabel.Length == 0)
                         {
                             // Do not draw last label for indexed series
-                            if (!(Common.DataManager.Series[dataSeries[0]].IsXValueIndexed && position > this.maximum))
+                            if (!indexedSeries || position < this.maximum)
                             {
                                 // Add a label to the collection
                                 CustomLabels.Add(beginPosition,
@@ -708,7 +700,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="series">Data series</param>
         /// <param name="valuePosition">A value which should be found in data points x values</param>
         /// <param name="nonZeroXValues">Series X values are not zeros.</param>
-        /// <param name="indexedSeries">Series is indexed. All X values are zeros or IsXValueIndexed flag set.</param>
+        /// <param name="indexedSeries">Series is indexed - IsXValueIndexed flag set.</param>
         /// <returns>LabelStyle</returns>
         private string GetPointLabel(
             List<string> series,
@@ -740,9 +732,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             // Get max number of data points in the series
                             maxPointCount = 0;
                             foreach (string seriesN in series)
-                            {
                                 maxPointCount = Math.Max(maxPointCount, Common.DataManager.Series[seriesN].Points.Count);
-                            }
                         }
 
                         if (maxPointCount == 1)
@@ -755,36 +745,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     string result = GetPointLabel(ser, valuePosition, nonZeroXValues, indexedSeries);
                     if (!string.IsNullOrEmpty(result))
-                    {
                         return result;
-                    }
                 }
 
+                if (!indexedSeries)
+                    continue;
+
                 // VSTS 140676: Search for IndexedSeriesLabelsSourceAttr attribute
-                // to find if we have indexed series as source of formula generated non indexed series.
+                // to find if we have indexed series as source of formula.
                 string labelSeriesName = ser[DataFormula.IndexedSeriesLabelsSourceAttr];
                 if (!string.IsNullOrEmpty(labelSeriesName))
                 {
                     Series labelsSeries = Common.DataManager.Series[labelSeriesName];
-                    if (labelsSeries != null)
+                    if (labelsSeries is not null)
                     {
                         string result = GetPointLabel(labelsSeries, valuePosition, nonZeroXValues, true);
                         if (!string.IsNullOrEmpty(result))
-                        {
                             return result;
-                        }
                     }
                 }
             }
 
-            if (!allEmpty)
-            {
-                return " ";
-            }
-            else
-            {
-                return string.Empty;
-            }
+            return allEmpty ? string.Empty : " ";
         }
 
         /// <summary>
@@ -796,7 +778,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="series">Data series</param>
         /// <param name="valuePosition">A value which should be found in data points x values</param>
         /// <param name="nonZeroXValues">Series X values are not zeros.</param>
-        /// <param name="indexedSeries">Series is indexed. All X values are zeros or IsXValueIndexed flag set.</param>
+        /// <param name="indexedSeries">Series is indexed - IsXValueIndexed flag set.</param>
         /// <returns>LabelStyle</returns>
         private string GetPointLabel(
             Series series,
@@ -823,7 +805,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Loop through all series data points
             foreach (DataPoint point in series.Points)
             {
-                // If series is indexed (all X values are zeros or IsXValueIndexed flag set)
+                // If series is indexed - IsXValueIndexed flag set
                 if (indexedSeries)
                 {
                     // If axis label position matches point index
