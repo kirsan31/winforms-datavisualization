@@ -1824,15 +1824,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 // Add point to the map area
                 common.HotRegionsList.AddHotRegion(
-                    graph,
                     path,
                     false,
-                    point.ReplaceKeywords(point.ToolTip),
-                    string.Empty,
-                    string.Empty,
-                    string.Empty,
-                    point,
-                    ChartElementType.DataPoint);
+                    ChartElementType.DataPoint,
+                    point);
 
                 return;
             }

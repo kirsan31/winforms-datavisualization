@@ -496,7 +496,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if ( this.Axis.Common.ProcessModeRegions )
 			{
-				this.Axis.Common.HotRegionsList.AddHotRegion( graph, path, false, this.ToolTip, null, null, null, this, ChartElementType.StripLines );
+				this.Axis.Common.HotRegionsList.AddHotRegion(path, false, ChartElementType.StripLines, this);
 			}
 
 			if(horizontal)
@@ -542,7 +542,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 			if( this.Axis.Common.ProcessModeRegions )
 			{
-				this.Axis.Common.HotRegionsList.AddHotRegion( graph, path, false, this.ToolTip, null, null, null, this, ChartElementType.StripLines );
+				this.Axis.Common.HotRegionsList.AddHotRegion(path, false, ChartElementType.StripLines, this);
 			}
 
             if (path != null)

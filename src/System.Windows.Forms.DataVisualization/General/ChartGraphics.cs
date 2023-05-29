@@ -2174,19 +2174,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     path.AddRectangle(labelRect);
                     using var mt = this.Transform;
                     path.Transform(mt);
-                    string url = string.Empty;
-                    string mapAreaAttributes = string.Empty;
-                    string postbackValue = string.Empty;
                     common.HotRegionsList.AddHotRegion(
-                        this,
                         path,
                         false,
-                        label.ToolTip,
-                        url,
-                        mapAreaAttributes,
-                        postbackValue,
-                        label,
-                        ChartElementType.AxisLabels);
+                        ChartElementType.AxisLabels,
+                        label);
                 }
 
                 //********************************************************************
@@ -2259,19 +2251,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         path.AddRectangle(imageRect);
                         using var mt = this.Transform;
                         path.Transform(mt);
-                        string imageUrl = string.Empty;
-                        string imageMapAreaAttributes = string.Empty;
-                        string postbackValue = string.Empty;
                         common.HotRegionsList.AddHotRegion(
-                            this,
                             path,
                             false,
-                            string.Empty,
-                            imageUrl,
-                            imageMapAreaAttributes,
-                            postbackValue,
-                            label,
-                            ChartElementType.AxisLabelImage);
+                            ChartElementType.AxisLabelImage,
+                            label);
                     }
                 }
             }

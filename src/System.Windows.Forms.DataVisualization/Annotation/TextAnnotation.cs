@@ -405,15 +405,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     using GraphicsPath ellipsePath = new GraphicsPath();
                     ellipsePath.AddEllipse(textPosition);
                     this.Common.HotRegionsList.AddHotRegion(
-                        graphics,
                         ellipsePath,
                         true,
-                        ReplaceKeywords(this.ToolTip),
-                        String.Empty,
-                        String.Empty,
-                        String.Empty,
-                        this,
-                        ChartElementType.Annotation);
+                        ChartElementType.Annotation,
+                        this);
                 }
                 else
                 {

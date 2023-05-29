@@ -702,15 +702,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         // Use callout defined hot region
                         this.Common.HotRegionsList.AddHotRegion(
-                            graphics,
                             subPath,
                             false,
-                            ReplaceKeywords(this.ToolTip),
-                            String.Empty,
-                            String.Empty,
-                            String.Empty,
-                            this,
-                            ChartElementType.Annotation);
+                            ChartElementType.Annotation,
+                            this);
 
                         // Reset current path
                         subPath.Reset();

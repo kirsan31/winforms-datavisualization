@@ -304,15 +304,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Use callout defined hot region
                 this.Common.HotRegionsList.AddHotRegion(
-                    graphics,
                     arrowPathAbs,
                     false,
-                    ReplaceKeywords(this.ToolTip),
-                    String.Empty,
-                    String.Empty,
-                    String.Empty,
-                    this,
-                    ChartElementType.Annotation);
+                    ChartElementType.Annotation,
+                    this);
             }
 
             // Paint selection handles

@@ -599,44 +599,6 @@ internal class HotRegionsList : IDisposable
     /// <summary>
     /// Add Hot region to the collection.
     /// </summary>
-    /// <param name="graph">Chart Graphics Object</param>
-    /// <param name="path">Graphics path</param>
-    /// <param name="relativePath">Used relative coordinates for graphics path.</param>
-    /// <param name="toolTip">Tool Tip Text</param>
-    /// <param name="hRef">HRef string</param>
-    /// <param name="mapAreaAttributes">Map area Attribute string</param>
-    /// <param name="postBackValue">The post back value associated with this item</param>
-    /// <param name="selectedObject">Object which present hot region</param>
-    /// <param name="type">AxisName of the object which present hot region</param>
-    [
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "graph"),
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "hRef"),
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "mapAreaAttributes"),
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "postBackValue"),
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "toolTip")
-    ]
-    internal void AddHotRegion(ChartGraphics graph, GraphicsPath path, bool relativePath, string toolTip, string hRef, string mapAreaAttributes, string postBackValue, object selectedObject, ChartElementType type)
-    {
-
-        if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
-        {
-
-            HotRegion region = new HotRegion();
-
-            region.Type = type;
-            region.Path = (GraphicsPath)path.Clone();
-            region.SelectedObject = selectedObject;
-            region.BoundingRectangle = path.GetBounds();
-            region.RelativeCoordinates = relativePath;
-
-            List.Add(region);
-
-        }
-    }
-
-    /// <summary>
-    /// Add Hot region to the collection.
-    /// </summary>
     /// <param name="rectArea">Hot Region rectangle</param>
     /// <param name="selectedObject">Object which present hot region</param>
     /// <param name="type">AxisName of the object which present hot region</param>
@@ -660,21 +622,18 @@ internal class HotRegionsList : IDisposable
     {
         if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
         {
-            HotRegion region = new HotRegion();
-
-            region.BoundingRectangle = rectArea;
-            region.RelativeCoordinates = relativeCoordinates;
-            region.Type = type;
-            region.SelectedObject = selectedObject;
+            HotRegion region = new HotRegion
+            {
+                BoundingRectangle = rectArea,
+                RelativeCoordinates = relativeCoordinates,
+                Type = type,
+                SelectedObject = selectedObject
+            };
 
             if (insertAtBeginning)
-            {
                 List.Insert(List.Count - 1, region);
-            }
             else
-            {
                 List.Add(region);
-            }
         }
     }
 
@@ -694,17 +653,16 @@ internal class HotRegionsList : IDisposable
     {
         if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
         {
-
-            HotRegion region = new HotRegion();
-
-            region.SelectedObject = selectedObject;
-            region.Type = type;
-            region.Path = (GraphicsPath)path.Clone();
-            region.BoundingRectangle = path.GetBounds();
-            region.RelativeCoordinates = relativePath;
+            HotRegion region = new HotRegion
+            {
+                SelectedObject = selectedObject,
+                Type = type,
+                Path = (GraphicsPath)path.Clone(),
+                BoundingRectangle = path.GetBounds(),
+                RelativeCoordinates = relativePath
+            };
 
             List.Add(region);
-
         }
     }
 

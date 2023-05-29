@@ -706,15 +706,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // Add hot region
                 this.Common.HotRegionsList.AddHotRegion(
-                    graphics,
                     selectionPath,
                     false,
-                    ReplaceKeywords(this.ToolTip),
-                    String.Empty,
-                    String.Empty,
-                    String.Empty,
-                    this,
-                    ChartElementType.Annotation);
+                    ChartElementType.Annotation,
+                    this);
 
                 //Clean up
                 if (newPath != null)

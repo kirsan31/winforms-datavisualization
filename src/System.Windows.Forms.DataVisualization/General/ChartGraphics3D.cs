@@ -752,15 +752,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     // Add point to the map area
                     common.HotRegionsList.AddHotRegion(
-                        this,
                         path,
                         false,
-                        point.ReplaceKeywords(point.ToolTip),
-                        string.Empty,
-                        string.Empty,
-                        string.Empty,
-                        point,
-                        ChartElementType.DataPoint);
+                        ChartElementType.DataPoint,
+                        point);
 
                     return;
                 }
@@ -868,15 +863,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     // Add point to the map area
                     common.HotRegionsList.AddHotRegion(
-                        this,
                         path,
                         false,
-                        point.ReplaceKeywords(point.ToolTip),
-                        string.Empty,
-                        string.Empty,
-                        string.Empty,
-                        point,
-                        ChartElementType.DataPoint);
+                        ChartElementType.DataPoint,
+                        point);
 
                     return;
                 }
@@ -995,15 +985,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     // Add point to the map area
                     common.HotRegionsList.AddHotRegion(
-                        this,
                         path,
                         false,
-                        point.ReplaceKeywords(point.ToolTip),
-                        string.Empty,
-                        string.Empty,
-                        string.Empty,
-                        point,
-                        ChartElementType.DataPoint);
+                        ChartElementType.DataPoint,
+                        point);
 
                     return;
                 }

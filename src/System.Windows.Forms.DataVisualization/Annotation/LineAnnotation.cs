@@ -650,15 +650,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // Add hot region
                 this.Common.HotRegionsList.AddHotRegion(
-                    graphics,
                     path,
                     false,
-                    ReplaceKeywords(this.ToolTip),
-                    String.Empty,
-                    String.Empty,
-                    String.Empty,
-                    this,
-                    ChartElementType.Annotation);
+                    ChartElementType.Annotation,
+                    this);
             }
 
             // Restore line caps

@@ -2235,15 +2235,10 @@ public partial class Axis : ChartNamedElement, IDisposable
         path.AddPolygon(points);
 
         Common.HotRegionsList.AddHotRegion(
-            graph,
             path,
             false,
-            this.ToolTip,
-            string.Empty,
-            string.Empty,
-            string.Empty,
-            this,
-            ChartElementType.Axis);
+            ChartElementType.Axis,
+            this);
     }
 
     /// <summary>
