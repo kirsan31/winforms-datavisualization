@@ -414,10 +414,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     this.Common.HotRegionsList.AddHotRegion(
                         textPosition,
-                        ReplaceKeywords(this.ToolTip),
-                        String.Empty,
-                        String.Empty,
-                        String.Empty,
                         this,
                         ChartElementType.Annotation,
                         String.Empty);

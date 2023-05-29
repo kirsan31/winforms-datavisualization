@@ -716,10 +716,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Use rectangular hot region
                     this.Common.HotRegionsList.AddHotRegion(
                         rectanglePosition,
-                        ReplaceKeywords(this.ToolTip),
-                        String.Empty,
-                        String.Empty,
-                        String.Empty,
                         this,
                         ChartElementType.Annotation,
                         String.Empty);

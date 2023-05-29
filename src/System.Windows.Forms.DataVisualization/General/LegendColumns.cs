@@ -1718,10 +1718,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Note that legend cell is passed as sub-object of legend item
                 this.Common.HotRegionsList.AddHotRegion(
                     chartGraph.GetRelativeRectangle(this.cellPositionWithMargins),
-                    this.GetCellToolTip(),
-                    this.GetCellUrl(),
-                    this.GetCellMapAreaAttributes(),
-                    this.GetCellPostBackValue(),
                     this.LegendItem,
                     this,
                     ChartElementType.LegendItem,

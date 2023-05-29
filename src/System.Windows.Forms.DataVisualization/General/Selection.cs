@@ -513,34 +513,24 @@ internal class HotRegionsList : IDisposable
     /// Add Hot region to the collection.
     /// </summary>
     /// <param name="rectArea">Hot Region rectangle</param>
-    /// <param name="toolTip">Tool Tip Text</param>
-    /// <param name="hRef">HRef string</param>
-    /// <param name="mapAreaAttributes">Map area Attribute string</param>
-    /// <param name="postBackValue">The post back value associated with this item</param>
     /// <param name="selectedObject">Object which present hot region</param>
     /// <param name="type">AxisName of the object which present hot region</param>
     /// <param name="series">Selected series</param>
-    [
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "hRef"),
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "mapAreaAttributes"),
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "postBackValue"),
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "toolTip")
-    ]
-    internal void AddHotRegion(RectangleF rectArea, string toolTip, string hRef, string mapAreaAttributes, string postBackValue, object selectedObject, ChartElementType type, string series)
+    internal void AddHotRegion(RectangleF rectArea, object selectedObject, ChartElementType type, string series)
     {
 
         if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
         {
-            HotRegion region = new HotRegion();
-
-            region.BoundingRectangle = rectArea;
-            region.RelativeCoordinates = true;
-            region.Type = type;
-            region.SelectedObject = selectedObject;
-            if (!string.IsNullOrEmpty(series))
+            HotRegion region = new HotRegion
             {
+                BoundingRectangle = rectArea,
+                RelativeCoordinates = true,
+                Type = type,
+                SelectedObject = selectedObject
+            };
+
+            if (!string.IsNullOrEmpty(series))
                 region.SeriesName = series;
-            }
 
             List.Add(region);
         }
@@ -552,45 +542,31 @@ internal class HotRegionsList : IDisposable
     /// Add Hot region to the collection.
     /// </summary>
     /// <param name="rectArea">Hot Region rectangle</param>
-    /// <param name="toolTip">Tool Tip Text</param>
-    /// <param name="hRef">HRef string</param>
-    /// <param name="mapAreaAttributes">Map area Attribute string</param>
-    /// <param name="postBackValue">The post back value associated with this item</param>
     /// <param name="selectedObject">Object which present hot region</param>
     /// <param name="selectedSubObject">Sub-Object which present hot region</param>
     /// <param name="type">AxisName of the object which present hot region</param>
     /// <param name="series">Selected series</param>
-    [
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "hRef"),
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "mapAreaAttributes"),
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "postBackValue"),
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "toolTip")
-    ]
     internal void AddHotRegion(
-            RectangleF rectArea,
-            string toolTip,
-            string hRef,
-            string mapAreaAttributes,
-        string postBackValue,
-            object selectedObject,
-            object selectedSubObject,
-            ChartElementType type,
-            string series)
+        RectangleF rectArea,
+        object selectedObject,
+        object selectedSubObject,
+        ChartElementType type,
+        string series)
     {
 
         if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
         {
-            HotRegion region = new HotRegion();
-
-            region.BoundingRectangle = rectArea;
-            region.RelativeCoordinates = true;
-            region.Type = type;
-            region.SelectedObject = selectedObject;
-            region.SelectedSubObject = selectedSubObject;
-            if (!string.IsNullOrEmpty(series))
+            HotRegion region = new HotRegion
             {
+                BoundingRectangle = rectArea,
+                RelativeCoordinates = true,
+                Type = type,
+                SelectedObject = selectedObject,
+                SelectedSubObject = selectedSubObject
+            };
+
+            if (!string.IsNullOrEmpty(series))
                 region.SeriesName = series;
-            }
 
             List.Add(region);
         }
@@ -645,11 +621,10 @@ internal class HotRegionsList : IDisposable
     /// <param name="type">Type of the object which present hot region</param>
     /// <param name="selectedObject">Object which present hot region</param>
     internal void AddHotRegion(
-            GraphicsPath path,
-            bool relativePath,
-            ChartElementType type,
-            object selectedObject
-            )
+        GraphicsPath path,
+        bool relativePath,
+        ChartElementType type,
+        object selectedObject)
     {
         if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
         {

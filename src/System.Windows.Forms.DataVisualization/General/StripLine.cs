@@ -382,7 +382,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             {
                                 if (!this.Axis.ChartArea.Area3DStyle.Enable3D)
                                 {
-                                    common.HotRegionsList.AddHotRegion(rect, this.ToolTip, string.Empty, string.Empty, string.Empty, this, ChartElementType.StripLines, null);
+                                    common.HotRegionsList.AddHotRegion(rect, this, ChartElementType.StripLines, null);
                                 }
                             }
                         }
@@ -451,7 +451,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 lineRect.Height = point2.Y - point1.Y;
                             }
 
-                            common.HotRegionsList.AddHotRegion(lineRect, this.ToolTip, null, null, null, this, ChartElementType.StripLines, null);
+                            common.HotRegionsList.AddHotRegion(lineRect, this, ChartElementType.StripLines, null);
                         }
                     }
                 }

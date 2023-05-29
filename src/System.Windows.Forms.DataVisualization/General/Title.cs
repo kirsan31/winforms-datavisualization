@@ -1470,7 +1470,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (Common.ProcessModeRegions)
             {
-                Common.HotRegionsList.AddHotRegion(titlePosition, this.ToolTip, null, null, null, this, ChartElementType.Title, null);
+                Common.HotRegionsList.AddHotRegion(titlePosition, this, ChartElementType.Title, null);
             }
         }
 
