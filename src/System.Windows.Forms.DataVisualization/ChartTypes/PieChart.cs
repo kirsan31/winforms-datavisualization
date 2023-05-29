@@ -1801,21 +1801,21 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Create an area of points and convert them to 
             // relative coordinates.
-            PointF[] pointNew = new PointF[path.PointCount];
-            for (int i = 0; i < path.PointCount; i++)
-            {
-                pointNew[i] = graph.GetRelativePoint(path.PathPoints[i]);
-            }
+            //PointF[] pointNew = new PointF[path.PointCount];
+            //for (int i = 0; i < path.PointCount; i++)
+            //{
+            //    pointNew[i] = graph.GetRelativePoint(path.PathPoints[i]);
+            //}
 
-            // Allocate array of floats
-            float[] coord = new float[path.PointCount * 2];
+            //// Allocate array of floats
+            //float[] coord = new float[path.PointCount * 2];
 
-            // Transfer path points
-            for (int index = 0; index < path.PointCount; index++)
-            {
-                coord[2 * index] = pointNew[index].X;
-                coord[2 * index + 1] = pointNew[index].Y;
-            }
+            //// Transfer path points
+            //for (int index = 0; index < path.PointCount; index++)
+            //{
+            //    coord[2 * index] = pointNew[index].X;
+            //    coord[2 * index + 1] = pointNew[index].Y;
+            //}
 
 
 
@@ -1843,7 +1843,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             common.HotRegionsList.AddHotRegion(
                 path,
                 false,
-                coord,
                 point,
                 point.series.Name,
                 pointIndex

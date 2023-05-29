@@ -646,20 +646,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				}
 
 				// Allocate array of floats
-				PointF	pointNew = PointF.Empty;
-				float[]	coord = new float[mapAreaPath.PointCount * 2];
-				PointF[] pathPoints = mapAreaPath.PathPoints;
-				for( int i = 0; i < mapAreaPath.PointCount; i++ )
-				{
-					pointNew = graph.GetRelativePoint( pathPoints[i] );
-					coord[2*i] = pointNew.X;
-					coord[2*i + 1] = pointNew.Y;
-				}
+				//PointF	pointNew = PointF.Empty;
+				//float[]	coord = new float[mapAreaPath.PointCount * 2];
+				//PointF[] pathPoints = mapAreaPath.PathPoints;
+				//for( int i = 0; i < mapAreaPath.PointCount; i++ )
+				//{
+				//	pointNew = graph.GetRelativePoint( pathPoints[i] );
+				//	coord[2*i] = pointNew.X;
+				//	coord[2*i + 1] = pointNew.Y;
+				//}
 
 				common.HotRegionsList.AddHotRegion(
 					mapAreaPath, 
 					false, 
-					coord, 
 					point, 
 					series.Name,
 					pointIndex );

@@ -447,15 +447,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 mapAreaPath.AddLine(point2.X, axisPos.Y, point1.X, axisPos.Y);
 
                 // Allocate array of floats
-                PointF pointNew = PointF.Empty;
-                float[] coord = new float[mapAreaPath.PointCount * 2];
-                PointF[] areaPoints = mapAreaPath.PathPoints;
-                for (int i = 0; i < mapAreaPath.PointCount; i++)
-                {
-                    pointNew = graph.GetRelativePoint(areaPoints[i]);
-                    coord[2 * i] = pointNew.X;
-                    coord[2 * i + 1] = pointNew.Y;
-                }
+                //PointF pointNew = PointF.Empty;
+                //float[] coord = new float[mapAreaPath.PointCount * 2];
+                //PointF[] areaPoints = mapAreaPath.PathPoints;
+                //for (int i = 0; i < mapAreaPath.PointCount; i++)
+                //{
+                //    pointNew = graph.GetRelativePoint(areaPoints[i]);
+                //    coord[2 * i] = pointNew.X;
+                //    coord[2 * i + 1] = pointNew.Y;
+                //}
 
                 //************************************************************
                 // Hot Regions mode used for image maps, tool tips and 
@@ -464,7 +464,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 common.HotRegionsList.AddHotRegion(
                     mapAreaPath,
                     false,
-                    coord,
                     point,
                     series.Name,
                     pointIndex);
@@ -503,15 +502,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
 
                     // Allocate array of floats
-                    pointNew = PointF.Empty;
-                    coord = new float[mapAreaPath.PointCount * 2];
-                    PointF[] mapAreaPathPoints = mapAreaPath.PathPoints;
-                    for (int i = 0; i < mapAreaPathPoints.Length; i++)
-                    {
-                        pointNew = graph.GetRelativePoint(mapAreaPathPoints[i]);
-                        coord[2 * i] = pointNew.X;
-                        coord[2 * i + 1] = pointNew.Y;
-                    }
+                    //pointNew = PointF.Empty;
+                    //coord = new float[mapAreaPath.PointCount * 2];
+                    //PointF[] mapAreaPathPoints = mapAreaPath.PathPoints;
+                    //for (int i = 0; i < mapAreaPathPoints.Length; i++)
+                    //{
+                    //    pointNew = graph.GetRelativePoint(mapAreaPathPoints[i]);
+                    //    coord[2 * i] = pointNew.X;
+                    //    coord[2 * i + 1] = pointNew.Y;
+                    //}
 
                     //************************************************************
                     // Hot Regions mode used for image maps, tool tips and 
@@ -520,7 +519,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     common.HotRegionsList.AddHotRegion(
                         mapAreaPath,
                         false,
-                        coord,
                         point,
                         series.Name,
                         pointIndex);

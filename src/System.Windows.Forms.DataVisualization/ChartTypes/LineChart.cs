@@ -900,22 +900,20 @@ internal class LineChart : PointChart
 
             // Path is empty
             if (path.PointCount == 0)
-            {
                 return;
-            }
 
             // Allocate array of floats
-            PointF pointNew = PointF.Empty;
-            float[] coord = new float[path.PointCount * 2];
-            PointF[] pathPoints = path.PathPoints;
-            for (int i = 0; i < path.PointCount; i++)
-            {
-                pointNew = graph.GetRelativePoint(pathPoints[i]);
-                coord[2 * i] = pointNew.X;
-                coord[2 * i + 1] = pointNew.Y;
-            }
+            //PointF pointNew = PointF.Empty;
+            //float[] coord = new float[path.PointCount * 2];
+            //PointF[] pathPoints = path.PathPoints;
+            //for (int i = 0; i < path.PointCount; i++)
+            //{
+            //    pointNew = graph.GetRelativePoint(pathPoints[i]);
+            //    coord[2 * i] = pointNew.X;
+            //    coord[2 * i + 1] = pointNew.Y;
+            //}
 
-            common.HotRegionsList.AddHotRegion(path, false, coord, point, series.Name, pointIndex);
+            common.HotRegionsList.AddHotRegion(path, false, point, series.Name, pointIndex);
         }
     }
 

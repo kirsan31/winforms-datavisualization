@@ -646,20 +646,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             //**************************************************************
 
                             // Allocate array of floats
-                            PointF pointNew = PointF.Empty;
-                            float[] coord = new float[path.PointCount * 2];
-                            PointF[] pathPoints = path.PathPoints;
-                            for (int i = 0; i < path.PointCount; i++)
-                            {
-                                pointNew = graph.GetRelativePoint(pathPoints[i]);
-                                coord[2 * i] = pointNew.X;
-                                coord[2 * i + 1] = pointNew.Y;
-                            }
+                            //PointF pointNew = PointF.Empty;
+                            //float[] coord = new float[path.PointCount * 2];
+                            //PointF[] pathPoints = path.PathPoints;
+                            //for (int i = 0; i < path.PointCount; i++)
+                            //{
+                            //    pointNew = graph.GetRelativePoint(pathPoints[i]);
+                            //    coord[2 * i] = pointNew.X;
+                            //    coord[2 * i + 1] = pointNew.Y;
+                            //}
 
                             common.HotRegionsList.AddHotRegion(
                                 path,
                                 false,
-                                coord,
                                 point,
                                 ser.Name,
                                 index);
@@ -689,19 +688,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 }
 
                                 // Allocate array of floats
-                                pointNew = PointF.Empty;
-                                coord = new float[linePath.PointCount * 2];
-                                for (int i = 0; i < linePath.PointCount; i++)
-                                {
-                                    pointNew = graph.GetRelativePoint(linePath.PathPoints[i]);
-                                    coord[2 * i] = pointNew.X;
-                                    coord[2 * i + 1] = pointNew.Y;
-                                }
+                                //pointNew = PointF.Empty;
+                                //coord = new float[linePath.PointCount * 2];
+                                //for (int i = 0; i < linePath.PointCount; i++)
+                                //{
+                                //    pointNew = graph.GetRelativePoint(linePath.PathPoints[i]);
+                                //    coord[2 * i] = pointNew.X;
+                                //    coord[2 * i + 1] = pointNew.Y;
+                                //}
 
                                 common.HotRegionsList.AddHotRegion(
                                     linePath,
                                     false,
-                                    coord,
                                     point,
                                     ser.Name,
                                     index);

@@ -461,47 +461,6 @@ internal class HotRegionsList : IDisposable
     }
 
     /// <summary>
-    /// Add hot region to the collection.
-    /// </summary>
-    /// <param name="path">Graphics path which presents hot region</param>
-    /// <param name="relativePath">Graphics path uses relative or absolute coordinates</param>
-    /// <param name="coord">Coordinates which defines polygon (Graphics Path). Used for image maps</param>
-    /// <param name="point">Selected data point</param>
-    /// <param name="seriesName">Data Series</param>
-    /// <param name="pointIndex">Index of an Data Point in the series</param>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "coord")]
-    internal void AddHotRegion(GraphicsPath path, bool relativePath, float[] coord, DataPoint point, string seriesName, int pointIndex)
-    {
-
-        if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
-        {
-
-            HotRegion region = new HotRegion();
-
-            region.SeriesName = seriesName;
-            region.PointIndex = pointIndex;
-            region.Type = ChartElementType.DataPoint;
-            region.Path = (GraphicsPath)path.Clone();
-            region.BoundingRectangle = path.GetBounds();
-            region.RelativeCoordinates = relativePath;
-
-
-
-            // Use index of the original data point
-            if (point != null && point.IsCustomPropertySet("OriginalPointIndex"))
-            {
-                region.PointIndex = int.Parse(point["OriginalPointIndex"], CultureInfo.InvariantCulture);
-            }
-
-
-
-            List.Add(region);
-
-        }
-
-    }
-
-    /// <summary>
     /// Add Hot region to the collection.
     /// </summary>
     /// <param name="insertIndex">Position where to insert element. Used for image maps only</param>
