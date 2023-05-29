@@ -1546,7 +1546,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         common.HotRegionsList.AddHotRegion(
                             path,
                             false,
-                            this,
                             point,
                             series.Name,
                             pointIndex);

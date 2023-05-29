@@ -1253,7 +1253,6 @@ internal class PointChart : IChartType
                 common.HotRegionsList.AddHotRegion(
                     rectPath,
                     false,
-                    graph,
                     point,
                     ser.Name,
                     pointEx.index - 1

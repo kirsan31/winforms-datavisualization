@@ -625,7 +625,6 @@ internal class FastLineChart : IChartType
                 this.Common.HotRegionsList.AddHotRegion(
                     path,
                     false,
-                    Graph,
                     point,
                     point.series.Name,
                     pointIndex);

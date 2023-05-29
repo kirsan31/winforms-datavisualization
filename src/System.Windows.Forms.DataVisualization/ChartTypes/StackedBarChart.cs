@@ -1617,7 +1617,6 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         common.HotRegionsList.AddHotRegion(
                             rectPath,
                             false,
-                            graph,
                             point,
                             ser.Name,
                             pointEx.index - 1

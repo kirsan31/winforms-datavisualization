@@ -713,7 +713,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				this.Common.HotRegionsList.AddHotRegion( 
 					segmentPath,
 					false,
-					this.Graph,
 					point,
 					point.series.Name,
 					pointIndex);
@@ -777,7 +776,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				this.Common.HotRegionsList.AddHotRegion( 
 					segmentPath,
 					false,
-					this.Graph,
 					point,
 					point.series.Name,
 					pointIndex);
@@ -826,7 +824,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						this.Common.HotRegionsList.AddHotRegion( 
 							topCurve,
 							false,
-							this.Graph,
 							point,
 							point.series.Name,
 							pointIndex);
@@ -876,7 +873,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						this.Common.HotRegionsList.AddHotRegion( 
 							topCurve,
 							false,
-							this.Graph,
 							point,
 							point.series.Name,
 							pointIndex);
@@ -1199,7 +1195,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				this.Common.HotRegionsList.AddHotRegion( 
 					segmentPath,
 					false,
-					this.Graph,
 					point,
 					point.series.Name,
 					pointIndex);
@@ -1246,7 +1241,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						this.Common.HotRegionsList.AddHotRegion( 
 							topCurve,
 							false,
-							this.Graph,
 							point,
 							point.series.Name,
 							pointIndex);
@@ -1294,7 +1288,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						this.Common.HotRegionsList.AddHotRegion( 
 							topCurve,
 							false,
-							this.Graph,
 							point,
 							point.series.Name,
 							pointIndex);

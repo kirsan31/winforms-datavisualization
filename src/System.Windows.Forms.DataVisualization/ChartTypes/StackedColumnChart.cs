@@ -1620,7 +1620,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
 
                 if (common.ProcessModeRegions && !labels)
                 {
-                    common.HotRegionsList.AddHotRegion(rectPath, false, graph, point, ser.Name, pointEx.index - 1);
+                    common.HotRegionsList.AddHotRegion(rectPath, false, point, ser.Name, pointEx.index - 1);
                 }
 
                 // Check if labels should be drawn

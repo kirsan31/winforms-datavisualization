@@ -362,8 +362,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 					{
 						area.Common.HotRegionsList.AddHotRegion( 
 							resultPathLine1, 
-							false, 
-							graph, 
+							false,
 							prevDataPointEx.dataPoint, 
 							prevDataPointEx.dataPoint.series.Name, 
 							prevDataPointEx.index - 1 );

@@ -98,7 +98,7 @@ internal class SplineChart : LineChart
 /// difference of the Spline chart is the default tension 
 /// of the line.
 /// 
-/// PointChart base class provides functionality realted
+/// PointChart base class provides functionality related
 /// to drawing labels and markers.
 /// </summary>
 internal class LineChart : PointChart
@@ -821,7 +821,7 @@ internal class LineChart : PointChart
         {
             int width = pointBorderWidth + 2;
 
-            // Create grapics path object dor the curve
+            // Create graphics path object for the curve
             using GraphicsPath path = new GraphicsPath();
 
             // If line tension is zero - it's a straight line
@@ -1405,7 +1405,6 @@ internal class LineChart : PointChart
                         common.HotRegionsList.AddHotRegion(
                             rectPath,
                             false,
-                            graph,
                             point,
                             ser.Name,
                             pointEx.index - 1);

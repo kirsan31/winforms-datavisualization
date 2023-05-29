@@ -770,7 +770,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 common.HotRegionsList.AddHotRegion(
                     path,
                     false,
-                    this,
                     point,
                     point.series.Name,
                     pointIndex);
@@ -884,7 +883,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
 
-                common.HotRegionsList.AddHotRegion(path, false, this, point, point.series.Name, pointIndex);
+                common.HotRegionsList.AddHotRegion(path, false, point, point.series.Name, pointIndex);
             }
         }
 
@@ -1013,7 +1012,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 common.HotRegionsList.AddHotRegion(
                     path,
                     false,
-                    this,
                     point,
                     point.series.Name,
                     pointIndex);
