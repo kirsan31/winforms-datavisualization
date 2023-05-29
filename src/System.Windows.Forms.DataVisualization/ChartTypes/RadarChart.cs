@@ -747,7 +747,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						PointF relativeMarkerPosition = graph.GetRelativePoint(dataPointPos[index]);
 
 						// Insert area just after the last custom area
-						int insertIndex = common.HotRegionsList.FindInsertIndex();
+						//int insertIndex = common.HotRegionsList.FindInsertIndex();
 										
 						// Insert circle area
 						if(point.MarkerStyle == MarkerStyle.Circle)
@@ -758,7 +758,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 							circCoord[2] = relativeMarkerSize.Width/2f;
 
 							common.HotRegionsList.AddHotRegion( 
-								insertIndex, 
 								graph, 
 								circCoord[0], 
 								circCoord[1],

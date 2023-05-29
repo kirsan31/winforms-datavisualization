@@ -387,34 +387,27 @@ internal class HotRegionsList : IDisposable
     /// <param name="point">Data Point</param>
     /// <param name="seriesName">Data Series</param>
     /// <param name="pointIndex">Index of an Data Point in the series</param>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
     public void AddHotRegion(
-            RectangleF rectSize,
-            DataPoint point,
-            string seriesName,
-            int pointIndex
-            )
+        RectangleF rectSize,
+        DataPoint point,
+        string seriesName,
+        int pointIndex)
     {
 
         if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
         {
-            HotRegion region = new HotRegion();
-
-            region.BoundingRectangle = rectSize;
-            region.SeriesName = seriesName;
-            region.PointIndex = pointIndex;
-            region.Type = ChartElementType.DataPoint;
-            region.RelativeCoordinates = true;
-
-
+            HotRegion region = new HotRegion
+            {
+                BoundingRectangle = rectSize,
+                SeriesName = seriesName,
+                PointIndex = pointIndex,
+                Type = ChartElementType.DataPoint,
+                RelativeCoordinates = true
+            };
 
             // Use index of the original data point
-            if (point != null && point.IsCustomPropertySet("OriginalPointIndex"))
-            {
+            if (point?.IsCustomPropertySet("OriginalPointIndex") == true)
                 region.PointIndex = int.Parse(point["OriginalPointIndex"], CultureInfo.InvariantCulture);
-            }
-
-
 
             List.Add(region);
         }
@@ -463,7 +456,6 @@ internal class HotRegionsList : IDisposable
     /// <summary>
     /// Add Hot region to the collection.
     /// </summary>
-    /// <param name="insertIndex">Position where to insert element. Used for image maps only</param>
     /// <param name="graph">Chart Graphics Object</param>
     /// <param name="x">x coordinate.</param>
     /// <param name="y">y coordinate.</param>
@@ -471,38 +463,32 @@ internal class HotRegionsList : IDisposable
     /// <param name="point">Selected data point</param>
     /// <param name="seriesName">Data Series</param>
     /// <param name="pointIndex">Index of an Data Point in the series</param>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "insertIndex")]
-    internal void AddHotRegion(int insertIndex, ChartGraphics graph, float x, float y, float radius, DataPoint point, string seriesName, int pointIndex)
+    internal void AddHotRegion(ChartGraphics graph, float x, float y, float radius, DataPoint point, string seriesName, int pointIndex)
     {
-
         if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
         {
-            HotRegion region = new HotRegion();
-
             PointF circleCenter = graph.GetAbsolutePoint(new PointF(x, y));
             SizeF circleRadius = graph.GetAbsoluteSize(new SizeF(radius, radius));
-
             GraphicsPath path = new GraphicsPath();
             path.AddEllipse(
                 circleCenter.X - circleRadius.Width,
                 circleCenter.Y - circleRadius.Width,
                 2 * circleRadius.Width,
-                2 * circleRadius.Width
-                );
-            region.BoundingRectangle = path.GetBounds();
-            region.SeriesName = seriesName;
-            region.Type = ChartElementType.DataPoint;
-            region.PointIndex = pointIndex;
-            region.Path = path;
-            region.RelativeCoordinates = false;
+                2 * circleRadius.Width);
 
-
+            HotRegion region = new HotRegion
+            {
+                BoundingRectangle = path.GetBounds(),
+                SeriesName = seriesName,
+                Type = ChartElementType.DataPoint,
+                PointIndex = pointIndex,
+                Path = path,
+                RelativeCoordinates = false
+            };
 
             // Use index of the original data point
-            if (point != null && point.IsCustomPropertySet("OriginalPointIndex"))
-            {
+            if (point?.IsCustomPropertySet("OriginalPointIndex") == true)
                 region.PointIndex = int.Parse(point["OriginalPointIndex"], CultureInfo.InvariantCulture);
-            }
 
             List.Add(region);
         }
@@ -641,17 +627,17 @@ internal class HotRegionsList : IDisposable
         }
     }
 
-    /// <summary>
-    /// This method search for position in Map Areas which is the first 
-    /// position after Custom areas.
-    /// </summary>
-    /// <returns>Insert Index</returns>
-    internal int FindInsertIndex()
-    {
-        int insertIndex = 0;
+    ///// <summary>
+    ///// This method search for position in Map Areas which is the first 
+    ///// position after Custom areas.
+    ///// </summary>
+    ///// <returns>Insert Index</returns>
+    //internal int FindInsertIndex()
+    //{
+    //    int insertIndex = 0;
 
-        return insertIndex;
-    }
+    //    return insertIndex;
+    //}
 
     /// <summary>
     /// Clears this instance.

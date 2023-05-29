@@ -1073,15 +1073,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Get relative marker size
             SizeF relativeMarkerSize = markerSize;
 
-            int insertIndex = common.HotRegionsList.FindInsertIndex();
+            //int insertIndex = common.HotRegionsList.FindInsertIndex();
 
             // Insert circle area
             if (pointMarkerStyle == MarkerStyle.Circle)
             {
-                common.HotRegionsList.AddHotRegion(insertIndex, graph, markerPosition.X, markerPosition.Y, relativeMarkerSize.Width / 2f, point, seriesName, pointIndex);
+                common.HotRegionsList.AddHotRegion(graph, markerPosition.X, markerPosition.Y, relativeMarkerSize.Width / 2f, point, seriesName, pointIndex);
             }
-            // All other markers represented as rectangles
-            else
+            else // All other markers represented as rectangles
             {
                 // Insert area
                 common.HotRegionsList.AddHotRegion(

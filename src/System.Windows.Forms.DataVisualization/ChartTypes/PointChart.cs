@@ -578,15 +578,14 @@ internal class PointChart : IChartType
         // Get relative marker size
         SizeF relativeMarkerSize = graph.GetRelativeSize(markerSize);
 
-        int insertIndex = common.HotRegionsList.FindInsertIndex();
+        //int insertIndex = common.HotRegionsList.FindInsertIndex();
 
         // Insert circle area
         if (pointMarkerStyle == MarkerStyle.Circle)
         {
-            common.HotRegionsList.AddHotRegion(insertIndex, graph, markerPosition.X, markerPosition.Y, relativeMarkerSize.Width / 2f, point, seriesName, pointIndex);
+            common.HotRegionsList.AddHotRegion(graph, markerPosition.X, markerPosition.Y, relativeMarkerSize.Width / 2f, point, seriesName, pointIndex);
         }
-        // All other markers represented as rectangles
-        else
+        else // All other markers represented as rectangles
         {
             // Insert area
             common.HotRegionsList.AddHotRegion(
@@ -1225,7 +1224,7 @@ internal class PointChart : IChartType
             SizeF relativeMarkerSize = graph.GetRelativeSize(markerSize);
 
             // Insert area just after the last custom area
-            int insertIndex = common.HotRegionsList.FindInsertIndex();
+            //int insertIndex = common.HotRegionsList.FindInsertIndex();
 
             // Insert circle area
             if (pointMarkerStyle == MarkerStyle.Circle)
@@ -1236,7 +1235,6 @@ internal class PointChart : IChartType
                 circCoord[2] = relativeMarkerSize.Width / 2f;
 
                 common.HotRegionsList.AddHotRegion(
-                    insertIndex,
                     graph,
                     circCoord[0],
                     circCoord[1],
