@@ -461,58 +461,6 @@ internal class HotRegionsList : IDisposable
     }
 
     /// <summary>
-    /// Adds the hot region.
-    /// </summary>
-    /// <param name="insertIndex">Position where to insert element. Used for image maps only</param>
-    /// <param name="path">Bounding GraphicsPath.</param>
-    /// <param name="relativePath">if set to <c>true</c> the is relative path.</param>
-    /// <param name="graph">Chart Graphics Object</param>
-    /// <param name="point">Selected data point</param>
-    /// <param name="seriesName">Name of the series.</param>
-    /// <param name="pointIndex">Index of the point.</param>
-    [
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "graph"),
-    System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "insertIndex")
-    ]
-    internal void AddHotRegion(
-            int insertIndex,
-            GraphicsPath path,
-            bool relativePath,
-            ChartGraphics graph,
-            DataPoint point,
-            string seriesName,
-            int pointIndex
-            )
-    {
-
-        if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
-        {
-
-            HotRegion region = new HotRegion();
-
-            region.SeriesName = seriesName;
-            region.PointIndex = pointIndex;
-            region.Type = ChartElementType.DataPoint;
-            region.Path = (GraphicsPath)path.Clone();
-            region.BoundingRectangle = path.GetBounds();
-            region.RelativeCoordinates = relativePath;
-
-
-
-            // Use index of the original data point
-            if (point != null && point.IsCustomPropertySet("OriginalPointIndex"))
-            {
-                region.PointIndex = int.Parse(point["OriginalPointIndex"], CultureInfo.InvariantCulture);
-            }
-
-
-
-            List.Add(region);
-
-        }
-    }
-
-    /// <summary>
     /// Add hot region to the collection.
     /// </summary>
     /// <param name="path">Graphics path which presents hot region</param>

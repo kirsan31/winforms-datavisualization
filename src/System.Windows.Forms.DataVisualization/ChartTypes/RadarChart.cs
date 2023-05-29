@@ -527,14 +527,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 AddSelectionPath(area, selectionPath, dataPointPos, index, secondPointIndex, graph.GetAbsolutePoint(area.circularCenter), 0);
 
                                 // Insert area just after the last custom area
-                                int insertIndex = common.HotRegionsList.FindInsertIndex();
+                                //int insertIndex = common.HotRegionsList.FindInsertIndex();
 
                                 // Insert area
                                 common.HotRegionsList.AddHotRegion(
-                                    insertIndex,
                                     selectionPath,
                                     false,
-                                    graph,
                                     point,
                                     ser.Name,
                                     index);
@@ -625,14 +623,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         if (common.ProcessModeRegions)
                         {
                             // Insert area just after the last custom area
-                            int insertIndex = common.HotRegionsList.FindInsertIndex();
+                            //int insertIndex = common.HotRegionsList.FindInsertIndex();
 
                             // Insert area
                             common.HotRegionsList.AddHotRegion(
-                                insertIndex,
                                 selectionPath,
                                 false,
-                                graph,
                                 point,
                                 ser.Name,
                                 index);
