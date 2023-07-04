@@ -3824,7 +3824,7 @@ public partial class Axis : ChartNamedElement, IDisposable
             }
 
             // Set new interval
-            if (newInterval != 0.0)
+            if (newInterval != 0.0 && Math.Abs(newInterval - currentInterval) > double.Epsilon) // if |newInterval - currentInterval| is small - no need to go further
             {
                 currentInterval = newInterval;
                 currentIntervalType = newIntervalType;
@@ -3904,11 +3904,13 @@ public partial class Axis : ChartNamedElement, IDisposable
                 }
 #endif // DEBUG
 
-                newInterval = CalcInterval(range / (range / (newInterval / devider)));
+                var diff = range / (range / (newInterval / devider));
+                if (diff <= double.Epsilon) // no need to go further
+                    break;
+
+                newInterval = CalcInterval(diff);
                 if (newInterval == oldInterval)
-                {
                     devider *= 2.0;
-                }
 
                 ++iterationIndex;
             } while (newInterval == oldInterval && iterationIndex <= 100);
