@@ -454,6 +454,54 @@ internal class HotRegionsList : IDisposable
     }
 
     /// <summary>
+    /// Adds the hot region.
+    /// </summary>
+    /// <param name="path">Bounding GraphicsPath.</param>
+    /// <param name="seriesName">Name of the series.</param>
+    /// <param name="pointIndex">Index of the point.</param>
+    /// <param name="yGoDown">If set to <see langword="true" /> then points y value is increasing like system coordinates from top to down.</param>
+    /// <param name="xGoRight">If set to <see langword="true" /> then points x value is increasing like system coordinates from left to right.</param>
+    /// <param name="yDiffMax">If set to <see langword="true" /> then points y values difference is grater than x values difference.</param>
+    internal void AddHotRegion(
+            GraphicsPath path,
+            string seriesName,
+            int pointIndex,
+            bool yGoDown,
+            bool xGoRight,
+            bool yDiffMax
+            )
+    {
+        if (path is null || (ProcessChartMode & ProcessMode.HotRegions) != ProcessMode.HotRegions)
+            return;
+
+        var bounds = path.GetBounds();
+        var pathClone = (GraphicsPath)path.Clone();
+        // To correct HitTest between points we simply divide the rectangle in half along the axis where the greatest change occurred.
+        HotRegion region = new HotRegion
+        {
+            SeriesName = seriesName,
+            PointIndex = yDiffMax ? (yGoDown ? pointIndex - 1 : pointIndex) : (xGoRight ? pointIndex - 1 : pointIndex),
+            Type = ChartElementType.DataPoint,
+            Path = pathClone,
+            BoundingRectangle = new RectangleF(bounds.X, bounds.Y, !yDiffMax ? bounds.Width / 2 : bounds.Width, !yDiffMax ? bounds.Height : bounds.Height / 2),
+            RelativeCoordinates = false
+        };
+        List.Add(region);
+
+        region = new HotRegion
+        {
+            SeriesName = seriesName,
+            PointIndex = yDiffMax ? (yGoDown ? pointIndex : pointIndex - 1) : (xGoRight ? pointIndex : pointIndex - 1),
+            Type = ChartElementType.DataPoint,
+            Path = pathClone,
+            BoundingRectangle = new RectangleF(!yDiffMax ? bounds.X + bounds.Width / 2 : bounds.X, !yDiffMax ? bounds.Y : bounds.Y + bounds.Height / 2,
+                !yDiffMax ? bounds.Width / 2 : bounds.Width, !yDiffMax ? bounds.Height : bounds.Height / 2),
+            RelativeCoordinates = false
+        };
+        List.Add(region);
+    }
+
+    /// <summary>
     /// Add Hot region to the collection.
     /// </summary>
     /// <param name="graph">Chart Graphics Object</param>
@@ -1400,7 +1448,6 @@ internal class Selection : IServiceProvider
         for (int index = regionList.Count - 1; index >= 0; index--)
         {
             HotRegion region = regionList[index];
-
             if (requestedElementTypes.Length > 0 && !requestedElementTypes.Contains(region.Type))
                 continue;
 
@@ -1418,11 +1465,9 @@ internal class Selection : IServiceProvider
                 newMouseRect = mouseRect;
             }
 
-
             // Check if series name and point index are valid
             if (region.SeriesName.Length > 0 &&
-               (this.ChartControl.Series.IndexOf(region.SeriesName) < 0 || region.PointIndex >= this.ChartControl.Series[region.SeriesName].Points.Count)
-                )
+               (this.ChartControl.Series.IndexOf(region.SeriesName) < 0 || region.PointIndex >= this.ChartControl.Series[region.SeriesName].Points.Count))
             {
                 continue;
             }
@@ -1436,30 +1481,27 @@ internal class Selection : IServiceProvider
             if (region.BoundingRectangle.IntersectsWith(newMouseRect))
             {
                 bool pointVisible = false;
-
-                if (region.Path != null)
+                if (region.Path is not null)
                 {
                     // If there is more then one graphical path split them and create 
                     // image maps for every graphical path separately.
                     using GraphicsPathIterator iterator = new GraphicsPathIterator(region.Path);
-
                     // There is more then one path.
                     if (iterator.SubpathCount > 1)
                     {
                         using GraphicsPath subPath = new GraphicsPath();
-                        while (iterator.NextMarker(subPath) > 0 && pointVisible == false)
+                        while (iterator.NextMarker(subPath) > 0)
                         {
                             if (subPath.IsVisible(newX, newY))
                             {
                                 pointVisible = true;
+                                break;
                             }
 
                             subPath.Reset();
                         }
-                    }
-
-                    // There is only one path
-                    else if (region.Path.IsVisible(newX, newY))
+                    }                    
+                    else if (region.Path.IsVisible(newX, newY)) // There is only one path
                     {
                         pointVisible = true;
                     }
@@ -1482,22 +1524,14 @@ internal class Selection : IServiceProvider
                     );
 
                     int elementIndex = result.FindIndex(
-                                delegate (HitTestResult test)
-                                {
-                                    if (
-                                        (test.ChartElementType == hitTestToAdd.ChartElementType) &&
-                                        (test.Object == hitTestToAdd.Object) &&
-                                        (test.SubObject == hitTestToAdd.SubObject) &&
-                                        (test.Series == hitTestToAdd.Series) &&
-                                        (test.PointIndex == hitTestToAdd.PointIndex)
-                                       )
-                                    {
-                                        return true;
-                                    }
-
-                                    return false;
-                                }
-                            );
+                        delegate (HitTestResult test)
+                        {
+                            return (test.ChartElementType == hitTestToAdd.ChartElementType) &&
+                                (test.Object == hitTestToAdd.Object) &&
+                                (test.SubObject == hitTestToAdd.SubObject) &&
+                                (test.Series == hitTestToAdd.Series) &&
+                                (test.PointIndex == hitTestToAdd.PointIndex);
+                        });
 
                     if (elementIndex == -1)
                     {
@@ -2108,7 +2142,6 @@ internal class Selection : IServiceProvider
     /// <param name="chartObject">The chart object.</param>
     /// <param name="elementType">Type of the element.</param>
     /// <returns></returns>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
     private List<PointF> GetMarkersFromRegions(object chartObject, ChartElementType elementType)
     {
         List<PointF> list = new List<PointF>();
@@ -2125,7 +2158,6 @@ internal class Selection : IServiceProvider
                     if (IsChartAreaCircular(grid.Axis.ChartArea))
                     {
                         using GraphicsPathIterator iterator = new GraphicsPathIterator(rgn.Path);
-
                         // There is more then one path.
                         if (iterator.SubpathCount > 1)
                         {
@@ -2167,10 +2199,10 @@ internal class Selection : IServiceProvider
                 {   // 3D
                     PointF[] points = rgn.Path.PathPoints;
                     for (int i = 0; i < points.Length - 3; i += 4)
-                    {   //Each gridline has a corresponding set of 4 points in the path
-                        //One of  the ends of a gridline is in the middle the line between points #0 and #3
-                        //Another ends of a gridline is in the middle the line between points #1 and #2
-                        //So we find those middles and put a marks to the ends of the gridline.
+                    {   //Each grid line has a corresponding set of 4 points in the path
+                        //One of the ends of a grid line is in the middle the line between points #0 and #3
+                        //Another ends of a grid line is in the middle the line between points #1 and #2
+                        //So we find those middles and put a marks to the ends of the grid line.
                         PointF middleP0P3 = new PointF((points[i].X + points[i + 3].X) / 2f, (points[i].Y + points[i + 3].Y) / 2f);
                         PointF middleP1P2 = new PointF((points[i + 1].X + points[i + 2].X) / 2f, (points[i + 1].Y + points[i + 2].Y) / 2f);
                         list.Add(graph.GetAbsolutePoint(middleP0P3));

@@ -1862,6 +1862,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         intersectionPoint.yPosition = (double)plotAreaPositionBottom;
                     }
+
                     intersectionPoint.xPosition = (intersectionPoint.yPosition - secondPoint.yPosition) *
                         (firstPoint.xPosition - secondPoint.xPosition) /
                         (firstPoint.yPosition - secondPoint.yPosition) +
@@ -1885,6 +1886,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             intersectionPoint2.yPosition = (double)plotAreaPositionY;
                         }
+
                         intersectionPoint2.xPosition = (intersectionPoint2.yPosition - secondPoint.yPosition) *
                             (firstPoint.xPosition - secondPoint.xPosition) /
                             (firstPoint.yPosition - secondPoint.yPosition) +
@@ -2433,7 +2435,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="secondPoint">Second point.</param>
         /// <param name="multiSeries">Indicates that multiple series are painted at the same time (stacked or side-by-side).</param>
         /// <param name="lineSegmentType">Returns line segment type.</param>
-        /// <returns>Function retrns 0, 1 or 2. 0 - Do not draw surface, 1 - draw on the back, 2 - draw in front.</returns>
+        /// <returns>Function returns 0, 1 or 2. 0 - Do not draw surface, 1 - draw on the back, 2 - draw in front.</returns>
         static internal int ShouldDrawLineChartSurface(
             ChartArea area,
             bool reversedSeriesOrder,

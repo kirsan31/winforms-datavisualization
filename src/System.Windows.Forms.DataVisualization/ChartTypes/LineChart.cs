@@ -680,7 +680,7 @@ internal class LineChart : PointChart
     /// <param name="common">The Common elements object.</param>
     /// <param name="point">Point to draw the line for.</param>
     /// <param name="series">Point series.</param>
-    /// <param name="points">Array of oints coordinates.</param>
+    /// <param name="points">Array of points coordinates.</param>
     /// <param name="pointIndex">Index of point to draw.</param>
     /// <param name="tension">Line tension.</param>
     protected virtual void DrawLine(
@@ -846,7 +846,6 @@ internal class LineChart : PointChart
                         path.AddLine(first.X - width, first.Y, second.X - width, second.Y);
                         path.AddLine(second.X + width, second.Y, first.X + width, first.Y);
                         path.CloseAllFigures();
-
                     }
                 }
 
@@ -1302,7 +1301,7 @@ internal class LineChart : PointChart
                 vAxisMin = VAxis.ViewMinimum;
                 vAxisMax = VAxis.ViewMaximum;
 
-                // First point is not drawn as a 3D line
+                // First point is not drawn as a 3D line (indexes start from 1)
                 if (pointEx.index > 1)
                 {
                     //************************************************************
@@ -1398,14 +1397,16 @@ internal class LineChart : PointChart
                     // Hot Regions mode used for image maps, tool tips and 
                     // hit test function
                     //************************************************************
-                    if (common.ProcessModeRegions && rectPath != null)
+                    if (common.ProcessModeRegions && rectPath?.PointCount > 0)
                     {
+                        bool yGoDown = prevDataPointEx.dataPoint.YValues[0] < pointEx.dataPoint.YValues[0];
                         common.HotRegionsList.AddHotRegion(
                             rectPath,
-                            false,
-                            point,
                             ser.Name,
-                            pointEx.index - 1);
+                            pointEx.index - 1,
+                            (yGoDown && VAxis.IsReversed) || (!yGoDown && !VAxis.IsReversed),
+                            !HAxis.IsReversed, // in 3D mode x values are always increasing
+                            Math.Abs(prevDataPointEx.dataPoint.YValues[0] - pointEx.dataPoint.YValues[0]) > Math.Abs(prevDataPointEx.dataPoint.XValue - pointEx.dataPoint.XValue));
                     }
 
                     rectPath?.Dispose();
