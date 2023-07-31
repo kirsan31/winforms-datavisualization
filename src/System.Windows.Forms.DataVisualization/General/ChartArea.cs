@@ -10,8 +10,8 @@
 //
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
@@ -2692,15 +2692,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             ArrayList resultList = new ArrayList();
 
             // Build chart type or series position based lists
-            if (this.ChartTypes.Count > 1 &&
-                (this.ChartTypes.Contains(ChartTypeNames.Area)
-                || this.ChartTypes.Contains(ChartTypeNames.SplineArea)
-                )
-                )
+            if (this.ChartTypes.Count > 1 && (this.ChartTypes.Contains(ChartTypeNames.Area) || this.ChartTypes.Contains(ChartTypeNames.SplineArea)))
             {
                 // Array of chart type names that do not require further processing
-                ArrayList processedChartType = new ArrayList();
-                ArrayList splitChartType = new ArrayList();
+                HashSet<string> processedChartType = new();
+                HashSet<string> splitChartType = new();
 
                 // Draw using the exact order in the series collection
                 int seriesIndex = 0;
@@ -2713,16 +2709,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (!processedChartType.Contains(series.ChartTypeName))
                         {
                             // Check if current chart type can be individually processed
-                            bool canBeIndividuallyProcessed = false;
-                            if (series.ChartType == SeriesChartType.Point ||
+                            if (!(series.ChartType == SeriesChartType.Point ||
                                 series.ChartType == SeriesChartType.Line ||
                                 series.ChartType == SeriesChartType.Spline ||
-                                series.ChartType == SeriesChartType.StepLine)
-                            {
-                                canBeIndividuallyProcessed = true;
-                            }
-
-                            if (!canBeIndividuallyProcessed)
+                                series.ChartType == SeriesChartType.StepLine))
                             {
                                 // Add a record to process all series of that chart type at once
                                 resultList.Add(new ChartTypeAndSeriesInfo(series.ChartTypeName));
@@ -2733,7 +2723,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 // Check if current chart type has more that 1 series and they are split
                                 // by other series
                                 bool chartTypeIsSplit = false;
-
                                 if (splitChartType.Contains(series.ChartTypeName))
                                 {
                                     chartTypeIsSplit = true;
