@@ -464,7 +464,7 @@ internal class LineChart : PointChart
                         yValue = VAxis.GetLogValue(yValue);
                         xValue = HAxis.GetLogValue(xValue);
 
-                        // Check if line is completly out of the data scaleView
+                        // Check if line is completely out of the data scaleView
                         if ((xValue <= hAxisMin && xValuePrev < hAxisMin) ||
                             (xValue >= hAxisMax && xValuePrev > hAxisMax) ||
                             (yValue <= vAxisMin && yValuePrev < vAxisMin) ||
@@ -515,7 +515,7 @@ internal class LineChart : PointChart
                             }
                         }
 
-                        // Check if line is partialy in the data scaleView
+                        // Check if line is partially in the data scaleView
                         clipRegionSet = false;
                         if (this.lineTension != 0.0 ||
                             xValuePrev < hAxisMin || xValuePrev > hAxisMax ||
@@ -534,7 +534,7 @@ internal class LineChart : PointChart
                             float yPosition = 0f;
                             float xPosition = 0f;
 
-                            // Line reqires two points to draw
+                            // Line requires two points to draw
                             // Check if previous point is in the array
                             if (!prevPointInArray)
                             {
@@ -565,7 +565,7 @@ internal class LineChart : PointChart
                             prevPointInArray = true;
                         }
 
-                        // Remeber pre-calculated point position
+                        // Remember pre-calculated point position
                         point.positionRel = graph.GetRelativePoint(dataPointPos[index]);
 
                         // Start Svg Selection mode
@@ -619,7 +619,7 @@ internal class LineChart : PointChart
                         yValuePrev = VAxis.GetLogValue(yValuePrev);
                         xValuePrev = HAxis.GetLogValue(xValuePrev);
 
-                        // Remeber pre-calculated point position
+                        // Remember pre-calculated point position
                         point.positionRel = new PointF(
                             (float)HAxis.GetPosition(xValuePrev),
                             (float)VAxis.GetPosition(yValuePrev));
@@ -1655,13 +1655,13 @@ internal class LineChart : PointChart
             (decimal)secondPoint.xPosition < plotAreaPositionX ||
             (decimal)secondPoint.xPosition > plotAreaPositionRight)
         {
-            // Check if surface completly out of the plot area
+            // Check if surface completely out of the plot area
             if ((decimal)firstPoint.xPosition < plotAreaPositionX &&
                 (decimal)secondPoint.xPosition < plotAreaPositionX)
             {
                 return true;
             }
-            // Check if surface completly out of the plot area
+            // Check if surface completely out of the plot area
             if ((decimal)firstPoint.xPosition > plotAreaPositionRight &&
                 (decimal)secondPoint.xPosition > plotAreaPositionRight)
             {

@@ -2173,34 +2173,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
             anchorX = this.AnchorX;
             anchorY = this.AnchorY;
 
-            if (this.AnchorDataPoint != null &&
-                this.AnchorDataPoint.series != null &&
-                this.Chart != null &&
-                this.Chart.chartPicture != null)
+            if (this.AnchorDataPoint?.series is null || this.Chart?.chartPicture is null)
+                return;
+
+            // Anchor data point is not allowed for grouped annotations
+            if (this.AnnotationGroup is not null)
+                throw new InvalidOperationException(SR.ExceptionAnnotationGroupedAnchorDataPointMustBeEmpty);
+
+            // Get data point relative coordinate
+            // Get X value from data point
+            if (double.IsNaN(anchorX))
             {
-                // Anchor data point is not allowed for gropped annotations
-                if (this.AnnotationGroup != null)
-                {
-                    throw new InvalidOperationException(SR.ExceptionAnnotationGroupedAnchorDataPointMustBeEmpty);
-                }
+                anchorX = this.AnchorDataPoint.positionRel.X;
+                inRelativeAnchorX = true;
+            }
 
-                // Get data point relative coordinate
-                if (double.IsNaN(anchorX) || double.IsNaN(anchorY))
-                {
-                    // Get X value from data point
-                    if (double.IsNaN(anchorX))
-                    {
-                        anchorX = this.AnchorDataPoint.positionRel.X;
-                        inRelativeAnchorX = true;
-                    }
-
-                    // Get Y value from data point
-                    if (double.IsNaN(anchorY))
-                    {
-                        anchorY = this.AnchorDataPoint.positionRel.Y;
-                        inRelativeAnchorY = true;
-                    }
-                }
+            // Get Y value from data point
+            if (double.IsNaN(anchorY))
+            {
+                anchorY = this.AnchorDataPoint.positionRel.Y;
+                inRelativeAnchorY = true;
             }
         }
 

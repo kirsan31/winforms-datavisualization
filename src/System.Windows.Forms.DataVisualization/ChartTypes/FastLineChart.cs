@@ -293,8 +293,6 @@ internal class FastLineChart : IChartType
             int index = 0;
             double yValueRangeMin = double.NaN;
             double yValueRangeMax = double.NaN;
-            DataPoint pointRangeMin = null;
-            DataPoint pointRangeMax = null;
             double xValue = 0;
             double yValue = 0;
             double xValuePrev = 0;
@@ -331,7 +329,7 @@ internal class FastLineChart : IChartType
                     firstNonEmptyPoint = false;
                 }
 
-                // Check if line is completly out of the data scaleView
+                // Check if line is completely out of the data scaleView
                 if (!verticalLineDetected &&
                     ((xValue < hAxisMin && xValuePrev < hAxisMin) ||
                     (xValue > hAxisMax && xValuePrev > hAxisMax) ||
@@ -346,7 +344,7 @@ internal class FastLineChart : IChartType
                 }
                 else if (!clipRegionSet)
                 {
-                    // Check if line is partialy in the data scaleView
+                    // Check if line is partially in the data scaleView
                     if (xValuePrev < hAxisMin || xValuePrev > hAxisMax ||
                         xValue > hAxisMax || xValue < hAxisMin ||
                         yValuePrev < vAxisMin || yValuePrev > vAxisMax ||
@@ -359,8 +357,7 @@ internal class FastLineChart : IChartType
                 }
 
                 // Check if point may be skipped
-                if (index > 0 &&
-                    currentPointIsEmpty == prevPointIsEmpty)
+                if (index > 0 && currentPointIsEmpty == prevPointIsEmpty)
                 {
                     // Check if points X value in acceptable error boundary
                     if (Math.Abs(xValue - xValuePrev) < axesValuesPixelSizeX)
@@ -372,15 +369,11 @@ internal class FastLineChart : IChartType
                             {
                                 yValueRangeMax = yValue;
                                 yValueRangeMin = yValuePrev;
-                                pointRangeMax = point;
-                                pointRangeMin = prevDataPoint;
                             }
                             else
                             {
                                 yValueRangeMax = yValuePrev;
                                 yValueRangeMin = yValue;
-                                pointRangeMax = prevDataPoint;
-                                pointRangeMin = point;
                             }
 
                             // NOTE: Prev. version code - A.G.
@@ -392,13 +385,11 @@ internal class FastLineChart : IChartType
                             if (yValue > yValueRangeMax)
                             {
                                 yValueRangeMax = yValue;
-                                pointRangeMax = point;
                             }
 
                             else if (yValue < yValueRangeMin)
                             {
                                 yValueRangeMin = yValue;
-                                pointRangeMin = point;
                             }
 
                             // NOTE: Prev. version code - A.G.
@@ -445,8 +436,6 @@ internal class FastLineChart : IChartType
                     DrawLine(
                         series,
                         prevDataPoint,
-                        pointRangeMin,
-                        pointRangeMax,
                         index,
                         prevPointIsEmpty ? emptyLinePen : linePen,
                         prevPoint.X,
@@ -468,8 +457,6 @@ internal class FastLineChart : IChartType
                     DrawLine(
                         series,
                         point,
-                        pointRangeMin,
-                        pointRangeMax,
                         index,
                         currentPointIsEmpty ? emptyLinePen : linePen,
                         prevPoint.X,
@@ -508,8 +495,6 @@ internal class FastLineChart : IChartType
                 DrawLine(
                     series,
                     prevDataPoint,
-                    pointRangeMin,
-                    pointRangeMax,
                     index - 1,
                     prevPointIsEmpty ? emptyLinePen : linePen,
                     prevPoint.X,
@@ -520,10 +505,7 @@ internal class FastLineChart : IChartType
                 verticalLineDetected = false;
                 yValueRangeMin = double.NaN;
                 yValueRangeMax = double.NaN;
-                pointRangeMin = null;
-                pointRangeMax = null;
             }
-
         }
 
         // Reset Clip Region
@@ -531,7 +513,6 @@ internal class FastLineChart : IChartType
         {
             graph.ResetClip();
         }
-
     }
 
     /// <summary>
@@ -539,8 +520,6 @@ internal class FastLineChart : IChartType
     /// </summary>
     /// <param name="series">Chart series.</param>
     /// <param name="point">Series last data point in the group.</param>
-    /// <param name="pointMin">Series minimum Y value data point in the group.</param>
-    /// <param name="pointMax">Series maximum Y value data point in the group.</param>
     /// <param name="pointIndex">Point index.</param>
     /// <param name="pen">Pen object that determines the color, width, and style of the line.</param>
     /// <param name="firstPointX">First point X coordinate.</param>
@@ -550,8 +529,6 @@ internal class FastLineChart : IChartType
     public virtual void DrawLine(
         Series series,
         DataPoint point,
-        DataPoint pointMin,
-        DataPoint pointMax,
         int pointIndex,
         Pen pen,
         float firstPointX,
@@ -591,7 +568,7 @@ internal class FastLineChart : IChartType
         // Process selection regions
         if (this.Common.ProcessModeRegions)
         {
-            // Create grapics path object for the line
+            // Create graphics path object for the line
             using GraphicsPath path = new GraphicsPath();
             float width = pen.Width + 2;
 
@@ -608,7 +585,7 @@ internal class FastLineChart : IChartType
                 path.CloseAllFigures();
             }
 
-            // Calculate bounding rectangle
+            // Calculate bounding      rectangle
             RectangleF pathBounds = path.GetBounds();
 
             // If one side of the bounding rectangle is less than 2 pixels
@@ -631,7 +608,7 @@ internal class FastLineChart : IChartType
                     false,
                     point,
                     point.series.Name,
-                    pointIndex);
+                   pointIndex);
             }
         }
     }

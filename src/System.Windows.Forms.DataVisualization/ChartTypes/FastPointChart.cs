@@ -308,7 +308,7 @@ internal class FastPointChart : IChartType
                 markerSize = (int)Math.Max(markerSize * graph.Graphics.DpiX / 96, markerSize * graph.Graphics.DpiY / 96);
             }
 
-            // Loop through all ponts in the series
+            // Loop through all points in the series
             int index = 0;
             double xValue = 0.0;
             double yValue = 0.0;
@@ -344,7 +344,7 @@ internal class FastPointChart : IChartType
                 if (index > 0)
                 {
                     // Check if current point location is in the specified distance from the 
-                    // preious data location.
+                    // precious data location.
                     if (Math.Abs(xValue - xValuePrev) < axesValuesPixelSizeX &&
                         Math.Abs(yValue - yValuePrev) < axesValuesPixelSizeY)
                     {
@@ -393,7 +393,7 @@ internal class FastPointChart : IChartType
     /// <param name="graph">Chart graphics used to draw the marker.</param>
     /// <param name="point">Series data point drawn.</param>
     /// <param name="pointIndex">Data point index in the series.</param>
-    /// <param name="location">Marker location in pixels.</param>
+    /// <param name="location">Marker location in pixels (linear relative).</param>
     /// <param name="markerStyle">Marker style.</param>
     /// <param name="markerSize">Marker size in pixels.</param>
     /// <param name="brush">Brush used to fill marker shape.</param>
@@ -408,12 +408,13 @@ internal class FastPointChart : IChartType
         Brush brush,
         Pen borderPen)
     {
+        // Remember pre-calculated point position
+        point.positionRel = graph.GetRelativePoint(location);
         // Transform 3D coordinates
         if (chartArea3DEnabled)
         {
             Point3D[] points = new Point3D[1];
-            location = graph.GetRelativePoint(location);
-            points[0] = new Point3D(location.X, location.Y, this.seriesZCoordinate);
+            points[0] = new Point3D(point.positionRel.X, point.positionRel.Y, this.seriesZCoordinate);
             matrix3D.TransformPoints(points);
             location.X = points[0].X;
             location.Y = points[0].Y;
@@ -421,8 +422,7 @@ internal class FastPointChart : IChartType
         }
 
         // Create marker bounding rectangle in pixels
-        RectangleF markerBounds = new RectangleF(
-            location.X - markerSize / 2f, location.Y - markerSize / 2f, markerSize, markerSize);
+        RectangleF markerBounds = new RectangleF(location.X - markerSize / 2f, location.Y - markerSize / 2f, markerSize, markerSize);
 
         // Draw Marker
         switch (markerStyle)
