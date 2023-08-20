@@ -424,14 +424,27 @@ internal class LineChart : PointChart
                 double yValuePrev = 0.0;
                 double xValuePrev = 0.0;
                 bool showLabelAsValue = ser.IsValueShownAsLabel;
-                bool prevPointInArray = false;
+                bool prevPointInArray;
                 foreach (DataPoint point in ser.Points)
                 {
-                    prevPointInArray = false;
+                    // Change Y value if line is out of plot area
+                    double yValue = GetYValue(common, area, ser, point, index, this.YValueIndex);
+                    // Recalculates x position
+                    double xValue = indexedSeries ? index + 1 : point.XValue;
 
+                    if (point.IsEmpty)
+                    {
+                        ++index;
+                        prevDataPoint = point;
+                        // Check for logarithmic Axes
+                        yValuePrev = VAxis.GetLogValue(yValue);
+                        xValuePrev = HAxis.GetLogValue(xValue);
+                        continue;
+                    }
+
+                    prevPointInArray = false;
                     // Reset pre-calculated point position
                     point.positionRel = new PointF(float.NaN, float.NaN);
-
                     //************************************************************
                     //** Check if point marker or label is visible
                     //************************************************************
@@ -451,18 +464,21 @@ internal class LineChart : PointChart
                         }
                     }
 
-                    // Change Y value if line is out of plot area
-                    double yValue = GetYValue(common, area, ser, point, index, this.YValueIndex);
-
-                    // Recalculates x position
-                    double xValue = indexedSeries ? index + 1 : point.XValue;
-
                     // If not first point
                     if (index != 0)
                     {
-                        // Axes are logarithmic
+                        // Check for logarithmic Axes
                         yValue = VAxis.GetLogValue(yValue);
                         xValue = HAxis.GetLogValue(xValue);
+
+                        if (prevDataPoint.IsEmpty && this.lineTension != 0) // not need to process hot region for single point in spline chart
+                        {
+                            ++index;
+                            prevDataPoint = point;
+                            yValuePrev = yValue;
+                            xValuePrev = xValue;
+                            continue;
+                        }
 
                         // Check if line is completely out of the data scaleView
                         if ((xValue <= hAxisMin && xValuePrev < hAxisMin) ||
@@ -477,11 +493,9 @@ internal class LineChart : PointChart
                                 // to correctly handle tooltips.
                                 // NOTE: Fixes issue #4961
                                 bool skipPoint = true;
-                                if (common.ProcessModeRegions &&
-                                    index + 1 < ser.Points.Count)
+                                if (common.ProcessModeRegions && index + 1 < ser.Points.Count)
                                 {
                                     DataPoint nextPoint = ser.Points[index + 1];
-
                                     // Recalculates x position
                                     double xValueNext = indexedSeries ? index + 2 : nextPoint.XValue;
 
@@ -528,7 +542,6 @@ internal class LineChart : PointChart
                             clipRegionSet = true;
                         }
 
-
                         if (this.lineTension == 0 && !dataPointPosFilled)
                         {
                             float yPosition = 0f;
@@ -571,9 +584,9 @@ internal class LineChart : PointChart
                         // Start Svg Selection mode
                         graph.StartHotRegion(point);
 
-                        if (index != 0 && prevDataPoint.IsEmpty)
+                        if (prevDataPoint.IsEmpty)
                         {
-                            // IsEmpty data point - second line
+                            // Only process hot region for this point
                             DrawLine(
                                 graph,
                                 common,
@@ -585,7 +598,7 @@ internal class LineChart : PointChart
                         }
                         else
                         {
-                            // Regular data point and empty point - first line
+                            // Regular data point
                             DrawLine(
                                 graph,
                                 common,
@@ -610,12 +623,10 @@ internal class LineChart : PointChart
                         yValuePrev = yValue;
                         xValuePrev = xValue;
                     }
-                    else
+                    else // index == 0
                     {
                         // Get Y values of the current and previous data points
                         prevDataPoint = point;
-                        yValuePrev = GetYValue(common, area, ser, point, index, 0);
-                        xValuePrev = indexedSeries ? index + 1 : point.XValue;
                         yValuePrev = VAxis.GetLogValue(yValuePrev);
                         xValuePrev = HAxis.GetLogValue(xValuePrev);
 
@@ -623,11 +634,8 @@ internal class LineChart : PointChart
                         point.positionRel = new PointF(
                             (float)HAxis.GetPosition(xValuePrev),
                             (float)VAxis.GetPosition(yValuePrev));
-                    }
 
-                    // Process image map selection for the first point
-                    if (index == 0)
-                    {
+                        // Process image map selection for the first point
                         DrawLine(
                             graph,
                             common,
@@ -642,8 +650,7 @@ internal class LineChart : PointChart
                     ++index;
                 }
             }
-            else if (dataPointPos.Length == 1 &&
-                ser.Points.Count == 1)
+            else if (dataPointPos.Length == 1 && ser.Points.Count == 1)
             {
                 //************************************************************
                 //** Check if point marker or label is visible
@@ -674,7 +681,7 @@ internal class LineChart : PointChart
     }
 
     /// <summary>
-    /// Calculate position and draw one chart line and/or shadow.
+    /// Calculate position and draw one chart line and/or shadow from <paramref name="pointIndex"/> - 1 to <paramref name="pointIndex"/>.
     /// </summary>
     /// <param name="graph">Graphics object.</param>
     /// <param name="common">The Common elements object.</param>
@@ -747,20 +754,6 @@ internal class LineChart : PointChart
                 {
                     return;
                 }
-
-                //// IsEmpty data ` color and style
-                // DT - removed code - line chart will have MS Office behavior for empty points -> broken line.
-                //if( point.IsEmpty )
-                //{
-                //    if( point.Color == Color.IsEmpty)
-                //    {
-                //        color = Color.Black;
-                //    }
-                //    if( point.BorderDashStyle == ChartDashStyle.NotSet )
-                //    {
-                //        dashStyle = ChartDashStyle.Dash;
-                //    }
-                //}
 
                 // Draw data point line
                 if (color != Color.Empty && pointBorderWidth > 0 && dashStyle != ChartDashStyle.NotSet)
@@ -877,13 +870,14 @@ internal class LineChart : PointChart
                     }
                 }
 
+                common.HotRegionsList.AddHotRegion(path, false, point, series.Name, pointIndex);
             }
             else if (pointIndex > 0)
             {
+                using var pen = new Pen(point.Color, pointBorderWidth + 2);
                 try
                 {
                     path.AddCurve(points, pointIndex - 1, 1, this.lineTension);
-                    using var pen = new Pen(point.Color, pointBorderWidth + 2);
                     path.Widen(pen);
                     path.Flatten();
                 }
@@ -895,27 +889,24 @@ internal class LineChart : PointChart
                 catch (ArgumentException)
                 {
                 }
+
+                // Path is empty
+                if (path.PointCount == 0)
+                    return;
+
+                using GraphicsPath pathTmp = new GraphicsPath();
+                var cP = new PointF((points[pointIndex - 1].X + points[pointIndex].X) / 2, (points[pointIndex - 1].Y + points[pointIndex].Y) / 2);
+                pathTmp.AddLine(points[pointIndex - 1], cP);
+                try { pathTmp.Widen(pen); } catch { }
+                common.HotRegionsList.AddHotRegion(path, pathTmp.GetBounds(), false, series.Name, pointIndex - 1);
+
+                pathTmp.Reset();
+                pathTmp.AddLine(cP, points[pointIndex]);
+                try { pathTmp.Widen(pen); } catch { }
+                common.HotRegionsList.AddHotRegion(path, pathTmp.GetBounds(), false, series.Name, pointIndex);
             }
-
-            // Path is empty
-            if (path.PointCount == 0)
-                return;
-
-            // Allocate array of floats
-            //PointF pointNew = PointF.Empty;
-            //float[] coord = new float[path.PointCount * 2];
-            //PointF[] pathPoints = path.PathPoints;
-            //for (int i = 0; i < path.PointCount; i++)
-            //{
-            //    pointNew = graph.GetRelativePoint(pathPoints[i]);
-            //    coord[2 * i] = pointNew.X;
-            //    coord[2 * i + 1] = pointNew.Y;
-            //}
-
-            common.HotRegionsList.AddHotRegion(path, false, point, series.Name, pointIndex);
         }
     }
-
 
     private const long maxGDIRange = 0x800000;
     // VSTS: 9698 - issue: the line start from X = 0 when GDI overflows (before we expected exception)
@@ -925,7 +916,7 @@ internal class LineChart : PointChart
     }
 
     /// <summary>
-    /// During zooming there are scenarios when the line coordinates are extremly large and
+    /// During zooming there are scenarios when the line coordinates are extremely large and
     /// originate outside of the chart pixel boundaries. This cause GDI+ line drawing methods 
     /// to throw stack overflow exceptions.
     /// This method tries to change the coordinates into the chart boundaries and draw the line.

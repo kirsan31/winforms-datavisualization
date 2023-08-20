@@ -444,13 +444,43 @@ internal class HotRegionsList : IDisposable
                 BoundingRectangle = path.GetBounds(),
                 RelativeCoordinates = relativePath
             };
-
             // Use index of the original data point
             if (point?.IsCustomPropertySet("OriginalPointIndex") == true)
                 region.PointIndex = int.Parse(point["OriginalPointIndex"], CultureInfo.InvariantCulture);
 
             List.Add(region);
         }
+    }
+
+    /// <summary>
+    /// Adds the hot region.
+    /// </summary>
+    /// <param name="path">Bounding GraphicsPath.</param>
+    /// <param name="boundingRectangle">The bounding rectangle.</param>
+    /// <param name="relativePath">If set to <c>true</c> the is relative path.</param>
+    /// <param name="seriesName">Name of the series.</param>
+    /// <param name="pointIndex">Index of the point.</param>
+    internal void AddHotRegion(
+            GraphicsPath path,
+            RectangleF boundingRectangle,
+            bool relativePath,
+            string seriesName,
+            int pointIndex
+            )
+    {
+        if (path is null || (ProcessChartMode & ProcessMode.HotRegions) != ProcessMode.HotRegions)
+            return;
+
+        HotRegion region = new HotRegion
+        {
+            SeriesName = seriesName,
+            PointIndex = pointIndex,
+            Type = ChartElementType.DataPoint,
+            Path = (GraphicsPath)path.Clone(),
+            BoundingRectangle = boundingRectangle,
+            RelativeCoordinates = relativePath
+        };
+        List.Add(region);
     }
 
     /// <summary>
