@@ -487,6 +487,35 @@ internal class HotRegionsList : IDisposable
     /// Adds the hot region.
     /// </summary>
     /// <param name="path">Bounding GraphicsPath.</param>
+    /// <param name="relativePath">If set to <c>true</c> the is relative path.</param>
+    /// <param name="seriesName">Name of the series.</param>
+    /// <param name="pointIndex">Index of the point.</param>
+    internal void AddHotRegion(
+            GraphicsPath path,
+            bool relativePath,
+            string seriesName,
+            int pointIndex
+            )
+    {
+        if (path is null || (ProcessChartMode & ProcessMode.HotRegions) != ProcessMode.HotRegions)
+            return;
+
+        HotRegion region = new HotRegion
+        {
+            SeriesName = seriesName,
+            PointIndex = pointIndex,
+            Type = ChartElementType.DataPoint,
+            Path = (GraphicsPath)path.Clone(),
+            BoundingRectangle = path.GetBounds(),
+            RelativeCoordinates = relativePath
+        };
+        List.Add(region);
+    }
+
+    /// <summary>
+    /// Adds the hot region.
+    /// </summary>
+    /// <param name="path">Bounding GraphicsPath.</param>
     /// <param name="seriesName">Name of the series.</param>
     /// <param name="pointIndex">Index of the point.</param>
     /// <param name="yGoDown">If set to <see langword="true" /> then points y value is increasing like system coordinates from top to down.</param>

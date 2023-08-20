@@ -13,7 +13,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
 namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes;
@@ -894,16 +893,8 @@ internal class LineChart : PointChart
                 if (path.PointCount == 0)
                     return;
 
-                using GraphicsPath pathTmp = new GraphicsPath();
-                var cP = new PointF((points[pointIndex - 1].X + points[pointIndex].X) / 2, (points[pointIndex - 1].Y + points[pointIndex].Y) / 2);
-                pathTmp.AddLine(points[pointIndex - 1], cP);
-                try { pathTmp.Widen(pen); } catch { }
-                common.HotRegionsList.AddHotRegion(path, pathTmp.GetBounds(), false, series.Name, pointIndex - 1);
-
-                pathTmp.Reset();
-                pathTmp.AddLine(cP, points[pointIndex]);
-                try { pathTmp.Widen(pen); } catch { }
-                common.HotRegionsList.AddHotRegion(path, pathTmp.GetBounds(), false, series.Name, pointIndex);
+                common.HotRegionsList.AddHotRegion(path, series.Name, pointIndex, points[pointIndex].Y >= points[pointIndex - 1].Y, points[pointIndex].X >= points[pointIndex - 1].X,
+                    Math.Abs(points[pointIndex - 1].Y - points[pointIndex].Y) >= Math.Abs(points[pointIndex - 1].X - points[pointIndex].X));
             }
         }
     }
@@ -1385,19 +1376,54 @@ internal class LineChart : PointChart
                     }
 
                     //************************************************************
-                    // Hot Regions mode used for image maps, tool tips and 
-                    // hit test function
+                    // Hot Regions mode used for image maps, tool tips and hit test function
                     //************************************************************
-                    if (common.ProcessModeRegions && rectPath?.PointCount > 0)
+                    if (common.ProcessModeRegions && rectPath is not null)
                     {
-                        bool yGoDown = prevDataPointEx.dataPoint.YValues[0] < pointEx.dataPoint.YValues[0];
-                        common.HotRegionsList.AddHotRegion(
-                            rectPath,
-                            ser.Name,
-                            pointEx.index - 1,
-                            (yGoDown && VAxis.IsReversed) || (!yGoDown && !VAxis.IsReversed),
-                            !HAxis.IsReversed, // in 3D mode x values are always increasing
-                            Math.Abs(prevDataPointEx.dataPoint.YValues[0] - pointEx.dataPoint.YValues[0]) > Math.Abs(prevDataPointEx.dataPoint.XValue - pointEx.dataPoint.XValue));
+                        int pCnt = rectPath.PointCount;
+                        if (pCnt > 1) // one point???
+                        {
+                            bool spline;
+                            if (pCnt == 4)
+                            {
+                                var pTypes = rectPath.PathTypes;
+                                if ((pTypes[1] & 1) != 0 && (pTypes[2] & 1) != 0 && (pTypes[3] & 1) != 0) // rectangle - doing fast way
+                                {
+                                    spline = false;
+                                    var polygonPoints = rectPath.PathPoints;
+                                    PointF c1 = new((polygonPoints[0].X + polygonPoints[1].X) / 2, (polygonPoints[0].Y + polygonPoints[1].Y) / 2);
+                                    PointF c2 = new((polygonPoints[3].X + polygonPoints[2].X) / 2, (polygonPoints[3].Y + polygonPoints[2].Y) / 2);
+                                    using GraphicsPath pathNew = new GraphicsPath();
+                                    pathNew.AddPolygon(new PointF[] { polygonPoints[0], c1, c2, polygonPoints[3] });
+                                    common.HotRegionsList.AddHotRegion(pathNew, false, ser.Name, pointEx.index - 2);
+
+                                    pathNew.Reset();
+                                    pathNew.AddPolygon(new PointF[] { c1, polygonPoints[1], polygonPoints[2], c2 });
+                                    common.HotRegionsList.AddHotRegion(pathNew, false, ser.Name, pointEx.index - 1);
+                                }
+                                else
+                                {
+                                    spline = true;
+                                }
+                            }
+                            else
+                            {
+                                spline = true;
+                            }
+
+                            if (spline) // most likely a spline
+                            {
+                                // Define 2 points polygon
+                                var points3D = new Point3D[2];
+                                points3D[0] = new Point3D((float)prevDataPointEx.xPosition, (float)prevDataPointEx.yPosition, pointAttr.zPosition);
+                                points3D[1] = new Point3D((float)pointEx.xPosition, (float)pointEx.yPosition, pointAttr.zPosition);
+
+                                // Transform coordinates
+                                area.matrix3D.TransformPoints(points3D);
+                                common.HotRegionsList.AddHotRegion(rectPath, ser.Name, pointEx.index - 1, points3D[1].Y >= points3D[0].Y, points3D[1].X >= points3D[0].X,
+                                    Math.Abs(points3D[0].Y - points3D[1].Y) >= Math.Abs(points3D[0].X - points3D[1].X));
+                            }
+                        }
                     }
 
                     rectPath?.Dispose();
@@ -1513,7 +1539,7 @@ internal class LineChart : PointChart
             LineSegmentType.Single,
             this.showPointLines,
             false,
-        area.ReverseSeriesOrder,
+            area.ReverseSeriesOrder,
             this.multiSeries,
             0,
             true);

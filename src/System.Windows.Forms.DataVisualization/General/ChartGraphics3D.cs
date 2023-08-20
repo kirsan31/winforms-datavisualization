@@ -1620,10 +1620,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     clipInsideArea);
 
                 // Add selection path
-                if (resultPath != null && segmentResultPath != null && segmentResultPath.PointCount > 0)
-                {
+                if (resultPath is not null && segmentResultPath?.PointCount > 0)
                     resultPath.AddPath(segmentResultPath, true);
-                }
 
             }
 
@@ -2003,7 +2001,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         // Add segment path
-                        if (resultPath != null && segmentPath != null && segmentPath.PointCount > 0)
+                        if (resultPath is not null && segmentPath?.PointCount > 0)
                         {
                             resultPath.SetMarkers();
                             resultPath.AddPath(segmentPath, true);
@@ -2023,34 +2021,40 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //**********************************************************************
             //** Prepare, transform polygon coordinates
             //**********************************************************************
-
-            // Define 4 points polygon
-            Point3D[] points3D = new Point3D[4];
-
+            Point3D[] points3D;
+            PointF[] polygonPoints = new PointF[4];
             if (area.Area3DStyle.ZDepthRealCalc)
             {
-                points3D[0] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ + borderWidth / 2f);
-                points3D[1] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ + borderWidth / 2f);
-                points3D[2] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ - borderWidth / 2f);
-                points3D[3] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ - borderWidth / 2f);
+                // Define 2 points polygon
+                points3D = new Point3D[2];
+                points3D[0] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ);
+                points3D[1] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ);
+
+                // Transform coordinates
+                matrix.TransformPoints(points3D);
+
+                // Get absolute coordinates and create array of PointF
+                polygonPoints[0] = GetAbsolutePoint(points3D[0].PointF);
+                polygonPoints[1] = GetAbsolutePoint(points3D[1].PointF);
             }
             else
             {
+                // Define 4 points polygon
+                points3D = new Point3D[4];
                 points3D[0] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ + depth);
                 points3D[1] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ + depth);
                 points3D[2] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ);
                 points3D[3] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ);
+
+                // Transform coordinates
+                matrix.TransformPoints(points3D);
+
+                // Get absolute coordinates and create array of PointF
+                polygonPoints[0] = GetAbsolutePoint(points3D[0].PointF);
+                polygonPoints[1] = GetAbsolutePoint(points3D[1].PointF);
+                polygonPoints[2] = GetAbsolutePoint(points3D[2].PointF);
+                polygonPoints[3] = GetAbsolutePoint(points3D[3].PointF);
             }
-
-            // Transform coordinates
-            matrix.TransformPoints(points3D);
-
-            // Get absolute coordinates and create array of PointF
-            PointF[] polygonPoints = new PointF[4];
-            polygonPoints[0] = GetAbsolutePoint(points3D[0].PointF);
-            polygonPoints[1] = GetAbsolutePoint(points3D[1].PointF);
-            polygonPoints[2] = GetAbsolutePoint(points3D[2].PointF);
-            polygonPoints[3] = GetAbsolutePoint(points3D[3].PointF);
 
             //**********************************************************************
             //** Define drawing colors
@@ -2090,7 +2094,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         DashStyle = GetPenStyle(borderDashStyle)
                     };
 
-                    DrawLine(linePen, (polygonPoints[0].X + polygonPoints[3].X) / 2, (polygonPoints[0].Y + polygonPoints[3].Y) / 2, (polygonPoints[1].X + polygonPoints[2].X) / 2, (polygonPoints[1].Y + polygonPoints[2].Y) / 2);
+                    DrawLine(linePen, polygonPoints[0].X, polygonPoints[0].Y, polygonPoints[1].X, polygonPoints[1].Y);
+                    if (resultPath is not null)
+                    {
+                        // Now we need to get our line final rectangle: get 4 polygonPoints with line borderWidth
+                        double angle = Math.Atan2(polygonPoints[1].Y - polygonPoints[0].Y, polygonPoints[1].X - polygonPoints[0].X);
+                        double sin = Math.Sin(angle);
+                        double cos = Math.Cos(angle);
+                        float halfWidth = Math.Min(2, borderWidth) / 2f;
+                        polygonPoints[3].X = (float)(polygonPoints[0].X + halfWidth * sin);
+                        polygonPoints[3].Y = (float)(polygonPoints[0].Y - halfWidth * cos);
+                        polygonPoints[2].X = (float)(polygonPoints[1].X + halfWidth * sin);
+                        polygonPoints[2].Y = (float)(polygonPoints[1].Y - halfWidth * cos);
+                        polygonPoints[1].X = (float)(polygonPoints[1].X - halfWidth * sin);
+                        polygonPoints[1].Y = (float)(polygonPoints[1].Y + halfWidth * cos);
+                        polygonPoints[0].X = (float)(polygonPoints[0].X - halfWidth * sin);
+                        polygonPoints[0].Y = (float)(polygonPoints[0].Y + halfWidth * cos);
+                    }
                 }
                 else
                 {
@@ -2390,7 +2410,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //**********************************************************************
             if (resultPath is not null)
             {
-                // Widen all the lines currently in the path
+                // Widen all the lines currently in the path (only for !area.Area3DStyle.ZDepthRealCalc)
                 if (thickBorderPen is not null)
                 {
                     try
