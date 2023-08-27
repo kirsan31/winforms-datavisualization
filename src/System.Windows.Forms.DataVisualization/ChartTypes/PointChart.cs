@@ -453,19 +453,19 @@ internal class PointChart : IChartType
                             // End Svg Selection mode
                             graph.EndHotRegion();
                         }
+                    }
 
-                        if (common.ProcessModeRegions)
-                        {
-                            SetHotRegions(
-                                common,
-                                graph,
-                                point,
-                                markerSize,
-                                point.series.Name,
-                                index - 1,
-                                pointMarkerStyle,
-                                markerPosition);
-                        }
+                    if (common.ProcessModeRegions)
+                    {
+                        SetHotRegions(
+                            common,
+                            graph,
+                            point,
+                            markerSize,
+                            point.series.Name,
+                            index - 1,
+                            pointMarkerStyle,
+                            markerPosition);
                     }
 
                     // Increase the markers counter
@@ -1150,7 +1150,6 @@ internal class PointChart : IChartType
         //** Draw point chart
         //************************************************************
         GraphicsPath rectPath = null;
-
         if (alwaysDrawMarkers ||
             pointMarkerStyle != MarkerStyle.None ||
             pointMarkerImage.Length > 0)
@@ -1189,6 +1188,55 @@ internal class PointChart : IChartType
                 // End Svg Selection mode
                 graph.EndHotRegion();
             }
+
+            if (common.ProcessModeRegions)
+            {
+                // Get relative marker size
+                SizeF relativeMarkerSize = graph.GetRelativeSize(markerSize);
+
+                // Insert area just after the last custom area
+                //int insertIndex = common.HotRegionsList.FindInsertIndex();
+
+                // Insert circle area
+                if (pointMarkerStyle == MarkerStyle.Circle)
+                {
+                    float[] circCoord = new float[3];
+                    circCoord[0] = markerRotatedPosition.X;
+                    circCoord[1] = markerRotatedPosition.Y;
+                    circCoord[2] = relativeMarkerSize.Width / 2f;
+
+                    common.HotRegionsList.AddHotRegion(
+                        graph,
+                        circCoord[0],
+                        circCoord[1],
+                        circCoord[2],
+                        point,
+                        ser.Name,
+                        pointEx.index - 1
+                        );
+                }
+
+                // Insert path for 3D bar
+                if (pointMarkerStyle == MarkerStyle.Square)
+                {
+                    common.HotRegionsList.AddHotRegion(
+                        rectPath,
+                        false,
+                        point,
+                        ser.Name,
+                        pointEx.index - 1
+                        );
+                }
+                else // All other markers represented as rectangles
+                {
+                    common.HotRegionsList.AddHotRegion(
+                        new RectangleF(markerRotatedPosition.X - relativeMarkerSize.Width / 2f, markerRotatedPosition.Y - relativeMarkerSize.Height / 2f, relativeMarkerSize.Width, relativeMarkerSize.Height),
+                        point,
+                        ser.Name,
+                        pointEx.index - 1
+                        );
+                }
+            }
         }
 
 
@@ -1217,63 +1265,11 @@ internal class PointChart : IChartType
         };
 
         this.label3DInfoList.Add(label3DInfo);
-
-        if (common.ProcessModeRegions)
-        {
-            // Get relative marker size
-            SizeF relativeMarkerSize = graph.GetRelativeSize(markerSize);
-
-            // Insert area just after the last custom area
-            //int insertIndex = common.HotRegionsList.FindInsertIndex();
-
-            // Insert circle area
-            if (pointMarkerStyle == MarkerStyle.Circle)
-            {
-                float[] circCoord = new float[3];
-                circCoord[0] = markerRotatedPosition.X;
-                circCoord[1] = markerRotatedPosition.Y;
-                circCoord[2] = relativeMarkerSize.Width / 2f;
-
-                common.HotRegionsList.AddHotRegion(
-                    graph,
-                    circCoord[0],
-                    circCoord[1],
-                    circCoord[2],
-                    point,
-                    ser.Name,
-                    pointEx.index - 1
-                    );
-            }
-
-            // Insert path for 3D bar
-            if (pointMarkerStyle == MarkerStyle.Square)
-            {
-                common.HotRegionsList.AddHotRegion(
-                    rectPath,
-                    false,
-                    point,
-                    ser.Name,
-                    pointEx.index - 1
-                    );
-            }
-
-            // All other markers represented as rectangles
-            else
-            {
-                common.HotRegionsList.AddHotRegion(
-                    new RectangleF(markerRotatedPosition.X - relativeMarkerSize.Width / 2f, markerRotatedPosition.Y - relativeMarkerSize.Height / 2f, relativeMarkerSize.Width, relativeMarkerSize.Height),
-                    point,
-                    ser.Name,
-                    pointEx.index - 1
-                    );
-            }
-        }
-
         rectPath?.Dispose();
     }
 
     /// <summary>
-    /// Draws labels which are srored in the collection.
+    /// Draws labels which are stored in the collection.
     /// </summary>
     /// <param name="graph">The Chart Graphics object.</param>
     /// <param name="common">The Common elements object.</param>
