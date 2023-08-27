@@ -29,16 +29,6 @@ internal sealed class DataManager : ChartElement, IServiceProvider, IDisposable
     // Service container reference
     internal IServiceContainer serviceContainer;
 
-    /// <summary>
-    /// Indicates if at least one series is indexed (in this case we tread that all series are indexed). null if not checked yet.
-    /// </summary>
-    internal bool? indexedSeries;
-
-    /// <summary>
-    /// Indicates if all series has all X values set to 0. null if not checked yet.
-    /// </summary>
-    internal bool? xValuesZeros;
-
     #endregion
 
     #region Constructors and initialization
@@ -102,12 +92,13 @@ internal sealed class DataManager : ChartElement, IServiceProvider, IDisposable
     {
         // Prepare series for drawing
         int markerIndex = 1;
-        indexedSeries = null;
-        xValuesZeros = null;
-
         for (int index = 0; index < this.Series.Count; index++)
         {
             Series series = this.Series[index];
+
+            // Reset series "X values are zeros" flag
+            series.xValuesZeros = null;
+
             // Set series colors from palette
             IChartType chartType = e.CommonElements.ChartTypeRegistry.GetChartType(series.ChartTypeName);
             bool paletteColorsInPoints = chartType.ApplyPaletteColorsToPoints;

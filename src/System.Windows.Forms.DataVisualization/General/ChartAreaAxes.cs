@@ -1414,25 +1414,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
 
+            // Now we allow IsXValueIndexed flag for some (not for all) series.
             // Check that all primary X axis series are aligned if use the IsXValueIndexed flag
-            if (checkIndexedAligned)
-            {
-                for (int axisIndex = 0; axisIndex <= 1; axisIndex++)
-                {
-                    List<string> seriesArray = this.GetXAxesSeries((axisIndex == 0) ? AxisType.Primary : AxisType.Secondary, string.Empty);
-                    if (seriesArray.Count > 0 && seriesArray.Any(sn => Common.DataManager.Series[sn].IsXValueIndexed))
-                    {
-                        try
-                        {
-                            Common.DataManipulator.CheckXValuesAlignment(Common.DataManipulator.ConvertToSeriesArray(seriesArray, false));
-                        }
-                        catch (Exception e)
-                        {
-                            throw new ArgumentException(SR.ExceptionAxisSeriesNotAligned + e.Message);
-                        }
-                    }
-                }
-            }
+            //if (checkIndexedAligned)
+            //{
+            //    for (int axisIndex = 0; axisIndex <= 1; axisIndex++)
+            //    {
+            //        List<string> seriesArray = this.GetXAxesSeries((axisIndex == 0) ? AxisType.Primary : AxisType.Secondary, string.Empty);
+            //        if (seriesArray.Count > 0 && seriesArray.Any(sn => Common.DataManager.Series[sn].IsXValueIndexed))
+            //        {
+            //            try
+            //            {
+            //                Common.DataManipulator.CheckXValuesAlignment(Common.DataManipulator.ConvertToSeriesArray(seriesArray, false));
+            //            }
+            //            catch (Exception e)
+            //            {
+            //                throw new ArgumentException(SR.ExceptionAxisSeriesNotAligned + e.Message);
+            //            }
+            //        }
+            //    }
+            //}
 
             if (initializeAxes)
             {
