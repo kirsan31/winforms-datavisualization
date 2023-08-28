@@ -10,9 +10,9 @@ using System.Globalization;
 
 namespace ChartSamples
 {
-	public partial class ChartArea3DZRC : System.Windows.Forms.UserControl
-	{
-        private Point _prevPount;
+    public partial class ChartArea3DZRC : System.Windows.Forms.UserControl
+    {
+        private Point _prevPointL;
 
         public ChartArea3DZRC()
         {
@@ -24,15 +24,13 @@ namespace ChartSamples
             if (e.Button != MouseButtons.Left)
                 return;
 
-            var yDiff = -_prevPount.Y + e.Y;
-            var xDiff = _prevPount.X - e.X;
+            var yDiff = -_prevPointL.Y + e.Y;
+            var xDiff = _prevPointL.X - e.X;
+            Point newLoc = _prevPointL;
 
             if (yDiff != 0)
             {
-                var newDiff = (int)(yDiff * 360 / chart1.Height + Math.Sign(yDiff) * 0.5);
-                if (newDiff == 0)
-                    yDiff = Math.Sign(yDiff);
-
+                yDiff = (int)(yDiff * 360d / chart1.Height + Math.Sign(yDiff) * 0.5);
                 if (yDiff != 0)
                 {
                     yDiff += chart1.ChartAreas[0].Area3DStyle.Inclination;
@@ -42,30 +40,32 @@ namespace ChartSamples
                         yDiff = -90;
 
                     chart1.ChartAreas[0].Area3DStyle.Inclination = yDiff;
+                    newLoc.Y = e.Y;
                 }
             }
 
             if (xDiff != 0)
             {
-                var newDiff = (int)(xDiff * 720 / chart1.Width + Math.Sign(xDiff) * 0.5);
-                if (newDiff == 0)
-                    xDiff = Math.Sign(xDiff);
+                xDiff = (int)(xDiff * 400d / chart1.Width + Math.Sign(xDiff) * 0.5);
+                if (xDiff != 0)
+                {
+                    xDiff += chart1.ChartAreas[0].Area3DStyle.Rotation;
+                    if (xDiff > 180)
+                        xDiff = -180 + xDiff - 180;
+                    else if (xDiff < -180)
+                        xDiff = 180 + xDiff + 180;
 
-                xDiff += chart1.ChartAreas[0].Area3DStyle.Rotation;
-                if (xDiff > 180)
-                    xDiff = -180 + xDiff - 180;
-                else if (xDiff < -180)
-                    xDiff = 180 + xDiff + 180;
-
-                chart1.ChartAreas[0].Area3DStyle.Rotation = xDiff;
+                    chart1.ChartAreas[0].Area3DStyle.Rotation = xDiff;
+                    newLoc.X = e.X;
+                }
             }
 
-            _prevPount = e.Location;
+            _prevPointL = newLoc;
         }
 
         private void chart1_MouseDown(object sender, MouseEventArgs e)
         {
-            _prevPount = e.Location;
+            _prevPointL = e.Location;
         }
 
         private void chart1_MouseClick(object sender, MouseEventArgs e)
