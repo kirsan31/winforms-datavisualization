@@ -12,7 +12,8 @@ This repository is a [.NET](https://dotnet.microsoft.com/) continuation of [.NET
 - New [3D mode](Docs/ZDepthRealCalc/ZDepthRealCalc.md) for emulating Z axis.
 - [New API elements](Docs/NewAPI.md).
 - [Nuget package](https://www.nuget.org/packages/WinForms.DataVisualization/).  
-- Small bugs fixes.
+- Bugs fixes and other improvements.
+- [**Breaking changes.**](Docs/BreakingChanges.md)
 
 ### Main differences from available free .NET WinForms chart controls
 

@@ -9,7 +9,7 @@ This control is a [.NET](https://dotnet.microsoft.com/) continuation of [.NET Fr
 - New 3D mode for emulating Z axis.
 - New API elements.
 - This Nuget package.  
-- Small bugs fixes.
+- Bugs fixes and other improvements.
 
 ### Main differences from available free .NET WinForms chart controls.
 
