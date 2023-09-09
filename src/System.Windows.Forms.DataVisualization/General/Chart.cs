@@ -170,21 +170,26 @@ internal class ChartImage : ChartPicture
         }
     }
 
+
+    /// <summary>
+    /// Create Image and draw chart picture with <see cref="Control.DeviceDpi"/> resolution.
+    /// </summary>
     public Bitmap GetImage()
     {
-        return this.GetImage(96);
+        return this.GetImage(this.Chart.DeviceDpi);
     }
 
     /// <summary>
     /// Create Image and draw chart picture
     /// </summary>
+    /// <param name="resolution">The resolution (DPI).</param>
     public Bitmap GetImage(float resolution)
     {
         // Create a new bitmap
-
         Bitmap image = null;
-
-        while (image == null)
+        int oldW = -1, oldH = -1;
+        resolution = Math.Max(resolution, 96);
+        while (image is null)
         {
             bool failed;
             try
@@ -195,18 +200,30 @@ internal class ChartImage : ChartPicture
             }
             catch (ArgumentException)
             {
+                if (resolution == 96)
+                    throw;
+
                 failed = true;
             }
             catch (OverflowException)
             {
+                if (resolution == 96)
+                    throw;
+
                 failed = true;
             }
             catch (InvalidOperationException)
             {
+                if (resolution ==  96)
+                    throw;
+
                 failed = true;
             }
             catch (ExternalException)
             {
+                if (resolution == 96)
+                    throw;
+
                 failed = true;
             }
 
@@ -215,6 +232,12 @@ internal class ChartImage : ChartPicture
                 // if failed to create the image, decrease the size and the resolution of the chart
                 image = null;
                 float newResolution = Math.Max(resolution / 2, 96);
+                if (oldW == -1 && oldH == -1)
+                {
+                    oldW = Width;
+                    oldH = Height;
+                }
+
                 Width = (int)Math.Ceiling(Width * newResolution / resolution);
                 Height = (int)Math.Ceiling(Height * newResolution / resolution);
                 resolution = newResolution;
@@ -224,20 +247,15 @@ internal class ChartImage : ChartPicture
         // Creates a new Graphics object from the
         // specified Image object.
         Graphics offScreen = Graphics.FromImage(image);
-
         Color backGroundColor;
-
         if (this.BackColor != Color.Empty)
             backGroundColor = this.BackColor;
         else
             backGroundColor = Color.White;
 
         // Get the page color if border skin is visible.
-        if (GetBorderSkinVisibility() &&
-            this.BorderSkin.PageColor != Color.Empty)
-        {
+        if (GetBorderSkinVisibility() && this.BorderSkin.PageColor != Color.Empty)
             backGroundColor = this.BorderSkin.PageColor;
-        }
 
         // draw a rectangle first with the size of the control, this prevent strange behavior when printing in the reporting services,
         // without this rectangle, the printed picture is blurry
@@ -250,6 +268,12 @@ internal class ChartImage : ChartPicture
 
         // Dispose Graphic object
         offScreen.Dispose();
+
+        if (oldW != -1 && oldH != -1)
+        {
+            Width = oldW;
+            Height = oldH;
+        }
 
         // Return reference to the image
         return image;
