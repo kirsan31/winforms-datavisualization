@@ -34,6 +34,7 @@
 //
 
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -41,6 +42,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Security;
 using System.Text;
@@ -1383,7 +1385,7 @@ internal class XmlFormatSerializer : SerializerBase
             // Check number of items in collection
             if (parentList.Count == 1)
             {
-                // If only one iten in collection, set "All" value.
+                // If only one item in collection, set "All" value.
                 // This means that style of this object should be applied to all
                 // existing items of the collection.
                 attrib.Value = "All";
@@ -1402,7 +1404,7 @@ internal class XmlFormatSerializer : SerializerBase
             templateListItem = true;
         }
 
-        // Retrive properties list of the object
+        // Retrieve properties list of the object
         PropertyInfo[] properties = objectToSerialize.GetType().GetProperties();
         if (properties != null)
         {
@@ -1702,39 +1704,44 @@ internal class XmlFormatSerializer : SerializerBase
     /// Method is called recursively to remove empty child nodes first.
     /// </summary>
     /// <param name="xmlNode">The node where to start the removing.</param>
-    private void RemoveEmptyChildNodes(XmlNode xmlNode)
+    private static void RemoveEmptyChildNodes(XmlNode xmlNode)
     {
-        // Loop through all child nodes
-        for (int nodeIndex = 0; nodeIndex < xmlNode.ChildNodes.Count; nodeIndex++)
+        // xmlNode.SelectNodes("//*") will select all nodes, then we choose only those that eligible for removing and remove them, then repeating until no more eligible nodes...
+        // This way is SUPERIOR faster than original recursive clearing.
+        List<XmlNode> emtyNodes;
+        while ((emtyNodes = xmlNode.SelectNodes("//*")?.Cast<XmlNode>().Where(node => !node.HasChildNodes && node.ParentNode is not null &&
+            ((node.ParentNode is not XmlDocument && (node.Attributes is null || node.Attributes.Count == 0)) ||
+                (node.Attributes?.Count == 1 && node.Attributes["_Template_"] is not null))).ToList())?.Count > 0)
         {
-            // Remove empty child nodes of the child
-            RemoveEmptyChildNodes(xmlNode.ChildNodes[nodeIndex]);
-
-            // Check if there are any non-empty nodes left
-            XmlNode currentNode = xmlNode.ChildNodes[nodeIndex];
-            if (currentNode.ParentNode != null &&
-                currentNode.ParentNode is not XmlDocument)
-            {
-                if (!currentNode.HasChildNodes &&
-                    (currentNode.Attributes == null ||
-                    currentNode.Attributes.Count == 0))
-                {
-                    // Remove node
-                    xmlNode.RemoveChild(xmlNode.ChildNodes[nodeIndex]);
-                    --nodeIndex;
-                }
-            }
-
-            // Remove node with one "_Template_" attribute
-            if (!currentNode.HasChildNodes &&
-                currentNode.Attributes.Count == 1 &&
-                currentNode.Attributes["_Template_"] != null)
-            {
-                // Remove node
-                xmlNode.RemoveChild(xmlNode.ChildNodes[nodeIndex]);
-                --nodeIndex;
-            }
+            foreach (var node in emtyNodes)
+                node.ParentNode.RemoveChild(node);
         }
+
+        // Loop through all child nodes
+        //for (int nodeIndex = 0; nodeIndex < xmlNode.ChildNodes.Count; nodeIndex++)
+        //{
+        //    XmlNode currentNode = xmlNode.ChildNodes[nodeIndex];
+        //    // Remove empty child nodes of the child
+        //    RemoveEmptyChildNodes(currentNode);
+        //    // Check if there are any non-empty nodes left            
+        //    if (currentNode.ParentNode is not null && currentNode.ParentNode is not XmlDocument)
+        //    {
+        //        if (!currentNode.HasChildNodes && (currentNode.Attributes is null || currentNode.Attributes.Count == 0))
+        //        {
+        //            // Remove node
+        //            xmlNode.RemoveChild(currentNode);
+        //            --nodeIndex;
+        //        }
+        //    }
+
+        //    // Remove node with one "_Template_" attribute
+        //    if (!currentNode.HasChildNodes && currentNode.Attributes?.Count == 1 && currentNode.Attributes["_Template_"] is not null)
+        //    {
+        //        // Remove node
+        //        xmlNode.RemoveChild(currentNode);
+        //        --nodeIndex;
+        //    }
+        //}
     }
 
     #endregion Serialization private methods
@@ -2221,7 +2228,7 @@ internal class BinaryFormatSerializer : SerializerBase
         // Remember position where object data is started
         long elementStartPosition = writer.Seek(0, SeekOrigin.Current);
 
-        // Retrive properties list of the object
+        // Retrieve properties list of the object
         ArrayList propNamesList = new ArrayList();
         PropertyInfo[] properties = objectToSerialize.GetType().GetProperties();
         if (properties != null)
