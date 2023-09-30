@@ -18,7 +18,7 @@ This is not a complete list. For example some methods overloads are not listed h
     /// <summary>
     /// Removes all elements after "index" from the "DataPointCollection".
     /// </summary>
-    /// <param name="index">The index after witch to remove elements. To remove all elements pass -1 here.</param>
+    /// <param name="index">The index after witch to remove elements. To remove all elements pass -1 here (unlike Clear() will not recalculate axes scale if collection already empty).</param>
     public void ClearAfter(int index);
     ```
 

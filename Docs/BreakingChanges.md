@@ -1,10 +1,10 @@
 ## Most notable breaking changes
 
 - `SqlCommand`, `SqlDataAdapter` can't be used as chart's `DataSource` anymore.
-- **Since 1.8 preview:**  
-  If you use Axes auto min / max values and call `DataPointCollection.Clear()` method for already empty collection:
-    - Old behavior - axes min / max values will be recalculated on next chart paint.
-    - New behavior - axes min / max values will not be recalculated.  
+- ~~**Since 1.8 preview:**~~ **reverted in 1.9**  
+  ~~If you use Axes auto min / max values and call `DataPointCollection.Clear()` method for already empty collection:~~
+    - ~~Old behavior - axes min / max values will be recalculated on next chart paint.~~
+    - ~~New behavior - axes min / max values will not be recalculated.~~  
 - **Since 1.9 preview:**  
   The algorithm for determining indexed series has been changed. Previously, a series was considered indexed if the `IsXValueIndexed` flag was set or if all its data points had an X-axis value equal to 0.
   To draw a vertical line at an X-axis value of 0, you had to set a custom flag, `IsXAxisQuantitative`.  

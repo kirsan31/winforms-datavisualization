@@ -1150,7 +1150,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
     /// <summary>
     /// Removes all elements after <paramref name="index"/> from the <see cref="DataPointCollection"/>.
     /// </summary>
-    /// <param name="index">The index after witch to remove elements. To remove all elements pass -1 here.</param>
+    /// <param name="index">The index after witch to remove elements. To remove all elements pass -1 here (unlike <see cref="ClearItems()"/> will not recalculate axes scale if collection already empty).</param>
     public void ClearAfter(int index)
     {
         if (Count == 0 || index + 1 >= Count) // not need to refresh Minimum and Maximum if we will not remove anything.
@@ -1794,9 +1794,6 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
     /// </summary>
     protected override void ClearItems()
     {
-        if (Count == 0) // not need to refresh Minimum and Maximum if we already have empty collection.
-            return;
-
         // Refresh Minimum and Maximum from data after recalc and set data
         Common?.ChartPicture?.ResetMinMaxFromData();
         base.ClearItems();
