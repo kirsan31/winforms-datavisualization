@@ -135,6 +135,7 @@ namespace ChartSamples
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.LegendText = "Product A";
             series1.Name = "Series2";
@@ -152,6 +153,7 @@ namespace ChartSamples
             series2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series2.ChartArea = "Default";
             series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(252)))), ((int)(((byte)(180)))), ((int)(((byte)(65)))));
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.LegendText = "Product B";
             series2.Name = "Default";

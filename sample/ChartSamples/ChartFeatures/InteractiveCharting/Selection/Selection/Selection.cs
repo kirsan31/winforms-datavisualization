@@ -191,6 +191,7 @@ namespace ChartSamples
             series1.BorderColor = System.Drawing.Color.SlateGray;
             series1.ChartArea = "Default";
             series1.Color = System.Drawing.Color.DodgerBlue;
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.MarkerBorderColor = System.Drawing.Color.Black;
             series1.MarkerColor = System.Drawing.Color.Gold;

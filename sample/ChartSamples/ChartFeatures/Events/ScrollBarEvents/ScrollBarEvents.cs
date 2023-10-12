@@ -135,6 +135,7 @@ namespace ChartSamples
             series1.BorderWidth = 3;
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StepLine;
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Default";
             series1.ShadowColor = System.Drawing.Color.Black;

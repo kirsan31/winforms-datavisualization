@@ -186,6 +186,7 @@ namespace ChartSamples
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.CustomProperties = "LabelStyle=outside";
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Series1";
             this.Chart1.Series.Add(series1);

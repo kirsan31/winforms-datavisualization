@@ -376,6 +376,7 @@ namespace ChartSamples
             series1.ChartArea = "Default";
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(252)))), ((int)(((byte)(180)))), ((int)(((byte)(65)))));
             series1.CustomProperties = "PixelPointWidth=45, PixelPointDepth=70, PixelPointGapDepth=10";
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Series 2";
             series1.Points.Add(dataPoint1);
@@ -389,6 +390,7 @@ namespace ChartSamples
             series2.ChartArea = "Default";
             series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
             series2.CustomProperties = "PixelPointWidth=45, PixelPointDepth=70, PixelPointGapDepth=10";
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.Name = "Series 1";
             series2.Points.Add(dataPoint6);

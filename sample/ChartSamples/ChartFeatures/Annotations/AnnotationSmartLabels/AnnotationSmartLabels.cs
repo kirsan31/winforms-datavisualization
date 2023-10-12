@@ -150,6 +150,7 @@ namespace ChartSamples
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             series1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             series1.IsValueShownAsLabel = true;
+            series1.IsXValueIndexed = true;
             series1.LabelFormat = "P0";
             series1.Legend = "Default";
             series1.MarkerSize = 9;
@@ -167,6 +168,7 @@ namespace ChartSamples
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             series2.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             series2.IsValueShownAsLabel = true;
+            series2.IsXValueIndexed = true;
             series2.LabelFormat = "P0";
             series2.Legend = "Default";
             series2.MarkerSize = 11;
@@ -183,6 +185,7 @@ namespace ChartSamples
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             series3.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             series3.IsValueShownAsLabel = true;
+            series3.IsXValueIndexed = true;
             series3.LabelFormat = "P0";
             series3.Legend = "Default";
             series3.MarkerSize = 12;

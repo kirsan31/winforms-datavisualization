@@ -146,6 +146,7 @@ namespace ChartSamples
             series1.BorderWidth = 3;
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StepLine;
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Series1";
             series1.Points.Add(dataPoint1);
@@ -166,6 +167,7 @@ namespace ChartSamples
             series2.BorderWidth = 3;
             series2.ChartArea = "Default";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.Name = "Series2";
             series2.Points.Add(dataPoint12);

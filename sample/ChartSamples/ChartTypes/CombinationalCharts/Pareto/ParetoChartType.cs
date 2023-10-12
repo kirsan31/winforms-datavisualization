@@ -110,6 +110,7 @@ namespace ChartSamples
             this.chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Default";
             this.chart1.Series.Add(series1);
@@ -260,9 +261,10 @@ namespace ChartSamples
 			destSeries.ChartType = SeriesChartType.Line;
 
 			destSeries.BorderWidth = 3;
+            destSeries.IsXValueIndexed = true;
 
-			// assign the series to the same chart area as the column chart
-			destSeries.ChartArea = chart.Series[srcSeriesName].ChartArea;
+            // assign the series to the same chart area as the column chart
+            destSeries.ChartArea = chart.Series[srcSeriesName].ChartArea;
 
 			// assign this series to use the secondary axis and set it maximum to be 100%
 			destSeries.YAxisType = AxisType.Secondary;

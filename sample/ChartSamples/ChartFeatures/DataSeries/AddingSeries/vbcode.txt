@@ -5,6 +5,7 @@ Private Sub AddButton_Click(sender As Object, e As System.EventArgs)
    Dim rnd As New Random()
    
    Dim series As Series = Chart1.Series.Add("Series 1")
+   series.IsXValueIndexed = True
    series.ChartArea = "Default"
    series.ChartType = SeriesChartType.Spline;
    series.BorderWidth = 2

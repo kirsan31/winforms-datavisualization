@@ -16,7 +16,9 @@ Private Sub DynamicChartCreation_Load(sender As Object, e As System.EventArgs)
    ' Create a data series
    Dim series1 As New Series()
    Dim series2 As New Series()
-   
+   series1.IsXValueIndexed = True
+   series2.IsXValueIndexed = True
+
    ' Add data points to the first series
    series1.Points.Add(34)
    series1.Points.Add(24)

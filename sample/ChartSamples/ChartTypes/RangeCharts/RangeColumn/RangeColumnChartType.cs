@@ -132,6 +132,7 @@ namespace ChartSamples
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.RangeColumn;
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
             series1.CustomProperties = "DrawSideBySide=True";
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Series1";
             series1.Points.Add(dataPoint1);
@@ -147,6 +148,7 @@ namespace ChartSamples
             series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(180)))), ((int)(((byte)(65)))));
             series2.CustomProperties = "DrawSideBySide=True";
             series2.Legend = "Default";
+            series2.IsXValueIndexed = true;
             series2.Name = "Series2";
             series2.Points.Add(dataPoint7);
             series2.Points.Add(dataPoint8);

@@ -263,7 +263,8 @@ namespace ChartSamples
 			this.Chart1.Name = "Chart1";
 			this.Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			series1.Name = "Default";
+            series1.IsXValueIndexed = true;
+            series1.Name = "Default";
 			series1.Points.Add(dataPoint1);
 			series1.Points.Add(dataPoint2);
 			series1.Points.Add(dataPoint3);
@@ -272,7 +273,8 @@ namespace ChartSamples
 			series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
 			series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
 			series2.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			series2.Name = "Series2";
+            series2.IsXValueIndexed = true;
+            series2.Name = "Series2";
 			series2.Points.Add(dataPoint6);
 			series2.Points.Add(dataPoint7);
 			series2.Points.Add(dataPoint8);
@@ -281,7 +283,8 @@ namespace ChartSamples
 			series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
 			series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
 			series3.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			series3.Name = "Series3";
+            series3.IsXValueIndexed = true;
+            series3.Name = "Series3";
 			series3.Points.Add(dataPoint11);
 			series3.Points.Add(dataPoint12);
 			series3.Points.Add(dataPoint13);

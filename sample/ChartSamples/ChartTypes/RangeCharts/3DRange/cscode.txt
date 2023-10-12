@@ -2,6 +2,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 ...
 
 // Populate series data with data
+chart1.Series["Default"].IsXValueIndexed = true;
 double[]	yValue1 = {56, 74, 45, 59, 34, 87, 50, 87, 64, 34};
 double[]	yValue2 = {42, 65, 30, 42, 25, 47, 40, 70, 34, 20};
 chart1.Series["Default"].Points.DataBindY(yValue1, yValue2);

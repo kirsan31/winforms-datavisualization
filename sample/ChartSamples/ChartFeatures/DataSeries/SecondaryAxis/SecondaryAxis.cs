@@ -325,6 +325,7 @@ namespace ChartSamples
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.CustomProperties = "DrawingStyle=LightToDark";
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Series1";
             series1.Points.Add(dataPoint1);
@@ -335,6 +336,7 @@ namespace ChartSamples
             series2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series2.ChartArea = "Default";
             series2.CustomProperties = "DrawingStyle=LightToDark";
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.Name = "Series2";
             series2.Points.Add(dataPoint6);

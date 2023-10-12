@@ -129,6 +129,7 @@ namespace ChartSamples
             series1.ChartArea = "Default";
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
             series1.Legend = "Default";
+            series1.IsXValueIndexed = true;
             series1.Name = "Series1";
             series1.Points.Add(dataPoint1);
             series1.Points.Add(dataPoint2);

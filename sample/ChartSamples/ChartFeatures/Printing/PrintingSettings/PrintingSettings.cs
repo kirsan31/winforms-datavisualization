@@ -144,6 +144,7 @@ namespace ChartSamples
             this.chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.LegendText = "Stage 1";
             series1.Name = "Series1";
@@ -163,6 +164,7 @@ namespace ChartSamples
             series2.BorderWidth = 3;
             series2.ChartArea = "Default";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.LegendText = "Stage 2";
             series2.MarkerColor = System.Drawing.Color.Gold;

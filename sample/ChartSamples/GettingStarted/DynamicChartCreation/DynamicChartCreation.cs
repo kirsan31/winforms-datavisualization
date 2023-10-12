@@ -171,8 +171,8 @@ namespace ChartSamples
 			Chart1.ChartAreas.Add(chartArea1);
 
 			// Create a data series
-			Series series1 = new Series();
-			Series series2 = new Series();
+			Series series1 = new Series() { IsXValueIndexed = true };
+			Series series2 = new Series() { IsXValueIndexed = true };
 
 			// Add data points to the first series
 			series1.Points.Add(34);

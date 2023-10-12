@@ -241,7 +241,8 @@ namespace ChartSamples
             series1.ChartType = SeriesChartType.StackedArea;
 			series1.Color = System.Drawing.Color.FromArgb(((System.Byte)(5)), ((System.Byte)(100)), ((System.Byte)(146)));
 			series1.CustomProperties = "DrawingStyle=Cylinder, StackGroupName=Group1";
-			series1.Name = "Bob";
+            series1.IsXValueIndexed = true;
+            series1.Name = "Bob";
 			series1.Points.Add(dataPoint1);
 			series1.Points.Add(dataPoint2);
 			series1.Points.Add(dataPoint3);
@@ -253,7 +254,8 @@ namespace ChartSamples
             series2.ChartType = SeriesChartType.StackedArea;
 			series2.Color = System.Drawing.Color.FromArgb(((System.Byte)(252)), ((System.Byte)(180)), ((System.Byte)(65)));
 			series2.CustomProperties = "DrawingStyle=Cylinder, StackGroupName=Group2";
-			series2.Name = "John";
+            series2.IsXValueIndexed = true;
+            series2.Name = "John";
 			series2.Points.Add(dataPoint6);
 			series2.Points.Add(dataPoint7);
 			series2.Points.Add(dataPoint8);
@@ -265,7 +267,8 @@ namespace ChartSamples
             series3.ChartType = SeriesChartType.StackedArea;
 			series3.Color = System.Drawing.Color.FromArgb(((System.Byte)(224)), ((System.Byte)(64)), ((System.Byte)(10)));
 			series3.CustomProperties = "DrawingStyle=Cylinder, StackGroupName=Group2";
-			series3.Name = "Nehra";
+            series3.IsXValueIndexed = true;
+            series3.Name = "Nehra";
 			series3.Points.Add(dataPoint11);
 			series3.Points.Add(dataPoint12);
 			series3.Points.Add(dataPoint13);
@@ -277,7 +280,8 @@ namespace ChartSamples
             series4.ChartType = SeriesChartType.StackedArea;
 			series4.Color = System.Drawing.Color.FromArgb(((System.Byte)(65)), ((System.Byte)(140)), ((System.Byte)(240)));
 			series4.CustomProperties = "DrawingStyle=Cylinder, StackGroupName=Group1";
-			series4.Name = "Mike";
+            series4.IsXValueIndexed = true;
+            series4.Name = "Mike";
 			series4.Points.Add(dataPoint16);
 			series4.Points.Add(dataPoint17);
 			series4.Points.Add(dataPoint18);

@@ -227,6 +227,7 @@ namespace ChartSamples
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(252)))), ((int)(((byte)(180)))), ((int)(((byte)(65)))));
             series1.Enabled = false;
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.MarkerSize = 9;
             series1.Name = "RawData";

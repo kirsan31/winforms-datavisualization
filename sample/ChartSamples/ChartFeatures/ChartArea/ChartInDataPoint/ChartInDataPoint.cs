@@ -203,6 +203,7 @@ namespace ChartSamples
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
             series1.CustomProperties = "BubbleScaleMin=-60";
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.MarkerSize = 22;
             series1.Name = "Default";
@@ -452,14 +453,15 @@ namespace ChartSamples
 				seriesPoint.BorderColor = Color.FromArgb(64,64,64);
 				seriesPoint.ShadowOffset = 2;
 				seriesPoint.Palette = ChartColorPalette.Pastel;
+				seriesPoint.IsXValueIndexed = true;
 
-				//****************************************************
-				//** Populate data series.
-				//** TODO: For this sample each series is populated
-				//** with random data. Do your own series population
-				//** here.
-				//****************************************************
-				for(int sliceIndex = 0; sliceIndex < 5; sliceIndex++)
+                //****************************************************
+                //** Populate data series.
+                //** TODO: For this sample each series is populated
+                //** with random data. Do your own series population
+                //** here.
+                //****************************************************
+                for (int sliceIndex = 0; sliceIndex < 5; sliceIndex++)
 				{
 					seriesPoint.Points.AddY(random.Next(2,20));
 				}

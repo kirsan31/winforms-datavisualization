@@ -6,6 +6,7 @@ private void AddButton_Click(object sender, System.EventArgs e)
 	Random rnd = new Random();
 
 	Series series = Chart1.Series.Add("Series 1");
+	series.IsXValueIndexed = true;
 	series.ChartArea = "Default";
 	series.ChartType = SeriesChartType.Spline;
 	series.BorderWidth = 2;

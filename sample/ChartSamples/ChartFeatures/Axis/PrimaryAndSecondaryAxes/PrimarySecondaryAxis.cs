@@ -180,6 +180,7 @@ namespace ChartSamples
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Default";
             dataPoint1.AxisLabel = "Plane 1";

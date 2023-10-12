@@ -118,12 +118,14 @@ namespace ChartSamples
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(224)))), ((int)(((byte)(64)))), ((int)(((byte)(10)))));
             series1.Legend = "Default";
+            series1.IsXValueIndexed = true;
             series1.Name = "Series2";
             series1.YValuesPerPoint = 2;
             series2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series2.ChartArea = "Default";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
             series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.Name = "Default";
             series2.YValuesPerPoint = 2;

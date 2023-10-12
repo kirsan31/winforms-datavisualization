@@ -2,11 +2,13 @@ Imports System.Windows.Forms.DataVisualization.Charting
 ...
 
 ' Populate series data
+chart1.Series("DataSeries").IsXValueIndexed = True
 Dim yValues As Double() =  {55.62, 45.54, 73.45, 9.73, 88.42, 45.9, 63.6, 85.1, 67.2, 23.6}
 Chart1.Series("DataSeries").Points.DataBindY(yValues)
 
 ' Set Box Plot chart type
 Chart1.Series("BoxPlotSeries").ChartType = SeriesChartType.BoxPlot
+chart1.Series("BoxPlotSeries").IsXValueIndexed = True
 
 ' Specify data series name for the Box Plot
 Chart1.Series("BoxPlotSeries")("BoxPlotSeries") = "DataSeries"

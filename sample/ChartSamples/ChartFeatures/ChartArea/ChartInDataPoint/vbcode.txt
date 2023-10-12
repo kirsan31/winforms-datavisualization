@@ -130,6 +130,7 @@ Public Sub CreateChartInSeriesPoints(chart As Chart, series As Series, chartType
       seriesPoint.BorderColor = Color.FromArgb(64, 64, 64)
       seriesPoint.ShadowOffset = 2
       seriesPoint.Palette = ChartColorPalette.Pastel
+      seriesPoint.IsXValueIndexed = True
       
       '****************************************************
       '** Populate data series.

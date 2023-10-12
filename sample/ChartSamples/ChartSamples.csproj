@@ -19,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="WinForms.DataVisualization" Version="$(MajorVer).*-*" />
+		<PackageReference Include="WinForms.DataVisualization" Version="$(MajorVer).$(MinorPatchVer).*-*" />
 	</ItemGroup>
 
 	<ItemGroup>

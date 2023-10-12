@@ -163,6 +163,7 @@ namespace ChartSamples
             this.Chart1.Location = new System.Drawing.Point(16, 56);
             this.Chart1.Name = "Chart1";
             series1.ChartArea = "Default";
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Default";
             series1.Points.Add(dataPoint1);
@@ -173,6 +174,7 @@ namespace ChartSamples
             series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             series2.ChartArea = "Default";
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.Name = "Series2";
             series2.Points.Add(dataPoint6);
@@ -181,6 +183,7 @@ namespace ChartSamples
             series2.Points.Add(dataPoint9);
             series2.Points.Add(dataPoint10);
             series3.ChartArea = "Default";
+            series3.IsXValueIndexed = true;
             series3.Legend = "Default";
             series3.Name = "Series3";
             series3.Points.Add(dataPoint11);
@@ -347,7 +350,7 @@ namespace ChartSamples
 			if(e.X != 0 && e.Y != 0)
 			{
                 ElementPosition position = Chart1.Legends[0].Position;
-				// Conver pixels to percentage coordinates and set legend position
+				// Convert pixels to percentage coordinates and set legend position
                 position.X = e.X * 100F / ((float)(Chart1.Size.Width - 1));
                 position.Y = e.Y * 100F / ((float)(Chart1.Size.Height - 1)); 
 	

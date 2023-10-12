@@ -122,7 +122,8 @@ namespace ChartSamples
 			series1.BackSecondaryColor = System.Drawing.Color.Khaki;
 			series1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.VerticalCenter;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
-			series1.Name = "Series1";
+            series1.IsXValueIndexed = true;
+            series1.Name = "Series1";
 			series1.Points.Add(dataPoint1);
 			series1.Points.Add(dataPoint2);
 			series1.Points.Add(dataPoint3);
@@ -134,7 +135,8 @@ namespace ChartSamples
 			series2.BackSecondaryColor = System.Drawing.Color.Khaki;
 			series2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.VerticalCenter;
 			series2.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
-			series2.Name = "Series2";
+            series2.IsXValueIndexed = true;
+            series2.Name = "Series2";
 			series2.Points.Add(dataPoint8);
 			series2.Points.Add(dataPoint9);
 			series2.Points.Add(dataPoint10);
@@ -146,7 +148,8 @@ namespace ChartSamples
 			series3.BorderColor = System.Drawing.Color.LightGray;
 			series3.BorderWidth = 3;
 			series3.ChartType = SeriesChartType.Spline;
-			series3.Name = "Series3";
+            series3.IsXValueIndexed = true;
+            series3.Name = "Series3";
 			series3.Points.Add(dataPoint15);
 			series3.Points.Add(dataPoint16);
 			series3.Points.Add(dataPoint17);

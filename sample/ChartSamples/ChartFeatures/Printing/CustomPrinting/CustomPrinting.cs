@@ -236,6 +236,7 @@ namespace ChartSamples
             series2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series2.ChartArea = "Default";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.Name = "Default";
             series2.Points.Add(dataPoint8);

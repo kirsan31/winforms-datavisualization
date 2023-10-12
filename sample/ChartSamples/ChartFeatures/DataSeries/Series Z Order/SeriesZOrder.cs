@@ -255,6 +255,7 @@ namespace ChartSamples
             series7.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series7.ChartArea = "Default";
             series7.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
+            series7.IsXValueIndexed = true;
             series7.Legend = "Default";
             series7.Name = "Series1";
             series7.Points.Add(dataPoint31);
@@ -267,6 +268,7 @@ namespace ChartSamples
             series8.ChartArea = "Default";
             series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             series8.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(252)))), ((int)(((byte)(180)))), ((int)(((byte)(65)))));
+            series8.IsXValueIndexed = true;
             series8.Legend = "Default";
             series8.Name = "Series2";
             series8.Points.Add(dataPoint36);
@@ -279,6 +281,7 @@ namespace ChartSamples
             series9.ChartArea = "Default";
             series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineArea;
             series9.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(224)))), ((int)(((byte)(64)))), ((int)(((byte)(10)))));
+            series9.IsXValueIndexed = true;
             series9.Legend = "Default";
             series9.Name = "Series3";
             series9.Points.Add(dataPoint41);

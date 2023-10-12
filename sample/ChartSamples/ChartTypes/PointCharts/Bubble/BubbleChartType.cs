@@ -137,6 +137,7 @@ namespace ChartSamples
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
             series1.Font = new System.Drawing.Font("Trebuchet MS", 9F);
             series1.IsValueShownAsLabel = true;
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Default";
             series1.Points.Add(dataPoint1);
@@ -151,6 +152,7 @@ namespace ChartSamples
             series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(255)))), ((int)(((byte)(64)))), ((int)(((byte)(10)))));
             series2.Font = new System.Drawing.Font("Trebuchet MS", 9F);
             series2.IsValueShownAsLabel = true;
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.Name = "Series2";
             series2.Points.Add(dataPoint6);

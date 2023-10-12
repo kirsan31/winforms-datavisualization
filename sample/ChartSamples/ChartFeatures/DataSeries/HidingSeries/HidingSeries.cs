@@ -255,7 +255,8 @@ namespace ChartSamples
 			this.Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series1.ChartArea = "Default";
-			series1.Name = "Series1";
+            series1.IsXValueIndexed = true;
+            series1.Name = "Series1";
 			series1.Points.Add(dataPoint1);
 			series1.Points.Add(dataPoint2);
 			series1.Points.Add(dataPoint3);
@@ -264,6 +265,7 @@ namespace ChartSamples
 			series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
 			series2.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series2.ChartArea = "Default";
+			series2.IsXValueIndexed = true;
 			series2.Name = "Series4";
 			series2.Points.Add(dataPoint6);
 			series2.Points.Add(dataPoint7);
@@ -274,6 +276,7 @@ namespace ChartSamples
 			series3.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series3.BorderWidth = 2;
 			series3.ChartArea = "Default";
+			series3.IsXValueIndexed = true;
 			series3.ChartType = SeriesChartType.Spline;
 			series3.Name = "Series2";
 			series3.Points.Add(dataPoint11);
@@ -287,6 +290,7 @@ namespace ChartSamples
 			series4.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series4.BorderWidth = 2;
 			series4.ChartArea = "Default";
+			series4.IsXValueIndexed = true;
 			series4.ChartType = SeriesChartType.StepLine;
 			series4.Color = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series4.Name = "Series3";

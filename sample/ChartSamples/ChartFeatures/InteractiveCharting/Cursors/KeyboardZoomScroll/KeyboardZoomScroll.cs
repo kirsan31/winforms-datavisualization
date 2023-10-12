@@ -128,6 +128,7 @@ namespace ChartSamples
             series1.BorderWidth = 2;
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Default";
             this.chart1.Series.Add(series1);

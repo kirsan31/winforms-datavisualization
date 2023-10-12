@@ -143,6 +143,7 @@ namespace ChartSamples
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             series1.ChartArea = "Data Chart Area";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.MarkerSize = 8;
             series1.Name = "DataSeries";
@@ -155,6 +156,7 @@ namespace ChartSamples
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.BoxPlot;
             series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(64)))), ((int)(((byte)(10)))));
             series2.CustomProperties = "BoxPlotSeries=DataSeries, PointWidth=1.2";
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.Name = "BoxPlotSeries";
             series2.YValuesPerPoint = 6;

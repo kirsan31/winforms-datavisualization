@@ -128,6 +128,7 @@ namespace ChartSamples
             series1.ChartArea = "Default";
             series1.CustomProperties = "DrawingStyle=Wedge";
             series1.IsVisibleInLegend = false;
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Default";
             series1.Points.Add(dataPoint1);
@@ -140,6 +141,7 @@ namespace ChartSamples
             series2.ChartArea = "Default";
             series2.CustomProperties = "DrawingStyle=Wedge";
             series2.IsVisibleInLegend = false;
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.Name = "Series2";
             series2.Points.Add(dataPoint6);
@@ -150,6 +152,7 @@ namespace ChartSamples
             series3.ChartArea = "Default";
             series3.CustomProperties = "DrawingStyle=Wedge";
             series3.IsVisibleInLegend = false;
+            series3.IsXValueIndexed = true;
             series3.Legend = "Default";
             series3.Name = "Series3";
             series3.Points.Add(dataPoint11);

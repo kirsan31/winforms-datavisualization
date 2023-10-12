@@ -356,6 +356,7 @@ namespace ChartSamples
             series1.BorderWidth = 2;
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Series 1";
             series1.Points.Add(dataPoint1);
@@ -369,6 +370,7 @@ namespace ChartSamples
             series2.BorderWidth = 2;
             series2.ChartArea = "Default";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.Name = "Series 2";
             series2.Points.Add(dataPoint7);
@@ -382,6 +384,7 @@ namespace ChartSamples
             series3.BorderWidth = 2;
             series3.ChartArea = "Default";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.IsXValueIndexed = true;
             series3.Legend = "Second";
             series3.Name = "Series 3";
             series3.Points.Add(dataPoint13);
@@ -395,6 +398,7 @@ namespace ChartSamples
             series4.BorderWidth = 2;
             series4.ChartArea = "Default";
             series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.IsXValueIndexed = true;
             series4.Legend = "Second";
             series4.Name = "Series 4";
             series4.Points.Add(dataPoint19);
@@ -408,6 +412,7 @@ namespace ChartSamples
             series5.BorderWidth = 2;
             series5.ChartArea = "Default";
             series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series5.IsXValueIndexed = true;
             series5.Legend = "Second";
             series5.Name = "Series 5";
             series5.Points.Add(dataPoint25);

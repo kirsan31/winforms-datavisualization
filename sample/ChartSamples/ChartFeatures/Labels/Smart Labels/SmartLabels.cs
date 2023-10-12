@@ -134,6 +134,7 @@ namespace ChartSamples
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             series1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             series1.IsValueShownAsLabel = true;
+            series1.IsXValueIndexed = true;
             series1.LabelFormat = "P0";
             series1.Legend = "Default";
             series1.MarkerSize = 6;

@@ -135,7 +135,8 @@ namespace ChartSamples
 			this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series1.ChartType = SeriesChartType.Area;
-			series1.Name = "Default";
+            series1.IsXValueIndexed = true;
+            series1.Name = "Default";
 			this.chart1.Series.Add(series1);
 			this.chart1.Size = new System.Drawing.Size(412, 296);
 			this.chart1.TabIndex = 1;

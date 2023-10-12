@@ -119,6 +119,7 @@ namespace ChartSamples
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             series1.Font = new System.Drawing.Font("Trebuchet MS", 9F);
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.MarkerSize = 10;
             series1.Name = "Series1";
@@ -127,6 +128,7 @@ namespace ChartSamples
             series2.ChartArea = "Default";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             series2.Font = new System.Drawing.Font("Trebuchet MS", 9F);
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.MarkerSize = 10;
             series2.Name = "Series2";

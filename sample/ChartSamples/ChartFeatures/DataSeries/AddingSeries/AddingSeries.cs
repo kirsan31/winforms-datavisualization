@@ -267,7 +267,8 @@ namespace ChartSamples
 			Random rnd = new Random();
 
 			Series series = Chart1.Series.Add("Series " + (Chart1.Series.Count+1).ToString());
-			series.ChartArea = "Default";
+            series.IsXValueIndexed = true;
+            series.ChartArea = "Default";
 			series.ChartType = (SeriesChartType) Enum.Parse( typeof(SeriesChartType), charts[Chart1.Series.Count-1], true );
 			series.BorderWidth = 2;
 			series.BorderColor = Color.FromArgb(120,147,190);

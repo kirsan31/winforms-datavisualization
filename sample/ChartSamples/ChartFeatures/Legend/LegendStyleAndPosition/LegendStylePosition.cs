@@ -314,7 +314,8 @@ namespace ChartSamples
 			this.Chart1.Name = "Chart1";
 			this.Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			series1.LegendText = "Projected";
+            series1.IsXValueIndexed = true;
+            series1.LegendText = "Projected";
 			series1.Name = "Series 1";
 			dataPoint1.Label = "";
 			dataPoint2.Label = "";
@@ -327,7 +328,8 @@ namespace ChartSamples
 			series1.Points.Add(dataPoint4);
 			series1.Points.Add(dataPoint5);
 			series2.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			series2.LegendText = "Actual";
+            series2.IsXValueIndexed = true;
+            series2.LegendText = "Actual";
 			series2.Name = "Series 2";
 			series2.Points.Add(dataPoint6);
 			series2.Points.Add(dataPoint7);
@@ -335,7 +337,8 @@ namespace ChartSamples
 			series2.Points.Add(dataPoint9);
 			series2.Points.Add(dataPoint10);
 			series3.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			series3.BorderWidth = 2;
+            series3.IsXValueIndexed = true;
+            series3.BorderWidth = 2;
 			series3.ChartType = SeriesChartType.Line;
 			series3.LegendText = "Historical";
 			series3.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
@@ -349,7 +352,8 @@ namespace ChartSamples
 			series4.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series4.BorderWidth = 2;
 			series4.ChartType = SeriesChartType.Line;
-			series4.LegendText = "Target";
+            series4.IsXValueIndexed = true;
+            series4.LegendText = "Target";
 			series4.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
 			series4.Name = "Series 4";
 			series4.Points.Add(dataPoint16);

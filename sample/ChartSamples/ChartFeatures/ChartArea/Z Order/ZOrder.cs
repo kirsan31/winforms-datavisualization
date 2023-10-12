@@ -255,6 +255,7 @@ namespace ChartSamples
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
+            series1.IsXValueIndexed = true;
             series1.Legend = "Default";
             series1.Name = "Series1";
             series1.Points.Add(dataPoint1);
@@ -265,6 +266,7 @@ namespace ChartSamples
             series2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series2.ChartArea = "Default";
             series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(5)))), ((int)(((byte)(100)))), ((int)(((byte)(146)))));
+            series2.IsXValueIndexed = true;
             series2.Legend = "Default";
             series2.Name = "Series2";
             series2.Points.Add(dataPoint6);
@@ -277,6 +279,7 @@ namespace ChartSamples
             series3.ChartArea = "Chart Area 2";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
             series3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(252)))), ((int)(((byte)(180)))), ((int)(((byte)(65)))));
+            series3.IsXValueIndexed = true;
             series3.Legend = "Default";
             series3.Name = "Series3";
             series3.Points.Add(dataPoint11);
@@ -287,6 +290,7 @@ namespace ChartSamples
             series4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             series4.ChartArea = "Chart Area 2";
             series4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(224)))), ((int)(((byte)(64)))), ((int)(((byte)(10)))));
+            series4.IsXValueIndexed = true;
             series4.Legend = "Default";
             series4.Name = "Series4";
             series4.Points.Add(dataPoint16);
@@ -298,6 +302,7 @@ namespace ChartSamples
             series5.ChartArea = "Chart Area 3";
             series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
             series5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(241)))), ((int)(((byte)(185)))), ((int)(((byte)(168)))));
+            series5.IsXValueIndexed = true;
             series5.Legend = "Default";
             series5.Name = "Series5";
             series5.Points.Add(dataPoint21);
@@ -308,6 +313,7 @@ namespace ChartSamples
             series6.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series6.ChartArea = "Chart Area 3";
             series6.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(120)))), ((int)(((byte)(147)))), ((int)(((byte)(190)))));
+            series6.IsXValueIndexed = true;
             series6.Legend = "Default";
             series6.Name = "Series6";
             series6.Points.Add(dataPoint26);

@@ -141,6 +141,7 @@ public void CreateChartInSeriesPoints(Chart chart, Series series, string chartTy
 		seriesPoint.BorderColor = Color.FromArgb(64,64,64);
 		seriesPoint.ShadowOffset = 2;
 		seriesPoint.Palette = ChartColorPalette.Pastel;
+		seriesPoint.IsXValueIndexed = true;
 
 		//****************************************************
 		//** Populate data series.
