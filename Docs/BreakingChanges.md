@@ -1,6 +1,6 @@
 ## Most notable breaking changes
 
-- `SqlCommand`, `SqlDataAdapter` can't be used as chart's `DataSource` anymore.
+- `SqlCommand`, `SqlDataAdapter`, `SqlDataReader` can't be used as chart's `DataSource` anymore.
 - ~~**Since 1.8 preview:**~~ **reverted in 1.9**  
   ~~If you use Axes auto min / max values and call `DataPointCollection.Clear()` method for already empty collection:~~
     - ~~Old behavior - axes min / max values will be recalculated on next chart paint.~~

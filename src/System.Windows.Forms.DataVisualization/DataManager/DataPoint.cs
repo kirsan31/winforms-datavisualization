@@ -330,7 +330,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 
     /// <summary>
     /// Data bind X, Y and other values (like Tooltip, LabelStyle,...) of the data points to the data source.
-    /// Data source can be the Ole(SQL)DataReader, DataView, DataSet, DataTable or DataRow.
+    /// Data source can be the DataView, DataSet, DataTable or DataRow.
     /// </summary>
     /// <param name="dataSource">Data source.</param>
     /// <param name="xField">Name of the field for X values.</param>
@@ -514,7 +514,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 
     /// <summary>
     /// Data bind Y values of the data points to the data source.
-    /// Data source can be the Array, Collection, Ole(SQL)DataReader, DataView, DataSet, DataTable or DataRow.
+    /// Data source can be the Array, Collection, DataView, DataSet, DataTable or DataRow.
     /// </summary>
     /// <param name="yValue">One or more enumerable objects with Y values.</param>
     public void DataBindY(params IEnumerable[] yValue)
@@ -524,7 +524,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 
     /// <summary>
     /// Data bind X and Y values of the data points to the data source.
-    /// Data source can be the Array, Collection, Ole(SQL)DataReader, DataView, DataSet, DataTable or DataRow.
+    /// Data source can be the Array, Collection, DataView, DataSet, DataTable or DataRow.
     /// </summary>
     /// <param name="xValue">Enumerable objects with X values.</param>
     /// <param name="yValues">One or more enumerable objects with Y values.</param>
@@ -694,7 +694,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 
     /// <summary>
     /// Data bind Y values of the data points to the data source.
-    /// Data source can be the Array, Collection, Ole(SQL)DataReader, DataView, DataSet, DataTable or DataRow.
+    /// Data source can be the Array, Collection, DataView, DataSet, DataTable or DataRow.
     /// </summary>
     /// <param name="yValue">Enumerable objects with Y values.</param>
     /// <param name="yFields">Name of the fields for Y values.</param>
@@ -705,7 +705,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 
     /// <summary>
     /// Data bind X and Y values of the data points to the data source.
-    /// Data source can be the Array, Collection, Ole(SQL)DataReader, DataView, DataSet, DataTable or DataRow.
+    /// Data source can be the Array, Collection, DataView, DataSet, DataTable or DataRow.
     /// </summary>
     /// <param name="xValue">Enumerable object with X values.</param>
     /// <param name="xField">Name of the field for X values.</param>

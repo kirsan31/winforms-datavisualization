@@ -2853,9 +2853,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Data bind chart to the table. Series will be automatically added to the chart depending ont
-        /// yhe number of unique values in the seriesGroupByField column of the data source.
-        /// Data source can be the Ole(SQL)DataReader, DataView, DataSet, DataTable or DataRow.
+        /// Data bind chart to the table. Series will be automatically added to the chart depending on
+        /// the number of unique values in the seriesGroupByField column of the data source.
+        /// Data source can be the DataView, DataSet, DataTable or DataRow.
         /// </summary>
         /// <param name="dataSource">Data source.</param>
         /// <param name="seriesGroupByField">Name of the field used to group data into series.</param>
@@ -2882,9 +2882,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Data bind chart to the table. Series will be automatically added to the chart depending ont
-        /// yhe number of unique values in the seriesGroupByField column of the data source.
-        /// Data source can be the Ole(SQL)DataReader, DataView, DataSet, DataTable or DataRow.
+        /// Data bind chart to the table. Series will be automatically added to the chart depending on
+        /// the number of unique values in the seriesGroupByField column of the data source.
+        /// Data source can be the DataView, DataSet, DataTable or DataRow.
         /// </summary>
         /// <param name="dataSource">Data source.</param>
         /// <param name="seriesGroupByField">Name of the field used to group data into series.</param>
