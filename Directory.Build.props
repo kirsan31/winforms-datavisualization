@@ -10,11 +10,12 @@
 	<PropertyGroup>
 		<MajorVer>1</MajorVer>
 		<MinorPatchVer>9.0</MinorPatchVer>
-		<PRVer>-pr</PRVer>
+		<PRVer></PRVer>
 		<NugetReleaseNotes>
 			Many additions and fixes in HitTest for lines and points charts both in 2D and mainly in 3D modes.
-			Optimizations and bugs fixes.
-			More info: https://github.com/kirsan31/winforms-datavisualization/releases/tag/1.9pr
+			Performance improvements, optimizations and bugs fixes.
+			Important breaking change in this release! See link below.
+			More info: https://github.com/kirsan31/winforms-datavisualization/releases/tag/1.9
 		</NugetReleaseNotes>
 	</PropertyGroup>
 </Project>
