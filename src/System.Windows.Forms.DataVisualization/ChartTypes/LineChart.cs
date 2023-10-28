@@ -626,8 +626,9 @@ internal class LineChart : PointChart
                     {
                         // Get Y values of the current and previous data points
                         prevDataPoint = point;
-                        yValuePrev = VAxis.GetLogValue(yValuePrev);
-                        xValuePrev = HAxis.GetLogValue(xValuePrev);
+                        // Check for logarithmic Axes
+                        yValuePrev = VAxis.GetLogValue(yValue);
+                        xValuePrev = HAxis.GetLogValue(xValue);
 
                         // Remember pre-calculated point position
                         point.positionRel = new PointF(
