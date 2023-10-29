@@ -19,7 +19,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="WinForms.DataVisualization" Version="$(MajorVer).$(MinorPatchVer).*-*" />
+		<PackageReference Include="WinForms.DataVisualization" Version="$(MajorVer).$(MinorPatchVer).*-*" Condition="'$(Configuration)'=='Release'"  />
+		<PackageReference Include="WinForms.DataVisualization.Debug" Version="$(MajorVer).*-*" Condition="'$(Configuration)'=='Debug'" />
 	</ItemGroup>
 
 	<ItemGroup>

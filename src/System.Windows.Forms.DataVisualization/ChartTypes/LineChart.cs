@@ -430,17 +430,6 @@ internal class LineChart : PointChart
                     double yValue = GetYValue(common, area, ser, point, index, this.YValueIndex);
                     // Recalculates x position
                     double xValue = indexedSeries ? index + 1 : point.XValue;
-
-                    if (point.IsEmpty)
-                    {
-                        ++index;
-                        prevDataPoint = point;
-                        // Check for logarithmic Axes
-                        yValuePrev = VAxis.GetLogValue(yValue);
-                        xValuePrev = HAxis.GetLogValue(xValue);
-                        continue;
-                    }
-
                     prevPointInArray = false;
                     // Reset pre-calculated point position
                     point.positionRel = new PointF(float.NaN, float.NaN);
@@ -469,15 +458,6 @@ internal class LineChart : PointChart
                         // Check for logarithmic Axes
                         yValue = VAxis.GetLogValue(yValue);
                         xValue = HAxis.GetLogValue(xValue);
-
-                        if (prevDataPoint.IsEmpty && this.lineTension != 0) // not need to process hot region for single point in spline chart
-                        {
-                            ++index;
-                            prevDataPoint = point;
-                            yValuePrev = yValue;
-                            xValuePrev = xValue;
-                            continue;
-                        }
 
                         // Check if line is completely out of the data scaleView
                         if ((xValue <= hAxisMin && xValuePrev < hAxisMin) ||
@@ -585,11 +565,11 @@ internal class LineChart : PointChart
 
                         if (prevDataPoint.IsEmpty)
                         {
-                            // Only process hot region for this point
+                            // Empty point - any point
                             DrawLine(
                                 graph,
                                 common,
-                                prevDataPoint,
+                                prevDataPoint, // we do it because of empty point have higher priority than regular and must be drawn to both direction (before and after)
                                 ser,
                                 dataPointPos,
                                 index,
@@ -597,7 +577,7 @@ internal class LineChart : PointChart
                         }
                         else
                         {
-                            // Regular data point
+                            // non empty point - any point
                             DrawLine(
                                 graph,
                                 common,

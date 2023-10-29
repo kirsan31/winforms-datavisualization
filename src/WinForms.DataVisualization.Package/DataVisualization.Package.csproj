@@ -75,6 +75,7 @@
 		<Message Text="### Start copy package..." Importance="high" />
 		<Copy SourceFiles="$(OutputPath)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)NuGet\BuildOut\" />
 		<Message Text="### Finished copy package. Start restore..." Importance="high" />
+		<Exec Command="nuget.exe restore &quot;$(SolutionDir)sample\ChartSamples\ChartSamples.csproj&quot; -ConfigFile &quot;$(SolutionDir)NuGet.config&quot;" />
 		<Exec Command="nuget.exe restore &quot;$(SolutionDir)DesignerTest\DesignerTest.csproj&quot; -ConfigFile &quot;$(SolutionDir)NuGet.config&quot;" />
 		<Message Text="### Finished restore." Importance="high" />
 	</Target>
