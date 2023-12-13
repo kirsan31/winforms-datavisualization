@@ -795,7 +795,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         for (int index = 0; index < segmentPointNumber.Length; index++)
                         {
                             // Check if current segment is excluded
-                            bool excludedSegment = this.IsExcludedSegment(emptySequences, index);
+                            bool excludedSegment = IsExcludedSegment(emptySequences, index);
 
                             // If not excluded segment - update from/to range if they were set
                             if (!excludedSegment &&
@@ -863,7 +863,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="excludedSegments">Array of segment indexes.</param>
         /// <param name="segmentIndex">Index of the segment to check.</param>
         /// <returns>True if segment with specified index is marked as excluded.</returns>
-        private bool IsExcludedSegment(List<int> excludedSegments, int segmentIndex)
+        private static bool IsExcludedSegment(List<int> excludedSegments, int segmentIndex)
         {
             for (int index = 0; index < excludedSegments.Count; index += 2)
             {
@@ -873,6 +873,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     return true;
                 }
             }
+
             return false;
         }
 
