@@ -657,31 +657,44 @@ internal abstract class SerializerBase
         reusedObject = false;
         PropertyInfo pi = list.GetType().GetProperty("Item", itemType, new Type[] { typeof(string) });
         MethodInfo mi = list.GetType().GetMethod("IndexOf", new Type[] { typeof(string) });
-        if (pi != null)
+        if (pi is not null)
         {
             // Try to get object by name using the indexer
-            if (itemName != null && itemName.Length > 0)
+            if (itemName?.Length > 0)
             {
                 bool itemChecked = false;
-                if (mi != null)
+                if (mi is not null)
                 {
                     try
                     {
                         int index = -1;
                         object oindex = mi.Invoke(list, new object[] { itemName });
-                        if (oindex is int)
+                        if (oindex is int indV)
                         {
-                            index = (int)oindex;
+                            index = indV;
                             itemChecked = true;
                         }
 
                         if (index != -1)
                         {
                             object objByName = list[index];
-                            if (objByName != null)
+                            if (objByName is not null)
                             {
-                                // Remove found object from the list
-                                list.Remove(objByName);
+                                // If we are in named list and have existing element with same name - we not need to erase those names on depended elements while removing.
+                                var chartNC = list as INameController;
+                                if (chartNC is not null)
+                                    chartNC.IsColectionEditing = true;
+
+                                try                             
+                                {
+                                    // Remove found object from the list
+                                    list.Remove(objByName);
+                                }
+                                finally
+                                {
+                                    if (chartNC is not null)
+                                        chartNC.IsColectionEditing = false;
+                                }
 
                                 // Return found object
                                 reusedObject = true;
@@ -720,8 +733,13 @@ internal abstract class SerializerBase
                         objByName = null;
                     }
 
-                    if (objByName != null)
+                    if (objByName is not null)
                     {
+                        // If we are in named list and have existing element with same name - we not need to erase those names on depended elements while removing.
+                        var chartNC = list as INameController;
+                        if (chartNC is not null)
+                            chartNC.IsColectionEditing = true;
+
                         try
                         {
                             // Remove found object from the list
@@ -729,6 +747,11 @@ internal abstract class SerializerBase
                         }
                         catch (NotSupportedException)
                         {
+                        }
+                        finally
+                        {
+                            if (chartNC is not null)
+                                chartNC.IsColectionEditing = false;
                         }
 
                         // Return found object
@@ -743,7 +766,7 @@ internal abstract class SerializerBase
 
         ConstructorInfo ci;
         // Get the constructor of the type returned by indexer
-        if (itemType != null)
+        if (itemType is not null)
         {
             ci = itemType.GetConstructor(Type.EmptyTypes);
         }
@@ -752,7 +775,7 @@ internal abstract class SerializerBase
             ci = pi.PropertyType.GetConstructor(Type.EmptyTypes);
         }
 
-        if (ci == null)
+        if (ci is null)
         {
             throw new InvalidOperationException(SR.ExceptionChartSerializerDefaultConstructorUndefined(pi.PropertyType.ToString()));
         }
