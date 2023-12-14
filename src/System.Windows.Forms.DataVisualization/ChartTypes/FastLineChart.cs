@@ -305,7 +305,7 @@ internal class FastLineChart : IChartType
             bool verticalLineDetected = false;
             bool prevPointIsEmpty = false;
             bool currentPointIsEmpty = false;
-            bool firstNonEmptyPoint = false;
+            bool firstNonEmptyPointAfterEmpty = false;
             double xPixelConverter = (graph.Common.ChartPicture.Width - 1.0) / 100.0;
             double yPixelConverter = (graph.Common.ChartPicture.Height - 1.0) / 100.0;
             foreach (DataPoint point in series.Points)
@@ -319,14 +319,14 @@ internal class FastLineChart : IChartType
                 // NOTE: Fixes issue #7094
                 // If current point is non-empty but the previous one was, 
                 // use empty point style properties to draw it.
-                if (prevPointIsEmpty && !currentPointIsEmpty && !firstNonEmptyPoint)
+                if (prevPointIsEmpty && !currentPointIsEmpty && !firstNonEmptyPointAfterEmpty)
                 {
-                    firstNonEmptyPoint = true;
+                    firstNonEmptyPointAfterEmpty = true;
                     currentPointIsEmpty = true;
                 }
                 else
                 {
-                    firstNonEmptyPoint = false;
+                    firstNonEmptyPointAfterEmpty = false;
                 }
 
                 // Check if line is completely out of the data scaleView
@@ -339,6 +339,7 @@ internal class FastLineChart : IChartType
                     xValuePrev = xValue;
                     yValuePrev = yValue;
                     prevPointInAxesCoordinates = true;
+                    prevPointIsEmpty = currentPointIsEmpty;
                     ++index;
                     continue;
                 }
