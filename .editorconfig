@@ -131,7 +131,7 @@ dotnet_diagnostic.CA2215.severity = warning
 dotnet_diagnostic.CA2242.severity = warning
 
 # CA2249: Consider using 'string.Contains' instead of 'string.IndexOf'
-dotnet_diagnostic.CA2249.severity = warning
+dotnet_diagnostic.CA2249.severity = none
 
 # CA1060: Move pinvokes to native methods class
 dotnet_diagnostic.CA1060.severity = suggestion

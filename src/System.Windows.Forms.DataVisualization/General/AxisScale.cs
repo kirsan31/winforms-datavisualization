@@ -162,7 +162,9 @@ public partial class Axis
     /// <summary>
     /// Opposite Axis for this Axis. Necessary for Crossing.
     /// </summary>
+#pragma warning disable CA2213 // Disposable fields should be disposed
     internal Axis oppositeAxis;
+#pragma warning restore CA2213 // Disposable fields should be disposed
 
     // Axis data scaleView
     private AxisScaleView _scaleView;

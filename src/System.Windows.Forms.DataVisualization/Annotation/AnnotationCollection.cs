@@ -39,7 +39,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
         // Annotation object that was last clicked on
+#pragma warning disable CA2213 // Disposable fields should be disposed
         internal Annotation lastClickedAnnotation;
+#pragma warning restore CA2213 // Disposable fields should be disposed
 
         // Start point of annotation moving or resizing
         private PointF _movingResizingStartPoint = PointF.Empty;
