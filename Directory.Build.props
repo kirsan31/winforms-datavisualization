@@ -2,19 +2,18 @@
 <Project>
 	<PropertyGroup>
 		<TargetFrameworkClient>net472</TargetFrameworkClient>
-		<TargetFrameworkServer>net6.0-windows;net7.0-windows</TargetFrameworkServer>
+		<TargetFrameworkServer>net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworkServer>
 		<TFmWinVer>7.0</TFmWinVer>
-		<NugetTFm>net6.0-windows$(TFmWinVer);net7.0-windows$(TFmWinVer)</NugetTFm>
+		<NugetTFm>net6.0-windows$(TFmWinVer);net7.0-windows$(TFmWinVer);net8.0-windows$(TFmWinVer)</NugetTFm>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<MajorVer>1</MajorVer>
-		<MinorPatchVer>9.1</MinorPatchVer>
+		<MinorPatchVer>9.2</MinorPatchVer>
 		<PRVer></PRVer>
 		<NugetReleaseNotes>
-			1.9 regression fixes.
-			Fixed drawing of the beginning of line graphs.
-			Fixed drawing of visible Empty points in line graphs.
+			.NET 8 support.
+			Small bug fixes.
 		</NugetReleaseNotes>
 	</PropertyGroup>
 </Project>
