@@ -4784,7 +4784,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             IBorderType borderTypeInterface = _common.BorderTypeRegistry.GetBorderType(borderSkin.SkinStyle.ToString());
             if (borderTypeInterface != null)
             {
-                borderTypeInterface.Resolution = this.Graphics.DpiX;
+                borderTypeInterface.Resolution = this.Graphics.DpiX * Chart.GraphicsDPIScale;
                 // Draw border
                 borderTypeInterface.DrawBorder(this, borderSkin, absRect, backColor, backHatchStyle, backImage, backImageWrapMode,
                     backImageTransparentColor, backImageAlign, backGradientStyle, backSecondaryColor,

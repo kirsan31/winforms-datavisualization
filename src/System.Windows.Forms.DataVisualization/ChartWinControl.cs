@@ -152,13 +152,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Keywords registry
         private KeywordsRegistry _keywordsRegistry;
 
-        // Horizontal rendering resolution.
-        static internal double renderingDpiX = 96.0;
-
-        // Vertical rendering resolution.
-        static internal double renderingDpiY = 96.0;
-
-
         #endregion
 
         #region Component Designer generated code
@@ -1840,59 +1833,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
+        #endregion
+
+        #region internal properties
         /// <summary>
-        /// Vertical resolution of the chart renderer.
+        /// Initial DPi. Will fill only after first DPI scaling in PerMonitorV2 mode.
         /// </summary>
-        /// <remarks>
-        /// This property is for the internal use only.
-        /// </remarks>
-        [
-        Browsable(false),
-        EditorBrowsable(EditorBrowsableState.Never),
-        SRCategory("CategoryAttributeMisc"),
-        DefaultValue(96.0),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden)
-        ]
-        public double RenderingDpiY
-        {
-            set
-            {
-                Chart.renderingDpiY = value;
-            }
-            get
-            {
-                return Chart.renderingDpiY;
-            }
-        }
+        internal static float InitialDPI { get; private set; }
 
         /// <summary>
-        /// Horizontal resolution of the chart renderer.
+        /// CurrentDPI / InitialDPI for PerMonitorV2 mode. <br/>
+        /// Needed as <see cref="Graphics.DpiX"/> and <see cref="Graphics.DpiY"/> not support PerMonitorV2 and always return initial values.
         /// </summary>
-        /// <remarks>
-        /// This property is for the internal use only.
-        /// </remarks>
-        [
-        Browsable(false),
-        EditorBrowsable(EditorBrowsableState.Never),
-        SRCategory("CategoryAttributeMisc"),
-        DefaultValue(96.0),
-        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-        SerializationVisibilityAttribute(SerializationVisibility.Hidden)
-        ]
-        public double RenderingDpiX
-        {
-            set
-            {
-                Chart.renderingDpiX = value;
-            }
-            get
-            {
-                return Chart.renderingDpiX;
-            }
-        }
-
-
+        internal static float GraphicsDPIScale { get; private set; } = 1;
         #endregion
 
         #region Control public methods
@@ -2116,6 +2069,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             Rectangle leftBorder = new Rectangle(1, 1, 1, Size.Height - 2);
             g.FillRectangle(b, leftBorder);
+        }
+
+        /// <inheritdoc cref="Control.RescaleConstantsForDpi"/>
+        protected override void RescaleConstantsForDpi(int deviceDpiOld, int deviceDpiNew)
+        {
+            if (InitialDPI == 0)
+                InitialDPI = deviceDpiOld;
+
+            GraphicsDPIScale = MathF.Round(deviceDpiNew / InitialDPI, 2);
+            base.RescaleConstantsForDpi(deviceDpiOld, deviceDpiNew);
         }
 
         #endregion

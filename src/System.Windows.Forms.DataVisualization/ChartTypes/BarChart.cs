@@ -687,8 +687,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Marker size is in pixels and we do the mapping for higher DPIs
                 SizeF size = new SizeF
                 {
-                    Width = pixelSize * graph.Graphics.DpiX / 96,
-                    Height = pixelSize * graph.Graphics.DpiY / 96
+                    Width = pixelSize * graph.Graphics.DpiX * Chart.GraphicsDPIScale / 96,
+                    Height = pixelSize * graph.Graphics.DpiY * Chart.GraphicsDPIScale / 96
                 };
                 pixelSize = (int)Math.Max(size.Width, size.Height);
             }

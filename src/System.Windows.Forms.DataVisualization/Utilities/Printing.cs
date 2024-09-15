@@ -235,10 +235,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     if (ev.Graphics.PageUnit != GraphicsUnit.Pixel)
                     {
                         ev.Graphics.PageUnit = GraphicsUnit.Pixel;
-                        marginPixel.X = (int)(marginPixel.X * (ev.Graphics.DpiX / 100.0f));
-                        marginPixel.Y = (int)(marginPixel.Y * (ev.Graphics.DpiY / 100.0f));
-                        marginPixel.Width = (int)(marginPixel.Width * (ev.Graphics.DpiX / 100.0f));
-                        marginPixel.Height = (int)(marginPixel.Height * (ev.Graphics.DpiY / 100.0f));
+                        marginPixel.X = (int)(marginPixel.X * (ev.Graphics.DpiX * Chart.GraphicsDPIScale / 100.0f));
+                        marginPixel.Y = (int)(marginPixel.Y * (ev.Graphics.DpiY * Chart.GraphicsDPIScale / 100.0f));
+                        marginPixel.Width = (int)(marginPixel.Width * (ev.Graphics.DpiX * Chart.GraphicsDPIScale / 100.0f));
+                        marginPixel.Height = (int)(marginPixel.Height * (ev.Graphics.DpiY * Chart.GraphicsDPIScale / 100.0f));
                     }
                     // Calculate chart position rectangle
                     Rectangle chartPosition = new Rectangle(marginPixel.X, marginPixel.Y, _chartImage.Width, _chartImage.Height);

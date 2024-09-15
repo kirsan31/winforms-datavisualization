@@ -1777,7 +1777,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
             IBorderType border3D = Common.BorderTypeRegistry.GetBorderType(BorderSkin.SkinStyle.ToString());
             if (border3D != null)
             {
-                border3D.Resolution = chartGraph.Graphics.DpiX;
+                border3D.Resolution = chartGraph.Graphics.DpiX * Chart.GraphicsDPIScale;
                 // Check if title should be displayed in the border
                 titleInBorder = border3D.GetTitlePositionInBorder() != RectangleF.Empty;
                 _titlePosition = chartGraph.GetRelativeRectangle(border3D.GetTitlePositionInBorder());
