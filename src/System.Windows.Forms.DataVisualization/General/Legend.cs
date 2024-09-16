@@ -5909,7 +5909,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             float dpi = 96;
 
             if (Common != null)
-                dpi = Common.graph.Graphics.DpiX * Chart.GraphicsDPIScale;
+                dpi = Common.graph.Graphics.DpiX * Chart.DPIScale;
 
             int maxBorderWidth = (int)Math.Round(2 * dpi / 96);
 

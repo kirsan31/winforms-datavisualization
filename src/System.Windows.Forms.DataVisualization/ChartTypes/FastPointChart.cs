@@ -305,7 +305,7 @@ internal class FastPointChart : IChartType
             if (graph != null && graph.Graphics != null)
             {
                 // Marker size is in pixels and we do the mapping for higher DPIs
-                markerSize = (int)Math.Max(markerSize * graph.Graphics.DpiX * Chart.GraphicsDPIScale / 96, markerSize * graph.Graphics.DpiY * Chart.GraphicsDPIScale / 96);
+                markerSize = (int)Math.Max(markerSize * graph.Graphics.DpiX * Chart.DPIScale / 96, markerSize * graph.Graphics.DpiY * Chart.DPIScale / 96);
             }
 
             // Loop through all points in the series

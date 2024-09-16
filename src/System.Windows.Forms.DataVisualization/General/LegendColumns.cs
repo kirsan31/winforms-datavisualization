@@ -2068,12 +2068,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             else
             {
-                int maxShadowOffset = (int)Math.Round(3 * chartGraph.Graphics.DpiX * Chart.GraphicsDPIScale / 96);
-                int maxBorderWidth = (int)Math.Round(3 * chartGraph.Graphics.DpiX * Chart.GraphicsDPIScale / 96);
+                int maxShadowOffset = (int)Math.Round(3 * chartGraph.Graphics.DpiX * Chart.DPIScale / 96);
+                int maxBorderWidth = (int)Math.Round(3 * chartGraph.Graphics.DpiX * Chart.DPIScale / 96);
 
                 if (legendItem.ImageStyle == LegendImageStyle.Rectangle)
                 {
-                    int maxBorderWidthRect = (int)Math.Round(2 * chartGraph.Graphics.DpiX * Chart.GraphicsDPIScale / 96);
+                    int maxBorderWidthRect = (int)Math.Round(2 * chartGraph.Graphics.DpiX * Chart.DPIScale / 96);
 
                     // Draw series rectangle
                     chartGraph.FillRectangleRel(

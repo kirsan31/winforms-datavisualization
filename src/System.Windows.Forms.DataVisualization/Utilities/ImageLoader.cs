@@ -284,8 +284,8 @@ internal class ImageLoader : IDisposable, IServiceProvider
         if (graphics is not null)
         {
             //this will work in case the image DPI is specified, otherwise the image DPI will be assumed to be same as the screen DPI
-            size.Width = image.Width * graphics.DpiX * Chart.GraphicsDPIScale / image.HorizontalResolution;
-            size.Height = image.Height * graphics.DpiY * Chart.GraphicsDPIScale / image.VerticalResolution;
+            size.Width = image.Width * graphics.DpiX * Chart.DPIScale / image.HorizontalResolution;
+            size.Height = image.Height * graphics.DpiY * Chart.DPIScale / image.VerticalResolution;
         }
         else
         {
@@ -302,13 +302,13 @@ internal class ImageLoader : IDisposable, IServiceProvider
     /// <returns>true if they match, otherwise false.</returns>
     internal static bool DoDpisMatch(Image image, Graphics graphics)
     {
-        return graphics.DpiX * Chart.GraphicsDPIScale == image.HorizontalResolution && graphics.DpiY * Chart.GraphicsDPIScale == image.VerticalResolution;
+        return graphics.DpiX * Chart.DPIScale == image.HorizontalResolution && graphics.DpiY * Chart.DPIScale == image.VerticalResolution;
     }
 
     internal static Image GetScaledImage(Image image, Graphics graphics)
     {
-        Bitmap scaledImage = new Bitmap(image, new Size((int)(image.Width * graphics.DpiX * Chart.GraphicsDPIScale / image.HorizontalResolution),
-            (int)(image.Height * graphics.DpiY * Chart.GraphicsDPIScale / image.VerticalResolution)));
+        Bitmap scaledImage = new Bitmap(image, new Size((int)(image.Width * graphics.DpiX * Chart.DPIScale / image.HorizontalResolution),
+            (int)(image.Height * graphics.DpiY * Chart.DPIScale / image.VerticalResolution)));
 
         return scaledImage;
     }

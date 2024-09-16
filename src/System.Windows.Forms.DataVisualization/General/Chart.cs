@@ -1777,7 +1777,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
             IBorderType border3D = Common.BorderTypeRegistry.GetBorderType(BorderSkin.SkinStyle.ToString());
             if (border3D != null)
             {
-                border3D.Resolution = chartGraph.Graphics.DpiX * Chart.GraphicsDPIScale;
+                border3D.Resolution = chartGraph.Graphics.DpiX * Chart.DPIScale;
                 // Check if title should be displayed in the border
                 titleInBorder = border3D.GetTitlePositionInBorder() != RectangleF.Empty;
                 _titlePosition = chartGraph.GetRelativeRectangle(border3D.GetTitlePositionInBorder());
@@ -3254,13 +3254,7 @@ internal class FontCache : IDisposable
     /// <returns>Font instance</returns>
     public Font GetFont(string familyName, int size)
     {
-        KeyInfo key = new KeyInfo(familyName, size);
-        if (!this._fontCache.ContainsKey(key))
-        {
-            this._fontCache.Add(key, new Font(familyName, size));
-        }
-
-        return this._fontCache[key];
+        return GetFont(familyName, size, KeyInfo.DefFontStyle);
     }
 
     /// <summary>
@@ -3272,13 +3266,15 @@ internal class FontCache : IDisposable
     /// <returns>Font instance</returns>
     public Font GetFont(string familyName, float size, FontStyle style)
     {
+        size *= Chart.DPIScale;
         KeyInfo key = new KeyInfo(familyName, size, style);
-        if (!this._fontCache.ContainsKey(key))
+        if (!_fontCache.TryGetValue(key, out var font))
         {
-            this._fontCache.Add(key, new Font(familyName, size, style));
+            font = new Font(familyName, size, style);
+            _fontCache.Add(key, font);
         }
 
-        return this._fontCache[key];
+        return font;
     }
 
     /// <summary>
@@ -3290,13 +3286,7 @@ internal class FontCache : IDisposable
     /// <returns>Font instance</returns>
     public Font GetFont(FontFamily family, float size, FontStyle style)
     {
-        KeyInfo key = new KeyInfo(family, size, style);
-        if (!this._fontCache.ContainsKey(key))
-        {
-            this._fontCache.Add(key, new Font(family, size, style));
-        }
-
-        return this._fontCache[key];
+        return GetFont(family, size, style, KeyInfo.DefGraphicsUnit);
     }
 
     /// <summary>
@@ -3309,13 +3299,15 @@ internal class FontCache : IDisposable
     /// <returns>Font instance</returns>
     public Font GetFont(FontFamily family, float size, FontStyle style, GraphicsUnit unit)
     {
+        size *= Chart.DPIScale;
         KeyInfo key = new KeyInfo(family, size, style, unit);
-        if (!this._fontCache.ContainsKey(key))
+        if (!_fontCache.TryGetValue(key, out var font))
         {
-            this._fontCache.Add(key, new Font(family, size, style, unit));
+            font = new Font(family, size, style, unit);
+            _fontCache.Add(key, font);
         }
 
-        return this._fontCache[key];
+        return font;
     }
 
     #endregion Methods
@@ -3345,11 +3337,13 @@ internal class FontCache : IDisposable
     /// </summary>
     private class KeyInfo
     {
+        public const FontStyle DefFontStyle = FontStyle.Regular;
+        public const GraphicsUnit DefGraphicsUnit = GraphicsUnit.Point;
+
         private readonly string _familyName;
-        private readonly float _size = 8;
-        private readonly GraphicsUnit _unit = GraphicsUnit.Point;
-        private readonly FontStyle _style = FontStyle.Regular;
-        private readonly int _gdiCharSet = 1;
+        private readonly float _size;
+        private readonly GraphicsUnit _unit = DefGraphicsUnit;
+        private readonly FontStyle _style = DefFontStyle;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyInfo"/> class.
@@ -3424,8 +3418,7 @@ internal class FontCache : IDisposable
                     x._size == y._size &&
                     x._familyName == y._familyName &&
                     x._unit == y._unit &&
-                    x._style == y._style &&
-                    x._gdiCharSet == y._gdiCharSet;
+                    x._style == y._style;
             }
 
             /// <summary>

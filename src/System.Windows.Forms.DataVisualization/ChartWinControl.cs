@@ -1843,9 +1843,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         /// <summary>
         /// CurrentDPI / InitialDPI for PerMonitorV2 mode. <br/>
-        /// Needed as <see cref="Graphics.DpiX"/> and <see cref="Graphics.DpiY"/> not support PerMonitorV2 and always return initial values.
         /// </summary>
-        internal static float GraphicsDPIScale { get; private set; } = 1;
+        internal static float DPIScale { get; private set; } = 1;
         #endregion
 
         #region Control public methods
@@ -2077,7 +2076,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (InitialDPI == 0)
                 InitialDPI = deviceDpiOld;
 
-            GraphicsDPIScale = MathF.Round(deviceDpiNew / InitialDPI, 2);
+            DPIScale = MathF.Round(deviceDpiNew / InitialDPI, 2);
             base.RescaleConstantsForDpi(deviceDpiOld, deviceDpiNew);
         }
 

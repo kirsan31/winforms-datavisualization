@@ -138,8 +138,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             if (graph != null && graph.Graphics != null)
             {
                 // Marker size is in pixels and we do the mapping for higher DPIs
-                size.Width = markerSize * graph.Graphics.DpiX * Chart.GraphicsDPIScale / 96;
-                size.Height = markerSize * graph.Graphics.DpiY * Chart.GraphicsDPIScale / 96;
+                size.Width = markerSize * graph.Graphics.DpiX * Chart.DPIScale / 96;
+                size.Height = markerSize * graph.Graphics.DpiY * Chart.DPIScale / 96;
             }
 
 			// Check number of Y values for non empty points

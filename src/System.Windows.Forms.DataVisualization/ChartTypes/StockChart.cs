@@ -497,8 +497,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         if (graph != null && graph.Graphics != null)
                         {
                             // Marker size is in pixels and we do the mapping for higher DPIs
-                            markerSize.Width = point.MarkerSize * graph.Graphics.DpiX * Chart.GraphicsDPIScale / 96;
-                            markerSize.Height = point.MarkerSize * graph.Graphics.DpiY * Chart.GraphicsDPIScale / 96;
+                            markerSize.Width = point.MarkerSize * graph.Graphics.DpiX * Chart.DPIScale / 96;
+                            markerSize.Height = point.MarkerSize * graph.Graphics.DpiY * Chart.DPIScale / 96;
                         }
 
                         if (point.MarkerImage.Length > 0)
@@ -957,8 +957,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         if (graph != null && graph.Graphics != null)
                         {
                             // Marker size is in pixels and we do the mapping for higher DPIs
-                            markerSize.Width = point.MarkerSize * graph.Graphics.DpiX * Chart.GraphicsDPIScale / 96;
-                            markerSize.Height = point.MarkerSize * graph.Graphics.DpiY * Chart.GraphicsDPIScale / 96;
+                            markerSize.Width = point.MarkerSize * graph.Graphics.DpiX * Chart.DPIScale / 96;
+                            markerSize.Height = point.MarkerSize * graph.Graphics.DpiY * Chart.DPIScale / 96;
                         }
 
                         if (point.MarkerImage.Length > 0)
@@ -1314,8 +1314,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         if (graph != null && graph.Graphics != null)
                         {
                             // Marker size is in pixels and we do the mapping for higher DPIs
-                            markerSize.Width = point.MarkerSize * graph.Graphics.DpiX * Chart.GraphicsDPIScale / 96;
-                            markerSize.Height = point.MarkerSize * graph.Graphics.DpiY * Chart.GraphicsDPIScale / 96;
+                            markerSize.Width = point.MarkerSize * graph.Graphics.DpiX * Chart.DPIScale / 96;
+                            markerSize.Height = point.MarkerSize * graph.Graphics.DpiY * Chart.DPIScale / 96;
                         }
 
                         if (point.MarkerImage.Length > 0)
@@ -1816,8 +1816,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 if (common != null && common.graph != null && common.graph.Graphics != null)
                 {
                     // Marker size is in pixels and we do the mapping for higher DPIs
-                    markerSize.Width = point.MarkerSize * common.graph.Graphics.DpiX * Chart.GraphicsDPIScale / 96;
-                    markerSize.Height = point.MarkerSize * common.graph.Graphics.DpiY * Chart.GraphicsDPIScale / 96;
+                    markerSize.Width = point.MarkerSize * common.graph.Graphics.DpiX * Chart.DPIScale / 96;
+                    markerSize.Height = point.MarkerSize * common.graph.Graphics.DpiY * Chart.DPIScale / 96;
                 }
 
                 if (point.MarkerImage.Length > 0)
