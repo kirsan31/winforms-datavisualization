@@ -25,7 +25,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	/// <summary>
 	/// Custom properties object type converter.
 	/// </summary>
-	internal class CustomPropertiesTypeConverter : TypeConverter
+	internal sealed class CustomPropertiesTypeConverter : TypeConverter
 	{
 		#region String to/from convertion methods
 
@@ -406,7 +406,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Special convertor for ErrorBarType custom attribute
         /// </summary>
-        internal class ErrorBarTypeConverter : StringConverter
+        internal sealed class ErrorBarTypeConverter : StringConverter
         {
             /// <summary>
             /// Returns whether this object supports a standard set of values that can be picked from a list, using the specified context.
@@ -808,7 +808,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	/// Property descriptor with ability to dynamically change properties 
 	/// of the base property descriptor object.
 	/// </summary>
-	internal class DynamicPropertyDescriptor : PropertyDescriptor
+	internal sealed class DynamicPropertyDescriptor : PropertyDescriptor
 	{
 		#region Fields
 

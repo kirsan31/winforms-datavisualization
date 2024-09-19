@@ -2732,7 +2732,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
     /// <summary>
     /// Internal data structure that stores chart type name and optionally series object.
     /// </summary>
-    internal class ChartTypeAndSeriesInfo
+    internal sealed class ChartTypeAndSeriesInfo
     {
         /// <summary>
         /// Object constructor.

@@ -29,7 +29,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     /// Y values. It makes sure that total Y value of all data points in a
     /// single cluster from all series adds up to 100%.
     /// </summary>
-    internal class HundredPercentStackedBarChart : StackedBarChart
+    internal sealed class HundredPercentStackedBarChart : StackedBarChart
     {
         #region Constructor
 

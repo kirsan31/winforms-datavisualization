@@ -1313,7 +1313,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// Designer converter class
     /// Converts Double.NaN values to/from "Not set".
     /// </summary>
-    internal class DoubleNanValueConverter : DoubleConverter
+    internal sealed class DoubleNanValueConverter : DoubleConverter
     {
         #region Converter methods
 
@@ -1400,7 +1400,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// Converts Double.NaN values to/from "Not set".
     /// Converts value to/from date strings.
     /// </summary>
-    internal class DoubleDateNanValueConverter : DoubleConverter
+    internal sealed class DoubleDateNanValueConverter : DoubleConverter
     {
         #region Converter methods
 

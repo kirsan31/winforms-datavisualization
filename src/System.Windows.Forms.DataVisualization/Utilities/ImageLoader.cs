@@ -31,7 +31,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities;
 /// allows to improve performance if image need to be used 
 /// several times.
 /// </summary>
-internal class ImageLoader : IDisposable, IServiceProvider
+internal sealed class ImageLoader : IDisposable, IServiceProvider
 {
     #region Fields
 

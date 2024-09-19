@@ -18,7 +18,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 	/// This class is used to calculate oscillator 
 	///	indicators used in Technical Analyses.
 	/// </summary>
-	internal class Oscillators : PriceIndicators
+	internal sealed class Oscillators : PriceIndicators
 	{
 		#region Properties
 

@@ -12,7 +12,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 {
     using System.Drawing;
 
-    internal class ChartAccessibleObject : Control.ControlAccessibleObject
+    internal sealed class ChartAccessibleObject : Control.ControlAccessibleObject
     {
         #region Fields
 
@@ -546,7 +546,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     /// <summary>
     /// Chart legend element accessible object
     /// </summary>
-    internal class ChartChildLegendAccessibleObject : ChartChildAccessibleObject
+    internal sealed class ChartChildLegendAccessibleObject : ChartChildAccessibleObject
     {
         #region Fields
 
@@ -619,7 +619,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     /// <summary>
     /// Chart area element accessible object
     /// </summary>
-    internal class ChartChildChartAreaAccessibleObject : ChartChildAccessibleObject
+    internal sealed class ChartChildChartAreaAccessibleObject : ChartChildAccessibleObject
     {
         #region Fields
 
@@ -748,7 +748,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
     /// <summary>
     /// Chart series element accessible object
     /// </summary>
-    internal class ChartChildSeriesAccessibleObject : ChartChildAccessibleObject
+    internal sealed class ChartChildSeriesAccessibleObject : ChartChildAccessibleObject
     {
         #region Fields
 

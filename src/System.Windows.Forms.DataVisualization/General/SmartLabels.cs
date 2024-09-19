@@ -1492,7 +1492,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeAnnotationSmartLabels_AnnotationSmartLabels"),
     ]
-    internal class AnnotationSmartLabel : SmartLabel
+    internal sealed class AnnotationSmartLabel : SmartLabel
     {
         #region Constructors and initialization
 

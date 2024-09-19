@@ -19,7 +19,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     /// SplineAreaChart class extends the AreaChart class by 
     /// providing a different initial tension for the line.
     /// </summary>
-    internal class SplineAreaChart : AreaChart
+    internal sealed class SplineAreaChart : AreaChart
     {
         #region Constructor
 

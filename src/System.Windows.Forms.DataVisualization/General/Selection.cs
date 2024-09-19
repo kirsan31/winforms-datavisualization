@@ -921,7 +921,7 @@ public class ChartElementOutline : IDisposable
 /// <summary>
 /// This class contains methods used for Windows Forms selection.
 /// </summary>
-internal class Selection : IServiceProvider
+internal sealed class Selection : IServiceProvider
 , IDisposable
 {
     #region Fields

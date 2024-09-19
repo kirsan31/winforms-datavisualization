@@ -1820,7 +1820,7 @@ public partial class ChartArea
     /// <summary>
     /// Used to compare points in array and sort them by drawing order.
     /// </summary>
-    internal class PointsDrawingOrderComparer : IComparer
+    internal sealed class PointsDrawingOrderComparer : IComparer
     {
         /// <summary>
         /// Chart area object reference.

@@ -34,7 +34,7 @@ namespace System.Windows.Forms.DataVisualization.Charting;
 /// ChartImage class adds image type and data binding functionality to
 /// the base ChartPicture class.
 /// </summary>
-internal class ChartImage : ChartPicture
+internal sealed class ChartImage : ChartPicture
 {
     #region Fields
 

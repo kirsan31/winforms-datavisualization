@@ -16,7 +16,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <summary>
 	/// Converts anchor data point to string name.
 	/// </summary>
-	internal class AnchorPointValueConverter : TypeConverter
+	internal sealed class AnchorPointValueConverter : TypeConverter
 	{
 		#region Converter methods
 
@@ -57,7 +57,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	/// <summary>
 	/// Converts anchor data point to string name.
 	/// </summary>
-    internal class AnnotationAxisValueConverter : TypeConverter
+    internal sealed class AnnotationAxisValueConverter : TypeConverter
 	{
 		#region Converter methods
 

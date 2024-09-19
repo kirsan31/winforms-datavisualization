@@ -97,7 +97,7 @@ internal class DataPointCustomPropertiesConverter : TypeConverter
 /// <summary>
 /// DataPoint Converter - helps windows form serializer to create inline datapoints.
 /// </summary>
-internal class DataPointConverter : DataPointCustomPropertiesConverter
+internal sealed class DataPointConverter : DataPointCustomPropertiesConverter
 {
 
     /// <summary>

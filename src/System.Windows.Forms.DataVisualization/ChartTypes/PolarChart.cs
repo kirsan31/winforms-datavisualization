@@ -38,7 +38,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     /// PolarChart class uses its base class RadarChart to perform most of the 
     /// drawing and calculation operations.
     /// </summary>
-    internal class PolarChart : RadarChart
+    internal sealed class PolarChart : RadarChart
 	{
 		#region Constructors
 

@@ -360,7 +360,7 @@ public static class CustomPropertyName
 /// ‘registeredCustomProperties’ field which is an List 
 /// containing CustomPropertyInfo classes.
 /// </summary>
-internal class CustomPropertyRegistry : IServiceProvider
+internal sealed class CustomPropertyRegistry : IServiceProvider
 {
     #region Fields
 
@@ -1875,7 +1875,7 @@ internal class CustomPropertyRegistry : IServiceProvider
 /// in 2D or 3D mode and some can be applied to the whole 
 /// series or data points only.
 /// </summary>
-internal class CustomPropertyInfo
+internal sealed class CustomPropertyInfo
 {
     #region Public Fields
 

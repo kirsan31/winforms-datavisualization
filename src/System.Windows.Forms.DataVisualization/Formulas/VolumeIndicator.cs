@@ -17,7 +17,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 	/// This class is used for calculations of 
 	/// technical analyses volume indicators.
 	/// </summary>
-	internal class VolumeIndicators : PriceIndicators
+	internal sealed class VolumeIndicators : PriceIndicators
 	{
 		#region Properties
 

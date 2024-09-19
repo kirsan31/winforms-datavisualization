@@ -62,7 +62,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     /// PointAndFigureChart class contains all the code necessary for calculation
     /// and drawing Point and Figure chart.
     /// </summary>
-    internal class PointAndFigureChart : RangeColumnChart
+    internal sealed class PointAndFigureChart : RangeColumnChart
 	{
 		#region Fields
 

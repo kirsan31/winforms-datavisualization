@@ -4,7 +4,7 @@
 
 
 //
-//  Purpose:	DoughnutChart class provide only the behaviour 
+//  Purpose:	DoughnutChart class provide only the behavior 
 //              information for the Doughnut chart, all the drawing 
 //              routines are located in the PieChart base class.
 //
@@ -16,11 +16,11 @@ using System.Drawing;
 namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 {
 	/// <summary>
-    /// DoughnutChart class provide only the behaviour information for the 
+    /// DoughnutChart class provide only the behavior information for the 
     /// Doughnut chart, all the drawing routines are located in the PieChart 
     /// base class.
 	/// </summary>
-	internal class DoughnutChart : PieChart
+	internal sealed class DoughnutChart : PieChart
 	{
 		#region IChartType interface implementation
 

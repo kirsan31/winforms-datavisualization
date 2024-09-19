@@ -16,7 +16,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <summary>
     /// Element position converter.
     /// </summary>
-    internal class ElementPositionConverter : ExpandableObjectConverter
+    internal sealed class ElementPositionConverter : ExpandableObjectConverter
 	{
 		#region Converter methods
 

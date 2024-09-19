@@ -1726,7 +1726,7 @@ internal class PointChart : IChartType
     /// <summary>
     /// 3D LabelStyle info.
     /// </summary>
-    internal class Label3DInfo
+    internal sealed class Label3DInfo
     {
         internal DataPoint3D PointEx;
         internal PointF MarkerPosition = PointF.Empty;

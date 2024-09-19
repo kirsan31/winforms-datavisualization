@@ -62,7 +62,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 	/// <summary>
 	/// Implements frame border.
 	/// </summary>
-	internal class FrameTitle2Border : FrameThin2Border
+	internal sealed class FrameTitle2Border : FrameThin2Border
 	{
 		#region Border properties and methods
 
@@ -109,7 +109,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 	/// <summary>
 	/// Implements frame border.
 	/// </summary>
-	internal class FrameTitle3Border : FrameThin3Border
+	internal sealed class FrameTitle3Border : FrameThin3Border
 	{
 		#region Border properties and methods
 
@@ -155,7 +155,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 	/// <summary>
 	/// Implements frame border.
 	/// </summary>
-	internal class FrameTitle4Border : FrameThin4Border
+	internal sealed class FrameTitle4Border : FrameThin4Border
 	{
 		#region Border properties and methods
 
@@ -202,7 +202,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 	/// <summary>
 	/// Implements frame border.
 	/// </summary>
-	internal class FrameTitle5Border : FrameThin5Border
+	internal sealed class FrameTitle5Border : FrameThin5Border
 	{
 		#region Border properties and methods
 
@@ -250,7 +250,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 	/// <summary>
 	/// Implements frame border.
 	/// </summary>
-	internal class FrameTitle6Border : FrameThin6Border
+	internal sealed class FrameTitle6Border : FrameThin6Border
 	{
 		#region Border properties and methods
 
@@ -296,7 +296,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 	/// <summary>
 	/// Implements frame border.
 	/// </summary>
-	internal class FrameTitle7Border : FrameTitle1Border
+	internal sealed class FrameTitle7Border : FrameTitle1Border
 	{
 		#region Border properties and methods
 
@@ -335,7 +335,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 	/// <summary>
 	/// Implements frame border.
 	/// </summary>
-	internal class FrameTitle8Border : FrameTitle1Border
+	internal sealed class FrameTitle8Border : FrameTitle1Border
 	{
 		#region Border properties and methods
 

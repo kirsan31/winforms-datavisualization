@@ -57,7 +57,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     /// CandleStick class provides chart unique name and changes the marking 
     /// style in the StockChart class to StockOpenCloseMarkStyle.CandleStick.
     /// </summary>
-    internal class CandleStickChart : StockChart
+    internal sealed class CandleStickChart : StockChart
     {
         #region Constructor
 

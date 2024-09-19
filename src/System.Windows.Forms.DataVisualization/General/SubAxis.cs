@@ -357,7 +357,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 #region Type converter
 
-		internal class SubAxisConverter : TypeConverter
+		internal sealed class SubAxisConverter : TypeConverter
 		{
 			/// <summary>
 			/// This method overrides CanConvertTo from TypeConverter. This is called when someone

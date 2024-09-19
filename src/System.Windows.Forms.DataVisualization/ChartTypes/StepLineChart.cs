@@ -18,7 +18,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 {
     /// <summary>
     /// StepLine class extends its base class LineChart by changing how two 
-    /// neighbouring data points are connected with a line. Step Line chart 
+    /// neighboring data points are connected with a line. Step Line chart 
     /// uses two line segments (horizontal and vertical) to connect data 
     /// points. Markers and labels drawing code is inherited from the Line chart.
     /// </summary>

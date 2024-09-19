@@ -1395,14 +1395,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Data point filter. 
         /// Filters points using element type and index
         /// </summary>
-        private class PointElementFilter : IDataPointFilter
+        private sealed class PointElementFilter : IDataPointFilter
         {
             // Private fields
             private DataManipulator _dataManipulator;
             private DateRangeType _dateRange;
             private int[] _rangeElements;
 
-            // Default constructor is not accesiable
+            // Default constructor is not accessible
             private PointElementFilter()
             {
             }
@@ -1440,7 +1440,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Data point filter. 
         /// Filters points using point values
         /// </summary>
-        private class PointValueFilter : IDataPointFilter
+        private sealed class PointValueFilter : IDataPointFilter
         {
             // Private fields
             private CompareMethod _compareMethod;
@@ -2172,7 +2172,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Class stores information about the grouping function type and
         /// index of output value.
         /// </summary>
-        private class GroupingFunctionInfo
+        private sealed class GroupingFunctionInfo
         {
             // AxisName of the grouping function
             internal GroupingFunction function = GroupingFunction.None;

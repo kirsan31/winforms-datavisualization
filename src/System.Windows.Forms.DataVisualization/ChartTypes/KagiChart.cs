@@ -48,7 +48,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     /// KagiChart class provides 2D and 3D drawing and hit testing of
     /// the Kagi chart.
     /// </summary>
-    internal class KagiChart : StepLineChart
+    internal sealed class KagiChart : StepLineChart
 	{
 		#region Fields
 

@@ -17,7 +17,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <summary>
     /// Chart area name converter. Displays list of available areas names
     /// </summary>
-    internal class LegendAreaNameConverter : StringConverter
+    internal sealed class LegendAreaNameConverter : StringConverter
 	{
 		#region Converter methods
 
@@ -162,7 +162,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	/// <summary>
 	/// Legend converter
 	/// </summary>
-    internal class LegendConverter : NoNameExpandableObjectConverter
+    internal sealed class LegendConverter : NoNameExpandableObjectConverter
 	{
 	}
 
@@ -170,7 +170,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	/// Designer converter class
 	/// Converts Size.Emty to \ from "Auto".
 	/// </summary>
-    internal class SizeEmptyValueConverter : Drawing.SizeConverter
+    internal sealed class SizeEmptyValueConverter : Drawing.SizeConverter
 	{
 	#region Converter methods
 
@@ -255,7 +255,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	/// <summary>
 	/// Data point properties converter
 	/// </summary>
-    internal class MarginExpandableObjectConverter : ExpandableObjectConverter
+    internal sealed class MarginExpandableObjectConverter : ExpandableObjectConverter
 	{
 	#region Converter methods
 
@@ -371,7 +371,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	/// Designer converter class
 	/// Converts Integer value -1 to/from "Auto".
 	/// </summary>
-    internal class IntNanValueConverter : Int32Converter
+    internal sealed class IntNanValueConverter : Int32Converter
 	{
 	#region Converter methods
 

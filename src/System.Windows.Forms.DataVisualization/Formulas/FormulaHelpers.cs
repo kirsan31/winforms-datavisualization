@@ -458,7 +458,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// MovingAverage FormulaInfo
     /// </summary>
-    internal class MovingAverageFormulaInfo : FormulaInfo
+    internal sealed class MovingAverageFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -486,7 +486,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// ExponentialMoving AverageFormulaInfo
     /// </summary>
-    internal class ExponentialMovingAverageFormulaInfo : FormulaInfo
+    internal sealed class ExponentialMovingAverageFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -514,7 +514,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// WeightedMovingAverageFormulaInfo
     /// </summary>
-    internal class WeightedMovingAverageFormulaInfo : FormulaInfo
+    internal sealed class WeightedMovingAverageFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -542,7 +542,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// TriangularMovingAverage FormulaInfo
     /// </summary>
-    internal class TriangularMovingAverageFormulaInfo : FormulaInfo
+    internal sealed class TriangularMovingAverageFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -570,7 +570,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// TripleExponentialMovingAverage FormulaInfo
     /// </summary>
-    internal class TripleExponentialMovingAverageFormulaInfo : FormulaInfo
+    internal sealed class TripleExponentialMovingAverageFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -597,7 +597,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// BollingerBands FormulaInfo
     /// </summary>
-    internal class BollingerBandsFormulaInfo : FormulaInfo
+    internal sealed class BollingerBandsFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -626,7 +626,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// TypicalPrice FormulaInfo
     /// </summary>
-    internal class TypicalPriceFormulaInfo : FormulaInfo
+    internal sealed class TypicalPriceFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -643,7 +643,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// WeightedClose FormulaInfo
     /// </summary>
-    internal class WeightedCloseFormulaInfo : FormulaInfo
+    internal sealed class WeightedCloseFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -660,7 +660,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// MedianPrice FormulaInfo
     /// </summary>
-    internal class MedianPriceFormulaInfo : FormulaInfo
+    internal sealed class MedianPriceFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -677,7 +677,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// Envelopes FormulaInfo
     /// </summary>
-    internal class EnvelopesFormulaInfo : FormulaInfo
+    internal sealed class EnvelopesFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -706,7 +706,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// StandardDeviation FormulaInfo
     /// </summary>
-    internal class StandardDeviationFormulaInfo : FormulaInfo
+    internal sealed class StandardDeviationFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -734,7 +734,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// ChaikinOscillatorFormulaInfo
     /// </summary>
-    internal class ChaikinOscillatorFormulaInfo : FormulaInfo
+    internal sealed class ChaikinOscillatorFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -763,7 +763,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// DetrendedPriceOscillator FormulaInfo
     /// </summary>
-    internal class DetrendedPriceOscillatorFormulaInfo : FormulaInfo
+    internal sealed class DetrendedPriceOscillatorFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -791,7 +791,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// VolatilityChaikins FormulaInfo
     /// </summary>
-    internal class VolatilityChaikinsFormulaInfo : FormulaInfo
+    internal sealed class VolatilityChaikinsFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -819,7 +819,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// VolumeOscillator FormulaInfo
     /// </summary>
-    internal class VolumeOscillatorFormulaInfo : FormulaInfo
+    internal sealed class VolumeOscillatorFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -848,7 +848,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// StochasticIndicatorFormulaInfo
     /// </summary>
-    internal class StochasticIndicatorFormulaInfo : FormulaInfo
+    internal sealed class StochasticIndicatorFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -876,7 +876,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// WilliamsRFormulaInfo
     /// </summary>
-    internal class WilliamsRFormulaInfo : FormulaInfo
+    internal sealed class WilliamsRFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -903,7 +903,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// AverageTrueRange FormulaInfo
     /// </summary>
-    internal class AverageTrueRangeFormulaInfo : FormulaInfo
+    internal sealed class AverageTrueRangeFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -930,7 +930,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// EaseOfMovement FormulaInfo
     /// </summary>
-    internal class EaseOfMovementFormulaInfo : FormulaInfo
+    internal sealed class EaseOfMovementFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -947,7 +947,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// MassIndex FormulaInfo
     /// </summary>
-    internal class MassIndexFormulaInfo : FormulaInfo
+    internal sealed class MassIndexFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -975,7 +975,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// Performance FormulaInfo
     /// </summary>
-    internal class PerformanceFormulaInfo : FormulaInfo
+    internal sealed class PerformanceFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -992,7 +992,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// RateOfChange FormulaInfo
     /// </summary>
-    internal class RateOfChangeFormulaInfo : FormulaInfo
+    internal sealed class RateOfChangeFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -1019,7 +1019,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// RelativeStrengthIndex FormulaInfo
     /// </summary>
-    internal class RelativeStrengthIndexFormulaInfo : FormulaInfo
+    internal sealed class RelativeStrengthIndexFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -1046,7 +1046,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// MovingAverageConvergenceDivergence FormulaInfo
     /// </summary>
-    internal class MovingAverageConvergenceDivergenceFormulaInfo : FormulaInfo
+    internal sealed class MovingAverageConvergenceDivergenceFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -1074,7 +1074,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// CommodityChannelIndex FormulaInfo
     /// </summary>
-    internal class CommodityChannelIndexFormulaInfo : FormulaInfo
+    internal sealed class CommodityChannelIndexFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -1101,7 +1101,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// Forecasting FormulaInfo
     /// </summary>
-    internal class ForecastingFormulaInfo : FormulaInfo
+    internal sealed class ForecastingFormulaInfo : FormulaInfo
     {
         //Fields
         private string _parameters;
@@ -1186,7 +1186,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// MoneyFlow FormulaInfo
     /// </summary>
-    internal class MoneyFlowFormulaInfo : FormulaInfo
+    internal sealed class MoneyFlowFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -1213,7 +1213,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// PriceVolumeTrend FormulaInfo
     /// </summary>
-    internal class PriceVolumeTrendFormulaInfo : FormulaInfo
+    internal sealed class PriceVolumeTrendFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -1230,7 +1230,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// OnBalanceVolume FormulaInfo
     /// </summary>
-    internal class OnBalanceVolumeFormulaInfo : FormulaInfo
+    internal sealed class OnBalanceVolumeFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -1247,7 +1247,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// NegativeVolumeIndex FormulaInfo
     /// </summary>
-    internal class NegativeVolumeIndexFormulaInfo : FormulaInfo
+    internal sealed class NegativeVolumeIndexFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -1274,7 +1274,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// PositiveVolumeIndex FormulaInfo
     /// </summary>
-    internal class PositiveVolumeIndexFormulaInfo : FormulaInfo
+    internal sealed class PositiveVolumeIndexFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -1301,7 +1301,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// AccumulationDistribution FormulaInfo
     /// </summary>
-    internal class AccumulationDistributionFormulaInfo : FormulaInfo
+    internal sealed class AccumulationDistributionFormulaInfo : FormulaInfo
     {
         //Constructor
         /// <summary>
@@ -1352,7 +1352,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// SeriesFieldInfo class is a OO representation formula input/output data params ("Series1:Y2")
     /// </summary>
-    internal class SeriesFieldInfo
+    internal sealed class SeriesFieldInfo
     {
         #region Fields
 
@@ -1427,7 +1427,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// SeriesFieldInfo class is a OO representation formula input/output data params ("Series1:Y2,Series2.Y4")
     /// </summary>
-    internal class SeriesFieldList : List<SeriesFieldInfo>
+    internal sealed class SeriesFieldList : List<SeriesFieldInfo>
     {
         /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

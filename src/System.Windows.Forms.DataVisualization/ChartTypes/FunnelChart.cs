@@ -2795,7 +2795,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 	/// PyramidChart class overrides some of the functionality of FunnelChart class.
     /// Most of drawing and othere processing is done in the FunnelChart.
 	/// </summary>
-	internal class PyramidChart : FunnelChart
+	internal sealed class PyramidChart : FunnelChart
 	{
 		#region Fields and Constructor
 
@@ -2913,7 +2913,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 	/// <summary>
 	/// Helper data structure used to store information about single funnel segment.
 	/// </summary>
-	internal class FunnelSegmentInfo
+	internal sealed class FunnelSegmentInfo
 	{
 		#region Fields
 
@@ -2947,7 +2947,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 	/// <summary>
 	/// Helper data structure used to store information about funnel data point label.
 	/// </summary>
-	internal class FunnelPointLabelInfo
+	internal sealed class FunnelPointLabelInfo
 	{
 		#region Fields
 

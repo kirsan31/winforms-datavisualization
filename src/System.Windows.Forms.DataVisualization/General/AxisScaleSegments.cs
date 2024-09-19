@@ -17,7 +17,7 @@ namespace System.Windows.Forms.DataVisualization.Charting;
 [
 SRDescription("DescriptionAttributeAxisScaleSegment_AxisScaleSegment"),
 ]
-internal class AxisScaleSegment
+internal sealed class AxisScaleSegment
 {
     #region Fields
 
@@ -704,7 +704,7 @@ internal class AxisScaleSegment
 [
 SRDescription("DescriptionAttributeAxisScaleSegmentCollection_AxisScaleSegmentCollection"),
 ]
-internal class AxisScaleSegmentCollection : CollectionBase
+internal sealed class AxisScaleSegmentCollection : CollectionBase
 {
     #region Fields
 

@@ -52,7 +52,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     /// to override few default settings, so that 2 Y values 
     /// will be used to define left and right position of each bar.
     /// </summary>
-    internal class RangeBarChart : BarChart
+    internal sealed class RangeBarChart : BarChart
     {
         #region Constructor
 
@@ -2148,7 +2148,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     /// BarPointsDrawingOrderComparer class is used sort data 
     /// points of the Bar chart type.
     /// </summary>
-    internal class BarPointsDrawingOrderComparer : IComparer
+    internal sealed class BarPointsDrawingOrderComparer : IComparer
     {
         #region Fields
 

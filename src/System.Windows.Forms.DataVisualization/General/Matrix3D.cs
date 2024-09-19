@@ -27,7 +27,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// TransformPoints will apply 3D Transformation on points using 
     /// Initialization values: Main matrix and other initialization values.
     /// </summary>
-    internal class Matrix3D
+    internal sealed class Matrix3D
 	{
 		#region Enumerations
 

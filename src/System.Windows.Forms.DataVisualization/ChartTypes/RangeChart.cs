@@ -24,7 +24,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     /// SplineRangeChart class extends the RangeChart class by 
     /// providing a different initial tension for the lines.
     /// </summary>
-    internal class SplineRangeChart : RangeChart
+    internal sealed class SplineRangeChart : RangeChart
 	{
 		#region Constructor
 

@@ -62,7 +62,7 @@ using System.Windows.Forms.DataVisualization.Charting.Utilities;
 namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 {
     /// <summary>
-    /// RenkoChart class provides methods to perform all nessesary 
+    /// RenkoChart class provides methods to perform all necessary 
     /// calculations to display Renko chart with the help of the 
     /// temporary RangeColumn series. This series is created in the 
     /// PrepareData method and then removed in the UnPrepareData method.

@@ -22,7 +22,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     /// BubbleChart class extends PointChart class to add support for
     /// additional Y value which controls the size of the markers used.
     /// </summary>
-    internal class BubbleChart : PointChart
+    internal sealed class BubbleChart : PointChart
 	{
 		#region Fields and Constructor
 

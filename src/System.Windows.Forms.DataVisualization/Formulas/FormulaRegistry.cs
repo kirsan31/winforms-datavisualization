@@ -14,7 +14,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// <summary>
     /// Keep track of all registered formula modules types.
     /// </summary>
-    internal class FormulaRegistry : IServiceProvider
+    internal sealed class FormulaRegistry : IServiceProvider
     {
         #region Fields
 

@@ -17,7 +17,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// chart area chart like radar or polar. It contains axis angular
     /// position, size and title properties.
     /// </summary>
-    internal class CircularChartAreaAxis
+    internal sealed class CircularChartAreaAxis
     {
         #region Fields
 

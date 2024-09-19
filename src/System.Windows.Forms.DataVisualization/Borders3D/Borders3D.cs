@@ -499,7 +499,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
     /// <summary>
     /// Keep track of all registered 3D borders.
     /// </summary>
-    internal class BorderTypeRegistry : IServiceProvider
+    internal sealed class BorderTypeRegistry : IServiceProvider
 	{
 		#region Fields
 

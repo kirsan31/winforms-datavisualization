@@ -6031,7 +6031,7 @@ public class DataPointCustomProperties : ChartNamedElement
 /// <summary>
 /// Class stores additional information about the data point in 3D space.
 /// </summary>
-internal class DataPoint3D
+internal sealed class DataPoint3D
 {
     #region Fields
 

@@ -17,7 +17,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <summary>
 	/// Converter object of axes array
 	/// </summary>
-    internal class AxesArrayConverter : TypeConverter
+    internal sealed class AxesArrayConverter : TypeConverter
 	{
 		#region Converter methods
 

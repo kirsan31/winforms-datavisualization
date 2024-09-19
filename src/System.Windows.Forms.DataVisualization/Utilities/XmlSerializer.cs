@@ -1093,7 +1093,7 @@ internal abstract class SerializerBase
     /// <summary>
     /// Stores information about content item (class or property)
     /// </summary>
-    private class ItemInfo
+    private sealed class ItemInfo
     {
         public string name = string.Empty;
         public bool any;

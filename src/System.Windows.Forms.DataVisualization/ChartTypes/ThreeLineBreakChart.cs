@@ -65,7 +65,7 @@ using System.Windows.Forms.DataVisualization.Charting.Utilities;
 namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 
 /// <summary>
-/// ThreeLineBreakChart class provides methods to perform all nessesary 
+/// ThreeLineBreakChart class provides methods to perform all necessary 
 /// calculations to display ThreeLineBreak chart with the help of the 
 /// temporary RangeColumn series. This series is created in the 
 /// PrepareData method and then removed in the UnPrepareData method.

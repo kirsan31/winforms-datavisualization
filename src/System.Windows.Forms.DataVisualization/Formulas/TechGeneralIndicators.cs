@@ -15,7 +15,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// This class is used for calculations of general 
     /// technical analyses indicators.
     /// </summary>
-    internal class GeneralTechnicalIndicators : PriceIndicators
+    internal sealed class GeneralTechnicalIndicators : PriceIndicators
     {
         #region Properties
 

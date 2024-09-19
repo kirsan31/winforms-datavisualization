@@ -304,7 +304,7 @@ public enum TextAntiAliasingQuality
 /// <summary>
 /// Common chart helper methods used across different chart elements.
 /// </summary>
-internal class ChartHelper
+internal sealed class ChartHelper
 {
     #region Fields
 

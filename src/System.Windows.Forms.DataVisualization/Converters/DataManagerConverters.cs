@@ -21,7 +21,7 @@ namespace System.Windows.Forms.DataVisualization.Charting;
 /// <summary>
 /// Chart area name converter. Displays list of available areas names
 /// </summary>
-internal class SeriesAreaNameConverter : StringConverter
+internal sealed class SeriesAreaNameConverter : StringConverter
 {
     #region Converter methods
 
@@ -73,7 +73,7 @@ internal class SeriesAreaNameConverter : StringConverter
 /// <summary>
 /// Chart data source design-time converter. Displays list of available data sources.
 /// </summary>
-internal class ChartDataSourceConverter : StringConverter
+internal sealed class ChartDataSourceConverter : StringConverter
 {
     #region Converter methods
 
@@ -132,7 +132,7 @@ internal class ChartDataSourceConverter : StringConverter
 /// <summary>
 /// Series data source members converter.
 /// </summary>
-internal class SeriesDataSourceMemberConverter : StringConverter
+internal sealed class SeriesDataSourceMemberConverter : StringConverter
 {
     #region Converter methods
 
@@ -201,7 +201,7 @@ internal class SeriesDataSourceMemberConverter : StringConverter
 /// <summary>
 /// Chart legend name converter. Displays list of available legend names
 /// </summary>
-internal class SeriesLegendNameConverter : StringConverter
+internal sealed class SeriesLegendNameConverter : StringConverter
 {
     #region Converter methods
 
@@ -253,7 +253,7 @@ internal class SeriesLegendNameConverter : StringConverter
 /// <summary>
 /// Chart type converter. Displays list of available chart type names
 /// </summary>
-internal class ChartTypeConverter : StringConverter
+internal sealed class ChartTypeConverter : StringConverter
 {
     #region Converter methods
 
@@ -321,7 +321,7 @@ internal class ChartTypeConverter : StringConverter
 /// <summary>
 /// Data series name converter. Displays list of available series names
 /// </summary>
-internal class SeriesNameConverter : StringConverter
+internal sealed class SeriesNameConverter : StringConverter
 {
     #region Converter methods
 
@@ -420,7 +420,7 @@ internal class NoNameExpandableObjectConverter : ExpandableObjectConverter
 /// <summary>
 /// Converter for the array of doubles
 /// </summary>
-internal class DoubleArrayConverter : ArrayConverter
+internal sealed class DoubleArrayConverter : ArrayConverter
 {
     #region Converter methods
 
@@ -560,7 +560,7 @@ internal class DoubleArrayConverter : ArrayConverter
 /// <summary>
 /// Converts data point values to and from date string format
 /// </summary>
-internal class DataPointValueConverter : DoubleConverter
+internal sealed class DataPointValueConverter : DoubleConverter
 {
     #region Converter methods
 
@@ -620,7 +620,7 @@ internal class DataPointValueConverter : DoubleConverter
 /// <summary>
 /// Removes the String type for Y axes
 /// </summary>
-internal class SeriesYValueTypeConverter : EnumConverter
+internal sealed class SeriesYValueTypeConverter : EnumConverter
 {
     #region Converter methods
 
@@ -663,7 +663,7 @@ internal class SeriesYValueTypeConverter : EnumConverter
 /// <summary>
 /// Data point properties converter
 /// </summary>
-internal class ColorArrayConverter : TypeConverter
+internal sealed class ColorArrayConverter : TypeConverter
 {
     #region Converter methods
 

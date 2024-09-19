@@ -18,7 +18,7 @@ namespace System.Windows.Forms.DataVisualization.Charting;
 /// <summary>
 /// Converts labels, grid and ticks start position to support dates format
 /// </summary>
-internal class AxisLabelDateValueConverter : DoubleConverter
+internal sealed class AxisLabelDateValueConverter : DoubleConverter
 {
     #region Converter methods
 
@@ -195,7 +195,7 @@ internal class AxisLabelDateValueConverter : DoubleConverter
 /// Converts crossing property of the axis. 
 /// Possible values: double, date, "Auto", "Min", "Max"
 /// </summary>
-internal class AxisCrossingValueConverter : AxisMinMaxValueConverter
+internal sealed class AxisCrossingValueConverter : AxisMinMaxValueConverter
 {
     #region Converter methods
 
@@ -411,7 +411,7 @@ internal class AxisMinMaxValueConverter : DoubleConverter
 /// Converts maximum and minimum property of the axis. 
 /// Possible values: double, date, "Auto",
 /// </summary>
-internal class AxisMinMaxAutoValueConverter : AxisMinMaxValueConverter
+internal sealed class AxisMinMaxAutoValueConverter : AxisMinMaxValueConverter
 {
     #region Converter methods
 
@@ -497,7 +497,7 @@ internal class AxisMinMaxAutoValueConverter : AxisMinMaxValueConverter
 /// Converts title angle property of the strip line
 /// Possible values: 0, 90, 180, 270
 /// </summary>
-internal class StripLineTitleAngleConverter : Int32Converter
+internal sealed class StripLineTitleAngleConverter : Int32Converter
 {
     #region Converter methods
 
@@ -650,7 +650,7 @@ internal class AxisIntervalValueConverter : DoubleConverter
 /// <summary>
 /// Converts Interval and IntervalOffset properties of the label style, tick marks and grids
 /// </summary>
-internal class AxisElementIntervalValueConverter : AxisIntervalValueConverter
+internal sealed class AxisElementIntervalValueConverter : AxisIntervalValueConverter
 {
     /// <summary>
     /// Show the NotSet option for interval

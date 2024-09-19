@@ -207,7 +207,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             Series seriesToDraw)
         {
 
-            // Prosess 3D chart type
+            // Process 3D chart type
             if (area.Area3DStyle.Enable3D)
             {
                 ProcessChartType3D(selection, graph, common, area, seriesToDraw);

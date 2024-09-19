@@ -308,7 +308,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// <summary>
     /// NameReferenceChanged events help chart maintain referential integrity.
     /// </summary>
-    internal class NameReferenceChangedEventArgs : EventArgs
+    internal sealed class NameReferenceChangedEventArgs : EventArgs
     {
         #region Member variables
 

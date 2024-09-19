@@ -13,7 +13,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     /// This class calculates Running total and average.
     /// Could be used for Pareto chart
     /// </summary>
-    internal class GeneralFormulas : PriceIndicators
+    internal sealed class GeneralFormulas : PriceIndicators
     {
         #region Properties
 

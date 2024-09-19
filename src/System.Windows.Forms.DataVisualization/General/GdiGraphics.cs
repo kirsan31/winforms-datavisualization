@@ -23,7 +23,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// GdiGraphics class is chart GDI+ rendering engine.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Gdi")]
-    internal class GdiGraphics : IChartRenderingEngine
+    internal sealed class GdiGraphics : IChartRenderingEngine
 	{
 		#region Constructors
 

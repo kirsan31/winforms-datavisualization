@@ -4769,7 +4769,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// LabelColumn class is used for labels manipulation - outside label style
 		/// </summary>
-		internal class LabelColumn
+		internal sealed class LabelColumn
 		{
 			// Fields of Label Column class
 			private RectangleF _chartAreaPosition;

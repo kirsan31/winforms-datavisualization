@@ -27,7 +27,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// DataManager, ChartTypeRegistry, ImageLoader and others. It is passed 
     /// to different chart elements to simplify access to those common classes.
     /// </summary>
-    internal class CommonElements
+    internal sealed class CommonElements
 	{
 		#region Fields
 
