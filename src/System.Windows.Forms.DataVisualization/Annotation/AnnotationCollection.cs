@@ -28,7 +28,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
         SRDescription("DescriptionAttributeAnnotations3"),
     ]
-    public class AnnotationCollection : ChartNamedElementCollection<Annotation>, IDisposable
+    public class AnnotationCollection : ChartNamedElementCollection<Annotation>
     {
         #region Fields
 
@@ -51,7 +51,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         // Annotation object which is currently placed on the chart
         internal Annotation placingAnnotation;
-        private bool _disposedValue;
 
         #endregion
 
@@ -783,40 +782,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
         }
-        #endregion
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposedValue)
-                return;
-            
-            if (disposing)
-            {
-                // Dispose managed resources
-                foreach (var element in this)
-                {
-                    element.Dispose();
-                }
-            }
-            
-            _disposedValue = true;
-        }
-
-        /// <summary>
-        /// Performs freeing, releasing, or resetting managed resources.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
         #endregion
     }
 }

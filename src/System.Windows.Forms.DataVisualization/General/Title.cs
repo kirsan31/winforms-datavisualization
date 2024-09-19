@@ -138,7 +138,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	[
 	SRDescription("DescriptionAttributeTitle5"),
 	]
-	public class Title : ChartNamedElement, IDisposable
+	public class Title : ChartNamedElement
     {
 		#region Fields
 
@@ -178,8 +178,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private ChartDashStyle			_borderDashStyle = ChartDashStyle.Solid;
 
 		// Font properties
-        private FontCache               _fontCache = new FontCache();
-		private Font					_font;
+		internal Font					_font;
 		private Color					_foreColor = Color.Black;
 
 		// Docking and Alignment properties
@@ -250,7 +249,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			// Initialize fields
             this._position = new ElementPosition(this);
-            this._font = _fontCache.DefaultFont;
+            this._font = FontCache.DefaultFont;
 			this._text = text;
 			this._docking = docking;
 			this._foreColor = color;
@@ -1749,38 +1748,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		#endregion
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_fontCache != null)
-                {
-                    _fontCache.Dispose();
-                    _fontCache = null;
-                }
-                
-                _position = null;
-            }
-        }
-
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources.
-		/// </summary>
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-
-
-		#endregion
 	}
 
 	/// <summary>
@@ -1791,10 +1758,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	[
 		SRDescription("DescriptionAttributeTitles"),
 	]
-    public class TitleCollection : ChartNamedElementCollection<Title>, IDisposable
+    public class TitleCollection : ChartNamedElementCollection<Title>
 	{
-		private bool _disposedValue;
-
 		#region Constructors
 
 		/// <summary>
@@ -2009,40 +1974,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (title.DockedToChartArea == e.OldName)
                     title.DockedToChartArea = e.NewName;
         }
-		#endregion
-
-		#region IDisposable Members
-
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources
-		/// </summary>
-		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-		protected virtual void Dispose(bool disposing)
-		{
-			if (_disposedValue)
-				return;
-
-			if (disposing)
-			{
-				// Dispose managed resources
-				foreach (var element in this)
-				{
-					element.Dispose();
-				}
-			}
-
-			_disposedValue = true;
-		}
-
-		/// <summary>
-		/// Performs freeing, releasing, or resetting managed resources.
-		/// </summary>
-		public void Dispose()
-		{
-			this.Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-
 		#endregion
 	}
 }

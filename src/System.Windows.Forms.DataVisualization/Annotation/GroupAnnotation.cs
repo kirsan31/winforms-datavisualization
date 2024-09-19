@@ -898,25 +898,5 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		#endregion	// Methods
-
-        #region IDisposable override
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                //Clean up managed resources
-                if (this.annotations != null)
-                {
-                    this.annotations.Dispose();
-                    this.annotations = null;
-                }
-            }
-            base.Dispose(disposing);
-        }
-        #endregion
     }
 }

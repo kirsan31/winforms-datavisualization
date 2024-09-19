@@ -63,10 +63,8 @@ public enum PointSortOrder
 [
     SRDescription("DescriptionAttributeSeriesCollection_SeriesCollection"),
 ]
-public class SeriesCollection : ChartNamedElementCollection<Series>, IDisposable
+public class SeriesCollection : ChartNamedElementCollection<Series>
 {
-    private bool _disposedValue;
-
     #region Constructors
 
     /// <summary>
@@ -143,40 +141,6 @@ public class SeriesCollection : ChartNamedElementCollection<Series>, IDisposable
         }
     }
     #endregion
-
-    #region IDisposable Members
-
-    /// <summary>
-    /// Releases unmanaged and - optionally - managed resources
-    /// </summary>
-    /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-    protected virtual void Dispose(bool disposing)
-    {
-        if (_disposedValue)
-            return;
-
-        if (disposing)
-        {
-            // Dispose managed resources
-            foreach (var element in this)
-            {
-                element.Dispose();
-            }
-        }
-
-        _disposedValue = true;
-    }
-
-    /// <summary>
-    /// Performs freeing, releasing, or resetting managed resources.
-    /// </summary>
-    public void Dispose()
-    {
-        this.Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    #endregion
 }
 
 /// <summary>
@@ -186,7 +150,7 @@ public class SeriesCollection : ChartNamedElementCollection<Series>, IDisposable
 SRDescription("DescriptionAttributeSeries_Series"),
 DefaultProperty("Points"),
 ]
-public class Series : DataPointCustomProperties, IDisposable
+public class Series : DataPointCustomProperties
 {
     #region Fields
 
@@ -258,7 +222,6 @@ public class Series : DataPointCustomProperties, IDisposable
     // with short life time - during painting.
     // this collection keep a copy of design time datapoints.
     internal DataPointCollection fakeDataPoints;
-    private bool _disposedValue;
 
 
     #endregion
@@ -2373,13 +2336,6 @@ public class Series : DataPointCustomProperties, IDisposable
         }
     }
 
-
-    /// <summary>
-    /// Series font cache is reused by points.
-    /// </summary>
-    /// <value>The font cache.</value>
-    internal FontCache FontCache { get; private set; } = new FontCache();
-
     #endregion
 
     #region Invalidating method
@@ -2436,36 +2392,4 @@ public class Series : DataPointCustomProperties, IDisposable
     }
 
     #endregion // Series Enumeration
-
-    #region IDisposable Members
-
-    /// <summary>
-    /// Releases unmanaged and - optionally - managed resources.
-    /// </summary>
-    /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-    protected virtual void Dispose(bool disposing)
-    {
-        if (_disposedValue)
-            return;
-
-        if (disposing)
-            FontCache?.Dispose();
-
-        FontCache = null;
-        Points = null;
-        fakeDataPoints = null;
-        _emptyPointCustomProperties = null;
-        _disposedValue = true;
-    }
-
-    /// <summary>
-    /// Releases unmanaged and - optionally - managed resources.
-    /// </summary>
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    #endregion
 }

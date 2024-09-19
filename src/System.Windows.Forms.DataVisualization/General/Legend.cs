@@ -177,7 +177,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     SRDescription("DescriptionAttributeLegend_Legend"),
     DefaultProperty("Enabled"),
     ]
-    public class Legend : ChartNamedElement, IDisposable
+    public class Legend : ChartNamedElement
     {
         #region Fields
 
@@ -203,9 +203,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private Color _backColor = Color.Empty;
         private int _borderWidth = 1;
         private ChartDashStyle _borderDashStyle = ChartDashStyle.Solid;
-        private FontCache _fontCache = new FontCache();
 #pragma warning disable CA2213 // Disposable fields should be disposed
-        private Font _font;
+        internal Font _font;
 #pragma warning restore CA2213 // Disposable fields should be disposed
         private Color _foreColor = Color.Black;
         private StringAlignment _legendAlignment = StringAlignment.Near;
@@ -269,7 +268,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private Color _titleBackColor = Color.Empty;
 
         // Legend title font
-        private Font _titleFont;
+        internal Font _titleFont;
 
         // Legend title alignment
         private StringAlignment _titleAlignment = StringAlignment.Center;
@@ -357,8 +356,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _customLegends = new LegendItemsCollection(this);
             legendItems = new LegendItemsCollection(this);
             _cellColumns = new LegendCellColumnCollection(this);
-            _font = _fontCache.DefaultFont;
-            _titleFont = _fontCache.DefaultBoldFont;
+            _font = FontCache.DefaultFont;
+            _titleFont = FontCache.DefaultBoldFont;
         }
 
         /// <summary>
@@ -372,8 +371,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             _customLegends = new LegendItemsCollection(this);
             legendItems = new LegendItemsCollection(this);
             _cellColumns = new LegendCellColumnCollection(this);
-            _font = _fontCache.DefaultFont;
-            _titleFont = _fontCache.DefaultBoldFont;
+            _font = FontCache.DefaultFont;
+            _titleFont = FontCache.DefaultBoldFont;
         }
 
         #endregion Constructors
@@ -2695,25 +2694,35 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 return _isTextAutoFit;
             }
+
             set
-            {
-                _isTextAutoFit = value;
-
-                if (_isTextAutoFit)
+            {                
+                if (value != _isTextAutoFit)
                 {
-                    // Reset the font size to "8"
-                    // Use current font family name ans style if possible.
-                    if (_font != null)
+                    _isTextAutoFit = value;
+                    if (_isTextAutoFit)
                     {
-                        _font = _fontCache.GetFont(_font.FontFamily, 8, _font.Style); ;
+                        if (_font is not null)
+                        {
+                            // Reset the font size to "8"
+                            if (_font.Size != 8 * Chart.DPIScale)
+                            {
+                                var defFont = FontCache.DefaultFont;
+                                // Use current font family name and style if possible.
+                                if (_font.Name != defFont.Name || _font.Style != defFont.Style)
+                                    _font = Common?.ChartPicture?.FontCache.GetFont(_font, 8 * Chart.DPIScale) ?? _font.WithSize(8 * Chart.DPIScale);
+                                else
+                                    _font = defFont;
+                            }
+                        }
+                        else
+                        {
+                            _font = FontCache.DefaultFont;
+                        }
                     }
-                    else
-                    {
-                        _font = _fontCache.DefaultFont;
-                    }
-                }
 
-                this.Invalidate(false);
+                    this.Invalidate(false);
+                }
             }
         }
 
@@ -3276,10 +3285,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 return _font;
             }
+
             set
             {
                 this.IsTextAutoFit = false;
-
                 _font = value;
                 this.Invalidate(false);
             }
@@ -4579,62 +4588,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         #endregion
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    if (_fontCache != null)
-                    {
-                        _fontCache.Dispose();
-                        _fontCache = null;
-                    }
-
-                    if (legendItems != null)
-                    {
-                        legendItems.Dispose();
-                        legendItems = null;
-                    }
-
-                    if (_cellColumns != null)
-                    {
-                        _cellColumns.Dispose();
-                        _cellColumns = null;
-                    }
-
-                    if (_customLegends != null)
-                    {
-                        _customLegends.Dispose();
-                        _customLegends = null;
-                    }
-
-                    _position = null;
-                    _font = null;
-                    autofitFont = null;
-                }
-
-                _disposedValue = true;
-            }
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
     }
 
     /// <summary>
@@ -4643,10 +4596,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
         SRDescription("DescriptionAttributeLegendCollection_LegendCollection"),
     ]
-    public class LegendCollection : ChartNamedElementCollection<Legend>, IDisposable
+    public class LegendCollection : ChartNamedElementCollection<Legend>
     {
-        private bool _disposedValue;
-
         #region Constructors
 
         /// <summary>
@@ -4864,40 +4815,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         #endregion
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposedValue)
-                return;
-
-            if (disposing)
-            {
-                // Dispose managed resources
-                foreach (var element in this)
-                {
-                    element.Dispose();
-                }
-            }
-
-            _disposedValue = true;
-        }
-
-        /// <summary>
-        /// Performs freeing, releasing, or resetting managed resources.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
     }
 
     /// <summary>
@@ -4906,10 +4823,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
         SRDescription("DescriptionAttributeCustomLabelsCollection_CustomLabelsCollection"),
     ]
-    public class LegendItemsCollection : ChartElementCollection<LegendItem>, IDisposable
+    public class LegendItemsCollection : ChartElementCollection<LegendItem>
     {
-        private bool _disposedValue;
-
         #region Constructors
 
         /// <summary>
@@ -4991,40 +4906,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         #endregion
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposedValue)
-                return;
-
-            if (disposing)
-            {
-                // Dispose managed resources
-                foreach (var element in this)
-                {
-                    element.Dispose();
-                }
-            }
-
-            _disposedValue = true;
-        }
-
-        /// <summary>
-        /// Performs freeing, releasing, or resetting managed resources.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
     }
 
     /// <summary>
@@ -5036,7 +4917,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     SRDescription("DescriptionAttributeLegendItem_LegendItem"),
     DefaultProperty("Name")
     ]
-    public class LegendItem : ChartNamedElement, IDisposable
+    public class LegendItem : ChartNamedElement
     {
         #region Fields
 
@@ -5948,35 +5829,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Invalidate control
             Legend?.Invalidate(invalidateLegendOnly);
-        }
-
-        #endregion
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_cells != null)
-                {
-                    _cells.Dispose();
-                    _cells = null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         #endregion

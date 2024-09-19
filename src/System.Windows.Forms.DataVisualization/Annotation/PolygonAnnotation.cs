@@ -22,7 +22,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         SRDescription("DescriptionAttributePolylineAnnotation_PolylineAnnotation"),
     ]
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Polyline")]
-    public class PolylineAnnotation : Annotation
+    public class PolylineAnnotation : Annotation, IDisposable
     {
         #region Fields
 
@@ -47,6 +47,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private LineAnchorCapStyle _startCap = LineAnchorCapStyle.None;
 
         private LineAnchorCapStyle _endCap = LineAnchorCapStyle.None;
+        private bool disposedValue;
 
         #endregion Fields
 
@@ -1056,25 +1057,43 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region IDisposable override
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!disposedValue)
             {
-                if (_defaultGraphicsPath != null)
+                if (disposing)
                 {
-                    _defaultGraphicsPath.Dispose();
-                    _defaultGraphicsPath = null;
+                    if (disposing)
+                    {
+                        if (_defaultGraphicsPath is not null)
+                        {
+                            _defaultGraphicsPath.Dispose();
+                            _defaultGraphicsPath = null;
+                        }
+
+                        if (_pathPoints is not null)
+                        {
+                            _pathPoints.Dispose();
+                            _pathPoints = null;
+                        }
+                    }
                 }
-                if (_pathPoints != null)
-                {
-                    _pathPoints.Dispose();
-                    _pathPoints = null;
-                }
+
+                disposedValue = true;
             }
-            base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion IDisposable override

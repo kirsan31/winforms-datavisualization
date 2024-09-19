@@ -1206,16 +1206,13 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
     /// </summary>
 
     // Chart Graphic object
-    internal ChartGraphics ChartGraph { get; set; }
+    internal ChartGraphics ChartGraph { get; }
 
     private Color _backSecondaryColor = Color.Empty;
     private int _borderWidth = 1;
     private int _width = 300;
     private int _height = 300;
-    internal HotRegionsList hotRegionsList;
-
-    // Chart annotation collection
-    private AnnotationCollection _annotations;
+    internal readonly HotRegionsList hotRegionsList;
 
     // Annotation smart labels class
     internal AnnotationSmartLabel annotationSmartLabel = new AnnotationSmartLabel();
@@ -1288,7 +1285,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
         Titles = new TitleCollection(this);
 
         // Create a collection of annotations
-        _annotations = new AnnotationCollection(this);
+        Annotations = new AnnotationCollection(this);
 
         // Set Common elements for data manipulator
         DataManipulator.Common = Common;
@@ -2017,7 +2014,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
     SRDescription("DescriptionAttributeChartAreas"),
     Editor("ChartCollectionEditor", typeof(UITypeEditor))
     ]
-    public ChartAreaCollection ChartAreas { get; private set; }
+    public ChartAreaCollection ChartAreas { get; }
 
     /// <summary>
     /// Chart legend collection.
@@ -2027,7 +2024,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
     SRDescription("DescriptionAttributeLegends"),
     Editor("LegendCellCollectionEditor", typeof(UITypeEditor))
     ]
-    public LegendCollection Legends { get; private set; }
+    public LegendCollection Legends { get; }
 
     /// <summary>
     /// Chart title collection.
@@ -2037,7 +2034,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
     SRDescription("DescriptionAttributeTitles"),
     Editor("ChartCollectionEditor", typeof(UITypeEditor))
     ]
-    public TitleCollection Titles { get; private set; }
+    public TitleCollection Titles { get; }
 
     /// <summary>
     /// Chart annotation collection.
@@ -2047,7 +2044,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
     SRDescription("DescriptionAttributeAnnotations3"),
     Editor("AnnotationCollectionEditor", (typeof(UITypeEditor)))
     ]
-    public AnnotationCollection Annotations => _annotations;
+    public AnnotationCollection Annotations { get; }
 
     /// <summary>
     /// Background color for the Chart
@@ -2296,7 +2293,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
     /// Gets the font cache.
     /// </summary>
     /// <value>The font cache.</value>
-    internal FontCache FontCache { get; private set; } = new FontCache();
+    internal FontCache FontCache { get; } = new();
 
     #endregion Chart picture properties
 
@@ -2956,55 +2953,16 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
         {
             if (disposing)
             {
-                if (ChartGraph != null)
-                {
-                    ChartGraph.Dispose();
-                    ChartGraph = null;
-                }
-
-                if (Legends != null)
-                {
-                    Legends.Dispose();
-                    Legends = null;
-                }
-
-                if (Titles != null)
-                {
-                    Titles.Dispose();
-                    Titles = null;
-                }
-
-                if (ChartAreas != null)
-                {
-                    ChartAreas.Dispose();
-                    ChartAreas = null;
-                }
-
-                if (_annotations != null)
-                {
-                    _annotations.Dispose();
-                    _annotations = null;
-                }
-
-                if (hotRegionsList != null)
-                {
-                    hotRegionsList.Dispose();
-                    hotRegionsList = null;
-                }
-
-                if (FontCache != null)
-                {
-                    FontCache.Dispose();
-                    FontCache = null;
-                }
-
-                if (nonTopLevelChartBuffer != null)
+                ChartGraph.Dispose();
+                ChartAreas.Dispose();
+                hotRegionsList.Dispose();
+                if (nonTopLevelChartBuffer is not null)
                 {
                     nonTopLevelChartBuffer.Dispose();
                     nonTopLevelChartBuffer = null;
                 }
 
-                BorderSkin = null;
+                FontCache.Dispose();
             }
 
             _disposedValue = true;
@@ -3185,7 +3143,7 @@ public class FormatNumberEventArgs : EventArgs
 /// <summary>
 /// Font cache class helps ChartElements to reuse the Font instances
 /// </summary>
-internal class FontCache : IDisposable
+internal sealed class FontCache : IDisposable
 {
     #region Static
 
@@ -3200,7 +3158,7 @@ internal class FontCache : IDisposable
     {
         get
         {
-            if (_defaultFamilyName == null)
+            if (_defaultFamilyName is null)
             {
                 // Find the "Microsoft Sans Serif" font
                 foreach (FontFamily fontFamily in FontFamily.Families)
@@ -3219,74 +3177,48 @@ internal class FontCache : IDisposable
         }
     }
 
+    /// <summary>
+    /// Gets the default font.
+    /// </summary>
+    /// <value>The default font.</value>
+    public static Font DefaultFont => s_globalfontCache.GetFont(DefaultFamilyName, 8 * Chart.DPIScale);
+
+    /// <summary>
+    /// Gets the default bold font.
+    /// </summary>
+    /// <value>The default bold font.</value>
+    public static Font DefaultBoldFont => s_globalfontCache.GetFont(DefaultFamilyName, 8 * Chart.DPIScale, FontStyle.Bold);
+
+    /// <summary>
+    /// Try get the default bold font.
+    /// </summary>
+    /// <value> The default bold font or <see langword="null" /> if not created yet.</value>
+    public static Font TryGetDefaultBoldFont() => s_globalfontCache.TryGetFont(DefaultFamilyName, 8 * Chart.DPIScale, FontStyle.Bold);
+
     #endregion Static
 
     #region Fields
 
     // Cached fonts dictionary
-    private readonly Dictionary<KeyInfo, Font> _fontCache = new Dictionary<KeyInfo, Font>(new KeyInfo.EqualityComparer());
+    private readonly Dictionary<(string Name, FontStyle Style, GraphicsUnit Unit, float Size), Font> _fontCache = new();
+    // Global font cash for default fonts.
+    private static readonly FontCache s_globalfontCache = new();
 
     #endregion Fields
-
-    #region Properties
-
-    /// <summary>
-    /// Gets the default font.
-    /// </summary>
-    /// <value>The default font.</value>
-    public Font DefaultFont => this.GetFont(DefaultFamilyName, 8);
-
-    /// <summary>
-    /// Gets the default font.
-    /// </summary>
-    /// <value>The default font.</value>
-    public Font DefaultBoldFont => this.GetFont(DefaultFamilyName, 8, FontStyle.Bold);
-
-    #endregion Properties
 
     #region Methods
 
     /// <summary>
     /// Gets the font.
     /// </summary>
-    /// <param name="familyName">Name of the family.</param>
+    /// <param name="font">The template font.</param>
     /// <param name="size">The size.</param>
-    /// <returns>Font instance</returns>
-    public Font GetFont(string familyName, int size)
+    /// <returns>
+    /// Font instance
+    /// </returns>
+    public Font GetFont(Font font, float size)
     {
-        return GetFont(familyName, size, KeyInfo.DefFontStyle);
-    }
-
-    /// <summary>
-    /// Gets the font.
-    /// </summary>
-    /// <param name="familyName">Name of the family.</param>
-    /// <param name="size">The size.</param>
-    /// <param name="style">The style.</param>
-    /// <returns>Font instance</returns>
-    public Font GetFont(string familyName, float size, FontStyle style)
-    {
-        size *= Chart.DPIScale;
-        KeyInfo key = new KeyInfo(familyName, size, style);
-        if (!_fontCache.TryGetValue(key, out var font))
-        {
-            font = new Font(familyName, size, style);
-            _fontCache.Add(key, font);
-        }
-
-        return font;
-    }
-
-    /// <summary>
-    /// Gets the font.
-    /// </summary>
-    /// <param name="family">The family.</param>
-    /// <param name="size">The size.</param>
-    /// <param name="style">The style.</param>
-    /// <returns>Font instance</returns>
-    public Font GetFont(FontFamily family, float size, FontStyle style)
-    {
-        return GetFont(family, size, style, KeyInfo.DefGraphicsUnit);
+        return GetFont(font.FontFamily.Name, size, font.Style, font.Unit);
     }
 
     /// <summary>
@@ -3297,16 +3229,46 @@ internal class FontCache : IDisposable
     /// <param name="style">The style.</param>
     /// <param name="unit">The unit.</param>
     /// <returns>Font instance</returns>
-    public Font GetFont(FontFamily family, float size, FontStyle style, GraphicsUnit unit)
+    public Font GetFont(FontFamily family, float size, FontStyle style = FontStyle.Regular, GraphicsUnit unit = GraphicsUnit.Point)
     {
-        size *= Chart.DPIScale;
-        KeyInfo key = new KeyInfo(family, size, style, unit);
+        return GetFont(family.Name, size, style, unit);
+    }
+
+    /// <summary>
+    /// Gets the font.
+    /// </summary>
+    /// <param name="familyName">Name of the family.</param>
+    /// <param name="size">The size.</param>
+    /// <param name="style">The style.</param>
+    /// <param name="unit">The unit.</param>
+    /// <returns>
+    /// Font instance
+    /// </returns>
+    public Font GetFont(string familyName, float size, FontStyle style = FontStyle.Regular, GraphicsUnit unit = GraphicsUnit.Point)
+    {
+        var key = (familyName, style, unit, size);
         if (!_fontCache.TryGetValue(key, out var font))
         {
-            font = new Font(family, size, style, unit);
+            font = new Font(familyName, size, style, unit);
             _fontCache.Add(key, font);
         }
 
+        return font;
+    }
+
+    /// <summary>
+    /// Try get the font.
+    /// </summary>
+    /// <param name="familyName">Name of the family.</param>
+    /// <param name="size">The size.</param>
+    /// <param name="style">The style.</param>
+    /// <param name="unit">The unit.</param>
+    /// <returns>
+    /// Font instance or <see langword="null" />.
+    /// </returns>
+    private Font TryGetFont(string familyName, float size, FontStyle style = FontStyle.Regular, GraphicsUnit unit = GraphicsUnit.Point)
+    {
+        _fontCache.TryGetValue((familyName, style, unit, size), out var font);
         return font;
     }
 
@@ -3325,118 +3287,9 @@ internal class FontCache : IDisposable
         }
 
         _fontCache.Clear();
-        GC.SuppressFinalize(this);
     }
 
     #endregion IDisposable Members
-
-    #region FontKeyInfo struct
-
-    /// <summary>
-    /// Font key info
-    /// </summary>
-    private class KeyInfo
-    {
-        public const FontStyle DefFontStyle = FontStyle.Regular;
-        public const GraphicsUnit DefGraphicsUnit = GraphicsUnit.Point;
-
-        private readonly string _familyName;
-        private readonly float _size;
-        private readonly GraphicsUnit _unit = DefGraphicsUnit;
-        private readonly FontStyle _style = DefFontStyle;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyInfo"/> class.
-        /// </summary>
-        /// <param name="familyName">Name of the family.</param>
-        /// <param name="size">The size.</param>
-        public KeyInfo(string familyName, float size)
-        {
-            this._familyName = familyName;
-            this._size = size;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyInfo"/> class.
-        /// </summary>
-        /// <param name="familyName">Name of the family.</param>
-        /// <param name="size">The size.</param>
-        /// <param name="style">The style.</param>
-        public KeyInfo(string familyName, float size, FontStyle style)
-        {
-            this._familyName = familyName;
-            this._size = size;
-            this._style = style;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyInfo"/> class.
-        /// </summary>
-        /// <param name="family">The family.</param>
-        /// <param name="size">The size.</param>
-        /// <param name="style">The style.</param>
-        public KeyInfo(FontFamily family, float size, FontStyle style)
-        {
-            this._familyName = family.ToString();
-            this._size = size;
-            this._style = style;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyInfo"/> class.
-        /// </summary>
-        /// <param name="family">The family.</param>
-        /// <param name="size">The size.</param>
-        /// <param name="style">The style.</param>
-        /// <param name="unit">The unit.</param>
-        public KeyInfo(FontFamily family, float size, FontStyle style, GraphicsUnit unit)
-        {
-            this._familyName = family.ToString();
-            this._size = size;
-            this._style = style;
-            this._unit = unit;
-        }
-
-        #region IEquatable<FontKeyInfo> Members
-
-        /// <summary>
-        /// KeyInfo equality comparer
-        /// </summary>
-        internal class EqualityComparer : IEqualityComparer<KeyInfo>
-        {
-            /// <summary>
-            /// Determines whether the specified objects are equal.
-            /// </summary>
-            /// <param name="x">The first object of type <paramref name="x"/> to compare.</param>
-            /// <param name="y">The second object of type <paramref name="y"/> to compare.</param>
-            /// <returns>
-            /// true if the specified objects are equal; otherwise, false.
-            /// </returns>
-            public bool Equals(KeyInfo x, KeyInfo y)
-            {
-                return
-                    x._size == y._size &&
-                    x._familyName == y._familyName &&
-                    x._unit == y._unit &&
-                    x._style == y._style;
-            }
-
-            /// <summary>
-            /// Returns a hash code for the specified object.
-            /// </summary>
-            /// <param name="obj">The <see cref="T:System.Object"/> for which a hash code is to be returned.</param>
-            /// <returns>A hash code for the specified object.</returns>
-            /// <exception cref="T:System.ArgumentNullException">The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.</exception>
-            public int GetHashCode(KeyInfo obj)
-            {
-                return obj._familyName.GetHashCode() ^ obj._size.GetHashCode();
-            }
-        }
-
-        #endregion IEquatable<FontKeyInfo> Members
-    }
-
-    #endregion FontKeyInfo struct
 }
 
 #endregion FontCache

@@ -43,8 +43,7 @@ public partial class Axis : ChartNamedElement, IDisposable
     // This field synchronizes Store and Reset temporary values
     private bool _storeValuesEnabled = true;
 
-    private FontCache _fontCache = new FontCache();
-    private Font _titleFont;
+    internal Font _titleFont;
     private Color _titleForeColor = Color.Black;
     private StringAlignment _titleAlignment = StringAlignment.Center;
     private string _title = string.Empty;
@@ -235,7 +234,7 @@ public partial class Axis : ChartNamedElement, IDisposable
         };
         this.StripLines ??= new StripLinesCollection(this);
 
-        _titleFont ??= _fontCache.DefaultFont;
+        _titleFont ??= FontCache.DefaultFont;
 #if SUBAXES
 		if(this.subAxes == null)
 		{
@@ -5900,24 +5899,13 @@ public partial class Axis : ChartNamedElement, IDisposable
         {
             if (disposing)
             {
-                if (_fontCache != null)
-                {
-                    _fontCache.Dispose();
-                    _fontCache = null;
-                }
-
-                if (StripLines != null)
-                {
-                    StripLines.Dispose();
-                    StripLines = null;
-                }
-
                 if (this.scrollBar != null)
                 {
                     this.scrollBar.Dispose();
                     this.scrollBar = null;
                 }
 
+                StripLines = null;
                 CustomLabels = null;
                 tempLabels = null;
                 labelStyle = null;

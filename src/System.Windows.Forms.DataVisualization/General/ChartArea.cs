@@ -2266,7 +2266,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
             // Set max auto fit font
             this.AxisX.autoLabelFont = Common.ChartPicture.FontCache.GetFont(
                 this.AxisX.LabelStyle.Font.FontFamily,
-                14,
+                14 * Chart.DPIScale,
                 this.AxisX.LabelStyle.Font.Style,
                 GraphicsUnit.Point);
 

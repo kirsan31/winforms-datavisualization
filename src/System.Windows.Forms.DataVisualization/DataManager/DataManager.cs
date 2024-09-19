@@ -21,7 +21,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Data;
 /// <summary>
 /// Data Manager.
 /// </summary>
-internal sealed class DataManager : ChartElement, IServiceProvider, IDisposable
+internal sealed class DataManager : ChartElement, IServiceProvider
 {
     #region Fields
     // Series collection
@@ -1102,17 +1102,5 @@ internal sealed class DataManager : ChartElement, IServiceProvider, IDisposable
 
 
 
-    #endregion
-
-    #region IDisposable Members
-
-    public void Dispose()
-    {
-        if (Series != null)
-        {
-            Series.Dispose();
-            Series = null;
-        }
-    }
     #endregion
 }

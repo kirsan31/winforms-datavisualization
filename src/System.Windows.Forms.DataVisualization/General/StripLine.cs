@@ -39,10 +39,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRDescription("DescriptionAttributeStripLinesCollection_StripLinesCollection"),
 
 	]
-    public class StripLinesCollection : ChartElementCollection<StripLine>, IDisposable
+    public class StripLinesCollection : ChartElementCollection<StripLine>
     {
-		private bool _disposedValue;
-
 		#region Constructor
 		/// <summary>
 		/// Legend item collection object constructor
@@ -52,40 +50,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             : base(axis)
         {
         }
-		#endregion
-
-		#region IDisposable Members
-
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources
-		/// </summary>
-		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-		protected virtual void Dispose(bool disposing)
-		{
-			if (_disposedValue)
-				return;
-
-			if (disposing)
-			{
-				// Dispose managed resources
-				foreach (var element in this)
-				{
-					element.Dispose();
-				}
-			}
-
-			_disposedValue = true;
-		}
-
-		/// <summary>
-		/// Performs freeing, releasing, or resetting managed resources.
-		/// </summary>
-		public void Dispose()
-		{
-			this.Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-
 		#endregion
 	}
 
@@ -100,7 +64,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRDescription("DescriptionAttributeStripLine_StripLine"),
 		DefaultProperty("IntervalOffset"),
 	]
-	public class StripLine : ChartElement, IDisposable
+	public class StripLine : ChartElement
     {
 
 		#region Fields
@@ -128,8 +92,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		// Strip/Line title properties
 		private	string					_text = "";
 		private Color					_foreColor = Color.Black;
-        private FontCache               _fontCache = new FontCache();
-		private Font					_font;
+		internal Font					_font;
         private StringAlignment			_textAlignment = StringAlignment.Far;
 		private StringAlignment			_textLineAlignment = StringAlignment.Near;
 
@@ -166,7 +129,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		public StripLine() 
             : base()
 		{
-            _font = _fontCache.DefaultFont;
+            _font = FontCache.DefaultFont;
 		}
 
         #endregion
@@ -1378,35 +1341,5 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		#endregion 
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_fontCache != null)
-                {
-                    _fontCache.Dispose();
-                    _fontCache = null;
-                }
-            }
-        }
-
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources.
-		/// </summary>
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-
-
-		#endregion
 	}
 }

@@ -74,7 +74,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeLegendCellColumn_LegendCellColumn"),
     ]
-    public class LegendCellColumn : ChartNamedElement, IDisposable
+    public class LegendCellColumn : ChartNamedElement
     {
         #region Fields
 
@@ -90,16 +90,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Legend column back color
         private Color _backColor = Color.Empty;
 
-        // Font cache
-        private FontCache _fontCache = new FontCache();
-
         // Legend column text font
-        private Font _font;
+        internal Font _font;
 
         // Legend column series symbol size
         private Size _seriesSymbolSize = new Size(200, 70);
 
-        // Legend column content allignment
+        // Legend column content alignment
         private ContentAlignment _alignment = ContentAlignment.MiddleCenter;
 
         // Legend column tooltip
@@ -111,7 +108,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Legend column header text
         private string _headerText = string.Empty;
 
-        // Legend column/cell content allignment
+        // Legend column/cell content alignment
         private StringAlignment _headerAlignment = StringAlignment.Center;
 
         // Legend column header text color
@@ -121,7 +118,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private Color _headerBackColor = Color.Empty;
 
         // Legend column header text font
-        private Font _headerFont;
+        internal Font _headerFont;
 
         // Minimum column width
         private int _minimumCellWidth = -1;
@@ -139,7 +136,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public LegendCellColumn()
             : this(string.Empty, LegendCellColumnType.Text, KeywordName.LegendText, ContentAlignment.MiddleCenter)
         {
-            _headerFont = _fontCache.DefaultBoldFont;
+            _headerFont = FontCache.DefaultBoldFont;
         }
 
 
@@ -635,36 +632,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         #endregion // Methods
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_fontCache != null)
-                {
-                    _fontCache.Dispose();
-                    _fontCache = null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-
-        #endregion
     }
 
     /// <summary>
@@ -678,7 +645,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeLegendCell_LegendCell"),
     ]
-    public class LegendCell : ChartNamedElement, IDisposable
+    public class LegendCell : ChartNamedElement
     {
         #region Fields
 
@@ -694,11 +661,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Legend cell back color
         private Color _backColor = Color.Empty;
 
-        // Font cache
-        private FontCache _fontCache = new FontCache();
-
         // Legend cell text font
-        private Font _font;
+        internal Font _font;
 
         // Legend cell image name
         private string _image = string.Empty;
@@ -712,7 +676,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Legend cell series symbol size
         private Size _seriesSymbolSize = new Size(200, 70);
 
-        // Legend cell content allignment
+        // Legend cell content alignment
         private ContentAlignment _alignment = ContentAlignment.MiddleCenter;
 
         // Numer of cells this cell uses to show it's content
@@ -1353,7 +1317,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int cellIndex = this.LegendItem.Cells.IndexOf(this);
                     if (cellIndex >= 0)
                     {
-                        // Check if associated column exsists
+                        // Check if associated column exists
                         if (cellIndex < this.Legend.CellColumns.Count &&
                             !this.Legend.CellColumns[cellIndex].BackColor.IsEmpty)
                         {
@@ -1424,7 +1388,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int cellIndex = this.LegendItem.Cells.IndexOf(this);
                     if (cellIndex >= 0)
                     {
-                        // Check if associated column exsists
+                        // Check if associated column exists
                         if (cellIndex < this.Legend.CellColumns.Count &&
                             this.Legend.CellColumns[cellIndex].Font != null)
                         {
@@ -1447,7 +1411,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check if font size should be adjusted
             if (cellFont != null && fontSizeReducedBy != 0)
             {
-                // New font is created anf it must be disposed
+                // New font is created and it must be disposed
                 disposeFont = true;
 
                 // Calculate new font size
@@ -1618,7 +1582,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int cellIndex = this.LegendItem.Cells.IndexOf(this);
                     if (cellIndex >= 0)
                     {
-                        // Check if associated column exsists
+                        // Check if associated column exists
                         if (cellIndex < this.Legend.CellColumns.Count &&
                             !this.Legend.CellColumns[cellIndex].ForeColor.IsEmpty)
                         {
@@ -2216,35 +2180,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         #endregion // Cell Painting Methods
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_fontCache != null)
-                {
-                    _fontCache.Dispose();
-                    _fontCache = null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
     }
 
     /// <summary>
@@ -2508,10 +2443,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeLegendCellCollection_LegendCellCollection"),
     ]
-    public class LegendCellCollection : ChartNamedElementCollection<LegendCell>, IDisposable
+    public class LegendCellCollection : ChartNamedElementCollection<LegendCell>
     {
-        private bool _disposedValue;
-
         #region Constructors
 
         /// <summary>
@@ -2574,40 +2507,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         #endregion
-
-        #region IDisposable Members
-        
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposedValue)
-                return;
-            
-            if (disposing)
-            {
-                // Dispose managed resources
-                foreach (var element in this)
-                {
-                    element.Dispose();
-                }
-            }
-            
-            _disposedValue = true;
-        }
-        
-        /// <summary>
-        /// Performs freeing, releasing, or resetting managed resources.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        
-        #endregion
     }
 
     /// <summary>
@@ -2617,10 +2516,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     [
     SRDescription("DescriptionAttributeLegendCellColumnCollection_LegendCellColumnCollection"),
     ]
-    public class LegendCellColumnCollection : ChartNamedElementCollection<LegendCellColumn>, IDisposable
+    public class LegendCellColumnCollection : ChartNamedElementCollection<LegendCellColumn>
     {
-        private bool _disposedValue;
-
         #region Construction and Initialization
 
         /// <summary>
@@ -2638,34 +2535,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         #endregion // Construction and Initialization
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposedValue)
-                return;
-
-            if (disposing)
-                ClearItemsWithDispose();
-
-            _disposedValue = true;
-        }
-
-        /// <summary>
-        /// Performs freeing, releasing, or resetting managed resources.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
     }
 }
 

@@ -116,7 +116,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     SRDescription("DescriptionAttributeAnnotation_Annotation"),
     DefaultProperty("Name"),
     ]
-    public abstract class Annotation : ChartNamedElement, IDisposable
+    public abstract class Annotation : ChartNamedElement
     {
         #region Fields
 
@@ -148,8 +148,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private bool _visible = true;
         private ContentAlignment _alignment = ContentAlignment.MiddleCenter;
         private Color _foreColor = Color.Black;
-        private FontCache _fontCache = new FontCache();
-        private Font _textFont;
+        internal Font _textFont;
         private TextStyle _textStyle = TextStyle.Default;
         internal Color lineColor = Color.Black;
         private int _lineWidth = 1;
@@ -229,7 +228,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         protected Annotation()
         {
-            _textFont = _fontCache.DefaultFont;
+            _textFont = FontCache.DefaultFont;
         }
 
         #endregion
@@ -4053,38 +4052,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #endregion
 
         #endregion
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_fontCache != null)
-                {
-                    _fontCache.Dispose();
-                    _fontCache = null;
-                }
-
-                _axisX = null;
-                _axisY = null;
-            }
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
     }
 
     /// <summary>
@@ -4230,5 +4197,4 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion // Properties
     }
-
 }

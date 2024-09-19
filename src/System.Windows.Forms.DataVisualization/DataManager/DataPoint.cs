@@ -4087,7 +4087,7 @@ public class DataPointCustomProperties : ChartNamedElement
 
                 if (IsSerializing())
                 {
-                    return series.FontCache.DefaultFont;
+                    return FontCache.DefaultFont;
                 }
 
                 if (this.isEmptyPoint)
@@ -4102,12 +4102,14 @@ public class DataPointCustomProperties : ChartNamedElement
                 return series.font;
             }
         }
+
         set
         {
             if (this.pointCustomProperties)
                 SetAttributeObject(CommonCustomProperties.Font, value);
             else
                 series.font = value;
+
             this.Invalidate(false);
         }
     }
@@ -5404,7 +5406,7 @@ public class DataPointCustomProperties : ChartNamedElement
         if (this.pointCustomProperties)
             return CheckIfSerializationRequired(CommonCustomProperties.Font);
         else
-            return series.font != (series.FontCache?.DefaultFont ?? series.font);
+            return  series?.font?.Equals(FontCache.DefaultFont) == false;
     }
 
     /// <summary>
@@ -5793,7 +5795,7 @@ public class DataPointCustomProperties : ChartNamedElement
         if (this.pointCustomProperties)
             ResetProperty(CommonCustomProperties.Font);
         else
-            series.font = series.FontCache.DefaultFont;
+            series.font = FontCache.DefaultFont;
     }
 
 

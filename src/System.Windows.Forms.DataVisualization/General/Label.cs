@@ -791,7 +791,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SRDescription("DescriptionAttributeLabel_Label"),
 		DefaultProperty("Enabled"),
 	]
-    public class LabelStyle : ChartElement, IDisposable
+    public class LabelStyle : ChartElement
 	{
 		#region Fields
 
@@ -806,8 +806,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal DateTimeIntervalType	intervalType = DateTimeIntervalType.NotSet;
 		internal DateTimeIntervalType	intervalOffsetType = DateTimeIntervalType.NotSet;
 
-        private FontCache               _fontCache = new FontCache();
-		private Font					_font;
+		internal Font					_font;
 		private Color					_foreColor = Color.Black;
 		internal int					angle;
         internal bool					isStaggered;
@@ -824,7 +823,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         public LabelStyle()
 		{
-            _font = _fontCache.DefaultFont;
+            _font = FontCache.DefaultFont;
 		}
 
         /// <summary>
@@ -2661,34 +2660,5 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 		}
 		#endregion
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_fontCache != null)
-                {
-                    _fontCache.Dispose();
-                    _fontCache = null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
     }
 }

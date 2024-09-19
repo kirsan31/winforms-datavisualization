@@ -2262,10 +2262,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // No points to group
                 if (input.Points.Count == 0)
-                {
-                    inputTemp?.Dispose();
                     continue;
-                }
 
                 // Make sure there is enough Y values per point
                 output.YValuesPerPoint = outputValuesNumber - 1;
@@ -2427,7 +2424,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         false,
                         ref emptyPointsSkipped);
                 }
-                inputTemp?.Dispose();
             }
         }
 

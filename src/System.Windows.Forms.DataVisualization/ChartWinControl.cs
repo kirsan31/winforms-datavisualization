@@ -104,7 +104,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private BorderTypeRegistry _borderTypeRegistry;
         private CustomPropertyRegistry _customAttributeRegistry;
         private DataManager _dataManager;
-        internal ChartImage chartPicture;
+        internal readonly ChartImage chartPicture;
         private ImageLoader _imageLoader;
         internal ServiceContainer serviceContainer;
         private ChartSerializer _chartSerializer;
@@ -562,7 +562,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             using StringFormat format = new StringFormat();
             format.Alignment = StringAlignment.Center;
             format.LineAlignment = StringAlignment.Center;
-            using Font font = new Font(FontCache.DefaultFamilyName, 8);
+            using Font font = new Font(FontCache.DefaultFamilyName, 8 * DPIScale);
             graphics.DrawString(addMessage, font, Brushes.Black, rect, format);
         }
 
@@ -2076,7 +2076,163 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (InitialDPI == 0)
                 InitialDPI = deviceDpiOld;
 
+
+            Font oldDefFont = FontCache.DefaultFont;
+            Font oldDefBoldFont = FontCache.TryGetDefaultBoldFont();
+            float factor = (float)deviceDpiNew / deviceDpiOld;
             DPIScale = MathF.Round(deviceDpiNew / InitialDPI, 2);
+
+            // We need to scale all fonts.
+            foreach (var s in this.Series)
+            {
+                foreach (var p in s.Points)
+                {
+                    if (p.IsCustomPropertySet(CommonCustomProperties.Font) && p.GetAttributeObject(CommonCustomProperties.Font) is Font font)
+                    {
+                        if (font.Equals(oldDefFont))
+                            font = FontCache.DefaultFont;
+                        else
+                            font = chartPicture.FontCache.GetFont(s.font, s.font.Size * factor);
+
+                        p.SetAttributeObject(CommonCustomProperties.Font, font.WithSize(font.Size * factor));
+                    }
+                }
+
+                if (s.font is null)
+                    continue;
+
+                if (s.font.Equals(oldDefFont))
+                    s.font = FontCache.DefaultFont;
+                else
+                    s.font = chartPicture.FontCache.GetFont(s.font, s.font.Size * factor);
+            }
+
+            foreach (var ca in this.ChartAreas)
+            {
+                foreach (var a in ca.Axes)
+                {
+                    if (a is null)
+                        continue;
+
+                    if (a._titleFont is not null)
+                    {
+                        if (a._titleFont.Equals(oldDefFont))
+                            a._titleFont = FontCache.DefaultFont;
+                        else
+                            a._titleFont = chartPicture.FontCache.GetFont(a._titleFont, a._titleFont.Size * factor);
+                    }
+
+                    if (a.labelStyle?._font is not null)
+                    {
+                        if (a.labelStyle._font.Equals(oldDefFont))
+                            a.labelStyle._font = FontCache.DefaultFont;
+                        else
+                            a.labelStyle._font = chartPicture.FontCache.GetFont(a.labelStyle._font, a.labelStyle._font.Size * factor);
+                    }
+
+                    if (a.autoLabelFont is not null)
+                    {
+                        if (a.autoLabelFont.Equals(oldDefFont))
+                            a.autoLabelFont = FontCache.DefaultFont;
+                        else
+                            a.autoLabelFont = chartPicture.FontCache.GetFont(a.autoLabelFont, a.autoLabelFont.Size * factor);
+                    }
+
+                    foreach (var sl in a.StripLines)
+                    {
+                        if (sl._font is not null)
+                        {
+                            if (sl._font.Equals(oldDefFont))
+                                sl._font = FontCache.DefaultFont;
+                            else
+                                sl._font = chartPicture.FontCache.GetFont(sl._font, sl._font.Size * factor);
+                        }
+                    }
+                }
+            }
+
+            foreach (var a in this.Annotations)
+            {
+                if (a._textFont is not null)
+                {
+                    if (a._textFont.Equals(oldDefFont))
+                        a._textFont = FontCache.DefaultFont;
+                    else
+                        a._textFont = chartPicture.FontCache.GetFont(a._textFont, a._textFont.Size * factor);
+                }
+            }
+
+            foreach (var t in this.Titles)
+            {
+                if (t._font is not null)
+                {
+                    if (t._font.Equals(oldDefFont))
+                        t._font = FontCache.DefaultFont;
+                    else
+                        t._font = chartPicture.FontCache.GetFont(t._font, t._font.Size * factor);
+                }
+            }
+
+            foreach (var l in this.Legends)
+            {
+                if (l._font is not null)
+                {
+                    if (l._font.Equals(oldDefFont))
+                        l._font = FontCache.DefaultFont;
+                    else
+                        l._font = chartPicture.FontCache.GetFont(l._font, l._font.Size * factor);
+                }
+
+                if (l._titleFont is not null)
+                {
+                    if (l._titleFont.Equals(oldDefBoldFont))
+                        l._titleFont = FontCache.DefaultBoldFont;
+                    else
+                        l._titleFont = chartPicture.FontCache.GetFont(l._titleFont, l._titleFont.Size * factor);
+                }
+
+                if (l.autofitFont is not null)
+                {
+                    if (l.autofitFont.Equals(oldDefFont))
+                        l.autofitFont = FontCache.DefaultFont;
+                    else
+                        l.autofitFont = chartPicture.FontCache.GetFont(l.autofitFont, l.autofitFont.Size * factor);
+                }
+
+                foreach (var lc in l.CellColumns)
+                {
+                    if (lc._font is not null)
+                    {
+                        if (lc._font.Equals(oldDefFont))
+                            lc._font = FontCache.DefaultFont;
+                        else
+                            lc._font = chartPicture.FontCache.GetFont(lc._font, lc._font.Size * factor);
+                    }
+
+                    if (lc._headerFont is not null)
+                    {
+                        if (lc._headerFont.Equals(oldDefBoldFont))
+                            lc._headerFont = FontCache.DefaultBoldFont;
+                        else
+                            lc._headerFont = chartPicture.FontCache.GetFont(lc._headerFont, lc._headerFont.Size * factor);
+                    }
+                }
+
+                foreach (var li in l.legendItems)
+                {
+                    foreach (var lc in li.Cells)
+                    {
+                        if (lc._font is not null)
+                        {
+                            if (lc._font.Equals(oldDefFont))
+                                lc._font = FontCache.DefaultFont;
+                            else
+                                lc._font = chartPicture.FontCache.GetFont(lc._font, lc._font.Size * factor);
+                        }
+                    }
+                }
+            }
+
             base.RescaleConstantsForDpi(deviceDpiOld, deviceDpiNew);
         }
 
@@ -2978,7 +3134,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (disposing)
             {
-
                 // Dispose managed objects here
                 if (_imageLoader != null)
                 {
@@ -3019,7 +3174,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     _printingManager = null;
                 }
 
-                // Dispoase buffer
+                // Dispose buffer
                 if (paintBufferBitmap != null)
                 {
                     paintBufferBitmap.Dispose();
@@ -3031,23 +3186,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     paintBufferBitmapGraphics.Dispose();
                     paintBufferBitmapGraphics = null;
                 }
-            }
 
-            base.Dispose(disposing);
-
-            //The chart picture and datamanager will be the last to be disposed
-            if (disposing)
-            {
-                if (_dataManager != null)
-                {
-                    _dataManager.Dispose();
-                    _dataManager = null;
-                }
-                if (chartPicture != null)
-                {
-                    chartPicture.Dispose();
-                    chartPicture = null;
-                }
+                // The chart picture will be the last to be disposed
+                chartPicture.Dispose();
             }
         }
         #endregion
