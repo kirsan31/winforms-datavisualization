@@ -214,7 +214,7 @@ internal class ChartImage : ChartPicture
             }
             catch (InvalidOperationException)
             {
-                if (resolution ==  96)
+                if (resolution == 96)
                     throw;
 
                 failed = true;
@@ -1123,7 +1123,7 @@ internal class ChartImage : ChartPicture
         var dataSourceFields = GetDataSourceMemberNames(dataSource, true);
 
         // Remove X value field if it's there
-        if (xField != null && xField.Length > 0)
+        if (!string.IsNullOrEmpty(xField))
         {
             int index = -1;
             for (int i = 0; i < dataSourceFields.Count; i++)
@@ -1208,7 +1208,6 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
     // Chart Graphic object
     internal ChartGraphics ChartGraph { get; }
 
-    private Color _backSecondaryColor = Color.Empty;
     private int _borderWidth = 1;
     private int _width = 300;
     private int _height = 300;
@@ -2247,11 +2246,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
     TypeConverter(typeof(ColorConverter)),
     Editor("ChartColorEditor", typeof(UITypeEditor))
     ]
-    public Color BackSecondaryColor
-    {
-        get => _backSecondaryColor;
-        set => _backSecondaryColor = value;
-    }
+    public Color BackSecondaryColor { get; set; } = Color.Empty;
 
     /// <summary>
     /// The width of the border line
@@ -2949,24 +2944,24 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
     /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
     protected virtual void Dispose(bool disposing)
     {
-        if (!_disposedValue)
-        {
-            if (disposing)
-            {
-                ChartGraph.Dispose();
-                ChartAreas.Dispose();
-                hotRegionsList.Dispose();
-                if (nonTopLevelChartBuffer is not null)
-                {
-                    nonTopLevelChartBuffer.Dispose();
-                    nonTopLevelChartBuffer = null;
-                }
+        if (_disposedValue)
+            return;
 
-                FontCache.Dispose();
+        if (disposing)
+        {
+            ChartGraph.Dispose();
+            ChartAreas.Dispose();
+            hotRegionsList.Dispose();
+            if (nonTopLevelChartBuffer is not null)
+            {
+                nonTopLevelChartBuffer.Dispose();
+                nonTopLevelChartBuffer = null;
             }
 
-            _disposedValue = true;
+            FontCache.Dispose();
         }
+
+        _disposedValue = true;
     }
 
     /// <summary>
@@ -3066,13 +3061,6 @@ public class ChartPaintEventArgs : EventArgs
 /// </summary>
 public class FormatNumberEventArgs : EventArgs
 {
-    #region Fields
-
-    // Private fields
-    private readonly ChartElementType _elementType = ChartElementType.Nothing;
-
-    #endregion Fields
-
     #region Properties
 
     /// <summary>
@@ -3103,7 +3091,7 @@ public class FormatNumberEventArgs : EventArgs
     /// <summary>
     /// Chart element type.
     /// </summary>
-    public ChartElementType ElementType => _elementType;
+    public ChartElementType ElementType { get; } = ChartElementType.Nothing;
 
     #endregion Properties
 
@@ -3132,7 +3120,7 @@ public class FormatNumberEventArgs : EventArgs
         this.ValueType = valueType;
         this.LocalizedValue = localizedValue;
         this.SenderTag = senderTag;
-        this._elementType = elementType;
+        this.ElementType = elementType;
     }
 
     #endregion Methods
