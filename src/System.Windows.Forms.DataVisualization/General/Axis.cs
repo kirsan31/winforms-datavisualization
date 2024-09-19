@@ -211,10 +211,13 @@ public partial class Axis : ChartNamedElement, IDisposable
         // Create axis data scaleView object
         _scaleView ??= new AxisScaleView(this);
         // Create axis scroll bar class
-        scrollBar ??= new AxisScrollBar(this);
+        if (scrollBar is null)
+        {
+            scrollBar = new AxisScrollBar(this);
+            _internalScrollBar = true;
+        }
 
         this.axisType = axisTypeName;
-
         // Create grid & tick marks objects
         minorTickMark ??= new TickMark(this, false);
         majorTickMark ??= new TickMark(this, true)
@@ -5899,10 +5902,12 @@ public partial class Axis : ChartNamedElement, IDisposable
         {
             if (disposing)
             {
-                if (this.scrollBar != null)
+                if (scrollBar is not null)
                 {
-                    this.scrollBar.Dispose();
-                    this.scrollBar = null;
+                    if (_internalScrollBar)
+                        scrollBar.Dispose();
+
+                    scrollBar = null;
                 }
 
                 StripLines = null;

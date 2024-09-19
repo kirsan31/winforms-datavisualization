@@ -170,7 +170,8 @@ public partial class Axis
     private AxisScaleView _scaleView;
 
     // Axis scroll bar class
-    internal AxisScrollBar scrollBar;
+    private AxisScrollBar scrollBar;
+    private bool _internalScrollBar;
 
     // For scatter chart X values could be rounded.
     internal bool roundedXValues;
@@ -766,9 +767,18 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
         get => scrollBar;
         set
         {
-            scrollBar = value;
-            scrollBar.axis = this;
-            this.Invalidate();
+            if (scrollBar != value)
+            {
+                AxisScrollBar old = null;
+                if (_internalScrollBar)
+                    old = scrollBar;
+
+                scrollBar = value;
+                scrollBar.axis = this;
+                old?.Dispose();
+                _internalScrollBar = false;
+                this.Invalidate();
+            }
         }
     }
 
