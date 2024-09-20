@@ -1603,19 +1603,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 if (typeName.Length > 0)
                 {
                     // Must be followed by '(' and ends with ')'
-                    if (!typeName.StartsWith("(", StringComparison.Ordinal) || !typeName.EndsWith(")", StringComparison.Ordinal))
-                    {
+                    if (!typeName.StartsWith('(') || !typeName.EndsWith(')'))
                         throw new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(errorBarSeries[CustomPropertyName.ErrorBarType]));
-                    }
+
                     typeName = typeName[1..^1];
-
-
                     if (typeName.Length > 0)
                     {
                         if (!double.TryParse(typeName, NumberStyles.Any, CultureInfo.InvariantCulture, out param))
-                        {
                             throw new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(errorBarSeries[CustomPropertyName.ErrorBarType]));
-                        }
                     }
                 }
             }

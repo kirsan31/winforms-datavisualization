@@ -2335,13 +2335,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 (float)Math.Round(polygonPoints[0].X),
                                 (float)Math.Round(polygonPoints[0].Y));
                         }
-                    }
 
-                    //**********************************************************************
-                    //** Draw border on the right side of the line surface
-                    //**********************************************************************
-                    if (matrix.Perspective != 0 || (matrix.AngleX != 90 && matrix.AngleX != -90))
-                    {
+                        //** Draw border on the right side of the line surface
                         if (thickBorderOnRight)
                         {
                             if (drawElements)
@@ -3507,9 +3502,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Check if marker properties are set
             if (markerStyle != MarkerStyle.None && markerSize > 0 && markerColor != Color.Empty)
             {
-                // Create solid color brush
-                using SolidBrush brush = new SolidBrush(markerColor);
-
                 // Calculate marker rectangle
                 RectangleF rect = RectangleF.Empty;
                 rect.X = markerRotatedPosition.X - markerSize / 2F;

@@ -3182,8 +3182,7 @@ public partial class Axis : ChartNamedElement, IDisposable
             CustomLabelsCollection originalLabels = null;
 
             // Pick up maximum font size
-            float size = 8f;
-            size = Math.Max(this.LabelAutoFitMaxFontSize, this.LabelAutoFitMinFontSize);
+            float size = Math.Max(this.LabelAutoFitMaxFontSize, this.LabelAutoFitMinFontSize);
             _minLabelFontSize = Math.Min(this.LabelAutoFitMinFontSize, this.LabelAutoFitMaxFontSize);
             _aveLabelFontSize = _minLabelFontSize + Math.Abs(size - _minLabelFontSize) / 2f;
 
@@ -3455,23 +3454,11 @@ public partial class Axis : ChartNamedElement, IDisposable
             this.labelSize -= this.totlaGroupingLabelsSize;
             if (this.labelSize > 0)
             {
-                // If axis is horizontal
-                if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-                {
-                    this.labelSize = elementSpacing + GetRequiredLabelSize(chartGraph,
-                        maxLabelSize / 100F * (maxAxisElementsSize - this.markSize - this.scrollBarSize - this.titleSize), out this.unRotatedLabelSize);
-                }
-                // If axis is horizontal
-                else
-                {
-                    this.labelSize = elementSpacing + GetRequiredLabelSize(chartGraph,
-                        maxLabelSize / 100F * (maxAxisElementsSize - this.markSize - this.scrollBarSize - this.titleSize), out this.unRotatedLabelSize);
-                }
+                this.labelSize = elementSpacing + GetRequiredLabelSize(chartGraph,
+                    maxLabelSize / 100F * (maxAxisElementsSize - this.markSize - this.scrollBarSize - this.titleSize), out this.unRotatedLabelSize);
 
                 if (!this.LabelStyle.Enabled)
-                {
                     this.labelSize -= elementSpacing;
-                }
             }
             else
             {
@@ -4863,20 +4850,9 @@ public partial class Axis : ChartNamedElement, IDisposable
 
                     float maxElementSize = maxAxisElementsSize;
                     if (maxAxisElementsSize - this.totlaGroupingLabelsSize > 55)
-                    {
                         maxElementSize = 55 + this.totlaGroupingLabelsSize;
-                    }
 
-                    if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-                    {
-                        rect.Width = maxLabelSize / 100F *
-                            (maxElementSize - this.totlaGroupingLabelsSize - otherElementsSize - elementSpacing);
-                    }
-                    else
-                    {
-                        rect.Width = maxLabelSize / 100F *
-                            (maxElementSize - this.totlaGroupingLabelsSize - otherElementsSize - elementSpacing);
-                    }
+                    rect.Width = maxLabelSize / 100F * (maxElementSize - this.totlaGroupingLabelsSize - otherElementsSize - elementSpacing);
 
                     // Adjust label From/To position if labels are displayed with offset
                     if (autoLabelOffset == 1)
@@ -5036,29 +5012,14 @@ public partial class Axis : ChartNamedElement, IDisposable
                     }
                     else
                     {
-                        if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+                        if (width >= rect.Width * 2F && checkWidth)
                         {
-                            if (width >= rect.Width * 2F && checkWidth)
-                            {
-                                return false;
-                            }
-
-                            if (height >= rect.Height * 2F && checkHeight)
-                            {
-                                return false;
-                            }
+                            return false;
                         }
-                        else
-                        {
-                            if (width >= rect.Width * 2F && checkWidth)
-                            {
-                                return false;
-                            }
 
-                            if (height >= rect.Height * 2F && checkHeight)
-                            {
-                                return false;
-                            }
+                        if (height >= rect.Height * 2F && checkHeight)
+                        {
+                            return false;
                         }
                     }
 

@@ -647,8 +647,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 			rect.Height -= sizeRightBottom.Height + sizeLeftTop.Height;
 			if(rect.Width > 0 && rect.Height > 0 )
 			{
-				float[] oldCorners = new float[8];
-				oldCorners = (float[])cornerRadius.Clone();
+                float[] oldCorners = (float[])cornerRadius.Clone();
 				cornerRadius = innerCorners;
 				drawBottomShadow = false;
 				sunken = true;

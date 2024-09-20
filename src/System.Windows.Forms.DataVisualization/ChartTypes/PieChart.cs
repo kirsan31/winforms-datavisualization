@@ -1341,11 +1341,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     {
                         graph.DrawLineRel(pieLineColor, point.BorderWidth, ChartDashStyle.Solid, new PointF(x2, y2), new PointF(x3, y3));
                     }
-                }
 
-                // Draw the string
-                if (!overlapTest)
-                {
+                    // Draw the string
                     RectangleF rect = new RectangleF(labelRect.Location, labelRect.Size);
                     if (this._labelsOverlap)
                     {
@@ -3237,11 +3234,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			int pointIndex
 			)
 		{
-            // Create a graphics path
-            using GraphicsPath path = new GraphicsPath();
             Brush brush;
             Brush brushToDispose = null;
-
             if (area.Area3DStyle.LightStyle == LightStyle.None)
             {
                 brush = brushWithoutLight;
@@ -3252,7 +3246,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             float endAngle = startAngle + sweepAngle;
-
             // Very big pie slice ( > 180 degree )
             if (sweepAngle > 180)
             {
@@ -3752,12 +3745,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 			int pointIndex
 			)
 		{
-            // Create a graphics path
-            using GraphicsPath path = new GraphicsPath();
-
             Brush brush;
             Brush brushToDispose = null;
-
             if (area.Area3DStyle.LightStyle == LightStyle.None)
             {
                 brush = brushWithoutLight;
@@ -3768,7 +3757,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             float endAngle = startAngle + sweepAngle;
-
             // Very big pie slice ( > 180 degree )
             if (sweepAngle > 180)
             {

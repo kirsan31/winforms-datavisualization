@@ -2232,11 +2232,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
         if (!handled)
         {
             this.selection.Selection_MouseMove(this, e);
-        }
-
-        // Notify annotation object collection about the mouse down event
-        if (!handled)
-        {
+            // Notify annotation object collection about the mouse down event
             this.Annotations.OnMouseMove(e);
         }
 

@@ -1372,7 +1372,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         this._numberOfRowsPerColumn[columnNumber - 1] += itemsToAdd;
 
                                         // Check if legend items fit into the legend area
-                                        _ = this.CheckLegendItemsFit(
+                                        this.CheckLegendItemsFit(
                                            chartGraph,
                                            legendSize,
                                            legendItemIndex + 1,
@@ -4676,7 +4676,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             if (Common != null && Common.ChartPicture != null)
             {
-                // Get elemets spacing
+                // Get elements spacing
                 float areaSpacing = Math.Min(chartAreasRectangle.Height / 100F * elementSpacing, chartAreasRectangle.Width / 100F * elementSpacing);
 
                 // Loop through all legends
@@ -4758,7 +4758,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         try
                         {
-                            ChartArea area = Common.ChartPicture.ChartAreas[legend.DockedToChartArea];
+                            _ = Common.ChartPicture.ChartAreas[legend.DockedToChartArea];
                         }
                         catch
                         {
@@ -4777,7 +4777,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Get area position
                         RectangleF legendPlottingRectangle = area.PlotAreaPosition.ToRectangleF();
 
-                        // Get elemets spacing
+                        // Get elements spacing
                         float areaSpacing = Math.Min(legendPlottingRectangle.Height / 100F * elementSpacing, legendPlottingRectangle.Width / 100F * elementSpacing);
 
                         // Loop through all legends

@@ -848,7 +848,7 @@ internal class PointChart : IChartType
                 if (!position.IsEmpty)
                 {
                     // Get label background position
-                    RectangleF labelBackPosition = RectangleF.Empty;
+                    RectangleF labelBackPosition;
                     sizeLabel.Height -= sizeFont.Height / 2;
                     sizeLabel.Height += sizeFont.Height / 8;
                     labelBackPosition = GetLabelPosition(

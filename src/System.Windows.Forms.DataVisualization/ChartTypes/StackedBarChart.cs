@@ -1127,17 +1127,10 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     if (!labelPosition.IsEmpty)
                     {
                         // Get label background position
-                        RectangleF labelBackPosition = RectangleF.Empty;
+                        RectangleF labelBackPosition;
                         SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
                         sizeLabel.Height += sizeFont.Height / 8;
                         sizeLabel.Width += sizeLabel.Width / text.Length;
-                        labelBackPosition = new RectangleF(
-                            labelPosition.X - sizeLabel.Width / 2,
-                            labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
-                            sizeLabel.Width,
-                            sizeLabel.Height);
-
-
 
                         // Adjust label background position that can be changed by the 
                         // Smart Labels algorithm
@@ -1148,8 +1141,6 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                             sizeLabel,
                             format,
                             true);
-
-
 
                         // Draw label text
                         using Brush brush = new SolidBrush(point.LabelForeColor);

@@ -1184,7 +1184,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         position = graph.GetRelativePoint(position);
 
                         // Get label background position
-                        RectangleF labelBackPosition = RectangleF.Empty;
+                        RectangleF labelBackPosition;
                         sizeLabel = graph.GetRelativeSize(sizeFont);
                         sizeLabel.Height += sizeLabel.Height / 8;
                         labelBackPosition = PointChart.GetLabelPosition(
@@ -1205,7 +1205,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             format,
                             textAngle,
                             labelBackPosition,
-
                             point.LabelBackColor,
                             point.LabelBorderColor,
                             point.LabelBorderWidth,

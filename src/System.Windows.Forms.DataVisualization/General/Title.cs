@@ -1805,7 +1805,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			if(chartPicture != null)
 			{
-				// Get elemets spacing
+				// Get elements spacing
 				float areaSpacing = Math.Min(chartAreasRectangle.Height/100F * elementSpacing, chartAreasRectangle.Width/100F * elementSpacing);
 
 				// Loop through all titles
@@ -1918,11 +1918,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						try
 						{
-							ChartArea area = chartPicture.ChartAreas[title.DockedToChartArea];
+							_ = chartPicture.ChartAreas[title.DockedToChartArea];
 						}
 						catch
 						{
-							throw new ArgumentException( SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea) ) ;
+							throw new ArgumentException( SR.ExceptionChartTitleDockedChartAreaIsMissing(title.DockedToChartArea));
 						}
 					}
 				}
@@ -1938,7 +1938,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						// Get area position
 						RectangleF titlePlottingRectangle = area.PlotAreaPosition.ToRectangleF();
 
-						// Get elemets spacing
+						// Get elements spacing
 						float areaSpacing = Math.Min(titlePlottingRectangle.Height/100F * elementSpacing, titlePlottingRectangle.Width/100F * elementSpacing);
 
 						// Loop through all titles

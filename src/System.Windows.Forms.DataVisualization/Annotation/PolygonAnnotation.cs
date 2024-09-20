@@ -1062,28 +1062,25 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    if (disposing)
-                    {
-                        if (_defaultGraphicsPath is not null)
-                        {
-                            _defaultGraphicsPath.Dispose();
-                            _defaultGraphicsPath = null;
-                        }
+            if (disposedValue)
+                return;
 
-                        if (_pathPoints is not null)
-                        {
-                            _pathPoints.Dispose();
-                            _pathPoints = null;
-                        }
-                    }
+            if (disposing)
+            {
+                if (_defaultGraphicsPath is not null)
+                {
+                    _defaultGraphicsPath.Dispose();
+                    _defaultGraphicsPath = null;
                 }
 
-                disposedValue = true;
+                if (_pathPoints is not null)
+                {
+                    _pathPoints.Dispose();
+                    _pathPoints = null;
+                }
             }
+
+            disposedValue = true;
         }
 
         /// <summary>

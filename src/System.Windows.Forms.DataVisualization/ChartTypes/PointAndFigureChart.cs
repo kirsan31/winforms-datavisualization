@@ -337,7 +337,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             if (series.IsCustomPropertySet(CustomPropertyName.BoxSize))
             {
                 string attrValue = series[CustomPropertyName.BoxSize].Trim();
-                bool usePercentage = attrValue.EndsWith("%", StringComparison.Ordinal);
+                bool usePercentage = attrValue.EndsWith('%');
                 if (usePercentage)
                 {
                     attrValue = attrValue[..^1];

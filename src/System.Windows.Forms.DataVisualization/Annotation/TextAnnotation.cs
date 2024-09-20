@@ -496,115 +496,115 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Draw text
-            using (Brush textBrush = new SolidBrush(this.ForeColor))
+            using StringFormat format = StringFormat.GenericTypographic;
+            //***************************************************************
+            //** Set text format
+            //***************************************************************
+            format.FormatFlags ^= StringFormatFlags.LineLimit;
+            format.Trimming = StringTrimming.EllipsisCharacter;
+            if (this.Alignment == ContentAlignment.BottomRight ||
+                this.Alignment == ContentAlignment.MiddleRight ||
+                this.Alignment == ContentAlignment.TopRight)
             {
-                using StringFormat format = StringFormat.GenericTypographic;
-                //***************************************************************
-                //** Set text format
-                //***************************************************************
-                format.FormatFlags ^= StringFormatFlags.LineLimit;
-                format.Trimming = StringTrimming.EllipsisCharacter;
+                format.Alignment = StringAlignment.Far;
+            }
+
+            if (this.Alignment == ContentAlignment.BottomCenter ||
+                this.Alignment == ContentAlignment.MiddleCenter ||
+                this.Alignment == ContentAlignment.TopCenter)
+            {
+                format.Alignment = StringAlignment.Center;
+            }
+
+            if (this.Alignment == ContentAlignment.BottomCenter ||
+                this.Alignment == ContentAlignment.BottomLeft ||
+                this.Alignment == ContentAlignment.BottomRight)
+            {
+                format.LineAlignment = StringAlignment.Far;
+            }
+
+            if (this.Alignment == ContentAlignment.MiddleCenter ||
+                this.Alignment == ContentAlignment.MiddleLeft ||
+                this.Alignment == ContentAlignment.MiddleRight)
+            {
+                format.LineAlignment = StringAlignment.Center;
+            }
+
+            //***************************************************************
+            //** Set shadow color and offset
+            //***************************************************************
+            Color textShadowColor = ChartGraphics.GetGradientColor(this.ForeColor, Color.Black, 0.8);
+            int textShadowOffset = 1;
+            TextStyle textStyle = this.TextStyle;
+            if (textStyle == TextStyle.Shadow &&
+                ShadowOffset != 0)
+            {
+                // Draw shadowed text
+                textShadowColor = ShadowColor;
+                textShadowOffset = ShadowOffset;
+            }
+
+            if (textStyle == TextStyle.Shadow)
+            {
+                textShadowColor = (textShadowColor.A != 255) ? textShadowColor : Color.FromArgb(textShadowColor.A / 2, textShadowColor);
+            }
+
+            //***************************************************************
+            //** Get text actual position
+            //***************************************************************
+            if (getTextPosition)
+            {
+                // Measure text size
+                SizeF textSize = graphics.MeasureStringRel(
+                    this.ReplaceKeywords(_text.Replace("\\n", "\n")),
+                    this.Font,
+                    textPositionWithSpacing.Size,
+                    format);
+
+                // Get text position
+                textActualPosition = new RectangleF(textPositionWithSpacing.Location, textSize);
                 if (this.Alignment == ContentAlignment.BottomRight ||
                     this.Alignment == ContentAlignment.MiddleRight ||
                     this.Alignment == ContentAlignment.TopRight)
                 {
-                    format.Alignment = StringAlignment.Far;
+                    textActualPosition.X += textPositionWithSpacing.Width - textSize.Width;
                 }
                 if (this.Alignment == ContentAlignment.BottomCenter ||
                     this.Alignment == ContentAlignment.MiddleCenter ||
                     this.Alignment == ContentAlignment.TopCenter)
                 {
-                    format.Alignment = StringAlignment.Center;
+                    textActualPosition.X += (textPositionWithSpacing.Width - textSize.Width) / 2f;
                 }
                 if (this.Alignment == ContentAlignment.BottomCenter ||
                     this.Alignment == ContentAlignment.BottomLeft ||
                     this.Alignment == ContentAlignment.BottomRight)
                 {
-                    format.LineAlignment = StringAlignment.Far;
+                    textActualPosition.Y += textPositionWithSpacing.Height - textSize.Height;
                 }
                 if (this.Alignment == ContentAlignment.MiddleCenter ||
                     this.Alignment == ContentAlignment.MiddleLeft ||
                     this.Alignment == ContentAlignment.MiddleRight)
                 {
-                    format.LineAlignment = StringAlignment.Center;
+                    textActualPosition.Y += (textPositionWithSpacing.Height - textSize.Height) / 2f;
                 }
 
-                //***************************************************************
-                //** Set shadow color and offset
-                //***************************************************************
-                Color textShadowColor = ChartGraphics.GetGradientColor(this.ForeColor, Color.Black, 0.8);
-                int textShadowOffset = 1;
-                TextStyle textStyle = this.TextStyle;
-                if (textStyle == TextStyle.Shadow &&
-                    ShadowOffset != 0)
-                {
-                    // Draw shadowed text
-                    textShadowColor = ShadowColor;
-                    textShadowOffset = ShadowOffset;
-                }
-
-                if (textStyle == TextStyle.Shadow)
-                {
-                    textShadowColor = (textShadowColor.A != 255) ? textShadowColor : Color.FromArgb(textShadowColor.A / 2, textShadowColor);
-                }
-
-                //***************************************************************
-                //** Get text actual position
-                //***************************************************************
-                if (getTextPosition)
-                {
-                    // Measure text size
-                    SizeF textSize = graphics.MeasureStringRel(
-                        this.ReplaceKeywords(_text.Replace("\\n", "\n")),
-                        this.Font,
-                        textPositionWithSpacing.Size,
-                        format);
-
-                    // Get text position
-                    textActualPosition = new RectangleF(textPositionWithSpacing.Location, textSize);
-                    if (this.Alignment == ContentAlignment.BottomRight ||
-                        this.Alignment == ContentAlignment.MiddleRight ||
-                        this.Alignment == ContentAlignment.TopRight)
-                    {
-                        textActualPosition.X += textPositionWithSpacing.Width - textSize.Width;
-                    }
-                    if (this.Alignment == ContentAlignment.BottomCenter ||
-                        this.Alignment == ContentAlignment.MiddleCenter ||
-                        this.Alignment == ContentAlignment.TopCenter)
-                    {
-                        textActualPosition.X += (textPositionWithSpacing.Width - textSize.Width) / 2f;
-                    }
-                    if (this.Alignment == ContentAlignment.BottomCenter ||
-                        this.Alignment == ContentAlignment.BottomLeft ||
-                        this.Alignment == ContentAlignment.BottomRight)
-                    {
-                        textActualPosition.Y += textPositionWithSpacing.Height - textSize.Height;
-                    }
-                    if (this.Alignment == ContentAlignment.MiddleCenter ||
-                        this.Alignment == ContentAlignment.MiddleLeft ||
-                        this.Alignment == ContentAlignment.MiddleRight)
-                    {
-                        textActualPosition.Y += (textPositionWithSpacing.Height - textSize.Height) / 2f;
-                    }
-
-                    // Do not allow text to go outside annotation position
-                    textActualPosition.Intersect(textPositionWithSpacing);
-                }
-
-                RectangleF absPosition = graphics.GetAbsoluteRectangle(textPositionWithSpacing);
-                Title.DrawStringWithStyle(
-                        graphics,
-                        titleText,
-                        this.TextStyle,
-                        this.Font,
-                        absPosition,
-                        this.ForeColor,
-                        textShadowColor,
-                        textShadowOffset,
-                        format,
-                        TextOrientation.Auto
-                  );
+                // Do not allow text to go outside annotation position
+                textActualPosition.Intersect(textPositionWithSpacing);
             }
+
+            RectangleF absPosition = graphics.GetAbsoluteRectangle(textPositionWithSpacing);
+            Title.DrawStringWithStyle(
+                    graphics,
+                    titleText,
+                    this.TextStyle,
+                    this.Font,
+                    absPosition,
+                    this.ForeColor,
+                    textShadowColor,
+                    textShadowOffset,
+                    format,
+                    TextOrientation.Auto
+                );
 
             return textActualPosition;
         }
