@@ -21,210 +21,210 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// Chart printing class.
     /// </summary>
     public class PrintingManager : IDisposable
-	{
-		#region Private fields
+    {
+        #region Private fields
 
-		// Reference to the service container
-		private IServiceContainer			_serviceContainer;
+        // Reference to the service container
+        private IServiceContainer _serviceContainer;
 
-		// Reference to the chart image object
-		private ChartImage					_chartImage;
+        // Reference to the chart image object
+        private ChartImage _chartImage;
 
-		// Chart printing document
-		private PrintDocument				_printDocument;
+        // Chart printing document
+        private PrintDocument _printDocument;
 
-		#endregion
+        #endregion
 
-		#region Constructors and Service Provider methods
+        #region Constructors and Service Provider methods
 
-		/// <summary>
-		/// Public constructor is unavailable
-		/// </summary>
-		private PrintingManager()
-		{
-		}
+        /// <summary>
+        /// Public constructor is unavailable
+        /// </summary>
+        private PrintingManager()
+        {
+        }
 
-		/// <summary>
-		/// Public constructor
-		/// </summary>
-		/// <param name="container">Service container reference.</param>
-		public PrintingManager(IServiceContainer container)
-		{
-			if(container == null)
-			{
-				throw new ArgumentNullException(SR.ExceptionInvalidServiceContainer);
-			}
-			_serviceContainer = container;
-		}
+        /// <summary>
+        /// Public constructor
+        /// </summary>
+        /// <param name="container">Service container reference.</param>
+        public PrintingManager(IServiceContainer container)
+        {
+            if (container == null)
+            {
+                throw new ArgumentNullException(SR.ExceptionInvalidServiceContainer);
+            }
+            _serviceContainer = container;
+        }
 
-		/// <summary>
-		/// Returns Printing Manager service object
-		/// </summary>
-		/// <param name="serviceType">Requested service type.</param>
-		/// <returns>Printing Manager sevice object.</returns>
-		internal object GetService(Type serviceType)
-		{
-			if(serviceType == typeof(PrintingManager))
-			{
-				return this;
-			}
-			throw new ArgumentException( SR.ExceptionChartSerializerUnsupportedType( serviceType.ToString() ) ) ;
-		}
-		#endregion
+        /// <summary>
+        /// Returns Printing Manager service object
+        /// </summary>
+        /// <param name="serviceType">Requested service type.</param>
+        /// <returns>Printing Manager sevice object.</returns>
+        internal object GetService(Type serviceType)
+        {
+            if (serviceType == typeof(PrintingManager))
+            {
+                return this;
+            }
+            throw new ArgumentException(SR.ExceptionChartSerializerUnsupportedType(serviceType.ToString()));
+        }
+        #endregion
 
-		#region Printing properties
-		/// <summary>
-		/// Chart printing document.
-		/// </summary>
-		[
-		Bindable(false),
-		SRDescription("DescriptionAttributePrintingManager_PrintDocument"),
-		Browsable(false),
-		DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        #region Printing properties
+        /// <summary>
+        /// Chart printing document.
+        /// </summary>
+        [
+        Bindable(false),
+        SRDescription("DescriptionAttributePrintingManager_PrintDocument"),
+        Browsable(false),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
         Utilities.SerializationVisibilityAttribute(Utilities.SerializationVisibility.Hidden)
-		]
-		public PrintDocument PrintDocument
-		{
-			set
-			{
-				_printDocument = value;
-			}
-			get
-			{
-				if(_printDocument == null)
-				{
-					// Create new object
-					_printDocument = new PrintDocument();
+        ]
+        public PrintDocument PrintDocument
+        {
+            set
+            {
+                _printDocument = value;
+            }
+            get
+            {
+                if (_printDocument == null)
+                {
+                    // Create new object
+                    _printDocument = new PrintDocument();
 
-					// Hook up to the PrintPage event of the document
-					this.PrintDocument.PrintPage += new PrintPageEventHandler(pd_PrintPage);
-				}
-				return _printDocument;
-			}
-		}
+                    // Hook up to the PrintPage event of the document
+                    this.PrintDocument.PrintPage += new PrintPageEventHandler(pd_PrintPage);
+                }
+                return _printDocument;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Printing methods
+        #region Printing methods
 
-		/// <summary>
-		/// Draws chart on the printer graphics.
-		/// </summary>
+        /// <summary>
+        /// Draws chart on the printer graphics.
+        /// </summary>
         /// <param name="graphics">Printer graphics.</param>
-		/// <param name="position">Position to draw in the graphics.</param>
+        /// <param name="position">Position to draw in the graphics.</param>
         public void PrintPaint(Graphics graphics, Rectangle position)
-		{
-			// Get a reference to the chart image object
-			if(_chartImage == null && _serviceContainer != null)
-			{
-				_chartImage = (ChartImage)_serviceContainer.GetService(typeof(ChartImage));
-			}
+        {
+            // Get a reference to the chart image object
+            if (_chartImage == null && _serviceContainer != null)
+            {
+                _chartImage = (ChartImage)_serviceContainer.GetService(typeof(ChartImage));
+            }
 
-			// Draw chart
-			if(_chartImage != null)
-			{
-				// Change chart size to fit the new position
-				int oldWidth = _chartImage.Width;
-				int oldHeight = _chartImage.Height;
+            // Draw chart
+            if (_chartImage != null)
+            {
+                // Change chart size to fit the new position
+                int oldWidth = _chartImage.Width;
+                int oldHeight = _chartImage.Height;
                 _chartImage.Width = position.Width;
                 _chartImage.Height = position.Height;
 
-				// Save graphics state.
-				GraphicsState transState = graphics.Save();
+                // Save graphics state.
+                GraphicsState transState = graphics.Save();
 
-				// Set required transformation
-				graphics.TranslateTransform(position.X, position.Y);
+                // Set required transformation
+                graphics.TranslateTransform(position.X, position.Y);
 
-				// Set printing indicator
-				_chartImage.isPrinting = true;
+                // Set printing indicator
+                _chartImage.isPrinting = true;
 
-				// Draw chart
-				_chartImage.Paint(graphics, false);
+                // Draw chart
+                _chartImage.Paint(graphics, false);
 
-				// Clear printing indicator
-				_chartImage.isPrinting = false;
+                // Clear printing indicator
+                _chartImage.isPrinting = false;
 
-				// Restore graphics state.
-				graphics.Restore(transState);
+                // Restore graphics state.
+                graphics.Restore(transState);
 
-				// Restore old chart position
-				_chartImage.Width = oldWidth;
-				_chartImage.Height = oldHeight;
-			}
-		}
+                // Restore old chart position
+                _chartImage.Width = oldWidth;
+                _chartImage.Height = oldHeight;
+            }
+        }
 
-		/// <summary>
-		/// Shows Page Setup dialog.
-		/// </summary>
-		public void PageSetup()
-		{
-			// Create print preview dialog
-			using PageSetupDialog pageSetupDialog = new PageSetupDialog();
+        /// <summary>
+        /// Shows Page Setup dialog.
+        /// </summary>
+        public void PageSetup()
+        {
+            // Create print preview dialog
+            using PageSetupDialog pageSetupDialog = new PageSetupDialog();
 
-			// Initialize printing document
-			pageSetupDialog.Document = this.PrintDocument;
+            // Initialize printing document
+            pageSetupDialog.Document = this.PrintDocument;
 
-			// Show page setup dialog
-			pageSetupDialog.ShowDialog();
-		}
+            // Show page setup dialog
+            pageSetupDialog.ShowDialog();
+        }
 
 
-		/// <summary>
-		/// Print preview the chart.
-		/// </summary>
-		public void PrintPreview()
-		{
-			// Create print preview dialog
-			using PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog();
+        /// <summary>
+        /// Print preview the chart.
+        /// </summary>
+        public void PrintPreview()
+        {
+            // Create print preview dialog
+            using PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog();
 
-			// Initialize printing document
-			printPreviewDialog.Document = this.PrintDocument;
+            // Initialize printing document
+            printPreviewDialog.Document = this.PrintDocument;
 
-			// Show print preview
-			printPreviewDialog.ShowDialog();
-		}
+            // Show print preview
+            printPreviewDialog.ShowDialog();
+        }
 
-		/// <summary>
-		/// Prints chart.
-		/// </summary>
-		/// <param name="showPrintDialog">Indicates if printing dialog should be shown.</param>
-		public void Print(bool showPrintDialog)
-		{
+        /// <summary>
+        /// Prints chart.
+        /// </summary>
+        /// <param name="showPrintDialog">Indicates if printing dialog should be shown.</param>
+        public void Print(bool showPrintDialog)
+        {
             // Show Print dialog
-			if(showPrintDialog)
-			{
-				// Create and show Print dialog
-				using PrintDialog printDialog = new PrintDialog();
+            if (showPrintDialog)
+            {
+                // Create and show Print dialog
+                using PrintDialog printDialog = new PrintDialog();
                 printDialog.UseEXDialog = true;
-				printDialog.Document = this.PrintDocument;
-				DialogResult dialogResult = printDialog.ShowDialog();
+                printDialog.Document = this.PrintDocument;
+                DialogResult dialogResult = printDialog.ShowDialog();
 
-				// Do not proceed with printing if OK button was not pressed
-				if(dialogResult != DialogResult.OK && dialogResult != DialogResult.Yes)
-				{
-					return;
-				}
-			}
+                // Do not proceed with printing if OK button was not pressed
+                if (dialogResult != DialogResult.OK && dialogResult != DialogResult.Yes)
+                {
+                    return;
+                }
+            }
 
-			// Print chart
-			this.PrintDocument.Print();
-		}
+            // Print chart
+            this.PrintDocument.Print();
+        }
 
-		/// <summary>
-		/// Handles PrintPage event of the document.
-		/// </summary>
-		/// <param name="sender">Sender object.</param>
-		/// <param name="ev">Event parameters.</param>
-		private void pd_PrintPage(object sender, PrintPageEventArgs ev) 
-		{
-			// Get a reference to the chart image object
-			if(_chartImage == null && _serviceContainer != null)
-			{
-				_chartImage = (ChartImage)_serviceContainer.GetService(typeof(ChartImage));
-			}
+        /// <summary>
+        /// Handles PrintPage event of the document.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="ev">Event parameters.</param>
+        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
+        {
+            // Get a reference to the chart image object
+            if (_chartImage == null && _serviceContainer != null)
+            {
+                _chartImage = (ChartImage)_serviceContainer.GetService(typeof(ChartImage));
+            }
 
-			if(_chartImage != null)
-			{
+            if (_chartImage != null)
+            {
                 // Save graphics state.
                 GraphicsState transState = ev.Graphics.Save();
                 try
@@ -262,9 +262,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     ev.Graphics.Restore(transState);
                 }
             }
-		}
+        }
 
-		#endregion
+        #endregion
 
         #region IDisposable Members
 
@@ -295,5 +295,5 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         #endregion
-	}
+    }
 }

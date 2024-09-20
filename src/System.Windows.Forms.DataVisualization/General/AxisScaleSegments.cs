@@ -590,13 +590,13 @@ internal sealed class AxisScaleSegment
         // Add border width
         if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
         {
-            breakPosition.Height = (float)Math.Abs(breakPosition.Y - breakPosition.Height);
+            breakPosition.Height = Math.Abs(breakPosition.Y - breakPosition.Height);
             breakPosition.X -= this.axis.ChartArea.BorderWidth;
             breakPosition.Width += 2 * this.axis.ChartArea.BorderWidth;
         }
         else
         {
-            breakPosition.Width = (float)Math.Abs(breakPosition.X - breakPosition.Width);
+            breakPosition.Width = Math.Abs(breakPosition.X - breakPosition.Width);
             breakPosition.Y -= this.axis.ChartArea.BorderWidth;
             breakPosition.Height += 2 * this.axis.ChartArea.BorderWidth;
         }

@@ -22,7 +22,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
     using System.Drawing;
     using System.Drawing.Design;
     using System.Drawing.Drawing2D;
-        using SizeF = Drawing.SizeF;
+
+    using SizeF = Drawing.SizeF;
 
     #region Enumerations
 
@@ -124,7 +125,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private int _minimumCellWidth = -1;
 
         // Maximum column width
-        private int _maximumCellWidth = -1;        
+        private int _maximumCellWidth = -1;
 
         #endregion // Fields
 
@@ -1519,7 +1520,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             else
             {
-                resultString = resultString.Replace(KeywordName.LegendText, "");
+                resultString = resultString.Replace(KeywordName.LegendText, string.Empty);
             }
 
             // Check if text width exceeds recomended character length

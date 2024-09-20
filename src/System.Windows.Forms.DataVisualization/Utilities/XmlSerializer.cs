@@ -685,7 +685,7 @@ internal abstract class SerializerBase
                                 if (chartNC is not null)
                                     chartNC.IsColectionEditing = true;
 
-                                try                             
+                                try
                                 {
                                     // Remove found object from the list
                                     list.Remove(objByName);

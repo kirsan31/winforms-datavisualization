@@ -44,15 +44,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// deals with input and output series. 
     /// </summary>
     public class StatisticFormula
-	{
-		#region Fields
+    {
+        #region Fields
 
         // Name used for temporary data series
-		private string _tempOutputSeriesName = "Statistical Analyses Formula Temporary Output Series 2552003";
+        private string _tempOutputSeriesName = "Statistical Analyses Formula Temporary Output Series 2552003";
 
         // Reference to the class which describes calculation settings and 
         // provides access to chart common elements.
-		private DataFormula _formulaData;
+        private DataFormula _formulaData;
 
         #endregion // Fields
 
@@ -62,54 +62,54 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// StatisticFormula Constructor
         /// </summary>
         /// <param name="formulaData">Formula Data</param>
-        internal StatisticFormula( DataFormula formulaData )
-		{
-			this._formulaData = formulaData;
-		}
+        internal StatisticFormula(DataFormula formulaData)
+        {
+            this._formulaData = formulaData;
+        }
 
-		#endregion // Constructor
+        #endregion // Constructor
 
-		#region Tests
-		
-		/// <summary>
+        #region Tests
+
+        /// <summary>
         /// This formula performs a Z Test using Normal distribution.
-		/// </summary>
-		/// <param name="hypothesizedMeanDifference">Hypothesized mean difference.</param>
-		/// <param name="varianceFirstGroup">Variance first group.</param>
-		/// <param name="varianceSecondGroup">Variance second group.</param>
-		/// <param name="probability">Probability.</param>
-		/// <param name="firstInputSeriesName">First input series name.</param>
-		/// <param name="secondInputSeriesName">Second input series name.</param>
+        /// </summary>
+        /// <param name="hypothesizedMeanDifference">Hypothesized mean difference.</param>
+        /// <param name="varianceFirstGroup">Variance first group.</param>
+        /// <param name="varianceSecondGroup">Variance second group.</param>
+        /// <param name="probability">Probability.</param>
+        /// <param name="firstInputSeriesName">First input series name.</param>
+        /// <param name="secondInputSeriesName">Second input series name.</param>
         /// <returns>ZTestResult object.</returns>
-		public ZTestResult ZTest( 
-			double hypothesizedMeanDifference, 
-			double varianceFirstGroup, 
-			double varianceSecondGroup, 
-			double probability, 
-			string firstInputSeriesName, 
-			string secondInputSeriesName )
-		{
+        public ZTestResult ZTest(
+            double hypothesizedMeanDifference,
+            double varianceFirstGroup,
+            double varianceSecondGroup,
+            double probability,
+            string firstInputSeriesName,
+            string secondInputSeriesName)
+        {
             // Check arguments
             if (firstInputSeriesName == null)
                 throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
                 throw new ArgumentNullException(nameof(secondInputSeriesName));
 
-			// Create output class
-			ZTestResult zTestResult = new ZTestResult();
+            // Create output class
+            ZTestResult zTestResult = new ZTestResult();
 
-			// Make string with parameters
-			string parameter = hypothesizedMeanDifference.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + varianceFirstGroup.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + varianceSecondGroup.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
+            // Make string with parameters
+            string parameter = hypothesizedMeanDifference.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + varianceFirstGroup.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + varianceSecondGroup.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-			// Set input series string
-			string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+            // Set input series string
+            string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
             // Execute formula
             try
             {
@@ -134,42 +134,42 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result class
-			return zTestResult;
-			
-		}
+            // Return result class
+            return zTestResult;
 
-		/// <summary>
+        }
+
+        /// <summary>
         /// Perform a T Test using Students distribution (T distribution) with unequal variances.
-		/// </summary>
-		/// <param name="hypothesizedMeanDifference">Hypothesized mean difference.</param>
-		/// <param name="probability">Probability.</param>
-		/// <param name="firstInputSeriesName">First input series name.</param>
-		/// <param name="secondInputSeriesName">Second input series name.</param>
+        /// </summary>
+        /// <param name="hypothesizedMeanDifference">Hypothesized mean difference.</param>
+        /// <param name="probability">Probability.</param>
+        /// <param name="firstInputSeriesName">First input series name.</param>
+        /// <param name="secondInputSeriesName">Second input series name.</param>
         /// <returns>TTestResult object.</returns>
-		public TTestResult TTestUnequalVariances( 
-			double hypothesizedMeanDifference, 
-			double probability, 
-			string firstInputSeriesName, 
-			string secondInputSeriesName )
-		{
+        public TTestResult TTestUnequalVariances(
+            double hypothesizedMeanDifference,
+            double probability,
+            string firstInputSeriesName,
+            string secondInputSeriesName)
+        {
             // Check arguments
             if (firstInputSeriesName == null)
                 throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
                 throw new ArgumentNullException(nameof(secondInputSeriesName));
 
-			// Create output class
-			TTestResult tTestResult = new TTestResult();
+            // Create output class
+            TTestResult tTestResult = new TTestResult();
 
-			// Make string with parameters
-			string parameter = hypothesizedMeanDifference.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
+            // Make string with parameters
+            string parameter = hypothesizedMeanDifference.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-			// Set input series string
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+            // Set input series string
             try
             {
                 string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
@@ -197,45 +197,45 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result class
-			return tTestResult;
-			
-		}
+            // Return result class
+            return tTestResult;
 
-		/// <summary>
+        }
+
+        /// <summary>
         /// Perform a T Test using Students distribution (T distribution) with equal variances.
-		/// </summary>
-		/// <param name="hypothesizedMeanDifference">Hypothesized mean difference.</param>
-		/// <param name="probability">Probability.</param>
-		/// <param name="firstInputSeriesName">First input series name.</param>
-		/// <param name="secondInputSeriesName">Second input series name.</param>
+        /// </summary>
+        /// <param name="hypothesizedMeanDifference">Hypothesized mean difference.</param>
+        /// <param name="probability">Probability.</param>
+        /// <param name="firstInputSeriesName">First input series name.</param>
+        /// <param name="secondInputSeriesName">Second input series name.</param>
         /// <returns>TTestResult object.</returns>
-		public TTestResult TTestEqualVariances( 
-			double hypothesizedMeanDifference, 
-			double probability, 
-			string firstInputSeriesName, 
-			string secondInputSeriesName )
-		{
+        public TTestResult TTestEqualVariances(
+            double hypothesizedMeanDifference,
+            double probability,
+            string firstInputSeriesName,
+            string secondInputSeriesName)
+        {
             // Check arguments
             if (firstInputSeriesName == null)
                 throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
                 throw new ArgumentNullException(nameof(secondInputSeriesName));
 
-			// Create output class
-			TTestResult tTestResult = new TTestResult();
+            // Create output class
+            TTestResult tTestResult = new TTestResult();
 
-			// Make string with parameters
-			string parameter = hypothesizedMeanDifference.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
+            // Make string with parameters
+            string parameter = hypothesizedMeanDifference.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-			// Set input series string
-			string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Execute formula
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+            // Set input series string
+            string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            // Execute formula
             try
             {
                 _formulaData.Formula("TTestEqualVariances", parameter, inputSeriesParameter, _tempOutputSeriesName);
@@ -260,45 +260,45 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result class
-			return tTestResult;			
-		}
+            // Return result class
+            return tTestResult;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Performs a T Test using Students distribution (T distribution) with paired samples. 
         /// This is useful when there is a natural pairing of observations in samples.
-		/// </summary>
+        /// </summary>
         /// <param name="hypothesizedMeanDifference">Hypothesized mean difference.</param>
         /// <param name="probability">Probability.</param>
         /// <param name="firstInputSeriesName">First input series name.</param>
         /// <param name="secondInputSeriesName">Second input series name.</param>
         /// <returns>TTestResult object.</returns>
-		public TTestResult TTestPaired( 
-			double hypothesizedMeanDifference, 
-			double probability, 
-			string firstInputSeriesName, 
-			string secondInputSeriesName )
-		{
+        public TTestResult TTestPaired(
+            double hypothesizedMeanDifference,
+            double probability,
+            string firstInputSeriesName,
+            string secondInputSeriesName)
+        {
             // Check arguments
             if (firstInputSeriesName == null)
                 throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
                 throw new ArgumentNullException(nameof(secondInputSeriesName));
 
-			// Create output class
-			TTestResult tTestResult = new TTestResult();
+            // Create output class
+            TTestResult tTestResult = new TTestResult();
 
-			// Make string with parameters
-			string parameter = hypothesizedMeanDifference.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
+            // Make string with parameters
+            string parameter = hypothesizedMeanDifference.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-			// Set input series string
-			string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Execute formula
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+            // Set input series string
+            string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            // Execute formula
             try
             {
                 _formulaData.Formula("TTestPaired", parameter, inputSeriesParameter, _tempOutputSeriesName);
@@ -323,10 +323,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result class
-			return tTestResult;
-			
-		}
+            // Return result class
+            return tTestResult;
+
+        }
 
         /// <summary>
         /// Removes empty points from series.
@@ -351,35 +351,35 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="firstInputSeriesName">First input series name.</param>
         /// <param name="secondInputSeriesName">Second input series name.</param>
         /// <returns>FTestResult object.</returns>
-        public FTestResult FTest( 
-			double probability, 
-			string firstInputSeriesName, 
-			string secondInputSeriesName )
-		{
+        public FTestResult FTest(
+            double probability,
+            string firstInputSeriesName,
+            string secondInputSeriesName)
+        {
             // Check arguments
             if (firstInputSeriesName == null)
                 throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
                 throw new ArgumentNullException(nameof(secondInputSeriesName));
 
-			// Create output class
-			FTestResult fTestResult = new FTestResult();
+            // Create output class
+            FTestResult fTestResult = new FTestResult();
 
-			// Make string with parameters
-			string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            // Make string with parameters
+            string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-			// Set input series string
-			string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
+            // Set input series string
+            string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-            
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+
             // remove empty points from the collection.
             RemoveEmptyPoints(firstInputSeriesName);
             RemoveEmptyPoints(secondInputSeriesName);
 
-			// Execute formula
+            // Execute formula
             try
             {
                 _formulaData.Formula("FTest", parameter, inputSeriesParameter, _tempOutputSeriesName);
@@ -401,37 +401,37 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result class
-			return fTestResult;
-			
-		}
+            // Return result class
+            return fTestResult;
+
+        }
 
 
-		/// <summary>
+        /// <summary>
         /// An Anova test is used to determine the existence, or absence of a statistically 
         /// significant difference between the mean values of two or more groups of data.
-		/// </summary>
-		/// <param name="probability">Probability.</param>
+        /// </summary>
+        /// <param name="probability">Probability.</param>
         /// <param name="inputSeriesNames">Comma-delimited list of input series names.</param>
         /// <returns>AnovaResult object.</returns>
-		public AnovaResult Anova( 
-			double probability, 
-			string inputSeriesNames)
-		{
+        public AnovaResult Anova(
+            double probability,
+            string inputSeriesNames)
+        {
             // Check arguments
             if (inputSeriesNames == null)
                 throw new ArgumentNullException(nameof(inputSeriesNames));
 
-			// Create output class
-			AnovaResult anovaResult = new AnovaResult();
+            // Create output class
+            AnovaResult anovaResult = new AnovaResult();
 
-			// Make string with parameters
-			string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
+            // Make string with parameters
+            string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-			// Execute formula
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+            // Execute formula
             try
             {
                 _formulaData.Formula("Anova", parameter, inputSeriesNames, _tempOutputSeriesName);
@@ -456,30 +456,30 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result class
-			return anovaResult;			
-		}
+            // Return result class
+            return anovaResult;
+        }
 
-		#endregion // Test
+        #endregion // Test
 
-		#region Distributions
+        #region Distributions
 
-		/// <summary>
+        /// <summary>
         /// This method returns the probability for the standard normal cumulative distribution function.
-		/// </summary>
+        /// </summary>
         /// <param name="zValue">The Z value for which the probability is required.</param>
-		/// <returns>Returns value from the standard normal cumulative distribution function.</returns>
+        /// <returns>Returns value from the standard normal cumulative distribution function.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
             Justification = "Z is a cartesian coordinate and well understood")]
         public double NormalDistribution(double zValue)
-		{
-			// Make string with parameters
-			string parameter = zValue.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
-			
-			// Execute formula
+        {
+            // Make string with parameters
+            string parameter = zValue.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+            // Execute formula
             double result = double.NaN;
             try
             {
@@ -496,26 +496,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result class
-			return result;
-			
-		}
+            // Return result class
+            return result;
 
-		/// <summary>
+        }
+
+        /// <summary>
         /// This method returns the inverse of the standard normal cumulative distribution.
-		/// </summary>
-		/// <param name="probability">Probability.</param>
-		/// <returns>Returns value from the inverse standard normal cumulative distribution function.</returns>
-		public double InverseNormalDistribution( double probability )
-		{
-			
-			// Make string with parameters
-			string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
-			
-			// Execute formula
+        /// </summary>
+        /// <param name="probability">Probability.</param>
+        /// <returns>Returns value from the inverse standard normal cumulative distribution function.</returns>
+        public double InverseNormalDistribution(double probability)
+        {
+
+            // Make string with parameters
+            string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+            // Execute formula
             double result = double.NaN;
             try
             {
@@ -532,32 +532,32 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result class
-			return result;			
-		}
+            // Return result class
+            return result;
+        }
 
-		/// <summary>
+        /// <summary>
         /// This method returns the cumulative F distribution function probability.
-		/// </summary>
-		/// <param name="value">F Value.</param>
-		/// <param name="firstDegreeOfFreedom">First degree of freedom.</param>
-		/// <param name="secondDegreeOfFreedom">Second degree of freedom.</param>
-		/// <returns>Returns value from the cumulative F distribution function.</returns>
-		public double FDistribution( 
-			double value,
-			int firstDegreeOfFreedom,
-			int secondDegreeOfFreedom )
-		{
-			
-			// Make string with parameters
-			string parameter = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + firstDegreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + secondDegreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
-			
-			// Execute formula
+        /// </summary>
+        /// <param name="value">F Value.</param>
+        /// <param name="firstDegreeOfFreedom">First degree of freedom.</param>
+        /// <param name="secondDegreeOfFreedom">Second degree of freedom.</param>
+        /// <returns>Returns value from the cumulative F distribution function.</returns>
+        public double FDistribution(
+            double value,
+            int firstDegreeOfFreedom,
+            int secondDegreeOfFreedom)
+        {
+
+            // Make string with parameters
+            string parameter = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + firstDegreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + secondDegreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+            // Execute formula
             double result = double.NaN;
             try
             {
@@ -574,32 +574,32 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result class
-			return result;			
-		}
+            // Return result class
+            return result;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns the inverse of the F cumulative distribution.
-		/// </summary>
-		/// <param name="probability">Probability.</param>
-		/// <param name="firstDegreeOfFreedom">First degree of freedom.</param>
-		/// <param name="secondDegreeOfFreedom">Second degree of freedom.</param>
-		/// <returns>Returns value from the inverse F distribution function.</returns>
-		public double InverseFDistribution( 
-			double probability,
-			int firstDegreeOfFreedom,
-			int secondDegreeOfFreedom )
-		{
-			
-			// Make string with parameters
-			string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + firstDegreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + secondDegreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
-			
-			// Execute formula
+        /// </summary>
+        /// <param name="probability">Probability.</param>
+        /// <param name="firstDegreeOfFreedom">First degree of freedom.</param>
+        /// <param name="secondDegreeOfFreedom">Second degree of freedom.</param>
+        /// <returns>Returns value from the inverse F distribution function.</returns>
+        public double InverseFDistribution(
+            double probability,
+            int firstDegreeOfFreedom,
+            int secondDegreeOfFreedom)
+        {
+
+            // Make string with parameters
+            string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + firstDegreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + secondDegreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+            // Execute formula
             double result = double.NaN;
             try
             {
@@ -616,38 +616,38 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result class
-			return result;			
-		}
-		
-		/// <summary>
+            // Return result class
+            return result;
+        }
+
+        /// <summary>
         /// Returns the probability for the T distribution (student's distribution).
-		/// </summary>
-		/// <param name="value">T value</param>
-		/// <param name="degreeOfFreedom">Degree of freedom</param>
+        /// </summary>
+        /// <param name="value">T value</param>
+        /// <param name="degreeOfFreedom">Degree of freedom</param>
         /// <param name="oneTail">If true, one-tailed distribution is used; otherwise two-tailed distribution is used.</param>
-		/// <returns>Returns T Distribution cumulative function</returns>
-		public double TDistribution( 
-			double value,
-			int degreeOfFreedom,
-			bool oneTail )
-		{
-			
-			// Make string with parameters
-			string parameter = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + degreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			if( oneTail )
-			{
-				parameter += ",1";
-			}
-			else
-			{
-				parameter += ",2";
-			}
-			
-						
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
+        /// <returns>Returns T Distribution cumulative function</returns>
+        public double TDistribution(
+            double value,
+            int degreeOfFreedom,
+            bool oneTail)
+        {
+
+            // Make string with parameters
+            string parameter = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + degreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            if (oneTail)
+            {
+                parameter += ",1";
+            }
+            else
+            {
+                parameter += ",2";
+            }
+
+
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
 
             // Execute formula
             double result = double.NaN;
@@ -666,28 +666,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-        	// Return result class
-			return result;
-			
-		}
+            // Return result class
+            return result;
 
-		/// <summary>
+        }
+
+        /// <summary>
         /// Returns the T-value of the T distribution as a function of probability and degrees of freedom.
-		/// </summary>
-		/// <param name="probability">Probability.</param>
-		/// <param name="degreeOfFreedom">Degree of freedom.</param>
-		/// <returns>Returns Inverse T distribution.</returns>
-		public double InverseTDistribution( 
-			double probability,
-			int degreeOfFreedom )
-		{
-			
-			// Make string with parameters
-			string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + degreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
-						
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
+        /// </summary>
+        /// <param name="probability">Probability.</param>
+        /// <param name="degreeOfFreedom">Degree of freedom.</param>
+        /// <returns>Returns Inverse T distribution.</returns>
+        public double InverseTDistribution(
+            double probability,
+            int degreeOfFreedom)
+        {
+
+            // Make string with parameters
+            string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + degreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
 
             // Execute formula
             double result = double.NaN;
@@ -706,42 +706,42 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result class
-			return result;
-			
-		}
+            // Return result class
+            return result;
 
-		#endregion // Distributions
+        }
 
-		#region Correlation and Covariance
+        #endregion // Distributions
 
-		/// <summary>
+        #region Correlation and Covariance
+
+        /// <summary>
         /// This method gets the covariance value for two series of data.
-		/// </summary>
-		/// <param name="firstInputSeriesName">First input series name.</param>
-		/// <param name="secondInputSeriesName">Second input series name.</param>
-		/// <returns>Covariance.</returns>
-		public double Covariance( 
-			string firstInputSeriesName, 
-			string secondInputSeriesName )
-		{
+        /// </summary>
+        /// <param name="firstInputSeriesName">First input series name.</param>
+        /// <param name="secondInputSeriesName">Second input series name.</param>
+        /// <returns>Covariance.</returns>
+        public double Covariance(
+            string firstInputSeriesName,
+            string secondInputSeriesName)
+        {
             // Check arguments
             if (firstInputSeriesName == null)
                 throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
-                throw new ArgumentNullException(nameof(secondInputSeriesName));			
+                throw new ArgumentNullException(nameof(secondInputSeriesName));
 
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
 
-			// Set input series string
-			string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Execute formula
+            // Set input series string
+            string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            // Execute formula
             double result = double.NaN;
             try
-            {                
-                _formulaData.Formula("Covariance", "", inputSeriesParameter, _tempOutputSeriesName);
+            {
+                _formulaData.Formula("Covariance", string.Empty, inputSeriesParameter, _tempOutputSeriesName);
 
                 DataPointCollection points = _formulaData.Common.DataManager.Series[_tempOutputSeriesName].Points;
 
@@ -753,39 +753,39 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Remove Temporary output series
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
-            
-			// Return result
-			return result;
-			
-		}
 
-		/// <summary>
+            // Return result
+            return result;
+
+        }
+
+        /// <summary>
         /// This method gets the correlation value for two series of data.
-		/// </summary>
-		/// <param name="firstInputSeriesName">First input series name.</param>
-		/// <param name="secondInputSeriesName">Second input series name.</param>
-		/// <returns>Returns Correlation</returns>
-		public double Correlation( 
-			string firstInputSeriesName, 
-			string secondInputSeriesName )
-		{
+        /// </summary>
+        /// <param name="firstInputSeriesName">First input series name.</param>
+        /// <param name="secondInputSeriesName">Second input series name.</param>
+        /// <returns>Returns Correlation</returns>
+        public double Correlation(
+            string firstInputSeriesName,
+            string secondInputSeriesName)
+        {
             // Check arguments
             if (firstInputSeriesName == null)
                 throw new ArgumentNullException(nameof(firstInputSeriesName));
             if (secondInputSeriesName == null)
-                throw new ArgumentNullException(nameof(secondInputSeriesName));			
+                throw new ArgumentNullException(nameof(secondInputSeriesName));
 
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
 
-			// Set input series string
-			string inputSeriesParameter = firstInputSeriesName + "," + secondInputSeriesName;
-			
-			// Execute formula
+            // Set input series string
+            string inputSeriesParameter = firstInputSeriesName + "," + secondInputSeriesName;
+
+            // Execute formula
             double result = double.NaN;
             try
             {
-                _formulaData.Formula("Correlation", "", inputSeriesParameter, _tempOutputSeriesName);
+                _formulaData.Formula("Correlation", string.Empty, inputSeriesParameter, _tempOutputSeriesName);
 
                 DataPointCollection points = _formulaData.Common.DataManager.Series[_tempOutputSeriesName].Points;
 
@@ -798,34 +798,34 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result
-			return result;
-			
-		}
+            // Return result
+            return result;
 
-		/// <summary>
+        }
+
+        /// <summary>
         /// This method returns the average of all data points stored in the specified series.
-		/// </summary>
-		/// <param name="inputSeriesName">Input series name.</param>
-		/// <returns>The average of all data points.</returns>
-		public double Mean( 
-			string inputSeriesName )
-		{
+        /// </summary>
+        /// <param name="inputSeriesName">Input series name.</param>
+        /// <returns>The average of all data points.</returns>
+        public double Mean(
+            string inputSeriesName)
+        {
             // Check arguments
             if (inputSeriesName == null)
                 throw new ArgumentNullException(nameof(inputSeriesName));
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
 
-			// Set input series string
-			string inputSeriesParameter = inputSeriesName;
-			
-			// Execute formula
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+            // Set input series string
+            string inputSeriesParameter = inputSeriesName;
+
+            // Execute formula
             double result = double.NaN;
             try
             {
-                _formulaData.Formula("Mean", "", inputSeriesParameter, _tempOutputSeriesName);
+                _formulaData.Formula("Mean", string.Empty, inputSeriesParameter, _tempOutputSeriesName);
 
                 DataPointCollection points = _formulaData.Common.DataManager.Series[_tempOutputSeriesName].Points;
 
@@ -838,34 +838,34 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result
-			return result;
-			
-		}
+            // Return result
+            return result;
 
-		/// <summary>
+        }
+
+        /// <summary>
         /// This method returns the median of all data points in the specified series.
-		/// </summary>
-		/// <param name="inputSeriesName">Input series name.</param>
-		/// <returns>Median.</returns>
-		public double Median( 
-			string inputSeriesName )
-		{
+        /// </summary>
+        /// <param name="inputSeriesName">Input series name.</param>
+        /// <returns>Median.</returns>
+        public double Median(
+            string inputSeriesName)
+        {
             // Check arguments
             if (inputSeriesName == null)
-                throw new ArgumentNullException(nameof(inputSeriesName));			
+                throw new ArgumentNullException(nameof(inputSeriesName));
 
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
 
-			// Set input series string
-			string inputSeriesParameter = inputSeriesName;
-			
-			// Execute formula
+            // Set input series string
+            string inputSeriesParameter = inputSeriesName;
+
+            // Execute formula
             double result = double.NaN;
             try
             {
-                _formulaData.Formula("Median", "", inputSeriesParameter, _tempOutputSeriesName);
+                _formulaData.Formula("Median", string.Empty, inputSeriesParameter, _tempOutputSeriesName);
 
                 DataPointCollection points = _formulaData.Common.DataManager.Series[_tempOutputSeriesName].Points;
 
@@ -878,10 +878,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result
-			return result;
-			
-		}
+            // Return result
+            return result;
+
+        }
 
         /// <summary>
         /// This method returns the variance for a series.
@@ -889,24 +889,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="inputSeriesName">Input series name.</param>
         /// <param name="sampleVariance">If true, the data is a sample of the population.  If false, it is the entire population.</param>
         /// <returns>Variance.</returns>
-		public double Variance( 
-			string inputSeriesName,
-			bool sampleVariance )
-		{
+		public double Variance(
+            string inputSeriesName,
+            bool sampleVariance)
+        {
             // Check arguments
             if (inputSeriesName == null)
                 throw new ArgumentNullException(nameof(inputSeriesName));
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
 
-			// Set input series string
-			string inputSeriesParameter = inputSeriesName;
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
 
-			// Formula parameter
-			string parameter = sampleVariance.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Execute formula
+            // Set input series string
+            string inputSeriesParameter = inputSeriesName;
+
+            // Formula parameter
+            string parameter = sampleVariance.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            // Execute formula
             double result = double.NaN;
             try
             {
@@ -923,35 +923,35 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result
-			return result;
-			
-		}
+            // Return result
+            return result;
 
-		/// <summary>
+        }
+
+        /// <summary>
         /// This method returns the beta function for two given values.
-		/// </summary>
-		/// <param name="m">First parameter for beta function</param>
-		/// <param name="n">Second Parameter for beta function</param>
-		/// <returns>Returns beta function for the two given values.</returns>
+        /// </summary>
+        /// <param name="m">First parameter for beta function</param>
+        /// <param name="n">Second Parameter for beta function</param>
+        /// <returns>Returns beta function for the two given values.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
-             Justification = "The Beta Function is a mathematical function where arbitrary letters to indicate inputs are common")]  
-        public double BetaFunction( 
-			double m,
-			double n )
-		{
+             Justification = "The Beta Function is a mathematical function where arbitrary letters to indicate inputs are common")]
+        public double BetaFunction(
+            double m,
+            double n)
+        {
             // Fix for the VSTS 230829: The BetaFunction for the m=0,n=0 is double.NaN
             if (m == 0 && n == 0)
                 return double.NaN;
 
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
-			
-			// Formula parameter
-			string parameter = m.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			parameter += "," + n.ToString(System.Globalization.CultureInfo.InvariantCulture);
-			
-			// Execute formula
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+            // Formula parameter
+            string parameter = m.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            parameter += "," + n.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            // Execute formula
             double result = double.NaN;
             try
             {
@@ -968,26 +968,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result
-			return result;			
-		}
+            // Return result
+            return result;
+        }
 
         /// <summary>
         /// This method returns the gamma function value for the given variable.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>Returns gamma function</returns>
-		public double GammaFunction( 
-			double value )
-		{
-			
-			// Create temporary output series.
-			_formulaData.Common.DataManager.Series.Add( new Series(_tempOutputSeriesName) );
-			
-			// Formula parameter
-			string parameter = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
-						
-			// Execute formula
+		public double GammaFunction(
+            double value)
+        {
+
+            // Create temporary output series.
+            _formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
+
+            // Formula parameter
+            string parameter = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            // Execute formula
             double result = double.NaN;
             try
             {
@@ -1004,13 +1004,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 _formulaData.Common.DataManager.Series.Remove(_formulaData.Common.DataManager.Series[_tempOutputSeriesName]);
             }
 
-			// Return result
-			return result;
-			
-		}
-		
-		#endregion
-	}
+            // Return result
+            return result;
+
+        }
+
+        #endregion
+    }
 
     #region Output classes used to store statistical calculations results
 
@@ -1145,7 +1145,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets the probability T one tail value.
         /// </summary>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly",
-            Justification = "T One Tail is a statistics term. 'Tone' is not the intended word here.")]   
+            Justification = "T One Tail is a statistics term. 'Tone' is not the intended word here.")]
         public double ProbabilityTOneTail
         {
             get
@@ -1584,7 +1584,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Gets the probability Z one tail value.
         /// </summary>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly",
-            Justification = "Z One Tail is a statistics term. 'Zone' is not the intended word here.")]  
+            Justification = "Z One Tail is a statistics term. 'Zone' is not the intended word here.")]
         public double ProbabilityZOneTail
         {
             get

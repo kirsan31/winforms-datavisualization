@@ -13,37 +13,37 @@ using System.Collections;
 
 namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	internal class StatisticalAnalysis : IFormula
-	{
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class StatisticalAnalysis : IFormula
+    {
 
-		#region Error strings
+        #region Error strings
 
-		// Error strings
-		//internal string inputArrayStart = "Formula requires";
-		//internal string inputArrayEnd = "arrays";
-		
-		#endregion
+        // Error strings
+        //internal string inputArrayStart = "Formula requires";
+        //internal string inputArrayEnd = "arrays";
 
-		#region Parameters
+        #endregion
 
-		/// <summary>
-		/// Formula Module name
-		/// </summary>
+        #region Parameters
+
+        /// <summary>
+        /// Formula Module name
+        /// </summary>
         virtual public string Name { get { return SR.FormulaNameStatisticalAnalysis; } }
 
-		#endregion // Parameters
+        #endregion // Parameters
 
-		#region Methods
+        #region Methods
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public StatisticalAnalysis()
-		{
-		}
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public StatisticalAnalysis()
+        {
+        }
 
         /// <summary>
         /// The first method in the module, which converts a formula 
@@ -55,93 +55,93 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="parameterList">Array of strings - Formula parameters</param>
         /// <param name="extraParameterList">Array of strings - Extra Formula parameters from DataManipulator object</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		virtual public void Formula( string formulaName, double [][] inputValues, out double [][] outputValues, string [] parameterList, string [] extraParameterList, out string [][] outLabels )
-		{
-			string name;
-		
-			outLabels = null;
+		virtual public void Formula(string formulaName, double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList, out string[][] outLabels)
+        {
+            string name;
 
-			name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+            outLabels = null;
 
-			try
-			{
-				switch( name )
-				{
-					case "TTESTEQUALVARIANCES":
-						TTest( inputValues, out outputValues, parameterList, out outLabels, true );
-						break;
-					case "TTESTUNEQUALVARIANCES":
-						TTest( inputValues, out outputValues, parameterList, out outLabels, false );
-						break;
-					case "TTESTPAIRED":
-						TTestPaired( inputValues, out outputValues, parameterList, out outLabels );
-						break;
-					case "ZTEST":
-						ZTest( inputValues, out outputValues, parameterList, out outLabels );
-						break;
-					case "FTEST":
-						FTest( inputValues, out outputValues, parameterList, out outLabels );
-						break;
-					case "COVARIANCE":
-						Covariance( inputValues, out outputValues, out outLabels );
-						break;
-					case "CORRELATION":
-						Correlation( inputValues, out outputValues, out outLabels );
-						break;
-					case "ANOVA":
-						Anova( inputValues, out outputValues, parameterList, out outLabels );
-						break;
-					case "TDISTRIBUTION":
-						TDistribution( out outputValues, parameterList, out outLabels );
-						break;
-					case "FDISTRIBUTION":
-						FDistribution( out outputValues, parameterList, out outLabels );
-						break;
-					case "NORMALDISTRIBUTION":
-						NormalDistribution( out outputValues, parameterList, out outLabels );
-						break;
-					case "INVERSETDISTRIBUTION":
-						TDistributionInverse( out outputValues, parameterList, out outLabels );
-						break;
-					case "INVERSEFDISTRIBUTION":
-						FDistributionInverse( out outputValues, parameterList, out outLabels );
-						break;
-					case "INVERSENORMALDISTRIBUTION":
-						NormalDistributionInverse( out outputValues, parameterList, out outLabels );
-						break;
-					case "MEAN":
-						Average( inputValues, out outputValues, out outLabels );
-						break;
-					case "VARIANCE":
-						Variance( inputValues, out outputValues, parameterList, out outLabels );
-						break;
-					case "MEDIAN":
-						Median( inputValues, out outputValues, out outLabels );
-						break;
-					case "BETAFUNCTION":
-						BetaFunction( out outputValues, parameterList, out outLabels );
-						break;
-					case "GAMMAFUNCTION":
-						GammaFunction( out outputValues, parameterList, out outLabels );
-						break;
-					default:
-						outputValues = null; 
-						break;
-				}
-			}
-			catch( IndexOutOfRangeException )
-			{
-				throw new InvalidOperationException( SR.ExceptionFormulaInvalidPeriod(name) );
-			}
-			catch( OverflowException )
-			{
-				throw new InvalidOperationException( SR.ExceptionFormulaNotEnoughDataPoints(name) );
-			}
-		}
+            name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
 
-		#endregion // Methods
+            try
+            {
+                switch (name)
+                {
+                    case "TTESTEQUALVARIANCES":
+                        TTest(inputValues, out outputValues, parameterList, out outLabels, true);
+                        break;
+                    case "TTESTUNEQUALVARIANCES":
+                        TTest(inputValues, out outputValues, parameterList, out outLabels, false);
+                        break;
+                    case "TTESTPAIRED":
+                        TTestPaired(inputValues, out outputValues, parameterList, out outLabels);
+                        break;
+                    case "ZTEST":
+                        ZTest(inputValues, out outputValues, parameterList, out outLabels);
+                        break;
+                    case "FTEST":
+                        FTest(inputValues, out outputValues, parameterList, out outLabels);
+                        break;
+                    case "COVARIANCE":
+                        Covariance(inputValues, out outputValues, out outLabels);
+                        break;
+                    case "CORRELATION":
+                        Correlation(inputValues, out outputValues, out outLabels);
+                        break;
+                    case "ANOVA":
+                        Anova(inputValues, out outputValues, parameterList, out outLabels);
+                        break;
+                    case "TDISTRIBUTION":
+                        TDistribution(out outputValues, parameterList, out outLabels);
+                        break;
+                    case "FDISTRIBUTION":
+                        FDistribution(out outputValues, parameterList, out outLabels);
+                        break;
+                    case "NORMALDISTRIBUTION":
+                        NormalDistribution(out outputValues, parameterList, out outLabels);
+                        break;
+                    case "INVERSETDISTRIBUTION":
+                        TDistributionInverse(out outputValues, parameterList, out outLabels);
+                        break;
+                    case "INVERSEFDISTRIBUTION":
+                        FDistributionInverse(out outputValues, parameterList, out outLabels);
+                        break;
+                    case "INVERSENORMALDISTRIBUTION":
+                        NormalDistributionInverse(out outputValues, parameterList, out outLabels);
+                        break;
+                    case "MEAN":
+                        Average(inputValues, out outputValues, out outLabels);
+                        break;
+                    case "VARIANCE":
+                        Variance(inputValues, out outputValues, parameterList, out outLabels);
+                        break;
+                    case "MEDIAN":
+                        Median(inputValues, out outputValues, out outLabels);
+                        break;
+                    case "BETAFUNCTION":
+                        BetaFunction(out outputValues, parameterList, out outLabels);
+                        break;
+                    case "GAMMAFUNCTION":
+                        GammaFunction(out outputValues, parameterList, out outLabels);
+                        break;
+                    default:
+                        outputValues = null;
+                        break;
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(name));
+            }
+            catch (OverflowException)
+            {
+                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(name));
+            }
+        }
 
-		#region Statistical Tests		
+        #endregion // Methods
+
+        #region Statistical Tests		
 
         /// <summary>
         /// Anova test
@@ -150,163 +150,163 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void Anova(double [][] inputValues, out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			// There is no enough input series
-			 if( inputValues.Length < 3 )
-                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesNotEnoughInputSeries);
-			
-			outLabels = null;
+        private void Anova(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+            // There is no enough input series
+            if (inputValues.Length < 3)
+                throw new ArgumentException(SR.ExceptionStatisticalAnalysesNotEnoughInputSeries);
 
-			for( int index = 0; index < inputValues.Length - 1; index++ )
-			{
-				if( inputValues[index].Length != inputValues[index+1].Length )
+            outLabels = null;
+
+            for (int index = 0; index < inputValues.Length - 1; index++)
+            {
+                if (inputValues[index].Length != inputValues[index + 1].Length)
                     throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAnovaTest);
-			}
+            }
 
-			// Alpha value
-			double alpha;
-			try
-			{
-				alpha = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // Alpha value
+            double alpha;
+            try
+            {
+                alpha = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
-			}
+            }
 
-			if( alpha < 0 || alpha > 1 )
-			{
+            if (alpha < 0 || alpha > 1)
+            {
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
-			}
+            }
 
-			// Output arrays
-			outputValues = new double [2][];
+            // Output arrays
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [10]; 
+            // Parameters description
+            outLabels[0] = new string[10];
 
-			// X
-			outputValues[0] = new double [10];
+            // X
+            outputValues[0] = new double[10];
 
-			// Y
-			outputValues[1] = new double [10];
+            // Y
+            outputValues[1] = new double[10];
 
-			int m = inputValues.Length - 1;
-			int n = inputValues[0].Length;
+            int m = inputValues.Length - 1;
+            int n = inputValues[0].Length;
 
-			double [] average = new double[ m ];
-			double [] variance = new double[ m ];
-			
-			// Find averages
-			for( int group = 0; group < m; group++ )
-			{
-				average[group] = Mean( inputValues[group+1] );
-			}
+            double[] average = new double[m];
+            double[] variance = new double[m];
 
-			// Find variances
-			for( int group = 0; group < m; group++ )
-			{
-				variance[group] = Variance( inputValues[group+1], true );
-			}
+            // Find averages
+            for (int group = 0; group < m; group++)
+            {
+                average[group] = Mean(inputValues[group + 1]);
+            }
 
-			// Total Average ( for all groups )
-			double averageTotal = Mean( average );
+            // Find variances
+            for (int group = 0; group < m; group++)
+            {
+                variance[group] = Variance(inputValues[group + 1], true);
+            }
 
-			// Total Sample Variance
-			double totalS = 0;
-			foreach( double avr in average )
-			{
-				totalS += ( avr - averageTotal ) * ( avr - averageTotal );
-			}
+            // Total Average ( for all groups )
+            double averageTotal = Mean(average);
 
-			totalS /=  m - 1 ;
+            // Total Sample Variance
+            double totalS = 0;
+            foreach (double avr in average)
+            {
+                totalS += (avr - averageTotal) * (avr - averageTotal);
+            }
 
-			// Group Sample Variance
-			double groupS = Mean( variance );
+            totalS /= m - 1;
 
-			// F Statistica
-			double f = totalS *  n  / groupS;
+            // Group Sample Variance
+            double groupS = Mean(variance);
 
-			// ****************************************
-			// Sum of Squares
-			// ****************************************
+            // F Statistica
+            double f = totalS * n / groupS;
 
-			// Grend Total Average
-			double grandTotalAverage = 0;
-			for( int group = 0; group < m; group++ )
-			{
-				foreach( double point in inputValues[group+1] )
-				{
-					grandTotalAverage += point;
-				}
-			}
+            // ****************************************
+            // Sum of Squares
+            // ****************************************
 
-			grandTotalAverage /=  m * n ;
+            // Grend Total Average
+            double grandTotalAverage = 0;
+            for (int group = 0; group < m; group++)
+            {
+                foreach (double point in inputValues[group + 1])
+                {
+                    grandTotalAverage += point;
+                }
+            }
 
-			// Treatment Sum of Squares
-			double trss = 0;
-			for( int group = 0; group < m; group++ )
-			{
-				trss += ( average[group] - grandTotalAverage ) * ( average[group] - grandTotalAverage );
-			}
+            grandTotalAverage /= m * n;
 
-			trss *= n;
-			
-			// Error Sum of Squares
-			double erss = 0;
-			for( int group = 0; group < m; group++ )
-			{
-				foreach( double point in inputValues[group+1] )
-				{
-					erss += ( point - average[group] ) * ( point - average[group] );
-				}
-			}
+            // Treatment Sum of Squares
+            double trss = 0;
+            for (int group = 0; group < m; group++)
+            {
+                trss += (average[group] - grandTotalAverage) * (average[group] - grandTotalAverage);
+            }
 
-            outLabels[0][0] = SR.LabelStatisticalSumOfSquaresBetweenGroups; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = trss;
+            trss *= n;
 
-            outLabels[0][1] = SR.LabelStatisticalSumOfSquaresWithinGroups; 
-			outputValues[0][1] = 2; 
-			outputValues[1][1] = erss;
+            // Error Sum of Squares
+            double erss = 0;
+            for (int group = 0; group < m; group++)
+            {
+                foreach (double point in inputValues[group + 1])
+                {
+                    erss += (point - average[group]) * (point - average[group]);
+                }
+            }
 
-            outLabels[0][2] = SR.LabelStatisticalSumOfSquaresTotal; 
-			outputValues[0][2] = 3; 
-			outputValues[1][2] = trss + erss;
+            outLabels[0][0] = SR.LabelStatisticalSumOfSquaresBetweenGroups;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = trss;
 
-            outLabels[0][3] = SR.LabelStatisticalDegreesOfFreedomBetweenGroups; 
-			outputValues[0][3] = 4; 
-			outputValues[1][3] = m - 1;
+            outLabels[0][1] = SR.LabelStatisticalSumOfSquaresWithinGroups;
+            outputValues[0][1] = 2;
+            outputValues[1][1] = erss;
 
-            outLabels[0][4] = SR.LabelStatisticalDegreesOfFreedomWithinGroups; 
-			outputValues[0][4] = 5; 
-			outputValues[1][4] = m * ( n - 1 );
+            outLabels[0][2] = SR.LabelStatisticalSumOfSquaresTotal;
+            outputValues[0][2] = 3;
+            outputValues[1][2] = trss + erss;
 
-            outLabels[0][5] = SR.LabelStatisticalDegreesOfFreedomTotal; 
-			outputValues[0][5] = 6; 
-			outputValues[1][5] = m * n - 1;
+            outLabels[0][3] = SR.LabelStatisticalDegreesOfFreedomBetweenGroups;
+            outputValues[0][3] = 4;
+            outputValues[1][3] = m - 1;
 
-            outLabels[0][6] = SR.LabelStatisticalMeanSquareVarianceBetweenGroups; 
-			outputValues[0][6] = 7; 
-			outputValues[1][6] = trss / ( m - 1 );
+            outLabels[0][4] = SR.LabelStatisticalDegreesOfFreedomWithinGroups;
+            outputValues[0][4] = 5;
+            outputValues[1][4] = m * (n - 1);
 
-            outLabels[0][7] = SR.LabelStatisticalMeanSquareVarianceWithinGroups; 
-			outputValues[0][7] = 8; 
-			outputValues[1][7] = erss / ( m * ( n - 1 ) );
+            outLabels[0][5] = SR.LabelStatisticalDegreesOfFreedomTotal;
+            outputValues[0][5] = 6;
+            outputValues[1][5] = m * n - 1;
 
-            outLabels[0][8] = SR.LabelStatisticalFRatio; 
-			outputValues[0][8] = 9; 
-			outputValues[1][8] = f;
+            outLabels[0][6] = SR.LabelStatisticalMeanSquareVarianceBetweenGroups;
+            outputValues[0][6] = 7;
+            outputValues[1][6] = trss / (m - 1);
 
-            outLabels[0][9] = SR.LabelStatisticalFCriteria; 
-			outputValues[0][9] = 10; 
-			outputValues[1][9] = FDistributionInverse( alpha, m - 1, m * ( n - 1 ) ); 
-		
-		}
+            outLabels[0][7] = SR.LabelStatisticalMeanSquareVarianceWithinGroups;
+            outputValues[0][7] = 8;
+            outputValues[1][7] = erss / (m * (n - 1));
+
+            outLabels[0][8] = SR.LabelStatisticalFRatio;
+            outputValues[0][8] = 9;
+            outputValues[1][8] = f;
+
+            outLabels[0][9] = SR.LabelStatisticalFCriteria;
+            outputValues[0][9] = 10;
+            outputValues[1][9] = FDistributionInverse(alpha, m - 1, m * (n - 1));
+
+        }
 
 
 
@@ -327,42 +327,42 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void Correlation(double [][] inputValues, out double [][] outputValues, out string [][] outLabels )
-		{
-			// There is no enough input series
-			if( inputValues.Length != 3 )
-				throw new ArgumentException( SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		private void Correlation(double[][] inputValues, out double[][] outputValues, out string[][] outLabels)
+        {
+            // There is no enough input series
+            if (inputValues.Length != 3)
+                throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
 
 
             // Output arrays
-            outputValues = new double [2][];
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-			// Y
-			outputValues[1] = new double [1];
+            // Y
+            outputValues[1] = new double[1];
 
-			// Find Covariance.
-			double covar = Covar( inputValues[1], inputValues[2] );
+            // Find Covariance.
+            double covar = Covar(inputValues[1], inputValues[2]);
 
-			double varianceX = Variance( inputValues[1], false );
-			double varianceY = Variance( inputValues[2], false );
+            double varianceX = Variance(inputValues[1], false);
+            double varianceY = Variance(inputValues[2], false);
 
-			// Correlation
-			double correl = covar / Math.Sqrt( varianceX * varianceY );
+            // Correlation
+            double correl = covar / Math.Sqrt(varianceX * varianceY);
 
-            outLabels[0][0] = SR.LabelStatisticalCorrelation; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = correl; 
+            outLabels[0][0] = SR.LabelStatisticalCorrelation;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = correl;
 
-		}
+        }
 
         /// <summary>
         /// Returns covariance, the average of the products of deviations 
@@ -374,36 +374,36 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void Covariance(double [][] inputValues, out double [][] outputValues, out string [][] outLabels )
-		{
-			// There is no enough input series
-			if( inputValues.Length != 3 )
-				throw new ArgumentException( SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		private void Covariance(double[][] inputValues, out double[][] outputValues, out string[][] outLabels)
+        {
+            // There is no enough input series
+            if (inputValues.Length != 3)
+                throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
 
 
             // Output arrays
-            outputValues = new double [2][];
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-			// Y
-			outputValues[1] = new double [1];
+            // Y
+            outputValues[1] = new double[1];
 
-			// Find Covariance.
-			double covar = Covar( inputValues[1], inputValues[2] );
+            // Find Covariance.
+            double covar = Covar(inputValues[1], inputValues[2]);
 
-            outLabels[0][0] = SR.LabelStatisticalCovariance; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = covar; 
+            outLabels[0][0] = SR.LabelStatisticalCovariance;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = covar;
 
-		}
+        }
 
         /// <summary>
         /// Returns the result of an F-test. An F-test returns the one-tailed 
@@ -417,127 +417,127 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void FTest(double [][] inputValues, out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			// There is no enough input series
-			if( inputValues.Length != 3 )
-				throw new ArgumentException( SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
-			
-			outLabels = null;
+		private void FTest(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+            // There is no enough input series
+            if (inputValues.Length != 3)
+                throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
 
-			double alpha;
+            outLabels = null;
 
-			// The number of data points has to be > 1.
-			CheckNumOfPoints( inputValues );
-						
-			// Alpha value
-			try
-			{
-				alpha = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            double alpha;
+
+            // The number of data points has to be > 1.
+            CheckNumOfPoints(inputValues);
+
+            // Alpha value
+            try
+            {
+                alpha = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
-			}
+            }
 
-			if( alpha < 0 || alpha > 1 )
-			{
+            if (alpha < 0 || alpha > 1)
+            {
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
-			}
-			
-			// Output arrays
-			outputValues = new double [2][];
+            }
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output arrays
+            outputValues = new double[2][];
 
-			// Parameters description
-			outLabels[0] = new string [7]; 
+            // Output Labels
+            outLabels = new string[1][];
 
-			// X
-			outputValues[0] = new double [7];
+            // Parameters description
+            outLabels[0] = new string[7];
 
-			// Y
-			outputValues[1] = new double [7];
+            // X
+            outputValues[0] = new double[7];
 
-			// Find Variance of the first group
-			double variance1 = Variance( inputValues[1], true );
+            // Y
+            outputValues[1] = new double[7];
 
-			// Find Variance of the second group
-			double variance2 = Variance( inputValues[2], true );
+            // Find Variance of the first group
+            double variance1 = Variance(inputValues[1], true);
 
-			// Find Mean of the first group
-			double mean1 = Mean( inputValues[1] );
+            // Find Variance of the second group
+            double variance2 = Variance(inputValues[2], true);
 
-			// Find Mean of the second group
-			double mean2 = Mean( inputValues[2] );
-			
-			// F Value
-			double valueF = variance1 / variance2;
+            // Find Mean of the first group
+            double mean1 = Mean(inputValues[1]);
 
-			if( variance2 == 0 )
-			{
+            // Find Mean of the second group
+            double mean2 = Mean(inputValues[2]);
+
+            // F Value
+            double valueF = variance1 / variance2;
+
+            if (variance2 == 0)
+            {
                 throw new InvalidOperationException(SR.ExceptionStatisticalAnalysesZeroVariance);
-			}
+            }
 
-			// The way to find a left critical value is to reversed the degrees of freedom, 
-			// look up the right critical value, and then take the reciprocal of this value. 
-			// For example, the critical value with 0.05 on the left with 12 numerator and 15 
-			// denominator degrees of freedom is found of taking the reciprocal of the critical 
-			// value with 0.05 on the right with 15 numerator and 12 denominator degrees of freedom. 
-			// Avoiding Left Critical Values. Since the left critical values are a pain to calculate, 
-			// they are often avoided altogether. This is the procedure followed in the textbook. 
-			// You can force the F test into a right tail test by placing the sample with the large 
-			// variance in the numerator and the smaller variance in the denominator. It does not 
-			// matter which sample has the larger sample size, only which sample has the larger 
-			// variance. The numerator degrees of freedom will be the degrees of freedom for 
-			// whichever sample has the larger variance (since it is in the numerator) and the 
-			// denominator degrees of freedom will be the degrees of freedom for whichever sample 
-			// has the smaller variance (since it is in the denominator). 
-			bool lessOneF = valueF <= 1;
+            // The way to find a left critical value is to reversed the degrees of freedom, 
+            // look up the right critical value, and then take the reciprocal of this value. 
+            // For example, the critical value with 0.05 on the left with 12 numerator and 15 
+            // denominator degrees of freedom is found of taking the reciprocal of the critical 
+            // value with 0.05 on the right with 15 numerator and 12 denominator degrees of freedom. 
+            // Avoiding Left Critical Values. Since the left critical values are a pain to calculate, 
+            // they are often avoided altogether. This is the procedure followed in the textbook. 
+            // You can force the F test into a right tail test by placing the sample with the large 
+            // variance in the numerator and the smaller variance in the denominator. It does not 
+            // matter which sample has the larger sample size, only which sample has the larger 
+            // variance. The numerator degrees of freedom will be the degrees of freedom for 
+            // whichever sample has the larger variance (since it is in the numerator) and the 
+            // denominator degrees of freedom will be the degrees of freedom for whichever sample 
+            // has the smaller variance (since it is in the denominator). 
+            bool lessOneF = valueF <= 1;
 
-			double fDistInv;
-			double fDist;
+            double fDistInv;
+            double fDist;
 
-			if( lessOneF )
-			{
-				fDistInv = FDistributionInverse( 1 - alpha, inputValues[1].Length - 1, inputValues[2].Length - 1 );
-				fDist = 1 - FDistribution( valueF, inputValues[1].Length - 1, inputValues[2].Length - 1 );
-			}
-			else
-			{
-				fDistInv = FDistributionInverse( alpha, inputValues[1].Length - 1, inputValues[2].Length - 1 );
-				fDist = FDistribution( valueF, inputValues[1].Length - 1, inputValues[2].Length - 1 );
-			}
+            if (lessOneF)
+            {
+                fDistInv = FDistributionInverse(1 - alpha, inputValues[1].Length - 1, inputValues[2].Length - 1);
+                fDist = 1 - FDistribution(valueF, inputValues[1].Length - 1, inputValues[2].Length - 1);
+            }
+            else
+            {
+                fDistInv = FDistributionInverse(alpha, inputValues[1].Length - 1, inputValues[2].Length - 1);
+                fDist = FDistribution(valueF, inputValues[1].Length - 1, inputValues[2].Length - 1);
+            }
 
-            outLabels[0][0] = SR.LabelStatisticalTheFirstGroupMean; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = mean1;
+            outLabels[0][0] = SR.LabelStatisticalTheFirstGroupMean;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = mean1;
 
-            outLabels[0][1] = SR.LabelStatisticalTheSecondGroupMean; 
-			outputValues[0][1] = 2; 
-			outputValues[1][1] = mean2;
+            outLabels[0][1] = SR.LabelStatisticalTheSecondGroupMean;
+            outputValues[0][1] = 2;
+            outputValues[1][1] = mean2;
 
-            outLabels[0][2] = SR.LabelStatisticalTheFirstGroupVariance; 
-			outputValues[0][2] = 3; 
-			outputValues[1][2] = variance1;
+            outLabels[0][2] = SR.LabelStatisticalTheFirstGroupVariance;
+            outputValues[0][2] = 3;
+            outputValues[1][2] = variance1;
 
-            outLabels[0][3] = SR.LabelStatisticalTheSecondGroupVariance; 
-			outputValues[0][3] = 4; 
-			outputValues[1][3] = variance2;
+            outLabels[0][3] = SR.LabelStatisticalTheSecondGroupVariance;
+            outputValues[0][3] = 4;
+            outputValues[1][3] = variance2;
 
-            outLabels[0][4] = SR.LabelStatisticalFValue; 
-			outputValues[0][4] = 5; 
-			outputValues[1][4] = valueF;
+            outLabels[0][4] = SR.LabelStatisticalFValue;
+            outputValues[0][4] = 5;
+            outputValues[1][4] = valueF;
 
-            outLabels[0][5] = SR.LabelStatisticalPFLessEqualSmallFOneTail; 
-			outputValues[0][5] = 6; 
-			outputValues[1][5] = fDist;
+            outLabels[0][5] = SR.LabelStatisticalPFLessEqualSmallFOneTail;
+            outputValues[0][5] = 6;
+            outputValues[1][5] = fDist;
 
-            outLabels[0][6] = SR.LabelStatisticalFCriticalValueOneTail; 
-			outputValues[0][6] = 7; 
-			outputValues[1][6] = fDistInv; 
-		}
+            outLabels[0][6] = SR.LabelStatisticalFCriticalValueOneTail;
+            outputValues[0][6] = 7;
+            outputValues[1][6] = fDistInv;
+        }
 
 
         /// <summary>
@@ -552,150 +552,150 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void ZTest(double [][] inputValues, out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			// There is no enough input series
-			if( inputValues.Length != 3 )
-				throw new ArgumentException( SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
-			
-			// The number of data points has to be > 1.
-			CheckNumOfPoints( inputValues );
+		private void ZTest(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+            // There is no enough input series
+            if (inputValues.Length != 3)
+                throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
 
-			outLabels = null;
+            // The number of data points has to be > 1.
+            CheckNumOfPoints(inputValues);
 
-			double variance1;
-			double variance2;
-			double alpha;
-			double HypothesizedMeanDifference;
+            outLabels = null;
 
-			// Find Hypothesized Mean Difference parameter
-			try
-			{
-				HypothesizedMeanDifference = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            double variance1;
+            double variance2;
+            double alpha;
+            double HypothesizedMeanDifference;
+
+            // Find Hypothesized Mean Difference parameter
+            try
+            {
+                HypothesizedMeanDifference = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidMeanDifference);
-			}
+            }
 
-			if( HypothesizedMeanDifference < 0.0 ) 
-			{
+            if (HypothesizedMeanDifference < 0.0)
+            {
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesNegativeMeanDifference);
-			}
+            }
 
-			// Find variance of the first group
-			try
-			{
-				variance1 = double.Parse( parameterList[1], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // Find variance of the first group
+            try
+            {
+                variance1 = double.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidVariance);
-			}
+            }
 
-			// Find variance of the second group
-			try
-			{
-				variance2 = double.Parse( parameterList[2], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // Find variance of the second group
+            try
+            {
+                variance2 = double.Parse(parameterList[2], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidVariance);
-			}
+            }
 
-			// Alpha value
-			try
-			{
-				alpha = double.Parse( parameterList[3], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // Alpha value
+            try
+            {
+                alpha = double.Parse(parameterList[3], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
-			}
+            }
 
-			if( alpha < 0 || alpha > 1 )
-			{
+            if (alpha < 0 || alpha > 1)
+            {
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
-			}
-			
-			// Output arrays
-			outputValues = new double [2][];
+            }
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output arrays
+            outputValues = new double[2][];
 
-			// Parameters description
-			outLabels[0] = new string [9]; 
+            // Output Labels
+            outLabels = new string[1][];
 
-			// X
-			outputValues[0] = new double [9];
+            // Parameters description
+            outLabels[0] = new string[9];
 
-			// Y
-			outputValues[1] = new double [9];
+            // X
+            outputValues[0] = new double[9];
 
-			// Find Mean of the first group
-			double mean1 = Mean( inputValues[1] );
+            // Y
+            outputValues[1] = new double[9];
 
-			// Find Mean of the second group
-			double mean2 = Mean( inputValues[2] );
-			
-			double dev = Math.Sqrt( variance1 / inputValues[1].Length + variance2 / inputValues[2].Length );
+            // Find Mean of the first group
+            double mean1 = Mean(inputValues[1]);
 
-			// Z Value
-			double valueZ = ( mean1 - mean2 - HypothesizedMeanDifference ) / dev;
+            // Find Mean of the second group
+            double mean2 = Mean(inputValues[2]);
 
-			double normalDistTwoInv = NormalDistributionInverse( 1 - alpha / 2 );
-			double normalDistOneInv = NormalDistributionInverse( 1 - alpha);
-			double normalDistOne;
-			double normalDistTwo;
+            double dev = Math.Sqrt(variance1 / inputValues[1].Length + variance2 / inputValues[2].Length);
 
-			if( valueZ < 0.0 )
-			{
-				normalDistOne = NormalDistribution( valueZ );
-			}
-			else
-			{
-				normalDistOne = 1.0 - NormalDistribution( valueZ );
-			}
+            // Z Value
+            double valueZ = (mean1 - mean2 - HypothesizedMeanDifference) / dev;
 
-			normalDistTwo = 2.0 * normalDistOne;
+            double normalDistTwoInv = NormalDistributionInverse(1 - alpha / 2);
+            double normalDistOneInv = NormalDistributionInverse(1 - alpha);
+            double normalDistOne;
+            double normalDistTwo;
 
-            outLabels[0][0] = SR.LabelStatisticalTheFirstGroupMean; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = mean1;
+            if (valueZ < 0.0)
+            {
+                normalDistOne = NormalDistribution(valueZ);
+            }
+            else
+            {
+                normalDistOne = 1.0 - NormalDistribution(valueZ);
+            }
 
-            outLabels[0][1] = SR.LabelStatisticalTheSecondGroupMean; 
-			outputValues[0][1] = 2; 
-			outputValues[1][1] = mean2;
+            normalDistTwo = 2.0 * normalDistOne;
 
-            outLabels[0][2] = SR.LabelStatisticalTheFirstGroupVariance; 
-			outputValues[0][2] = 3; 
-			outputValues[1][2] = variance1;
+            outLabels[0][0] = SR.LabelStatisticalTheFirstGroupMean;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = mean1;
 
-            outLabels[0][3] = SR.LabelStatisticalTheSecondGroupVariance; 
-			outputValues[0][3] = 4; 
-			outputValues[1][3] = variance2;
+            outLabels[0][1] = SR.LabelStatisticalTheSecondGroupMean;
+            outputValues[0][1] = 2;
+            outputValues[1][1] = mean2;
 
-            outLabels[0][4] = SR.LabelStatisticalZValue; 
-			outputValues[0][4] = 5; 
-			outputValues[1][4] = valueZ;
+            outLabels[0][2] = SR.LabelStatisticalTheFirstGroupVariance;
+            outputValues[0][2] = 3;
+            outputValues[1][2] = variance1;
 
-            outLabels[0][5] = SR.LabelStatisticalPZLessEqualSmallZOneTail; 
-			outputValues[0][5] = 6; 
-			outputValues[1][5] = normalDistOne;
+            outLabels[0][3] = SR.LabelStatisticalTheSecondGroupVariance;
+            outputValues[0][3] = 4;
+            outputValues[1][3] = variance2;
 
-            outLabels[0][6] = SR.LabelStatisticalZCriticalValueOneTail; 
-			outputValues[0][6] = 7; 
-			outputValues[1][6] = normalDistOneInv;
+            outLabels[0][4] = SR.LabelStatisticalZValue;
+            outputValues[0][4] = 5;
+            outputValues[1][4] = valueZ;
 
-            outLabels[0][7] = SR.LabelStatisticalPZLessEqualSmallZTwoTail; 
-			outputValues[0][7] = 8; 
-			outputValues[1][7] = normalDistTwo;
+            outLabels[0][5] = SR.LabelStatisticalPZLessEqualSmallZOneTail;
+            outputValues[0][5] = 6;
+            outputValues[1][5] = normalDistOne;
 
-            outLabels[0][8] = SR.LabelStatisticalZCriticalValueTwoTail; 
-			outputValues[0][8] = 9; 
-			outputValues[1][8] = normalDistTwoInv; 
-		}
+            outLabels[0][6] = SR.LabelStatisticalZCriticalValueOneTail;
+            outputValues[0][6] = 7;
+            outputValues[1][6] = normalDistOneInv;
+
+            outLabels[0][7] = SR.LabelStatisticalPZLessEqualSmallZTwoTail;
+            outputValues[0][7] = 8;
+            outputValues[1][7] = normalDistTwo;
+
+            outLabels[0][8] = SR.LabelStatisticalZCriticalValueTwoTail;
+            outputValues[0][8] = 9;
+            outputValues[1][8] = normalDistTwoInv;
+        }
 
         /// <summary>
         /// Returns the two-tailed P-value of a z-test. The z-test 
@@ -710,165 +710,165 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
         /// <param name="equalVariances">True if Variances are equal.</param>
-		private void TTest(double [][] inputValues, out double [][] outputValues, string [] parameterList, out string [][] outLabels, bool equalVariances )
-		{
-			// There is no enough input series
-			if( inputValues.Length != 3 )
-				throw new ArgumentException( SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		private void TTest(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels, bool equalVariances)
+        {
+            // There is no enough input series
+            if (inputValues.Length != 3)
+                throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
 
-			outLabels = null;
+            outLabels = null;
 
-			double variance1;
-			double variance2;
-			double alpha;
-			double HypothesizedMeanDifference;
+            double variance1;
+            double variance2;
+            double alpha;
+            double HypothesizedMeanDifference;
 
-			// Find Hypothesized Mean Difference parameter
-			try
-			{
-				HypothesizedMeanDifference = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // Find Hypothesized Mean Difference parameter
+            try
+            {
+                HypothesizedMeanDifference = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidMeanDifference);
-			}
+            }
 
-			if( HypothesizedMeanDifference < 0.0 ) 
-			{
+            if (HypothesizedMeanDifference < 0.0)
+            {
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesNegativeMeanDifference);
-			}
+            }
 
-			// Alpha value
-			try
-			{
-				alpha = double.Parse( parameterList[1], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // Alpha value
+            try
+            {
+                alpha = double.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
-			}
+            }
 
-			if( alpha < 0 || alpha > 1 )
-			{
+            if (alpha < 0 || alpha > 1)
+            {
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
-			}
+            }
 
-			// The number of data points has to be > 1.
-			CheckNumOfPoints( inputValues );
-						
-			// Output arrays
-			outputValues = new double [2][];
+            // The number of data points has to be > 1.
+            CheckNumOfPoints(inputValues);
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output arrays
+            outputValues = new double[2][];
 
-			// Parameters description
-			outLabels[0] = new string [10]; 
+            // Output Labels
+            outLabels = new string[1][];
 
-			// X
-			outputValues[0] = new double [10];
+            // Parameters description
+            outLabels[0] = new string[10];
 
-			// Y
-			outputValues[1] = new double [10];
+            // X
+            outputValues[0] = new double[10];
 
-			// Find Mean of the first group
-			double mean1 = Mean( inputValues[1] );
+            // Y
+            outputValues[1] = new double[10];
 
-			// Find Mean of the second group
-			double mean2 = Mean( inputValues[2] );
+            // Find Mean of the first group
+            double mean1 = Mean(inputValues[1]);
 
-			variance1 = Variance( inputValues[1], true );
+            // Find Mean of the second group
+            double mean2 = Mean(inputValues[2]);
 
-			variance2 = Variance( inputValues[2], true );
+            variance1 = Variance(inputValues[1], true);
 
-			double s;
-			double T;
-			int freedom;
-			if( equalVariances )
-			{
-				freedom = inputValues[1].Length + inputValues[2].Length - 2;
+            variance2 = Variance(inputValues[2], true);
 
-				// S value
-				s = ( ( inputValues[1].Length - 1 ) * variance1 + ( inputValues[2].Length - 1 ) * variance2 ) / ( inputValues[1].Length + inputValues[2].Length - 2 );
+            double s;
+            double T;
+            int freedom;
+            if (equalVariances)
+            {
+                freedom = inputValues[1].Length + inputValues[2].Length - 2;
 
-				// T value
-				T = ( mean1 - mean2 - HypothesizedMeanDifference ) /  Math.Sqrt( s * ( 1.0 / inputValues[1].Length + 1.0 / inputValues[2].Length ) ) ;
-		
-			}
-			else
-			{
-				double m = inputValues[1].Length;
-				double n = inputValues[2].Length;
-				double s1 = variance1;
-				double s2 = variance2;
-				double f = ( s1 / m + s2 / n ) * ( s1 / m + s2 / n ) / (  s1 / m  * ( s1 / m ) / ( m - 1 ) +  s2 / n  * ( s2 / n ) / ( n - 1 ) );
-				freedom = (int)Math.Round(f);
+                // S value
+                s = ((inputValues[1].Length - 1) * variance1 + (inputValues[2].Length - 1) * variance2) / (inputValues[1].Length + inputValues[2].Length - 2);
 
-				s = Math.Sqrt( variance1 / inputValues[1].Length + variance2 / inputValues[2].Length );
+                // T value
+                T = (mean1 - mean2 - HypothesizedMeanDifference) / Math.Sqrt(s * (1.0 / inputValues[1].Length + 1.0 / inputValues[2].Length));
 
-				// Z Value
-				T = ( mean1 - mean2 - HypothesizedMeanDifference ) / s;
-			}
-			
-			double TDistTwoInv = StudentsDistributionInverse( alpha , freedom );
+            }
+            else
+            {
+                double m = inputValues[1].Length;
+                double n = inputValues[2].Length;
+                double s1 = variance1;
+                double s2 = variance2;
+                double f = (s1 / m + s2 / n) * (s1 / m + s2 / n) / (s1 / m * (s1 / m) / (m - 1) + s2 / n * (s2 / n) / (n - 1));
+                freedom = (int)Math.Round(f);
 
-			bool more50 = alpha > 0.5;
+                s = Math.Sqrt(variance1 / inputValues[1].Length + variance2 / inputValues[2].Length);
 
-			if( more50 )
-			{
-				alpha = 1 - alpha;
-			}
+                // Z Value
+                T = (mean1 - mean2 - HypothesizedMeanDifference) / s;
+            }
 
-			double TDistOneInv = StudentsDistributionInverse( alpha * 2.0, freedom );
+            double TDistTwoInv = StudentsDistributionInverse(alpha, freedom);
 
-			if( more50 )
-			{
-				TDistOneInv *= -1.0;
-			}
-			
-			double TDistTwo = StudentsDistribution( T, freedom, false );
-			double TDistOne = StudentsDistribution( T, freedom, true  );
+            bool more50 = alpha > 0.5;
 
-            outLabels[0][0] = SR.LabelStatisticalTheFirstGroupMean; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = mean1;
+            if (more50)
+            {
+                alpha = 1 - alpha;
+            }
 
-            outLabels[0][1] = SR.LabelStatisticalTheSecondGroupMean; 
-			outputValues[0][1] = 2; 
-			outputValues[1][1] = mean2;
+            double TDistOneInv = StudentsDistributionInverse(alpha * 2.0, freedom);
 
-            outLabels[0][2] = SR.LabelStatisticalTheFirstGroupVariance; 
-			outputValues[0][2] = 3; 
-			outputValues[1][2] = variance1;
+            if (more50)
+            {
+                TDistOneInv *= -1.0;
+            }
 
-            outLabels[0][3] = SR.LabelStatisticalTheSecondGroupVariance; 
-			outputValues[0][3] = 4; 
-			outputValues[1][3] = variance2;
+            double TDistTwo = StudentsDistribution(T, freedom, false);
+            double TDistOne = StudentsDistribution(T, freedom, true);
 
-            outLabels[0][4] = SR.LabelStatisticalTValue; 
-			outputValues[0][4] = 5; 
-			outputValues[1][4] = T;
+            outLabels[0][0] = SR.LabelStatisticalTheFirstGroupMean;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = mean1;
 
-            outLabels[0][5] = SR.LabelStatisticalDegreeOfFreedom; 
-			outputValues[0][5] = 6; 
-			outputValues[1][5] = freedom;
+            outLabels[0][1] = SR.LabelStatisticalTheSecondGroupMean;
+            outputValues[0][1] = 2;
+            outputValues[1][1] = mean2;
 
-            outLabels[0][6] = SR.LabelStatisticalPTLessEqualSmallTOneTail; 
-			outputValues[0][6] = 7; 
-			outputValues[1][6] = TDistOne;
+            outLabels[0][2] = SR.LabelStatisticalTheFirstGroupVariance;
+            outputValues[0][2] = 3;
+            outputValues[1][2] = variance1;
 
-            outLabels[0][7] = SR.LabelStatisticalSmallTCrititcalOneTail; 
-			outputValues[0][7] = 8; 
-			outputValues[1][7] = TDistOneInv;
+            outLabels[0][3] = SR.LabelStatisticalTheSecondGroupVariance;
+            outputValues[0][3] = 4;
+            outputValues[1][3] = variance2;
 
-            outLabels[0][8] = SR.LabelStatisticalPTLessEqualSmallTTwoTail; 
-			outputValues[0][8] = 9; 
-			outputValues[1][8] = TDistTwo;
+            outLabels[0][4] = SR.LabelStatisticalTValue;
+            outputValues[0][4] = 5;
+            outputValues[1][4] = T;
 
-            outLabels[0][9] = SR.LabelStatisticalSmallTCrititcalTwoTail; 
-			outputValues[0][9] = 10; 
-			outputValues[1][9] = TDistTwoInv; 
-		}
+            outLabels[0][5] = SR.LabelStatisticalDegreeOfFreedom;
+            outputValues[0][5] = 6;
+            outputValues[1][5] = freedom;
+
+            outLabels[0][6] = SR.LabelStatisticalPTLessEqualSmallTOneTail;
+            outputValues[0][6] = 7;
+            outputValues[1][6] = TDistOne;
+
+            outLabels[0][7] = SR.LabelStatisticalSmallTCrititcalOneTail;
+            outputValues[0][7] = 8;
+            outputValues[1][7] = TDistOneInv;
+
+            outLabels[0][8] = SR.LabelStatisticalPTLessEqualSmallTTwoTail;
+            outputValues[0][8] = 9;
+            outputValues[1][8] = TDistTwo;
+
+            outLabels[0][9] = SR.LabelStatisticalSmallTCrititcalTwoTail;
+            outputValues[0][9] = 10;
+            outputValues[1][9] = TDistTwoInv;
+        }
 
 
         /// <summary>
@@ -883,136 +883,136 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void TTestPaired(double [][] inputValues, out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			// There is no enough input series
-			if( inputValues.Length != 3 )
-				throw new ArgumentException( SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
-			
-			if( inputValues[1].Length != inputValues[2].Length )
+		private void TTestPaired(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+            // There is no enough input series
+            if (inputValues.Length != 3)
+                throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+
+            if (inputValues[1].Length != inputValues[2].Length)
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidVariableRanges);
 
-			outLabels = null;
+            outLabels = null;
 
-			double variance;
-			double alpha;
-			double HypothesizedMeanDifference;
-			int freedom;
+            double variance;
+            double alpha;
+            double HypothesizedMeanDifference;
+            int freedom;
 
-			// Find Hypothesized Mean Difference parameter
-			try
-			{
-				HypothesizedMeanDifference = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // Find Hypothesized Mean Difference parameter
+            try
+            {
+                HypothesizedMeanDifference = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidMeanDifference);
-			}
+            }
 
-			if( HypothesizedMeanDifference < 0.0 ) 
-			{
+            if (HypothesizedMeanDifference < 0.0)
+            {
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesNegativeMeanDifference);
-			}
-						
-			// Alpha value
-			try
-			{
-				alpha = double.Parse( parameterList[1], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            }
+
+            // Alpha value
+            try
+            {
+                alpha = double.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
-			}
+            }
 
-			if( alpha < 0 || alpha > 1 )
-			{
+            if (alpha < 0 || alpha > 1)
+            {
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
-			}
+            }
 
-			// The number of data points has to be > 1.
-			CheckNumOfPoints( inputValues );
-			
-			// Output arrays
-			outputValues = new double [2][];
+            // The number of data points has to be > 1.
+            CheckNumOfPoints(inputValues);
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output arrays
+            outputValues = new double[2][];
 
-			// Parameters description
-			outLabels[0] = new string [10]; 
+            // Output Labels
+            outLabels = new string[1][];
 
-			// X
-			outputValues[0] = new double [10];
+            // Parameters description
+            outLabels[0] = new string[10];
 
-			// Y
-			outputValues[1] = new double [10];
+            // X
+            outputValues[0] = new double[10];
 
-			double [] difference = new double[inputValues[1].Length];
-			
-			for( int item = 0; item < inputValues[1].Length; item++ )
-			{
-				difference[item] = inputValues[1][item] - inputValues[2][item];
-			}
+            // Y
+            outputValues[1] = new double[10];
 
-			// Find Mean of the second group
-			double mean = Mean( difference );
+            double[] difference = new double[inputValues[1].Length];
 
-			variance = Math.Sqrt( Variance( difference, true ) );
+            for (int item = 0; item < inputValues[1].Length; item++)
+            {
+                difference[item] = inputValues[1][item] - inputValues[2][item];
+            }
 
-			double T =  Math.Sqrt( inputValues[1].Length ) * ( mean - HypothesizedMeanDifference )  / variance;
+            // Find Mean of the second group
+            double mean = Mean(difference);
 
-			freedom = inputValues[1].Length - 1;
-			
-			double TDistTwoInv = StudentsDistributionInverse( alpha , freedom );
+            variance = Math.Sqrt(Variance(difference, true));
+
+            double T = Math.Sqrt(inputValues[1].Length) * (mean - HypothesizedMeanDifference) / variance;
+
+            freedom = inputValues[1].Length - 1;
+
+            double TDistTwoInv = StudentsDistributionInverse(alpha, freedom);
             double TDistOneInv = alpha <= 0.5 ? StudentsDistributionInverse(2 * alpha, freedom) : double.NaN;
-			double TDistTwo = StudentsDistribution( T, freedom, false );
-			double TDistOne = StudentsDistribution( T, freedom, true  );
+            double TDistTwo = StudentsDistribution(T, freedom, false);
+            double TDistOne = StudentsDistribution(T, freedom, true);
 
-            outLabels[0][0] = SR.LabelStatisticalTheFirstGroupMean; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = Mean(inputValues[1]);
+            outLabels[0][0] = SR.LabelStatisticalTheFirstGroupMean;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = Mean(inputValues[1]);
 
-            outLabels[0][1] = SR.LabelStatisticalTheSecondGroupMean; 
-			outputValues[0][1] = 2; 
-			outputValues[1][1] = Mean(inputValues[2]);
+            outLabels[0][1] = SR.LabelStatisticalTheSecondGroupMean;
+            outputValues[0][1] = 2;
+            outputValues[1][1] = Mean(inputValues[2]);
 
-            outLabels[0][2] = SR.LabelStatisticalTheFirstGroupVariance; 
-			outputValues[0][2] = 3; 
-			outputValues[1][2] = Variance(inputValues[1],true);
+            outLabels[0][2] = SR.LabelStatisticalTheFirstGroupVariance;
+            outputValues[0][2] = 3;
+            outputValues[1][2] = Variance(inputValues[1], true);
 
-            outLabels[0][3] = SR.LabelStatisticalTheSecondGroupVariance; 
-			outputValues[0][3] = 4; 
-			outputValues[1][3] = Variance(inputValues[2],true);
+            outLabels[0][3] = SR.LabelStatisticalTheSecondGroupVariance;
+            outputValues[0][3] = 4;
+            outputValues[1][3] = Variance(inputValues[2], true);
 
-            outLabels[0][4] = SR.LabelStatisticalTValue; 
-			outputValues[0][4] = 5; 
-			outputValues[1][4] = T;
+            outLabels[0][4] = SR.LabelStatisticalTValue;
+            outputValues[0][4] = 5;
+            outputValues[1][4] = T;
 
-            outLabels[0][5] = SR.LabelStatisticalDegreeOfFreedom; 
-			outputValues[0][5] = 6; 
-			outputValues[1][5] = freedom;
+            outLabels[0][5] = SR.LabelStatisticalDegreeOfFreedom;
+            outputValues[0][5] = 6;
+            outputValues[1][5] = freedom;
 
-            outLabels[0][6] = SR.LabelStatisticalPTLessEqualSmallTOneTail; 
-			outputValues[0][6] = 7; 
-			outputValues[1][6] = TDistOne;
+            outLabels[0][6] = SR.LabelStatisticalPTLessEqualSmallTOneTail;
+            outputValues[0][6] = 7;
+            outputValues[1][6] = TDistOne;
 
-            outLabels[0][7] = SR.LabelStatisticalSmallTCrititcalOneTail; 
-			outputValues[0][7] = 8; 
-			outputValues[1][7] = TDistOneInv;
+            outLabels[0][7] = SR.LabelStatisticalSmallTCrititcalOneTail;
+            outputValues[0][7] = 8;
+            outputValues[1][7] = TDistOneInv;
 
-            outLabels[0][8] = SR.LabelStatisticalPTLessEqualSmallTTwoTail; 
-			outputValues[0][8] = 9; 
-			outputValues[1][8] = TDistTwo;
+            outLabels[0][8] = SR.LabelStatisticalPTLessEqualSmallTTwoTail;
+            outputValues[0][8] = 9;
+            outputValues[1][8] = TDistTwo;
 
-            outLabels[0][9] = SR.LabelStatisticalSmallTCrititcalTwoTail; 
-			outputValues[0][9] = 10; 
-			outputValues[1][9] = TDistTwoInv; 
-		}
+            outLabels[0][9] = SR.LabelStatisticalSmallTCrititcalTwoTail;
+            outputValues[0][9] = 10;
+            outputValues[1][9] = TDistTwoInv;
+        }
 
 
-		#endregion // Statistical Tests
+        #endregion // Statistical Tests
 
-		#region Public distributions
+        #region Public distributions
 
         /// <summary>
         /// Returns the Percentage Points (probability) for the Student 
@@ -1023,63 +1023,63 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void TDistribution(out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			// T value value
-			double tValue;
-			try
-			{
-				tValue = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+        private void TDistribution(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+            // T value value
+            double tValue;
+            try
+            {
+                tValue = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidTValue);
-			}
+            }
 
-			// DegreeOfFreedom
-			int freedom;
-			try
-			{
-				freedom = int.Parse( parameterList[1], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // DegreeOfFreedom
+            int freedom;
+            try
+            {
+                freedom = int.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
-			}
+            }
 
-			// One Tailed distribution
-			int oneTailed;
-			try
-			{
-				oneTailed = int.Parse( parameterList[2], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // One Tailed distribution
+            int oneTailed;
+            try
+            {
+                oneTailed = int.Parse(parameterList[2], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidTailedParameter);
-			}
+            }
 
 
 
             // Output arrays
-            outputValues = new double [2][];
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-			// Y
-			outputValues[1] = new double [1];
+            // Y
+            outputValues[1] = new double[1];
 
-            outLabels[0][0] = SR.LabelStatisticalProbability; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = StudentsDistribution( tValue, freedom, oneTailed == 1 ); 
+            outLabels[0][0] = SR.LabelStatisticalProbability;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = StudentsDistribution(tValue, freedom, oneTailed == 1);
 
-		}
+        }
 
         /// <summary>
         /// Returns the F probability distribution. You can use 
@@ -1092,99 +1092,99 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void FDistribution(out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			// F value value
-			double fValue;
-			try
-			{
-				fValue = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+		private void FDistribution(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+            // F value value
+            double fValue;
+            try
+            {
+                fValue = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidTValue);
-			}
+            }
 
-			// Degree Of Freedom 1
-			int freedom1;
-			try
-			{
-				freedom1 = int.Parse( parameterList[1], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // Degree Of Freedom 1
+            int freedom1;
+            try
+            {
+                freedom1 = int.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
-			}
+            }
 
-			// Degree Of Freedom 2
-			int freedom2;
-			try
-			{
-				freedom2 = int.Parse( parameterList[2], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // Degree Of Freedom 2
+            int freedom2;
+            try
+            {
+                freedom2 = int.Parse(parameterList[2], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
-			}
+            }
 
 
             // Output arrays
-            outputValues = new double [2][];
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-			// Y
-			outputValues[1] = new double [1];
+            // Y
+            outputValues[1] = new double[1];
 
-            outLabels[0][0] = SR.LabelStatisticalProbability; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = FDistribution( fValue, freedom1, freedom2 ); 
-		}
+            outLabels[0][0] = SR.LabelStatisticalProbability;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = FDistribution(fValue, freedom1, freedom2);
+        }
 
         /// <summary></summary>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void NormalDistribution(out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			// F value value
-			double zValue;
-			try
-			{
-				zValue = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+		private void NormalDistribution(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+            // F value value
+            double zValue;
+            try
+            {
+                zValue = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidZValue);
-			}
+            }
 
 
             // Output arrays
-            outputValues = new double [2][];
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-			// Y
-			outputValues[1] = new double [1];
+            // Y
+            outputValues[1] = new double[1];
 
-            outLabels[0][0] = SR.LabelStatisticalProbability; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = this.NormalDistribution( zValue ); 
-		}
+            outLabels[0][0] = SR.LabelStatisticalProbability;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = this.NormalDistribution(zValue);
+        }
 
         /// <summary>
         /// Returns the t-value of the Student's t-distribution 
@@ -1194,51 +1194,51 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void TDistributionInverse(out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			// T value value
-			double probability;
-			try
-			{
-				probability = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+		private void TDistributionInverse(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+            // T value value
+            double probability;
+            try
+            {
+                probability = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidProbabilityValue);
-			}
+            }
 
-			// DegreeOfFreedom
-			int freedom;
-			try
-			{
-				freedom = int.Parse( parameterList[1], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // DegreeOfFreedom
+            int freedom;
+            try
+            {
+                freedom = int.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
-			}
+            }
 
 
             // Output arrays
-            outputValues = new double [2][];
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-			// Y
-			outputValues[1] = new double [1];
+            // Y
+            outputValues[1] = new double[1];
 
-            outLabels[0][0] = SR.LabelStatisticalProbability; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = StudentsDistributionInverse( probability, freedom ); 
+            outLabels[0][0] = SR.LabelStatisticalProbability;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = StudentsDistributionInverse(probability, freedom);
 
-		}
+        }
 
         /// <summary>
         /// Returns the inverse of the F probability distribution. 
@@ -1252,61 +1252,61 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void FDistributionInverse(out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			// Probability value value
-			double probability;
-			try
-			{
-				probability = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+		private void FDistributionInverse(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+            // Probability value value
+            double probability;
+            try
+            {
+                probability = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidProbabilityValue);
-			}
+            }
 
-			// Degree Of Freedom 1
-			int freedom1;
-			try
-			{
-				freedom1 = int.Parse( parameterList[1], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // Degree Of Freedom 1
+            int freedom1;
+            try
+            {
+                freedom1 = int.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
-			}
+            }
 
-			// Degree Of Freedom 2
-			int freedom2;
-			try
-			{
-				freedom2 = int.Parse( parameterList[2], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // Degree Of Freedom 2
+            int freedom2;
+            try
+            {
+                freedom2 = int.Parse(parameterList[2], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
-			}
+            }
 
 
             // Output arrays
-            outputValues = new double [2][];
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-			// Y
-			outputValues[1] = new double [1];
+            // Y
+            outputValues[1] = new double[1];
 
-            outLabels[0][0] = SR.LabelStatisticalProbability; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = FDistributionInverse( probability, freedom1, freedom2 ); 
-		}
+            outLabels[0][0] = SR.LabelStatisticalProbability;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = FDistributionInverse(probability, freedom1, freedom2);
+        }
 
         /// <summary>
         /// Returns the inverse of the standard normal 
@@ -1317,141 +1317,141 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void NormalDistributionInverse(out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			// Alpha value value
-			double alpha;
-			try
-			{
-				alpha = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+		private void NormalDistributionInverse(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+            // Alpha value value
+            double alpha;
+            try
+            {
+                alpha = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
-			}
+            }
 
 
             // Output arrays
-            outputValues = new double [2][];
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-			// Y
-			outputValues[1] = new double [1];
+            // Y
+            outputValues[1] = new double[1];
 
-            outLabels[0][0] = SR.LabelStatisticalProbability; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = this.NormalDistributionInverse( alpha ); 
-		}
+            outLabels[0][0] = SR.LabelStatisticalProbability;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = this.NormalDistributionInverse(alpha);
+        }
 
-		#endregion
+        #endregion
 
-		#region Utility Statistical Functions
+        #region Utility Statistical Functions
 
 
         /// <summary>
         /// Check number of data points. The number should be greater then 1.
         /// </summary>
         /// <param name="inputValues">Input series</param>
-		private void CheckNumOfPoints( double [][] inputValues )
-		{
-			if( inputValues[1].Length < 2 )
-			{
+        private void CheckNumOfPoints(double[][] inputValues)
+        {
+            if (inputValues[1].Length < 2)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesNotEnoughDataPoints);
-			}
+            }
 
-			if( inputValues.Length > 2 )
-			{
-				if( inputValues[2].Length < 2 )
-				{
+            if (inputValues.Length > 2)
+            {
+                if (inputValues[2].Length < 2)
+                {
                     throw new ArgumentException(SR.ExceptionStatisticalAnalysesNotEnoughDataPoints);
-				}
-			}
-		}
-	
-		/// <summary>
-		/// Returns covariance, the average of the products of deviations 
-		/// for each data point pair. Use covariance to determine the 
-		/// relationship between two data sets. For example, you can 
-		/// examine whether greater income accompanies greater 
-		/// levels of education.
-		/// </summary>
-		/// <param name="arrayX">First data set from X random variable.</param>
-		/// <param name="arrayY">Second data set from Y random variable.</param>
-		/// <returns>Returns covariance</returns>
-		private double Covar( double [] arrayX, double [] arrayY )
-		{
-			// Check the number of data points
-			if( arrayX.Length != arrayY.Length )
-			{
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns covariance, the average of the products of deviations 
+        /// for each data point pair. Use covariance to determine the 
+        /// relationship between two data sets. For example, you can 
+        /// examine whether greater income accompanies greater 
+        /// levels of education.
+        /// </summary>
+        /// <param name="arrayX">First data set from X random variable.</param>
+        /// <param name="arrayY">Second data set from Y random variable.</param>
+        /// <returns>Returns covariance</returns>
+        private double Covar(double[] arrayX, double[] arrayY)
+        {
+            // Check the number of data points
+            if (arrayX.Length != arrayY.Length)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesCovariance);
-			}
+            }
 
-			double [] arrayXY = new double[arrayX.Length];
+            double[] arrayXY = new double[arrayX.Length];
 
-			// Find XY
-			for( int index = 0; index < arrayX.Length; index++ )
-			{
-				arrayXY[index] = arrayX[index] * arrayY[index];
-			}
+            // Find XY
+            for (int index = 0; index < arrayX.Length; index++)
+            {
+                arrayXY[index] = arrayX[index] * arrayY[index];
+            }
 
-			// Find means
-			double meanXY = Mean( arrayXY );
-			double meanX = Mean( arrayX );
-			double meanY = Mean( arrayY );
+            // Find means
+            double meanXY = Mean(arrayXY);
+            double meanX = Mean(arrayX);
+            double meanY = Mean(arrayY);
 
-			// return covariance
-			return meanXY - meanX * meanY;
-		}
+            // return covariance
+            return meanXY - meanX * meanY;
+        }
 
-		/// <summary>
-		/// Returns the natural logarithm of the gamma function, G(x).
-		/// </summary>
-		/// <param name="n">The value for which you want to calculate gamma function.</param>
-		/// <returns>Returns the natural logarithm of the gamma function.</returns>
-		private double GammLn( double n )
-		{
-			double x;
-			double y;
-			double tmp;
-			double sum;
-			double [] cof = {76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5};
+        /// <summary>
+        /// Returns the natural logarithm of the gamma function, G(x).
+        /// </summary>
+        /// <param name="n">The value for which you want to calculate gamma function.</param>
+        /// <returns>Returns the natural logarithm of the gamma function.</returns>
+        private double GammLn(double n)
+        {
+            double x;
+            double y;
+            double tmp;
+            double sum;
+            double[] cof = { 76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5 };
 
-			if( n < 0 )
-			{
+            if (n < 0)
+            {
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesGammaBetaNegativeParameters);
-			}
+            }
 
-			// Iterative method for Gamma function
-			y = x = n;
-			tmp = x + 5.5;
-			tmp -= ( x + 0.5 ) * Math.Log( tmp );
-			sum = 1.000000000190015;
-			for( int item = 0; item <=5; item++ )
-			{
-				sum += cof[item] / ++y;
-			}
+            // Iterative method for Gamma function
+            y = x = n;
+            tmp = x + 5.5;
+            tmp -= (x + 0.5) * Math.Log(tmp);
+            sum = 1.000000000190015;
+            for (int item = 0; item <= 5; item++)
+            {
+                sum += cof[item] / ++y;
+            }
 
-			return -tmp + Math.Log( 2.5066282746310005 * sum / x );
-		}
+            return -tmp + Math.Log(2.5066282746310005 * sum / x);
+        }
 
-		/// <summary>
-		/// Calculates Beta function
-		/// </summary>
-		/// <param name="m">First parameter for beta function</param>
-		/// <param name="n">Second parameter for beta function</param>
-		/// <returns>returns beta function</returns>
-		private double BetaFunction( double m, double n )
-		{
-			return Math.Exp( GammLn( m ) + GammLn( n ) - GammLn( m + n ) );	
-		}
+        /// <summary>
+        /// Calculates Beta function
+        /// </summary>
+        /// <param name="m">First parameter for beta function</param>
+        /// <param name="n">Second parameter for beta function</param>
+        /// <returns>returns beta function</returns>
+        private double BetaFunction(double m, double n)
+        {
+            return Math.Exp(GammLn(m) + GammLn(n) - GammLn(m + n));
+        }
 
         /// <summary>
         /// Used by betai: Evaluates continued fraction for 
@@ -1461,94 +1461,94 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="b">Beta incomplete parameter</param>
         /// <param name="x">Beta incomplete parameter</param>
         /// <returns>Value used for Beta incomplete function</returns>
-		private double BetaCF( double a, double b, double x )
-		{
-			int MAXIT = 100;
-			double EPS = 3.0e-7;
-			double FPMIN = 1.0e-30;
+		private double BetaCF(double a, double b, double x)
+        {
+            int MAXIT = 100;
+            double EPS = 3.0e-7;
+            double FPMIN = 1.0e-30;
 
-			int m,m2;
-			double aa,c,d,del,h,qab,qam,qap;
-			qab = a + b;
-			qap= a + 1.0;
-			qam = a - 1.0;
-			c = 1.0;
-			d = 1.0 - qab * x / qap;
-			if ( Math.Abs(d) < FPMIN ) d=FPMIN;
-			d = 1.0 / d;
-			h = d;
+            int m, m2;
+            double aa, c, d, del, h, qab, qam, qap;
+            qab = a + b;
+            qap = a + 1.0;
+            qam = a - 1.0;
+            c = 1.0;
+            d = 1.0 - qab * x / qap;
+            if (Math.Abs(d) < FPMIN) d = FPMIN;
+            d = 1.0 / d;
+            h = d;
 
-			// Numerical approximation for Beta incomplete function
-			for( m=1; m<=MAXIT; m++ ) 
-			{
-				m2 = 2*m;
-				aa = m*(b-m)*x/((qam+m2)*(a+m2));
+            // Numerical approximation for Beta incomplete function
+            for (m = 1; m <= MAXIT; m++)
+            {
+                m2 = 2 * m;
+                aa = m * (b - m) * x / ((qam + m2) * (a + m2));
 
-				// Find d coeficient
-				d = 1.0 + aa*d;
-				if( Math.Abs(d) < FPMIN ) d=FPMIN;
+                // Find d coeficient
+                d = 1.0 + aa * d;
+                if (Math.Abs(d) < FPMIN) d = FPMIN;
 
-				// Find c coeficient
-				c = 1.0 + aa / c;
-				if( Math.Abs(c) < FPMIN ) c = FPMIN;
+                // Find c coeficient
+                c = 1.0 + aa / c;
+                if (Math.Abs(c) < FPMIN) c = FPMIN;
 
-				// Find d coeficient
-				d = 1.0 / d;
+                // Find d coeficient
+                d = 1.0 / d;
 
-				// Find h coeficient
-				h *= d*c;
+                // Find h coeficient
+                h *= d * c;
 
-				aa = -(a+m)*(qab+m)*x/((a+m2)*(qap+m2));
+                aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
 
-				// Recalc d coeficient
-				d=1.0+aa*d;
-				if (Math.Abs(d) < FPMIN) d=FPMIN;
+                // Recalc d coeficient
+                d = 1.0 + aa * d;
+                if (Math.Abs(d) < FPMIN) d = FPMIN;
 
-				// Recalc c coeficient
-				c=1.0+aa/c;
-				if (Math.Abs(c) < FPMIN) c=FPMIN;
+                // Recalc c coeficient
+                c = 1.0 + aa / c;
+                if (Math.Abs(c) < FPMIN) c = FPMIN;
 
-				// Recalc d coeficient
-				d=1.0/d;
-				del=d*c;
+                // Recalc d coeficient
+                d = 1.0 / d;
+                del = d * c;
 
-				// Recalc h coeficient
-				h *= del;
+                // Recalc h coeficient
+                h *= del;
 
-				if (Math.Abs(del-1.0) < EPS) 
-				{
-					break;
-				}
-			}
+                if (Math.Abs(del - 1.0) < EPS)
+                {
+                    break;
+                }
+            }
 
-			if (m > MAXIT)
-			{
+            if (m > MAXIT)
+            {
                 throw new InvalidOperationException(SR.ExceptionStatisticalAnalysesIncompleteBetaFunction);
-			}
+            }
 
-			return h;
-		}
+            return h;
+        }
 
-		/// <summary>
-		/// Standard normal density function
-		/// </summary>
-		/// <param name="t">T Value</param>
-		/// <returns>Standard normal density</returns>
-		private double NormalDistributionFunction(double t)
-		{
-			return 0.398942280401433 * Math.Exp( -t * t / 2 );
-		}
+        /// <summary>
+        /// Standard normal density function
+        /// </summary>
+        /// <param name="t">T Value</param>
+        /// <returns>Standard normal density</returns>
+        private double NormalDistributionFunction(double t)
+        {
+            return 0.398942280401433 * Math.Exp(-t * t / 2);
+        }
 
-		/// <summary>
-		/// Returns the incomplete beta function Ix(a, b).
-		/// </summary>
-		/// <param name="a">Beta incomplete parameter</param>
-		/// <param name="b">Beta incomplete parameter</param>
-		/// <param name="x">Beta incomplete parameter</param>
-		/// <returns>Beta Incomplete value</returns>
-		private double BetaIncomplete( double a, double b, double x )
-		{
-			double bt;
+        /// <summary>
+        /// Returns the incomplete beta function Ix(a, b).
+        /// </summary>
+        /// <param name="a">Beta incomplete parameter</param>
+        /// <param name="b">Beta incomplete parameter</param>
+        /// <param name="x">Beta incomplete parameter</param>
+        /// <returns>Beta Incomplete value</returns>
+        private double BetaIncomplete(double a, double b, double x)
+        {
+            double bt;
             if (x < 0.0 || x > 1.0)
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidInputParameter);
             if (x == 0.0 || x == 1.0)
@@ -1568,12 +1568,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             {   // Use continued fraction after making the symmetry transformation. 
                 return 1.0 - bt * BetaCF(b, a, 1.0 - x) / b;
             }
-		}
-		
+        }
 
-		#endregion // Utility Statistical Functions
-		
-		#region Statistical Parameters
+
+        #endregion // Utility Statistical Functions
+
+        #region Statistical Parameters
 
         /// <summary>
         /// Returns the average (arithmetic mean) of the arguments.
@@ -1581,35 +1581,35 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void Average(double [][] inputValues, out double [][] outputValues, out string [][] outLabels )
-		{
-						
-			outLabels = null;
+        private void Average(double[][] inputValues, out double[][] outputValues, out string[][] outLabels)
+        {
 
-			// Invalid number of data series
-			if( inputValues.Length != 2 )
+            outLabels = null;
+
+            // Invalid number of data series
+            if (inputValues.Length != 2)
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidSeriesNumber);
 
-			// Output arrays
-			outputValues = new double [2][];
+            // Output arrays
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-			// Y
-			outputValues[1] = new double [1];
+            // Y
+            outputValues[1] = new double[1];
 
-            outLabels[0][0] = SR.LabelStatisticalAverage; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = Mean( inputValues[1] ); 
+            outLabels[0][0] = SR.LabelStatisticalAverage;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = Mean(inputValues[1]);
 
-		}
+        }
 
         /// <summary>
         /// Calculates variance
@@ -1618,47 +1618,47 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void Variance(double [][] inputValues, out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			
-			// Sample Variance value
-			bool sampleVariance;
-			try
-			{
-				sampleVariance = bool.Parse( parameterList[0] );
-			}
-			catch(System.Exception)
-			{
+		private void Variance(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+
+            // Sample Variance value
+            bool sampleVariance;
+            try
+            {
+                sampleVariance = bool.Parse(parameterList[0]);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidVariance);
-			}	
+            }
 
-			CheckNumOfPoints(inputValues);
+            CheckNumOfPoints(inputValues);
 
-			// Invalid number of data series
-			if( inputValues.Length != 2 )
+            // Invalid number of data series
+            if (inputValues.Length != 2)
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidSeriesNumber);
 
 
             // Output arrays
-            outputValues = new double [2][];
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
-			
-			// Y
-			outputValues[1] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-            outLabels[0][0] = SR.LabelStatisticalVariance; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = Variance( inputValues[1], sampleVariance ); 
+            // Y
+            outputValues[1] = new double[1];
 
-		}
+            outLabels[0][0] = SR.LabelStatisticalVariance;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = Variance(inputValues[1], sampleVariance);
+
+        }
 
         /// <summary>
         /// Calculates Median
@@ -1666,35 +1666,35 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void Median(double [][] inputValues, out double [][] outputValues, out string [][] outLabels )
-		{
-					
-			outLabels = null;
+		private void Median(double[][] inputValues, out double[][] outputValues, out string[][] outLabels)
+        {
 
-			// Invalid number of data series
-			if( inputValues.Length != 2 )
+            outLabels = null;
+
+            // Invalid number of data series
+            if (inputValues.Length != 2)
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidSeriesNumber);
 
-			// Output arrays
-			outputValues = new double [2][];
+            // Output arrays
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
-			
-			// Y
-			outputValues[1] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-            outLabels[0][0] = SR.LabelStatisticalMedian; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = Median( inputValues[1] ); 
+            // Y
+            outputValues[1] = new double[1];
 
-		}
+            outLabels[0][0] = SR.LabelStatisticalMedian;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = Median(inputValues[1]);
+
+        }
 
         /// <summary>
         /// Calculates Beta Function
@@ -1702,51 +1702,51 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void BetaFunction(out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			// Degree of freedom
-			double m;
-			try
-			{
-				m = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+		private void BetaFunction(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+            // Degree of freedom
+            double m;
+            try
+            {
+                m = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
-			}	
+            }
 
-			// Degree of freedom
-			double n;
-			try
-			{
-				n = double.Parse( parameterList[1], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+            // Degree of freedom
+            double n;
+            try
+            {
+                n = double.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
-			}
+            }
 
 
             // Output arrays
-            outputValues = new double [2][];
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
-			
-			// Y
-			outputValues[1] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-            outLabels[0][0] = SR.LabelStatisticalBetaFunction; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = BetaFunction( m, n ); 
+            // Y
+            outputValues[1] = new double[1];
 
-		}
+            outLabels[0][0] = SR.LabelStatisticalBetaFunction;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = BetaFunction(m, n);
+
+        }
 
         /// <summary>
         /// Calculates Gamma Function
@@ -1754,226 +1754,226 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void GammaFunction(out double [][] outputValues, string [] parameterList, out string [][] outLabels )
-		{
-			// Degree of freedom
-			double m;
-			try
-			{
-				m = double.Parse( parameterList[0], System.Globalization.CultureInfo.InvariantCulture );
-			}
-			catch(System.Exception)
-			{
+		private void GammaFunction(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        {
+            // Degree of freedom
+            double m;
+            try
+            {
+                m = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (System.Exception)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidInputParameter);
-			}
-				
-			if( m < 0 )
-			{
+            }
+
+            if (m < 0)
+            {
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesGammaBetaNegativeParameters);
-			}
+            }
 
 
             // Output arrays
-            outputValues = new double [2][];
+            outputValues = new double[2][];
 
-			// Output Labels
-			outLabels = new string [1][];
+            // Output Labels
+            outLabels = new string[1][];
 
-			// Parameters description
-			outLabels[0] = new string [1]; 
+            // Parameters description
+            outLabels[0] = new string[1];
 
-			// X
-			outputValues[0] = new double [1];
-			
-			// Y
-			outputValues[1] = new double [1];
+            // X
+            outputValues[0] = new double[1];
 
-            outLabels[0][0] = SR.LabelStatisticalGammaFunction; 
-			outputValues[0][0] = 1; 
-			outputValues[1][0] = Math.Exp( GammLn( m ) ); 
+            // Y
+            outputValues[1] = new double[1];
 
-		}
+            outLabels[0][0] = SR.LabelStatisticalGammaFunction;
+            outputValues[0][0] = 1;
+            outputValues[1][0] = Math.Exp(GammLn(m));
+
+        }
 
 
-		/// <summary>
-		/// Sort array of double values.
-		/// </summary>
-		/// <param name="values">Array of doubles which should be sorted.</param>
-		private void Sort( ref double [] values )
-		{
-			
-			double tempValue;
-			for( int outLoop = 0; outLoop < values.Length; outLoop++ )
-			{
-				for( int inLoop = outLoop + 1; inLoop < values.Length; inLoop++ )
-				{
-					if( values[ outLoop ] > values[ inLoop ] )
-					{
-						tempValue = values[ outLoop ];
-						values[ outLoop ] = values[ inLoop ];
-						values[ inLoop ] = tempValue;
-					}
-				}
-			}
-		}
+        /// <summary>
+        /// Sort array of double values.
+        /// </summary>
+        /// <param name="values">Array of doubles which should be sorted.</param>
+        private void Sort(ref double[] values)
+        {
 
-		/// <summary>
-		/// Returns the median of the given numbers
-		/// </summary>
-		/// <param name="values">Array of double numbers</param>
-		/// <returns>Median</returns>
-		private double Median( double [] values )
-		{
-			// Exception for zero lenght of series.
-			if( values.Length == 0 )
-			{
+            double tempValue;
+            for (int outLoop = 0; outLoop < values.Length; outLoop++)
+            {
+                for (int inLoop = outLoop + 1; inLoop < values.Length; inLoop++)
+                {
+                    if (values[outLoop] > values[inLoop])
+                    {
+                        tempValue = values[outLoop];
+                        values[outLoop] = values[inLoop];
+                        values[inLoop] = tempValue;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the median of the given numbers
+        /// </summary>
+        /// <param name="values">Array of double numbers</param>
+        /// <returns>Median</returns>
+        private double Median(double[] values)
+        {
+            // Exception for zero lenght of series.
+            if (values.Length == 0)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidMedianConditions);
-			}
+            }
 
-			// Sort array
-			Sort( ref values );
+            // Sort array
+            Sort(ref values);
 
-			int position = values.Length / 2;
+            int position = values.Length / 2;
 
-			// if number of points is even
-			if( values.Length % 2 == 0 )
-			{
-				return ( values[position-1] + values[position] ) / 2.0;
-			}
-			else
-			{
-				return values[position];
-			}
-		}
-		
-		/// <summary>
-		/// Calculates a Mean for a series of numbers.
-		/// </summary>
-		/// <param name="values">series with double numbers</param>
-		/// <returns>Returns Mean</returns>
-		private double Mean( double [] values )
-		{
-			// Exception for zero lenght of series.
-			if( values.Length == 0 )
-			{
+            // if number of points is even
+            if (values.Length % 2 == 0)
+            {
+                return (values[position - 1] + values[position]) / 2.0;
+            }
+            else
+            {
+                return values[position];
+            }
+        }
+
+        /// <summary>
+        /// Calculates a Mean for a series of numbers.
+        /// </summary>
+        /// <param name="values">series with double numbers</param>
+        /// <returns>Returns Mean</returns>
+        private double Mean(double[] values)
+        {
+            // Exception for zero lenght of series.
+            if (values.Length == 0)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidMeanConditions);
-			}
+            }
 
-			// Find sum of values
-			double sum = 0;
-			foreach( double item in values )
-			{
-				sum += item;
-			}
+            // Find sum of values
+            double sum = 0;
+            foreach (double item in values)
+            {
+                sum += item;
+            }
 
-			// Calculate Mean
-			return sum / values.Length;
-		}
+            // Calculate Mean
+            return sum / values.Length;
+        }
 
-		/// <summary>
-		/// Calculates a Variance for a series of numbers.
-		/// </summary>
-		/// <param name="values">double values</param>
-		/// <param name="sampleVariance">If variance is calculated from sample sum has to be divided by n-1.</param>
-		/// <returns>Variance</returns>
-		private double Variance( double [] values, bool sampleVariance )
-		{
+        /// <summary>
+        /// Calculates a Variance for a series of numbers.
+        /// </summary>
+        /// <param name="values">double values</param>
+        /// <param name="sampleVariance">If variance is calculated from sample sum has to be divided by n-1.</param>
+        /// <returns>Variance</returns>
+        private double Variance(double[] values, bool sampleVariance)
+        {
 
-			// Exception for zero lenght of series.
-			if( values.Length < 1 )
-			{
+            // Exception for zero lenght of series.
+            if (values.Length < 1)
+            {
                 throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidVarianceConditions);
-			}
-			
-			// Find sum of values
-			double sum = 0;
-			double mean = Mean( values );
-			foreach( double item in values )
-			{
-				sum += (item - mean) * (item - mean);
-			}
+            }
 
-			// Calculate Variance
-			if( sampleVariance )
-			{
-				return sum / ( values.Length - 1 );
-			}
-			else
-			{
-				return sum / values.Length;
-			}
-		}
+            // Find sum of values
+            double sum = 0;
+            double mean = Mean(values);
+            foreach (double item in values)
+            {
+                sum += (item - mean) * (item - mean);
+            }
 
-		#endregion // Statistical Parameters
-		
-		# region Distributions
+            // Calculate Variance
+            if (sampleVariance)
+            {
+                return sum / (values.Length - 1);
+            }
+            else
+            {
+                return sum / values.Length;
+            }
+        }
 
-		/// <summary>
-		/// Calculates the Percentage Points (probability) for the Student 
-		/// t-distribution. The t-distribution is used in the hypothesis 
-		/// testing of small sample data sets. Use this function in place 
-		/// of a table of critical values for the t-distribution.
-		/// </summary>
-		/// <param name="tValue">The numeric value at which to evaluate the distribution.</param>
-		/// <param name="n">An integer indicating the number of degrees of freedom.</param>
-		/// <param name="oneTailed">Specifies the number of distribution tails to return.</param>
-		/// <returns>Returns the Percentage Points (probability) for the Student t-distribution.</returns>
-		private double StudentsDistribution(  double tValue, int n, bool oneTailed )
-		{
-			// Validation
-			tValue = Math.Abs( tValue );
-			if( n > 300 )
-			{
-				n = 300;
-			}
+        #endregion // Statistical Parameters
 
-			if( n < 1 )
-			{
+        #region Distributions
+
+        /// <summary>
+        /// Calculates the Percentage Points (probability) for the Student 
+        /// t-distribution. The t-distribution is used in the hypothesis 
+        /// testing of small sample data sets. Use this function in place 
+        /// of a table of critical values for the t-distribution.
+        /// </summary>
+        /// <param name="tValue">The numeric value at which to evaluate the distribution.</param>
+        /// <param name="n">An integer indicating the number of degrees of freedom.</param>
+        /// <param name="oneTailed">Specifies the number of distribution tails to return.</param>
+        /// <returns>Returns the Percentage Points (probability) for the Student t-distribution.</returns>
+        private double StudentsDistribution(double tValue, int n, bool oneTailed)
+        {
+            // Validation
+            tValue = Math.Abs(tValue);
+            if (n > 300)
+            {
+                n = 300;
+            }
+
+            if (n < 1)
+            {
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesStudentsNegativeFreedomDegree);
-			}
+            }
 
-			double result = 1 - BetaIncomplete( n / 2.0, 0.5, n / (n + tValue * tValue) );
+            double result = 1 - BetaIncomplete(n / 2.0, 0.5, n / (n + tValue * tValue));
 
-			if( oneTailed )
-				return  (  1.0 - result ) / 2.0;
-			else
-				return  1.0 - result;
-		}
+            if (oneTailed)
+                return (1.0 - result) / 2.0;
+            else
+                return 1.0 - result;
+        }
 
-		/// <summary>
-		/// Returns the standard normal cumulative distribution 
-		/// function. The distribution has a mean of 0 (zero) and 
-		/// a standard deviation of one. Use this function in place 
-		/// of a table of standard normal curve areas.
-		/// </summary>
-		/// <param name="zValue">The value for which you want the distribution.</param>
-		/// <returns>Returns the standard normal cumulative distribution.</returns>
-		private double NormalDistribution( double zValue )
-		{
-			
-			double [] a = {0.31938153,-0.356563782,1.781477937,-1.821255978,1.330274429};
-			double result;
-			if (zValue<-7.0)
-			{
-				result = NormalDistributionFunction(zValue)/Math.Sqrt(1.0+zValue*zValue);
-			}
-			else if (zValue>7.0)
-			{
-				result = 1.0 - NormalDistribution(-zValue);
-			}
-			else
-			{
-				result = 0.2316419;
-				result=1.0/(1+result*Math.Abs(zValue));
-				result=1-NormalDistributionFunction(zValue)*(result*(a[0]+result*(a[1]+result*(a[2]+result*(a[3]+result*a[4])))));
-				if (zValue<=0.0) 
-					result=1.0-result;
-			}
-			return result;
-		}
-		
-		private double FDistribution( double x, int freedom1, int freedom2 )
-		{
+        /// <summary>
+        /// Returns the standard normal cumulative distribution 
+        /// function. The distribution has a mean of 0 (zero) and 
+        /// a standard deviation of one. Use this function in place 
+        /// of a table of standard normal curve areas.
+        /// </summary>
+        /// <param name="zValue">The value for which you want the distribution.</param>
+        /// <returns>Returns the standard normal cumulative distribution.</returns>
+        private double NormalDistribution(double zValue)
+        {
+
+            double[] a = { 0.31938153, -0.356563782, 1.781477937, -1.821255978, 1.330274429 };
+            double result;
+            if (zValue < -7.0)
+            {
+                result = NormalDistributionFunction(zValue) / Math.Sqrt(1.0 + zValue * zValue);
+            }
+            else if (zValue > 7.0)
+            {
+                result = 1.0 - NormalDistribution(-zValue);
+            }
+            else
+            {
+                result = 0.2316419;
+                result = 1.0 / (1 + result * Math.Abs(zValue));
+                result = 1 - NormalDistributionFunction(zValue) * (result * (a[0] + result * (a[1] + result * (a[2] + result * (a[3] + result * a[4])))));
+                if (zValue <= 0.0)
+                    result = 1.0 - result;
+            }
+            return result;
+        }
+
+        private double FDistribution(double x, int freedom1, int freedom2)
+        {
             if (x < 0)
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidTValue);
             if (freedom1 <= 0)
@@ -1985,22 +1985,22 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             if (x == double.PositiveInfinity)
                 return 0;
 
-    	    return BetaIncomplete( freedom2 / 2.0, freedom1 / 2.0, freedom2 / ( freedom2 + freedom1 * x ) );
-		}
+            return BetaIncomplete(freedom2 / 2.0, freedom1 / 2.0, freedom2 / (freedom2 + freedom1 * x));
+        }
 
-		#endregion // Distributions
+        #endregion // Distributions
 
-		# region Inverse Distributions
-				
-		/// <summary>
-		/// Calculates the t-value of the Student's t-distribution 
-		/// as a function of the probability and the degrees of freedom.
-		/// </summary>
-		/// <param name="probability">The probability associated with the two-tailed Student's t-distribution.</param>
-		/// <param name="n">The number of degrees of freedom to characterize the distribution.</param>
-		/// <returns>Returns the t-value of the Student's t-distribution.</returns>
-		private double StudentsDistributionInverse(  double probability, int n )
-		{
+        #region Inverse Distributions
+
+        /// <summary>
+        /// Calculates the t-value of the Student's t-distribution 
+        /// as a function of the probability and the degrees of freedom.
+        /// </summary>
+        /// <param name="probability">The probability associated with the two-tailed Student's t-distribution.</param>
+        /// <param name="n">The number of degrees of freedom to characterize the distribution.</param>
+        /// <returns>Returns the t-value of the Student's t-distribution.</returns>
+        private double StudentsDistributionInverse(double probability, int n)
+        {
             //Fix for boundary cases
             if (probability == 0)
                 return double.PositiveInfinity;
@@ -2009,102 +2009,102 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             else if (probability < 0 || probability > 1)
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidProbabilityValue);
 
-			int step  = 0;
-			return StudentsDistributionSearch( probability, n, step, 0.0, 100000.0 );
-		}
+            int step = 0;
+            return StudentsDistributionSearch(probability, n, step, 0.0, 100000.0);
+        }
 
-		/// <summary>
-		/// Method for calculation of Inverse T Distribution (Binary tree)
-		/// solution for non linear equations
-		/// </summary>
-		/// <param name="probability">Probability value</param>
-		/// <param name="n">Degree of freedom</param>
-		/// <param name="step">Step for Numerical solution for non linear equations</param>
-		/// <param name="start">Start for numerical process</param>
-		/// <param name="end">End for numerical process</param>
-		/// <returns>Returns F ditribution inverse</returns>
-		private double StudentsDistributionSearch( double probability, int n, int step, double start, double end )
-		{
-			step++;
-			
-			double mid = ( start + end ) / 2.0;
-			double result = StudentsDistribution( mid, n, false );
-			double resultX;
+        /// <summary>
+        /// Method for calculation of Inverse T Distribution (Binary tree)
+        /// solution for non linear equations
+        /// </summary>
+        /// <param name="probability">Probability value</param>
+        /// <param name="n">Degree of freedom</param>
+        /// <param name="step">Step for Numerical solution for non linear equations</param>
+        /// <param name="start">Start for numerical process</param>
+        /// <param name="end">End for numerical process</param>
+        /// <returns>Returns F ditribution inverse</returns>
+        private double StudentsDistributionSearch(double probability, int n, int step, double start, double end)
+        {
+            step++;
 
-			if( step > 100 )
-			{
-				return mid;
-			}
-			
-			if( result <= probability )
-			{
-				resultX = StudentsDistributionSearch( probability, n, step, start, mid );
-			}
-			else
-			{
-				resultX = StudentsDistributionSearch( probability, n, step, mid, end );
-			}
+            double mid = (start + end) / 2.0;
+            double result = StudentsDistribution(mid, n, false);
+            double resultX;
 
-			return resultX;
-		}
+            if (step > 100)
+            {
+                return mid;
+            }
 
-		/// <summary>
-		/// Returns the inverse of the standard normal cumulative distribution. 
-		/// The distribution has a mean of zero and a standard deviation of one.
-		/// </summary>
-		/// <param name="probability">A probability corresponding to the normal distribution.</param>
-		/// <returns>Returns the inverse of the standard normal cumulative distribution.</returns>
-		private double NormalDistributionInverse( double probability )
-		{
-					
-			// Validation
-			if( probability < 0.00001 || probability > 0.99999 )
-			{
+            if (result <= probability)
+            {
+                resultX = StudentsDistributionSearch(probability, n, step, start, mid);
+            }
+            else
+            {
+                resultX = StudentsDistributionSearch(probability, n, step, mid, end);
+            }
+
+            return resultX;
+        }
+
+        /// <summary>
+        /// Returns the inverse of the standard normal cumulative distribution. 
+        /// The distribution has a mean of zero and a standard deviation of one.
+        /// </summary>
+        /// <param name="probability">A probability corresponding to the normal distribution.</param>
+        /// <returns>Returns the inverse of the standard normal cumulative distribution.</returns>
+        private double NormalDistributionInverse(double probability)
+        {
+
+            // Validation
+            if (probability < 0.00001 || probability > 0.99999)
+            {
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesNormalInvalidProbabilityValue);
-			}
+            }
 
-			double [] a = { 2.50662823884, -18.61500062529, 41.39119773534, -25.44106049637 };
-			double [] b = { -8.47351093090, 23.08336743743, -21.06224101826, 3.13082909833 };
-			double [] c = { 0.3374754822726147, 0.9761690190917186, 0.1607979714918209, 0.0276438810333863, 0.0038405729373609, 0.0003951896511919, 0.0000321767881768, 0.0000002888167364, 0.0000003960315187};
+            double[] a = { 2.50662823884, -18.61500062529, 41.39119773534, -25.44106049637 };
+            double[] b = { -8.47351093090, 23.08336743743, -21.06224101826, 3.13082909833 };
+            double[] c = { 0.3374754822726147, 0.9761690190917186, 0.1607979714918209, 0.0276438810333863, 0.0038405729373609, 0.0003951896511919, 0.0000321767881768, 0.0000002888167364, 0.0000003960315187 };
 
-			double x,r;
+            double x, r;
 
-			// Numerical Integration
-			x = probability - 0.5;
+            // Numerical Integration
+            x = probability - 0.5;
 
-			if ( Math.Abs(x) < 0.42 )
-			{
-				r = x * x;
-				r = x * ( ( ( a[3] * r + a[2] ) * r + a[1] ) * r + a[0] ) / ( ( ( ( b[3] * r + b[2] ) * r + b[1] ) * r + b[0] ) * r + 1.0 );
-				return r ;
-			}
-			r= probability;
-			if( x > 0.0 ) 
-			{
-				r = 1.0 - probability;
-			}
+            if (Math.Abs(x) < 0.42)
+            {
+                r = x * x;
+                r = x * (((a[3] * r + a[2]) * r + a[1]) * r + a[0]) / ((((b[3] * r + b[2]) * r + b[1]) * r + b[0]) * r + 1.0);
+                return r;
+            }
+            r = probability;
+            if (x > 0.0)
+            {
+                r = 1.0 - probability;
+            }
 
-			r = Math.Log( -Math.Log( r ) );
-			r = c[0] + r * ( c[1] + r * ( c[2] + r * ( c[3] + r * ( c[4] + r * ( c[5] + r * ( c[6] + r * ( c[7]+r * c[8] ) ) ) ) ) ) );
-			if( x < 0.0 ) 
-			{
-				r = -r;
-			}
+            r = Math.Log(-Math.Log(r));
+            r = c[0] + r * (c[1] + r * (c[2] + r * (c[3] + r * (c[4] + r * (c[5] + r * (c[6] + r * (c[7] + r * c[8])))))));
+            if (x < 0.0)
+            {
+                r = -r;
+            }
 
-			return r;
-		}
+            return r;
+        }
 
-		/// <summary>
-		/// Calculates the inverse of the F probability distribution.
-		/// The F distribution can be used in an F-test that compares 
-		/// the degree of variability in two data sets.
-		/// </summary>
-		/// <param name="probability">A probability associated with the F cumulative distribution.</param>
-		/// <param name="m">The numerator degrees of freedom.</param>
-		/// <param name="n">The denominator degrees of freedom.</param>
-		/// <returns>Returns the inverse of the F probability distribution.</returns>
-		private double FDistributionInverse(  double probability, int m, int n )
-		{
+        /// <summary>
+        /// Calculates the inverse of the F probability distribution.
+        /// The F distribution can be used in an F-test that compares 
+        /// the degree of variability in two data sets.
+        /// </summary>
+        /// <param name="probability">A probability associated with the F cumulative distribution.</param>
+        /// <param name="m">The numerator degrees of freedom.</param>
+        /// <param name="n">The denominator degrees of freedom.</param>
+        /// <returns>Returns the inverse of the F probability distribution.</returns>
+        private double FDistributionInverse(double probability, int m, int n)
+        {
             //Fix for boundary cases
             if (probability == 0)
                 return double.PositiveInfinity;
@@ -2113,50 +2113,50 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             else if (probability < 0 || probability > 1)
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidProbabilityValue);
 
-			int step  = 0;
-			return FDistributionSearch( probability, m, n, step, 0.0, 10000.0 );
-		}
+            int step = 0;
+            return FDistributionSearch(probability, m, n, step, 0.0, 10000.0);
+        }
 
-		/// <summary>
-		/// Method for calculation of Inverse F Distribution (Binary tree)
-		/// solution for non linear equations
-		/// </summary>
-		/// <param name="probability">Probability value</param>
-		/// <param name="m">Degree of freedom</param>
-		/// <param name="n">Degree of freedom</param>
-		/// <param name="step">Step for solution for non linear equations.</param>
-		/// <param name="start">Start for numerical process</param>
-		/// <param name="end">End for numerical process</param>
-		/// <returns>Returns F ditribution inverse</returns>
-		private double FDistributionSearch( double probability, int m, int n, int step, double start, double end )
-		{
-			step++;
+        /// <summary>
+        /// Method for calculation of Inverse F Distribution (Binary tree)
+        /// solution for non linear equations
+        /// </summary>
+        /// <param name="probability">Probability value</param>
+        /// <param name="m">Degree of freedom</param>
+        /// <param name="n">Degree of freedom</param>
+        /// <param name="step">Step for solution for non linear equations.</param>
+        /// <param name="start">Start for numerical process</param>
+        /// <param name="end">End for numerical process</param>
+        /// <returns>Returns F ditribution inverse</returns>
+        private double FDistributionSearch(double probability, int m, int n, int step, double start, double end)
+        {
+            step++;
 
-			double mid = ( start + end ) / 2.0;
-			double result = FDistribution( mid, m, n );
-			double resultX;
+            double mid = (start + end) / 2.0;
+            double result = FDistribution(mid, m, n);
+            double resultX;
 
-			if( step > 30 )
-			{
-				return mid;
-			}
-			
-			if( result <= probability )
-			{
-				resultX = FDistributionSearch( probability, m, n, step, start, mid );
-			}
-			else
-			{
-				resultX = FDistributionSearch( probability, m, n, step, mid, end );
-			}
+            if (step > 30)
+            {
+                return mid;
+            }
 
-			return resultX;
-		}
+            if (result <= probability)
+            {
+                resultX = FDistributionSearch(probability, m, n, step, start, mid);
+            }
+            else
+            {
+                resultX = FDistributionSearch(probability, m, n, step, mid, end);
+            }
+
+            return resultX;
+        }
 
 
-		#endregion // Inverse Distributions
+        #endregion // Inverse Distributions
 
-	}
+    }
 }
 
 

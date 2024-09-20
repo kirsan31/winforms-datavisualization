@@ -31,7 +31,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
     public class TextAnnotation : Annotation
     {
         // Annotation text
-        private string _text = "";
+        private string _text = string.Empty;
 
         // Indicates multi line text
         private bool _isMultiline;

@@ -1559,7 +1559,7 @@ internal sealed class Selection : IServiceProvider
 
                             subPath.Reset();
                         }
-                    }                    
+                    }
                     else if (region.Path.IsVisible(newX, newY)) // There is only one path
                     {
                         pointVisible = true;

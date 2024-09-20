@@ -17,58 +17,58 @@ namespace System.Windows.Forms.DataVisualization.Charting
 	/// Converts anchor data point to string name.
 	/// </summary>
 	internal sealed class AnchorPointValueConverter : TypeConverter
-	{
-		#region Converter methods
+    {
+        #region Converter methods
 
-	/// <summary>
-	/// Converts anchor data point to string name.
-	/// </summary>
-	/// <param name="context">Descriptor context.</param>
-	/// <param name="culture">Culture information.</param>
-	/// <param name="value">Value to convert.</param>
-	/// <param name="destinationType">Convertion destination type.</param>
-	/// <returns>Converted object.</returns>
-	public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) 
-	{
-        if (destinationType == typeof(string))
+        /// <summary>
+        /// Converts anchor data point to string name.
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <param name="culture">Culture information.</param>
+        /// <param name="value">Value to convert.</param>
+        /// <param name="destinationType">Convertion destination type.</param>
+        /// <returns>Converted object.</returns>
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            if (value == null)
+            if (destinationType == typeof(string))
             {
-                return Constants.NotSetValue;
-            }
-            DataPoint dataPoint = value as DataPoint;
-
-            if (dataPoint != null)
-            {
-                if (dataPoint.series != null)
+                if (value == null)
                 {
-                    int pointIndex = dataPoint.series.Points.IndexOf(dataPoint) + 1;
-                    return dataPoint.series.Name + " - " + SR.DescriptionTypePoint + pointIndex.ToString(CultureInfo.InvariantCulture);
+                    return Constants.NotSetValue;
+                }
+                DataPoint dataPoint = value as DataPoint;
+
+                if (dataPoint != null)
+                {
+                    if (dataPoint.series != null)
+                    {
+                        int pointIndex = dataPoint.series.Points.IndexOf(dataPoint) + 1;
+                        return dataPoint.series.Name + " - " + SR.DescriptionTypePoint + pointIndex.ToString(CultureInfo.InvariantCulture);
+                    }
                 }
             }
+
+            // Call base class
+            return base.ConvertTo(context, culture, value, destinationType);
         }
+        #endregion
+    }
 
-		// Call base class
-		return base.ConvertTo(context, culture, value, destinationType);
-	}
-		#endregion
-	}
-
-	/// <summary>
-	/// Converts anchor data point to string name.
-	/// </summary>
+    /// <summary>
+    /// Converts anchor data point to string name.
+    /// </summary>
     internal sealed class AnnotationAxisValueConverter : TypeConverter
-	{
-		#region Converter methods
+    {
+        #region Converter methods
 
-		/// <summary>
-		/// Converts axis associated with anootation to string.
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <param name="culture">Culture information.</param>
-		/// <param name="value">Value to convert.</param>
-		/// <param name="destinationType">Convertion destination type.</param>
-		/// <returns>Converted object.</returns>
+        /// <summary>
+        /// Converts axis associated with anootation to string.
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <param name="culture">Culture information.</param>
+        /// <param name="value">Value to convert.</param>
+        /// <param name="destinationType">Convertion destination type.</param>
+        /// <returns>Converted object.</returns>
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == typeof(string))
@@ -91,7 +91,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             // Call base class
             return base.ConvertTo(context, culture, value, destinationType);
         }
-		#endregion
-	}
+        #endregion
+    }
 }
 

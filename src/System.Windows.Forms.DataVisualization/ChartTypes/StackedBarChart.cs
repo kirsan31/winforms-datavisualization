@@ -1049,7 +1049,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                     // Check labels style custom properties 
                     //************************************************************
                     BarValueLabelDrawingStyle drawingStyle = BarValueLabelDrawingStyle.Center;
-                    string valueLabelAttrib = "";
+                    string valueLabelAttrib = string.Empty;
                     if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
                     {
                         valueLabelAttrib = point[CustomPropertyName.BarLabelStyle];
@@ -1778,7 +1778,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                 // Check labels style custom properties 
                 //************************************************************
                 BarValueLabelDrawingStyle drawingStyle = BarValueLabelDrawingStyle.Center;
-                string valueLabelAttrib = "";
+                string valueLabelAttrib = string.Empty;
                 if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
                 {
                     valueLabelAttrib = point[CustomPropertyName.BarLabelStyle];

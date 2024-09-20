@@ -14,60 +14,60 @@ using System.Globalization;
 
 namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 {
-	/// <summary>
-	/// This class is used for calculations of 
-	/// time series and forecasting
-	/// </summary>
-	internal class TimeSeriesAndForecasting : IFormula
-	{
-		#region Enumeration
+    /// <summary>
+    /// This class is used for calculations of 
+    /// time series and forecasting
+    /// </summary>
+    internal class TimeSeriesAndForecasting : IFormula
+    {
+        #region Enumeration
 
-		/// <summary>
-		/// AxisName of regression
-		/// </summary>
-		internal enum RegressionType
-		{
-			/// <summary>
-			/// Polynomial trend
-			/// </summary>
-			Polynomial,
+        /// <summary>
+        /// AxisName of regression
+        /// </summary>
+        internal enum RegressionType
+        {
+            /// <summary>
+            /// Polynomial trend
+            /// </summary>
+            Polynomial,
 
-			/// <summary>
-			/// IsLogarithmic trend
-			/// </summary>
-			Logarithmic,
+            /// <summary>
+            /// IsLogarithmic trend
+            /// </summary>
+            Logarithmic,
 
-			/// <summary>
-			/// Power trend
-			/// </summary>
-			Power,
+            /// <summary>
+            /// Power trend
+            /// </summary>
+            Power,
 
-			/// <summary>
-			/// Exponential trend
-			/// </summary>
-			Exponential
-		}
+            /// <summary>
+            /// Exponential trend
+            /// </summary>
+            Exponential
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		/// <summary>
-		/// Formula Module name
-		/// </summary>
+        /// <summary>
+        /// Formula Module name
+        /// </summary>
         virtual public string Name { get { return SR.FormulaNameTimeSeriesAndForecasting; } }
 
-		#endregion
+        #endregion
 
-		#region Methods
-		
-		/// <summary>
-		/// Public constructor.
-		/// </summary>
-		public TimeSeriesAndForecasting()
-		{
-			
-		}
+        #region Methods
+
+        /// <summary>
+        /// Public constructor.
+        /// </summary>
+        public TimeSeriesAndForecasting()
+        {
+
+        }
 
         /// <summary>
         /// The first method in the module, which converts a formula 
@@ -79,40 +79,40 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="parameterList">Array of strings - Formula parameters</param>
         /// <param name="extraParameterList">Array of strings - Extra Formula parameters from DataManipulator object</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		virtual public void Formula( string formulaName, double [][] inputValues, out double [][] outputValues, string [] parameterList, string [] extraParameterList, out string [][] outLabels )
-		{
-			string name;
+		virtual public void Formula(string formulaName, double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList, out string[][] outLabels)
+        {
+            string name;
 
-			name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+            name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
 
-			// Not used for these formulas.
-			outLabels = null;
+            // Not used for these formulas.
+            outLabels = null;
 
-			try
-			{
-				switch( name )
-				{
-					case "FORECASTING":
-						Forecasting( inputValues, out outputValues, parameterList );
-						break;
-					default:
-						outputValues = null; 
-						break;
-				}
-			}
-			catch( IndexOutOfRangeException )
-			{
-				throw new InvalidOperationException( SR.ExceptionFormulaInvalidPeriod(name) );
-			}
-			catch( OverflowException )
-			{
-				throw new InvalidOperationException( SR.ExceptionFormulaNotEnoughDataPoints( name ) );
-			}
-		}
+            try
+            {
+                switch (name)
+                {
+                    case "FORECASTING":
+                        Forecasting(inputValues, out outputValues, parameterList);
+                        break;
+                    default:
+                        outputValues = null;
+                        break;
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(name));
+            }
+            catch (OverflowException)
+            {
+                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(name));
+            }
+        }
 
-		#endregion
-		
-		#region Formulas
+        #endregion
+
+        #region Formulas
 
         /// <summary>
         /// Forecasting formula predicts future values of the time series variable. 
@@ -147,30 +147,30 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             int degree;
             RegressionType regressionType = RegressionType.Polynomial;
 
-            if (String.Equals(parameterList[0],"Exponential", StringComparison.OrdinalIgnoreCase))
+            if (String.Equals(parameterList[0], "Exponential", StringComparison.OrdinalIgnoreCase))
             {
                 regressionType = RegressionType.Exponential;
                 degree = 2;
             }
-            else if (String.Equals(parameterList[0],"Linear", StringComparison.OrdinalIgnoreCase))
+            else if (String.Equals(parameterList[0], "Linear", StringComparison.OrdinalIgnoreCase))
             {
                 regressionType = RegressionType.Polynomial;
                 degree = 2;
             }
-            else if (String.Equals(parameterList[0],"IsLogarithmic", StringComparison.OrdinalIgnoreCase) || 
-                     String.Equals(parameterList[0],"Logarithmic",   StringComparison.OrdinalIgnoreCase))
+            else if (String.Equals(parameterList[0], "IsLogarithmic", StringComparison.OrdinalIgnoreCase) ||
+                     String.Equals(parameterList[0], "Logarithmic", StringComparison.OrdinalIgnoreCase))
             {
                 regressionType = RegressionType.Logarithmic;
                 degree = 2;
             }
-            else if (String.Equals(parameterList[0],"Power", StringComparison.OrdinalIgnoreCase))
+            else if (String.Equals(parameterList[0], "Power", StringComparison.OrdinalIgnoreCase))
             {
                 regressionType = RegressionType.Power;
                 degree = 2;
             }
             else
             {
-                if (parameterList.Length < 1 || 
+                if (parameterList.Length < 1 ||
                     !int.TryParse(parameterList[0], NumberStyles.Any, CultureInfo.InvariantCulture, out degree))
                 {
                     degree = 2;
@@ -284,89 +284,89 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="polynomialDegree">Polynomial degree (Default: 2 - Linear regression )</param>
         /// <param name="forecastingPeriod">Forecasting period (Default: Half of the series length )</param>
-		private void Regression( RegressionType regressionType, double [][] inputValues, out double [][] outputValues, int polynomialDegree, int forecastingPeriod )
-		{
-			if( regressionType == RegressionType.Exponential )
-			{
-				double [] oldYValues = new double[ inputValues[1].Length ];
-				for( int index = 0; index < inputValues[1].Length; index++ )
-				{
-					oldYValues[ index ] = inputValues[1][index];
-					if( inputValues[1][index] <= 0 )
-					{
+		private void Regression(RegressionType regressionType, double[][] inputValues, out double[][] outputValues, int polynomialDegree, int forecastingPeriod)
+        {
+            if (regressionType == RegressionType.Exponential)
+            {
+                double[] oldYValues = new double[inputValues[1].Length];
+                for (int index = 0; index < inputValues[1].Length; index++)
+                {
+                    oldYValues[index] = inputValues[1][index];
+                    if (inputValues[1][index] <= 0)
+                    {
                         throw new InvalidOperationException(SR.ExceptionForecastingExponentialRegressionHasZeroYValues);
-					}
-					inputValues[1][index] = Math.Log( inputValues[1][index] );
-				}
+                    }
+                    inputValues[1][index] = Math.Log(inputValues[1][index]);
+                }
 
-				
 
-				PolynomialRegression( regressionType, inputValues, out outputValues, 2, forecastingPeriod, 0 );
 
-				inputValues[1] = oldYValues;
-			}
-			else if( regressionType == RegressionType.Logarithmic )
-			{
-				double interval;
-				double first = inputValues[0][0];
+                PolynomialRegression(regressionType, inputValues, out outputValues, 2, forecastingPeriod, 0);
 
-				// Find Interval for X values
-				interval = Math.Abs( inputValues[0][0] - inputValues[0][inputValues[0].Length - 1] ) / ( inputValues[0].Length - 1 );
-			
-				if( interval <= 0 )
-					interval = 1;
+                inputValues[1] = oldYValues;
+            }
+            else if (regressionType == RegressionType.Logarithmic)
+            {
+                double interval;
+                double first = inputValues[0][0];
 
-				for( int index = 0; index < inputValues[0].Length; index++ )
-				{
-					inputValues[0][index] = Math.Log( inputValues[0][index] );
-				}
+                // Find Interval for X values
+                interval = Math.Abs(inputValues[0][0] - inputValues[0][inputValues[0].Length - 1]) / (inputValues[0].Length - 1);
 
-				PolynomialRegression( regressionType, inputValues, out outputValues, 2, forecastingPeriod, interval );
+                if (interval <= 0)
+                    interval = 1;
 
-				// Create Y values based on approximation.
-				for( int i = 0; i < outputValues[0].Length; i++ )
-				{
-					// Set X value
-					outputValues[0][i] = first + i * interval;
-				}
-			}
-			else if( regressionType == RegressionType.Power )
-			{
-				double [] oldYValues = new double[ inputValues[1].Length ];
-				double interval;
-				double first = inputValues[0][0];
+                for (int index = 0; index < inputValues[0].Length; index++)
+                {
+                    inputValues[0][index] = Math.Log(inputValues[0][index]);
+                }
 
-				for( int index = 0; index < inputValues[1].Length; index++ )
-				{
-					oldYValues[ index ] = inputValues[1][index];
-					if( inputValues[1][index] <= 0 )
-					{
+                PolynomialRegression(regressionType, inputValues, out outputValues, 2, forecastingPeriod, interval);
+
+                // Create Y values based on approximation.
+                for (int i = 0; i < outputValues[0].Length; i++)
+                {
+                    // Set X value
+                    outputValues[0][i] = first + i * interval;
+                }
+            }
+            else if (regressionType == RegressionType.Power)
+            {
+                double[] oldYValues = new double[inputValues[1].Length];
+                double interval;
+                double first = inputValues[0][0];
+
+                for (int index = 0; index < inputValues[1].Length; index++)
+                {
+                    oldYValues[index] = inputValues[1][index];
+                    if (inputValues[1][index] <= 0)
+                    {
                         throw new InvalidOperationException(SR.ExceptionForecastingPowerRegressionHasZeroYValues);
-					}
-				}
+                    }
+                }
 
-				// Find Interval for X values
-				interval = Math.Abs( inputValues[0][0] - inputValues[0][inputValues[0].Length - 1] ) / ( inputValues[0].Length - 1 );
-			
-				if( interval <= 0 )
-					interval = 1;
+                // Find Interval for X values
+                interval = Math.Abs(inputValues[0][0] - inputValues[0][inputValues[0].Length - 1]) / (inputValues[0].Length - 1);
 
-				PolynomialRegression( regressionType, inputValues, out outputValues, 2, forecastingPeriod, interval );
+                if (interval <= 0)
+                    interval = 1;
 
-				inputValues[1] = oldYValues;
+                PolynomialRegression(regressionType, inputValues, out outputValues, 2, forecastingPeriod, interval);
 
-				// Create Y values based on approximation.
-				for( int i = 0; i < outputValues[0].Length; i++ )
-				{
-					// Set X value
-					outputValues[0][i] = first + i * interval;
-				}
-			}
-			else
-			{
-				PolynomialRegression( regressionType, inputValues, out outputValues, polynomialDegree, forecastingPeriod, 0 );
-			}
-		}
+                inputValues[1] = oldYValues;
+
+                // Create Y values based on approximation.
+                for (int i = 0; i < outputValues[0].Length; i++)
+                {
+                    // Set X value
+                    outputValues[0][i] = first + i * interval;
+                }
+            }
+            else
+            {
+                PolynomialRegression(regressionType, inputValues, out outputValues, polynomialDegree, forecastingPeriod, 0);
+            }
+        }
 
         /// <summary>
         /// Any method of fitting equations to data may be called regression. 
@@ -381,247 +381,247 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="polynomialDegree">Polynomial degree (Default: 2 - Linear regression )</param>
         /// <param name="forecastingPeriod">Forecasting period (Default: Half of the series length )</param>
         /// <param name="logInterval">Interval for logarithmic scale</param>
-		private void PolynomialRegression( RegressionType regressionType, double [][] inputValues, out double [][] outputValues, int polynomialDegree, int forecastingPeriod, double logInterval )
-		{
-			double [] coefficients = new double [polynomialDegree];
-			int size = inputValues[0].Length;
-			double minimumX = double.MaxValue;
+		private void PolynomialRegression(RegressionType regressionType, double[][] inputValues, out double[][] outputValues, int polynomialDegree, int forecastingPeriod, double logInterval)
+        {
+            double[] coefficients = new double[polynomialDegree];
+            int size = inputValues[0].Length;
+            double minimumX = double.MaxValue;
 
             // Find Interval for X values
             double interval = Math.Abs(inputValues[0][0] - inputValues[0][inputValues[0].Length - 1]) / (inputValues[0].Length - 1);
 
-            if ( interval <= 0 )
-				interval = 1;
+            if (interval <= 0)
+                interval = 1;
 
-			if( regressionType != RegressionType.Logarithmic )
-			{
-				// Avoid Rounding error because of big X values.
-				// Find Minimum X value 
-				for( int xIndex = 0; xIndex < inputValues[0].Length; xIndex++ )
-				{
-					if( minimumX > inputValues[0][xIndex] )
-						minimumX = inputValues[0][xIndex];
-				}
+            if (regressionType != RegressionType.Logarithmic)
+            {
+                // Avoid Rounding error because of big X values.
+                // Find Minimum X value 
+                for (int xIndex = 0; xIndex < inputValues[0].Length; xIndex++)
+                {
+                    if (minimumX > inputValues[0][xIndex])
+                        minimumX = inputValues[0][xIndex];
+                }
 
-				// Change X values.
-				for( int xIndex = 0; xIndex < inputValues[0].Length; xIndex++ )
-				{
-					inputValues[0][xIndex] -= minimumX - 1;
-				}
-			}
+                // Change X values.
+                for (int xIndex = 0; xIndex < inputValues[0].Length; xIndex++)
+                {
+                    inputValues[0][xIndex] -= minimumX - 1;
+                }
+            }
 
-			if( regressionType == RegressionType.Power )
-			{
-				for( int index = 0; index < inputValues[0].Length; index++ )
-				{
-					inputValues[0][index] = Math.Log( inputValues[0][index] );
-					inputValues[1][index] = Math.Log( inputValues[1][index] );
-				}
-			}
+            if (regressionType == RegressionType.Power)
+            {
+                for (int index = 0; index < inputValues[0].Length; index++)
+                {
+                    inputValues[0][index] = Math.Log(inputValues[0][index]);
+                    inputValues[1][index] = Math.Log(inputValues[1][index]);
+                }
+            }
 
-			double [][] mainDeterminant = new double [polynomialDegree][];
-			for(int arrayIndex = 0;  arrayIndex < polynomialDegree; arrayIndex++)
-			{
-				mainDeterminant[arrayIndex] = new double [polynomialDegree];
-			}
+            double[][] mainDeterminant = new double[polynomialDegree][];
+            for (int arrayIndex = 0; arrayIndex < polynomialDegree; arrayIndex++)
+            {
+                mainDeterminant[arrayIndex] = new double[polynomialDegree];
+            }
 
-			// Main determinant
-			for( int k = 0; k < polynomialDegree; k++ )
-			{
-				for( int i = 0; i < polynomialDegree; i++ )
-				{
-					mainDeterminant[i][k] = 0;
-					for( int j = 0; j < inputValues[0].Length; j++ )
-					{
-						mainDeterminant[i][k] += Math.Pow(inputValues[0][j], i + k);
-					}
-				}
-			}
-			double mainValue = Determinant(mainDeterminant);
-			
-			// Coefficient determinant
-			for( int i = 0; i < polynomialDegree; i++ )
-			{
-				double [][] coeffDeterminant = CopyDeterminant(mainDeterminant);
-				for( int k = 0; k < polynomialDegree; k++ )
-				{
-					coeffDeterminant[i][k] = 0;
-					for( int j = 0; j < inputValues[0].Length; j++ )
-					{
-						coeffDeterminant[i][k] += inputValues[1][j] * (double)Math.Pow( inputValues[0][j], k );
-					}
-				}
-				coefficients[i] = Determinant(coeffDeterminant) / mainValue;
-			}
+            // Main determinant
+            for (int k = 0; k < polynomialDegree; k++)
+            {
+                for (int i = 0; i < polynomialDegree; i++)
+                {
+                    mainDeterminant[i][k] = 0;
+                    for (int j = 0; j < inputValues[0].Length; j++)
+                    {
+                        mainDeterminant[i][k] += Math.Pow(inputValues[0][j], i + k);
+                    }
+                }
+            }
+            double mainValue = Determinant(mainDeterminant);
 
-			// Create output arrays for approximation and forecasting
-			outputValues = new double[2][];
-			outputValues[0] = new double[size + forecastingPeriod];
-			outputValues[1] = new double[size + forecastingPeriod];
+            // Coefficient determinant
+            for (int i = 0; i < polynomialDegree; i++)
+            {
+                double[][] coeffDeterminant = CopyDeterminant(mainDeterminant);
+                for (int k = 0; k < polynomialDegree; k++)
+                {
+                    coeffDeterminant[i][k] = 0;
+                    for (int j = 0; j < inputValues[0].Length; j++)
+                    {
+                        coeffDeterminant[i][k] += inputValues[1][j] * Math.Pow(inputValues[0][j], k);
+                    }
+                }
+                coefficients[i] = Determinant(coeffDeterminant) / mainValue;
+            }
 
-			if( regressionType == RegressionType.Polynomial )
-			{
-				// Create Y values based on approximation.
-				for( int i = 0; i < size + forecastingPeriod; i++ )
-				{
-					// Set X value
-					outputValues[0][i] = inputValues[0][0] + i * interval;
+            // Create output arrays for approximation and forecasting
+            outputValues = new double[2][];
+            outputValues[0] = new double[size + forecastingPeriod];
+            outputValues[1] = new double[size + forecastingPeriod];
 
-					outputValues[1][i] = 0;
-					for( int j = 0; j < polynomialDegree; j++ )
-					{
-						outputValues[1][i]+= coefficients[j] * Math.Pow(outputValues[0][i],j);
-					}
-				}
-			}
-			else if( regressionType == RegressionType.Exponential )
-			{
-				// Create Y values based on approximation.
-				for( int i = 0; i < size + forecastingPeriod; i++ )
-				{
-					// Set X value
-					outputValues[0][i] = inputValues[0][0] + i * interval;
+            if (regressionType == RegressionType.Polynomial)
+            {
+                // Create Y values based on approximation.
+                for (int i = 0; i < size + forecastingPeriod; i++)
+                {
+                    // Set X value
+                    outputValues[0][i] = inputValues[0][0] + i * interval;
 
-					outputValues[1][i]= Math.Exp( coefficients[0] ) * Math.Exp( coefficients[1] * outputValues[0][i] );
-				}
-			}
-			else if( regressionType == RegressionType.Logarithmic )
-			{
-				// Create Y values based on approximation.
-				for( int i = 0; i < size + forecastingPeriod; i++ )
-				{
-					// Set X value
-					outputValues[0][i] = Math.Exp( inputValues[0][0] ) + i * logInterval;
-					
-					outputValues[1][i]= coefficients[1] * Math.Log( outputValues[0][i] ) + coefficients[0];
-				}
-			}
-			else if( regressionType == RegressionType.Power )
-			{
-				// Create Y values based on approximation.
-				for( int i = 0; i < size + forecastingPeriod; i++ )
-				{
-					// Set X value
-					outputValues[0][i] = Math.Exp( inputValues[0][0] ) + i * logInterval;
-					
-					outputValues[1][i]= Math.Exp( coefficients[0] ) * Math.Pow( outputValues[0][i], coefficients[1] );
-				}
-			}
+                    outputValues[1][i] = 0;
+                    for (int j = 0; j < polynomialDegree; j++)
+                    {
+                        outputValues[1][i] += coefficients[j] * Math.Pow(outputValues[0][i], j);
+                    }
+                }
+            }
+            else if (regressionType == RegressionType.Exponential)
+            {
+                // Create Y values based on approximation.
+                for (int i = 0; i < size + forecastingPeriod; i++)
+                {
+                    // Set X value
+                    outputValues[0][i] = inputValues[0][0] + i * interval;
 
-			if( regressionType != RegressionType.Logarithmic )
-			{
-				// Return X values.
-				for( int xIndex = 0; xIndex < size + forecastingPeriod; xIndex++ )
-				{
-					outputValues[0][xIndex] += minimumX - 1;
-				}
-			}
-		}
+                    outputValues[1][i] = Math.Exp(coefficients[0]) * Math.Exp(coefficients[1] * outputValues[0][i]);
+                }
+            }
+            else if (regressionType == RegressionType.Logarithmic)
+            {
+                // Create Y values based on approximation.
+                for (int i = 0; i < size + forecastingPeriod; i++)
+                {
+                    // Set X value
+                    outputValues[0][i] = Math.Exp(inputValues[0][0]) + i * logInterval;
 
-		/// <summary>
-		/// This method recalculates determinant. This method is used for 
-		/// recursive calls for sub determinants too.
-		/// </summary>
-		/// <param name="inputDeterminant">Input determinant</param>
-		/// <returns>Result of determinant</returns>
-		private double Determinant( double [][] inputDeterminant )
-		{
-			double sum = 0;
-			double sign = 1.0;
+                    outputValues[1][i] = coefficients[1] * Math.Log(outputValues[0][i]) + coefficients[0];
+                }
+            }
+            else if (regressionType == RegressionType.Power)
+            {
+                // Create Y values based on approximation.
+                for (int i = 0; i < size + forecastingPeriod; i++)
+                {
+                    // Set X value
+                    outputValues[0][i] = Math.Exp(inputValues[0][0]) + i * logInterval;
 
-			// Determinant is 2X2 - calculate value
-			if( inputDeterminant.Length == 2 )
-			{
-				return inputDeterminant[0][0]*inputDeterminant[1][1] - inputDeterminant[0][1]*inputDeterminant[1][0];
-			}
+                    outputValues[1][i] = Math.Exp(coefficients[0]) * Math.Pow(outputValues[0][i], coefficients[1]);
+                }
+            }
 
-			// Determinant is biger than 2X2. Go to recursive 
-			// call of Determinant method
-			for( int column = 0; column < inputDeterminant.GetLength(0); column++ )
-			{
-				// Make sub determinant
-				double [][] newDeterminant = MakeSubDeterminant( inputDeterminant, column );
+            if (regressionType != RegressionType.Logarithmic)
+            {
+                // Return X values.
+                for (int xIndex = 0; xIndex < size + forecastingPeriod; xIndex++)
+                {
+                    outputValues[0][xIndex] += minimumX - 1;
+                }
+            }
+        }
 
-				sum += sign * Determinant( newDeterminant ) * inputDeterminant[column][0];
-				sign *= -1.0;
-			}
-			return sum;
-		}
+        /// <summary>
+        /// This method recalculates determinant. This method is used for 
+        /// recursive calls for sub determinants too.
+        /// </summary>
+        /// <param name="inputDeterminant">Input determinant</param>
+        /// <returns>Result of determinant</returns>
+        private double Determinant(double[][] inputDeterminant)
+        {
+            double sum = 0;
+            double sign = 1.0;
 
-		/// <summary>
-		/// This method will create a new determinant, which is 
-		/// smaller by one rank (dimension). Specified column 
-		/// and zero rows will be skipped.
-		/// </summary>
-		/// <param name="inputDeterminant">Input determinant</param>
-		/// <param name="columnPos">Position of column, which has to be skipped</param>
-		/// <returns>New determinant</returns>
-		private double [][] MakeSubDeterminant( double [][] inputDeterminant, int columnPos )
-		{
-			// Get Determinant Size
-			int size = inputDeterminant.GetLength(0);
+            // Determinant is 2X2 - calculate value
+            if (inputDeterminant.Length == 2)
+            {
+                return inputDeterminant[0][0] * inputDeterminant[1][1] - inputDeterminant[0][1] * inputDeterminant[1][0];
+            }
 
-			// Prepare sub Determinant
-			double [][] newDeterminant = new double [size - 1][];
-			for(int arrayIndex = 0;  arrayIndex < size - 1; arrayIndex++)
-			{
-				newDeterminant[arrayIndex] = new double [size - 1];
-			}
+            // Determinant is biger than 2X2. Go to recursive 
+            // call of Determinant method
+            for (int column = 0; column < inputDeterminant.GetLength(0); column++)
+            {
+                // Make sub determinant
+                double[][] newDeterminant = MakeSubDeterminant(inputDeterminant, column);
+
+                sum += sign * Determinant(newDeterminant) * inputDeterminant[column][0];
+                sign *= -1.0;
+            }
+            return sum;
+        }
+
+        /// <summary>
+        /// This method will create a new determinant, which is 
+        /// smaller by one rank (dimension). Specified column 
+        /// and zero rows will be skipped.
+        /// </summary>
+        /// <param name="inputDeterminant">Input determinant</param>
+        /// <param name="columnPos">Position of column, which has to be skipped</param>
+        /// <returns>New determinant</returns>
+        private double[][] MakeSubDeterminant(double[][] inputDeterminant, int columnPos)
+        {
+            // Get Determinant Size
+            int size = inputDeterminant.GetLength(0);
+
+            // Prepare sub Determinant
+            double[][] newDeterminant = new double[size - 1][];
+            for (int arrayIndex = 0; arrayIndex < size - 1; arrayIndex++)
+            {
+                newDeterminant[arrayIndex] = new double[size - 1];
+            }
 
 
-			int newColumn = 0;
-			// Copy columns
-			for( int column = 0; column < size; column++ )
-			{
-				// Skeep this column
-				if( column == columnPos )
-					continue;
+            int newColumn = 0;
+            // Copy columns
+            for (int column = 0; column < size; column++)
+            {
+                // Skeep this column
+                if (column == columnPos)
+                    continue;
 
-				// Copy rows
-				for( int  row = 1; row < size; row++ )
-				{
-					newDeterminant[newColumn][row-1] = inputDeterminant[column][row];
-				}
+                // Copy rows
+                for (int row = 1; row < size; row++)
+                {
+                    newDeterminant[newColumn][row - 1] = inputDeterminant[column][row];
+                }
 
-				// Go to new column for new determinant
-				newColumn++;
-			}
+                // Go to new column for new determinant
+                newColumn++;
+            }
 
-			// Return new determinant
-			return newDeterminant;
-		}
+            // Return new determinant
+            return newDeterminant;
+        }
 
-		/// <summary>
-		/// This method will copy determinant
-		/// </summary>
-		/// <param name="inputDeterminant">Input determinant</param>
-		/// <returns>New determinant</returns>
-		private double [][] CopyDeterminant( double [][] inputDeterminant )
-		{
-			// Get Determinant Size
-			int size = inputDeterminant.GetLength(0);
+        /// <summary>
+        /// This method will copy determinant
+        /// </summary>
+        /// <param name="inputDeterminant">Input determinant</param>
+        /// <returns>New determinant</returns>
+        private double[][] CopyDeterminant(double[][] inputDeterminant)
+        {
+            // Get Determinant Size
+            int size = inputDeterminant.GetLength(0);
 
-			// Prepare sub Determinant
-			double [][] newDeterminant = new double [size][];
-			for(int arrayIndex = 0;  arrayIndex < size; arrayIndex++)
-			{
-				newDeterminant[arrayIndex] = new double [size];
-			}
+            // Prepare sub Determinant
+            double[][] newDeterminant = new double[size][];
+            for (int arrayIndex = 0; arrayIndex < size; arrayIndex++)
+            {
+                newDeterminant[arrayIndex] = new double[size];
+            }
 
-			// Copy columns
-			for( int column = 0; column < size; column++ )
-			{
-				// Copy rows
-				for( int  row = 0; row < size; row++ )
-				{
-					newDeterminant[column][row] = inputDeterminant[column][row];
-				}
-			}
+            // Copy columns
+            for (int column = 0; column < size; column++)
+            {
+                // Copy rows
+                for (int row = 0; row < size; row++)
+                {
+                    newDeterminant[column][row] = inputDeterminant[column][row];
+                }
+            }
 
-			// Return new determinant
-			return newDeterminant;
-		}
+            // Return new determinant
+            return newDeterminant;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

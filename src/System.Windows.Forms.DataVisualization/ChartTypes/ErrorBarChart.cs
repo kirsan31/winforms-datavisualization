@@ -509,7 +509,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     low = vAxis.GetLinearPosition(low);
 
                     // Remeber pre-calculated point position
-                    point.positionRel = new PointF((float)xPosition, (float)Math.Min(high, low));
+                    point.positionRel = new PointF(xPosition, (float)Math.Min(high, low));
 
                     if (common.ProcessModePaint)
                     {
@@ -1251,7 +1251,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     low = vAxis.GetLinearPosition(low);
 
                     // Remeber pre-calculated point position
-                    point.positionRel = new PointF((float)xPosition, (float)Math.Min(high, low));
+                    point.positionRel = new PointF(xPosition, (float)Math.Min(high, low));
 
                     // 3D Transform coordinates
                     Point3D[] points = new Point3D[2];

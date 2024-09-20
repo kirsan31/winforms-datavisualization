@@ -2080,7 +2080,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
             {
                 maximumValue = minimumValue + ChartHelper.GetIntervalSize(
                     minimumValue,
-                    (double)((Math.Floor(numberOfUnits / axisInterval / margin * 100) + 2) * axisInterval * margin / 100),
+                    (Math.Floor(numberOfUnits / axisInterval / margin * 100) + 2) * axisInterval * margin / 100,
                     _internalIntervalType);
             }
         }

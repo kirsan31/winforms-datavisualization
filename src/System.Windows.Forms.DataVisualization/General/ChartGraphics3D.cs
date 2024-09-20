@@ -2216,10 +2216,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     //**********************************************************************
 
                     // Get visibility of bounding rectangle
-                    float minX = (float)Math.Min(points3D[0].X, points3D[1].X);
-                    float minY = (float)Math.Min(points3D[0].Y, points3D[1].Y);
-                    float maxX = (float)Math.Max(points3D[0].X, points3D[1].X);
-                    float maxY = (float)Math.Max(points3D[0].Y, points3D[1].Y);
+                    float minX = Math.Min(points3D[0].X, points3D[1].X);
+                    float minY = Math.Min(points3D[0].Y, points3D[1].Y);
+                    float maxX = Math.Max(points3D[0].X, points3D[1].X);
+                    float maxY = Math.Max(points3D[0].Y, points3D[1].Y);
                     RectangleF position = new RectangleF(minX, minY, maxX - minX, maxY - minY);
                     SurfaceNames visibleSurfaces = GetVisibleSurfaces(position, positionZ, depth, matrix);
 
@@ -3597,8 +3597,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                             // Calculate marker non-rotated rectangle
                             RectangleF rectNonRotated = RectangleF.Empty;
-                            rectNonRotated.X = point.X - ((float)markerRelativeSize.Width) / 2F;
-                            rectNonRotated.Y = point.Y - ((float)markerRelativeSize.Height) / 2F;
+                            rectNonRotated.X = point.X - (markerRelativeSize.Width) / 2F;
+                            rectNonRotated.Y = point.Y - (markerRelativeSize.Height) / 2F;
                             rectNonRotated.Width = markerRelativeSize.Width;
                             rectNonRotated.Height = markerRelativeSize.Height;
 

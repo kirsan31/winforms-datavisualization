@@ -632,7 +632,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         graph.FillRectangleRel(rectSelection,
                             rangeSelectionColor,
                             ChartHatchStyle.None,
-                            "",
+                            string.Empty,
                             ChartImageWrapMode.Tile,
                             Color.Empty,
                             ChartImageAlignmentStyle.Center,
@@ -1056,7 +1056,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     // Zoom data scaleView
                     double start = Math.Min(this.SelectionStart, this.SelectionEnd);
-                    double size = (double)Math.Max(this.SelectionStart, this.SelectionEnd) - start;
+                    double size = Math.Max(this.SelectionStart, this.SelectionEnd) - start;
                     bool zoomed = this._axis.ScaleView.Zoom(start, size, DateTimeIntervalType.Number, true, true);
 
                     // Clear image buffer

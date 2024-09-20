@@ -2027,7 +2027,7 @@ public class DataPoint : DataPointCustomProperties
 
         if (value is ulong @ulong)
             return @ulong;
-        
+
         if (value is byte @byte)
             return @byte;
 
@@ -2037,7 +2037,7 @@ public class DataPoint : DataPointCustomProperties
         if (value is bool @bool)
             return @bool ? 1.0 : 0.0;
 
-         return CommonElements.ParseDouble(value.ToString());
+        return CommonElements.ParseDouble(value.ToString());
     }
 
     /// <summary>
@@ -2046,7 +2046,7 @@ public class DataPoint : DataPointCustomProperties
     /// <param name="xValue">X value of the data point.</param>
     /// <param name="yValue">Y value of the data point.</param>
     public void SetValueXY(double xValue, double yValue)
-    {        
+    {
         if (double.IsNaN(yValue))
         {
             // Set point empty flag and values to zero
@@ -2235,7 +2235,7 @@ public class DataPoint : DataPointCustomProperties
             {
                 if (yValue[i] == 0.0)
                 {
-                     this._yValue[i] = this._xValue - Math.Floor(this._yValue[i]);
+                    this._yValue[i] = this._xValue - Math.Floor(this._yValue[i]);
                 }
                 else
                 {
@@ -4571,7 +4571,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.MarkerBorderWidth, value);
             else
                 series.markerBorderWidth = value;
-                
+
             this.Invalidate(true);
         }
     }
@@ -5117,7 +5117,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.LabelBorderWidth, value);
             else
                 series.labelBorderWidth = value;
-                
+
             this.Invalidate(true);
         }
     }
@@ -5406,7 +5406,7 @@ public class DataPointCustomProperties : ChartNamedElement
         if (this.pointCustomProperties)
             return CheckIfSerializationRequired(CommonCustomProperties.Font);
         else
-            return  series?.font?.Equals(FontCache.DefaultFont) == false;
+            return series?.font?.Equals(FontCache.DefaultFont) == false;
     }
 
     /// <summary>

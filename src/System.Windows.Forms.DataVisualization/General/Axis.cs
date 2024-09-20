@@ -3189,7 +3189,7 @@ public partial class Axis : ChartNamedElement, IDisposable
             // Check if common font size should be used
             if (ChartArea.IsSameFontSizeForAllAxes)
             {
-                size = (float)Math.Min(size, ChartArea.axesAutoFontSize);
+                size = Math.Min(size, ChartArea.axesAutoFontSize);
             }
 
             //Set new font

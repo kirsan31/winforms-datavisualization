@@ -1134,10 +1134,10 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         registeredCustomProperties.Add(attrInfo);
 
         // "ZValue" attribute
-        chartTypes = new SeriesChartType[] {         
-            SeriesChartType.Line,            
-            SeriesChartType.Spline,          
-            SeriesChartType.StepLine,         
+        chartTypes = new SeriesChartType[] {
+            SeriesChartType.Line,
+            SeriesChartType.Spline,
+            SeriesChartType.StepLine,
             SeriesChartType.FastLine,
             SeriesChartType.Point,
             SeriesChartType.FastPoint

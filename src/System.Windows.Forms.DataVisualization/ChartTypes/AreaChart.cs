@@ -904,10 +904,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //****************************************************************
             float minX = (float)Math.Min(firstPoint.xPosition, secondPoint.xPosition);
             float minY = (float)Math.Min(firstPoint.yPosition, secondPoint.yPosition);
-            minY = (float)Math.Min(minY, axisPosition);
+            minY = Math.Min(minY, axisPosition);
             float maxX = (float)Math.Max(firstPoint.xPosition, secondPoint.xPosition);
             float maxY = (float)Math.Max(firstPoint.yPosition, secondPoint.yPosition);
-            maxY = (float)Math.Max(maxY, axisPosition);
+            maxY = Math.Max(maxY, axisPosition);
             RectangleF position = new RectangleF(minX, minY, maxX - minX, maxY - minY);
             SurfaceNames visibleSurfaces = graph.GetVisibleSurfaces(position, positionZ, depth, matrix);
 

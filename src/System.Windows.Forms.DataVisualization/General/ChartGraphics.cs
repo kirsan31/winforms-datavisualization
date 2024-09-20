@@ -1001,8 +1001,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                                         // Calculate diamond rectangle position
                                         RectangleF diamondRect = RectangleF.Empty;
-                                        diamondRect.X = point.X - ((float)diamondSize) / 2F;
-                                        diamondRect.Y = point.Y - ((float)diamondSize) / 2F - shadowSize;
+                                        diamondRect.X = point.X - (diamondSize) / 2F;
+                                        diamondRect.Y = point.Y - (diamondSize) / 2F - shadowSize;
                                         diamondRect.Width = diamondSize;
                                         diamondRect.Height = diamondSize;
 
@@ -3652,9 +3652,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // Calculate rounded rect radius
                 float radius = shadowOffset * 0.7f;
-                radius = (float)Math.Max(radius, 2f);
-                radius = (float)Math.Min(radius, offset.Width / 4f);
-                radius = (float)Math.Min(radius, offset.Height / 4f);
+                radius = Math.Max(radius, 2f);
+                radius = Math.Min(radius, offset.Width / 4f);
+                radius = Math.Min(radius, offset.Height / 4f);
                 radius = (float)Math.Ceiling(radius);
                 if (circular)
                 {
@@ -4973,7 +4973,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Dispose graphics objects
-               borderPen?.Dispose();
+            borderPen?.Dispose();
 
             fillBrush?.Dispose();
         }
@@ -4989,7 +4989,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn
                 // twice on the outside and inside radius.
-                float minSize = (float)Math.Min(position.Width, position.Height);
+                float minSize = Math.Min(position.Width, position.Height);
                 float shadowSize = minSize * 0.05f;
 
                 // Create brush path
@@ -5039,7 +5039,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn
                 // twice on the outside and inside radius.
-                float minSize = (float)Math.Min(position.Width, position.Height);
+                float minSize = Math.Min(position.Width, position.Height);
                 float shadowSize = minSize / 10f;
                 if (doughnutRadius > 0f)
                 {

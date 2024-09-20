@@ -23,14 +23,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// to manipulate annotations relative to each other.
     /// </remarks>
     [
-		SRDescription("DescriptionAttributeAnnotationGroup_AnnotationGroup"),
-	]
+        SRDescription("DescriptionAttributeAnnotationGroup_AnnotationGroup"),
+    ]
     public class AnnotationGroup : Annotation
-	{
-		#region Fields
+    {
+        #region Fields
 
-		// Collection of annotations in the group
-		internal	AnnotationCollection	annotations;
+        // Collection of annotations in the group
+        internal AnnotationCollection annotations;
 
         #endregion
 
@@ -39,14 +39,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Default public constructor.
         /// </summary>
-        public AnnotationGroup() 
+        public AnnotationGroup()
             : base()
-		{
+        {
             annotations = new AnnotationCollection(this);
-			annotations.AnnotationGroup = this;
-		}
+            annotations.AnnotationGroup = this;
+        }
 
-		#endregion
+        #endregion
 
         #region Miscellaneous Properties
 
@@ -64,30 +64,30 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// To disable chart area clipping, set the property to "NotSet" or an empty string.
         /// </para>
         /// </remarks>
-		[
-		SRCategory("CategoryAttributeMisc"),
+        [
+        SRCategory("CategoryAttributeMisc"),
         DefaultValue(Constants.NotSetValue),
-		SRDescription("DescriptionAttributeAnnotationGroup_ClipToChartArea"),
-		TypeConverter(typeof(LegendAreaNameConverter)),
+        SRDescription("DescriptionAttributeAnnotationGroup_ClipToChartArea"),
+        TypeConverter(typeof(LegendAreaNameConverter)),
         Browsable(false),
-		]
-		override public string ClipToChartArea
-		{
-			get
-			{
-				return base.ClipToChartArea;
-			}
-			set
-			{
-				base.ClipToChartArea = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.ClipToChartArea = value;
-				}
-			}
-		}
+        ]
+        override public string ClipToChartArea
+        {
+            get
+            {
+                return base.ClipToChartArea;
+            }
+            set
+            {
+                base.ClipToChartArea = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.ClipToChartArea = value;
+                }
+            }
+        }
 
-		#endregion
+        #endregion
 
         #region Position Properties
 
@@ -110,24 +110,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <see cref="Annotation.AxisX"/> or <see cref="Annotation.AxisY"/> properties.
         /// </para>
         /// </remarks>
-		[
-		SRCategory("CategoryAttributePosition"),
-		DefaultValue(true),
-		SRDescription("DescriptionAttributeAnnotationGroup_SizeAlwaysRelative"),
-		]
-		override public bool IsSizeAlwaysRelative
-		{
-			get
-			{
-				return base.IsSizeAlwaysRelative;
-			}
-			set
-			{
-				base.IsSizeAlwaysRelative = value;
-			}
-		}
+        [
+        SRCategory("CategoryAttributePosition"),
+        DefaultValue(true),
+        SRDescription("DescriptionAttributeAnnotationGroup_SizeAlwaysRelative"),
+        ]
+        override public bool IsSizeAlwaysRelative
+        {
+            get
+            {
+                return base.IsSizeAlwaysRelative;
+            }
+            set
+            {
+                base.IsSizeAlwaysRelative = value;
+            }
+        }
 
-		#endregion
+        #endregion
 
         #region Visual Properties
 
@@ -138,29 +138,29 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <value>
         /// <b>True</b> if the annotation is selected, <b>false</b> otherwise.
         /// </value>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(false),
-		Browsable(false),
-		SRDescription("DescriptionAttributeAnnotationGroup_Selected"),
-		]
-		override public bool IsSelected
-		{
-			get
-			{
-				return base.IsSelected;
-			}
-			set
-			{
-				base.IsSelected = value;
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(false),
+        Browsable(false),
+        SRDescription("DescriptionAttributeAnnotationGroup_Selected"),
+        ]
+        override public bool IsSelected
+        {
+            get
+            {
+                return base.IsSelected;
+            }
+            set
+            {
+                base.IsSelected = value;
 
-				// Clear selection for all annotations in the group
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.IsSelected = false;
-				}
-			}
-		}
+                // Clear selection for all annotations in the group
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.IsSelected = false;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets a flag that specifies whether an annotation is visible.
@@ -169,22 +169,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <b>True</b> if the annotation is visible, <b>false</b> otherwise.
         /// </value>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(true),
-		SRDescription("DescriptionAttributeAnnotationGroup_Visible"),
-		ParenthesizePropertyNameAttribute(true),
-		]
-		override public bool Visible
-		{
-			get
-			{
-				return base.Visible;
-			}
-			set
-			{
-				base.Visible = value;
-			}
-		}
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(true),
+        SRDescription("DescriptionAttributeAnnotationGroup_Visible"),
+        ParenthesizePropertyNameAttribute(true),
+        ]
+        override public bool Visible
+        {
+            get
+            {
+                return base.Visible;
+            }
+            set
+            {
+                base.Visible = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets an annotation's content alignment.
@@ -198,26 +198,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// a non-scaled image inside an <see cref="ImageAnnotation"/> object.
         /// </remarks>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(typeof(ContentAlignment), "MiddleCenter"),
-		SRDescription("DescriptionAttributeAlignment"),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(typeof(ContentAlignment), "MiddleCenter"),
+        SRDescription("DescriptionAttributeAlignment"),
         Browsable(false),
-		]
-		override public ContentAlignment Alignment
-		{
-			get
-			{
-				return base.Alignment;
-			}
-			set
-			{
-				base.Alignment = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.Alignment = value;
-				}
-			}
-		}
+        ]
+        override public ContentAlignment Alignment
+        {
+            get
+            {
+                return base.Alignment;
+            }
+            set
+            {
+                base.Alignment = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.Alignment = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets an annotation's text style.
@@ -249,28 +249,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="Color"/> value used for the text color of an annotation.
         /// </value>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(typeof(Color), "Black"),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(typeof(Color), "Black"),
         SRDescription("DescriptionAttributeForeColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor)),
         Browsable(false),
-		]
-		override public Color ForeColor
-		{
-			get
-			{
-				return base.ForeColor;
-			}
-			set
-			{
-				base.ForeColor = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.ForeColor = value;
-				}
-			}
-		}
+        ]
+        override public Color ForeColor
+        {
+            get
+            {
+                return base.ForeColor;
+            }
+            set
+            {
+                base.ForeColor = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.ForeColor = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the font of an annotation's text.
@@ -280,26 +280,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="Font"/> object used for an annotation's text.
         /// </value>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
-		SRDescription("DescriptionAttributeTextFont"),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
+        SRDescription("DescriptionAttributeTextFont"),
         Browsable(false),
-		]
-		override public Font Font
-		{
-			get
-			{
-				return base.Font;
-			}
-			set
-			{
-				base.Font = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.Font = value;
-				}
-			}
-		}
+        ]
+        override public Font Font
+        {
+            get
+            {
+                return base.Font;
+            }
+            set
+            {
+                base.Font = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.Font = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the color of an annotation line.
@@ -310,28 +310,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="Color"/> value used to draw an annotation line.
         /// </value>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(typeof(Color), "Black"),
-		SRDescription("DescriptionAttributeLineColor"),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(typeof(Color), "Black"),
+        SRDescription("DescriptionAttributeLineColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor)),
         Browsable(false),
-		]
-		override public Color LineColor
-		{
-			get
-			{
-				return base.LineColor;
-			}
-			set
-			{
-				base.LineColor = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.LineColor = value;
-				}
-			}
-		}
+        ]
+        override public Color LineColor
+        {
+            get
+            {
+                return base.LineColor;
+            }
+            set
+            {
+                base.LineColor = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.LineColor = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the width of an annotation line.
@@ -342,26 +342,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// An integer value defining the width of an annotation line in pixels.
         /// </value>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(1),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(1),
         SRDescription("DescriptionAttributeLineWidth"),
         Browsable(false),
-		]
-		override public int LineWidth
-		{
-			get
-			{
-				return base.LineWidth;
-			}
-			set
-			{
-				base.LineWidth = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.LineWidth = value;
-				}
-			}
-		}
+        ]
+        override public int LineWidth
+        {
+            get
+            {
+                return base.LineWidth;
+            }
+            set
+            {
+                base.LineWidth = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.LineWidth = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the style of an annotation line.
@@ -372,26 +372,26 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="ChartDashStyle"/> value used to draw an annotation line.
         /// </value>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(ChartDashStyle.Solid),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(ChartDashStyle.Solid),
         SRDescription("DescriptionAttributeLineDashStyle"),
         Browsable(false),
-		]
-		override public ChartDashStyle LineDashStyle
-		{
-			get
-			{
-				return base.LineDashStyle;
-			}
-			set
-			{
-				base.LineDashStyle = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.LineDashStyle = value;
-				}
-			}
-		}
+        ]
+        override public ChartDashStyle LineDashStyle
+        {
+            get
+            {
+                return base.LineDashStyle;
+            }
+            set
+            {
+                base.LineDashStyle = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.LineDashStyle = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the background color of an annotation.
@@ -403,29 +403,29 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="Color"/> value used for the background of an annotation.
         /// </value>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(typeof(Color), ""),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(typeof(Color), ""),
         SRDescription("DescriptionAttributeBackColor"),
-		NotifyParentPropertyAttribute(true),
+        NotifyParentPropertyAttribute(true),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor)),
         Browsable(false),
-		]
-		override public Color BackColor
-		{
-			get
-			{
-				return base.BackColor;
-			}
-			set
-			{
-				base.BackColor = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.BackColor = value;
-				}
-			}
-		}
+        ]
+        override public Color BackColor
+        {
+            get
+            {
+                return base.BackColor;
+            }
+            set
+            {
+                base.BackColor = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.BackColor = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the background hatch style of an annotation.
@@ -440,28 +440,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Two colors are used to draw the hatching, <see cref="BackColor"/> and <see cref="BackSecondaryColor"/>.
         /// </remarks>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(ChartHatchStyle.None),
-		NotifyParentPropertyAttribute(true),
-		SRDescription("DescriptionAttributeBackHatchStyle"),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(ChartHatchStyle.None),
+        NotifyParentPropertyAttribute(true),
+        SRDescription("DescriptionAttributeBackHatchStyle"),
         Editor("HatchStyleEditor", typeof(UITypeEditor)),
         Browsable(false),
-		]
-		override public ChartHatchStyle BackHatchStyle
-		{
-			get
-			{
-				return base.BackHatchStyle;
-			}
-			set
-			{
-				base.BackHatchStyle = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.BackHatchStyle = value;
-				}
-			}
-		}
+        ]
+        override public ChartHatchStyle BackHatchStyle
+        {
+            get
+            {
+                return base.BackHatchStyle;
+            }
+            set
+            {
+                base.BackHatchStyle = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.BackHatchStyle = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the background gradient style of an annotation.
@@ -476,28 +476,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Two colors are used to draw the gradient, <see cref="BackColor"/> and <see cref="BackSecondaryColor"/>.
         /// </remarks>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(GradientStyle.None),
-		NotifyParentPropertyAttribute(true),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(GradientStyle.None),
+        NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeBackGradientStyle"),
         Editor("GradientEditor", typeof(UITypeEditor)),
         Browsable(false),
-		]		
-		override public GradientStyle BackGradientStyle
-		{
-			get
-			{
-				return base.BackGradientStyle;
-			}
-			set
-			{
-				base.BackGradientStyle = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.BackGradientStyle = value;
-				}
-			}
-		}
+        ]
+        override public GradientStyle BackGradientStyle
+        {
+            get
+            {
+                return base.BackGradientStyle;
+            }
+            set
+            {
+                base.BackGradientStyle = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.BackGradientStyle = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the secondary background color of an annotation.
@@ -514,29 +514,29 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <see cref="BackGradientStyle"/> are used.
         /// </remarks>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(typeof(Color), ""),
-		NotifyParentPropertyAttribute(true),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(typeof(Color), ""),
+        NotifyParentPropertyAttribute(true),
         SRDescription("DescriptionAttributeBackSecondaryColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor)),
         Browsable(false),
-		] 
-		override public Color BackSecondaryColor
-		{
-			get
-			{
-				return base.BackSecondaryColor;
-			}
-			set
-			{
-				base.BackSecondaryColor = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.BackSecondaryColor = value;
-				}
-			}
-		}
+        ]
+        override public Color BackSecondaryColor
+        {
+            get
+            {
+                return base.BackSecondaryColor;
+            }
+            set
+            {
+                base.BackSecondaryColor = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.BackSecondaryColor = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the color of an annotation's shadow.
@@ -546,28 +546,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// A <see cref="Color"/> value used to draw an annotation's shadow.
         /// </value>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(typeof(Color), "128,0,0,0"),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(typeof(Color), "128,0,0,0"),
         SRDescription("DescriptionAttributeShadowColor"),
         TypeConverter(typeof(ColorConverter)),
         Editor("ChartColorEditor", typeof(UITypeEditor)),
         Browsable(false),
-		]
-		override public Color ShadowColor
-		{
-			get
-			{
-				return base.ShadowColor;
-			}
-			set
-			{
-				base.ShadowColor = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.ShadowColor = value;
-				}
-			}
-		}
+        ]
+        override public Color ShadowColor
+        {
+            get
+            {
+                return base.ShadowColor;
+            }
+            set
+            {
+                base.ShadowColor = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.ShadowColor = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the offset between an annotation and its shadow.
@@ -577,173 +577,173 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// An integer value that represents the offset between an annotation and its shadow.
         /// </value>
 		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(0),
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(0),
         SRDescription("DescriptionAttributeShadowOffset"),
         Browsable(false),
-		]
-		override public int ShadowOffset
-		{
-			get
-			{
-				return base.ShadowOffset;
-			}
-			set
-			{
-				base.ShadowOffset = value;
-				foreach(Annotation annotation in this.annotations)
-				{
-					annotation.ShadowOffset = value;
-				}
-			}
-		}
+        ]
+        override public int ShadowOffset
+        {
+            get
+            {
+                return base.ShadowOffset;
+            }
+            set
+            {
+                base.ShadowOffset = value;
+                foreach (Annotation annotation in this.annotations)
+                {
+                    annotation.ShadowOffset = value;
+                }
+            }
+        }
 
-		#endregion
+        #endregion
 
         #region Editing Permissions Properties
 
-		/// <summary>
-		/// Gets or sets a flag that specifies whether an annotation may be selected 
-		/// with a mouse by the end user.
-		/// </summary>
-		/// <value>
-		/// <b>True</b> if the annotation may be selected, <b>false</b> otherwise.
-		/// </value>
-		[
-		SRCategory("CategoryAttributeEditing"),
+        /// <summary>
+        /// Gets or sets a flag that specifies whether an annotation may be selected 
+        /// with a mouse by the end user.
+        /// </summary>
+        /// <value>
+        /// <b>True</b> if the annotation may be selected, <b>false</b> otherwise.
+        /// </value>
+        [
+        SRCategory("CategoryAttributeEditing"),
         DefaultValue(false),
-		SRDescription("DescriptionAttributeAllowSelecting"),
-		]
-		override public bool AllowSelecting
-		{
-			get
-			{
-				return base.AllowSelecting;
-			}
-			set
-			{
-				base.AllowSelecting = value;
-			}
-		}
+        SRDescription("DescriptionAttributeAllowSelecting"),
+        ]
+        override public bool AllowSelecting
+        {
+            get
+            {
+                return base.AllowSelecting;
+            }
+            set
+            {
+                base.AllowSelecting = value;
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets a flag that specifies whether an annotation may be moved 
-		/// with a mouse by the end user.
-		/// </summary>
-		/// <value>
-		/// <b>True</b> if the annotation may be moved, <b>false</b> otherwise.
-		/// </value>
-		[
-		SRCategory("CategoryAttributeEditing"),
-		DefaultValue(false),
-		SRDescription("DescriptionAttributeAllowMoving"),
-		]
-		override public bool AllowMoving
-		{
-			get
-			{
-				return base.AllowMoving;
-			}
-			set
-			{
-				base.AllowMoving = value;
-			}
-		}
-		/// <summary>
-		/// Gets or sets a flag that specifies whether an annotation anchor may be moved 
-		/// with a mouse by the end user.
-		/// </summary>
-		/// <value>
-		/// <b>True</b> if the annotation anchor may be moved, <b>false</b> otherwise.
-		/// </value>
-		[
-		SRCategory("CategoryAttributeEditing"),
+        /// <summary>
+        /// Gets or sets a flag that specifies whether an annotation may be moved 
+        /// with a mouse by the end user.
+        /// </summary>
+        /// <value>
+        /// <b>True</b> if the annotation may be moved, <b>false</b> otherwise.
+        /// </value>
+        [
+        SRCategory("CategoryAttributeEditing"),
         DefaultValue(false),
-		SRDescription("DescriptionAttributeAnnotationGroup_AllowAnchorMoving"),
-		]
-		override public bool AllowAnchorMoving
-		{
-			get
-			{
-				return base.AllowAnchorMoving;
-			}
-			set
-			{
-				base.AllowAnchorMoving = value;
-			}
-		}		
+        SRDescription("DescriptionAttributeAllowMoving"),
+        ]
+        override public bool AllowMoving
+        {
+            get
+            {
+                return base.AllowMoving;
+            }
+            set
+            {
+                base.AllowMoving = value;
+            }
+        }
+        /// <summary>
+        /// Gets or sets a flag that specifies whether an annotation anchor may be moved 
+        /// with a mouse by the end user.
+        /// </summary>
+        /// <value>
+        /// <b>True</b> if the annotation anchor may be moved, <b>false</b> otherwise.
+        /// </value>
+        [
+        SRCategory("CategoryAttributeEditing"),
+        DefaultValue(false),
+        SRDescription("DescriptionAttributeAnnotationGroup_AllowAnchorMoving"),
+        ]
+        override public bool AllowAnchorMoving
+        {
+            get
+            {
+                return base.AllowAnchorMoving;
+            }
+            set
+            {
+                base.AllowAnchorMoving = value;
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets a flag that specifies whether an annotation may be resized 
-		/// with a mouse by the end user.
-		/// </summary>
-		/// <value>
-		/// <b>True</b> if the annotation may be resized, <b>false</b> otherwise.
-		/// </value>
-		[
-		SRCategory("CategoryAttributeEditing"),
+        /// <summary>
+        /// Gets or sets a flag that specifies whether an annotation may be resized 
+        /// with a mouse by the end user.
+        /// </summary>
+        /// <value>
+        /// <b>True</b> if the annotation may be resized, <b>false</b> otherwise.
+        /// </value>
+        [
+        SRCategory("CategoryAttributeEditing"),
         DefaultValue(false),
-		SRDescription("DescriptionAttributeAllowResizing"),
-		]
-		override public bool AllowResizing
-		{
-			get
-			{
-				return base.AllowResizing;
-			}
-			set
-			{
-				base.AllowResizing = value;
-			}
-		}
+        SRDescription("DescriptionAttributeAllowResizing"),
+        ]
+        override public bool AllowResizing
+        {
+            get
+            {
+                return base.AllowResizing;
+            }
+            set
+            {
+                base.AllowResizing = value;
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets a flag that specifies whether an annotation's text may be edited 
-		/// when the end user double clicks on the text.
-		/// </summary>
-		/// <value>
-		/// <b>True</b> if the annotation text may be edited, <b>false</b> otherwise.
-		/// </value>
-		[
-		SRCategory("CategoryAttributeEditing"),
+        /// <summary>
+        /// Gets or sets a flag that specifies whether an annotation's text may be edited 
+        /// when the end user double clicks on the text.
+        /// </summary>
+        /// <value>
+        /// <b>True</b> if the annotation text may be edited, <b>false</b> otherwise.
+        /// </value>
+        [
+        SRCategory("CategoryAttributeEditing"),
         DefaultValue(false),
-		SRDescription("DescriptionAttributeAllowTextEditing"),
-		]
-		override public bool AllowTextEditing
-		{
-			get
-			{
-				return base.AllowTextEditing;
-			}
-			set
-			{
-				base.AllowTextEditing = value;
-			}
-		}
+        SRDescription("DescriptionAttributeAllowTextEditing"),
+        ]
+        override public bool AllowTextEditing
+        {
+            get
+            {
+                return base.AllowTextEditing;
+            }
+            set
+            {
+                base.AllowTextEditing = value;
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets a flag that specifies whether a polygon annotation's points 
-		/// may be moved with a mouse by the end user.
-		/// </summary>
-		/// <value>
-		/// <b>True</b> if the polygon annotation's points may be moved, <b>false</b> otherwise.
-		/// </value>
-		[
-		SRCategory("CategoryAttributeEditing"),
+        /// <summary>
+        /// Gets or sets a flag that specifies whether a polygon annotation's points 
+        /// may be moved with a mouse by the end user.
+        /// </summary>
+        /// <value>
+        /// <b>True</b> if the polygon annotation's points may be moved, <b>false</b> otherwise.
+        /// </value>
+        [
+        SRCategory("CategoryAttributeEditing"),
         DefaultValue(false),
-		SRDescription("DescriptionAttributeAnnotationGroup_AllowPathEditing"),
-		]
-		override public bool AllowPathEditing
-		{
-			get
-			{
-				return base.AllowPathEditing;
-			}
-			set
-			{
-				base.AllowPathEditing = value;
-			}
-		}
+        SRDescription("DescriptionAttributeAnnotationGroup_AllowPathEditing"),
+        ]
+        override public bool AllowPathEditing
+        {
+            get
+            {
+                return base.AllowPathEditing;
+            }
+            set
+            {
+                base.AllowPathEditing = value;
+            }
+        }
 
 
         #endregion
@@ -761,18 +761,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// group annotation.
 		/// </remarks>
 		[
-		SRCategory("CategoryAttributeAnnotations"),
-		SRDescription("DescriptionAttributeAnnotationGroup_Annotations"),
+        SRCategory("CategoryAttributeAnnotations"),
+        SRDescription("DescriptionAttributeAnnotationGroup_Annotations"),
         Editor("AnnotationCollectionEditor", typeof(UITypeEditor)),
-        DesignerSerializationVisibility(DesignerSerializationVisibility.Content), 
-		]
-		public AnnotationCollection Annotations
-		{
-			get
-			{
-				return annotations;
-			}
-		}
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
+        ]
+        public AnnotationCollection Annotations
+        {
+            get
+            {
+                return annotations;
+            }
+        }
 
         /// <summary>
         /// Gets or sets an annotation's type name.
@@ -785,118 +785,118 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </para>
         /// </remarks>
 		[
-		SRCategory("CategoryAttributeMisc"),
-		Bindable(true),
-		Browsable(false),
-		EditorBrowsableAttribute(EditorBrowsableState.Never),
-		DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-		SerializationVisibilityAttribute(SerializationVisibility.Hidden),
-		SRDescription("DescriptionAttributeAnnotationType"),
-		]
-		public override string AnnotationType
-		{
-			get
-			{
-				return "Group";
-			}
-		}
+        SRCategory("CategoryAttributeMisc"),
+        Bindable(true),
+        Browsable(false),
+        EditorBrowsableAttribute(EditorBrowsableState.Never),
+        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
+        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        SRDescription("DescriptionAttributeAnnotationType"),
+        ]
+        public override string AnnotationType
+        {
+            get
+            {
+                return "Group";
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets annotation selection points style.
-		/// </summary>
-		/// <value>
-		/// A <see cref="SelectionPointsStyle"/> value that represents annotation
-		/// selection style.
-		/// </value>
-		/// <remarks>
+        /// <summary>
+        /// Gets or sets annotation selection points style.
+        /// </summary>
+        /// <value>
+        /// A <see cref="SelectionPointsStyle"/> value that represents annotation
+        /// selection style.
+        /// </value>
+        /// <remarks>
         /// This property is for internal use and is hidden at design and run time.
-		/// </remarks>
-		[
-		SRCategory("CategoryAttributeAppearance"),
-		DefaultValue(SelectionPointsStyle.Rectangle),
-		ParenthesizePropertyNameAttribute(true),
-		Browsable(false),
-		EditorBrowsableAttribute(EditorBrowsableState.Never),
-		DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-		SerializationVisibilityAttribute(SerializationVisibility.Hidden),
-		SRDescription("DescriptionAttributeSelectionPointsStyle"),
-		]
-		override internal SelectionPointsStyle SelectionPointsStyle
-		{
-			get
-			{
-				return SelectionPointsStyle.Rectangle;
-			}
-		}
+        /// </remarks>
+        [
+        SRCategory("CategoryAttributeAppearance"),
+        DefaultValue(SelectionPointsStyle.Rectangle),
+        ParenthesizePropertyNameAttribute(true),
+        Browsable(false),
+        EditorBrowsableAttribute(EditorBrowsableState.Never),
+        DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
+        SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+        SRDescription("DescriptionAttributeSelectionPointsStyle"),
+        ]
+        override internal SelectionPointsStyle SelectionPointsStyle
+        {
+            get
+            {
+                return SelectionPointsStyle.Rectangle;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Methods
+        #region Methods
 
-		/// <summary>
-		/// Paints an annotation object using the specified graphics.
-		/// </summary>
-		/// <param name="graphics">
-		/// A <see cref="ChartGraphics"/> object, used to paint the annotation object.
-		/// </param>
-		/// <param name="chart">
-		/// Reference to the <see cref="Chart"/> control.
-		/// </param>
+        /// <summary>
+        /// Paints an annotation object using the specified graphics.
+        /// </summary>
+        /// <param name="graphics">
+        /// A <see cref="ChartGraphics"/> object, used to paint the annotation object.
+        /// </param>
+        /// <param name="chart">
+        /// Reference to the <see cref="Chart"/> control.
+        /// </param>
         override internal void Paint(Chart chart, ChartGraphics graphics)
-		{
-			// Paint all annotations in the group
-			foreach(Annotation annotation in this.annotations)
-			{
-				annotation.Paint(chart, graphics);
-			}
+        {
+            // Paint all annotations in the group
+            foreach (Annotation annotation in this.annotations)
+            {
+                annotation.Paint(chart, graphics);
+            }
 
-			if( (this.Common.ProcessModePaint && this.IsSelected) ||
-				this.Common.ProcessModeRegions )
-			{
+            if ((this.Common.ProcessModePaint && this.IsSelected) ||
+                this.Common.ProcessModeRegions)
+            {
                 // Get annotation position in relative coordinates
                 GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
-                PointF	secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+                PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
-				// Create selection rectangle
-				RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
+                // Create selection rectangle
+                RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
 
-				// Check rectangle orientation 
-				if(selectionRect.Width < 0)
-				{
-					selectionRect.X = selectionRect.Right;
-					selectionRect.Width = -selectionRect.Width;
-				}
-				if(selectionRect.Height < 0)
-				{
-					selectionRect.Y = selectionRect.Bottom;
-					selectionRect.Height = -selectionRect.Height;
-				}
+                // Check rectangle orientation 
+                if (selectionRect.Width < 0)
+                {
+                    selectionRect.X = selectionRect.Right;
+                    selectionRect.Width = -selectionRect.Width;
+                }
+                if (selectionRect.Height < 0)
+                {
+                    selectionRect.Y = selectionRect.Bottom;
+                    selectionRect.Height = -selectionRect.Height;
+                }
 
-				// Check if text position is valid
-				if( selectionRect.IsEmpty ||
-					float.IsNaN(selectionRect.X) || 
-					float.IsNaN(selectionRect.Y) || 
-					float.IsNaN(selectionRect.Right) || 
-					float.IsNaN(selectionRect.Bottom) )
-				{
-					return;
-				}
+                // Check if text position is valid
+                if (selectionRect.IsEmpty ||
+                    float.IsNaN(selectionRect.X) ||
+                    float.IsNaN(selectionRect.Y) ||
+                    float.IsNaN(selectionRect.Right) ||
+                    float.IsNaN(selectionRect.Bottom))
+                {
+                    return;
+                }
 
-				if(this.Common.ProcessModeRegions)
-				{
-					// Add hot region
-					this.Common.HotRegionsList.AddHotRegion(
-						selectionRect,
-						this,
-						ChartElementType.Annotation,
-						String.Empty);
-				}
+                if (this.Common.ProcessModeRegions)
+                {
+                    // Add hot region
+                    this.Common.HotRegionsList.AddHotRegion(
+                        selectionRect,
+                        this,
+                        ChartElementType.Annotation,
+                        String.Empty);
+                }
 
-				// Paint selection handles
-				PaintSelectionHandles(graphics, selectionRect, null);
-			}
-		}
+                // Paint selection handles
+                PaintSelectionHandles(graphics, selectionRect, null);
+            }
+        }
 
-		#endregion	// Methods
+        #endregion // Methods            
     }
 }

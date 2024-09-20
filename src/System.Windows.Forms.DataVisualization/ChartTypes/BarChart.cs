@@ -829,7 +829,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Check labels style custom properties 
                 //************************************************************
                 BarValueLabelDrawingStyle drawingStyle = defLabelDrawingStyle;
-                string valueLabelAttrib = "";
+                string valueLabelAttrib = string.Empty;
                 if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
                 {
                     valueLabelAttrib = point[CustomPropertyName.BarLabelStyle];
@@ -893,10 +893,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Adjust position if point marker is drawn
                         if (!markerSize.IsEmpty)
                         {
-                            rectLabel.Width -= (float)Math.Min(rectLabel.Width, markerSize.Width / 2F);
+                            rectLabel.Width -= Math.Min(rectLabel.Width, markerSize.Width / 2F);
                             if (barStartPosition < barSize)
                             {
-                                rectLabel.X += (float)Math.Min(rectLabel.Width, markerSize.Width / 2F);
+                                rectLabel.X += Math.Min(rectLabel.Width, markerSize.Width / 2F);
                             }
                         }
                     }
@@ -918,10 +918,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Adjust position if point marker is drawn
                         if (!markerSize.IsEmpty)
                         {
-                            rectLabel.Width -= (float)Math.Min(rectLabel.Width, markerSize.Width / 2F);
+                            rectLabel.Width -= Math.Min(rectLabel.Width, markerSize.Width / 2F);
                             if (barStartPosition >= barSize)
                             {
-                                rectLabel.X += (float)Math.Min(rectLabel.Width, markerSize.Width / 2F);
+                                rectLabel.X += Math.Min(rectLabel.Width, markerSize.Width / 2F);
                             }
                         }
                     }
@@ -1177,7 +1177,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //************************************************************
             //** Check custom attribute "EmptyPointValue"
             //************************************************************
-            string emptyPointValue = "";
+            string emptyPointValue = string.Empty;
             if (series.EmptyPointStyle.IsCustomPropertySet(CustomPropertyName.EmptyPointValue))
             {
                 emptyPointValue = series.EmptyPointStyle[CustomPropertyName.EmptyPointValue];
@@ -1840,7 +1840,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Check labels style custom properties 
                 //************************************************************
                 BarValueLabelDrawingStyle drawingStyle = defLabelDrawingStyle;
-                string valueLabelAttrib = "";
+                string valueLabelAttrib = string.Empty;
                 if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
                 {
                     valueLabelAttrib = point[CustomPropertyName.BarLabelStyle];
@@ -1897,10 +1897,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Adjust position if point marker is drawn
                         if (!markerSize.IsEmpty)
                         {
-                            rectLabel.Width -= (float)Math.Min(rectLabel.Width, markerSize.Width / 2F);
+                            rectLabel.Width -= Math.Min(rectLabel.Width, markerSize.Width / 2F);
                             if (barStartPosition < barSize)
                             {
-                                rectLabel.X += (float)Math.Min(rectLabel.Width, markerSize.Width / 2F);
+                                rectLabel.X += Math.Min(rectLabel.Width, markerSize.Width / 2F);
                             }
                         }
                     }
@@ -1922,10 +1922,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Adjust position if point marker is drawn
                         if (!markerSize.IsEmpty)
                         {
-                            rectLabel.Width -= (float)Math.Min(rectLabel.Width, markerSize.Width / 2F);
+                            rectLabel.Width -= Math.Min(rectLabel.Width, markerSize.Width / 2F);
                             if (barStartPosition >= barSize)
                             {
-                                rectLabel.X += (float)Math.Min(rectLabel.Width, markerSize.Width / 2F);
+                                rectLabel.X += Math.Min(rectLabel.Width, markerSize.Width / 2F);
                             }
                         }
                     }

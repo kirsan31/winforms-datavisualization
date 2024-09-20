@@ -39,7 +39,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// will give a name of the series, which is used, for
         /// labels and markers. Point chart
         /// </summary>
-        private string _shiftedSerName = "";
+        private string _shiftedSerName = string.Empty;
 
         /// <summary>
         /// Indicates that two Y values are used to calculate column position
@@ -404,12 +404,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     {
                         // The formula for position is based on a distance
                         //from the grid line or nPoints position.
-                        xPosition = hAxis.GetPosition(index) - width * ((double)numOfSeries) / 2.0 + width / 2 + seriesIndx * width;
+                        xPosition = hAxis.GetPosition(index) - width * (numOfSeries) / 2.0 + width / 2 + seriesIndx * width;
                         xCenterVal = hAxis.GetPosition(index);
                     }
                     else if (sameInterval)
                     {
-                        xPosition = hAxis.GetPosition(point.XValue) - width * ((double)numOfSeries) / 2.0 + width / 2 + seriesIndx * width;
+                        xPosition = hAxis.GetPosition(point.XValue) - width * (numOfSeries) / 2.0 + width / 2 + seriesIndx * width;
                         xCenterVal = hAxis.GetPosition(point.XValue);
                     }
                     else

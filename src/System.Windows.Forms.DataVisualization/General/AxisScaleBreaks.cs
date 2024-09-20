@@ -733,7 +733,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             double dataRangePercent = (maxYValue - minYValue) / ((maximum - minimum) / 100.0);
 
             // Get sequences of empty segments
-            List<int> emptySequences = new ();
+            List<int> emptySequences = new();
             bool doneFlag = false;
             while (!doneFlag)
             {

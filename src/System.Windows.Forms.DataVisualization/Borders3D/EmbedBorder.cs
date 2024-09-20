@@ -17,21 +17,21 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
     /// Implements frame border.
     /// </summary>
     internal class FrameTitle1Border : FrameThin1Border
-	{
-		#region Border properties and methods
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameTitle1Border()
-		{
-			sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize*2f);
-		}
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameTitle1Border()
+        {
+            sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize * 2f);
+        }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameTitle1";}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameTitle1"; } }
 
 
         public override float Resolution
@@ -42,89 +42,42 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
                 sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize * 2f);
             }
         }
-		/// <summary>
-		/// Returns the position of the rectangular area in the border where
-		/// title should be displayed. Returns empty rect if title can't be shown in the border.
-		/// </summary>
-		/// <returns>Title position in border.</returns>
-		public override RectangleF GetTitlePositionInBorder()
-		{
-			return new RectangleF(
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 1.6f);
-		}
-
-		#endregion
-	}
-
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal sealed class FrameTitle2Border : FrameThin2Border
-	{
-		#region Border properties and methods
-
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameTitle2Border()
-		{
-			sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize*2f);
-		}
-
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameTitle2";}}
-
-
-        public override float Resolution
+        /// <summary>
+        /// Returns the position of the rectangular area in the border where
+        /// title should be displayed. Returns empty rect if title can't be shown in the border.
+        /// </summary>
+        /// <returns>Title position in border.</returns>
+        public override RectangleF GetTitlePositionInBorder()
         {
-            set
-            {
-                base.Resolution = value;
-                sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize * 2f);
-            }
+            return new RectangleF(
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 1.6f);
         }
 
-		/// <summary>
-		/// Returns the position of the rectangular area in the border where
-		/// title should be displayed. Returns empty rect if title can't be shown in the border.
-		/// </summary>
-		/// <returns>Title position in border.</returns>
-		public override RectangleF GetTitlePositionInBorder()
-		{
-			return new RectangleF(
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 1.6f);
-		}
+        #endregion
+    }
 
-		#endregion
-	}
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal sealed class FrameTitle2Border : FrameThin2Border
+    {
+        #region Border properties and methods
 
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal sealed class FrameTitle3Border : FrameThin3Border
-	{
-		#region Border properties and methods
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameTitle2Border()
+        {
+            sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize * 2f);
+        }
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameTitle3Border()
-		{
-			sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize*2f);
-		}
-
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameTitle3";}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameTitle2"; } }
 
 
         public override float Resolution
@@ -136,41 +89,42 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             }
         }
 
-		/// <summary>
-		/// Returns the position of the rectangular area in the border where
-		/// title should be displayed. Returns empty rect if title can't be shown in the border.
-		/// </summary>
-		/// <returns>Title position in border.</returns>
-		public override RectangleF GetTitlePositionInBorder()
-		{
-			return new RectangleF(
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 1.6f);
-		}
-		#endregion
-	}
-	
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal sealed class FrameTitle4Border : FrameThin4Border
-	{
-		#region Border properties and methods
+        /// <summary>
+        /// Returns the position of the rectangular area in the border where
+        /// title should be displayed. Returns empty rect if title can't be shown in the border.
+        /// </summary>
+        /// <returns>Title position in border.</returns>
+        public override RectangleF GetTitlePositionInBorder()
+        {
+            return new RectangleF(
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 1.6f);
+        }
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameTitle4Border()
-		{
-			sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize*2f);
-		}
+        #endregion
+    }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameTitle4";}}
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal sealed class FrameTitle3Border : FrameThin3Border
+    {
+        #region Border properties and methods
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameTitle3Border()
+        {
+            sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize * 2f);
+        }
+
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameTitle3"; } }
 
 
         public override float Resolution
@@ -182,43 +136,41 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             }
         }
 
-		/// <summary>
-		/// Returns the position of the rectangular area in the border where
-		/// title should be displayed. Returns empty rect if title can't be shown in the border.
-		/// </summary>
-		/// <returns>Title position in border.</returns>
-		public override RectangleF GetTitlePositionInBorder()
-		{
-			return new RectangleF(
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 1.6f);
-		}
-	
-		#endregion
-	}
+        /// <summary>
+        /// Returns the position of the rectangular area in the border where
+        /// title should be displayed. Returns empty rect if title can't be shown in the border.
+        /// </summary>
+        /// <returns>Title position in border.</returns>
+        public override RectangleF GetTitlePositionInBorder()
+        {
+            return new RectangleF(
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 1.6f);
+        }
+        #endregion
+    }
 
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal sealed class FrameTitle5Border : FrameThin5Border
-	{
-		#region Border properties and methods
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal sealed class FrameTitle4Border : FrameThin4Border
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameTitle5Border()
-		{
-			sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize*2f);
-			this.drawScrews = true;
-		}
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameTitle4Border()
+        {
+            sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize * 2f);
+        }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameTitle5";}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameTitle4"; } }
 
 
         public override float Resolution
@@ -230,42 +182,44 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             }
         }
 
-		/// <summary>
-		/// Returns the position of the rectangular area in the border where
-		/// title should be displayed. Returns empty rect if title can't be shown in the border.
-		/// </summary>
-		/// <returns>Title position in border.</returns>
-		public override RectangleF GetTitlePositionInBorder()
-		{
-			return new RectangleF(
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 1.6f);
-		}
-	
-		#endregion
-	}
-	
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal sealed class FrameTitle6Border : FrameThin6Border
-	{
-		#region Border properties and methods
+        /// <summary>
+        /// Returns the position of the rectangular area in the border where
+        /// title should be displayed. Returns empty rect if title can't be shown in the border.
+        /// </summary>
+        /// <returns>Title position in border.</returns>
+        public override RectangleF GetTitlePositionInBorder()
+        {
+            return new RectangleF(
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 1.6f);
+        }
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameTitle6Border()
-		{
-			sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize*2f);
-		}
+        #endregion
+    }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameTitle6";}}
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal sealed class FrameTitle5Border : FrameThin5Border
+    {
+        #region Border properties and methods
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameTitle5Border()
+        {
+            sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize * 2f);
+            this.drawScrews = true;
+        }
+
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameTitle5"; } }
+
 
         public override float Resolution
         {
@@ -276,44 +230,90 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             }
         }
 
-		/// <summary>
-		/// Returns the position of the rectangular area in the border where
-		/// title should be displayed. Returns empty rect if title can't be shown in the border.
-		/// </summary>
-		/// <returns>Title position in border.</returns>
-		public override RectangleF GetTitlePositionInBorder()
-		{
-			return new RectangleF(
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 0.25f,
-				defaultRadiusSize * 1.6f);
-		}
-	
-		#endregion
-	}
+        /// <summary>
+        /// Returns the position of the rectangular area in the border where
+        /// title should be displayed. Returns empty rect if title can't be shown in the border.
+        /// </summary>
+        /// <returns>Title position in border.</returns>
+        public override RectangleF GetTitlePositionInBorder()
+        {
+            return new RectangleF(
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 1.6f);
+        }
 
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal sealed class FrameTitle7Border : FrameTitle1Border
-	{
-		#region Border properties and methods
+        #endregion
+    }
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameTitle7Border()
-		{
-			this.sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
-			float[] corners = {15f, 1f, 1f, 1f, 1f, 15f, 15f, 15f};
-			innerCorners = corners;
-		}
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal sealed class FrameTitle6Border : FrameThin6Border
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameTitle7";}}
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameTitle6Border()
+        {
+            sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize * 2f);
+        }
+
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameTitle6"; } }
+
+        public override float Resolution
+        {
+            set
+            {
+                base.Resolution = value;
+                sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize * 2f);
+            }
+        }
+
+        /// <summary>
+        /// Returns the position of the rectangular area in the border where
+        /// title should be displayed. Returns empty rect if title can't be shown in the border.
+        /// </summary>
+        /// <returns>Title position in border.</returns>
+        public override RectangleF GetTitlePositionInBorder()
+        {
+            return new RectangleF(
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 0.25f,
+                defaultRadiusSize * 1.6f);
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal sealed class FrameTitle7Border : FrameTitle1Border
+    {
+        #region Border properties and methods
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameTitle7Border()
+        {
+            this.sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
+            float[] corners = { 15f, 1f, 1f, 1f, 1f, 15f, 15f, 15f };
+            innerCorners = corners;
+        }
+
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameTitle7"; } }
 
 
         public override float Resolution
@@ -329,31 +329,31 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             }
         }
 
-		#endregion
-	}
+        #endregion
+    }
 
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal sealed class FrameTitle8Border : FrameTitle1Border
-	{
-		#region Border properties and methods
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal sealed class FrameTitle8Border : FrameTitle1Border
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameTitle8Border()
-		{
-			this.sizeLeftTop = new SizeF(0, sizeLeftTop.Height);
-			this.sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
-			float[] corners = {1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
-			innerCorners = corners;
-		}
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameTitle8Border()
+        {
+            this.sizeLeftTop = new SizeF(0, sizeLeftTop.Height);
+            this.sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
+            float[] corners = { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+            innerCorners = corners;
+        }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameTitle8";}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameTitle8"; } }
 
 
         public override float Resolution
@@ -370,30 +370,30 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             }
         }
 
-		#endregion
-	}
-	
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal class FrameThin2Border : FrameThin1Border
-	{
-		#region Border properties and methods
+        #endregion
+    }
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameThin2Border()
-		{
-			float[] corners = {15f, 15f, 15f, 1f, 1f, 1f, 1f, 15f};
-			cornerRadius = corners;
-			innerCorners = corners;
-		}
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal class FrameThin2Border : FrameThin1Border
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameThin2";}}
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameThin2Border()
+        {
+            float[] corners = { 15f, 15f, 15f, 1f, 1f, 1f, 1f, 15f };
+            cornerRadius = corners;
+            innerCorners = corners;
+        }
+
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameThin2"; } }
 
 
         public override float Resolution
@@ -410,30 +410,30 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             }
         }
 
-		#endregion
-	}
+        #endregion
+    }
 
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal class FrameThin3Border : FrameThin1Border
-	{
-		#region Border properties and methods
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal class FrameThin3Border : FrameThin1Border
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameThin3Border()
-		{
-			float[] corners = {1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
-			cornerRadius = corners;
-			innerCorners = corners;
-		}
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameThin3Border()
+        {
+            float[] corners = { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+            cornerRadius = corners;
+            innerCorners = corners;
+        }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameThin3";}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameThin3"; } }
 
 
         public override float Resolution
@@ -448,29 +448,29 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             }
         }
 
-		#endregion
-	}
+        #endregion
+    }
 
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal class FrameThin4Border : FrameThin1Border
-	{
-		#region Border properties and methods
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal class FrameThin4Border : FrameThin1Border
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameThin4Border()
-		{
-			float[] corners = {1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
-			cornerRadius = corners;
-		}
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameThin4Border()
+        {
+            float[] corners = { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+            cornerRadius = corners;
+        }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameThin4";}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameThin4"; } }
 
 
         public override float Resolution
@@ -484,51 +484,51 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         }
 
         #endregion
-	}
+    }
 
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal class FrameThin5Border : FrameThin1Border
-	{
-		#region Border properties and methods
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal class FrameThin5Border : FrameThin1Border
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameThin5Border()
-		{
-			drawScrews = true;
-		}
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameThin5Border()
+        {
+            drawScrews = true;
+        }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameThin5";}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameThin5"; } }
 
-		#endregion
-	}
+        #endregion
+    }
 
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal class FrameThin6Border : FrameThin1Border
-	{
-		#region Border properties and methods
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal class FrameThin6Border : FrameThin1Border
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameThin6Border()
-		{
-			float[] corners = {1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
-			innerCorners = corners;
-		}
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameThin6Border()
+        {
+            float[] corners = { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+            innerCorners = corners;
+        }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameThin6";}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameThin6"; } }
 
 
         public override float Resolution
@@ -542,34 +542,34 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             }
         }
 
-		#endregion
-	}
+        #endregion
+    }
 
-	/// <summary>
-	/// Implements frame border.
-	/// </summary>
-	internal class FrameThin1Border : RaisedBorder
-	{
-		#region Border properties and methods
+    /// <summary>
+    /// Implements frame border.
+    /// </summary>
+    internal class FrameThin1Border : RaisedBorder
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Inner corners radius array
-		/// </summary>
+        /// <summary>
+        /// Inner corners radius array
+        /// </summary>
         internal float[] innerCorners = { 15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f };
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public FrameThin1Border()
-		{
-			sizeLeftTop = new SizeF(defaultRadiusSize * .8f, defaultRadiusSize * .8f);
-			sizeRightBottom = new SizeF(defaultRadiusSize * .8f, defaultRadiusSize * .8f);
-		}
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FrameThin1Border()
+        {
+            sizeLeftTop = new SizeF(defaultRadiusSize * .8f, defaultRadiusSize * .8f);
+            sizeRightBottom = new SizeF(defaultRadiusSize * .8f, defaultRadiusSize * .8f);
+        }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "FrameThin1";}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "FrameThin1"; } }
 
 
         public override float Resolution
@@ -603,135 +603,135 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// <param name="borderWidth">Border Width</param>
         /// <param name="borderDashStyle">Border Style</param>
 		public override void DrawBorder(
-			ChartGraphics graph, 
-			BorderSkin borderSkin,
-			RectangleF rect, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle)	
-		{
-			drawBottomShadow = true;
-			sunken = false;
-			outsideShadowRate = .9f;
-			drawOutsideTopLeftShadow = false;
-			bool oldScrewsFlag = this.drawScrews;
-			this.drawScrews = false;
-			base.DrawBorder(
-				graph, 
-				borderSkin, 
-				rect, 
-				borderSkin.BackColor, 
-				borderSkin.BackHatchStyle, 
-				borderSkin.BackImage, 
-				borderSkin.BackImageWrapMode, 
-				borderSkin.BackImageTransparentColor, 
-				borderSkin.BackImageAlignment, 
-				borderSkin.BackGradientStyle, 
-				borderSkin.BackSecondaryColor, 
-				borderSkin.BorderColor, 
-				borderSkin.BorderWidth, 
-				borderSkin.BorderDashStyle);
+            ChartGraphics graph,
+            BorderSkin borderSkin,
+            RectangleF rect,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            ChartImageAlignmentStyle backImageAlign,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle)
+        {
+            drawBottomShadow = true;
+            sunken = false;
+            outsideShadowRate = .9f;
+            drawOutsideTopLeftShadow = false;
+            bool oldScrewsFlag = this.drawScrews;
+            this.drawScrews = false;
+            base.DrawBorder(
+                graph,
+                borderSkin,
+                rect,
+                borderSkin.BackColor,
+                borderSkin.BackHatchStyle,
+                borderSkin.BackImage,
+                borderSkin.BackImageWrapMode,
+                borderSkin.BackImageTransparentColor,
+                borderSkin.BackImageAlignment,
+                borderSkin.BackGradientStyle,
+                borderSkin.BackSecondaryColor,
+                borderSkin.BorderColor,
+                borderSkin.BorderWidth,
+                borderSkin.BorderDashStyle);
 
-			this.drawScrews = oldScrewsFlag;
-			rect.X += sizeLeftTop.Width;
-			rect.Y += sizeLeftTop.Height;
-			rect.Width -= sizeRightBottom.Width + sizeLeftTop.Width;
-			rect.Height -= sizeRightBottom.Height + sizeLeftTop.Height;
-			if(rect.Width > 0 && rect.Height > 0 )
-			{
+            this.drawScrews = oldScrewsFlag;
+            rect.X += sizeLeftTop.Width;
+            rect.Y += sizeLeftTop.Height;
+            rect.Width -= sizeRightBottom.Width + sizeLeftTop.Width;
+            rect.Height -= sizeRightBottom.Height + sizeLeftTop.Height;
+            if (rect.Width > 0 && rect.Height > 0)
+            {
                 float[] oldCorners = (float[])cornerRadius.Clone();
-				cornerRadius = innerCorners;
-				drawBottomShadow = false;
-				sunken = true;
-				drawOutsideTopLeftShadow = true;
-				outsideShadowRate = 1.4f;
-				Color oldPageColor = borderSkin.PageColor;
-				borderSkin.PageColor = Color.Transparent;
-				base.DrawBorder(
-					graph, 
-					borderSkin,
-					rect, 
-					backColor, 
-					backHatchStyle, 
-					backImage, 
-					backImageWrapMode, 
-					backImageTransparentColor, 
-					backImageAlign, 
-					backGradientStyle, 
-					backSecondaryColor, 
-					borderColor, 
-					borderWidth, 
-					borderDashStyle	);
-				borderSkin.PageColor = oldPageColor;
-				cornerRadius = oldCorners;
-			}
-		}
+                cornerRadius = innerCorners;
+                drawBottomShadow = false;
+                sunken = true;
+                drawOutsideTopLeftShadow = true;
+                outsideShadowRate = 1.4f;
+                Color oldPageColor = borderSkin.PageColor;
+                borderSkin.PageColor = Color.Transparent;
+                base.DrawBorder(
+                    graph,
+                    borderSkin,
+                    rect,
+                    backColor,
+                    backHatchStyle,
+                    backImage,
+                    backImageWrapMode,
+                    backImageTransparentColor,
+                    backImageAlign,
+                    backGradientStyle,
+                    backSecondaryColor,
+                    borderColor,
+                    borderWidth,
+                    borderDashStyle);
+                borderSkin.PageColor = oldPageColor;
+                cornerRadius = oldCorners;
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 
 
-	/// <summary>
-	/// Implements raised border.
-	/// </summary>
-	internal class RaisedBorder : SunkenBorder
-	{
-		#region Border properties and methods
+    /// <summary>
+    /// Implements raised border.
+    /// </summary>
+    internal class RaisedBorder : SunkenBorder
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Public constructor
-		/// </summary>
-		public RaisedBorder()
-		{
-			sunken = false;
-		}
+        /// <summary>
+        /// Public constructor
+        /// </summary>
+        public RaisedBorder()
+        {
+            sunken = false;
+        }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public override string Name			{ get{ return "Raised";}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public override string Name { get { return "Raised"; } }
 
-		#endregion
-	}
+        #endregion
+    }
 
-	/// <summary>
-	/// Implements embed 3D border.
-	/// </summary>
-	internal class SunkenBorder : IBorderType
-	{
-		#region Border properties and methods
+    /// <summary>
+    /// Implements embed 3D border.
+    /// </summary>
+    internal class SunkenBorder : IBorderType
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Radius for rounded rectangle
-		/// </summary>
+        /// <summary>
+        /// Radius for rounded rectangle
+        /// </summary>
         internal float defaultRadiusSize = 15f;
 
-		/// <summary>
-		/// Outside shadow rate
-		/// </summary>
+        /// <summary>
+        /// Outside shadow rate
+        /// </summary>
         internal float outsideShadowRate = .9f;
-		
-		/// <summary>
-		/// Indicates that sunken shadows should be drawn
-		/// </summary>
+
+        /// <summary>
+        /// Indicates that sunken shadows should be drawn
+        /// </summary>
         internal bool sunken = true;
 
-		/// <summary>
-		/// Indicates that bottom shadow should be drawn
-		/// </summary>
+        /// <summary>
+        /// Indicates that bottom shadow should be drawn
+        /// </summary>
         internal bool drawBottomShadow = true;
 
-		/// <summary>
-		/// Indicates that top left outside dark shadow must be drawn
-		/// </summary>
+        /// <summary>
+        /// Indicates that top left outside dark shadow must be drawn
+        /// </summary>
         internal bool drawOutsideTopLeftShadow;
 
         /// <summary>
@@ -739,36 +739,36 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// </summary>
         internal float[] cornerRadius = { 15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f };
 
-		/// <summary>
-		/// Border top/left size 
-		/// </summary>
+        /// <summary>
+        /// Border top/left size 
+        /// </summary>
         internal SizeF sizeLeftTop = SizeF.Empty;
 
-		/// <summary>
-		/// Border right/bottom size
-		/// </summary>
+        /// <summary>
+        /// Border right/bottom size
+        /// </summary>
         internal SizeF sizeRightBottom = SizeF.Empty;
 
-		/// <summary>
-		/// Indicates that screws should be drawn in the corners of the frame
-		/// </summary>
+        /// <summary>
+        /// Indicates that screws should be drawn in the corners of the frame
+        /// </summary>
         internal bool drawScrews;
 
 
         internal float resolution = 96f;
 
 
-		/// <summary>
-		/// Public constructor
-		/// </summary>
-		public SunkenBorder()
-		{
-		}
+        /// <summary>
+        /// Public constructor
+        /// </summary>
+        public SunkenBorder()
+        {
+        }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public virtual string Name			{ get{ return "Sunken";}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public virtual string Name { get { return "Sunken"; } }
 
 
         public virtual float Resolution
@@ -783,15 +783,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             }
         }
 
-		/// <summary>
-		/// Returns the position of the rectangular area in the border where
-		/// title should be displayed. Returns empty rect if title can't be shown in the border.
-		/// </summary>
-		/// <returns>Title position in border.</returns>
-		public virtual RectangleF GetTitlePositionInBorder()
-		{
-			return RectangleF.Empty;
-		}
+        /// <summary>
+        /// Returns the position of the rectangular area in the border where
+        /// title should be displayed. Returns empty rect if title can't be shown in the border.
+        /// </summary>
+        /// <returns>Title position in border.</returns>
+        public virtual RectangleF GetTitlePositionInBorder()
+        {
+            return RectangleF.Empty;
+        }
 
         /// <summary>
         /// Adjust areas rectangle coordinate to fit the 3D border
@@ -799,47 +799,47 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// <param name="graph">Graphics to draw the border on.</param>
         /// <param name="areasRect">Position to adjust.</param>
 		public virtual void AdjustAreasPosition(ChartGraphics graph, ref RectangleF areasRect)
-		{
-			SizeF relSizeLeftTop = new SizeF(sizeLeftTop);
-			SizeF relSizeRightBottom = new SizeF(sizeRightBottom);
-			relSizeLeftTop.Width += defaultRadiusSize * 0.7f;
-			relSizeLeftTop.Height += defaultRadiusSize * 0.85f;
-			relSizeRightBottom.Width += defaultRadiusSize * 0.7f;
-			relSizeRightBottom.Height += defaultRadiusSize * 0.7f;
-			relSizeLeftTop = graph.GetRelativeSize(relSizeLeftTop);
-			relSizeRightBottom = graph.GetRelativeSize(relSizeRightBottom);
+        {
+            SizeF relSizeLeftTop = new SizeF(sizeLeftTop);
+            SizeF relSizeRightBottom = new SizeF(sizeRightBottom);
+            relSizeLeftTop.Width += defaultRadiusSize * 0.7f;
+            relSizeLeftTop.Height += defaultRadiusSize * 0.85f;
+            relSizeRightBottom.Width += defaultRadiusSize * 0.7f;
+            relSizeRightBottom.Height += defaultRadiusSize * 0.7f;
+            relSizeLeftTop = graph.GetRelativeSize(relSizeLeftTop);
+            relSizeRightBottom = graph.GetRelativeSize(relSizeRightBottom);
 
-			if(relSizeLeftTop.Width > 30f)
-				relSizeLeftTop.Width = 0;
-			if(relSizeLeftTop.Height > 30f)
-				relSizeLeftTop.Height = 0;
-			if(relSizeRightBottom.Width > 30f)
-				relSizeRightBottom.Width = 0;
-			if(relSizeRightBottom.Height > 30f)
-				relSizeRightBottom.Height = 0;
+            if (relSizeLeftTop.Width > 30f)
+                relSizeLeftTop.Width = 0;
+            if (relSizeLeftTop.Height > 30f)
+                relSizeLeftTop.Height = 0;
+            if (relSizeRightBottom.Width > 30f)
+                relSizeRightBottom.Width = 0;
+            if (relSizeRightBottom.Height > 30f)
+                relSizeRightBottom.Height = 0;
 
 
-			areasRect.X += relSizeLeftTop.Width;
-			areasRect.Width -= (float)Math.Min(areasRect.Width, relSizeLeftTop.Width + relSizeRightBottom.Width);
-			areasRect.Y += relSizeLeftTop.Height;
-			areasRect.Height -= (float)Math.Min(areasRect.Height, relSizeLeftTop.Height + relSizeRightBottom.Height);
+            areasRect.X += relSizeLeftTop.Width;
+            areasRect.Width -= Math.Min(areasRect.Width, relSizeLeftTop.Width + relSizeRightBottom.Width);
+            areasRect.Y += relSizeLeftTop.Height;
+            areasRect.Height -= Math.Min(areasRect.Height, relSizeLeftTop.Height + relSizeRightBottom.Height);
 
-			if(areasRect.Right > 100f)
-			{
-				if(areasRect.Width > 100f - areasRect.Right)
-					areasRect.Width -= 100f - areasRect.Right;
-				else
-					areasRect.X -= 100f - areasRect.Right;
-			}
-			if(areasRect.Bottom > 100f)
-			{
-				if(areasRect.Height > 100f - areasRect.Bottom)
-					areasRect.Height -= 100f - areasRect.Bottom;
-				else
-					areasRect.Y -= 100f - areasRect.Bottom;
+            if (areasRect.Right > 100f)
+            {
+                if (areasRect.Width > 100f - areasRect.Right)
+                    areasRect.Width -= 100f - areasRect.Right;
+                else
+                    areasRect.X -= 100f - areasRect.Right;
+            }
+            if (areasRect.Bottom > 100f)
+            {
+                if (areasRect.Height > 100f - areasRect.Bottom)
+                    areasRect.Height -= 100f - areasRect.Bottom;
+                else
+                    areasRect.Y -= 100f - areasRect.Bottom;
 
-			}
-		}
+            }
+        }
 
         /// <summary>
         /// Draws 3D border
@@ -859,48 +859,48 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// <param name="borderWidth">Border Width</param>
         /// <param name="borderDashStyle">Border Style</param>
 		public virtual void DrawBorder(
-			ChartGraphics graph, 
-			BorderSkin borderSkin,
-			RectangleF rect, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle)	
-		{
-			RectangleF absolute = graph.Round( rect );
+            ChartGraphics graph,
+            BorderSkin borderSkin,
+            RectangleF rect,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            ChartImageAlignmentStyle backImageAlign,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle)
+        {
+            RectangleF absolute = graph.Round(rect);
 
             // Calculate shadow colors (0.2 - 0.6)
             float colorDarkeningIndex = 0.3f + (0.4f * (borderSkin.PageColor.R + borderSkin.PageColor.G + borderSkin.PageColor.B) / 765f);
-            Color	shadowColor = Color.FromArgb(
-				(int)(backColor.R*colorDarkeningIndex), 
-				(int)(backColor.G*colorDarkeningIndex), 
-				(int)(backColor.B*colorDarkeningIndex));
+            Color shadowColor = Color.FromArgb(
+                (int)(backColor.R * colorDarkeningIndex),
+                (int)(backColor.G * colorDarkeningIndex),
+                (int)(backColor.B * colorDarkeningIndex));
 
-			colorDarkeningIndex += 0.2f;
-			Color	shadowLightColor = Color.FromArgb(
-				(int)(borderSkin.PageColor.R*colorDarkeningIndex), 
-				(int)(borderSkin.PageColor.G*colorDarkeningIndex), 
-				(int)(borderSkin.PageColor.B*colorDarkeningIndex));
-			if(borderSkin.PageColor == Color.Transparent)
-			{
-				shadowLightColor = Color.FromArgb(60, 0, 0, 0);
-			}
-			
-			// Calculate rounded rect radius
-			float	radius = defaultRadiusSize;
-            radius = (float)Math.Max(radius, 2f * resolution / 96.0f);
-			radius = (float)Math.Min(radius, rect.Width/2f);
-			radius = (float)Math.Min(radius, rect.Height/2f);
-			radius = (float)Math.Ceiling(radius);
+            colorDarkeningIndex += 0.2f;
+            Color shadowLightColor = Color.FromArgb(
+                (int)(borderSkin.PageColor.R * colorDarkeningIndex),
+                (int)(borderSkin.PageColor.G * colorDarkeningIndex),
+                (int)(borderSkin.PageColor.B * colorDarkeningIndex));
+            if (borderSkin.PageColor == Color.Transparent)
+            {
+                shadowLightColor = Color.FromArgb(60, 0, 0, 0);
+            }
 
-			// Fill page background color
+            // Calculate rounded rect radius
+            float radius = defaultRadiusSize;
+            radius = Math.Max(radius, 2f * resolution / 96.0f);
+            radius = Math.Min(radius, rect.Width / 2f);
+            radius = Math.Min(radius, rect.Height / 2f);
+            radius = MathF.Ceiling(radius);
+
+            // Fill page background color
             using (Brush brush = new SolidBrush(borderSkin.PageColor))
             {
                 graph.FillRectangle(brush, rect);
@@ -920,154 +920,154 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 
             // Bottom/Right outside shadow
             shadowRect = absolute;
-			shadowRect.X += radius * 0.3f;
-			shadowRect.Y += radius * 0.3f;
-			shadowRect.Width -= radius * .3f;
-			shadowRect.Height -= radius * .3f;
-			graph.DrawRoundedRectShadowAbs(shadowRect, cornerRadius, radius, shadowLightColor, borderSkin.PageColor, outsideShadowRate);
+            shadowRect.X += radius * 0.3f;
+            shadowRect.Y += radius * 0.3f;
+            shadowRect.Width -= radius * .3f;
+            shadowRect.Height -= radius * .3f;
+            graph.DrawRoundedRectShadowAbs(shadowRect, cornerRadius, radius, shadowLightColor, borderSkin.PageColor, outsideShadowRate);
 
-			// Background
-			shadowRect = absolute;
-			shadowRect.Width -= radius * .3f;
-			shadowRect.Height -= radius * .3f;
-			GraphicsPath path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
-			graph.DrawPathAbs(
-				path, 
-				backColor, 
-				backHatchStyle, 
-				backImage, 
-				backImageWrapMode, 
-				backImageTransparentColor,
-				backImageAlign,
-				backGradientStyle, 
-				backSecondaryColor, 
-				borderColor, 
-				borderWidth, 
-				borderDashStyle, 
-				PenAlignment.Inset );
+            // Background
+            shadowRect = absolute;
+            shadowRect.Width -= radius * .3f;
+            shadowRect.Height -= radius * .3f;
+            GraphicsPath path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
+            graph.DrawPathAbs(
+                path,
+                backColor,
+                backHatchStyle,
+                backImage,
+                backImageWrapMode,
+                backImageTransparentColor,
+                backImageAlign,
+                backGradientStyle,
+                backSecondaryColor,
+                borderColor,
+                borderWidth,
+                borderDashStyle,
+                PenAlignment.Inset);
 
-			// Dispose Graphic path
-			if( path != null )
-				path.Dispose();
+            // Dispose Graphic path
+            if (path != null)
+                path.Dispose();
 
-			// Draw screws imitation in the corners of the farame
-			if(drawScrews)
-			{
-				// Left/Top screw
-				RectangleF	screwRect = RectangleF.Empty;
-				float offset = radius * 0.4f;
-				screwRect.X = shadowRect.X + offset;
-				screwRect.Y = shadowRect.Y + offset;
-				screwRect.Width = radius * 0.55f;
-				screwRect.Height = screwRect.Width;
-				DrawScrew(graph, screwRect);
+            // Draw screws imitation in the corners of the farame
+            if (drawScrews)
+            {
+                // Left/Top screw
+                RectangleF screwRect = RectangleF.Empty;
+                float offset = radius * 0.4f;
+                screwRect.X = shadowRect.X + offset;
+                screwRect.Y = shadowRect.Y + offset;
+                screwRect.Width = radius * 0.55f;
+                screwRect.Height = screwRect.Width;
+                DrawScrew(graph, screwRect);
 
-				// Right/Top screw
-				screwRect.X = shadowRect.Right - offset - screwRect.Width;
-				DrawScrew(graph, screwRect);
+                // Right/Top screw
+                screwRect.X = shadowRect.Right - offset - screwRect.Width;
+                DrawScrew(graph, screwRect);
 
-				// Right/Bottom screw
-				screwRect.X = shadowRect.Right - offset - screwRect.Width;
-				screwRect.Y = shadowRect.Bottom - offset - screwRect.Height;
-				DrawScrew(graph, screwRect);
-		
-				// Left/Bottom screw
-				screwRect.X = shadowRect.X + offset;
-				screwRect.Y = shadowRect.Bottom - offset - screwRect.Height;
-				DrawScrew(graph, screwRect);
-			}
+                // Right/Bottom screw
+                screwRect.X = shadowRect.Right - offset - screwRect.Width;
+                screwRect.Y = shadowRect.Bottom - offset - screwRect.Height;
+                DrawScrew(graph, screwRect);
 
-			// Bottom/Right inner shadow
-			Region	innerShadowRegion;
-			if (drawBottomShadow)
-			{
-				shadowRect = absolute;
-				shadowRect.Width -= radius * .3f;
-				shadowRect.Height -= radius * .3f;
-				path = graph.CreateRoundedRectPath(
-					new RectangleF(
-					shadowRect.X - radius,
-					shadowRect.Y - radius,
-					shadowRect.Width + 0.5f * radius,
-					shadowRect.Height + 0.5f * radius),
-					cornerRadius);
-				innerShadowRegion = new Region(path);
-				path.Dispose();
-				path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
-				innerShadowRegion.Complement(path);
-				path.Dispose();
-				graph.Clip = innerShadowRegion;
+                // Left/Bottom screw
+                screwRect.X = shadowRect.X + offset;
+                screwRect.Y = shadowRect.Bottom - offset - screwRect.Height;
+                DrawScrew(graph, screwRect);
+            }
 
-				shadowRect.X -= 0.5f*radius;
-				shadowRect.Width += 0.5f*radius;
-				shadowRect.Y -= 0.5f*radius;
-				shadowRect.Height += 0.5f*radius;
+            // Bottom/Right inner shadow
+            Region innerShadowRegion;
+            if (drawBottomShadow)
+            {
+                shadowRect = absolute;
+                shadowRect.Width -= radius * .3f;
+                shadowRect.Height -= radius * .3f;
+                path = graph.CreateRoundedRectPath(
+                    new RectangleF(
+                    shadowRect.X - radius,
+                    shadowRect.Y - radius,
+                    shadowRect.Width + 0.5f * radius,
+                    shadowRect.Height + 0.5f * radius),
+                    cornerRadius);
+                innerShadowRegion = new Region(path);
+                path.Dispose();
+                path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
+                innerShadowRegion.Complement(path);
+                path.Dispose();
+                graph.Clip = innerShadowRegion;
 
-				graph.DrawRoundedRectShadowAbs(
-					shadowRect, 
-					cornerRadius,
-					radius,
-					Color.Transparent, 
-					Color.FromArgb(175, sunken ? Color.White : shadowColor), 
-					1.0f);
-				graph.Clip = new Region();
-				innerShadowRegion.Dispose();
-			}
+                shadowRect.X -= 0.5f * radius;
+                shadowRect.Width += 0.5f * radius;
+                shadowRect.Y -= 0.5f * radius;
+                shadowRect.Height += 0.5f * radius;
 
-			// Top/Left inner shadow					
-			shadowRect = absolute;
-			shadowRect.Width -= radius * .3f;
-			shadowRect.Height -= radius * .3f;
-			path = graph.CreateRoundedRectPath(
-				new RectangleF(
-				shadowRect.X + radius * .5f,
-				shadowRect.Y + radius * .5f,
-				shadowRect.Width - .2f * radius,
-				shadowRect.Height - .2f * radius),
-				cornerRadius);
-			innerShadowRegion = new Region(path);
-			path.Dispose();
+                graph.DrawRoundedRectShadowAbs(
+                    shadowRect,
+                    cornerRadius,
+                    radius,
+                    Color.Transparent,
+                    Color.FromArgb(175, sunken ? Color.White : shadowColor),
+                    1.0f);
+                graph.Clip = new Region();
+                innerShadowRegion.Dispose();
+            }
 
-			RectangleF shadowWithOffset = shadowRect;
-			shadowWithOffset.Width += radius;
-			shadowWithOffset.Height += radius;
-			path = graph.CreateRoundedRectPath(shadowWithOffset, cornerRadius);
-			innerShadowRegion.Complement(path);
-			path.Dispose();
+            // Top/Left inner shadow					
+            shadowRect = absolute;
+            shadowRect.Width -= radius * .3f;
+            shadowRect.Height -= radius * .3f;
+            path = graph.CreateRoundedRectPath(
+                new RectangleF(
+                shadowRect.X + radius * .5f,
+                shadowRect.Y + radius * .5f,
+                shadowRect.Width - .2f * radius,
+                shadowRect.Height - .2f * radius),
+                cornerRadius);
+            innerShadowRegion = new Region(path);
+            path.Dispose();
 
-			path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
-			innerShadowRegion.Intersect(path);
-			path.Dispose();
-			graph.Clip = innerShadowRegion;
-			graph.DrawRoundedRectShadowAbs(
-				shadowWithOffset, 
-				cornerRadius, 
-				radius, 
-				Color.Transparent, 
-				Color.FromArgb(175, sunken ? shadowColor : Color.White), 
-				1.0f);
-			graph.Clip = new Region();
-			innerShadowRegion.Dispose();
-		}
+            RectangleF shadowWithOffset = shadowRect;
+            shadowWithOffset.Width += radius;
+            shadowWithOffset.Height += radius;
+            path = graph.CreateRoundedRectPath(shadowWithOffset, cornerRadius);
+            innerShadowRegion.Complement(path);
+            path.Dispose();
 
-		/// <summary>
-		/// Helper function, which draws a screw on the frame
-		/// </summary>
-		/// <param name="graph">Chart graphics to use.</param>
-		/// <param name="rect">Screw position.</param>
-		private void DrawScrew(ChartGraphics graph, RectangleF rect)
-		{
-			// Draw screw
-			Pen screwPen = new Pen(Color.FromArgb(128,255,255,255), 1);
-			graph.DrawEllipse(screwPen, rect.X, rect.Y, rect.Width, rect.Height);
+            path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
+            innerShadowRegion.Intersect(path);
+            path.Dispose();
+            graph.Clip = innerShadowRegion;
+            graph.DrawRoundedRectShadowAbs(
+                shadowWithOffset,
+                cornerRadius,
+                radius,
+                Color.Transparent,
+                Color.FromArgb(175, sunken ? shadowColor : Color.White),
+                1.0f);
+            graph.Clip = new Region();
+            innerShadowRegion.Dispose();
+        }
+
+        /// <summary>
+        /// Helper function, which draws a screw on the frame
+        /// </summary>
+        /// <param name="graph">Chart graphics to use.</param>
+        /// <param name="rect">Screw position.</param>
+        private void DrawScrew(ChartGraphics graph, RectangleF rect)
+        {
+            // Draw screw
+            Pen screwPen = new Pen(Color.FromArgb(128, 255, 255, 255), 1);
+            graph.DrawEllipse(screwPen, rect.X, rect.Y, rect.Width, rect.Height);
             graph.DrawLine(screwPen, rect.X + 2 * resolution / 96.0f, rect.Y + rect.Height - 2 * resolution / 96.0f, rect.Right - 2 * resolution / 96.0f, rect.Y + 2 * resolution / 96.0f);
-			screwPen.Dispose();
-			screwPen = new Pen(Color.FromArgb(128, Color.Black), 1);
+            screwPen.Dispose();
+            screwPen = new Pen(Color.FromArgb(128, Color.Black), 1);
             graph.DrawEllipse(screwPen, rect.X + 1 * resolution / 96.0f, rect.Y + 1 * resolution / 96.0f, rect.Width, rect.Height);
             graph.DrawLine(screwPen, rect.X + 3 * resolution / 96.0f, rect.Y + rect.Height - 1 * resolution / 96.0f, rect.Right - 1 * resolution / 96.0f, rect.Y + 3 * resolution / 96.0f);
-			screwPen.Dispose();
-		}
+            screwPen.Dispose();
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

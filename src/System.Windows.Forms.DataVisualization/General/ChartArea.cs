@@ -50,7 +50,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
     private Color _backColor = Color.Empty;
     private bool _backColorIsSet;
     private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
-    private string _backImage = "";
+    private string _backImage = string.Empty;
     private ChartImageWrapMode _backImageWrapMode = ChartImageWrapMode.Tile;
     private Color _backImageTransparentColor = Color.Empty;
     private ChartImageAlignmentStyle _backImageAlignment = ChartImageAlignmentStyle.TopLeft;
@@ -1409,18 +1409,18 @@ public partial class ChartArea : ChartNamedElement, IDisposable
 
                             // NOTE: Code was removed to solve an issue with extra space when labels angle = 45
                             //rectLabelSideSpacing.Width = (float)Math.Max(offset, rectLabelSideSpacing.Width);
-                            rectLabelSideSpacing.X = (float)Math.Max(offset, rectLabelSideSpacing.X);
+                            rectLabelSideSpacing.X = Math.Max(offset, rectLabelSideSpacing.X);
                         }
 
                         if (axis.labelFarOffset > Position.Right)
                         {
                             if (axis.labelFarOffset - Position.Right < plottingRect.Width * 0.3f)
                             {
-                                rectLabelSideSpacing.Width = (float)Math.Max(axis.labelFarOffset - Position.Right, rectLabelSideSpacing.Width);
+                                rectLabelSideSpacing.Width = Math.Max(axis.labelFarOffset - Position.Right, rectLabelSideSpacing.Width);
                             }
                             else
                             {
-                                rectLabelSideSpacing.Width = (float)Math.Max(plottingRect.Width * 0.3f, rectLabelSideSpacing.Width);
+                                rectLabelSideSpacing.Width = Math.Max(plottingRect.Width * 0.3f, rectLabelSideSpacing.Width);
                             }
                         }
                     }
@@ -1436,18 +1436,18 @@ public partial class ChartArea : ChartNamedElement, IDisposable
 
                             // NOTE: Code was removed to solve an issue with extra space when labels angle = 45
                             //rectLabelSideSpacing.Height = (float)Math.Max(offset, rectLabelSideSpacing.Height);
-                            rectLabelSideSpacing.Y = (float)Math.Max(offset, rectLabelSideSpacing.Y);
+                            rectLabelSideSpacing.Y = Math.Max(offset, rectLabelSideSpacing.Y);
                         }
 
                         if (axis.labelFarOffset > Position.Bottom)
                         {
                             if (axis.labelFarOffset - Position.Bottom < plottingRect.Height * 0.3f)
                             {
-                                rectLabelSideSpacing.Height = (float)Math.Max(axis.labelFarOffset - Position.Bottom, rectLabelSideSpacing.Height);
+                                rectLabelSideSpacing.Height = Math.Max(axis.labelFarOffset - Position.Bottom, rectLabelSideSpacing.Height);
                             }
                             else
                             {
-                                rectLabelSideSpacing.Height = (float)Math.Max(plottingRect.Height * 0.3f, rectLabelSideSpacing.Height);
+                                rectLabelSideSpacing.Height = Math.Max(plottingRect.Height * 0.3f, rectLabelSideSpacing.Height);
                             }
                         }
                     }
@@ -1493,14 +1493,14 @@ public partial class ChartArea : ChartNamedElement, IDisposable
         if (this.chartAreaIsCurcular)
         {
             // Adjust area to fit the axis title
-            float xTitleSize = (float)Math.Max(this.AxisY.titleSize, this.AxisY2.titleSize);
+            float xTitleSize = Math.Max(this.AxisY.titleSize, this.AxisY2.titleSize);
             if (xTitleSize > 0)
             {
                 plottingRect.X += xTitleSize;
                 plottingRect.Width -= 2f * xTitleSize;
             }
 
-            float yTitleSize = (float)Math.Max(this.AxisX.titleSize, this.AxisX2.titleSize);
+            float yTitleSize = Math.Max(this.AxisX.titleSize, this.AxisX2.titleSize);
             if (yTitleSize > 0)
             {
                 plottingRect.Y += yTitleSize;
@@ -1620,7 +1620,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 axis.labelNearOffset != 0 &&
                 axis.labelNearOffset < PlotAreaPosition.X)
             {
-                float overlap = (float)(leftAxis.labelFarOffset - labelsPosition) * 0.75f;
+                float overlap = leftAxis.labelFarOffset - labelsPosition * 0.75f;
                 if (overlap > axis.markSize)
                 {
                     axis.markSize += overlap - axis.markSize;
@@ -1636,7 +1636,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 axis.labelFarOffset != 0 &&
                 axis.labelFarOffset > PlotAreaPosition.Right)
             {
-                float overlap = (float)(rightAxis.labelFarOffset - labelsPosition) * 0.75f;
+                float overlap = rightAxis.labelFarOffset - labelsPosition * 0.75f;
                 if (overlap > axis.markSize)
                 {
                     axis.markSize += overlap - axis.markSize;
@@ -1669,7 +1669,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 axis.labelNearOffset != 0 &&
                 axis.labelNearOffset < PlotAreaPosition.X)
             {
-                float overlap = (float)(labelsPosition - leftAxis.labelNearOffset) * 0.75f;
+                float overlap = labelsPosition - leftAxis.labelNearOffset * 0.75f;
                 if (overlap > axis.markSize)
                 {
                     axis.markSize += overlap - axis.markSize;
@@ -1685,7 +1685,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 axis.labelFarOffset != 0 &&
                 axis.labelFarOffset > PlotAreaPosition.Right)
             {
-                float overlap = (float)(labelsPosition - rightAxis.labelNearOffset) * 0.75f;
+                float overlap = labelsPosition - rightAxis.labelNearOffset * 0.75f;
                 if (overlap > axis.markSize)
                 {
                     axis.markSize += overlap - axis.markSize;
@@ -1749,7 +1749,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                     graph.FillRectangleRel(position,
                         Color.Transparent,
                         ChartHatchStyle.None,
-                        "",
+                        string.Empty,
                         ChartImageWrapMode.Tile,
                         Color.Empty,
                         ChartImageAlignmentStyle.Center,
@@ -2272,7 +2272,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
 
             // Get estimated labels size
             float labelsSizeEstimate = GetCircularLabelsSize(chartGraph, areaRectAbs, plotAreaRectAbs, titleSize);
-            labelsSizeEstimate = (float)Math.Min(labelsSizeEstimate * 1.1f, plotAreaRectAbs.Width / 5f);
+            labelsSizeEstimate = Math.Min(labelsSizeEstimate * 1.1f, plotAreaRectAbs.Width / 5f);
             labelsSizeEstimate += spacing;
 
             // Calculate auto-fit font
@@ -2287,7 +2287,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
         float labelsSize = GetCircularLabelsSize(chartGraph, areaRectAbs, plotAreaRectAbs, titleSize);
 
         // Check if change size is smaller than radius
-        labelsSize = (float)Math.Min(labelsSize, plotAreaRectAbs.Width / 2.5f);
+        labelsSize = Math.Min(labelsSize, plotAreaRectAbs.Width / 2.5f);
         labelsSize += spacing;
 
         plotAreaRectAbs.X += labelsSize;
@@ -2369,7 +2369,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
             //*****************************************************************
             if (labelsStyle == CircularAxisLabelsStyle.Circular)
             {
-                labelsSize = (float)Math.Max(
+                    labelsSize = Math.Max(
                     labelsSize,
                     textSize.Height);
             }
@@ -2391,7 +2391,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 if (height < 0)
                     height = 0;
 
-                labelsSize = (float)Math.Max(
+                labelsSize = Math.Max(
                     labelsSize,
                     Math.Max(width, height));
             }
@@ -2422,7 +2422,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                     width = 0f;
                 }
 
-                labelsSize = (float)Math.Max(
+                labelsSize = Math.Max(
                     labelsSize,
                     Math.Max(width, textSize.Height));
             }

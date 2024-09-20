@@ -373,7 +373,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     low = VAxis.GetLinearPosition(low);
 
                     // Remeber pre-calculated point position
-                    point.positionRel = new PointF((float)xPosition, (float)high);
+                    point.positionRel = new PointF(xPosition, (float)high);
 
                     if (common.ProcessModePaint)
                     {
@@ -623,7 +623,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Detect style
             StockOpenCloseMarkStyle style = openCloseStyle;
-            string styleType = "";
+            string styleType = string.Empty;
             if (point.IsCustomPropertySet(CustomPropertyName.OpenCloseStyle))
             {
                 styleType = point[CustomPropertyName.OpenCloseStyle];
@@ -652,7 +652,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Get attribute which controls if open/close marks are shown
             bool showOpen = true;
             bool showClose = true;
-            string showOpenClose = "";
+            string showOpenClose = string.Empty;
             if (point.IsCustomPropertySet(CustomPropertyName.ShowOpenClose))
             {
                 showOpenClose = point[CustomPropertyName.ShowOpenClose];
@@ -748,9 +748,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                 // Calculate bar rectangle
                 RectangleF rect = RectangleF.Empty;
-                rect.Y = (float)Math.Min(open, close);
+                rect.Y = Math.Min(open, close);
                 rect.X = xPosition - width / 2f;
-                rect.Height = (float)Math.Max(open, close) - rect.Y;
+                rect.Height = Math.Max(open, close) - rect.Y;
                 rect.Width = width;
 
                 // Bar and border color
@@ -901,7 +901,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     // Check what value to show (High, Low, Open, Close)
                     int valueIndex = 3;
-                    string valueType = "";
+                    string valueType = string.Empty;
                     if (point.IsCustomPropertySet(CustomPropertyName.LabelValueType))
                     {
                         valueType = point[CustomPropertyName.LabelValueType];
@@ -1181,7 +1181,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     low = VAxis.GetLinearPosition(low);
 
                     // Remeber pre-calculated point position
-                    point.positionRel = new PointF((float)xPosition, (float)high);
+                    point.positionRel = new PointF(xPosition, (float)high);
 
                     // 3D Transform coordinates
                     Point3D[] points = new Point3D[2];
@@ -1439,7 +1439,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Detect style
             StockOpenCloseMarkStyle style = openCloseStyle;
-            string styleType = "";
+            string styleType = string.Empty;
             if (point.IsCustomPropertySet(CustomPropertyName.OpenCloseStyle))
             {
                 styleType = point[CustomPropertyName.OpenCloseStyle];
@@ -1468,7 +1468,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Get attribute which controls if open/close marks are shown
             bool showOpen = true;
             bool showClose = true;
-            string showOpenClose = "";
+            string showOpenClose = string.Empty;
             if (point.IsCustomPropertySet(CustomPropertyName.ShowOpenClose))
             {
                 showOpenClose = point[CustomPropertyName.ShowOpenClose];
@@ -1564,9 +1564,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                 // Calculate bar rectangle
                 RectangleF rect = RectangleF.Empty;
-                rect.Y = (float)Math.Min(open, close);
+                rect.Y = Math.Min(open, close);
                 rect.X = xPosition - width / 2f;
-                rect.Height = (float)Math.Max(open, close) - rect.Y;
+                rect.Height = Math.Max(open, close) - rect.Y;
                 rect.Width = width;
 
                 // Bar and border color
@@ -1579,8 +1579,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 points[1] = new Point3D(rect.Right, rect.Bottom, zPosition + depth / 2f);
                 area.matrix3D.TransformPoints(points);
                 rect.Location = points[0].PointF;
-                rect.Width = (float)Math.Abs(points[1].X - points[0].X);
-                rect.Height = (float)Math.Abs(points[1].Y - points[0].Y);
+                rect.Width = Math.Abs(points[1].X - points[0].X);
+                rect.Height = Math.Abs(points[1].Y - points[0].Y);
 
                 // Draw open-close bar
                 if (rect.Height > 1)
@@ -1833,7 +1833,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     Point3D[] marker3DPosition = { new Point3D(
                         markerPosition.X,
                         markerPosition.Y,
-                        (float)(seriesZPosition + seriesDepth / 2f)) };
+                        seriesZPosition + seriesDepth / 2f) };
 
                     // Transform coordinates
                     area.matrix3D.TransformPoints(marker3DPosition);

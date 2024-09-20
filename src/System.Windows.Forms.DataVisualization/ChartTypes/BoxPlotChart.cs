@@ -299,11 +299,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     if (indexedSeries)
                     {
                         xValue = index;
-                        xPosition = (float)(hAxis.GetPosition(index) - width * ((double)numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
+                        xPosition = (float)(hAxis.GetPosition(index) - width * (numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
                     }
                     else if (currentShowSideBySide)
                     {
-                        xPosition = (float)(hAxis.GetPosition(xValue) - width * ((double)numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
+                        xPosition = (float)(hAxis.GetPosition(xValue) - width * (numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
                     }
                     else
                     {
@@ -351,7 +351,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     low = vAxis.GetLinearPosition(low);
 
                     // Remeber pre-calculated point position
-                    point.positionRel = new PointF((float)xPosition, (float)Math.Min(high, low));
+                    point.positionRel = new PointF(xPosition, (float)Math.Min(high, low));
 
                     if (common.ProcessModePaint)
                     {
@@ -397,8 +397,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                         // Draw Box
                         RectangleF rectSize = RectangleF.Empty;
-                        rectSize.X = (float)(xPosition - width / 2);
-                        rectSize.Width = (float)width;
+                        rectSize.X = xPosition - width / 2;
+                        rectSize.Width = width;
                         rectSize.Y = (float)vAxis.GetPosition(point.YValues[3]);
                         rectSize.Height = (float)Math.Abs(rectSize.Y - vAxis.GetPosition(point.YValues[2]));
                         graph.FillRectangleRel(rectSize,
@@ -514,7 +514,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                     1,
                                     ChartDashStyle.Solid,
                                     new PointF(curPosition, medianValue),
-                                    new PointF((float)Math.Min(rectSize.Right, curPosition + dashWidth), medianValue),
+                                    new PointF(Math.Min(rectSize.Right, curPosition + dashWidth), medianValue),
                                     Color.Empty,
                                     0);
                             }
@@ -562,11 +562,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         if (indexedSeries)
                         {
                             xValue = index;
-                            xPosition = (float)(hAxis.GetPosition(index) - width * ((double)numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
+                            xPosition = (float)(hAxis.GetPosition(index) - width * (numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
                         }
                         else if (currentShowSideBySide)
                         {
-                            xPosition = (float)(hAxis.GetPosition(xValue) - width * ((double)numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
+                            xPosition = (float)(hAxis.GetPosition(xValue) - width * (numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
                         }
                         else
                         {
@@ -1074,11 +1074,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     if (indexedSeries)
                     {
                         xValue = index;
-                        xPosition = (float)(hAxis.GetPosition(index) - width * ((double)numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
+                        xPosition = (float)(hAxis.GetPosition(index) - width * (numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
                     }
                     else if (currentShowSideBySide)
                     {
-                        xPosition = (float)(hAxis.GetPosition(xValue) - width * ((double)numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
+                        xPosition = (float)(hAxis.GetPosition(xValue) - width * (numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
                     }
                     else
                     {
@@ -1124,7 +1124,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     low = vAxis.GetLinearPosition(low);
 
                     // Remeber pre-calculated point position
-                    point.positionRel = new PointF((float)xPosition, (float)Math.Min(high, low));
+                    point.positionRel = new PointF(xPosition, (float)Math.Min(high, low));
 
                     // 3D Transform coordinates
                     Point3D[] points = new Point3D[6];
@@ -1179,10 +1179,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                         // Draw Box
                         RectangleF rectSize = RectangleF.Empty;
-                        rectSize.X = (float)(points[0].X - width / 2);
-                        rectSize.Width = (float)width;
-                        rectSize.Y = (float)points[3].Y;
-                        rectSize.Height = (float)Math.Abs(rectSize.Y - points[2].Y);
+                        rectSize.X = points[0].X - width / 2;
+                        rectSize.Width = width;
+                        rectSize.Y = points[3].Y;
+                        rectSize.Height = Math.Abs(rectSize.Y - points[2].Y);
                         graph.FillRectangleRel(rectSize,
                             point.Color,
                             point.BackHatchStyle,
@@ -1242,8 +1242,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 markerLinesColor,
                                 1,
                                 ChartDashStyle.Solid,
-                                new PointF(rectSize.Left, (float)points[4].Y),
-                                new PointF(rectSize.Right, (float)points[4].Y),
+                                new PointF(rectSize.Left, points[4].Y),
+                                new PointF(rectSize.Right, points[4].Y),
                                 Color.Empty,
                                 0);
                         }
@@ -1274,7 +1274,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Draw median line
                         if (!double.IsNaN(point.YValues[5]) && showMedian)
                         {
-                            float medianValue = (float)points[5].Y;
+                            float medianValue = points[5].Y;
                             float dashWidth = rectSize.Width / 9f;
 
                             // Dash width should not be less than 2 pixels
@@ -1288,7 +1288,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                     1,
                                     ChartDashStyle.Solid,
                                     new PointF(curPosition, medianValue),
-                                    new PointF((float)Math.Min(rectSize.Right, curPosition + dashWidth), medianValue),
+                                    new PointF(Math.Min(rectSize.Right, curPosition + dashWidth), medianValue),
                                     Color.Empty,
                                     0);
                             }
@@ -1344,11 +1344,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         if (indexedSeries)
                         {
                             xValue = index;
-                            xPosition = (float)(hAxis.GetPosition(index) - width * ((double)numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
+                            xPosition = (float)(hAxis.GetPosition(index) - width * (numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
                         }
                         else if (currentShowSideBySide)
                         {
-                            xPosition = (float)(hAxis.GetPosition(xValue) - width * ((double)numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
+                            xPosition = (float)(hAxis.GetPosition(xValue) - width * (numOfSeries) / 2.0 + width / 2 + seriesIndx * width);
                         }
                         else
                         {

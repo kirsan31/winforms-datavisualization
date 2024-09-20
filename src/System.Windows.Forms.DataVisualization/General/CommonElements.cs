@@ -28,29 +28,29 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// to different chart elements to simplify access to those common classes.
     /// </summary>
     internal sealed class CommonElements
-	{
-		#region Fields
+    {
+        #region Fields
 
         private Chart _chart;
-        private ChartImage _chartPicture; 
+        private ChartImage _chartPicture;
 
-		// Reference to Chart Graphics Object
-		internal ChartGraphics graph;
+        // Reference to Chart Graphics Object
+        internal ChartGraphics graph;
 
         /// <summary>
         /// Service Container
         /// </summary>
-        internal IServiceContainer	container;
+        internal IServiceContainer container;
 
         /// <summary>
         /// Indicates painting mode
         /// </summary>
         internal bool processModePaint = true;
 
-		/// <summary>
-		/// Indicates selection mode
-		/// </summary>
-		internal bool processModeRegions;
+        /// <summary>
+        /// Indicates selection mode
+        /// </summary>
+        internal bool processModeRegions;
 
         // Private Fields
         private int _width;
@@ -64,182 +64,182 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// Reference to the Data Manager
         /// </summary>
         internal DataManager DataManager
-		{
-			get
-			{
-				return (DataManager)container.GetService(typeof(DataManager));
-			}
-		}
-
-		/// <summary>
-		/// True if painting mode is active
-		/// </summary>
-		public bool ProcessModePaint
-		{
-			get
-			{
-				return processModePaint;
-			}
-		}
-
-		/// <summary>
-		/// True if Hot region or image maps mode is active
-		/// </summary>
-		public bool ProcessModeRegions
-		{
-			get
-			{
-				return processModeRegions;
-			}
-		}
-
-		/// <summary>
-		/// Reference to the hot regions object
-		/// </summary>
-		public HotRegionsList HotRegionsList
-		{
-			get
-			{
-				return ChartPicture.hotRegionsList;
-			}
-		}
-
-		/// <summary>
-		/// Reference to the Data Manipulator
-		/// </summary>
-		public DataManipulator DataManipulator
-		{
-			get
-			{
-				return ChartPicture.DataManipulator;
-			}
-		}
-
-		/// <summary>
-		/// Reference to the ImageLoader
-		/// </summary>
-		internal ImageLoader ImageLoader
-		{
-			get
-			{
-				return (ImageLoader)container.GetService(typeof(ImageLoader));
-			}
-		}
-
-		/// <summary>
-		/// Reference to the Chart
-		/// </summary>
-		internal Chart Chart
-		{
-			get
-			{
-				if (_chart==null)
-                    _chart = (Chart)container.GetService(typeof(Chart));
-                return _chart;
-			}
-		}
-
-		/// <summary>
-		/// Reference to the ChartTypeRegistry
-		/// </summary>
-		internal ChartTypeRegistry ChartTypeRegistry
-		{
-			get
-			{
-				return (ChartTypeRegistry)container.GetService(typeof(ChartTypeRegistry));
-			}
-		}
-
-		/// <summary>
-		/// Reference to the BorderTypeRegistry
-		/// </summary>
-		internal BorderTypeRegistry BorderTypeRegistry
-		{
-			get
-			{
-				return (BorderTypeRegistry)container.GetService(typeof(BorderTypeRegistry));
-			}
-		}
-
-		/// <summary>
-		/// Reference to the FormulaRegistry
-		/// </summary>
-		internal FormulaRegistry FormulaRegistry
-		{
-			get
-			{
-				return (FormulaRegistry)container.GetService(typeof(FormulaRegistry));
-			}
-		}
-
-
-
-		/// <summary>
-		/// Reference to the ChartPicture
-		/// </summary>
-		internal ChartImage ChartPicture
-		{
-			get
-			{
-				if (_chartPicture ==null)
-                    _chartPicture = (ChartImage)container.GetService(typeof(ChartImage));
-                return _chartPicture;
-			}
-		}
-
-		/// <summary>
-		/// Width of the chart picture
-		/// </summary>
-		internal int Width
-		{
-			get
-			{
-				return _width;
-			}
-			set
-			{
-				_width = value;
-			}
-		}
-
-		/// <summary>
-		/// Height of the chart picture
-		/// </summary>
-		internal int Height
-		{
-			get
-			{
-				return _height;
-			}
-			set
-			{
-				_height = value;
-			}
-		}
-
-		#endregion
-
-		#region Methods
-
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="container">Service container.</param>
-        internal CommonElements(IServiceContainer container)
-		{
-			this.container = container;
-		}
-		
-
-		#endregion
-
-		#region String convertion helper methods
+        {
+            get
+            {
+                return (DataManager)container.GetService(typeof(DataManager));
+            }
+        }
 
         /// <summary>
-		/// Converts string to double.
-		/// </summary>
-		/// <param name="stringToParse">String to convert.</param>
-		/// <returns>Double result.</returns>
+        /// True if painting mode is active
+        /// </summary>
+        public bool ProcessModePaint
+        {
+            get
+            {
+                return processModePaint;
+            }
+        }
+
+        /// <summary>
+        /// True if Hot region or image maps mode is active
+        /// </summary>
+        public bool ProcessModeRegions
+        {
+            get
+            {
+                return processModeRegions;
+            }
+        }
+
+        /// <summary>
+        /// Reference to the hot regions object
+        /// </summary>
+        public HotRegionsList HotRegionsList
+        {
+            get
+            {
+                return ChartPicture.hotRegionsList;
+            }
+        }
+
+        /// <summary>
+        /// Reference to the Data Manipulator
+        /// </summary>
+        public DataManipulator DataManipulator
+        {
+            get
+            {
+                return ChartPicture.DataManipulator;
+            }
+        }
+
+        /// <summary>
+        /// Reference to the ImageLoader
+        /// </summary>
+        internal ImageLoader ImageLoader
+        {
+            get
+            {
+                return (ImageLoader)container.GetService(typeof(ImageLoader));
+            }
+        }
+
+        /// <summary>
+        /// Reference to the Chart
+        /// </summary>
+        internal Chart Chart
+        {
+            get
+            {
+                if (_chart == null)
+                    _chart = (Chart)container.GetService(typeof(Chart));
+                return _chart;
+            }
+        }
+
+        /// <summary>
+        /// Reference to the ChartTypeRegistry
+        /// </summary>
+        internal ChartTypeRegistry ChartTypeRegistry
+        {
+            get
+            {
+                return (ChartTypeRegistry)container.GetService(typeof(ChartTypeRegistry));
+            }
+        }
+
+        /// <summary>
+        /// Reference to the BorderTypeRegistry
+        /// </summary>
+        internal BorderTypeRegistry BorderTypeRegistry
+        {
+            get
+            {
+                return (BorderTypeRegistry)container.GetService(typeof(BorderTypeRegistry));
+            }
+        }
+
+        /// <summary>
+        /// Reference to the FormulaRegistry
+        /// </summary>
+        internal FormulaRegistry FormulaRegistry
+        {
+            get
+            {
+                return (FormulaRegistry)container.GetService(typeof(FormulaRegistry));
+            }
+        }
+
+
+
+        /// <summary>
+        /// Reference to the ChartPicture
+        /// </summary>
+        internal ChartImage ChartPicture
+        {
+            get
+            {
+                if (_chartPicture == null)
+                    _chartPicture = (ChartImage)container.GetService(typeof(ChartImage));
+                return _chartPicture;
+            }
+        }
+
+        /// <summary>
+        /// Width of the chart picture
+        /// </summary>
+        internal int Width
+        {
+            get
+            {
+                return _width;
+            }
+            set
+            {
+                _width = value;
+            }
+        }
+
+        /// <summary>
+        /// Height of the chart picture
+        /// </summary>
+        internal int Height
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                _height = value;
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="container">Service container.</param>
+        internal CommonElements(IServiceContainer container)
+        {
+            this.container = container;
+        }
+
+
+        #endregion
+
+        #region String convertion helper methods
+
+        /// <summary>
+        /// Converts string to double.
+        /// </summary>
+        /// <param name="stringToParse">String to convert.</param>
+        /// <returns>Double result.</returns>
         internal static double ParseDouble(string stringToParse)
         {
             return ParseDouble(stringToParse, false);
@@ -269,11 +269,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return result;
         }
 
-		/// <summary>
-		/// Converts string to double.
-		/// </summary>
-		/// <param name="stringToParse">String to convert.</param>
-		/// <returns>Double result.</returns>
+        /// <summary>
+        /// Converts string to double.
+        /// </summary>
+        /// <param name="stringToParse">String to convert.</param>
+        /// <returns>Double result.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "System.Single.TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,System.Single@)")]
         internal static float ParseFloat(string stringToParse)
         {
@@ -287,6 +287,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return result;
         }
 
-		#endregion
-	}
+        #endregion
+    }
 }

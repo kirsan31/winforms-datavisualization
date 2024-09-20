@@ -407,7 +407,7 @@ internal class NoNameExpandableObjectConverter : ExpandableObjectConverter
         {
             if (destinationType == typeof(string))
             {
-                return "";
+                return string.Empty;
             }
         }
 
@@ -533,7 +533,7 @@ internal sealed class DoubleArrayConverter : ArrayConverter
         if (destinationType == typeof(string))
         {
             double[] array = (double[])value;
-            string result = "";
+            string result = string.Empty;
 
             foreach (double d in array)
             {

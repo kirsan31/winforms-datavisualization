@@ -18,79 +18,79 @@ namespace System.Windows.Forms.DataVisualization.Charting
     /// Chart area name converter. Displays list of available areas names
     /// </summary>
     internal sealed class LegendAreaNameConverter : StringConverter
-	{
-		#region Converter methods
+    {
+        #region Converter methods
 
-		/// <summary>
-		/// Standard values supported - return true
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <returns>Standard values supported.</returns>
-		public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-		{
-			return true;
-		}
+        /// <summary>
+        /// Standard values supported - return true
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <returns>Standard values supported.</returns>
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
+        {
+            return true;
+        }
 
-		/// <summary>
-		/// Standard values are not exclusive - return false
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <returns>Non exclusive standard values.</returns>
-		public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-		{
-			return false;
-		}
+        /// <summary>
+        /// Standard values are not exclusive - return false
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <returns>Non exclusive standard values.</returns>
+        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
+        {
+            return false;
+        }
 
-		/// <summary>
-		/// Fill in the list of data series names.
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <returns>Standard values collection.</returns>
-		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
-		{
+        /// <summary>
+        /// Fill in the list of data series names.
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <returns>Standard values collection.</returns>
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
             ArrayList values = new ArrayList
             {
                 Constants.NotSetValue
             };
 
-            ChartAreaCollection	areaCollection = null;
-			string	areaName = "";
-			if (context != null && context.Instance != null)
-			{
-				if (context.Instance is Legend)
-				{
-					Legend legend = (Legend)context.Instance;
-					if(legend.Common != null && legend.Common.ChartPicture != null)
-					{
-						areaCollection = legend.Common.ChartPicture.ChartAreas;
-					}
-				}
-				else if (context.Instance is ChartArea)
-				{
-					ChartArea area = (ChartArea)context.Instance;
-					if(area.Common != null && area.Common.ChartPicture != null)
-					{
-						areaCollection = area.Common.ChartPicture.ChartAreas;
-						areaName = area.Name;
-					}
-				}
-				else if (context.Instance is Title)
-				{
-					Title title = (Title)context.Instance;
-					if(title.Chart != null && title.Chart.chartPicture != null)
-					{
-						areaCollection = title.Chart.chartPicture.ChartAreas;
-					}
-				}
+            ChartAreaCollection areaCollection = null;
+            string areaName = string.Empty;
+            if (context != null && context.Instance != null)
+            {
+                if (context.Instance is Legend)
+                {
+                    Legend legend = (Legend)context.Instance;
+                    if (legend.Common != null && legend.Common.ChartPicture != null)
+                    {
+                        areaCollection = legend.Common.ChartPicture.ChartAreas;
+                    }
+                }
+                else if (context.Instance is ChartArea)
+                {
+                    ChartArea area = (ChartArea)context.Instance;
+                    if (area.Common != null && area.Common.ChartPicture != null)
+                    {
+                        areaCollection = area.Common.ChartPicture.ChartAreas;
+                        areaName = area.Name;
+                    }
+                }
+                else if (context.Instance is Title)
+                {
+                    Title title = (Title)context.Instance;
+                    if (title.Chart != null && title.Chart.chartPicture != null)
+                    {
+                        areaCollection = title.Chart.chartPicture.ChartAreas;
+                    }
+                }
 
-				else if (context.Instance is Annotation)
-				{
-					Annotation annotation = (Annotation)context.Instance;
-					if(annotation.Chart != null && annotation.Chart.chartPicture != null)
-					{
-						areaCollection = annotation.Chart.chartPicture.ChartAreas;
-					}
-				}
+                else if (context.Instance is Annotation)
+                {
+                    Annotation annotation = (Annotation)context.Instance;
+                    if (annotation.Chart != null && annotation.Chart.chartPicture != null)
+                    {
+                        areaCollection = annotation.Chart.chartPicture.ChartAreas;
+                    }
+                }
                 else if (context.Instance is IServiceProvider)
                 {
                     IServiceProvider provider = context.Instance as IServiceProvider;
@@ -140,317 +140,317 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
                 }
-			}
+            }
 
-			if (areaCollection != null)
-			{
-				foreach(ChartArea area in areaCollection)
-				{
-					if(area.Name != areaName)
-					{
-						values.Add(area.Name);
-					}
-				}
-			}
+            if (areaCollection != null)
+            {
+                foreach (ChartArea area in areaCollection)
+                {
+                    if (area.Name != areaName)
+                    {
+                        values.Add(area.Name);
+                    }
+                }
+            }
 
-			return new StandardValuesCollection(values);
-		}
+            return new StandardValuesCollection(values);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 
-	/// <summary>
-	/// Legend converter
-	/// </summary>
+    /// <summary>
+    /// Legend converter
+    /// </summary>
     internal sealed class LegendConverter : NoNameExpandableObjectConverter
-	{
-	}
+    {
+    }
 
-	/// <summary>
-	/// Designer converter class
-	/// Converts Size.Emty to \ from "Auto".
-	/// </summary>
+    /// <summary>
+    /// Designer converter class
+    /// Converts Size.Emty to \ from "Auto".
+    /// </summary>
     internal sealed class SizeEmptyValueConverter : Drawing.SizeConverter
-	{
-	#region Converter methods
+    {
+        #region Converter methods
 
-		/// <summary>
-		/// Standard values supported - return true
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <returns>Standard values supported.</returns>
-		public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-		{
-			return true;
-		}
+        /// <summary>
+        /// Standard values supported - return true
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <returns>Standard values supported.</returns>
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
+        {
+            return true;
+        }
 
-		/// <summary>
-		/// Standard values are not exclusive - return false
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <returns>Non exclusive standard values.</returns>
-		public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-		{
-			return false;
-		}
+        /// <summary>
+        /// Standard values are not exclusive - return false
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <returns>Non exclusive standard values.</returns>
+        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
+        {
+            return false;
+        }
 
-		/// <summary>
-		/// Fill in the list of predefined values.
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
-		{
+        /// <summary>
+        /// Fill in the list of predefined values.
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
             ArrayList values = new ArrayList
             {
                 Drawing.Size.Empty
             };
 
             return new StandardValuesCollection(values);
-		}
+        }
 
-		/// <summary>
-		/// Convert Size.IsEmpty value to string "Auto"
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <param name="culture">Culture information.</param>
-		/// <param name="value">Value to convert.</param>
-		/// <param name="destinationType">Conversion destination type.</param>
-		/// <returns>Converted object.</returns>
-		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) 
-		{  
-			if (destinationType == typeof(string))
-			{
-				if(((Drawing.Size)value).IsEmpty)
-				{
+        /// <summary>
+        /// Convert Size.IsEmpty value to string "Auto"
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <param name="culture">Culture information.</param>
+        /// <param name="value">Value to convert.</param>
+        /// <param name="destinationType">Conversion destination type.</param>
+        /// <returns>Converted object.</returns>
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            if (destinationType == typeof(string))
+            {
+                if (((Drawing.Size)value).IsEmpty)
+                {
                     return Constants.AutoValue;
-				}
-			}
+                }
+            }
 
-			// Call base class
-			return base.ConvertTo(context, culture, value, destinationType);
-		}
+            // Call base class
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
 
-		/// <summary>
-		/// Convert minimum or maximum values from string
-		/// </summary>
-		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
-		{
-			// If converting from string value
+        /// <summary>
+        /// Convert minimum or maximum values from string
+        /// </summary>
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        {
+            // If converting from string value
             string stringValue = value as string;
             if (stringValue != null)
-			{
+            {
                 if (string.Equals(stringValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase))
-				{
-					return Drawing.Size.Empty;
-				}
-			}
-		
-			// Call base converter
-			return base.ConvertFrom(context, culture, value);
-		}
+                {
+                    return Drawing.Size.Empty;
+                }
+            }
 
-	#endregion
-	}
+            // Call base converter
+            return base.ConvertFrom(context, culture, value);
+        }
 
-	/// <summary>
-	/// Data point properties converter
-	/// </summary>
+        #endregion
+    }
+
+    /// <summary>
+    /// Data point properties converter
+    /// </summary>
     internal sealed class MarginExpandableObjectConverter : ExpandableObjectConverter
-	{
-	#region Converter methods
+    {
+        #region Converter methods
 
-		/// <summary>
-		/// This method overrides CanConvertTo from TypeConverter. This is called when someone
-		/// wants to convert an instance of object to another type.  Here,
-		/// only conversion to an InstanceDescriptor is supported.
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <param name="destinationType">Destination type.</param>
-		/// <returns>True if object can be converted.</returns>
-		public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-		{
-			if (destinationType == typeof(string))
-			{
-				return true;
-			}
+        /// <summary>
+        /// This method overrides CanConvertTo from TypeConverter. This is called when someone
+        /// wants to convert an instance of object to another type.  Here,
+        /// only conversion to an InstanceDescriptor is supported.
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <param name="destinationType">Destination type.</param>
+        /// <returns>True if object can be converted.</returns>
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        {
+            if (destinationType == typeof(string))
+            {
+                return true;
+            }
 
 
-			// Always call the base to see if it can perform the conversion.
-			return base.CanConvertTo(context, destinationType);
-		}
+            // Always call the base to see if it can perform the conversion.
+            return base.CanConvertTo(context, destinationType);
+        }
 
-		/// <summary>
-		/// Returns whether this converter can convert an object of the given type 
-		/// to the type of this converter, using the specified context.
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <param name="sourceType">Source type.</param>
-		/// <returns>True if object can be converted.</returns>
-		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-		{
-			if (sourceType == typeof(string))
-			{
-				return true;
-			}
+        /// <summary>
+        /// Returns whether this converter can convert an object of the given type 
+        /// to the type of this converter, using the specified context.
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <param name="sourceType">Source type.</param>
+        /// <returns>True if object can be converted.</returns>
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            if (sourceType == typeof(string))
+            {
+                return true;
+            }
 
-			// Always call the base to see if it can perform the conversion.
-			return base.CanConvertFrom(context, sourceType);
-		}
+            // Always call the base to see if it can perform the conversion.
+            return base.CanConvertFrom(context, sourceType);
+        }
 
-		/// <summary>
-		/// This code performs the actual conversion from an object to a string.
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <param name="culture">Culture information.</param>
-		/// <param name="value">Object value.</param>
-		/// <param name="destinationType">Destination type.</param>
-		/// <returns>Converted object.</returns>
-		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
-		{
-			Margins margins = value as Margins;
-			if (destinationType == typeof(string) && margins != null)
-			{
-				return string.Format( 
+        /// <summary>
+        /// This code performs the actual conversion from an object to a string.
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <param name="culture">Culture information.</param>
+        /// <param name="value">Object value.</param>
+        /// <param name="destinationType">Destination type.</param>
+        /// <returns>Converted object.</returns>
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            Margins margins = value as Margins;
+            if (destinationType == typeof(string) && margins != null)
+            {
+                return string.Format(
                     CultureInfo.InvariantCulture,
-					"{0:D}, {1:D}, {2:D}, {3:D}", 
-					margins.Top, 
-					margins.Bottom, 
-					margins.Left, 
-					margins.Right);
-			}
+                    "{0:D}, {1:D}, {2:D}, {3:D}",
+                    margins.Top,
+                    margins.Bottom,
+                    margins.Left,
+                    margins.Right);
+            }
 
-			// Always call base, even if you can't convert.
-			return base.ConvertTo(context, culture, value, destinationType);
-		}
+            // Always call base, even if you can't convert.
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
 
-		/// <summary>
-		/// Overrides the ConvertFrom method of TypeConverter.
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <param name="culture">Culture information.</param>
-		/// <param name="value">Value to convert from.</param>
-		/// <returns>Converted object.</returns>
-		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value) 
-		{
-			// Can convert from string where each array element is separated by comma
+        /// <summary>
+        /// Overrides the ConvertFrom method of TypeConverter.
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <param name="culture">Culture information.</param>
+        /// <param name="value">Value to convert from.</param>
+        /// <returns>Converted object.</returns>
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        {
+            // Can convert from string where each array element is separated by comma
             string stringValue = value as string;
-			if (stringValue != null) 
-			{
-				Margins margins = new Margins();
-				string[] values = stringValue.Split(',');
-				if(values.Length == 4)
-				{
-					try
-					{
+            if (stringValue != null)
+            {
+                Margins margins = new Margins();
+                string[] values = stringValue.Split(',');
+                if (values.Length == 4)
+                {
+                    try
+                    {
                         margins.Top = int.Parse(values[0].Trim(), CultureInfo.InvariantCulture);
                         margins.Bottom = int.Parse(values[1].Trim(), CultureInfo.InvariantCulture);
                         margins.Left = int.Parse(values[2].Trim(), CultureInfo.InvariantCulture);
                         margins.Right = int.Parse(values[3].Trim(), CultureInfo.InvariantCulture);
-					}
-					catch
-					{
+                    }
+                    catch
+                    {
                         throw new InvalidOperationException(SR.ExceptionLegendDesignerMarginObjectInvalid(stringValue));
-					}
-				}
-				else
-				{
+                    }
+                }
+                else
+                {
                     throw new InvalidOperationException(SR.ExceptionLegendDesignerMarginObjectInvalid(stringValue));
-				}
+                }
 
-				return margins;
-			}
+                return margins;
+            }
 
-			// Call base class
-			return base.ConvertFrom(context, culture, value);
-		}
+            // Call base class
+            return base.ConvertFrom(context, culture, value);
+        }
 
-	#endregion
-	}
+        #endregion
+    }
 
-	/// <summary>
-	/// Designer converter class
-	/// Converts Integer value -1 to/from "Auto".
-	/// </summary>
+    /// <summary>
+    /// Designer converter class
+    /// Converts Integer value -1 to/from "Auto".
+    /// </summary>
     internal sealed class IntNanValueConverter : Int32Converter
-	{
-	#region Converter methods
+    {
+        #region Converter methods
 
-		/// <summary>
-		/// Standard values supported - return true
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <returns>Standard values supported.</returns>
-		public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-		{
-			return true;
-		}
+        /// <summary>
+        /// Standard values supported - return true
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <returns>Standard values supported.</returns>
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
+        {
+            return true;
+        }
 
-		/// <summary>
-		/// Standard values are not exclusive - return false
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <returns>Non exclusive standard values.</returns>
-		public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-		{
-			return false;
-		}
+        /// <summary>
+        /// Standard values are not exclusive - return false
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <returns>Non exclusive standard values.</returns>
+        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
+        {
+            return false;
+        }
 
-		/// <summary>
-		/// Fill in the list of predefined values.
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
-		{
+        /// <summary>
+        /// Fill in the list of predefined values.
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
             ArrayList values = new ArrayList
             {
                 -1
             };
 
             return new StandardValuesCollection(values);
-		}
+        }
 
-		/// <summary>
-		/// Convert integer value -1 to string "Auto"
-		/// </summary>
-		/// <param name="context">Descriptor context.</param>
-		/// <param name="culture">Culture information.</param>
-		/// <param name="value">Value to convert.</param>
-		/// <param name="destinationType">Conversion destination type.</param>
-		/// <returns>Converted object.</returns>
-		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) 
-		{  
-			int	intValue = (int)value;
-			if (destinationType == typeof(string))
-			{
-				if(intValue == -1)
-				{
+        /// <summary>
+        /// Convert integer value -1 to string "Auto"
+        /// </summary>
+        /// <param name="context">Descriptor context.</param>
+        /// <param name="culture">Culture information.</param>
+        /// <param name="value">Value to convert.</param>
+        /// <param name="destinationType">Conversion destination type.</param>
+        /// <returns>Converted object.</returns>
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            int intValue = (int)value;
+            if (destinationType == typeof(string))
+            {
+                if (intValue == -1)
+                {
                     return Constants.AutoValue;
-				}
-			}
+                }
+            }
 
-			// Call base class
-			return base.ConvertTo(context, culture, value, destinationType);
-		}
+            // Call base class
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
 
-		/// <summary>
-		/// Convert minimum or maximum values from string
-		/// </summary>
-		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
-		{
-			// If converting from string value
+        /// <summary>
+        /// Convert minimum or maximum values from string
+        /// </summary>
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        {
+            // If converting from string value
             string stringValue = value as string;
             if (stringValue != null)
-			{
+            {
                 if (string.Equals(stringValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase))
-				{
-					return -1;
-				}
-			}
-			
-			// Call base converter
-			return base.ConvertFrom(context, culture, value);
-		}
+                {
+                    return -1;
+                }
+            }
 
-	#endregion
-	}
+            // Call base converter
+            return base.ConvertFrom(context, culture, value);
+        }
+
+        #endregion
+    }
 }

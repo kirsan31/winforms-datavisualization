@@ -16,7 +16,7 @@
 //  exposed through the Legend property of the root chart object.
 //  Due to the customer requests, support for unlimited number of
 //  legends was added through the LegendCollection exposed as a
-//  Legends property in the root chart object. Old propertys was
+//  Legends property in the root chart object. Old properties was
 //  deprecated and marked as non-browsable.
 //
 
@@ -193,7 +193,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private LegendTableStyle _legendTableStyle = LegendTableStyle.Auto;
         private LegendItemsCollection _customLegends;
         private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
-        private string _backImage = "";
+        private string _backImage = string.Empty;
         private ChartImageWrapMode _backImageWrapMode = ChartImageWrapMode.Tile;
         private Color _backImageTransparentColor = Color.Empty;
         private ChartImageAlignmentStyle _backImageAlignment = ChartImageAlignmentStyle.TopLeft;
@@ -2088,7 +2088,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                                 // Create new legend item
 #pragma warning disable CA2000 // Dispose objects before losing scope
-                                LegendItem item = new LegendItem(point.Label, point.Color, "");
+                                LegendItem item = new LegendItem(point.Label, point.Color, string.Empty);
 #pragma warning restore CA2000 // Dispose objects before losing scope
 
                                 // Check if series is drawn in 3D chart area
@@ -2116,7 +2116,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                         this,
                                         this.Tag,
                                         point.XValue,
-                                        "", // Do not use point label format! For Y values only! point.LabelFormat,
+                                        string.Empty, // Do not use point label format! For Y values only! point.LabelFormat,
                                         point.series.XValueType,
                                         ChartElementType.LegendItem);
                                 }
@@ -2157,7 +2157,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                             // Create legend item
 #pragma warning disable CA2000 // Dispose objects before losing scope
-                            LegendItem item = new LegendItem(series.Name, series.Color, "");
+                            LegendItem item = new LegendItem(series.Name, series.Color, string.Empty);
 #pragma warning restore CA2000 // Dispose objects before losing scope
                             item.SetAttributes(this.Common, series);
 
@@ -2211,7 +2211,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 if (this.Common.Chart.IsDesignMode())
                 {
-                    LegendItem item = new LegendItem(this.Name + " - " + SR.DescriptionTypeEmpty, Color.White, "")
+                    LegendItem item = new LegendItem(this.Name + " - " + SR.DescriptionTypeEmpty, Color.White, string.Empty)
                     {
                         ImageStyle = LegendImageStyle.Line
                     };
@@ -2696,7 +2696,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             set
-            {                
+            {
                 if (value != _isTextAutoFit)
                 {
                     _isTextAutoFit = value;
@@ -4847,7 +4847,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Index of newly added item.</returns>
         public int Add(Color color, string text)
         {
-            LegendItem item = new LegendItem(text, color, "");
+            LegendItem item = new LegendItem(text, color, string.Empty);
             Add(item);
             return Count - 1;
         }
@@ -4862,7 +4862,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void Insert(int index, Color color, string text)
         {
 #pragma warning disable CA2000 // Dispose objects before losing scope
-            LegendItem item = new LegendItem(text, color, "");
+            LegendItem item = new LegendItem(text, color, string.Empty);
 #pragma warning restore CA2000 // Dispose objects before losing scope
             this.Insert(index, item);
         }
@@ -4924,12 +4924,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Private data members, which store properties values
         private Color _color = Color.Empty;
 
-        private string _image = "";
-        private string _seriesName = "";
+        private string _image = string.Empty;
+        private string _seriesName = string.Empty;
         private int _seriesPointIndex = -1;
 
         // Chart image map properties
-        private string _toolTip = "";
+        private string _toolTip = string.Empty;
 
         // Additional appearance properties
         internal LegendImageStyle style = LegendImageStyle.Rectangle;
@@ -4950,7 +4950,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal MarkerStyle markerStyle = MarkerStyle.None;
 
         internal int markerSize = 5;
-        internal string markerImage = "";
+        internal string markerImage = string.Empty;
         internal Color markerImageTransparentColor = Color.Empty;
         internal Color markerColor = Color.Empty;
         internal Color markerBorderColor = Color.Empty;

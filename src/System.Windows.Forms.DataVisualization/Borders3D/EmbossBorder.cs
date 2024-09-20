@@ -18,13 +18,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
     /// Implements emboss 3D border.
     /// </summary>
     internal class EmbossBorder : IBorderType
-	{
-		#region Border properties and methods
+    {
+        #region Border properties and methods
 
-		/// <summary>
-		/// Default border radius size (relative)
-		/// </summary>
-		public float	defaultRadiusSize = 15f;
+        /// <summary>
+        /// Default border radius size (relative)
+        /// </summary>
+        public float defaultRadiusSize = 15f;
 
         public float resolution = 96f;
 
@@ -34,17 +34,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         internal float[] cornerRadius = { 15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f };
 
 
-		/// <summary>
-		/// Public constructor
-		/// </summary>
-		public EmbossBorder()
-		{
-		}
+        /// <summary>
+        /// Public constructor
+        /// </summary>
+        public EmbossBorder()
+        {
+        }
 
-		/// <summary>
-		/// Chart type name
-		/// </summary>
-		public virtual string Name			{ get{ return "Emboss";}}
+        /// <summary>
+        /// Chart type name
+        /// </summary>
+        public virtual string Name { get { return "Emboss"; } }
 
 
         public virtual float Resolution
@@ -59,15 +59,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 
         }
 
-		/// <summary>
-		/// Returns the position of the rectangular area in the border where
-		/// title should be displayed. Returns empty rect if title can't be shown in the border.
-		/// </summary>
-		/// <returns>Title position in border.</returns>
-		public virtual RectangleF GetTitlePositionInBorder()
-		{
-			return RectangleF.Empty;
-		}
+        /// <summary>
+        /// Returns the position of the rectangular area in the border where
+        /// title should be displayed. Returns empty rect if title can't be shown in the border.
+        /// </summary>
+        /// <returns>Title position in border.</returns>
+        public virtual RectangleF GetTitlePositionInBorder()
+        {
+            return RectangleF.Empty;
+        }
 
         /// <summary>
         /// Adjust areas rectangle coordinate to fit the 3D border.
@@ -75,32 +75,32 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// <param name="graph">Graphics to draw the border on.</param>
         /// <param name="areasRect">Position to adjust.</param>
 		public virtual void AdjustAreasPosition(ChartGraphics graph, ref RectangleF areasRect)
-		{
-			SizeF	borderSize = new SizeF(defaultRadiusSize/2f, defaultRadiusSize/2f);
-			borderSize = graph.GetRelativeSize(borderSize);
+        {
+            SizeF borderSize = new SizeF(defaultRadiusSize / 2f, defaultRadiusSize / 2f);
+            borderSize = graph.GetRelativeSize(borderSize);
 
-			// Do not do anything if rectangle is too small
-			if(borderSize.Width < 30f)
-			{
-				areasRect.X += borderSize.Width;
-				areasRect.Width -= (float)Math.Min(areasRect.Width, borderSize.Width * 2.5f);
-			}
+            // Do not do anything if rectangle is too small
+            if (borderSize.Width < 30f)
+            {
+                areasRect.X += borderSize.Width;
+                areasRect.Width -= Math.Min(areasRect.Width, borderSize.Width * 2.5f);
+            }
 
-			if(borderSize.Height < 30f)
-			{
-				areasRect.Y += borderSize.Height;
-				areasRect.Height -= (float)Math.Min(areasRect.Height, borderSize.Height * 2.5f);
-			}
+            if (borderSize.Height < 30f)
+            {
+                areasRect.Y += borderSize.Height;
+                areasRect.Height -= Math.Min(areasRect.Height, borderSize.Height * 2.5f);
+            }
 
-			if(areasRect.X + areasRect.Width > 100f)
-			{
-				areasRect.X -= 100f - areasRect.Width;
-			}
-			if(areasRect.Y + areasRect.Height > 100f)
-			{
-				areasRect.Y -= 100f - areasRect.Height;
-			}
-		}
+            if (areasRect.X + areasRect.Width > 100f)
+            {
+                areasRect.X -= 100f - areasRect.Width;
+            }
+            if (areasRect.Y + areasRect.Height > 100f)
+            {
+                areasRect.Y -= 100f - areasRect.Height;
+            }
+        }
 
         /// <summary>
         /// Draws 3D border.
@@ -120,119 +120,119 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// <param name="borderWidth">Border Width</param>
         /// <param name="borderDashStyle">Border Style</param>
 		public virtual void DrawBorder(
-			ChartGraphics graph, 
-			BorderSkin borderSkin,
-			RectangleF rect, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
-			Color backImageTransparentColor,
-			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
-			ChartDashStyle borderDashStyle)	
-		{
-			RectangleF absolute = graph.Round( rect );
-			RectangleF shadowRect;
+            ChartGraphics graph,
+            BorderSkin borderSkin,
+            RectangleF rect,
+            Color backColor,
+            ChartHatchStyle backHatchStyle,
+            string backImage,
+            ChartImageWrapMode backImageWrapMode,
+            Color backImageTransparentColor,
+            ChartImageAlignmentStyle backImageAlign,
+            GradientStyle backGradientStyle,
+            Color backSecondaryColor,
+            Color borderColor,
+            int borderWidth,
+            ChartDashStyle borderDashStyle)
+        {
+            RectangleF absolute = graph.Round(rect);
+            RectangleF shadowRect;
 
-			// Calculate shadow colors (0.2 - 0.6)
-			float colorDarkeningIndex = 0.2f + (0.4f * (borderSkin.PageColor.R + borderSkin.PageColor.G + borderSkin.PageColor.B) / 765f);
-			Color	shadowColor = Color.FromArgb(
-				(int)(borderSkin.PageColor.R*colorDarkeningIndex), 
-				(int)(borderSkin.PageColor.G*colorDarkeningIndex), 
-				(int)(borderSkin.PageColor.B*colorDarkeningIndex));
-			if(borderSkin.PageColor == Color.Transparent)
-			{
-				shadowColor = Color.FromArgb(60, 0, 0, 0);
-			}
+            // Calculate shadow colors (0.2 - 0.6)
+            float colorDarkeningIndex = 0.2f + (0.4f * (borderSkin.PageColor.R + borderSkin.PageColor.G + borderSkin.PageColor.B) / 765f);
+            Color shadowColor = Color.FromArgb(
+                (int)(borderSkin.PageColor.R * colorDarkeningIndex),
+                (int)(borderSkin.PageColor.G * colorDarkeningIndex),
+                (int)(borderSkin.PageColor.B * colorDarkeningIndex));
+            if (borderSkin.PageColor == Color.Transparent)
+            {
+                shadowColor = Color.FromArgb(60, 0, 0, 0);
+            }
 
-			colorDarkeningIndex += 0.2f;
-			Color	shadowLightColor = Color.FromArgb(
-				(int)(borderSkin.PageColor.R*colorDarkeningIndex), 
-				(int)(borderSkin.PageColor.G*colorDarkeningIndex), 
-				(int)(borderSkin.PageColor.B*colorDarkeningIndex));
+            colorDarkeningIndex += 0.2f;
+            Color shadowLightColor = Color.FromArgb(
+                (int)(borderSkin.PageColor.R * colorDarkeningIndex),
+                (int)(borderSkin.PageColor.G * colorDarkeningIndex),
+                (int)(borderSkin.PageColor.B * colorDarkeningIndex));
 
-			// Calculate rounded rect radius
-			float	radius = defaultRadiusSize;
-			radius = (float)Math.Max(radius, 2f * resolution / 96.0f);
-			radius = (float)Math.Min(radius, rect.Width/2f);
-			radius = (float)Math.Min(radius, rect.Height/2f);
-			radius = (float)Math.Ceiling(radius);
+            // Calculate rounded rect radius
+            float radius = defaultRadiusSize;
+            radius = Math.Max(radius, 2f * resolution / 96.0f);
+            radius = Math.Min(radius, rect.Width / 2f);
+            radius = Math.Min(radius, rect.Height / 2f);
+            radius = MathF.Ceiling(radius);
 
-			// Fill page background color
+            // Fill page background color
             using (Brush brush = new SolidBrush(borderSkin.PageColor))
             {
                 graph.FillRectangle(brush, rect);
             }
 
-			// Top/Left shadow
-			shadowRect = absolute;
-			shadowRect.Width -= radius * .3f;
-			shadowRect.Height -= radius * .3f;
-			graph.DrawRoundedRectShadowAbs(shadowRect, cornerRadius, radius + 1 * resolution / 96.0f, shadowLightColor, borderSkin.PageColor, 1.4f);
+            // Top/Left shadow
+            shadowRect = absolute;
+            shadowRect.Width -= radius * .3f;
+            shadowRect.Height -= radius * .3f;
+            graph.DrawRoundedRectShadowAbs(shadowRect, cornerRadius, radius + 1 * resolution / 96.0f, shadowLightColor, borderSkin.PageColor, 1.4f);
 
-			// Bottom/Right shadow
-			shadowRect = absolute;
-			shadowRect.X = absolute.X + radius / 3f;
-			shadowRect.Y = absolute.Y + radius / 3f;
-			shadowRect.Width -= radius / 3.5f;
-			shadowRect.Height -= radius / 3.5f;
-			graph.DrawRoundedRectShadowAbs(shadowRect, cornerRadius, radius, shadowColor, borderSkin.PageColor, 1.3f);
+            // Bottom/Right shadow
+            shadowRect = absolute;
+            shadowRect.X = absolute.X + radius / 3f;
+            shadowRect.Y = absolute.Y + radius / 3f;
+            shadowRect.Width -= radius / 3.5f;
+            shadowRect.Height -= radius / 3.5f;
+            graph.DrawRoundedRectShadowAbs(shadowRect, cornerRadius, radius, shadowColor, borderSkin.PageColor, 1.3f);
 
-			// Draw Background
-			shadowRect = absolute;
-			shadowRect.X = absolute.X + 3f * resolution / 96.0f;
+            // Draw Background
+            shadowRect = absolute;
+            shadowRect.X = absolute.X + 3f * resolution / 96.0f;
             shadowRect.Y = absolute.Y + 3f * resolution / 96.0f;
-			shadowRect.Width -= radius * .75f;
-			shadowRect.Height -= radius * .75f;
-			GraphicsPath path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
-			graph.DrawPathAbs(
-				path, 
-				backColor, 
-				backHatchStyle, 
-				backImage, 
-				backImageWrapMode, 
-				backImageTransparentColor,
-				backImageAlign,
-				backGradientStyle, 
-				backSecondaryColor, 
-				borderColor, 
-				borderWidth, 
-				borderDashStyle, 
-				PenAlignment.Inset );
+            shadowRect.Width -= radius * .75f;
+            shadowRect.Height -= radius * .75f;
+            GraphicsPath path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
+            graph.DrawPathAbs(
+                path,
+                backColor,
+                backHatchStyle,
+                backImage,
+                backImageWrapMode,
+                backImageTransparentColor,
+                backImageAlign,
+                backGradientStyle,
+                backSecondaryColor,
+                borderColor,
+                borderWidth,
+                borderDashStyle,
+                PenAlignment.Inset);
 
-			// Dispose Graphic path
-			if( path != null )
-				path.Dispose();
+            // Dispose Graphic path
+            if (path != null)
+                path.Dispose();
 
-			// Bottom/Right inner shadow
-			path = graph.CreateRoundedRectPath(
-							new RectangleF(
-							shadowRect.X - radius,
-							shadowRect.Y - radius,
-							shadowRect.Width + radius - radius * 0.25f,
-							shadowRect.Height + radius - radius * 0.25f),
-							cornerRadius);
-			Region	innerShadowRegion = new Region(path);
-			path.Dispose();
-			path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
-			innerShadowRegion.Complement(path);
-			path.Dispose();
-			graph.Clip = innerShadowRegion;
-			graph.DrawRoundedRectShadowAbs(
-				shadowRect, 
-				cornerRadius,
-				radius, 
-				Color.Transparent, 
-				Color.FromArgb(128, Color.Gray), 
-				.5f);
-			graph.Clip = new Region();
-			innerShadowRegion.Dispose();
-		}
+            // Bottom/Right inner shadow
+            path = graph.CreateRoundedRectPath(
+                            new RectangleF(
+                            shadowRect.X - radius,
+                            shadowRect.Y - radius,
+                            shadowRect.Width + radius - radius * 0.25f,
+                            shadowRect.Height + radius - radius * 0.25f),
+                            cornerRadius);
+            Region innerShadowRegion = new Region(path);
+            path.Dispose();
+            path = graph.CreateRoundedRectPath(shadowRect, cornerRadius);
+            innerShadowRegion.Complement(path);
+            path.Dispose();
+            graph.Clip = innerShadowRegion;
+            graph.DrawRoundedRectShadowAbs(
+                shadowRect,
+                cornerRadius,
+                radius,
+                Color.Transparent,
+                Color.FromArgb(128, Color.Gray),
+                .5f);
+            graph.Clip = new Region();
+            innerShadowRegion.Dispose();
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

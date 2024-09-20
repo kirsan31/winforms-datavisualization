@@ -1748,7 +1748,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Filter(dateRange,
                 rangeElements,
                 inputSeriesNames,
-                "");
+                string.Empty);
         }
 
         /// <summary>
@@ -1839,7 +1839,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Filter(compareMethod,
                 compareValue,
                 inputSeriesNames,
-                "",
+                string.Empty,
                 "Y");
         }
 
@@ -3237,7 +3237,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (inputSeriesName == null)
                 throw new ArgumentNullException(nameof(inputSeriesName));
 
-            Group(formula, interval, intervalType, inputSeriesName, "");
+            Group(formula, interval, intervalType, inputSeriesName, string.Empty);
         }
 
         /// <summary>
@@ -3285,7 +3285,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (inputSeriesName == null)
                 throw new ArgumentNullException(nameof(inputSeriesName));
 
-            Group(formula, interval, intervalType, intervalOffset, intervalOffsetType, inputSeriesName, "");
+            Group(formula, interval, intervalType, intervalOffset, intervalOffsetType, inputSeriesName, string.Empty);
         }
 
         /// <summary>
