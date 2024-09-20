@@ -86,10 +86,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
         protected bool gradientFill;
 
+#pragma warning disable CA2213 // Disposable fields should be disposed
         /// <summary>
         /// Coordinates of the area path
         /// </summary>
         protected GraphicsPath areaPath;
+#pragma warning restore CA2213 // Disposable fields should be disposed
 
         /// <summary>
         /// Reference to the current series object

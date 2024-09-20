@@ -458,7 +458,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <summary>
         /// Custom properties inner property descriptor class.
         /// </summary>
-        protected class CustomAttributesPropertyDescriptor : TypeConverter.SimplePropertyDescriptor
+        private class CustomAttributesPropertyDescriptor : SimplePropertyDescriptor
         {
             #region Fields
 
@@ -480,7 +480,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             /// <param name="propertyType">Property type.</param>
             /// <param name="attributes">Property attributes.</param>
             /// <param name="customAttributeInfo">Custom attribute information.</param>
-            internal CustomAttributesPropertyDescriptor(
+            public CustomAttributesPropertyDescriptor(
                 Type componentType,
                 string name,
                 Type propertyType,

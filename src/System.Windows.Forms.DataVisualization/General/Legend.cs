@@ -340,8 +340,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Pixel size of the 'W' character
         internal Size singleWCharacterSize = Size.Empty;
 
-        private bool _disposedValue;
-
         #endregion Fields
 
         #region Constructors
@@ -4528,7 +4526,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>True if legend is enabled.</returns>
         internal bool IsEnabled()
         {
-            if (this.Enabled && !_disposedValue) // _disposedValue check will fix many design time null reference
+            if (this.Enabled)
             {
                 // Check if legend is docked to the chart area
                 if (this.DockedToChartArea.Length > 0 &&
