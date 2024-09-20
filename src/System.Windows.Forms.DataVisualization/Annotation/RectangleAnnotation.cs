@@ -338,7 +338,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         override internal void Paint(Chart chart, ChartGraphics graphics)
         {
             // Get annotation position in relative coordinates
-            GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
+            GetRelativePosition(out PointF firstPoint, out SizeF size, out _);
             PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
             // Create selection rectangle
@@ -565,7 +565,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         override internal void Paint(Chart chart, ChartGraphics graphics)
         {
             // Get annotation position in relative coordinates
-            GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
+            GetRelativePosition(out PointF firstPoint, out SizeF size, out _);
             PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
             // Create selection rectangle

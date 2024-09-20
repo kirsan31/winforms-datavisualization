@@ -389,7 +389,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         //** area (default), line or marker.
                         //************************************************************
                         Color areaColor = pointAttributes.Color;
-                        Color borderColor = pointAttributes.BorderColor;
                         int borderWidth = pointAttributes.BorderWidth;
                         ChartDashStyle borderDashStyle = pointAttributes.BorderDashStyle;
                         RadarDrawingStyle drawingStyle = GetDrawingStyle(ser, point);
@@ -405,7 +404,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         if (drawingStyle == RadarDrawingStyle.Line)
                         {
                             // Use the main color for the border and make sure border is visible
-                            borderColor = pointAttributes.Color;
                             borderWidth = (borderWidth < 1) ? 1 : borderWidth;
                             borderDashStyle = (borderDashStyle == ChartDashStyle.NotSet) ? ChartDashStyle.Solid : borderDashStyle;
 

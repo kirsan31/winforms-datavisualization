@@ -653,7 +653,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                             {
                                 // Check if interval is the same
                                 List<string> typeSeries = area.GetSeriesFromChartType(Name);
-                                area.GetPointsInterval(typeSeries, vAxis.IsLogarithmic, vAxis.logarithmBase, true, out bool sameInterval);
+                                area.GetPointsInterval(typeSeries, vAxis.IsLogarithmic, vAxis.logarithmBase, true, out _);
 
                                 // Special case when there is only one data point and date scale is used.
                                 if (!double.IsNaN(vAxis.majorGrid.GetInterval()) && vAxis.majorGrid.GetIntervalType() != DateTimeIntervalType.NotSet)

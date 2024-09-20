@@ -652,7 +652,6 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         Axis hAxis = area.GetAxis(AxisName.X, ser.XAxisType, ser.XSubAxisName);
 
                         // Interval between Columns
-                        bool sameInterval = false;
                         double interval = 1;
                         if (!indexedSeries)
                         {
@@ -664,7 +663,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                             {
                                 // Check if interval is the same
                                 List<string> typeSeries = area.GetSeriesFromChartType(Name);
-                                area.GetPointsInterval(typeSeries, hAxis.IsLogarithmic, hAxis.logarithmBase, true, out sameInterval);
+                                area.GetPointsInterval(typeSeries, hAxis.IsLogarithmic, hAxis.logarithmBase, true, out _);
 
                                 // Special case when there is only one data point and date scale is used.
                                 if (!double.IsNaN(hAxis.majorGrid.GetInterval()) && hAxis.majorGrid.GetIntervalType() != DateTimeIntervalType.NotSet)

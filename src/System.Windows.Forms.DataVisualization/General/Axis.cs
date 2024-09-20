@@ -1878,7 +1878,7 @@ public partial class Axis : ChartNamedElement, IDisposable
         }
 
         // Transform center of title coordinates and calculate axis angle
-        float zPosition = this.GetMarksZPosition(out bool isOnEdge);
+        float zPosition = this.GetMarksZPosition(out _);
         Point3D[] rotationCenterPoints = null;
         float angleAxis = 0;
         if (this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom)
@@ -2208,7 +2208,7 @@ public partial class Axis : ChartNamedElement, IDisposable
         // If we are dealing with the 3D - transform the rectangle
         if (ChartArea.Area3DStyle.Enable3D && !ChartArea.chartAreaIsCurcular)
         {
-            float zPositon = GetMarksZPosition(out bool axisOnEdge);
+            float zPositon = GetMarksZPosition(out _);
 
             // Convert points to 3D
             Point3D[] points3D = new Point3D[points.Length];

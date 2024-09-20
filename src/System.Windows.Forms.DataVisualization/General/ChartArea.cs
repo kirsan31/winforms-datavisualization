@@ -2369,9 +2369,9 @@ public partial class ChartArea : ChartNamedElement, IDisposable
             //*****************************************************************
             if (labelsStyle == CircularAxisLabelsStyle.Circular)
             {
-                    labelsSize = Math.Max(
-                    labelsSize,
-                    textSize.Height);
+                labelsSize = Math.Max(
+                labelsSize,
+                textSize.Height);
             }
             else if (labelsStyle == CircularAxisLabelsStyle.Radial)
             {

@@ -967,8 +967,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             // Create segment path
             using GraphicsPath segmentPath = new GraphicsPath();
 
-            PointF leftSideLinePoint;
-            PointF rightSideLinePoint;
             // Add top line
             if (startWidth > 0f)
             {
@@ -990,8 +988,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         null,
                         true,
                         0f,
-                        out leftSideLinePoint,
-                        out rightSideLinePoint);
+                        out _,
+                        out _);
                 }
                 else
                 {
@@ -1056,8 +1054,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         null,
                         true,
                         0f,
-                        out leftSideLinePoint,
-                        out rightSideLinePoint);
+                        out _,
+                        out _);
 
                     tmp.Reverse();
                     if (tmp.PointCount > 0)

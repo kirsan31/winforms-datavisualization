@@ -270,9 +270,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             {
                                 // Get annotation position in relative coordinates
                                 PointF firstPoint = PointF.Empty;
-                                PointF anchorPoint = PointF.Empty;
                                 SizeF size = SizeF.Empty;
-                                groupAnnot.GetRelativePosition(out firstPoint, out size, out anchorPoint);
+                                groupAnnot.GetRelativePosition(out firstPoint, out size, out _);
                                 RectangleF textPosition = new RectangleF(firstPoint, size);
 
                                 // Check if last clicked coordinate is inside this text annotation

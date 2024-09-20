@@ -554,7 +554,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         path.AddLine(bottomCenter, topCenter);
                     }
                     // Get surface colors
-                    area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
+                    area.matrix3D.GetLight(brush.Color, out _, out _, out _, out _, out Color topLightColor, out Color bottomLightColor);
 
                     Color lightColor;
                     if (area.Area3DStyle.Inclination < 0)
@@ -614,7 +614,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
 
                     // Get surface colors
-                    area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
+                    area.matrix3D.GetLight(brush.Color, out _, out _, out _, out _, out Color topLightColor, out Color bottomLightColor);
 
                     Color lightColor;
                     if (area.Area3DStyle.Inclination < 0)
@@ -830,7 +830,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (common.ProcessModePaint)
             {
                 // Get surface colors
-                area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
+                area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out _, out _, out _, out _, out _);
 
                 Pen newPen = (Pen)pen.Clone();
 
@@ -952,7 +952,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (common.ProcessModePaint)
             {
                 // Get surface colors
-                area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
+                area.matrix3D.GetLight(brush.Color, out Color frontLightColor, out _, out _, out _, out _, out _);
 
                 Pen newPen = (Pen)pen.Clone();
 
@@ -3986,7 +3986,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Get surface colors
-            matrix.GetLight(backColor, out Color frontLightColor, out Color backLightColor, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
+            matrix.GetLight(backColor, out _, out _, out Color leftLightColor, out Color rightLightColor, out Color topLightColor, out Color bottomLightColor);
 
             // Darken colors by specified values
             if (topRightDarkening != 0f)

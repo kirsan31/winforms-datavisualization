@@ -363,7 +363,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal override void Paint(Chart chart, ChartGraphics graphics)
         {
             // Get annotation position in relative coordinates
-            GetRelativePosition(out PointF firstPoint, out SizeF size, out PointF anchorPoint);
+            GetRelativePosition(out PointF firstPoint, out SizeF size, out _);
             PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
             // Create selection rectangle
@@ -761,9 +761,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // Calculate text position in relative coordinates
                 PointF firstPoint = PointF.Empty;
-                PointF anchorPoint = PointF.Empty;
                 SizeF size = SizeF.Empty;
-                GetRelativePosition(out firstPoint, out size, out anchorPoint);
+                GetRelativePosition(out firstPoint, out size, out _);
                 PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
                 RectangleF textPosition = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
                 if (textPosition.Width < 0)
