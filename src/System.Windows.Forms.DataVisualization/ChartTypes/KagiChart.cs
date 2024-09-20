@@ -237,7 +237,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Gets reversal amount of the kagi chart.
 		/// </summary>
-		/// <param name="series">Step line chart series used to dispaly the kagi chart.</param>
+		/// <param name="series">Step line chart series used to display the kagi chart.</param>
 		/// <param name="percentOfPrice">Returns reversal amount in percentage.</param>
 		private static double GetReversalAmount(Series series, out double percentOfPrice)
 		{
@@ -247,14 +247,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             if (series.IsCustomPropertySet(CustomPropertyName.ReversalAmount))
             {
                 string attrValue = series[CustomPropertyName.ReversalAmount].Trim();
-                bool usePercentage = attrValue.EndsWith("%", StringComparison.Ordinal);
-                if (usePercentage)
+                if (attrValue.EndsWith('%'))
                 {
                     attrValue = attrValue[..^1];
-                }
-
-                if (usePercentage)
-                {
                     bool parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double percent);
                     if (parseSucceed)
                     {
@@ -288,7 +283,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 		/// <summary>
 		/// Fills step line series with data to draw the Kagi chart.
 		/// </summary>
-		/// <param name="series">Step line chart series used to dispaly the Kagi chart.</param>
+		/// <param name="series">Step line chart series used to display the Kagi chart.</param>
 		/// <param name="originalData">Series with original data.</param>
 		private static void FillKagiData(Series series, Series originalData)
 		{
@@ -797,11 +792,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 					if(twoVertSegments)
 					{
-						vertSplitPoint = new DataPoint3D();
-						vertSplitPoint.xPosition = secondPoint.xPosition;
-						vertSplitPoint.yPosition = prevPoint.yPosition;
-						vertSplitPoint.dataPoint = secondPoint.dataPoint;
-					}
+                        vertSplitPoint = new DataPoint3D
+                        {
+                            xPosition = secondPoint.xPosition,
+                            yPosition = prevPoint.yPosition,
+                            dataPoint = secondPoint.dataPoint
+                        };
+                    }
 				}
 			}
 
@@ -822,7 +819,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 				else if(segmentIndex == 1)
 				{
 					lineSegmentType = (!originalDrawOrder) ? LineSegmentType.First : LineSegmentType.Last;
-					middlePoint.dataPoint = (!originalDrawOrder) ? secondPoint.dataPoint : secondPoint.dataPoint;
+					middlePoint.dataPoint = (!originalDrawOrder) ? secondPoint.dataPoint : firstPoint.dataPoint;
 					point1 = (!originalDrawOrder) ? firstPoint : middlePoint;
 					point2 = (!originalDrawOrder) ? middlePoint : secondPoint;
 				}
@@ -848,7 +845,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 						lineColor = (currentKagiDirection == -1) ? this.kagiUpColor : color;
 					}
 
-					// Draw verticla line as two segments
+					// Draw vertical line as two segments
 					resultPathLine[segmentIndex] = new GraphicsPath();
 					resultPathLine[segmentIndex] = graph.Draw3DSurface( 
 						area, matrix, lightStyle, SurfaceNames.Top, positionZ, depth, lineColor, 

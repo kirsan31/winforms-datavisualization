@@ -2208,7 +2208,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //***********************************************************************
             //** Check if position was precalculated
             //***********************************************************************
-            if (!double.IsNaN(currentPositionRel.X) && !double.IsNaN(currentPositionRel.X))
+            if (!double.IsNaN(currentPositionRel.X) && !double.IsNaN(currentPositionRel.Y))
             {
                 location = currentPositionRel.Location;
                 size = currentPositionRel.Size;

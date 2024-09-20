@@ -2689,17 +2689,15 @@ internal sealed class Selection : IServiceProvider
         }
         else
         {
-            if (rect.Width > 0)
+            if (rect.Width > 0 && rect.Height > 0)
             {
                 list.Add(new PointF(rect.Left, rect.Top));
-
                 if (rect.Width > 30)
                 {
                     list.Add(new PointF(rect.Left + rect.Width / 2, rect.Top));
                 }
 
                 list.Add(new PointF(rect.Right, rect.Top));
-
                 if (rect.Height > 30)
                 {
                     list.Add(new PointF(rect.Right, rect.Top + rect.Height / 2));
@@ -2717,11 +2715,9 @@ internal sealed class Selection : IServiceProvider
                     list.Add(new PointF(rect.Left, rect.Top + rect.Height / 2));
                 }
             }
-
             else if (rect.Width > 0)
             {
                 list.Add(new PointF(rect.Left, rect.Top));
-
                 if (rect.Width > 30)
                 {
                     list.Add(new PointF(rect.Left + rect.Width / 2, rect.Top));

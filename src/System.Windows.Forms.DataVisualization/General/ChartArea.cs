@@ -1140,7 +1140,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                         backgroundPositionWithScrollBars.X -= (float)axis.ScrollBar.GetScrollBarRelativeSize();
                         backgroundPositionWithScrollBars.Width += (float)axis.ScrollBar.GetScrollBarRelativeSize();
                     }
-                    else if (axis.AxisPosition == AxisPosition.Left)
+                    else if (axis.AxisPosition == AxisPosition.Right)
                     {
                         backgroundPositionWithScrollBars.Width += (float)axis.ScrollBar.GetScrollBarRelativeSize();
                     }
