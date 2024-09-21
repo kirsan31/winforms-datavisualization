@@ -548,7 +548,7 @@ internal sealed class ChartImage : ChartPicture
                             yFieldNames = series.YValueMembers.Replace(",,", "\n").Split(',');
                             for (int index = 0; index < yFieldNames.Length; index++)
                             {
-                                yFieldNames[index] = yFieldNames[index].Replace("\n", ",").Trim();
+                                yFieldNames[index] = yFieldNames[index].Replace('\n', ',').Trim();
                             }
                         }
 
@@ -882,7 +882,7 @@ internal sealed class ChartImage : ChartPicture
             yFieldNames = yFields.Replace(",,", "\n").Split(',');
             for (int index = 0; index < yFieldNames.Length; index++)
             {
-                yFieldNames[index] = yFieldNames[index].Replace("\n", ",");
+                yFieldNames[index] = yFieldNames[index].Replace('\n', ',');
             }
         }
 

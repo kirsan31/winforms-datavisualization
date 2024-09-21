@@ -314,16 +314,13 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                 int bracketIndex = otherFieldNames[index].IndexOf('{');
                 if (bracketIndex > 0 && otherFieldNames[index][^1] == '}')
                 {
-                    otherValueFormat[index] = otherFieldNames[index][(bracketIndex + 1)..];
-                    otherValueFormat[index] = otherValueFormat[index].Trim('{', '}');
+                    otherValueFormat[index] = otherFieldNames[index][(bracketIndex + 1)..otherFieldNames[index][^1]].Trim().Replace('\n', ',');
                     otherFieldNames[index] = otherFieldNames[index][..bracketIndex];
                 }
 
                 // Trim and replace new line character
-                otherAttributeNames[index] = otherAttributeNames[index].Trim().Replace("\n", ",");
-                otherFieldNames[index] = otherFieldNames[index].Trim().Replace("\n", ",");
-                if (otherValueFormat[index] != null)
-                    otherValueFormat[index] = otherValueFormat[index].Trim().Replace("\n", ",");
+                otherAttributeNames[index] = otherAttributeNames[index].Trim().Replace('\n', ',');
+                otherFieldNames[index] = otherFieldNames[index].Trim().Replace('\n', ',');
             }
         }
     }
@@ -350,7 +347,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         string[] yFieldNames = yFields.Replace(",,", "\n").Split(',');
         for (int index = 0; index < yFieldNames.Length; index++)
         {
-            yFieldNames[index] = yFieldNames[index].Replace("\n", ",");
+            yFieldNames[index] = yFieldNames[index].Replace('\n', ',');
         }
 
         if (yFieldNames.GetLength(0) > series.YValuesPerPoint)
@@ -727,7 +724,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         string[] yFieldNames = yFields.Replace(",,", "\n").Split(',');
         for (int index = 0; index < yFieldNames.Length; index++)
         {
-            yFieldNames[index] = yFieldNames[index].Replace("\n", ",");
+            yFieldNames[index] = yFieldNames[index].Replace('\n', ',');
         }
 
         if (yFieldNames.GetLength(0) > series.YValuesPerPoint)

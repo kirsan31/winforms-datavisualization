@@ -454,7 +454,7 @@ internal abstract class SerializerBase
         {
             // Read value
             string val = fontString[(charIndex + 13)..];
-            int commaIndex = val.IndexOf(",", StringComparison.Ordinal);
+            int commaIndex = val.IndexOf(',');
             if (commaIndex >= 0)
             {
                 val = val[..commaIndex];

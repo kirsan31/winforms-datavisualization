@@ -1650,7 +1650,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
                     buildNumber = buildNumber[(versionIndex + 8)..];
                 }
 
-                versionIndex = buildNumber.IndexOf(",", StringComparison.Ordinal);
+                versionIndex = buildNumber.IndexOf(',');
                 if (versionIndex >= 0)
                 {
                     buildNumber = buildNumber[..versionIndex];
