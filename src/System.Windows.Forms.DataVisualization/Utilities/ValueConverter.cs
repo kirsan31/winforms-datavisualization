@@ -35,7 +35,7 @@ internal static class ValueConverter
     public static string FormatValue(
         Chart chart,
         object obj,
-    object objTag,
+        object objTag,
         double value,
         string format,
         ChartValueType valueType,
@@ -160,7 +160,7 @@ internal static class ValueConverter
         {
             // Call number formatter
             FormatNumberEventArgs eventArguments = new FormatNumberEventArgs(value, format, valueType, result, objTag, elementType);
-            chart.CallOnFormatNumber(obj, eventArguments);
+            chart.OnFormatNumber(obj, eventArguments);
             result = eventArguments.LocalizedValue;
         }
 

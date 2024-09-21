@@ -2816,34 +2816,13 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
     public event EventHandler<FormatNumberEventArgs> FormatNumber;
 
     /// <summary>
-    /// Utility method for firing the FormatNumber event. Allows it to be
-    /// handled via OnFormatNumber as is the usual pattern as well as via
-    /// CallOnFormatNumber.
+    /// Called when a numeric value has to be converted to a string.
     /// </summary>
-    /// <param name="caller">Event caller. Can be ChartPicture, ChartArea or Legend objects.</param>
-    /// <param name="e">Event arguments</param>
-    private void OnFormatNumber(object caller, FormatNumberEventArgs e)
+    /// <param name="caller">Event caller. Can be <see cref="ChartPicture"/>, <see cref="ChartArea"/>, <see cref="Legend"/>, <see cref="Charting.Series"/>, <see cref="DataPoint"/> etc.</param>
+    /// <param name="e">Event arguments.</param>
+    protected internal void OnFormatNumber(object caller, FormatNumberEventArgs e)
     {
         FormatNumber?.Invoke(caller, e);
-    }
-
-    /// <summary>
-    /// Called when a numeric value has to be converted to a string.
-    /// </summary>
-    /// <param name="e">Event arguments.</param>
-    protected virtual void OnFormatNumber(FormatNumberEventArgs e)
-    {
-        OnFormatNumber(this, e);
-    }
-
-    /// <summary>
-    /// Called when a numeric value has to be converted to a string.
-    /// </summary>
-    /// <param name="caller">Event caller. Can be ChartPicture, ChartArea or Legend objects.</param>
-    /// <param name="e">Event arguments.</param>
-    internal void CallOnFormatNumber(object caller, FormatNumberEventArgs e)
-    {
-        this.OnFormatNumber(caller, e);
     }
 
     #endregion
