@@ -1620,7 +1620,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 axis.labelNearOffset != 0 &&
                 axis.labelNearOffset < PlotAreaPosition.X)
             {
-                float overlap = leftAxis.labelFarOffset - labelsPosition * 0.75f;
+                float overlap = (leftAxis.labelFarOffset - labelsPosition) * 0.75f;
                 if (overlap > axis.markSize)
                 {
                     axis.markSize += overlap - axis.markSize;
@@ -1636,7 +1636,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 axis.labelFarOffset != 0 &&
                 axis.labelFarOffset > PlotAreaPosition.Right)
             {
-                float overlap = rightAxis.labelFarOffset - labelsPosition * 0.75f;
+                float overlap = (rightAxis.labelFarOffset - labelsPosition) * 0.75f;
                 if (overlap > axis.markSize)
                 {
                     axis.markSize += overlap - axis.markSize;
@@ -1669,7 +1669,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 axis.labelNearOffset != 0 &&
                 axis.labelNearOffset < PlotAreaPosition.X)
             {
-                float overlap = labelsPosition - leftAxis.labelNearOffset * 0.75f;
+                float overlap = (labelsPosition - leftAxis.labelNearOffset) * 0.75f;
                 if (overlap > axis.markSize)
                 {
                     axis.markSize += overlap - axis.markSize;
@@ -1685,7 +1685,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 axis.labelFarOffset != 0 &&
                 axis.labelFarOffset > PlotAreaPosition.Right)
             {
-                float overlap = labelsPosition - rightAxis.labelNearOffset * 0.75f;
+                float overlap = (labelsPosition - rightAxis.labelNearOffset) * 0.75f;
                 if (overlap > axis.markSize)
                 {
                     axis.markSize += overlap - axis.markSize;
@@ -2369,9 +2369,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
             //*****************************************************************
             if (labelsStyle == CircularAxisLabelsStyle.Circular)
             {
-                labelsSize = Math.Max(
-                labelsSize,
-                textSize.Height);
+                labelsSize = Math.Max(labelsSize, textSize.Height);
             }
             else if (labelsStyle == CircularAxisLabelsStyle.Radial)
             {
@@ -2391,9 +2389,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 if (height < 0)
                     height = 0;
 
-                labelsSize = Math.Max(
-                    labelsSize,
-                    Math.Max(width, height));
+                labelsSize = Math.Max(labelsSize, Math.Max(width, height));
             }
             else if (labelsStyle == CircularAxisLabelsStyle.Horizontal)
             {
@@ -2422,9 +2418,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                     width = 0f;
                 }
 
-                labelsSize = Math.Max(
-                    labelsSize,
-                    Math.Max(width, textSize.Height));
+                labelsSize = Math.Max(labelsSize, Math.Max(width, textSize.Height));
             }
         }
 

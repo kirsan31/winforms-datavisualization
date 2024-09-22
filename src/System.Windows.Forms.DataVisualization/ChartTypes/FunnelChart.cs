@@ -564,10 +564,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     plotAreaPositionAbs.Bottom - this._funnelNeckSize.Height);
 
                 // Get segment start and end width
-                startWidth = plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f -
-                    startIntersection.X * 2f;
-                endWidth = plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f -
-                    endIntersection.X * 2f;
+                startWidth = (plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f -
+                    startIntersection.X) * 2f;
+                endWidth = (plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f -
+                    endIntersection.X) * 2f;
 
                 // Set point position for annotation anchoring
                 pointPositionAbs = new PointF(
