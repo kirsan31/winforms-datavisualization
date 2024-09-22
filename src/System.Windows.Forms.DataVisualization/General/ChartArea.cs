@@ -1208,9 +1208,8 @@ public partial class ChartArea : ChartNamedElement, IDisposable
         //******************************************************
         //** Find same auto-fit font size
         //******************************************************
-        Axis[] axisArray = this.switchValueAxes ?
-            new Axis[] { this.AxisX, this.AxisX2, this.AxisY, this.AxisY2 } :
-            new Axis[] { this.AxisY, this.AxisY2, this.AxisX, this.AxisX2 };
+        Axis[] axisArray = this.switchValueAxes ? [this.AxisX, this.AxisX2, this.AxisY, this.AxisY2] :
+            [this.AxisY, this.AxisY2, this.AxisX, this.AxisX2];
         if (this.IsSameFontSizeForAllAxes)
         {
             axesAutoFontSize = 20;
@@ -1230,9 +1229,9 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                     }
 
                     // Calculate smallest font size
-                    if (axis.IsLabelAutoFit && axis.autoLabelFont != null)
+                    if (axis.IsLabelAutoFit && axis.autoLabelFont is not null)
                     {
-                        axesAutoFontSize = Math.Min(axesAutoFontSize, axis.autoLabelFont.Size);
+                        axesAutoFontSize = Math.Min(axesAutoFontSize, axis.autoLabelFont.Size / Chart.DPIScale);
                     }
                 }
             }

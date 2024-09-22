@@ -88,7 +88,7 @@ public partial class Axis : ChartNamedElement, IDisposable
 
     private float _minLabelFontSize = 5F;
 
-    // Determines maximum label size of the chart area.
+    // Determines maximum label size of the chart area in percentage.
     private float _maximumAutoSize = 75f;
 
     // Chart title position rectangle
@@ -97,17 +97,17 @@ public partial class Axis : ChartNamedElement, IDisposable
     // Element spacing size
     internal const float elementSpacing = 1F;
 
-    // Maximum total size of the axis's elements in percentage
+    // Maximum total size of the axis's elements in percentage.
     private const float maxAxisElementsSize = 75F;
 
-    // Maximum size of the axis title in percentage
+    // Maximum size of the axis title in percentage.
     private const float maxAxisTitleSize = 20F;
 
-    // Maximum size of the axis second row of labels in percentage
+    // Maximum size of the axis second row of labels in percentage.
     // of the total labels size
     private const float maxAxisLabelRow2Size = 45F;
 
-    // Maximum size of the axis tick marks in percentage
+    // Maximum size of the axis tick marks in percentage.
     private const float maxAxisMarkSize = 20F;
 
     // Minimum cached value from data series.
@@ -160,12 +160,12 @@ public partial class Axis : ChartNamedElement, IDisposable
     /// <summary>
     /// Minimum font size that can be used by the labels auto-fitting algorithm.
     /// </summary>
-    internal int labelAutoFitMinFontSize = 6;
+    private int _labelAutoFitMinFontSize = 6;
 
     /// <summary>
     /// Maximum font size that can be used by the labels auto-fitting algorithm.
     /// </summary>
-    internal int labelAutoFitMaxFontSize = 10;
+    private int _labelAutoFitMaxFontSize = 10;
 
     /// <summary>
     /// Axis HREF
@@ -591,7 +591,7 @@ public partial class Axis : ChartNamedElement, IDisposable
     ]
     public int LabelAutoFitMinFontSize
     {
-        get => this.labelAutoFitMinFontSize;
+        get => this._labelAutoFitMinFontSize;
         set
         {
             // Font size cannot be less than 5
@@ -600,7 +600,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                 throw new InvalidOperationException(SR.ExceptionAxisLabelsAutoFitMinFontSizeValueInvalid);
             }
 
-            this.labelAutoFitMinFontSize = value;
+            this._labelAutoFitMinFontSize = value;
             this.Invalidate();
         }
     }
@@ -619,7 +619,7 @@ public partial class Axis : ChartNamedElement, IDisposable
     ]
     public int LabelAutoFitMaxFontSize
     {
-        get => this.labelAutoFitMaxFontSize;
+        get => this._labelAutoFitMaxFontSize;
         set
         {
             // Font size cannot be less than 5
@@ -628,7 +628,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                 throw new InvalidOperationException(SR.ExceptionAxisLabelsAutoFitMaxFontSizeInvalid);
             }
 
-            this.labelAutoFitMaxFontSize = value;
+            this._labelAutoFitMaxFontSize = value;
             this.Invalidate();
         }
     }
@@ -3182,14 +3182,14 @@ public partial class Axis : ChartNamedElement, IDisposable
             CustomLabelsCollection originalLabels = null;
 
             // Pick up maximum font size
-            float size = Math.Max(this.LabelAutoFitMaxFontSize, this.LabelAutoFitMinFontSize);
+            float size = Math.Max(this.LabelAutoFitMaxFontSize, this.LabelAutoFitMinFontSize) * Chart.DPIScale;
             _minLabelFontSize = Math.Min(this.LabelAutoFitMinFontSize, this.LabelAutoFitMaxFontSize);
-            _aveLabelFontSize = _minLabelFontSize + Math.Abs(size - _minLabelFontSize) / 2f;
+            _aveLabelFontSize = _minLabelFontSize * Chart.DPIScale + Math.Abs(size - _minLabelFontSize * Chart.DPIScale) / 2f;
 
             // Check if common font size should be used
             if (ChartArea.IsSameFontSizeForAllAxes)
             {
-                size = Math.Min(size, ChartArea.axesAutoFontSize);
+                size = Math.Min(size, ChartArea.axesAutoFontSize * Chart.DPIScale);
             }
 
             //Set new font
@@ -3367,7 +3367,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                     }
 
                     // Try to reduce font again
-                    else if (autoLabelFont.SizeInPoints > _minLabelFontSize &&
+                    else if (autoLabelFont.SizeInPoints > _minLabelFontSize * Chart.DPIScale &&
                         (this.LabelAutoFitStyle & LabelAutoFitStyles.DecreaseFont) == LabelAutoFitStyles.DecreaseFont)
                     {
                         //Clean up the old font
@@ -3409,7 +3409,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                 }
                 else if (ChartArea.Area3DStyle.Enable3D &&
                     !ChartArea.chartAreaIsCurcular &&
-                    autoLabelFont.SizeInPoints > _minLabelFontSize)
+                    autoLabelFont.SizeInPoints > _minLabelFontSize * Chart.DPIScale)
                 {
                     // Reduce auto-fit font by 1 for the 3D charts
                     autoLabelFont = Common.Chart.chartPicture.FontCache.GetFont(
@@ -4243,7 +4243,7 @@ public partial class Axis : ChartNamedElement, IDisposable
             if (!fitDone)
             {
                 // Try to reduce font size
-                if (autoLabelFont.SizeInPoints > _minLabelFontSize &&
+                if (autoLabelFont.SizeInPoints > _minLabelFontSize * Chart.DPIScale &&
                     (this.LabelAutoFitStyle & LabelAutoFitStyles.DecreaseFont) == LabelAutoFitStyles.DecreaseFont)
                 {
                     autoLabelFont = Common.Chart.chartPicture.FontCache.GetFont(
@@ -4544,7 +4544,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                 if (!fitDone)
                 {
                     // Try to reduce font
-                    if (autoLabelFont.SizeInPoints > _minLabelFontSize)
+                    if (autoLabelFont.SizeInPoints > _minLabelFontSize * Chart.DPIScale)
                     {
                         // Reduce auto fit font
                         if (ChartArea != null && ChartArea.IsSameFontSizeForAllAxes)
