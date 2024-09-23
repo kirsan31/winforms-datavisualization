@@ -34,8 +34,10 @@ namespace ChartSamples
 		private		XmlDocument		samplesXMLDoc;
 		private		XmlDocument		tocXMLDoc;
 		public		string			applicationPath = "";
-		internal	float			scaleRatioX = 1f;
-		internal	float			scaleRatioY = 1f;
+        /// <summary>
+        /// DeviceDpi / 96.
+        /// </summary>
+        private float			scaleRatio = 1f;
 		private		ArrayList		indexInfoList = new ArrayList();
 		private		bool			indexEditorChanged = false;
 		private		bool			ignoreTextChange = false;
@@ -81,20 +83,13 @@ namespace ChartSamples
 			//
 			InitializeComponent();
 
-			// Analyse current graphics resolution
-			Graphics g = this.CreateGraphics();
-			if(g != null)
-			{
-				if(g.DpiX != 96 || g.DpiY != 96)
-				{
-					this.scaleRatioX = g.DpiX/96f;
-					this.scaleRatioY = g.DpiY/96f;
-				}
-			}
-			g.Dispose();
+			// Analyze current graphics resolution
+			int dpi = DeviceDpi;
+			if (dpi != 96)
+				this.scaleRatio = dpi / 96f;
 
-			// Load settings from XML data file
-			LoadSettings();
+            // Load settings from XML data file
+            LoadSettings();
 
 			// Initialize content/index tab control
 			tabControlContent = new VerticalTabControl();
@@ -164,18 +159,18 @@ namespace ChartSamples
 			//panelFooter.Height = pictureBoxFooterRight.Image.Height;
 
 			// Scale Prev/Next buttons
-			if(this.scaleRatioX != 1f || this.scaleRatioY != 1f)
+			if (this.scaleRatio != 1f)
 			{
-				buttonSamplePrevious.Width = (int)(buttonSamplePrevious.Width * this.scaleRatioX);
-				buttonSamplePrevious.Height = (int)(buttonSamplePrevious.Height *this.scaleRatioY);
-				buttonSampleNext.Width = (int)(buttonSampleNext.Width * this.scaleRatioX);
-				buttonSampleNext.Height = (int)(buttonSampleNext.Height * this.scaleRatioY);
+				buttonSamplePrevious.Width = (int)(buttonSamplePrevious.Width * this.scaleRatio + 0.5);
+				buttonSamplePrevious.Height = (int)(buttonSamplePrevious.Height * this.scaleRatio + 0.5);
+				buttonSampleNext.Width = (int)(buttonSampleNext.Width * this.scaleRatio + 0.5);
+				buttonSampleNext.Height = (int)(buttonSampleNext.Height * this.scaleRatio + 0.5);
 			}
 
 			// Position Prev/Next buttons
-			buttonSamplePrevious.Top = labelSampleTitle.Bottom + 1;
-			buttonSampleNext.Top = labelSampleTitle.Bottom + 1;
-			buttonSampleNext.Left = this.Width - buttonSampleNext.Width - 15;
+            buttonSamplePrevious.Top = labelSampleTitle.Bottom + 1 - (scaleRatio == 1f ? 0 :(int)(scaleRatio + 2.5));
+			buttonSampleNext.Top = labelSampleTitle.Bottom + 1 - (scaleRatio == 1f ? 0 : (int)(scaleRatio + 2.5));
+			buttonSampleNext.Left = this.Width - buttonSampleNext.Width - (int)(20 * scaleRatio);
 			buttonSamplePrevious.Left = buttonSampleNext.Left - buttonSamplePrevious.Width - 5;
 
 		}
@@ -195,343 +190,334 @@ namespace ChartSamples
 			base.Dispose( disposing );
 		}
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
-            this.components = new System.ComponentModel.Container();
+        #region Windows Form Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.panelTree = new System.Windows.Forms.Panel();
-            this.panelIndex = new System.Windows.Forms.Panel();
-            this.listBoxIndex = new System.Windows.Forms.ListBox();
-            this.textBoxIndex = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.treeSamples = new System.Windows.Forms.TreeView();
-            this.imageListTree = new System.Windows.Forms.ImageList(this.components);
-            this.panelHeader = new System.Windows.Forms.Panel();
-            this.pictureBoxHeaderRight = new System.Windows.Forms.PictureBox();
-            this.pictureBoxHeaderLeft = new System.Windows.Forms.PictureBox();
-            this.pictureBoxHeaderMidle = new ChartSamples.TiledPictureBox();
-            this.splitterVertical = new System.Windows.Forms.Splitter();
-            this.panelContent = new System.Windows.Forms.Panel();
-            this.panelWebBrowser = new System.Windows.Forms.Panel();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.tabControlSample = new ChartSamples.VerticalTabControl();
-            this.buttonSamplePrevious = new System.Windows.Forms.Button();
-            this.buttonSampleNext = new System.Windows.Forms.Button();
-            this.contextMenuRTF = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.menuItemCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemCopyAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.labelSampleTitle = new ChartSamples.LabelWithBackImage();
-            this.panelTree.SuspendLayout();
-            this.panelIndex.SuspendLayout();
-            this.panelHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHeaderRight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHeaderLeft)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHeaderMidle)).BeginInit();
-            this.panelContent.SuspendLayout();
-            this.panelWebBrowser.SuspendLayout();
-            this.contextMenuRTF.SuspendLayout();
-            this.SuspendLayout();
+            panelTree = new Panel();
+            panelIndex = new Panel();
+            listBoxIndex = new ListBox();
+            textBoxIndex = new TextBox();
+            label1 = new Label();
+            treeSamples = new TreeView();
+            imageListTree = new ImageList(components);
+            panelHeader = new Panel();
+            pictureBoxHeaderRight = new PictureBox();
+            pictureBoxHeaderLeft = new PictureBox();
+            pictureBoxHeaderMidle = new TiledPictureBox();
+            splitterVertical = new Splitter();
+            panelContent = new Panel();
+            panelWebBrowser = new Panel();
+            webBrowser1 = new WebBrowser();
+            tabControlSample = new VerticalTabControl();
+            buttonSamplePrevious = new Button();
+            buttonSampleNext = new Button();
+            contextMenuRTF = new ContextMenuStrip(components);
+            menuItemCopy = new ToolStripMenuItem();
+            menuItemCopyAll = new ToolStripMenuItem();
+            labelSampleTitle = new LabelWithBackImage();
+            panelTree.SuspendLayout();
+            panelIndex.SuspendLayout();
+            panelHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxHeaderRight).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxHeaderLeft).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxHeaderMidle).BeginInit();
+            panelContent.SuspendLayout();
+            panelWebBrowser.SuspendLayout();
+            contextMenuRTF.SuspendLayout();
+            SuspendLayout();
             // 
             // panelTree
             // 
-            this.panelTree.BackColor = System.Drawing.Color.White;
-            this.panelTree.Controls.Add(this.panelIndex);
-            this.panelTree.Controls.Add(this.treeSamples);
-            this.panelTree.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelTree.Location = new System.Drawing.Point(0, 157);
-            this.panelTree.Name = "panelTree";
-            this.panelTree.Size = new System.Drawing.Size(256, 668);
-            this.panelTree.TabIndex = 0;
+            panelTree.BackColor = Color.White;
+            panelTree.Controls.Add(panelIndex);
+            panelTree.Controls.Add(treeSamples);
+            panelTree.Dock = DockStyle.Left;
+            panelTree.Location = new Point(0, 157);
+            panelTree.Name = "panelTree";
+            panelTree.Size = new Size(256, 668);
+            panelTree.TabIndex = 0;
             // 
             // panelIndex
             // 
-            this.panelIndex.BackColor = System.Drawing.SystemColors.Window;
-            this.panelIndex.Controls.Add(this.listBoxIndex);
-            this.panelIndex.Controls.Add(this.textBoxIndex);
-            this.panelIndex.Controls.Add(this.label1);
-            this.panelIndex.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.panelIndex.Location = new System.Drawing.Point(24, 168);
-            this.panelIndex.Name = "panelIndex";
-            this.panelIndex.Size = new System.Drawing.Size(192, 272);
-            this.panelIndex.TabIndex = 2;
+            panelIndex.BackColor = SystemColors.Window;
+            panelIndex.Controls.Add(listBoxIndex);
+            panelIndex.Controls.Add(textBoxIndex);
+            panelIndex.Controls.Add(label1);
+            panelIndex.Font = new Font("Arial", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            panelIndex.Location = new Point(24, 168);
+            panelIndex.Name = "panelIndex";
+            panelIndex.Size = new Size(192, 272);
+            panelIndex.TabIndex = 2;
             // 
             // listBoxIndex
             // 
-            this.listBoxIndex.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBoxIndex.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.listBoxIndex.IntegralHeight = false;
-            this.listBoxIndex.ItemHeight = 15;
-            this.listBoxIndex.Location = new System.Drawing.Point(0, 40);
-            this.listBoxIndex.Name = "listBoxIndex";
-            this.listBoxIndex.Size = new System.Drawing.Size(192, 232);
-            this.listBoxIndex.TabIndex = 2;
-            this.listBoxIndex.SelectedIndexChanged += new System.EventHandler(this.listBoxIndex_SelectedIndexChanged);
+            listBoxIndex.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            listBoxIndex.Font = new Font("Arial", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            listBoxIndex.IntegralHeight = false;
+            listBoxIndex.ItemHeight = 15;
+            listBoxIndex.Location = new Point(0, 40);
+            listBoxIndex.Name = "listBoxIndex";
+            listBoxIndex.Size = new Size(192, 232);
+            listBoxIndex.TabIndex = 2;
+            listBoxIndex.SelectedIndexChanged += listBoxIndex_SelectedIndexChanged;
             // 
             // textBoxIndex
             // 
-            this.textBoxIndex.AcceptsReturn = true;
-            this.textBoxIndex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxIndex.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBoxIndex.Location = new System.Drawing.Point(0, 17);
-            this.textBoxIndex.Name = "textBoxIndex";
-            this.textBoxIndex.Size = new System.Drawing.Size(192, 21);
-            this.textBoxIndex.TabIndex = 1;
-            this.textBoxIndex.TextChanged += new System.EventHandler(this.textBoxIndex_TextChanged);
-            this.textBoxIndex.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxIndex_KeyPress);
-            this.textBoxIndex.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textBoxIndex_MouseDown);
+            textBoxIndex.AcceptsReturn = true;
+            textBoxIndex.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            textBoxIndex.Font = new Font("Arial", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxIndex.Location = new Point(0, 17);
+            textBoxIndex.Name = "textBoxIndex";
+            textBoxIndex.Size = new Size(192, 21);
+            textBoxIndex.TabIndex = 1;
+            textBoxIndex.TextChanged += textBoxIndex_TextChanged;
+            textBoxIndex.KeyPress += textBoxIndex_KeyPress;
+            textBoxIndex.MouseDown += textBoxIndex_MouseDown;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 16);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "&Look for sample:";
+            label1.Location = new Point(0, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(112, 16);
+            label1.TabIndex = 0;
+            label1.Text = "&Look for sample:";
             // 
             // treeSamples
             // 
-            this.treeSamples.BackColor = System.Drawing.SystemColors.Window;
-            this.treeSamples.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.treeSamples.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.treeSamples.HideSelection = false;
-            this.treeSamples.HotTracking = true;
-            this.treeSamples.ImageIndex = 0;
-            this.treeSamples.ImageList = this.imageListTree;
-            this.treeSamples.Indent = 16;
-            this.treeSamples.Location = new System.Drawing.Point(32, 24);
-            this.treeSamples.Name = "treeSamples";
-            this.treeSamples.SelectedImageIndex = 0;
-            this.treeSamples.ShowLines = false;
-            this.treeSamples.Size = new System.Drawing.Size(168, 112);
-            this.treeSamples.TabIndex = 1;
-            this.treeSamples.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeSamples_AfterCollapse);
-            this.treeSamples.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeSamples_AfterExpand);
-            this.treeSamples.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeSamples_AfterSelect);
+            treeSamples.BackColor = SystemColors.Window;
+            treeSamples.BorderStyle = BorderStyle.None;
+            treeSamples.Font = new Font("Arial", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            treeSamples.HideSelection = false;
+            treeSamples.HotTracking = true;
+            treeSamples.ImageIndex = 0;
+            treeSamples.ImageList = imageListTree;
+            treeSamples.Indent = 16;
+            treeSamples.Location = new Point(32, 24);
+            treeSamples.Name = "treeSamples";
+            treeSamples.SelectedImageIndex = 0;
+            treeSamples.ShowLines = false;
+            treeSamples.Size = new Size(168, 112);
+            treeSamples.TabIndex = 1;
+            treeSamples.AfterCollapse += treeSamples_AfterCollapse;
+            treeSamples.AfterExpand += treeSamples_AfterExpand;
+            treeSamples.AfterSelect += treeSamples_AfterSelect;
             // 
             // imageListTree
             // 
-            this.imageListTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
-            this.imageListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTree.ImageStream")));
-            this.imageListTree.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListTree.Images.SetKeyName(0, "");
-            this.imageListTree.Images.SetKeyName(1, "");
-            this.imageListTree.Images.SetKeyName(2, "");
-            this.imageListTree.Images.SetKeyName(3, "");
-            this.imageListTree.Images.SetKeyName(4, "");
+            imageListTree.ColorDepth = ColorDepth.Depth24Bit;
+            imageListTree.ImageStream = (ImageListStreamer)resources.GetObject("imageListTree.ImageStream");
+            imageListTree.TransparentColor = Color.Transparent;
+            imageListTree.Images.SetKeyName(0, "");
+            imageListTree.Images.SetKeyName(1, "");
+            imageListTree.Images.SetKeyName(2, "");
+            imageListTree.Images.SetKeyName(3, "");
+            imageListTree.Images.SetKeyName(4, "");
             // 
             // panelHeader
             // 
-            this.panelHeader.Controls.Add(this.pictureBoxHeaderRight);
-            this.panelHeader.Controls.Add(this.pictureBoxHeaderLeft);
-            this.panelHeader.Controls.Add(this.pictureBoxHeaderMidle);
-            this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelHeader.Location = new System.Drawing.Point(0, 0);
-            this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(1151, 157);
-            this.panelHeader.TabIndex = 1;
+            panelHeader.Controls.Add(pictureBoxHeaderRight);
+            panelHeader.Controls.Add(pictureBoxHeaderLeft);
+            panelHeader.Controls.Add(pictureBoxHeaderMidle);
+            panelHeader.Dock = DockStyle.Top;
+            panelHeader.Location = new Point(0, 0);
+            panelHeader.Name = "panelHeader";
+            panelHeader.Size = new Size(1151, 157);
+            panelHeader.TabIndex = 1;
             // 
             // pictureBoxHeaderRight
             // 
-            this.pictureBoxHeaderRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pictureBoxHeaderRight.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxHeaderRight.Image")));
-            this.pictureBoxHeaderRight.Location = new System.Drawing.Point(727, 0);
-            this.pictureBoxHeaderRight.Name = "pictureBoxHeaderRight";
-            this.pictureBoxHeaderRight.Size = new System.Drawing.Size(424, 157);
-            this.pictureBoxHeaderRight.TabIndex = 3;
-            this.pictureBoxHeaderRight.TabStop = false;
+            pictureBoxHeaderRight.Dock = DockStyle.Right;
+            pictureBoxHeaderRight.Image = (Image)resources.GetObject("pictureBoxHeaderRight.Image");
+            pictureBoxHeaderRight.Location = new Point(727, 0);
+            pictureBoxHeaderRight.Name = "pictureBoxHeaderRight";
+            pictureBoxHeaderRight.Size = new Size(424, 157);
+            pictureBoxHeaderRight.TabIndex = 3;
+            pictureBoxHeaderRight.TabStop = false;
             // 
             // pictureBoxHeaderLeft
             // 
-            this.pictureBoxHeaderLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureBoxHeaderLeft.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxHeaderLeft.Image")));
-            this.pictureBoxHeaderLeft.Location = new System.Drawing.Point(0, 0);
-            this.pictureBoxHeaderLeft.Name = "pictureBoxHeaderLeft";
-            this.pictureBoxHeaderLeft.Size = new System.Drawing.Size(370, 157);
-            this.pictureBoxHeaderLeft.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBoxHeaderLeft.TabIndex = 1;
-            this.pictureBoxHeaderLeft.TabStop = false;
+            pictureBoxHeaderLeft.Dock = DockStyle.Left;
+            pictureBoxHeaderLeft.Image = (Image)resources.GetObject("pictureBoxHeaderLeft.Image");
+            pictureBoxHeaderLeft.Location = new Point(0, 0);
+            pictureBoxHeaderLeft.Name = "pictureBoxHeaderLeft";
+            pictureBoxHeaderLeft.Size = new Size(370, 157);
+            pictureBoxHeaderLeft.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBoxHeaderLeft.TabIndex = 1;
+            pictureBoxHeaderLeft.TabStop = false;
             // 
             // pictureBoxHeaderMidle
             // 
-            this.pictureBoxHeaderMidle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBoxHeaderMidle.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxHeaderMidle.Image")));
-            this.pictureBoxHeaderMidle.Location = new System.Drawing.Point(0, 0);
-            this.pictureBoxHeaderMidle.Name = "pictureBoxHeaderMidle";
-            this.pictureBoxHeaderMidle.Size = new System.Drawing.Size(1151, 157);
-            this.pictureBoxHeaderMidle.TabIndex = 2;
-            this.pictureBoxHeaderMidle.TabStop = false;
+            pictureBoxHeaderMidle.Dock = DockStyle.Fill;
+            pictureBoxHeaderMidle.Image = (Image)resources.GetObject("pictureBoxHeaderMidle.Image");
+            pictureBoxHeaderMidle.Location = new Point(0, 0);
+            pictureBoxHeaderMidle.Name = "pictureBoxHeaderMidle";
+            pictureBoxHeaderMidle.Size = new Size(1151, 157);
+            pictureBoxHeaderMidle.TabIndex = 2;
+            pictureBoxHeaderMidle.TabStop = false;
             // 
             // splitterVertical
             // 
-            this.splitterVertical.BackColor = System.Drawing.Color.White;
-            this.splitterVertical.Location = new System.Drawing.Point(256, 157);
-            this.splitterVertical.MinSize = 100;
-            this.splitterVertical.Name = "splitterVertical";
-            this.splitterVertical.Size = new System.Drawing.Size(3, 668);
-            this.splitterVertical.TabIndex = 2;
-            this.splitterVertical.TabStop = false;
-            this.splitterVertical.SplitterMoving += new System.Windows.Forms.SplitterEventHandler(this.splitterVertical_SplitterMoving);
-            this.splitterVertical.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitterVertical_SplitterMoved);
+            splitterVertical.BackColor = Color.White;
+            splitterVertical.Location = new Point(256, 157);
+            splitterVertical.MinSize = 100;
+            splitterVertical.Name = "splitterVertical";
+            splitterVertical.Size = new Size(3, 668);
+            splitterVertical.TabIndex = 2;
+            splitterVertical.TabStop = false;
+            splitterVertical.SplitterMoving += splitterVertical_SplitterMoving;
+            splitterVertical.SplitterMoved += splitterVertical_SplitterMoved;
             // 
             // panelContent
             // 
-            this.panelContent.BackColor = System.Drawing.Color.White;
-            this.panelContent.Controls.Add(this.panelWebBrowser);
-            this.panelContent.Controls.Add(this.tabControlSample);
-            this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelContent.Location = new System.Drawing.Point(259, 157);
-            this.panelContent.Name = "panelContent";
-            this.panelContent.Size = new System.Drawing.Size(892, 668);
-            this.panelContent.TabIndex = 3;
-            this.panelContent.Resize += new System.EventHandler(this.panelContent_Resize);
+            panelContent.BackColor = Color.White;
+            panelContent.Controls.Add(panelWebBrowser);
+            panelContent.Controls.Add(tabControlSample);
+            panelContent.Dock = DockStyle.Fill;
+            panelContent.Location = new Point(259, 157);
+            panelContent.Name = "panelContent";
+            panelContent.Size = new Size(892, 668);
+            panelContent.TabIndex = 3;
+            panelContent.Resize += panelContent_Resize;
             // 
             // panelWebBrowser
             // 
-            this.panelWebBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelWebBrowser.Controls.Add(this.webBrowser1);
-            this.panelWebBrowser.Location = new System.Drawing.Point(32, 32);
-            this.panelWebBrowser.Name = "panelWebBrowser";
-            this.panelWebBrowser.Size = new System.Drawing.Size(799, 312);
-            this.panelWebBrowser.TabIndex = 4;
-            this.panelWebBrowser.Visible = false;
-            this.panelWebBrowser.Resize += new System.EventHandler(this.panelWebBrowser_Resize);
+            panelWebBrowser.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelWebBrowser.Controls.Add(webBrowser1);
+            panelWebBrowser.Location = new Point(32, 32);
+            panelWebBrowser.Name = "panelWebBrowser";
+            panelWebBrowser.Size = new Size(799, 312);
+            panelWebBrowser.TabIndex = 4;
+            panelWebBrowser.Visible = false;
+            panelWebBrowser.Resize += panelWebBrowser_Resize;
             // 
             // webBrowser1
             // 
-            this.webBrowser1.Location = new System.Drawing.Point(-2, -2);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(300, 150);
-            this.webBrowser1.TabIndex = 3;
+            webBrowser1.Location = new Point(-2, -2);
+            webBrowser1.Name = "webBrowser1";
+            webBrowser1.Size = new Size(300, 150);
+            webBrowser1.TabIndex = 3;
             // 
             // tabControlSample
             // 
-            this.tabControlSample.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControlSample.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tabControlSample.ImageList = null;
-            this.tabControlSample.Location = new System.Drawing.Point(0, 136);
-            this.tabControlSample.Name = "tabControlSample";
-            this.tabControlSample.SelectedIndex = -1;
-            this.tabControlSample.SelectedTab = null;
-            this.tabControlSample.Size = new System.Drawing.Size(892, 532);
-            this.tabControlSample.TabIndex = 2;
-            this.tabControlSample.Vertical = true;
+            tabControlSample.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabControlSample.BackColor = Color.White;
+            tabControlSample.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            tabControlSample.ImageList = null;
+            tabControlSample.Location = new Point(0, 136);
+            tabControlSample.Name = "tabControlSample";
+            tabControlSample.SelectedIndex = -1;
+            tabControlSample.SelectedTab = null;
+            tabControlSample.Size = new Size(892, 532);
+            tabControlSample.TabIndex = 2;
+            tabControlSample.Vertical = true;
             // 
             // buttonSamplePrevious
             // 
-            this.buttonSamplePrevious.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSamplePrevious.BackColor = System.Drawing.Color.White;
-            this.buttonSamplePrevious.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSamplePrevious.Font = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.buttonSamplePrevious.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.buttonSamplePrevious.Location = new System.Drawing.Point(959, 180);
-            this.buttonSamplePrevious.Name = "buttonSamplePrevious";
-            this.buttonSamplePrevious.Size = new System.Drawing.Size(104, 21);
-            this.buttonSamplePrevious.TabIndex = 5;
-            this.buttonSamplePrevious.Text = "<  Previous";
-            this.buttonSamplePrevious.UseVisualStyleBackColor = false;
-            this.buttonSamplePrevious.Click += new System.EventHandler(this.buttonSamplePrevious_Click);
+            buttonSamplePrevious.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonSamplePrevious.BackColor = Color.White;
+            buttonSamplePrevious.FlatStyle = FlatStyle.Flat;
+            buttonSamplePrevious.Font = new Font("Verdana", 8F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonSamplePrevious.ForeColor = Color.FromArgb(26, 59, 105);
+            buttonSamplePrevious.Location = new Point(959, 180);
+            buttonSamplePrevious.Name = "buttonSamplePrevious";
+            buttonSamplePrevious.Size = new Size(104, 21);
+            buttonSamplePrevious.TabIndex = 5;
+            buttonSamplePrevious.Text = "<  Previous";
+            buttonSamplePrevious.UseVisualStyleBackColor = false;
+            buttonSamplePrevious.Click += buttonSamplePrevious_Click;
             // 
             // buttonSampleNext
             // 
-            this.buttonSampleNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSampleNext.BackColor = System.Drawing.Color.White;
-            this.buttonSampleNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSampleNext.Font = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.buttonSampleNext.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.buttonSampleNext.Location = new System.Drawing.Point(1071, 180);
-            this.buttonSampleNext.Name = "buttonSampleNext";
-            this.buttonSampleNext.Size = new System.Drawing.Size(72, 21);
-            this.buttonSampleNext.TabIndex = 6;
-            this.buttonSampleNext.Text = "Next  >";
-            this.buttonSampleNext.UseVisualStyleBackColor = false;
-            this.buttonSampleNext.Click += new System.EventHandler(this.buttonSampleNext_Click);
+            buttonSampleNext.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonSampleNext.BackColor = Color.White;
+            buttonSampleNext.FlatStyle = FlatStyle.Flat;
+            buttonSampleNext.Font = new Font("Verdana", 8F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonSampleNext.ForeColor = Color.FromArgb(26, 59, 105);
+            buttonSampleNext.Location = new Point(1071, 180);
+            buttonSampleNext.Name = "buttonSampleNext";
+            buttonSampleNext.Size = new Size(72, 21);
+            buttonSampleNext.TabIndex = 6;
+            buttonSampleNext.Text = "Next  >";
+            buttonSampleNext.UseVisualStyleBackColor = false;
+            buttonSampleNext.Click += buttonSampleNext_Click;
             // 
             // contextMenuRTF
             // 
-            this.contextMenuRTF.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuItemCopy,
-            this.menuItemCopyAll});
-            this.contextMenuRTF.Name = "contextMenuRTF";
-            this.contextMenuRTF.Size = new System.Drawing.Size(120, 48);
-            this.contextMenuRTF.Opened += new System.EventHandler(this.contextMenuRTF_Popup);
+            contextMenuRTF.Items.AddRange(new ToolStripItem[] { menuItemCopy, menuItemCopyAll });
+            contextMenuRTF.Name = "contextMenuRTF";
+            contextMenuRTF.Size = new Size(120, 48);
+            contextMenuRTF.Opened += contextMenuRTF_Popup;
             // 
             // menuItemCopy
             // 
-            this.menuItemCopy.Name = "menuItemCopy";
-            this.menuItemCopy.Size = new System.Drawing.Size(119, 22);
-            this.menuItemCopy.Text = "&Copy";
-            this.menuItemCopy.Click += new System.EventHandler(this.menuItemCopy_Click);
+            menuItemCopy.Name = "menuItemCopy";
+            menuItemCopy.Size = new Size(119, 22);
+            menuItemCopy.Text = "&Copy";
+            menuItemCopy.Click += menuItemCopy_Click;
             // 
             // menuItemCopyAll
             // 
-            this.menuItemCopyAll.Name = "menuItemCopyAll";
-            this.menuItemCopyAll.Size = new System.Drawing.Size(119, 22);
-            this.menuItemCopyAll.Text = "Copy &All";
-            this.menuItemCopyAll.Click += new System.EventHandler(this.menuItemCopyAll_Click);
+            menuItemCopyAll.Name = "menuItemCopyAll";
+            menuItemCopyAll.Size = new Size(119, 22);
+            menuItemCopyAll.Text = "Copy &All";
+            menuItemCopyAll.Click += menuItemCopyAll_Click;
             // 
             // labelSampleTitle
             // 
-            this.labelSampleTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelSampleTitle.BackColor = System.Drawing.Color.White;
-            this.labelSampleTitle.Font = new System.Drawing.Font("Verdana", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelSampleTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.labelSampleTitle.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelSampleTitle.Location = new System.Drawing.Point(264, 144);
-            this.labelSampleTitle.Name = "labelSampleTitle";
-            this.labelSampleTitle.Size = new System.Drawing.Size(891, 33);
-            this.labelSampleTitle.TabIndex = 0;
-            this.labelSampleTitle.Text = "This is a sample title.";
+            labelSampleTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            labelSampleTitle.BackColor = Color.White;
+            labelSampleTitle.Font = new Font("Verdana", 16F, FontStyle.Bold, GraphicsUnit.Point);
+            labelSampleTitle.ForeColor = Color.FromArgb(26, 59, 105);
+            labelSampleTitle.ImageAlign = ContentAlignment.MiddleRight;
+            labelSampleTitle.Location = new Point(264, 144);
+            labelSampleTitle.Name = "labelSampleTitle";
+            labelSampleTitle.Size = new Size(891, 33);
+            labelSampleTitle.TabIndex = 0;
+            labelSampleTitle.Text = "This is a sample title.";
             // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(1151, 825);
-            this.Controls.Add(this.labelSampleTitle);
-            this.Controls.Add(this.buttonSampleNext);
-            this.Controls.Add(this.buttonSamplePrevious);
-            this.Controls.Add(this.panelContent);
-            this.Controls.Add(this.splitterVertical);
-            this.Controls.Add(this.panelTree);
-            this.Controls.Add(this.panelHeader);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(800, 600);
-            this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Samples Environment for Chart Control";
-            this.Load += new System.EventHandler(this.MainForm_Load);
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
-            this.panelTree.ResumeLayout(false);
-            this.panelIndex.ResumeLayout(false);
-            this.panelIndex.PerformLayout();
-            this.panelHeader.ResumeLayout(false);
-            this.panelHeader.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHeaderRight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHeaderLeft)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHeaderMidle)).EndInit();
-            this.panelContent.ResumeLayout(false);
-            this.panelWebBrowser.ResumeLayout(false);
-            this.contextMenuRTF.ResumeLayout(false);
-            this.ResumeLayout(false);
+            AutoScaleMode = AutoScaleMode.None;
+            ClientSize = new Size(1151, 825);
+            Controls.Add(buttonSampleNext);
+            Controls.Add(buttonSamplePrevious);
+            Controls.Add(labelSampleTitle);
+            Controls.Add(panelContent);
+            Controls.Add(splitterVertical);
+            Controls.Add(panelTree);
+            Controls.Add(panelHeader);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MinimumSize = new Size(800, 600);
+            Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Samples Environment for Chart Control";
+            Load += MainForm_Load;
+            Resize += MainForm_Resize;
+            panelTree.ResumeLayout(false);
+            panelIndex.ResumeLayout(false);
+            panelIndex.PerformLayout();
+            panelHeader.ResumeLayout(false);
+            panelHeader.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxHeaderRight).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxHeaderLeft).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxHeaderMidle).EndInit();
+            panelContent.ResumeLayout(false);
+            panelWebBrowser.ResumeLayout(false);
+            contextMenuRTF.ResumeLayout(false);
+            ResumeLayout(false);
+        }
+        #endregion
 
-		}
-		#endregion
-
-		/// <summary>
-		/// Loads settings from the sample framework configuration file.
-		/// </summary>
-		private void LoadSettings()
+        /// <summary>
+        /// Loads settings from the sample framework configuration file.
+        /// </summary>
+        private void LoadSettings()
 		{
 			string errorMsg = "Invalid configuration file format.";
 
@@ -666,10 +652,8 @@ namespace ChartSamples
 			if(userControl != null)
 			{
 				// Scale control
-				if(this.scaleRatioX != 1f || this.scaleRatioY != 1f)
-				{
-					userControl.Scale(new System.Drawing.SizeF(this.scaleRatioX, this.scaleRatioY));
-				}
+				if(this.scaleRatio != 1f)
+					userControl.Scale(new System.Drawing.SizeF(this.scaleRatio, this.scaleRatio));
 
 				userControl.AutoScroll = true;
 				userControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -692,7 +676,7 @@ namespace ChartSamples
 				this.tabControlSample.TabPages[0].Controls.Add(userControl);
 			}
 
-			// Check if tabs can be resused.
+			// Check if tabs can be reused.
 			for(int index = 1; index < this.tabControlSample.TabPages.Count; index++)
 			{
 				bool	reuse = false;
@@ -946,7 +930,30 @@ namespace ChartSamples
 			}
 		}
 
-		private void BuildNodeList(TreeNode node)
+
+        protected override void OnDpiChanged(DpiChangedEventArgs e)
+        {
+            base.OnDpiChanged(e);
+            float controlScale = e.DeviceDpiNew / 96f / this.scaleRatio;
+            this.scaleRatio = e.DeviceDpiNew / 96f;
+
+            // Scale Prev/Next buttons
+            if (controlScale != 1f)
+			{
+                buttonSamplePrevious.Width = (int)(buttonSamplePrevious.Width * controlScale + 0.5);
+                buttonSamplePrevious.Height = (int)(buttonSamplePrevious.Height * controlScale + 0.5);
+                buttonSampleNext.Width = (int)(buttonSampleNext.Width * controlScale + 0.5);
+                buttonSampleNext.Height = (int)(buttonSampleNext.Height * controlScale + 0.5);
+            }
+
+            // Position Prev/Next buttons
+            buttonSamplePrevious.Top = labelSampleTitle.Bottom + 1 - (scaleRatio == 1f ? 0 : (int)(scaleRatio + 2.5));
+            buttonSampleNext.Top = labelSampleTitle.Bottom + 1 - (scaleRatio == 1f ? 0 : (int)(scaleRatio + 2.5));
+            buttonSampleNext.Left = this.Width - buttonSampleNext.Width - (int)(20 * scaleRatio);
+            buttonSamplePrevious.Left = buttonSampleNext.Left - buttonSamplePrevious.Width - 5;
+        }
+
+        private void BuildNodeList(TreeNode node)
 		{
 			// Add node into the list
 			contentNodes.Add(node);
@@ -1268,7 +1275,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void MainForm_Resize(object sender, System.EventArgs e)
+        private void MainForm_Resize(object sender, System.EventArgs e)
 		{
 			if(this.WindowState != FormWindowState.Minimized)
 			{
@@ -1285,7 +1292,13 @@ namespace ChartSamples
 				{
 					labelSampleTitle.Left = 264;
 				}
+
 				labelSampleTitle.Width = this.Width - labelSampleTitle.Left - 4;
+
+
+                // This will somehow fix incorrect position after some DPI changes.
+                buttonSampleNext.Left = this.Width - buttonSampleNext.Width - (int)(20 * scaleRatio);
+				buttonSamplePrevious.Left = buttonSampleNext.Left - buttonSamplePrevious.Width - 5;
 
 				// Show hide LinkLabels if they are overlapped by the footer image
 				//ShowHideFooterLinks();
