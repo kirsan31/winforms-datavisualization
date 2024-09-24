@@ -162,15 +162,14 @@ namespace WinForms.DataVisualization.Designer.Client
             // 
             this._numericUpDownYValue.CausesValidation = false;
             this._numericUpDownYValue.Location = new System.Drawing.Point(112, 104);
-            this._numericUpDownYValue.Maximum = new System.Decimal(new int[] {
-                                                                                9,
-                                                                                0,
-                                                                                0,
-                                                                                0});
+            this._numericUpDownYValue.Maximum = 31;
             this._numericUpDownYValue.Name = "numericUpDownYValue";
             this._numericUpDownYValue.Size = new System.Drawing.Size(64, 20);
             this._numericUpDownYValue.TabIndex = 10;
             this._numericUpDownYValue.ValueChanged += new System.EventHandler(this.numericUpDownYValue_ValueChanged);
+            this._toolTip.SetToolTip(this._numericUpDownYValue, "Y value index from 0 to YValuesPerPoint - 1.\r\n" +
+                "Note that key values are enumerating from 1 to YValuesPerPoint. So if we have YValuesPerPoint = 3 then:\r\n" +
+                "Index 0 -> #VALY1\r\nIndex 1 -> #VALY2\r\nIndex 2 -> #VALY3");
             // 
             // labelYValue
             // 
@@ -180,6 +179,9 @@ namespace WinForms.DataVisualization.Designer.Client
             this._labelYValue.TabIndex = 9;
             this._labelYValue.Text = SR.LabelKeyYValueIndex;
             this._labelYValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._toolTip.SetToolTip(this._labelYValue, "Y value index from 0 to YValuesPerPoint - 1.\r\n" +
+                "Note that key values are enumerating from 1 to YValuesPerPoint. So if we have YValuesPerPoint = 3 then:\r\n" +
+                "Index 0 -> #VALY1\r\nIndex 1 -> #VALY2\r\nIndex 2 -> #VALY3");
             // 
             // comboBoxFormat
             // 

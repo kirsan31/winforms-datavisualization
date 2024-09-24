@@ -51,7 +51,7 @@ internal partial class KeywordsStringEditorForm : Form
     /// <summary>
     /// Maximum Y value index that can be used
     /// </summary>
-    private readonly int _maxYValueIndex = 9;
+    private readonly int _maxYValueIndex = 31;
 
     /// <summary>
     /// List of applicable keywords
@@ -391,7 +391,7 @@ internal partial class KeywordsStringEditorForm : Form
     // VSTS: 65162: The non ansi 1252 characters will be lost, we need conversion in \uXXXX? format.
     private static string GetUnicodeRtf(string orginalText)
     {
-        System.Text.StringBuilder result = new System.Text.StringBuilder();
+        System.Text.StringBuilder result = new System.Text.StringBuilder(orginalText.Length * 2);
         foreach (char c in orginalText.ToCharArray())
         {
             int charInt = Convert.ToInt32(c);
@@ -419,7 +419,7 @@ internal partial class KeywordsStringEditorForm : Form
         this._selectedKeywordLength = 0;
 
         // Current selection position that will be adjusted when formatting 
-        // characters are added infron of it.
+        // characters are added in front of it.
         int selectionStart = this._richTextBox.SelectionStart;
 
         // Replace special new line character sequence "\n"
@@ -467,11 +467,8 @@ internal partial class KeywordsStringEditorForm : Form
                                 resultText[startIndex + keywordLength] == 'Y')
                             {
                                 ++keywordLength;
-                                if (resultText.Length > startIndex + keywordLength &&
-                                    char.IsDigit(resultText[startIndex + keywordLength]))
-                                {
+                                while (resultText.Length > startIndex + keywordLength && char.IsDigit(resultText[startIndex + keywordLength]))
                                     ++keywordLength;
-                                }
                             }
                         }
 

@@ -38,7 +38,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <summary>
         /// Maximum number of supported Y values.
         /// </summary>
-        private readonly int _maxYValueIndex = 9;
+        private readonly int _maxYValueIndex = 31;
 
         // resolved VSTS by extending the dialog by 36x28 pixels.
         // 5767	FRA: ChartAPI: String "Format Sample:" is  truncated on the "Keywords Editor'	
@@ -103,7 +103,7 @@ namespace WinForms.DataVisualization.Designer.Client
         private void KeywordEditor_Load(object sender, EventArgs e)
         {
             // Set restriction on the Y Value index editor
-            if (this._maxYValueIndex >= 0 && this._maxYValueIndex < 10)
+            if (this._maxYValueIndex >= 0)
             {
                 this._numericUpDownYValue.Maximum = this._maxYValueIndex;
             }
@@ -151,21 +151,25 @@ namespace WinForms.DataVisualization.Designer.Client
                             // Check if keyword support multiple Y values
                             if (keywordInfo.SupportsValueIndex)
                             {
-                                if (this.Keyword.Length > keywordLength &&
-                                    this.Keyword[keywordLength] == 'Y')
+                                if (this.Keyword.Length > keywordLength && this.Keyword[keywordLength] == 'Y')
                                 {
                                     ++keywordLength;
-                                    if (this.Keyword.Length > keywordLength &&
-                                        char.IsDigit(this.Keyword[keywordLength]))
+                                    string yIndStr = string.Empty;
+                                    while (this.Keyword.Length > keywordLength && char.IsDigit(this.Keyword[keywordLength]))
                                     {
-                                        int yValueIndex = int.Parse(this.Keyword.Substring(keywordLength, 1), CultureInfo.InvariantCulture);
-                                        if (yValueIndex < 0 || yValueIndex > this._maxYValueIndex)
-                                        {
-                                            yValueIndex = 0;
-                                        }
-
-                                        _numericUpDownYValue.Value = yValueIndex;
+                                        yIndStr += Keyword[keywordLength];
                                         ++keywordLength;
+                                    }
+
+                                    if (yIndStr.Length > 0)
+                                    {
+                                        int yValueNumber = int.Parse(yIndStr, CultureInfo.InvariantCulture);
+                                        if (yValueNumber < 0)
+                                            yValueNumber = 0;
+                                        else if (yValueNumber > _maxYValueIndex + 1)
+                                            yValueNumber = _maxYValueIndex + 1;
+
+                                        _numericUpDownYValue.Value = yValueNumber - 1;
                                     }
                                 }
                             }
@@ -367,21 +371,16 @@ namespace WinForms.DataVisualization.Designer.Client
         {
             // Generate new keyword
             this.Keyword = string.Empty;
-
             // Get selected keyword
             if (this._listBoxKeywords.SelectedItem is KeywordInfo keywordInfo)
             {
                 this.Keyword = keywordInfo.Keyword;
-
-                if (keywordInfo.SupportsValueIndex &&
-                    (int)_numericUpDownYValue.Value > 0)
+                if (keywordInfo.SupportsValueIndex && (int)_numericUpDownYValue.Value >= 0)
                 {
-                    this.Keyword += "Y" + ((int)_numericUpDownYValue.Value).ToString(CultureInfo.InvariantCulture);
+                    this.Keyword += "Y" + ((int)_numericUpDownYValue.Value + 1).ToString(CultureInfo.InvariantCulture);
                 }
 
-                if (keywordInfo.SupportsFormatting &&
-                    _comboBoxFormat.SelectedIndex > 0 &&
-                    this.GetFormatString().Length > 0)
+                if (keywordInfo.SupportsFormatting && _comboBoxFormat.SelectedIndex > 0 && this.GetFormatString().Length > 0)
                 {
                     this.Keyword += "{" + this.GetFormatString() + "}";
                 }

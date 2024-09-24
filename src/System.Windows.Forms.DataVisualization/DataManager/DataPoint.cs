@@ -2564,13 +2564,14 @@ public class DataPoint : DataPointCustomProperties
 
             if (result.Contains(KeywordName.ValY, StringComparison.Ordinal))
             {
-                // remove keywords #VALY? for unexcited Y value indexes
-                for (int index = this.YValues.Length; index <= 7; index++)
-                {
-                    result = RemoveOneKeyword(result, KeywordName.ValY + index + 1);
-                }
+                // remove keywords #VALY? for non-existing Y value indexes
+                //for (int index = this.YValues.Length; index <= 7; index++)
+                //{
+                //    result = RemoveOneKeyword(result, KeywordName.ValY + index + 1);
+                //}
 
-                for (int index = 1; index <= this.YValues.Length; index++)
+                // Need to iterate in revers order to correctly handle cases like #VALY11 and #VALY1
+                for (int index = this.YValues.Length; index >= 1; index--)
                 {
                     result = this.series.ReplaceOneKeyword(
                         this.Chart,
