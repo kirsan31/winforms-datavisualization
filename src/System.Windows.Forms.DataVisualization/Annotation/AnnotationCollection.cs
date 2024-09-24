@@ -199,7 +199,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (annotation.IsVisible())
                 {
                     bool resetClip = false;
-
                     // Check if anchor point associated with plot area is inside the scaleView
                     if (annotation.IsAnchorVisible())
                     {
@@ -219,14 +218,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         // Start Svg Selection mode
-                        string url = String.Empty;
-                        chartGraph.StartHotRegion(
-                            annotation.ReplaceKeywords(url),
-                            annotation.ReplaceKeywords(annotation.ToolTip));
+                        chartGraph.StartHotRegion(string.Empty, annotation.ReplaceKeywords(annotation.ToolTip));
 
                         // Draw annotation object
                         annotation.Paint(Chart, chartGraph);
-
 
                         // End Svg Selection mode
                         chartGraph.EndHotRegion();

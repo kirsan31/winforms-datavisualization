@@ -465,15 +465,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //***************************************************************
             //** Replace new line characters
             //***************************************************************
-            string titleText = this.ReplaceKeywords(this.Text.Replace("\\n", "\n"));
+            string titleText = this.ReplaceKeywords(this.Text);
 
             //***************************************************************
             //** Check if centered text require spacing.
             //** Use only half of the spacing required.
             //** Apply only for 1 line of text.
             //***************************************************************
-            if (noSpacingForCenteredText &&
-                !titleText.Contains('\n'))
+            if (noSpacingForCenteredText && !titleText.Contains('\n'))
             {
                 if (this.Alignment == ContentAlignment.MiddleCenter ||
                     this.Alignment == ContentAlignment.MiddleLeft ||
@@ -484,6 +483,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     textPositionWithSpacing.Height -= textSpacing.Height / 2f + textSpacing.Y / 2f;
                     textPositionWithSpacing.Y += textSpacing.Y / 2f;
                 }
+
                 if (this.Alignment == ContentAlignment.BottomCenter ||
                     this.Alignment == ContentAlignment.MiddleCenter ||
                     this.Alignment == ContentAlignment.TopCenter)
@@ -556,7 +556,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Measure text size
                 SizeF textSize = graphics.MeasureStringRel(
-                    this.ReplaceKeywords(_text.Replace("\\n", "\n")),
+                    this.ReplaceKeywords(_text),
                     this.Font,
                     textPositionWithSpacing.Size,
                     format);
@@ -845,7 +845,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Graphics graphics = null;
             Image graphicsImage = null;
             ChartGraphics tempChartGraph = null;
-            if (GetGraphics() == null && this.Common != null)
+            if (GetGraphics() is null && this.Common is not null)
             {
 #pragma warning disable CA2000 // Dispose objects before losing scope
                 graphicsImage = new Bitmap(Common.ChartPicture.Width, Common.ChartPicture.Height);
@@ -861,12 +861,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Calculate content size
             RectangleF result = RectangleF.Empty;
-            if (GetGraphics() != null && this.Text.Trim().Length > 0)
+            if (GetGraphics() is not null && !string.IsNullOrWhiteSpace(this.Text))
             {
                 // Measure text using current font and slightly increase it
                 using var sf = StringFormat.GenericTypographic;
                 contentSize = GetGraphics().MeasureString(
-                     "W" + this.ReplaceKeywords(this.Text.Replace("\\n", "\n")),
+                     "W" + this.ReplaceKeywords(this.Text),
                      this.Font,
                      new SizeF(2000, 2000),
                      sf);

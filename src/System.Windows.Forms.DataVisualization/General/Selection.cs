@@ -1243,8 +1243,6 @@ internal sealed class Selection : IServiceProvider
         return false;
     }
 
-    [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
-        Justification = "Too large of a code change to justify making this change")]
     internal string EvaluateToolTip(System.Windows.Forms.MouseEventArgs e)
     {
         object obj;
@@ -1255,13 +1253,11 @@ internal sealed class Selection : IServiceProvider
         string toolTipText = " ";
 
         HitTestResult hitTest = this.HitTest(e.X, e.Y, true);
-
         type = hitTest.ChartElementType;
         dataPointIndex = hitTest.PointIndex;
-        seriesName = hitTest.Series != null ? hitTest.Series.Name : string.Empty;
+        seriesName = hitTest.Series?.Name ?? string.Empty;
         obj = hitTest.Object;
         subObj = hitTest.SubObject;
-
 
         // Get tooltips from data points
         if (type == ChartElementType.DataPoint)
@@ -1282,11 +1278,8 @@ internal sealed class Selection : IServiceProvider
                 }
             }
         }
-
-
-
         // Get tooltips from data points
-        if (type == ChartElementType.DataPointLabel)
+        else if (type == ChartElementType.DataPointLabel)
         {
             if (_chartControl.Series.IndexOf(seriesName) >= 0 &&
                 dataPointIndex >= 0 &&
@@ -1296,65 +1289,50 @@ internal sealed class Selection : IServiceProvider
                 toolTipText = _chartControl.Series[seriesName].Points[dataPointIndex].ReplaceKeywords(_chartControl.Series[seriesName].Points[dataPointIndex].LabelToolTip);
             }
         }
-
-
         // Get tooltips from custom label
-        if (type == ChartElementType.AxisLabels &&
-            obj is CustomLabel)
+        else if (type == ChartElementType.AxisLabels && obj is CustomLabel label)
         {
-            toolTipText = ((CustomLabel)obj).ToolTip;
+            toolTipText = label.ToolTip;
         }
-
-
-
-
         // Get tooltips from data points
-        else if (type == ChartElementType.Annotation && obj != null && obj is Annotation)
+        else if (type == ChartElementType.Annotation && obj is Annotation annotation)
         {
             // Take tool tip from data point
-            toolTipText = ((Annotation)obj).ReplaceKeywords(((Annotation)obj).ToolTip);
-
+            toolTipText = annotation.ReplaceKeywords(annotation.ToolTip);
         }
         // Get tooltips from axis
-        else if (type == ChartElementType.Axis && obj != null && obj is Axis)
+        else if (type == ChartElementType.Axis && obj is Axis axis)
         {
             // Take tool tip from strip line
-            toolTipText = ((Axis)obj).ToolTip;
+            toolTipText = axis.ToolTip;
         }
-
         // Get tooltips from strip lines
-        else if (type == ChartElementType.StripLines && obj != null && obj is StripLine)
+        else if (type == ChartElementType.StripLines && obj is StripLine stripLine)
         {
             // Take tool tip from strip line
-            toolTipText = ((StripLine)obj).ToolTip;
+            toolTipText = stripLine.ToolTip;
 
         }
         // Get tooltips from data points
-        else if (type == ChartElementType.Title && obj != null && obj is Title)
+        else if (type == ChartElementType.Title && obj is Title title)
         {
             // Take tool tip from data point
-            toolTipText = ((Title)obj).ToolTip;
-
-        } // Get tooltips for legend items
-
+            toolTipText = title.ToolTip;
+        }
         // Get tooltips for legend items
         else if (type == ChartElementType.LegendItem)
         {
             // Take tool tip from legend item
-            toolTipText = ((LegendItem)obj).ToolTip;
-
-
+            if (obj is LegendItem legendItem)
+                toolTipText = legendItem.ToolTip;
             // Check if cell has it's own tooltip
             if (subObj is LegendCell legendCell && legendCell.ToolTip.Length > 0)
             {
                 toolTipText = legendCell.ToolTip;
             }
 
-
             // Check if series is associated with legend item
-            if (toolTipText.Length == 0 &&
-                seriesName.Length > 0 &&
-                _chartControl.Series.IndexOf(seriesName) >= 0)
+            if (toolTipText.Length == 0 && seriesName.Length > 0 && _chartControl.Series.IndexOf(seriesName) >= 0)
             {
                 // Take tool tip from data point
                 if (dataPointIndex == -1)
@@ -1382,9 +1360,7 @@ internal sealed class Selection : IServiceProvider
 
         // Event
         _chartControl.OnGetToolTipText(args);
-
         return args.Text.Trim();
-
     }
 
 

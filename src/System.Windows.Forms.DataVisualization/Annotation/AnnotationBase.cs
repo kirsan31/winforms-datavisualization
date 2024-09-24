@@ -3792,17 +3792,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Replaces predefined keyword inside the string with their values if
-        /// annotation is anchored to the data point.
+        /// Replaces predefined keyword inside the string with their values if annotation is anchored to the data point. 
+        /// Call <paramref name="strOriginal"/>.Replace("\\n", "\n") otherwise.
         /// </summary>
         /// <param name="strOriginal">Original string with keywords.</param>
         /// <returns>Modified string.</returns>
         internal string ReplaceKeywords(string strOriginal)
         {
-            if (this.AnchorDataPoint != null)
-            {
-                return this.AnchorDataPoint.ReplaceKeywords(strOriginal);
-            }
+            if (this.AnchorDataPoint is not null)
+                return this.AnchorDataPoint.ReplaceKeywords(strOriginal); // will call Replace("\\n", "\n")
+
+            if (!string.IsNullOrEmpty(strOriginal))
+                return strOriginal.Replace("\\n", "\n");
+
             return strOriginal;
         }
 
