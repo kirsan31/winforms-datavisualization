@@ -937,11 +937,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 int textAngle = point.LabelAngle;
 
                 // Check if text contains white space only
-                if (text.Trim().Length != 0)
+                if (!string.IsNullOrWhiteSpace(text))
                 {
                     SizeF sizeFont = SizeF.Empty;
-
-
                     // Check if Smart Labels are enabled
                     if (ser.SmartLabelStyle.Enabled)
                     {
@@ -965,8 +963,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         // Smart labels always use 0 degrees text angle
                         textAngle = 0;
                     }
-
-
 
                     // Draw label
                     if (!position.IsEmpty)

@@ -942,11 +942,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 int textAngle = point.LabelAngle;
 
                 // Check if text contains white space only
-                if (text.Trim().Length != 0)
+                if (!string.IsNullOrWhiteSpace(text))
                 {
                     SizeF sizeFont = SizeF.Empty;
-
-
                     // Check if Smart Labels are enabled
                     if (ser.SmartLabelStyle.Enabled)
                     {
@@ -987,13 +985,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
                     }
 
-
-
                     // Draw label
                     if (!position.IsEmpty)
                     {
                         RectangleF labelBackPosition = RectangleF.Empty;
-
                         if (!point.LabelBackColor.IsEmpty ||
                             point.LabelBorderWidth > 0 ||
                             !point.LabelBorderColor.IsEmpty)
@@ -1020,7 +1015,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 true);
                         }
 
-
                         // Draw label text
                         using Brush brush = new SolidBrush(point.LabelForeColor);
                         graph.DrawPointLabelStringRel(
@@ -1032,7 +1026,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             format,
                             textAngle,
                             labelBackPosition,
-
                             point.LabelBackColor,
                             point.LabelBorderColor,
                             point.LabelBorderWidth,

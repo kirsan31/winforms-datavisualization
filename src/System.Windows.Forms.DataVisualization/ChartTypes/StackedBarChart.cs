@@ -1032,7 +1032,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                 int textAngle = point.LabelAngle;
 
                 // Check if text contains white space only
-                if (text.Trim().Length != 0)
+                if (!string.IsNullOrWhiteSpace(text))
                 {
                     //************************************************************
                     // Measure string
@@ -1121,8 +1121,6 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                         textAngle = 0;
                     }
 
-
-
                     // Draw label
                     if (!labelPosition.IsEmpty)
                     {
@@ -1161,7 +1159,6 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                             point,
                             pointIndex);
                     }
-
                 }
             }
 

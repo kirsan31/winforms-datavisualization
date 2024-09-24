@@ -1095,10 +1095,9 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
                 int textAngle = point.LabelAngle;
 
                 // Check if text contains white space only
-                if (text.Trim().Length != 0)
+                if (!string.IsNullOrWhiteSpace(text))
                 {
                     SizeF sizeFont = SizeF.Empty;
-
                     // Check if Smart Labels are enabled
                     if (series.SmartLabelStyle.Enabled)
                     {

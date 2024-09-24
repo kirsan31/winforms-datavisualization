@@ -783,10 +783,8 @@ internal class PointChart : IChartType
             int textAngle = point.LabelAngle;
 
             // Check if text contains white space only
-            if (text.Trim().Length != 0)
+            if (!string.IsNullOrWhiteSpace(text))
             {
-
-
                 // Check if Smart Labels are enabled
                 if (ser.SmartLabelStyle.Enabled)
                 {
@@ -806,8 +804,6 @@ internal class PointChart : IChartType
                     // Smart labels always use 0 degrees text angle
                     textAngle = 0;
                 }
-
-
 
                 // Adjust alignment of vertical labels
                 // NOTE: Fixes issue #4560
