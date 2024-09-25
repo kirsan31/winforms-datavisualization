@@ -169,7 +169,9 @@ namespace WinForms.DataVisualization.Designer.Client
             this._numericUpDownYValue.ValueChanged += new System.EventHandler(this.numericUpDownYValue_ValueChanged);
             this._toolTip.SetToolTip(this._numericUpDownYValue, "Y value index from 0 to YValuesPerPoint - 1.\r\n" +
                 "Note that key values are enumerating from 1 to YValuesPerPoint. So if we have YValuesPerPoint = 3 then:\r\n" +
-                "Index 0 -> #VALY1\r\nIndex 1 -> #VALY2\r\nIndex 2 -> #VALY3");
+                "Index 0 -> #VALY1 or #VALY or #VAL\r\n" +
+                "Index 1 -> #VALY2\r\n" +
+                "Index 2 -> #VALY3");
             // 
             // labelYValue
             // 
@@ -181,7 +183,9 @@ namespace WinForms.DataVisualization.Designer.Client
             this._labelYValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this._toolTip.SetToolTip(this._labelYValue, "Y value index from 0 to YValuesPerPoint - 1.\r\n" +
                 "Note that key values are enumerating from 1 to YValuesPerPoint. So if we have YValuesPerPoint = 3 then:\r\n" +
-                "Index 0 -> #VALY1\r\nIndex 1 -> #VALY2\r\nIndex 2 -> #VALY3");
+                "Index 0 -> #VALY1 or #VALY or #VAL\r\n" +
+                "Index 1 -> #VALY2\r\n" +
+                "Index 2 -> #VALY3");
             // 
             // comboBoxFormat
             // 

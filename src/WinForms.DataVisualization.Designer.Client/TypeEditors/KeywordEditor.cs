@@ -135,107 +135,89 @@ namespace WinForms.DataVisualization.Designer.Client
             else
             {
                 // Iterate through all keywords and find a match
-                bool itemFound = false;
                 foreach (KeywordInfo keywordInfo in this._applicableKeywords)
                 {
-                    // Iterate through all possible keyword names
-                    string[] keywordNames = keywordInfo.GetKeywords();
-                    foreach (string keywordName in keywordNames)
+                    if (this.Keyword.StartsWith(keywordInfo.Keyword, StringComparison.Ordinal))
                     {
-                        if (this.Keyword.StartsWith(keywordName, StringComparison.Ordinal))
+                        // Select keyword in the list
+                        this._listBoxKeywords.SelectedItem = keywordInfo;
+                        int keywordLength = keywordInfo.Keyword.Length;
+
+                        // Check if keyword support multiple Y values
+                        if (keywordInfo.SupportsValueIndex)
                         {
-                            // Select keyword in the list
-                            this._listBoxKeywords.SelectedItem = keywordInfo;
-                            int keywordLength = keywordName.Length;
-
-                            // Check if keyword support multiple Y values
-                            if (keywordInfo.SupportsValueIndex)
+                            if (this.Keyword.Length > keywordLength && this.Keyword[keywordLength] == 'Y')
                             {
-                                if (this.Keyword.Length > keywordLength && this.Keyword[keywordLength] == 'Y')
+                                ++keywordLength;
+                                string yIndStr = string.Empty;
+                                while (this.Keyword.Length > keywordLength && char.IsDigit(this.Keyword[keywordLength]))
                                 {
+                                    yIndStr += Keyword[keywordLength];
                                     ++keywordLength;
-                                    string yIndStr = string.Empty;
-                                    while (this.Keyword.Length > keywordLength && char.IsDigit(this.Keyword[keywordLength]))
-                                    {
-                                        yIndStr += Keyword[keywordLength];
-                                        ++keywordLength;
-                                    }
+                                }
 
-                                    if (yIndStr.Length > 0)
-                                    {
-                                        int yValueNumber = int.Parse(yIndStr, CultureInfo.InvariantCulture);
-                                        if (yValueNumber < 0)
-                                            yValueNumber = 0;
-                                        else if (yValueNumber > _maxYValueIndex + 1)
-                                            yValueNumber = _maxYValueIndex + 1;
+                                if (yIndStr.Length > 0)
+                                {
+                                    int yValueNumber = int.Parse(yIndStr, CultureInfo.InvariantCulture);
+                                    if (yValueNumber < 1)
+                                        yValueNumber = 1;
+                                    else if (yValueNumber > _maxYValueIndex + 1)
+                                        yValueNumber = _maxYValueIndex + 1;
 
-                                        _numericUpDownYValue.Value = yValueNumber - 1;
-                                    }
+                                    _numericUpDownYValue.Value = yValueNumber - 1; // Index starting from 0 while number from 1.
                                 }
                             }
+                        }
 
-                            // Check if keyword support format string
-                            if (keywordInfo.SupportsFormatting)
+                        // Check if keyword support format string
+                        if (keywordInfo.SupportsFormatting)
+                        {
+                            if (this.Keyword.Length > keywordLength &&
+                                this.Keyword[keywordLength] == '{' &&
+                                this.Keyword.EndsWith("}", StringComparison.Ordinal))
                             {
-                                if (this.Keyword.Length > keywordLength &&
-                                    this.Keyword[keywordLength] == '{' &&
-                                    this.Keyword.EndsWith("}", StringComparison.Ordinal))
+                                // Get format string
+                                string format = this.Keyword.Substring(keywordLength + 1, this.Keyword.Length - keywordLength - 2);
+
+                                if (format.Length == 0)
                                 {
-                                    // Get format string
-                                    string format = this.Keyword.Substring(keywordLength + 1, this.Keyword.Length - keywordLength - 2);
-
-                                    if (format.Length == 0)
+                                    // Select format None
+                                    this._comboBoxFormat.SelectedIndex = 0;
+                                }
+                                else
+                                {
+                                    // Check if format string is custom
+                                    if (format.Length == 1 ||
+                                        (format.Length == 2 && char.IsDigit(format[1])) ||
+                                        (format.Length == 3 && char.IsDigit(format[2])))
                                     {
-                                        // Select format None
-                                        this._comboBoxFormat.SelectedIndex = 0;
-                                    }
-                                    else
-                                    {
-                                        // Check if format string is custom
-                                        if (format.Length == 1 ||
-                                            (format.Length == 2 && char.IsDigit(format[1])) ||
-                                            (format.Length == 3 && char.IsDigit(format[2])))
+                                        if (format[0] == 'C')
                                         {
-                                            if (format[0] == 'C')
-                                            {
-                                                this._comboBoxFormat.SelectedIndex = 1;
-                                            }
-                                            else if (format[0] == 'D')
-                                            {
-                                                this._comboBoxFormat.SelectedIndex = 2;
-                                            }
-                                            else if (format[0] == 'E')
-                                            {
-                                                this._comboBoxFormat.SelectedIndex = 3;
-                                            }
-                                            else if (format[0] == 'F')
-                                            {
-                                                this._comboBoxFormat.SelectedIndex = 4;
-                                            }
-                                            else if (format[0] == 'G')
-                                            {
-                                                this._comboBoxFormat.SelectedIndex = 5;
-                                            }
-                                            else if (format[0] == 'N')
-                                            {
-                                                this._comboBoxFormat.SelectedIndex = 6;
-                                            }
-                                            else if (format[0] == 'P')
-                                            {
-                                                this._comboBoxFormat.SelectedIndex = 7;
-                                            }
-                                            else
-                                            {
-                                                // Custom format
-                                                this._comboBoxFormat.SelectedIndex = 8;
-                                                this._textBoxCustomFormat.Text = format;
-                                            }
-
-                                            // Get precision
-                                            if (this._comboBoxFormat.SelectedIndex != 8 && format.Length > 0)
-                                            {
-                                                this._textBoxPrecision.Text = format.Substring(1);
-                                            }
+                                            this._comboBoxFormat.SelectedIndex = 1;
+                                        }
+                                        else if (format[0] == 'D')
+                                        {
+                                            this._comboBoxFormat.SelectedIndex = 2;
+                                        }
+                                        else if (format[0] == 'E')
+                                        {
+                                            this._comboBoxFormat.SelectedIndex = 3;
+                                        }
+                                        else if (format[0] == 'F')
+                                        {
+                                            this._comboBoxFormat.SelectedIndex = 4;
+                                        }
+                                        else if (format[0] == 'G')
+                                        {
+                                            this._comboBoxFormat.SelectedIndex = 5;
+                                        }
+                                        else if (format[0] == 'N')
+                                        {
+                                            this._comboBoxFormat.SelectedIndex = 6;
+                                        }
+                                        else if (format[0] == 'P')
+                                        {
+                                            this._comboBoxFormat.SelectedIndex = 7;
                                         }
                                         else
                                         {
@@ -243,19 +225,24 @@ namespace WinForms.DataVisualization.Designer.Client
                                             this._comboBoxFormat.SelectedIndex = 8;
                                             this._textBoxCustomFormat.Text = format;
                                         }
+
+                                        // Get precision
+                                        if (this._comboBoxFormat.SelectedIndex != 8 && format.Length > 0)
+                                        {
+                                            this._textBoxPrecision.Text = format.Substring(1);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // Custom format
+                                        this._comboBoxFormat.SelectedIndex = 8;
+                                        this._textBoxCustomFormat.Text = format;
                                     }
                                 }
                             }
-
-                            // Stop iteration
-                            itemFound = true;
-                            break;
                         }
-                    }
 
-                    // Break from the keywords loop
-                    if (itemFound)
-                    {
+                        // Break from the keywords loop
                         break;
                     }
                 }
@@ -375,9 +362,11 @@ namespace WinForms.DataVisualization.Designer.Client
             if (this._listBoxKeywords.SelectedItem is KeywordInfo keywordInfo)
             {
                 this.Keyword = keywordInfo.Keyword;
-                if (keywordInfo.SupportsValueIndex && (int)_numericUpDownYValue.Value >= 0)
+                if (keywordInfo.SupportsValueIndex && _numericUpDownYValue.Value >= 0)
                 {
-                    this.Keyword += "Y" + ((int)_numericUpDownYValue.Value + 1).ToString(CultureInfo.InvariantCulture);
+                    this.Keyword += "Y";
+                    if (_numericUpDownYValue.Value > 0)
+                        this.Keyword += "Y" + ((int)_numericUpDownYValue.Value + 1).ToString(CultureInfo.InvariantCulture);
                 }
 
                 if (keywordInfo.SupportsFormatting && _comboBoxFormat.SelectedIndex > 0 && this.GetFormatString().Length > 0)

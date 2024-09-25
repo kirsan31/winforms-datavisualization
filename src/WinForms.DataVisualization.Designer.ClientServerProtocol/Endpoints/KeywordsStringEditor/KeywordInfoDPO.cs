@@ -13,7 +13,6 @@ namespace WinForms.DataVisualization.Designer.Protocol.Endpoints
         {
             Name = reader.ReadString(nameof(Name));
             Keyword = reader.ReadString(nameof(Keyword));
-            KeywordAliases = reader.ReadString(nameof(KeywordAliases));
             Description = reader.ReadString(nameof(Description));
             AppliesToTypes = reader.ReadString(nameof(AppliesToTypes));
             AppliesToProperties = reader.ReadString(nameof(AppliesToProperties));
@@ -25,7 +24,6 @@ namespace WinForms.DataVisualization.Designer.Protocol.Endpoints
         {
             writer.Write(nameof(Name), Name);
             writer.Write(nameof(Keyword), Keyword);
-            writer.Write(nameof(KeywordAliases), KeywordAliases);
             writer.Write(nameof(Description), Description);
             writer.Write(nameof(AppliesToTypes), AppliesToTypes);
             writer.Write(nameof(AppliesToProperties), AppliesToProperties);

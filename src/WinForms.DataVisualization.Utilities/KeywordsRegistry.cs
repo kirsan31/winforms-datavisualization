@@ -61,7 +61,6 @@ internal static class KeywordName
     internal const string AxisLabel = "#AXISLABEL";
     internal const string LegendText = "#LEGENDTEXT";
     internal const string SeriesName = "#SERIESNAME";
-    internal const string Ser = "#SER";
     internal const string Avg = "#AVG";
     internal const string Max = "#MAX";
     internal const string Min = "#MIN";
@@ -85,7 +84,7 @@ internal class KeywordsRegistry : IServiceProvider
     #region Fields
 
     // List of registered keywords
-    internal readonly List<KeywordInfo> registeredKeywords = new List<KeywordInfo>();
+    internal readonly List<KeywordInfo> registeredKeywords = [];
 
     #endregion
 
@@ -131,7 +130,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameIndexDataPoint,
             KeywordName.Index,
-            string.Empty,
         SR.DescriptionKeyWordIndexDataPoint2,
             "DataPoint",
             seriesPointSupportedProperties,
@@ -142,7 +140,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameXValue,
             KeywordName.ValX,
-            string.Empty,
         SR.DescriptionKeyWordXValue,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -153,7 +150,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameYValue,
             KeywordName.Val,
-            string.Empty,
         SR.DescriptionKeyWordYValue,
             "Series,DataPoint,Annotation,LegendCellColumn,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -164,7 +160,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameTotalYValues,
             KeywordName.Total,
-            string.Empty,
         SR.DescriptionKeyWordTotalYValues,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -175,7 +170,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameYValuePercentTotal,
             KeywordName.Percent,
-            string.Empty,
         SR.DescriptionKeyWordYValuePercentTotal,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -186,7 +180,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameIndexTheDataPoint,
             KeywordName.Index,
-            string.Empty,
         SR.DescriptionKeyWordIndexDataPoint,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -197,7 +190,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameLabelDataPoint,
             KeywordName.Label,
-            string.Empty,
         SR.DescriptionKeyWordLabelDataPoint,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -208,7 +200,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameAxisLabelDataPoint,
             KeywordName.AxisLabel,
-            string.Empty,
         SR.DescriptionKeyWordAxisLabelDataPoint,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -219,7 +210,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameLegendText,
             KeywordName.LegendText,
-            string.Empty,
         SR.DescriptionKeyWordLegendText,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -230,7 +220,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameSeriesName,
             KeywordName.SeriesName,
-            KeywordName.Ser,
         SR.DescriptionKeyWordSeriesName,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -243,7 +232,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameAverageYValues,
             KeywordName.Avg,
-            string.Empty,
         SR.DescriptionKeyWordAverageYValues,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -254,7 +242,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameMaximumYValues,
             KeywordName.Max,
-            string.Empty,
         SR.DescriptionKeyWordMaximumYValues,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -265,7 +252,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameMinimumYValues,
             KeywordName.Min,
-            string.Empty,
         SR.DescriptionKeyWordMinimumYValues,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -276,7 +262,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameLastPointYValue,
             KeywordName.Last,
-            string.Empty,
         SR.DescriptionKeyWordLastPointYValue,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -287,7 +272,6 @@ internal class KeywordsRegistry : IServiceProvider
         this.Register(
         SR.DescriptionKeyWordNameFirstPointYValue,
             KeywordName.First,
-            string.Empty,
         SR.DescriptionKeyWordFirstPointYValue,
             "Series,DataPoint,Annotation,LegendCellColumn",
             seriesPointSupportedProperties,
@@ -304,7 +288,6 @@ internal class KeywordsRegistry : IServiceProvider
     /// </summary>
     /// <param name="name">Keyword full name.</param>
     /// <param name="keyword">Keyword text.</param>
-    /// <param name="keywordAliases">Keyword alternative text.</param>
     /// <param name="description">Keyword description.</param>
     /// <param name="appliesToTypes">Comma separated list of applicable classes</param>
     /// <param name="appliesToProperties">Comma separated list of applicable properties.</param>
@@ -313,7 +296,6 @@ internal class KeywordsRegistry : IServiceProvider
     public void Register(
         string name,
         string keyword,
-        string keywordAliases,
         string description,
         string appliesToTypes,
         string appliesToProperties,
@@ -324,7 +306,6 @@ internal class KeywordsRegistry : IServiceProvider
         KeywordInfo keywordInfo = new KeywordInfo(
             name,
             keyword,
-            keywordAliases,
             description,
             appliesToTypes,
             appliesToProperties,
@@ -359,13 +340,6 @@ internal record KeywordInfo
     /// </summary>
     [AllowNull]
     public string Keyword = string.Empty;
-
-    /// <summary>
-    /// Comma separated strings that may alternatively represent this 
-    /// keyword in the property.
-    /// </summary>
-    [AllowNull]
-    public string KeywordAliases = string.Empty;
 
     /// <summary>
     /// Keyword description.
@@ -404,7 +378,6 @@ internal record KeywordInfo
     /// </summary>
     /// <param name="name">Keyword full name.</param>
     /// <param name="keyword">Keyword text.</param>
-    /// <param name="keywordAliases">Keyword alternative text.</param>
     /// <param name="description">Keyword description.</param>
     /// <param name="appliesToTypes">Comma separated list of applicable classes</param>
     /// <param name="appliesToProperties">Comma separated list of applicable properties.</param>
@@ -413,7 +386,6 @@ internal record KeywordInfo
     public KeywordInfo(
             string name,
             string keyword,
-            string keywordAliases,
             string description,
             string appliesToTypes,
             string appliesToProperties,
@@ -422,7 +394,6 @@ internal record KeywordInfo
     {
         this.Name = name;
         this.Keyword = keyword;
-        this.KeywordAliases = keywordAliases;
         this.Description = description;
         this.AppliesToTypes = appliesToTypes;
         this.AppliesToProperties = appliesToProperties;
@@ -445,31 +416,6 @@ internal record KeywordInfo
     public sealed override string ToString()
     {
         return this.Name;
-    }
-    /// <summary>
-    /// Gets an array of keywords names including the aliases.
-    /// </summary>
-    /// <returns>A string array of keyword names that represent this keyword.</returns>
-    public string[] GetKeywords()
-    {
-        // NOTE: Each keyword has a unique name. In addition the keyword may have an
-        // alternative names (aliases). 
-        // Most common scenario for a keyword aliase is when keyword has a long and
-        // short form. For example, KeywordName.Ser and "#SERIES".
-
-        // Fill array of possible names for that keyword
-        if (this.KeywordAliases.Length > 0)
-        {
-            string[] keywordAliases = this.KeywordAliases.Split(',');
-            string[] keywordNames = new string[keywordAliases.Length + 1];
-            keywordNames[0] = this.Keyword;
-            keywordAliases.CopyTo(keywordNames, 1);
-            return keywordNames;
-        }
-        else
-        {
-            return new string[] { this.Keyword };
-        }
     }
     #endregion // Methods
 }

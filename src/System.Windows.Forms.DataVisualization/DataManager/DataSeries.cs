@@ -994,7 +994,7 @@ public class Series : DataPointCustomProperties
     internal override string ReplaceKeywords(string strOriginal)
     {
         // Nothing to process
-        if (strOriginal == null || strOriginal.Length == 0)
+        if (string.IsNullOrEmpty(strOriginal))
             return strOriginal;
 
         // Replace all "\n" strings with '\n' character
@@ -1002,7 +1002,6 @@ public class Series : DataPointCustomProperties
 
         // #SERIESNAME - series name
         result = result.Replace(KeywordName.SeriesName, this.Name);
-        result = result.Replace(KeywordName.Ser, this.Name); // #SER Deprecated Keyword
 
         // #CUSTOMPROPERTY - one of the custom attributes by name
         result = DataPoint.ReplaceCustomPropertyKeyword(result, this);

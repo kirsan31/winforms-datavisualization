@@ -441,96 +441,86 @@ internal partial class KeywordsStringEditorForm : Form
         // Iterate through all keywords 
         foreach (KeywordInfo keywordInfo in this.applicableKeywords)
         {
-            // Fill array of possible names for that keyword
-            string[] keywordNames = keywordInfo.GetKeywords();
-
-            // Iterate through all possible names
-            foreach (string keywordNameWithSpaces in keywordNames)
+            int startIndex = 0;
+            // Trim spaces
+            string keywordName = keywordInfo.Keyword.Trim();
+            // Skip empty strings
+            if (keywordName.Length > 0)
             {
-                int startIndex = 0;
-
-                // Trim spaces
-                string keywordName = keywordNameWithSpaces.Trim();
-
-                // Skip empty strings
-                if (keywordName.Length > 0)
+                // Try finding the keyword in the string
+                while ((startIndex = resultText.IndexOf(keywordName, startIndex, StringComparison.Ordinal)) >= 0)
                 {
-                    // Try finding the keyword in the string
-                    while ((startIndex = resultText.IndexOf(keywordName, startIndex, StringComparison.Ordinal)) >= 0)
+                    int keywordLength = keywordName.Length;
+
+                    // Check if Y value index can be part of the keyword
+                    if (keywordInfo.SupportsValueIndex)
                     {
-                        int keywordLength = keywordName.Length;
-
-                        // Check if Y value index can be part of the keyword
-                        if (keywordInfo.SupportsValueIndex)
+                        if (resultText.Length > startIndex + keywordLength && resultText[startIndex + keywordLength] == 'Y')
                         {
-                            if (resultText.Length > startIndex + keywordLength &&
-                                resultText[startIndex + keywordLength] == 'Y')
-                            {
+                            ++keywordLength;
+                            while (resultText.Length > startIndex + keywordLength && char.IsDigit(resultText[startIndex + keywordLength]))
                                 ++keywordLength;
-                                while (resultText.Length > startIndex + keywordLength && char.IsDigit(resultText[startIndex + keywordLength]))
-                                    ++keywordLength;
-                            }
                         }
-
-                        // Check if format string can be part of the keyword
-                        if (keywordInfo.SupportsFormatting)
-                        {
-                            if (resultText.Length > startIndex + keywordLength &&
-                                resultText[startIndex + keywordLength] == '{')
-                            {
-                                ++keywordLength;
-                                int formatEndBracket = resultText.IndexOf("}", startIndex + keywordLength, StringComparison.Ordinal);
-                                if (formatEndBracket >= 0)
-                                {
-                                    keywordLength += formatEndBracket - startIndex - keywordLength + 1;
-                                }
-                            }
-                        }
-
-                        // Check if cursor currently located inside the keyword
-                        bool isKeywordSelected = selectionStart > startIndex &&
-                            selectionStart <= startIndex + keywordLength;
-
-                        // Show Keyword with different color
-                        string tempText = resultText.Substring(0, startIndex);
-                        string formattedKeyword = string.Empty;
-                        formattedKeyword += @"\cf1";
-                        if (isKeywordSelected)
-                        {
-                            // Remember selected keyword by name and position
-                            selectedKeyword = keywordInfo.Name;
-                            selectedKeyword += "__" + startIndex.ToString(CultureInfo.InvariantCulture);
-                            this._selectedKeywordStart = startIndex;
-                            this._selectedKeywordStart -= selectionStart - this._richTextBox.SelectionStart;
-                            this._selectedKeywordLength = keywordLength;
-
-                            formattedKeyword += @"\b";
-                        }
-
-                        formattedKeyword += @"\ul";
-                        // Replace keyword start symbol '#' with "#_" to avoid duplicate processing
-                        formattedKeyword += "#_";
-                        formattedKeyword += resultText.Substring(startIndex + 1, keywordLength - 1);
-                        formattedKeyword += @"\cf0";
-                        if (isKeywordSelected)
-                        {
-                            formattedKeyword += @"\b0";
-                        }
-
-                        formattedKeyword += @"\ul0 ";
-                        tempText += formattedKeyword;
-                        tempText += resultText.Substring(startIndex + keywordLength);
-                        resultText = tempText;
-
-                        // Adjust selection position
-                        if (startIndex < selectionStart)
-                        {
-                            selectionStart += formattedKeyword.Length - keywordLength;
-                        }
-
-                        // Increase search start index by the length of the keyword
-                        startIndex += formattedKeyword.Length;
                     }
+
+                    // Check if format string can be part of the keyword
+                    if (keywordInfo.SupportsFormatting)
+                    {
+                        if (resultText.Length > startIndex + keywordLength &&
+                            resultText[startIndex + keywordLength] == '{')
+                        {
+                            ++keywordLength;
+                            int formatEndBracket = resultText.IndexOf("}", startIndex + keywordLength, StringComparison.Ordinal);
+                            if (formatEndBracket >= 0)
+                            {
+                                keywordLength += formatEndBracket - startIndex - keywordLength + 1;
+                            }
+                        }
+                    }
+
+                    // Check if cursor currently located inside the keyword
+                    bool isKeywordSelected = selectionStart > startIndex &&
+                        selectionStart <= startIndex + keywordLength;
+
+                    // Show Keyword with different color
+                    string tempText = resultText.Substring(0, startIndex);
+                    string formattedKeyword = string.Empty;
+                    formattedKeyword += @"\cf1";
+                    if (isKeywordSelected)
+                    {
+                        // Remember selected keyword by name and position
+                        selectedKeyword = keywordInfo.Name;
+                        selectedKeyword += "__" + startIndex.ToString(CultureInfo.InvariantCulture);
+                        this._selectedKeywordStart = startIndex;
+                        this._selectedKeywordStart -= selectionStart - this._richTextBox.SelectionStart;
+                        this._selectedKeywordLength = keywordLength;
+
+                        formattedKeyword += @"\b";
+                    }
+
+                    formattedKeyword += @"\ul";
+                    // Replace keyword start symbol '#' with "#_" to avoid duplicate processing
+                    formattedKeyword += "#_";
+                    formattedKeyword += resultText.Substring(startIndex + 1, keywordLength - 1);
+                    formattedKeyword += @"\cf0";
+                    if (isKeywordSelected)
+                    {
+                        formattedKeyword += @"\b0";
+                    }
+
+                    formattedKeyword += @"\ul0 ";
+                    tempText += formattedKeyword;
+                    tempText += resultText.Substring(startIndex + keywordLength);
+                    resultText = tempText;
+
+                    // Adjust selection position
+                    if (startIndex < selectionStart)
+                    {
+                        selectionStart += formattedKeyword.Length - keywordLength;
+                    }
+
+                    // Increase search start index by the length of the keyword
+                    startIndex += formattedKeyword.Length;
                 }
             }
         }
