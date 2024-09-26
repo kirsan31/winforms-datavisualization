@@ -3156,18 +3156,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Data point name.</returns>
         internal string GetDataPointName(DataPoint dataPoint)
         {
-            string name = String.Empty;
-            if (dataPoint.series != null)
+            if (dataPoint.series is not null)
             {
                 int pointIndex = dataPoint.series.Points.IndexOf(dataPoint);
-                if (pointIndex >= 0)
-                {
-                    name = dataPoint.series.Name +
-                        "\\r" +
-                        pointIndex.ToString(CultureInfo.InvariantCulture);
-                }
+                if (pointIndex > -1)
+                    return dataPoint.series.Name + "\\r" + pointIndex.ToString(CultureInfo.InvariantCulture);
             }
-            return name;
+
+            return string.Empty;
         }
 
         /// <summary>
@@ -3177,14 +3173,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Axis name.</returns>
         private string GetAxisName(Axis axis)
         {
-            string name = String.Empty;
-            if (axis.ChartArea != null)
-            {
-                name = axis.ChartArea.Name +
-                    "\\r" +
-                    axis.AxisName.ToString();
-            }
-            return name;
+            if (axis.ChartArea is not null)
+                return axis.ChartArea.Name + "\\r" + axis.AxisName.ToString();
+
+            return string.Empty;
         }
 
         #endregion

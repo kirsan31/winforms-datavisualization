@@ -26,25 +26,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="context">Descriptor context.</param>
         /// <param name="culture">Culture information.</param>
         /// <param name="value">Value to convert.</param>
-        /// <param name="destinationType">Convertion destination type.</param>
+        /// <param name="destinationType">Convertation destination type.</param>
         /// <returns>Converted object.</returns>
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == typeof(string))
             {
-                if (value == null)
-                {
+                if (value is null)
                     return Constants.NotSetValue;
-                }
-                DataPoint dataPoint = value as DataPoint;
 
-                if (dataPoint != null)
+                if (value is DataPoint dataPoint && dataPoint.series is not null)
                 {
-                    if (dataPoint.series != null)
-                    {
-                        int pointIndex = dataPoint.series.Points.IndexOf(dataPoint) + 1;
-                        return dataPoint.series.Name + " - " + SR.DescriptionTypePoint + pointIndex.ToString(CultureInfo.InvariantCulture);
-                    }
+                    int pointIndex = dataPoint.series.Points.IndexOf(dataPoint) + 1;
+                    return dataPoint.series.Name + " - " + SR.DescriptionTypePoint + pointIndex.ToString(CultureInfo.InvariantCulture);
                 }
             }
 
@@ -62,30 +56,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
         #region Converter methods
 
         /// <summary>
-        /// Converts axis associated with anootation to string.
+        /// Converts axis associated with annotation to string.
         /// </summary>
         /// <param name="context">Descriptor context.</param>
         /// <param name="culture">Culture information.</param>
         /// <param name="value">Value to convert.</param>
-        /// <param name="destinationType">Convertion destination type.</param>
+        /// <param name="destinationType">Convertation destination type.</param>
         /// <returns>Converted object.</returns>
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == typeof(string))
             {
-                if (value == null)
-                {
+                if (value is null)
                     return Constants.NotSetValue;
-                }
 
-                Axis axis = value as Axis;
-                if (axis != null)
-                {
-                    if (axis.ChartArea != null)
-                    {
+                if (value is Axis axis && axis.ChartArea is not null)
                         return axis.ChartArea.Name + " - " + axis.Name;
-                    }
-                }
             }
 
             // Call base class
