@@ -999,6 +999,8 @@ public class Series : DataPointCustomProperties
 
         // Replace all "\n" strings with '\n' character
         string result = strOriginal.Replace("\\n", "\n");
+        if (!result.Contains('#')) // No keywords
+            return result;
 
         // #SERIESNAME - series name
         result = result.Replace(KeywordName.SeriesName, this.Name);

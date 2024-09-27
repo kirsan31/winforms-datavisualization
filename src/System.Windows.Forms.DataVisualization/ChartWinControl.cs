@@ -1639,25 +1639,24 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
         get
         {
             // Get build number from the assembly
-            string buildNumber = string.Empty;
             Assembly assembly = Assembly.GetExecutingAssembly();
-            if (assembly != null)
-            {
-                buildNumber = assembly.FullName.ToUpper(CultureInfo.InvariantCulture);
-                int versionIndex = buildNumber.IndexOf("VERSION=", StringComparison.Ordinal);
-                if (versionIndex >= 0)
-                {
-                    buildNumber = buildNumber[(versionIndex + 8)..];
-                }
+            if (assembly is null)
+                return string.Empty;
 
-                versionIndex = buildNumber.IndexOf(',');
-                if (versionIndex >= 0)
-                {
-                    buildNumber = buildNumber[..versionIndex];
-                }
+            var buildNumber = assembly.FullName.ToUpper(CultureInfo.InvariantCulture).AsSpan();
+            int versionIndex = buildNumber.IndexOf("VERSION=", StringComparison.Ordinal);
+            if (versionIndex >= 0)
+            {
+                buildNumber = buildNumber[(versionIndex + 8)..];
             }
 
-            return buildNumber;
+            versionIndex = buildNumber.IndexOf(',');
+            if (versionIndex >= 0)
+            {
+                buildNumber = buildNumber[..versionIndex];
+            }
+
+            return buildNumber.ToString();
         }
     }
 

@@ -453,27 +453,21 @@ internal abstract class SerializerBase
         if (charIndex >= 0)
         {
             // Read value
-            string val = fontString[(charIndex + 13)..];
+            var val = fontString.AsSpan(charIndex + 13);
             int commaIndex = val.IndexOf(',');
             if (commaIndex >= 0)
-            {
                 val = val[..commaIndex];
-            }
 
-            gdiCharSet = (byte)int.Parse(val, CultureInfo.InvariantCulture);
-
+            gdiCharSet = (byte)int.Parse(val, provider: CultureInfo.InvariantCulture);
             // Truncate standard data string
             if (standardData.Length > charIndex)
-            {
                 standardData = standardData[..charIndex];
-            }
         }
 
         charIndex = fontString.IndexOf(", GdiVerticalFont", StringComparison.Ordinal);
         if (charIndex >= 0)
         {
             gdiVerticalFont = true;
-
             // Truncate standard data string
             if (standardData.Length > charIndex)
             {
@@ -483,7 +477,6 @@ internal abstract class SerializerBase
 
         // Create Font object from standard parameters
         Font font = (Font)fontConverter.ConvertFromInvariantString(standardData);
-
         // check if non-standard parameters provided
         if (gdiVerticalFont || gdiCharSet != 1)
         {
@@ -496,7 +489,6 @@ internal abstract class SerializerBase
                 gdiVerticalFont);
 
             font.Dispose();
-
             return newFont;
         }
 
@@ -911,7 +903,7 @@ internal abstract class SerializerBase
     /// <param name="classFitType">Return class mask fit type.</param>
     /// <param name="propertyFitType">Return property mask fit type.</param>
     /// <returns>True if property was found in the list.</returns>
-    private bool IsPropertyInList(ArrayList contentList, string className, string propertyName, out int classFitType, out int propertyFitType)
+    private static bool IsPropertyInList(List<ItemInfo> contentList, string className, string propertyName, out int classFitType, out int propertyFitType)
     {
         // Initialize result values
         classFitType = 0;
@@ -926,9 +918,9 @@ internal abstract class SerializerBase
                 propertyFitType = 0;
 
                 // Check if object class and property name match the mask
-                if (NameMatchMask((ItemInfo)contentList[itemIndex], className, out classFitType))
+                if (NameMatchMask(contentList[itemIndex], className, out classFitType))
                 {
-                    if (NameMatchMask((ItemInfo)contentList[itemIndex + 1], propertyName, out propertyFitType))
+                    if (NameMatchMask(contentList[itemIndex + 1], propertyName, out propertyFitType))
                     {
                         return true;
                     }
@@ -946,7 +938,7 @@ internal abstract class SerializerBase
     /// <param name="objectName">Class/Property name.</param>
     /// <param name="type">AxisName of matching. 0-No Match; 1-'*' any wild card; 2-'Back*' contain wild card; 3-exact match</param>
     /// <returns>True if name match the mask.</returns>
-    private bool NameMatchMask(ItemInfo itemInfo, string objectName, out int type)
+    private static bool NameMatchMask(ItemInfo itemInfo, string objectName, out int type)
     {
         // Initialize type
         type = 0;
@@ -963,7 +955,7 @@ internal abstract class SerializerBase
         {
             if (itemInfo.name.Length <= objectName.Length)
             {
-                if (objectName[..itemInfo.name.Length] == itemInfo.name)
+                if (objectName.StartsWith(itemInfo.name, StringComparison.Ordinal))
                 {
                     type = 2;
                     return true;
@@ -976,7 +968,7 @@ internal abstract class SerializerBase
         {
             if (itemInfo.name.Length <= objectName.Length)
             {
-                if (objectName.Substring(objectName.Length - itemInfo.name.Length, itemInfo.name.Length) == itemInfo.name)
+                if (objectName.EndsWith(itemInfo.name, StringComparison.Ordinal))
                 {
                     type = 2;
                     return true;
@@ -1097,25 +1089,31 @@ internal abstract class SerializerBase
     {
         public string name = string.Empty;
         public bool any;
+        /// <summary>
+        /// Starts with class mask, then name.
+        /// </summary>
         public bool startsWith;
+        /// <summary>
+        /// Name, then class mask.
+        /// </summary>
         public bool endsWith;
     }
 
     // Storage for serializable content items
-    private ArrayList serializableContentList;
+    private List<ItemInfo> serializableContentList;
 
     // Storage for non serializable content items
-    private ArrayList nonSerializableContentList;
+    private List<ItemInfo> nonSerializableContentList;
 
     /// <summary>
     /// Return serializable content list.
     /// </summary>
     /// <returns>Serializable content list.</returns>
-    private ArrayList GetSerializableContentList()
+    private List<ItemInfo> GetSerializableContentList()
     {
         if (serializableContentList == null)
         {
-            serializableContentList = new ArrayList();
+            serializableContentList = [];
             FillContentList(
                 serializableContentList,
                 (this.SerializableContent.Length > 0) ? this.SerializableContent : "*.*");
@@ -1128,11 +1126,11 @@ internal abstract class SerializerBase
     /// Return non serializable content list.
     /// </summary>
     /// <returns>Non serializable content list.</returns>
-    private ArrayList GetNonSerializableContentList()
+    private List<ItemInfo> GetNonSerializableContentList()
     {
         if (nonSerializableContentList == null)
         {
-            nonSerializableContentList = new ArrayList();
+            nonSerializableContentList = [];
             FillContentList(nonSerializableContentList, this.NonSerializableContent);
         }
 
@@ -1144,7 +1142,7 @@ internal abstract class SerializerBase
     /// </summary>
     /// <param name="list">Array list class.</param>
     /// <param name="content">Content string.</param>
-    private void FillContentList(ArrayList list, string content)
+    private static void FillContentList(List<ItemInfo> list, string content)
     {
         if (content.Length > 0)
         {
@@ -1162,8 +1160,8 @@ internal abstract class SerializerBase
                     throw new ArgumentException(SR.ExceptionChartSerializerContentStringFormatInvalid);
                 }
 
-                classInfo.name = item[..pointIndex].Trim();
-                propertyInfo.name = item[(pointIndex + 1)..].Trim();
+                classInfo.name = item.AsSpan(0, pointIndex).Trim().ToString();
+                propertyInfo.name = item.AsSpan(pointIndex + 1).Trim().ToString();
                 if (classInfo.name.Length == 0)
                 {
                     throw new ArgumentException(SR.ExceptionChartSerializerClassNameUndefined);
@@ -1199,7 +1197,7 @@ internal abstract class SerializerBase
     ///		"Name*"
     /// </summary>
     /// <param name="info">Item information class.</param>
-    private void CheckWildCars(ItemInfo info)
+    private static void CheckWildCars(ItemInfo info)
     {
         // Any class mask
         if (info.name == "*")
@@ -1945,7 +1943,7 @@ internal class XmlFormatSerializer : SerializerBase
                 foreach (XmlNode childNode in xmlParentNode.ChildNodes)
                 {
                     string templateString = childNode.Attributes["_Template_"].Value;
-                    if (templateString != null && templateString.Length > 0)
+                    if (!string.IsNullOrEmpty(templateString))
                     {
                         if (templateString == "All")
                         {

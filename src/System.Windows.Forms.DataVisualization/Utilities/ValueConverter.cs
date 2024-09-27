@@ -46,18 +46,19 @@ internal static class ValueConverter
         string result = string.Empty;
 
         // Make sure value index is part of the format
-        if (convertionFormat != null && convertionFormat.Length > 0)
+        if (!string.IsNullOrEmpty(convertionFormat))
         {
             int bracketIndex = convertionFormat.IndexOf('{', 0);
             if (bracketIndex >= 0)
             {
+                ReadOnlySpan<char> span = convertionFormat.AsSpan();
                 while (bracketIndex >= 0)
                 {
                     // If format is not followed by the value index
-                    if (!convertionFormat[bracketIndex..].StartsWith("{0:", StringComparison.Ordinal))
+                    if (!span[bracketIndex..].StartsWith("{0:", StringComparison.OrdinalIgnoreCase))
                     {
                         // Check character prior to the bracket
-                        if (bracketIndex >= 1 && convertionFormat.Substring(bracketIndex - 1, 1) == "{")
+                        if (bracketIndex >= 1 && span[bracketIndex - 1] == '{')
                         {
                             continue;
                         }
@@ -65,6 +66,7 @@ internal static class ValueConverter
                         {
                             // Insert value index in format
                             convertionFormat = convertionFormat.Insert(bracketIndex + 1, "0:");
+                            span = convertionFormat.AsSpan();
                         }
                     }
 

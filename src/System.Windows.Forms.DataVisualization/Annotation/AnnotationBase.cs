@@ -3075,22 +3075,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="dataPointName">Data point name to find.</param>
         /// <returns>Data point.</returns>
-        internal DataPoint GetDataPointByName(string dataPointName)
+        internal DataPoint GetDataPointByName(ReadOnlySpan<char> dataPointName)
         {
             DataPoint dataPoint = null;
-
             if (Chart != null && dataPointName.Length > 0)
             {
                 // Split series name and point index
                 int separatorIndex = dataPointName.IndexOf("\\r", StringComparison.Ordinal);
                 if (separatorIndex > 0)
                 {
-                    string seriesName = dataPointName[..separatorIndex];
-                    string pointIndex = dataPointName[(separatorIndex + 2)..];
-
-                    if (int.TryParse(pointIndex, NumberStyles.Any, CultureInfo.InvariantCulture, out int index))
+                    if (int.TryParse(dataPointName[(separatorIndex + 2)..], NumberStyles.Any, CultureInfo.InvariantCulture, out int index))
                     {
-                        dataPoint = Chart.Series[seriesName].Points[index];
+                        dataPoint = Chart.Series[dataPointName[..separatorIndex].ToString()].Points[index];
                     }
                 }
             }
@@ -3103,7 +3099,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="axisName">Axis name to find.</param>
         /// <returns>Data point.</returns>
-        private Axis GetAxisByName(string axisName)
+        private Axis GetAxisByName(ReadOnlySpan<char> axisName)
         {
             Debug.Assert(axisName != null, "GetAxisByName: handed a null axis name");
 
@@ -3117,9 +3113,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int separatorIndex = axisName.IndexOf("\\r", StringComparison.Ordinal);
                     if (separatorIndex > 0)
                     {
-                        string areaName = axisName[..separatorIndex];
-                        string axisType = axisName[(separatorIndex + 2)..];
-                        switch ((AxisName)Enum.Parse(typeof(AxisName), axisType))
+                        string areaName = axisName[..separatorIndex].ToString();
+                        switch ((AxisName)Enum.Parse(typeof(AxisName), axisName[(separatorIndex + 2)..]))
                         {
                             case AxisName.X:
                                 axis = Chart.ChartAreas[areaName].AxisX;

@@ -944,7 +944,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
 
                     // Set new group name
                     string stackGroupName = StackedColumnChart.GetSeriesStackGroupName(ser);
-                    int index = stackGroupName.IndexOf("__", StringComparison.Ordinal);
+                    int index = stackGroupName.IndexOf("__", StringComparison.OrdinalIgnoreCase);
                     if (index >= 0)
                     {
                         stackGroupName = stackGroupName[(index + 2)..];

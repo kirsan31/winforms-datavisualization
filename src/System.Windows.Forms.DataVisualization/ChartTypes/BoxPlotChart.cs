@@ -1531,8 +1531,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     // Get series and value name
                     string linkedSeriesName = point[CustomPropertyName.BoxPlotSeries];
-                    String valueName = "Y";
-                    int valueTypeIndex = linkedSeriesName.IndexOf(":", StringComparison.OrdinalIgnoreCase);
+                    string valueName = "Y";
+                    int valueTypeIndex = linkedSeriesName.IndexOf(':', StringComparison.OrdinalIgnoreCase);
                     if (valueTypeIndex >= 0)
                     {
                         valueName = linkedSeriesName[(valueTypeIndex + 1)..];
@@ -1543,15 +1543,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     Chart control = boxPlotSeries.Chart;
                     if (control != null)
                     {
-                        // Get linked series and check existance
+                        // Get linked series and check existence
                         if (control.Series.IndexOf(linkedSeriesName) == -1)
                         {
                             throw new InvalidOperationException(SR.ExceptionCustomAttributeSeriesNameNotFound("BoxPlotSeries", linkedSeriesName));
                         }
-                        Series linkedSeries = control.Series[linkedSeriesName];
 
                         // Calculate box point values
-                        CalculateBoxPlotValues(ref point, linkedSeries, valueName);
+                        CalculateBoxPlotValues(ref point, control.Series[linkedSeriesName], valueName);
                     }
 
                 }
@@ -1597,13 +1596,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             // Get required percentiles
-            double[] requiredPercentile = new Double[] { 10.0, 90.0, 25.0, 75.0, 50.0 };
-            string boxPercentile = boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotPercentile) ? boxPoint[CustomPropertyName.BoxPlotPercentile] : String.Empty;
+            double[] requiredPercentile = [10.0, 90.0, 25.0, 75.0, 50.0];
+            string boxPercentile = boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotPercentile) ? boxPoint[CustomPropertyName.BoxPlotPercentile] : string.Empty;
             if (boxPercentile.Length == 0 && boxPoint.series != null && boxPoint.series.IsCustomPropertySet(CustomPropertyName.BoxPlotPercentile))
             {
                 boxPercentile = boxPoint.series[CustomPropertyName.BoxPlotPercentile];
             }
-            string boxWhiskerPercentile = boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotWhiskerPercentile) ? boxPoint[CustomPropertyName.BoxPlotWhiskerPercentile] : String.Empty;
+            string boxWhiskerPercentile = boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotWhiskerPercentile) ? boxPoint[CustomPropertyName.BoxPlotWhiskerPercentile] : string.Empty;
             if (boxWhiskerPercentile.Length == 0 && boxPoint.series != null && boxPoint.series.IsCustomPropertySet(CustomPropertyName.BoxPlotWhiskerPercentile))
             {
                 boxWhiskerPercentile = boxPoint.series[CustomPropertyName.BoxPlotWhiskerPercentile];
@@ -1644,7 +1643,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 requiredPercentile[1] = 100.0 - requiredPercentile[0];
             }
 
-            // Calculate 5 recured percentile values
+            // Calculate 5 required percentile values
             double[] percentileValues = CalculatePercentileValues(yValues, requiredPercentile);
 
             // Set data points values
@@ -1657,7 +1656,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Check if unusual values should be added
             bool addUnusualValues = false;
-            string showUnusualValues = boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotShowUnusualValues) ? boxPoint[CustomPropertyName.BoxPlotShowUnusualValues] : String.Empty;
+            string showUnusualValues = boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotShowUnusualValues) ? boxPoint[CustomPropertyName.BoxPlotShowUnusualValues] : string.Empty;
             if (showUnusualValues.Length == 0 && boxPoint.series != null && boxPoint.series.IsCustomPropertySet(CustomPropertyName.BoxPlotShowUnusualValues))
             {
                 showUnusualValues = boxPoint.series[CustomPropertyName.BoxPlotShowUnusualValues];

@@ -301,7 +301,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     // Get series name
                     linkedSeriesName = ser[CustomPropertyName.ErrorBarSeries];
-                    int valueTypeIndex = linkedSeriesName.IndexOf(":", StringComparison.Ordinal);
+                    int valueTypeIndex = linkedSeriesName.IndexOf(':', StringComparison.OrdinalIgnoreCase);
                     if (valueTypeIndex >= 0)
                     {
                         linkedSeriesName = linkedSeriesName[..valueTypeIndex];
@@ -1071,7 +1071,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     // Get series name
                     string attribValue = ser[CustomPropertyName.ErrorBarSeries];
-                    int valueTypeIndex = attribValue.IndexOf(":", StringComparison.Ordinal);
+                    int valueTypeIndex = attribValue.IndexOf(':', StringComparison.OrdinalIgnoreCase);
                     if (valueTypeIndex >= 0)
                     {
                         attribValue = attribValue[..valueTypeIndex];
@@ -1563,12 +1563,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 return;
             }
 
-            // Parase the value of the ErrorBarType attribute.
+            // Parse the value of the ErrorBarType attribute.
             double param = double.NaN;
             ErrorBarType errorBarType = ErrorBarType.StandardError;
             if (errorBarSeries.IsCustomPropertySet(CustomPropertyName.ErrorBarType))
             {
-                string typeName = errorBarSeries[CustomPropertyName.ErrorBarType];
+                ReadOnlySpan<char> typeName = errorBarSeries[CustomPropertyName.ErrorBarType].AsSpan();
                 if (typeName.StartsWith("FixedValue", StringComparison.OrdinalIgnoreCase))
                 {
                     errorBarType = ErrorBarType.FixedValue;
@@ -1599,7 +1599,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 if (typeName.Length > 0)
                 {
                     // Must be followed by '(' and ends with ')'
-                    if (!typeName.StartsWith('(') || !typeName.EndsWith(')'))
+                    if (typeName[0] != '(' || typeName[^1] != ')')
                         throw new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(errorBarSeries[CustomPropertyName.ErrorBarType]));
 
                     typeName = typeName[1..^1];
@@ -1754,8 +1754,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Get series and value name
             string linkedSeriesName = errorBarSeries[CustomPropertyName.ErrorBarSeries];
-            String valueName = "Y";
-            int valueTypeIndex = linkedSeriesName.IndexOf(":", StringComparison.Ordinal);
+            string valueName = "Y";
+            int valueTypeIndex = linkedSeriesName.IndexOf(':', StringComparison.OrdinalIgnoreCase);
             if (valueTypeIndex >= 0)
             {
                 valueName = linkedSeriesName[(valueTypeIndex + 1)..];
@@ -1766,18 +1766,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             Chart control = errorBarSeries.Chart;
             if (control != null)
             {
-                // Get linked series and check existance
+                // Get linked series and check existence
                 if (control.Series.IndexOf(linkedSeriesName) == -1)
                 {
                     throw new InvalidOperationException(SR.ExceptionDataSeriesNameNotFound(linkedSeriesName));
                 }
-                Series linkedSeries = control.Series[linkedSeriesName];
 
+                Series linkedSeries = control.Series[linkedSeriesName];
                 // Make sure we use the same X and Y axis as the linked series
                 errorBarSeries.XAxisType = linkedSeries.XAxisType;
                 errorBarSeries.YAxisType = linkedSeries.YAxisType;
 
-                // Get cennter values from the linked series
+                // Get center values from the linked series
                 errorBarSeries.Points.Clear();
                 foreach (DataPoint point in linkedSeries.Points)
                 {

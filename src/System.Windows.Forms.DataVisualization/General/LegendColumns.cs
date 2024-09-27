@@ -1514,7 +1514,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string resultString = this.Text.Replace("\\n", "\n");
 
             // Replace the KeywordName.LegendText keyword with legend item Name property
-            if (this.LegendItem != null)
+            if (this.LegendItem is not null)
             {
                 resultString = resultString.Replace(KeywordName.LegendText, this.LegendItem.Name);
             }
@@ -1523,13 +1523,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 resultString = resultString.Replace(KeywordName.LegendText, string.Empty);
             }
 
-            // Check if text width exceeds recomended character length
-            if (this.Legend != null)
+            // Check if text width exceeds recommended character length
+            if (this.Legend is not null)
             {
+                resultString = resultString.Trim();
                 int recomendedTextLength = this.Legend.TextWrapThreshold;
-
-                if (recomendedTextLength > 0 &&
-                    resultString.Length > recomendedTextLength)
+                if (recomendedTextLength > 0 && resultString.Length > recomendedTextLength)
                 {
                     // Iterate through all text characters
                     int lineLength = 0;
@@ -1546,13 +1545,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         ++lineLength;
 
                         // Check if current character is a white space and
-                        // current line length exceeds the recomended values.
-                        if (char.IsWhiteSpace(resultString, charIndex) &&
-                            lineLength >= recomendedTextLength)
+                        // current line length exceeds the recommended values.
+                        if (lineLength >= recomendedTextLength && char.IsWhiteSpace(resultString[charIndex]))
                         {
                             // Insert new line character in the string
                             lineLength = 0;
-                            resultString = string.Concat(resultString.AsSpan(0, charIndex), "\n", resultString[(charIndex + 1)..].TrimStart());
+                            // White space char can't be the last char because of we used Trim()
+                            resultString = string.Concat(resultString.AsSpan(0, charIndex), "\n", resultString.AsSpan(charIndex + 1).TrimStart());
                         }
                     }
                 }

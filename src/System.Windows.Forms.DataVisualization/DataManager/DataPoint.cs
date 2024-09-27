@@ -121,24 +121,21 @@ public class DataPointComparer : IComparer<DataPoint>
     public DataPointComparer(Series series, PointSortOrder sortOrder, string sortBy)
     {
         // Check if sorting value is valid
-        sortBy = sortBy.ToUpper(CultureInfo.InvariantCulture);
-        if (string.Equals(sortBy, "X", StringComparison.Ordinal))
+        if (string.Equals(sortBy, "X", StringComparison.OrdinalIgnoreCase))
         {
             _sortingValueIndex = -1;
         }
-        else if (string.Equals(sortBy, "Y", StringComparison.Ordinal))
+        else if (string.Equals(sortBy, "Y", StringComparison.OrdinalIgnoreCase))
         {
             _sortingValueIndex = 0;
         }
-        else if (string.Equals(sortBy, "AXISLABEL", StringComparison.Ordinal))
+        else if (string.Equals(sortBy, "AXISLABEL", StringComparison.OrdinalIgnoreCase))
         {
             _sortingValueIndex = -2;
         }
-        else if (sortBy.Length == 2 &&
-                sortBy.StartsWith("Y", StringComparison.Ordinal) &&
-                char.IsDigit(sortBy[1]))
+        else if (sortBy.Length == 2 && sortBy.StartsWith("Y", StringComparison.OrdinalIgnoreCase) && char.IsDigit(sortBy[1]))
         {
-            _sortingValueIndex = int.Parse(sortBy[1..], CultureInfo.InvariantCulture) - 1;
+            _sortingValueIndex = int.Parse(sortBy.AsSpan(1), provider: CultureInfo.InvariantCulture) - 1;
         }
         else
         {
@@ -288,7 +285,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
     ref string[] otherFieldNames,
     ref string[] otherValueFormat)
     {
-        if (otherFields != null && otherFields.Length > 0)
+        if (!string.IsNullOrEmpty(otherFields))
         {
             // Split string by comma
             otherAttributeNames = otherFields.Replace(",,", "\n").Split(',');
@@ -2449,18 +2446,16 @@ public class DataPoint : DataPointCustomProperties
     public double GetValueByName(string valueName)
     {
         // Check arguments
-        if (valueName == null)
+        if (string.IsNullOrEmpty(valueName))
             throw new ArgumentNullException(nameof(valueName));
-
-        valueName = valueName.ToUpper(CultureInfo.InvariantCulture);
-        if (string.Equals(valueName, "X", StringComparison.Ordinal))
-        {
+        
+        ReadOnlySpan<char> span = valueName.ToUpper(CultureInfo.InvariantCulture).AsSpan();
+        if (span == "X")
             return this.XValue;
-        }
-        else if (valueName.StartsWith("Y", StringComparison.Ordinal))
 
+        if (span[0] == 'Y')
         {
-            if (valueName.Length == 1)
+            if (span.Length == 1)
             {
                 return this.YValues[0];
             }
@@ -2469,7 +2464,7 @@ public class DataPoint : DataPointCustomProperties
                 int yIndex;
                 try
                 {
-                    yIndex = int.Parse(valueName[1..], CultureInfo.InvariantCulture) - 1;
+                    yIndex = int.Parse(span[1..], provider: CultureInfo.InvariantCulture) - 1;
                 }
                 catch (Exception)
                 {
@@ -2503,12 +2498,13 @@ public class DataPoint : DataPointCustomProperties
     internal override string ReplaceKeywords(string strOriginal)
     {
         // Nothing to process
-        if (strOriginal is null || strOriginal.Length == 0)
+        if (string.IsNullOrEmpty(strOriginal))
             return strOriginal;
 
         // Replace all "\n" strings with '\n' character
-        string result = strOriginal;
-        result = result.Replace("\\n", "\n");
+        string result = strOriginal.Replace("\\n", "\n");
+        if (!result.Contains('#')) // No keywords
+            return result;
 
         // #LABEL - point label
         result = result.Replace(KeywordName.Label, this.Label);
