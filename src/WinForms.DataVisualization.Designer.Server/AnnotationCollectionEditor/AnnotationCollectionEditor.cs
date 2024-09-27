@@ -19,20 +19,20 @@ internal partial class AnnotationCollectionEditor : ChartCollectionEditor
     protected override Type[] CreateNewItemTypes()
     {
         return new Type[] {
-        typeof(LineAnnotation),
-        typeof(VerticalLineAnnotation),
-        typeof(HorizontalLineAnnotation),
-        typeof(TextAnnotation),
-        typeof(RectangleAnnotation),
-        typeof(EllipseAnnotation),
-        typeof(ArrowAnnotation),
-        typeof(Border3DAnnotation),
-        typeof(CalloutAnnotation),
-        typeof(PolylineAnnotation),
-        typeof(PolygonAnnotation),
-        typeof(ImageAnnotation),
-        typeof(AnnotationGroup)
-    };
+            typeof(LineAnnotation),
+            typeof(VerticalLineAnnotation),
+            typeof(HorizontalLineAnnotation),
+            typeof(TextAnnotation),
+            typeof(RectangleAnnotation),
+            typeof(EllipseAnnotation),
+            typeof(ArrowAnnotation),
+            typeof(Border3DAnnotation),
+            typeof(CalloutAnnotation),
+            typeof(PolylineAnnotation),
+            typeof(PolygonAnnotation),
+            typeof(ImageAnnotation),
+            typeof(AnnotationGroup)
+        };
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ internal partial class AnnotationCollectionEditor : ChartCollectionEditor
         Annotation annotation = (base.CreateInstance(itemType) as Annotation)!;
 
         // Generate unique name 
-        if (Helpers.GetChartReference(Context.Instance) is Chart chart)
+        if (Helpers.GetChartReference(Context.Instance!) is Chart chart)
             annotation.Name = NextUniqueName(chart, itemType);
 
         return annotation;

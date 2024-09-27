@@ -45,7 +45,7 @@ internal class ChartWinDesignerSerializer : CodeDomSerializer
 
 		// Serialize object using the base class serializer
 		object? result = null;
-		CodeDomSerializer baseSerializer = (CodeDomSerializer)manager.GetSerializer(typeof(Chart).BaseType!, typeof(CodeDomSerializer));
+		CodeDomSerializer? baseSerializer = (CodeDomSerializer?)manager.GetSerializer(typeof(Chart).BaseType!, typeof(CodeDomSerializer));
 		if (baseSerializer is not null)
 		{
 			result = IsSerialized(manager, value) ? GetExpression(manager, value) : baseSerializer.Serialize(manager, value);
@@ -83,7 +83,7 @@ internal class ChartWinDesignerSerializer : CodeDomSerializer
 	/// <returns>The deserialized CodeDOM object.</returns>
 	public override object Deserialize(IDesignerSerializationManager manager, object codeObject)
 	{
-		CodeDomSerializer? baseSerializer = (CodeDomSerializer)manager.GetSerializer(typeof(Chart).BaseType!, typeof(CodeDomSerializer));
+		CodeDomSerializer? baseSerializer = (CodeDomSerializer?)manager.GetSerializer(typeof(Chart).BaseType!, typeof(CodeDomSerializer));
 		return baseSerializer?.Deserialize(manager, codeObject) ?? base.Deserialize(manager, codeObject);
 	}
 
