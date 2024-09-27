@@ -88,7 +88,6 @@ namespace WinForms.DataVisualization.Designer.Client
                 GridItem item = grid.SelectedGridItem;
                 if (item is not null && (item.GridItemType == GridItemType.Property || item.GridItemType == GridItemType.ArrayValue))
                 {
-#warning designer question
                     // Original code:
                     //_helpTopic = item.PropertyDescriptor.ComponentType.ToString() + "." + item.PropertyDescriptor.Name;
 

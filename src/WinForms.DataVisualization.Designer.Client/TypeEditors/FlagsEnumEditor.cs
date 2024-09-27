@@ -54,7 +54,6 @@ namespace WinForms.DataVisualization.Designer.Client
                     }
                     else
                     {
-#warning designer question
                         var typeIdentity = context?.PropertyDescriptor?.GetPropValue("PropertyData")?.GetPropValue("Type") as Microsoft.DotNet.DesignTools.Protocol.Types.TypeIdentity;
                         if (typeIdentity is not null)
                             this._enumType = Type.GetType(typeIdentity.FullyQualifiedName, false);
