@@ -697,8 +697,8 @@ internal sealed class ChartImage : ChartPicture
 
             {
                 // Create series list for primary and secondary X axis
-                ArrayList chartAreaSeriesPrimary = new ArrayList();
-                ArrayList chartAreaSeriesSecondary = new ArrayList();
+                List<Series> chartAreaSeriesPrimary = [];
+                List<Series> chartAreaSeriesSecondary = [];
                 foreach (Series series in this.Common.Chart.Series)
                 {
                     // Check if series belongs to the chart area
@@ -731,8 +731,8 @@ internal sealed class ChartImage : ChartPicture
     /// <param name="seriesList">List of series to align.</param>
     /// <param name="sortAxisLabels">Indicates if points should be sorted by axis labels.</param>
     /// <param name="sortingOrder">Sorting order.</param>
-    internal void AlignDataPointsByAxisLabel(
-        ArrayList seriesList,
+    internal static void AlignDataPointsByAxisLabel(
+        List<Series> seriesList,
         bool sortAxisLabels,
         PointSortOrder sortingOrder)
     {
@@ -745,10 +745,10 @@ internal sealed class ChartImage : ChartPicture
         // Collect information about all points in all series
         bool indexedX = true;
         bool uniqueAxisLabels = true;
-        ArrayList axisLabels = new ArrayList();
+        List<string> axisLabels = [];
         foreach (Series series in seriesList)
         {
-            ArrayList seriesAxisLabels = new ArrayList();
+            HashSet<string> seriesAxisLabels = [];
             foreach (DataPoint point in series.Points)
             {
                 // Check if series has indexed X values
@@ -781,11 +781,12 @@ internal sealed class ChartImage : ChartPicture
         // Sort axis labels
         if (sortAxisLabels)
         {
-            axisLabels.Sort();
+#pragma warning disable CA1310 // Specify StringComparison for correctness
             if (sortingOrder == PointSortOrder.Descending)
-            {
-                axisLabels.Reverse();
-            }
+                axisLabels.Sort((a, b) => b.CompareTo(a));
+            else
+                axisLabels.Sort();
+#pragma warning restore CA1310 // Specify StringComparison for correctness
         }
 
         // All series must be indexed
@@ -820,12 +821,11 @@ internal sealed class ChartImage : ChartPicture
                 series.IsXValueIndexed = true;
                 for (int index = 0; index < axisLabels.Count; index++)
                 {
-                    if (index >= series.Points.Count ||
-                        series.Points[index].XValue != index + 1)
+                    if (index >= series.Points.Count || series.Points[index].XValue != index + 1)
                     {
                         DataPoint newPoint = new DataPoint(series)
                         {
-                            AxisLabel = (string)axisLabels[index],
+                            AxisLabel = axisLabels[index],
                             XValue = index + 1
                         };
                         newPoint.YValues[0] = 0.0;

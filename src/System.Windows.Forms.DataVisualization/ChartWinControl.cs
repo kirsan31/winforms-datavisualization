@@ -723,8 +723,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
     public void SaveImage(string imageFileName, ChartImageFormat format)
     {
         // Check arguments
-        if (imageFileName == null)
-            throw new ArgumentNullException(nameof(imageFileName));
+        ArgumentNullException.ThrowIfNull(imageFileName);
 
         // Create file stream for the specified file name
         FileStream fileStream = new FileStream(imageFileName, FileMode.Create);
@@ -749,10 +748,8 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
     public void SaveImage(string imageFileName, ImageFormat format)
     {
         // Check arguments
-        if (imageFileName == null)
-            throw new ArgumentNullException(nameof(imageFileName));
-        if (format == null)
-            throw new ArgumentNullException(nameof(format));
+        ArgumentNullException.ThrowIfNull(imageFileName);
+        ArgumentNullException.ThrowIfNull(format);
 
         // Create file stream for the specified file name
         FileStream fileStream = new FileStream(imageFileName, FileMode.Create);
@@ -777,10 +774,8 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
     public void SaveImage(Stream imageStream, ImageFormat format)
     {
         // Check arguments
-        if (imageStream == null)
-            throw new ArgumentNullException(nameof(imageStream));
-        if (format == null)
-            throw new ArgumentNullException(nameof(format));
+        ArgumentNullException.ThrowIfNull(imageStream);
+        ArgumentNullException.ThrowIfNull(format);
 
         // Indicate that chart is saved into the image
         this.chartPicture.isSavingAsImage = true;
@@ -813,8 +808,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
     public void SaveImage(Stream imageStream, ChartImageFormat format)
     {
         // Check arguments
-        if (imageStream == null)
-            throw new ArgumentNullException(nameof(imageStream));
+        ArgumentNullException.ThrowIfNull(imageStream);
 
         // Indicate that chart is saved into the image
         this.chartPicture.isSavingAsImage = true;
@@ -2658,19 +2652,18 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
     public void AlignDataPointsByAxisLabel(string series)
     {
         //Check arguments
-        if (series == null)
-            throw new ArgumentNullException(nameof(series));
+        ArgumentNullException.ThrowIfNull(series);
 
         // Create list of series
-        ArrayList seriesList = new ArrayList();
-        string[] seriesNames = series.Split(',');
+        List<Series> seriesList = [];
+        string[] seriesNames = series.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         foreach (string name in seriesNames)
         {
-            seriesList.Add(this.Series[name.Trim()]);
+            seriesList.Add(this.Series[name]);
         }
 
         // Align series
-        this.chartPicture.AlignDataPointsByAxisLabel(seriesList, false, PointSortOrder.Ascending);
+        ChartImage.AlignDataPointsByAxisLabel(seriesList, false, PointSortOrder.Ascending);
     }
 
     /// <summary>
@@ -2681,19 +2674,18 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
     public void AlignDataPointsByAxisLabel(string series, PointSortOrder sortingOrder)
     {
         //Check arguments
-        if (series == null)
-            throw new ArgumentNullException(nameof(series));
+        ArgumentNullException.ThrowIfNull(series);
 
         // Create list of series
-        ArrayList seriesList = new ArrayList();
-        string[] seriesNames = series.Split(',');
+        List<Series> seriesList = [];
+        string[] seriesNames = series.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         foreach (string name in seriesNames)
         {
-            seriesList.Add(this.Series[name.Trim()]);
+            seriesList.Add(this.Series[name]);
         }
 
         // Align series
-        this.chartPicture.AlignDataPointsByAxisLabel(seriesList, true, sortingOrder);
+        ChartImage.AlignDataPointsByAxisLabel(seriesList, true, sortingOrder);
     }
 
     /// <summary>
@@ -2802,8 +2794,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
     public new object GetService(Type serviceType)
     {
         // Check arguments
-        if (serviceType is null)
-            throw new ArgumentNullException(nameof(serviceType));
+        ArgumentNullException.ThrowIfNull(serviceType);
 
         return serviceContainer?.GetService(serviceType) ?? base.GetService(serviceType);
     }
