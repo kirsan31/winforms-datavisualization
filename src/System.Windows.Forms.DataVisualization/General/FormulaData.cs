@@ -250,7 +250,7 @@ public class DataFormula
         Statistics = new StatisticFormula(this);
 
         _extraParameters = new string[1];
-        _extraParameters[0] = false.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        _extraParameters[0] = false.ToString(Globalization.CultureInfo.InvariantCulture);
     }
 
     /// <summary>
@@ -390,7 +390,7 @@ public class DataFormula
             if (_zeroXValues)
             {   //If we have the empty XValues then the source series should have all the AxisLabels
                 // -- set the indexed series labels source 
-                outputSeries[DataFormula.IndexedSeriesLabelsSourceAttr] = inputSeries.Name;
+                outputSeries[IndexedSeriesLabelsSourceAttr] = inputSeries.Name;
             }
             else
             {   //If the source series has XValues - loop through the input series points looking for the points with AxisLabels set
@@ -538,7 +538,7 @@ public class DataFormula
     private void ConvertToArrays(string inputString, out Series[] seiesArray, out int[] valueArray, bool inputSeries)
     {
         // Split string by comma
-        string[] subStrings = inputString.Split(',');
+        string[] subStrings = inputString.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
         // Create array of series
         seiesArray = new Series[subStrings.Length];
@@ -547,28 +547,26 @@ public class DataFormula
         valueArray = new int[subStrings.Length];
 
         int index = 0;
-
-        foreach (string str in subStrings)
+        foreach (string str in subStrings)        
         {
-            string[] parts = str.Split(':');
-
+            // Split formula by optional ':' character
+            int colonInd = str.IndexOf(':');
             // There must be at least one and no more than two result strings
-            if (parts.Length < 1 && parts.Length > 2)
-            {
+            if (colonInd == 0 || (colonInd > 0 && (colonInd == str.Length - 1 || str.LastIndexOf(':') != colonInd)))
                 throw new ArgumentException(SR.ExceptionFormulaDataFormatInvalid(str));
-            }
 
             // Initialize value index as first Y value (default)
             int valueIndex = 1;
 
+            string ser;
             // Check specified value type
-            if (parts.Length == 2)
+            if (colonInd > -1)
             {
-                if (parts[1].StartsWith("Y", StringComparison.Ordinal))
+                var val = str.AsSpan(colonInd + 1);
+                if (val.StartsWith("Y", StringComparison.Ordinal))
                 {
-                    parts[1] = parts[1].TrimStart('Y');
-
-                    if (parts[1].Length == 0)
+                    val = val[1..];
+                    if (val.Length == 0)
                     {
                         valueIndex = 1;
                     }
@@ -577,9 +575,9 @@ public class DataFormula
                         // Try to convert the rest of the string to integer
                         try
                         {
-                            valueIndex = int.Parse(parts[1], System.Globalization.CultureInfo.InvariantCulture);
+                            valueIndex = int.Parse(val, provider: Globalization.CultureInfo.InvariantCulture);
                         }
-                        catch (System.Exception)
+                        catch (Exception)
                         {
                             throw new ArgumentException(SR.ExceptionFormulaDataFormatInvalid(str));
                         }
@@ -589,6 +587,12 @@ public class DataFormula
                 {
                     throw new ArgumentException(SR.ExceptionFormulaDataSeriesNameNotFound(str));
                 }
+
+                ser = str.AsSpan(0, colonInd).TrimEnd().ToString();
+            }
+            else
+            {
+                ser = str;
             }
 
             // Set Y value indexes
@@ -597,16 +601,16 @@ public class DataFormula
             // Set series
             try
             {
-                seiesArray[index] = Common.DataManager.Series[parts[0].Trim()];
+                seiesArray[index] = Common.DataManager.Series[ser];
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 // Series doesn't exist.
                 if (!inputSeries)
                 {
                     // Create a new series if output series
-                    Common.DataManager.Series.Add(new Series(parts[0]));
-                    seiesArray[index] = Common.DataManager.Series[parts[0]];
+                    Common.DataManager.Series.Add(new Series(ser));
+                    seiesArray[index] = Common.DataManager.Series[ser];
                 }
                 else
                 {
@@ -737,7 +741,7 @@ public class DataFormula
                     {
                         output[indexSeries][indexPoint] = point.YValues[valueIndex[indexSeries - 1] - 1];
                     }
-                    catch (System.Exception)
+                    catch (Exception)
                     {
                         throw new ArgumentException(SR.ExceptionFormulaYIndexInvalid);
                     }
@@ -778,9 +782,7 @@ public class DataFormula
         // create data points which are copy of Input series data points
         for (int indexSeries = 0; indexSeries < inSeries.Length; indexSeries++)
         {
-            Series[] series = new Series[2];
-            series[0] = inSeries[indexSeries];
-            series[1] = outSeries[indexSeries];
+            Series[] series = [inSeries[indexSeries], outSeries[indexSeries]];
             if (series[1].Points.Count == 0)
             {
                 foreach (DataPoint point in series[0].Points)
@@ -795,9 +797,7 @@ public class DataFormula
         // Check alignment of X values.
         for (int indexSeries = 0; indexSeries < inSeries.Length; indexSeries++)
         {
-            Series[] series = new Series[2];
-            series[0] = inSeries[indexSeries];
-            series[1] = outSeries[indexSeries];
+            Series[] series = [inSeries[indexSeries], outSeries[indexSeries]];
             CheckXValuesAlignment(series);
         }
 
@@ -1200,9 +1200,9 @@ public class DataFormula
         set
         {
             if (value)
-                _extraParameters[0] = true.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                _extraParameters[0] = true.ToString(Globalization.CultureInfo.InvariantCulture);
             else
-                _extraParameters[0] = false.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                _extraParameters[0] = false.ToString(Globalization.CultureInfo.InvariantCulture);
         }
     }
 

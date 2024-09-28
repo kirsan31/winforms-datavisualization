@@ -333,19 +333,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
             // Can convert from string where each array element is separated by comma
-            string stringValue = value as string;
-            if (stringValue != null)
+            if (value is string stringValue)
             {
                 Margins margins = new Margins();
-                string[] values = stringValue.Split(',');
+                string[] values = stringValue.Split(',', StringSplitOptions.TrimEntries);
                 if (values.Length == 4)
                 {
                     try
                     {
-                        margins.Top = int.Parse(values[0].Trim(), CultureInfo.InvariantCulture);
-                        margins.Bottom = int.Parse(values[1].Trim(), CultureInfo.InvariantCulture);
-                        margins.Left = int.Parse(values[2].Trim(), CultureInfo.InvariantCulture);
-                        margins.Right = int.Parse(values[3].Trim(), CultureInfo.InvariantCulture);
+                        margins.Top = int.Parse(values[0], CultureInfo.InvariantCulture);
+                        margins.Bottom = int.Parse(values[1], CultureInfo.InvariantCulture);
+                        margins.Left = int.Parse(values[2], CultureInfo.InvariantCulture);
+                        margins.Right = int.Parse(values[3], CultureInfo.InvariantCulture);
                     }
                     catch
                     {

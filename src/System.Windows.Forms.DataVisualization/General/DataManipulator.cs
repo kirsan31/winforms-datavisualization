@@ -3031,14 +3031,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Formula type.</returns>
         private static GroupingFunction ParseFormulaAndValueType(ReadOnlySpan<char> formulaString, out int valueIndex)
         {
-            // Initialize value index as first Y value (default)
-            valueIndex = 1;
-
             // Split formula by optional ':' character
             int colonInd = formulaString.IndexOf(':');
             // There must be at least one and no more than two result strings
             if (colonInd == 0 || (colonInd > 0 && (colonInd == formulaString.Length - 1 || formulaString.LastIndexOf(':') != colonInd)))
                 throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString.ToString()));
+
+            // Initialize value index as first Y value (default)
+            valueIndex = 1;
 
             ReadOnlySpan<char> func;
             // Check specified value type

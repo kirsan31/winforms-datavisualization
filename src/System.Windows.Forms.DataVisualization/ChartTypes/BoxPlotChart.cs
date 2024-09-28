@@ -1508,7 +1508,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             if (boxPlotSeries.IsCustomPropertySet(CustomPropertyName.BoxPlotSeries))
             {
                 // Create as many data points as series in attribute
-                string[] attrValues = boxPlotSeries[CustomPropertyName.BoxPlotSeries].Split(';');
+                string[] attrValues = boxPlotSeries[CustomPropertyName.BoxPlotSeries].Split(';', StringSplitOptions.TrimEntries);
 
                 // Clear and and new points
                 boxPlotSeries.Points.Clear();
@@ -1516,7 +1516,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 foreach (string val in attrValues)
                 {
                     boxPlotSeries.Points.AddY(0.0);
-                    boxPlotSeries.Points[pointIndex++][CustomPropertyName.BoxPlotSeries] = val.Trim();
+                    boxPlotSeries.Points[pointIndex++][CustomPropertyName.BoxPlotSeries] = val;
                 }
             }
 
