@@ -1643,8 +1643,8 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
             if (assembly is null)
                 return string.Empty;
 
-            var buildNumber = assembly.FullName.ToUpper(CultureInfo.InvariantCulture).AsSpan();
-            int versionIndex = buildNumber.IndexOf("VERSION=", StringComparison.Ordinal);
+            var buildNumber = assembly.FullName.AsSpan();
+            int versionIndex = buildNumber.IndexOf("VERSION=", StringComparison.OrdinalIgnoreCase);
             if (versionIndex >= 0)
             {
                 buildNumber = buildNumber[(versionIndex + 8)..];

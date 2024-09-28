@@ -1009,7 +1009,7 @@ public partial class ChartArea
         }
 
         // Lists that hold processed chart types and stacked groups
-        var processedChartTypes = new HashSet<string>();
+        var processedChartTypes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var processedStackedGroups = new HashSet<string>();
 
         // Iterate through all series that belong to this chart area
@@ -1058,7 +1058,7 @@ public partial class ChartArea
                 (this.Area3DStyle.IsClustered && Common.ChartTypeRegistry.GetChartType(curSeries.ChartTypeName).SideBySideSeries))
             {
                 // Check if this chart type is already in the list
-                if (!processedChartTypes.Add(curSeries.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture)))
+                if (!processedChartTypes.Add(curSeries.ChartTypeName))
                 {
                     // Find in which cluster this chart type is located
                     bool found = false;
@@ -1068,8 +1068,7 @@ public partial class ChartArea
                         {
                             // Get series object by name
                             Series ser = this.Common.DataManager.Series[name];
-                            if (ser.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture) ==
-                                curSeries.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture))
+                            if (ser.ChartTypeName.Equals(curSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase))
                             {
                                 clusterIndex = index;
                                 found = true;

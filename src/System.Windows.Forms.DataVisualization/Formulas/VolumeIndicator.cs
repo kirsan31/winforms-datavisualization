@@ -50,47 +50,47 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
 		override public void Formula(string formulaName, double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList, out string[][] outLabels)
         {
-            string name;
-
-            name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
-
             // Not used for these formulas.
             outLabels = null;
 
             try
             {
-                switch (name)
+                if (string.Equals(formulaName, "MONEYFLOW", StringComparison.OrdinalIgnoreCase))
                 {
-                    case "MONEYFLOW":
-                        MoneyFlow(inputValues, out outputValues, parameterList);
-                        break;
-                    case "ONBALANCEVOLUME":
-                        OnBalanceVolume(inputValues, out outputValues);
-                        break;
-                    case "NEGATIVEVOLUMEINDEX":
-                        NegativeVolumeIndex(inputValues, out outputValues, parameterList);
-                        break;
-                    case "POSITIVEVOLUMEINDEX":
-                        PositiveVolumeIndex(inputValues, out outputValues, parameterList);
-                        break;
-                    case "PRICEVOLUMETREND":
-                        PriceVolumeTrend(inputValues, out outputValues);
-                        break;
-                    case "ACCUMULATIONDISTRIBUTION":
-                        AccumulationDistribution(inputValues, out outputValues);
-                        break;
-                    default:
-                        outputValues = null;
-                        break;
+                    MoneyFlow(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "ONBALANCEVOLUME", StringComparison.OrdinalIgnoreCase))
+                {
+                    OnBalanceVolume(inputValues, out outputValues);
+                }
+                else if (string.Equals(formulaName, "NEGATIVEVOLUMEINDEX", StringComparison.OrdinalIgnoreCase))
+                {
+                    NegativeVolumeIndex(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "POSITIVEVOLUMEINDEX", StringComparison.OrdinalIgnoreCase))
+                {
+                    PositiveVolumeIndex(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "PRICEVOLUMETREND", StringComparison.OrdinalIgnoreCase))
+                {
+                    PriceVolumeTrend(inputValues, out outputValues);
+                }
+                else if (string.Equals(formulaName, "ACCUMULATIONDISTRIBUTION", StringComparison.OrdinalIgnoreCase))
+                {
+                    AccumulationDistribution(inputValues, out outputValues);
+                }
+                else
+                {
+                    outputValues = null;
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(formulaName));
             }
             catch (OverflowException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(formulaName));
             }
         }
 

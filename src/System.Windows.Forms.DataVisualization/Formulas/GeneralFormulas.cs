@@ -135,38 +135,32 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
 		public override void Formula(string formulaName, double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList, out string[][] outLabels)
         {
-            string name;
             outputValues = null;
-
             // Not used for these formulas.
             outLabels = null;
 
-            name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
-
             try
             {
-                switch (name)
+                if (string.Equals(formulaName, "RUNINGTOTAL", StringComparison.OrdinalIgnoreCase))
                 {
-                    case "RUNINGTOTAL":
-                        RuningTotal(inputValues, out outputValues);
-                        break;
-
-                    case "RUNINGAVERAGE":
-                        RunningAverage(inputValues, out outputValues);
-                        break;
-
-                    default:
-                        outputValues = null;
-                        break;
+                    RuningTotal(inputValues, out outputValues);
+                }
+                else if (string.Equals(formulaName, "RUNINGAVERAGE", StringComparison.OrdinalIgnoreCase))
+                {
+                    RunningAverage(inputValues, out outputValues);
+                }
+                else
+                {
+                    outputValues = null;
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(formulaName));
             }
             catch (OverflowException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(formulaName));
             }
         }
 

@@ -1569,36 +1569,37 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="series">The series.</param>
         /// <param name="unmappedFormulaFields">The unmapped formula fields.</param>
         /// <param name="seriesFieldId">The series field id.</param>
-        private static void AddSeriesFieldInfo(SeriesFieldList result, Series series, IList<DataField> unmappedFormulaFields, string seriesFieldId)
+        private static void AddSeriesFieldInfo(SeriesFieldList result, Series series, IList<DataField> unmappedFormulaFields, ReadOnlySpan<char> seriesFieldId)
         {
             IList<DataField> seriesFields = FormulaHelper.GetDataFields(series.ChartType);
-
             DataField? seriesField = null;
-
-            seriesFieldId = seriesFieldId.ToUpperInvariant().Trim();
-            if (seriesFieldId == "Y")
+            seriesFieldId = seriesFieldId.Trim();
+            if (seriesFieldId.StartsWith("Y", StringComparison.OrdinalIgnoreCase))
             {
-                seriesField = seriesFields[0];
-            }
-            else if (seriesFieldId.StartsWith("Y", StringComparison.Ordinal))
-            {
-                if (int.TryParse(seriesFieldId.AsSpan(1), out int id))
-                    if (id - 1 < seriesFields.Count)
-                    {
+                if (seriesFieldId.Length == 1)
+                {
+                    seriesField = seriesFields[0];
+                }
+                else
+                {
+                    if (int.TryParse(seriesFieldId[1..], out int id) && id > 0 && id - 1 < seriesFields.Count)
                         seriesField = seriesFields[id - 1];
-                    }
                     else
-                    {
-                        throw new ArgumentException(SR.ExceptionFormulaYIndexInvalid, seriesFieldId);
-                    }
+                        throw new ArgumentException(SR.ExceptionFormulaYIndexInvalid, seriesFieldId.ToString());
+                }
             }
             else
             {
-                seriesField = (DataField)Enum.Parse(typeof(DataField), seriesFieldId, true);
+                //Try parse the field name
+                try
+                {
+                    seriesField = (DataField)Enum.Parse(typeof(DataField), seriesFieldId, true);
+                }
+                catch (ArgumentException) { }
             }
 
             // Add the seriesField to the results
-            if (seriesField != null)
+            if (seriesField is not null)
             {
                 result.Add(new SeriesFieldInfo(series, (DataField)seriesField));
                 if (unmappedFormulaFields.Contains((DataField)seriesField))
@@ -1608,7 +1609,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             }
             else
             {
-                throw new ArgumentException(SR.ExceptionDataPointValueNameInvalid, seriesFieldId);
+                throw new ArgumentException(SR.ExceptionDataPointValueNameInvalid, seriesFieldId.ToString());
             }
         }
 
@@ -1655,31 +1656,26 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="seriesName">Name of the series.</param>
         /// <param name="unmappedFormulaFields">The unmapped formula fields.</param>
         /// <param name="seriesFieldId">The series field id.</param>
-        private static void AddSeriesFieldInfo(SeriesFieldList result, string seriesName, IList<DataField> unmappedFormulaFields, string seriesFieldId)
+        private static void AddSeriesFieldInfo(SeriesFieldList result, string seriesName, IList<DataField> unmappedFormulaFields, ReadOnlySpan<char> seriesFieldId)
         {
             SeriesChartType chartType = FormulaHelper.GetDefaultChartType(unmappedFormulaFields[0]);
             IList<DataField> seriesFields = FormulaHelper.GetDataFields(chartType);
-
             //Find the field
             DataField? seriesField = null;
-
-            seriesFieldId = seriesFieldId.ToUpperInvariant().Trim();
-
-            if (seriesFieldId == "Y")
+            seriesFieldId = seriesFieldId.Trim();
+            if (seriesFieldId.StartsWith("Y", StringComparison.OrdinalIgnoreCase))
             {
-                seriesField = seriesFields[0];
-            }
-            else if (seriesFieldId.StartsWith("Y", StringComparison.Ordinal))
-            {
-                if (int.TryParse(seriesFieldId.AsSpan(1), out int seriesFieldIndex))
-                    if (seriesFieldIndex < seriesFields.Count)
-                    {
+                if (seriesFieldId.Length == 1)
+                {
+                    seriesField = seriesFields[0];
+                }
+                else
+                {
+                    if (int.TryParse(seriesFieldId[1..], out int seriesFieldIndex) && seriesFieldIndex > 0 && seriesFieldIndex - 1 < seriesFields.Count)
                         seriesField = seriesFields[seriesFieldIndex - 1];
-                    }
                     else
-                    {
-                        throw new ArgumentException(SR.ExceptionFormulaYIndexInvalid, seriesFieldId);
-                    }
+                        throw new ArgumentException(SR.ExceptionFormulaYIndexInvalid, seriesFieldId.ToString());
+                }
             }
             else
             {
@@ -1688,18 +1684,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 {
                     seriesField = (DataField)Enum.Parse(typeof(DataField), seriesFieldId, true);
                 }
-                catch (ArgumentException)
-                { }
+                catch (ArgumentException) { }
             }
 
-            if (seriesField != null)
+            if (seriesField is not null)
             {
                 result.Add(new SeriesFieldInfo(seriesName, (DataField)seriesField));
                 unmappedFormulaFields.Remove((DataField)seriesField);
             }
             else
             {
-                throw new ArgumentException(SR.ExceptionDataPointValueNameInvalid, seriesFieldId);
+                throw new ArgumentException(SR.ExceptionDataPointValueNameInvalid, seriesFieldId.ToString());
             }
         }
     }

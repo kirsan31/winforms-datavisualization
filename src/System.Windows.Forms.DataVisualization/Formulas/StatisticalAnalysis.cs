@@ -57,85 +57,98 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
 		virtual public void Formula(string formulaName, double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList, out string[][] outLabels)
         {
-            string name;
-
             outLabels = null;
-
-            name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
 
             try
             {
-                switch (name)
+                if (string.Equals(formulaName, "TTESTEQUALVARIANCES", StringComparison.OrdinalIgnoreCase))
                 {
-                    case "TTESTEQUALVARIANCES":
-                        TTest(inputValues, out outputValues, parameterList, out outLabels, true);
-                        break;
-                    case "TTESTUNEQUALVARIANCES":
-                        TTest(inputValues, out outputValues, parameterList, out outLabels, false);
-                        break;
-                    case "TTESTPAIRED":
-                        TTestPaired(inputValues, out outputValues, parameterList, out outLabels);
-                        break;
-                    case "ZTEST":
-                        ZTest(inputValues, out outputValues, parameterList, out outLabels);
-                        break;
-                    case "FTEST":
-                        FTest(inputValues, out outputValues, parameterList, out outLabels);
-                        break;
-                    case "COVARIANCE":
-                        Covariance(inputValues, out outputValues, out outLabels);
-                        break;
-                    case "CORRELATION":
-                        Correlation(inputValues, out outputValues, out outLabels);
-                        break;
-                    case "ANOVA":
-                        Anova(inputValues, out outputValues, parameterList, out outLabels);
-                        break;
-                    case "TDISTRIBUTION":
-                        TDistribution(out outputValues, parameterList, out outLabels);
-                        break;
-                    case "FDISTRIBUTION":
-                        FDistribution(out outputValues, parameterList, out outLabels);
-                        break;
-                    case "NORMALDISTRIBUTION":
-                        NormalDistribution(out outputValues, parameterList, out outLabels);
-                        break;
-                    case "INVERSETDISTRIBUTION":
-                        TDistributionInverse(out outputValues, parameterList, out outLabels);
-                        break;
-                    case "INVERSEFDISTRIBUTION":
-                        FDistributionInverse(out outputValues, parameterList, out outLabels);
-                        break;
-                    case "INVERSENORMALDISTRIBUTION":
-                        NormalDistributionInverse(out outputValues, parameterList, out outLabels);
-                        break;
-                    case "MEAN":
-                        Average(inputValues, out outputValues, out outLabels);
-                        break;
-                    case "VARIANCE":
-                        Variance(inputValues, out outputValues, parameterList, out outLabels);
-                        break;
-                    case "MEDIAN":
-                        Median(inputValues, out outputValues, out outLabels);
-                        break;
-                    case "BETAFUNCTION":
-                        BetaFunction(out outputValues, parameterList, out outLabels);
-                        break;
-                    case "GAMMAFUNCTION":
-                        GammaFunction(out outputValues, parameterList, out outLabels);
-                        break;
-                    default:
-                        outputValues = null;
-                        break;
+                    TTest(inputValues, out outputValues, parameterList, out outLabels, true);
+                }
+                else if (string.Equals(formulaName, "TTESTUNEQUALVARIANCES", StringComparison.OrdinalIgnoreCase))
+                {
+                    TTest(inputValues, out outputValues, parameterList, out outLabels, false);
+                }
+                else if (string.Equals(formulaName, "TTESTPAIRED", StringComparison.OrdinalIgnoreCase))
+                {
+                    TTestPaired(inputValues, out outputValues, parameterList, out outLabels);
+                }
+                else if (string.Equals(formulaName, "ZTEST", StringComparison.OrdinalIgnoreCase))
+                {
+                    ZTest(inputValues, out outputValues, parameterList, out outLabels);
+                }
+                else if (string.Equals(formulaName, "FTEST", StringComparison.OrdinalIgnoreCase))
+                {
+                    FTest(inputValues, out outputValues, parameterList, out outLabels);
+                }
+                else if (string.Equals(formulaName, "COVARIANCE", StringComparison.OrdinalIgnoreCase))
+                {
+                    Covariance(inputValues, out outputValues, out outLabels);
+                }
+                else if (string.Equals(formulaName, "CORRELATION", StringComparison.OrdinalIgnoreCase))
+                {
+                    Correlation(inputValues, out outputValues, out outLabels);
+                }
+                else if (string.Equals(formulaName, "ANOVA", StringComparison.OrdinalIgnoreCase))
+                {
+                    Anova(inputValues, out outputValues, parameterList, out outLabels);
+                }
+                else if (string.Equals(formulaName, "TDISTRIBUTION", StringComparison.OrdinalIgnoreCase))
+                {
+                    TDistribution(out outputValues, parameterList, out outLabels);
+                }
+                else if (string.Equals(formulaName, "FDISTRIBUTION", StringComparison.OrdinalIgnoreCase))
+                {
+                    FDistribution(out outputValues, parameterList, out outLabels);
+                }
+                else if (string.Equals(formulaName, "NORMALDISTRIBUTION", StringComparison.OrdinalIgnoreCase))
+                {
+                    NormalDistribution(out outputValues, parameterList, out outLabels);
+                }
+                else if (string.Equals(formulaName, "INVERSETDISTRIBUTION", StringComparison.OrdinalIgnoreCase))
+                {
+                    TDistributionInverse(out outputValues, parameterList, out outLabels);
+                }
+                else if (string.Equals(formulaName, "INVERSEFDISTRIBUTION", StringComparison.OrdinalIgnoreCase))
+                {
+                    FDistributionInverse(out outputValues, parameterList, out outLabels);
+                }
+                else if (string.Equals(formulaName, "INVERSENORMALDISTRIBUTION", StringComparison.OrdinalIgnoreCase))
+                {
+                    NormalDistributionInverse(out outputValues, parameterList, out outLabels);
+                }
+                else if (string.Equals(formulaName, "MEAN", StringComparison.OrdinalIgnoreCase))
+                {
+                    Average(inputValues, out outputValues, out outLabels);
+                }
+                else if (string.Equals(formulaName, "VARIANCE", StringComparison.OrdinalIgnoreCase))
+                {
+                    Variance(inputValues, out outputValues, parameterList, out outLabels);
+                }
+                else if (string.Equals(formulaName, "MEDIAN", StringComparison.OrdinalIgnoreCase))
+                {
+                    Median(inputValues, out outputValues, out outLabels);
+                }
+                else if (string.Equals(formulaName, "BETAFUNCTION", StringComparison.OrdinalIgnoreCase))
+                {
+                    BetaFunction(out outputValues, parameterList, out outLabels);
+                }
+                else if (string.Equals(formulaName, "GAMMAFUNCTION", StringComparison.OrdinalIgnoreCase))
+                {
+                    GammaFunction(out outputValues, parameterList, out outLabels);
+                }
+                else
+                {
+                    outputValues = null;
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(formulaName));
             }
             catch (OverflowException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(formulaName));
             }
         }
 

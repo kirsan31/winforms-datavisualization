@@ -746,7 +746,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     markerStyle = point[CustomPropertyName.ErrorBarCenterMarkerStyle];
                 }
-                markerStyle = markerStyle.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
 
                 // Draw marker
                 DrawErrorBarSingleMarker(graph, area, point, markerStyle, xPosition, (float)yPosition, 0f, width, false);
@@ -776,7 +775,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             float width,
             bool draw3D)
         {
-            markerStyle = markerStyle.ToUpper(CultureInfo.InvariantCulture);
             if (markerStyle.Length > 0 && !string.Equals(markerStyle, "None", StringComparison.OrdinalIgnoreCase))
             {
                 // Make sure Y value is in range
@@ -1508,7 +1506,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     markerStyle = point[CustomPropertyName.ErrorBarCenterMarkerStyle];
                 }
-                markerStyle = markerStyle.ToUpper(CultureInfo.InvariantCulture);
 
                 // Draw marker
                 DrawErrorBarSingleMarker(graph, area, point, markerStyle, xPosition, yPosition, zPosition + depth / 2f, width, true);

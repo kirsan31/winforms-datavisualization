@@ -1098,56 +1098,59 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
 		virtual public void Formula(string formulaName, double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList, out string[][] outLabels)
         {
-            string name;
-
-            name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
-
             // Not used for these formulas.
             outLabels = null;
 
             try
             {
-                switch (name)
+                if (string.Equals(formulaName, "MOVINGAVERAGE", StringComparison.OrdinalIgnoreCase))
                 {
-                    case "MOVINGAVERAGE":
-                        MovingAverage(inputValues, out outputValues, parameterList, extraParameterList);
-                        break;
-                    case "EXPONENTIALMOVINGAVERAGE":
-                        ExponentialMovingAverage(inputValues, out outputValues, parameterList, extraParameterList);
-                        break;
-                    case "TRIANGULARMOVINGAVERAGE":
-                        TriangularMovingAverage(inputValues, out outputValues, parameterList, extraParameterList);
-                        break;
-                    case "WEIGHTEDMOVINGAVERAGE":
-                        WeightedMovingAverage(inputValues, out outputValues, parameterList, extraParameterList);
-                        break;
-                    case "BOLLINGERBANDS":
-                        BollingerBands(inputValues, out outputValues, parameterList, extraParameterList);
-                        break;
-                    case "MEDIANPRICE":
-                        MedianPrice(inputValues, out outputValues);
-                        break;
-                    case "TYPICALPRICE":
-                        TypicalPrice(inputValues, out outputValues);
-                        break;
-                    case "WEIGHTEDCLOSE":
-                        WeightedClose(inputValues, out outputValues);
-                        break;
-                    case "ENVELOPES":
-                        Envelopes(inputValues, out outputValues, parameterList, extraParameterList);
-                        break;
-                    default:
-                        outputValues = null;
-                        break;
+                    MovingAverage(inputValues, out outputValues, parameterList, extraParameterList);
+                }
+                else if (string.Equals(formulaName, "EXPONENTIALMOVINGAVERAGE", StringComparison.OrdinalIgnoreCase))
+                {
+                    ExponentialMovingAverage(inputValues, out outputValues, parameterList, extraParameterList);
+                }
+                else if (string.Equals(formulaName, "TRIANGULARMOVINGAVERAGE", StringComparison.OrdinalIgnoreCase))
+                {
+                    TriangularMovingAverage(inputValues, out outputValues, parameterList, extraParameterList);
+                }
+                else if (string.Equals(formulaName, "WEIGHTEDMOVINGAVERAGE", StringComparison.OrdinalIgnoreCase))
+                {
+                    WeightedMovingAverage(inputValues, out outputValues, parameterList, extraParameterList);
+                }
+                else if (string.Equals(formulaName, "BOLLINGERBANDS", StringComparison.OrdinalIgnoreCase))
+                {
+                    BollingerBands(inputValues, out outputValues, parameterList, extraParameterList);
+                }
+                else if (string.Equals(formulaName, "MEDIANPRICE", StringComparison.OrdinalIgnoreCase))
+                {
+                    MedianPrice(inputValues, out outputValues);
+                }
+                else if (string.Equals(formulaName, "TYPICALPRICE", StringComparison.OrdinalIgnoreCase))
+                {
+                    TypicalPrice(inputValues, out outputValues);
+                }
+                else if (string.Equals(formulaName, "WEIGHTEDCLOSE", StringComparison.OrdinalIgnoreCase))
+                {
+                    WeightedClose(inputValues, out outputValues);
+                }
+                else if (string.Equals(formulaName, "ENVELOPES", StringComparison.OrdinalIgnoreCase))
+                {
+                    Envelopes(inputValues, out outputValues, parameterList, extraParameterList);
+                }
+                else
+                {
+                    outputValues = null;
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(formulaName));
             }
             catch (OverflowException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(formulaName));
             }
         }
 

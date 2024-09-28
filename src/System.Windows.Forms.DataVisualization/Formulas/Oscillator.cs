@@ -604,47 +604,48 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
 		override public void Formula(string formulaName, double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList, out string[][] outLabels)
         {
-            string name;
             outputValues = null;
-
             // Not used for these formulas.
             outLabels = null;
 
-            name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
             try
             {
-                switch (name)
+                if (string.Equals(formulaName, "STOCHASTICINDICATOR", StringComparison.OrdinalIgnoreCase))
                 {
-                    case "STOCHASTICINDICATOR":
-                        StochasticIndicator(inputValues, out outputValues, parameterList);
-                        break;
-                    case "CHAIKINOSCILLATOR":
-                        ChaikinOscillator(inputValues, out outputValues, parameterList, extraParameterList);
-                        break;
-                    case "DETRENDEDPRICEOSCILLATOR":
-                        DetrendedPriceOscillator(inputValues, out outputValues, parameterList);
-                        break;
-                    case "VOLATILITYCHAIKINS":
-                        VolatilityChaikins(inputValues, out outputValues, parameterList);
-                        break;
-                    case "VOLUMEOSCILLATOR":
-                        VolumeOscillator(inputValues, out outputValues, parameterList);
-                        break;
-                    case "WILLIAMSR":
-                        WilliamsR(inputValues, out outputValues, parameterList);
-                        break;
-                    default:
-                        outputValues = null;
-                        break;
+                    StochasticIndicator(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "CHAIKINOSCILLATOR", StringComparison.OrdinalIgnoreCase))
+                {
+                    ChaikinOscillator(inputValues, out outputValues, parameterList, extraParameterList);
+                }
+                else if (string.Equals(formulaName, "DETRENDEDPRICEOSCILLATOR", StringComparison.OrdinalIgnoreCase))
+                {
+                    DetrendedPriceOscillator(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "VOLATILITYCHAIKINS", StringComparison.OrdinalIgnoreCase))
+                {
+                    VolatilityChaikins(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "VOLUMEOSCILLATOR", StringComparison.OrdinalIgnoreCase))
+                {
+                    VolumeOscillator(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "WILLIAMSR", StringComparison.OrdinalIgnoreCase))
+                {
+                    WilliamsR(inputValues, out outputValues, parameterList);
+                }
+                else
+                {
+                    outputValues = null;
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(formulaName));
             }
             catch (OverflowException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(formulaName));
             }
         }
 

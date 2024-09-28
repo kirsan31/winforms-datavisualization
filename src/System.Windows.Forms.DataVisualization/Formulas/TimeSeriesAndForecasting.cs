@@ -81,32 +81,27 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
 		virtual public void Formula(string formulaName, double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList, out string[][] outLabels)
         {
-            string name;
-
-            name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
-
             // Not used for these formulas.
             outLabels = null;
 
             try
             {
-                switch (name)
+                if (string.Equals(formulaName, "FORECASTING", StringComparison.OrdinalIgnoreCase))
                 {
-                    case "FORECASTING":
-                        Forecasting(inputValues, out outputValues, parameterList);
-                        break;
-                    default:
-                        outputValues = null;
-                        break;
+                    Forecasting(inputValues, out outputValues, parameterList);
+                }
+                else
+                {
+                    outputValues = null;
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(formulaName));
             }
             catch (OverflowException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(formulaName));
             }
         }
 

@@ -2449,13 +2449,12 @@ public class DataPoint : DataPointCustomProperties
         if (string.IsNullOrEmpty(valueName))
             throw new ArgumentNullException(nameof(valueName));
         
-        ReadOnlySpan<char> span = valueName.ToUpper(CultureInfo.InvariantCulture).AsSpan();
-        if (span == "X")
+        if (string.Equals(valueName, "X", StringComparison.OrdinalIgnoreCase))
             return this.XValue;
 
-        if (span[0] == 'Y')
+        if (valueName.StartsWith("Y", StringComparison.OrdinalIgnoreCase))
         {
-            if (span.Length == 1)
+            if (valueName.Length == 1)
             {
                 return this.YValues[0];
             }
@@ -2464,7 +2463,7 @@ public class DataPoint : DataPointCustomProperties
                 int yIndex;
                 try
                 {
-                    yIndex = int.Parse(span[1..], provider: CultureInfo.InvariantCulture) - 1;
+                    yIndex = int.Parse(valueName.AsSpan(1), provider: CultureInfo.InvariantCulture) - 1;
                 }
                 catch (Exception)
                 {

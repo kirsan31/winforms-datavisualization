@@ -363,10 +363,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private void Sort(PointSortOrder pointSortOrder, string sortBy, Series[] series)
         {
             // Check arguments
-            if (sortBy == null)
-                throw new ArgumentNullException(nameof(sortBy));
-            if (series == null)
-                throw new ArgumentNullException(nameof(series));
+            ArgumentNullException.ThrowIfNull(sortBy);
+            ArgumentNullException.ThrowIfNull(series);
 
             // Check array of series
             if (series.Length == 0)
@@ -387,10 +385,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private void Sort(IComparer<DataPoint> comparer, Series[] series)
         {
             // Check arguments
-            if (comparer == null)
-                throw new ArgumentNullException(nameof(comparer));
-            if (series == null)
-                throw new ArgumentNullException(nameof(series));
+            ArgumentNullException.ThrowIfNull(comparer);
+            ArgumentNullException.ThrowIfNull(series);
 
             //**************************************************
             //** Check array of series
@@ -412,7 +408,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 int pointIndex = 0;
                 foreach (DataPoint point in series[0].Points)
                 {
-                    point["_Index"] = pointIndex.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    point["_Index"] = pointIndex.ToString(Globalization.CultureInfo.InvariantCulture);
                     ++pointIndex;
                 }
             }
@@ -432,7 +428,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 foreach (DataPoint point in series[0].Points)
                 {
                     // Move point from index is stored in point attribute (as index before sorting)
-                    int fromIndex = int.Parse(point["_Index"], System.Globalization.CultureInfo.InvariantCulture);
+                    int fromIndex = int.Parse(point["_Index"], Globalization.CultureInfo.InvariantCulture);
 
                     // Move points in series
                     for (int seriesIndex = 1; seriesIndex < series.Length; seriesIndex++)
@@ -476,9 +472,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void Sort(PointSortOrder pointSortOrder, string sortBy, string seriesName)
         {
             // Check arguments
-            if (seriesName == null)
-                throw new ArgumentNullException(nameof(seriesName));
-
+            ArgumentNullException.ThrowIfNull(seriesName);
             Sort(pointSortOrder, sortBy, ConvertToSeriesArray(seriesName, false));
         }
 
@@ -490,9 +484,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void Sort(PointSortOrder pointSortOrder, Series series)
         {
             // Check arguments
-            if (series == null)
-                throw new ArgumentNullException(nameof(series));
-
+            ArgumentNullException.ThrowIfNull(series);
             Sort(pointSortOrder, "Y", ConvertToSeriesArray(series, false));
         }
 
@@ -504,9 +496,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void Sort(PointSortOrder pointSortOrder, string seriesName)
         {
             // Check arguments
-            if (seriesName == null)
-                throw new ArgumentNullException(nameof(seriesName));
-
+            ArgumentNullException.ThrowIfNull(seriesName);
             Sort(pointSortOrder, "Y", ConvertToSeriesArray(seriesName, false));
         }
 
@@ -519,9 +509,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void Sort(PointSortOrder pointSortOrder, string sortBy, Series series)
         {
             // Check arguments
-            if (series == null)
-                throw new ArgumentNullException(nameof(series));
-
+            ArgumentNullException.ThrowIfNull(series);
             Sort(pointSortOrder, sortBy, ConvertToSeriesArray(series, false));
         }
 
@@ -533,9 +521,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void Sort(IComparer<DataPoint> comparer, Series series)
         {
             // Check arguments - comparer is checked in the private override of Sort
-            if (series == null)
-                throw new ArgumentNullException(nameof(series));
-
+            ArgumentNullException.ThrowIfNull(series);
             Sort(comparer, ConvertToSeriesArray(series, false));
         }
 
@@ -547,9 +533,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void Sort(IComparer<DataPoint> comparer, string seriesName)
         {
             // Check arguments - comparer is checked in the private override of Sort
-            if (seriesName == null)
-                throw new ArgumentNullException(nameof(seriesName));
-
+            ArgumentNullException.ThrowIfNull(seriesName);
             Sort(comparer, ConvertToSeriesArray(seriesName, false));
         }
 
@@ -595,11 +579,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     {
                         if (double.IsNaN(toX))
                         {
-                            toX = ser.Points[ser.Points.Count - 1].XValue;
+                            toX = ser.Points[^1].XValue;
                         }
                         else
                         {
-                            toX = Math.Max(toX, ser.Points[ser.Points.Count - 1].XValue);
+                            toX = Math.Max(toX, ser.Points[^1].XValue);
                         }
                     }
                     if (fromIsNaN)
@@ -852,8 +836,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string seriesName)
         {
             // Check arguments
-            if (seriesName == null)
-                throw new ArgumentNullException(nameof(seriesName));
+            ArgumentNullException.ThrowIfNull(seriesName);
 
             InsertEmptyPoints(
                 interval,
@@ -886,8 +869,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series series)
         {
             // Check arguments
-            if (series == null)
-                throw new ArgumentNullException(nameof(series));
+            ArgumentNullException.ThrowIfNull(series);
 
             InsertEmptyPoints(
                 interval,
@@ -915,7 +897,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //** Create DataSet object
             //*****************************************************
             DataSet dataSet = new DataSet();
-            dataSet.Locale = System.Globalization.CultureInfo.CurrentCulture;
+            dataSet.Locale = Globalization.CultureInfo.CurrentCulture;
             // If input series are specified
             if (series != null)
             {
@@ -947,7 +929,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     //** Create new table for the series
                     //*****************************************************
                     DataTable seriesTable = new DataTable(ser.Name);
-                    seriesTable.Locale = System.Globalization.CultureInfo.CurrentCulture;
+                    seriesTable.Locale = Globalization.CultureInfo.CurrentCulture;
 
                     //*****************************************************
                     //** Add X column into data table schema
@@ -984,7 +966,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                         else
                         {
-                            seriesTable.Columns.Add("Y" + (yIndex + 1).ToString(System.Globalization.CultureInfo.InvariantCulture), columnType);
+                            seriesTable.Columns.Add("Y" + (yIndex + 1).ToString(Globalization.CultureInfo.InvariantCulture), columnType);
                         }
                     }
 
@@ -1003,7 +985,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             object xValue = point.XValue;
                             if (ser.IsXValueDateTime())
                             {
-                                if (Double.IsNaN(point.XValue))
+                                if (double.IsNaN(point.XValue))
                                     xValue = DBNull.Value;
                                 else
                                     xValue = DateTime.FromOADate(point.XValue);
@@ -1022,7 +1004,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 {
                                     if (ser.IsYValueDateTime())
                                     {
-                                        if (Double.IsNaN(point.YValues[yIndex]))
+                                        if (double.IsNaN(point.YValues[yIndex]))
                                             xValue = DBNull.Value;
                                         else
                                             yValue = DateTime.FromOADate(point.YValues[yIndex]);
@@ -1044,7 +1026,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 }
                                 else
                                 {
-                                    dataRow["Y" + (yIndex + 1).ToString(System.Globalization.CultureInfo.InvariantCulture)] = yValue;
+                                    dataRow["Y" + (yIndex + 1).ToString(Globalization.CultureInfo.InvariantCulture)] = yValue;
                                 }
                             }
 
@@ -1103,9 +1085,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public DataSet ExportSeriesValues(Series series)
         {
             // Check arguments
-            if (series == null)
-                throw new ArgumentNullException(nameof(series));
-
+            ArgumentNullException.ThrowIfNull(series);
             return ExportSeriesValues(ConvertToSeriesArray(series, false));
         }
 
@@ -1276,10 +1256,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             CheckXValuesAlignment(inputSeries);
 
-            if (filterInterface == null)
-            {
-                throw new ArgumentNullException(nameof(filterInterface));
-            }
+            ArgumentNullException.ThrowIfNull(filterInterface);
 
             //**************************************************
             //** Filter points in the first series and remove
@@ -1545,8 +1522,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Convert to integer
                         try
                         {
-                            result[index] = Int32.Parse(rangeIndex[0], System.Globalization.CultureInfo.InvariantCulture);
-                            result[index + 1] = Int32.Parse(rangeIndex[1], System.Globalization.CultureInfo.InvariantCulture);
+                            result[index] = int.Parse(rangeIndex[0], Globalization.CultureInfo.InvariantCulture);
+                            result[index + 1] = int.Parse(rangeIndex[1], Globalization.CultureInfo.InvariantCulture);
 
                             if (result[index + 1] < result[index])
                             {
@@ -1555,7 +1532,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                 result[index + 1] = temp;
                             }
                         }
-                        catch (System.Exception)
+                        catch (Exception)
                         {
                             throw new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, nameof(rangeElements));
                         }
@@ -1570,10 +1547,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Convert to integer
                     try
                     {
-                        result[index] = Int32.Parse(str, System.Globalization.CultureInfo.InvariantCulture);
+                        result[index] = int.Parse(str, Globalization.CultureInfo.InvariantCulture);
                         result[index + 1] = result[index];
                     }
-                    catch (System.Exception)
+                    catch (Exception)
                     {
                         throw new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, nameof(rangeElements));
                     }
@@ -1661,10 +1638,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string outputSeriesNames)
         {
             // Check arguments
-            if (rangeElements == null)
-                throw new ArgumentNullException(nameof(rangeElements));
-            if (inputSeriesNames == null)
-                throw new ArgumentNullException(nameof(inputSeriesNames));
+            ArgumentNullException.ThrowIfNull(rangeElements);
+            ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
             // Filter points using filtering interface
             Filter(new PointElementFilter(this, dateRange, rangeElements),
@@ -1688,10 +1663,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series inputSeries)
         {
             // Check arguments
-            if (rangeElements == null)
-                throw new ArgumentNullException(nameof(rangeElements));
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
+            ArgumentNullException.ThrowIfNull(rangeElements);
+            ArgumentNullException.ThrowIfNull(inputSeries);
 
             Filter(dateRange, rangeElements, inputSeries, null);
         }
@@ -1713,10 +1686,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series outputSeries)
         {
             // Check arguments
-            if (rangeElements == null)
-                throw new ArgumentNullException(nameof(rangeElements));
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
+            ArgumentNullException.ThrowIfNull(rangeElements);
+            ArgumentNullException.ThrowIfNull(inputSeries);
 
             // Filter points using filtering interface
             Filter(new PointElementFilter(this, dateRange, rangeElements),
@@ -1740,10 +1711,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string inputSeriesNames)
         {
             // Check arguments
-            if (rangeElements == null)
-                throw new ArgumentNullException(nameof(rangeElements));
-            if (inputSeriesNames == null)
-                throw new ArgumentNullException(nameof(inputSeriesNames));
+            ArgumentNullException.ThrowIfNull(rangeElements);
+            ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
             Filter(dateRange,
                 rangeElements,
@@ -1763,8 +1732,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series inputSeries)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
+            ArgumentNullException.ThrowIfNull(inputSeries);
 
             Filter(compareMethod,
                 compareValue,
@@ -1786,8 +1754,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series outputSeries)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
+            ArgumentNullException.ThrowIfNull(inputSeries);
 
             // Filter points using filtering interface
             Filter(new PointValueFilter(compareMethod, compareValue, "Y"),
@@ -1810,10 +1777,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string usingValue)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
-            if (usingValue == null)
-                throw new ArgumentNullException(nameof(usingValue));
+            ArgumentNullException.ThrowIfNull(inputSeries);
+            ArgumentNullException.ThrowIfNull(usingValue);
 
             // Filter points using filtering interface
             Filter(new PointValueFilter(compareMethod, compareValue, usingValue),
@@ -1833,8 +1798,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string inputSeriesNames)
         {
             // Check arguments
-            if (inputSeriesNames == null)
-                throw new ArgumentNullException(nameof(inputSeriesNames));
+            ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
             Filter(compareMethod,
                 compareValue,
@@ -1856,8 +1820,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string outputSeriesNames)
         {
             // Check arguments
-            if (inputSeriesNames == null)
-                throw new ArgumentNullException(nameof(inputSeriesNames));
+            ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
             // Filter points using filtering interface
             Filter(new PointValueFilter(compareMethod, compareValue, "Y"),
@@ -1880,10 +1843,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string usingValue)
         {
             // Check arguments
-            if (inputSeriesNames == null)
-                throw new ArgumentNullException(nameof(inputSeriesNames));
-            if (usingValue == null)
-                throw new ArgumentNullException(nameof(usingValue));
+            ArgumentNullException.ThrowIfNull(inputSeriesNames);
+            ArgumentNullException.ThrowIfNull(usingValue);
 
             // Filter points using filtering interface
             Filter(new PointValueFilter(compareMethod, compareValue, usingValue),
@@ -1907,10 +1868,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool getTopValues)
         {
             // Check arguments
-            if (inputSeriesNames == null)
-                throw new ArgumentNullException(nameof(inputSeriesNames));
-            if (usingValue == null)
-                throw new ArgumentNullException(nameof(usingValue));
+            ArgumentNullException.ThrowIfNull(inputSeriesNames);
+            ArgumentNullException.ThrowIfNull(usingValue);
 
             FilterTopN(pointCount,
                 ConvertToSeriesArray(inputSeriesNames, false),
@@ -1929,8 +1888,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series inputSeries)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
+            ArgumentNullException.ThrowIfNull(inputSeries);
 
             FilterTopN(pointCount,
                 ConvertToSeriesArray(inputSeries, false),
@@ -1950,8 +1908,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series outputSeries)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
+            ArgumentNullException.ThrowIfNull(inputSeries);
 
             FilterTopN(pointCount,
                 ConvertToSeriesArray(inputSeries, false),
@@ -1973,10 +1930,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string usingValue)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
-            if (usingValue == null)
-                throw new ArgumentNullException(nameof(usingValue));
+            ArgumentNullException.ThrowIfNull(inputSeries);
+            ArgumentNullException.ThrowIfNull(usingValue);
 
             FilterTopN(pointCount,
                 ConvertToSeriesArray(inputSeries, false),
@@ -2000,10 +1955,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool getTopValues)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
-            if (usingValue == null)
-                throw new ArgumentNullException(nameof(usingValue));
+            ArgumentNullException.ThrowIfNull(inputSeries);
+            ArgumentNullException.ThrowIfNull(usingValue);
 
             FilterTopN(pointCount,
                 ConvertToSeriesArray(inputSeries, false),
@@ -2023,8 +1976,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string inputSeriesNames)
         {
             // Check arguments
-            if (inputSeriesNames == null)
-                throw new ArgumentNullException(nameof(inputSeriesNames));
+            ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
             FilterTopN(pointCount,
                 ConvertToSeriesArray(inputSeriesNames, false),
@@ -2045,8 +1997,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string outputSeriesNames)
         {
             // Check arguments
-            if (inputSeriesNames == null)
-                throw new ArgumentNullException(nameof(inputSeriesNames));
+            ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
             FilterTopN(pointCount,
                 ConvertToSeriesArray(inputSeriesNames, false),
@@ -2069,10 +2020,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string usingValue)
         {
             // Check arguments
-            if (inputSeriesNames == null)
-                throw new ArgumentNullException(nameof(inputSeriesNames));
-            if (usingValue == null)
-                throw new ArgumentNullException(nameof(usingValue));
+            ArgumentNullException.ThrowIfNull(inputSeriesNames);
+            ArgumentNullException.ThrowIfNull(usingValue);
 
             FilterTopN(pointCount,
                 ConvertToSeriesArray(inputSeriesNames, false),
@@ -2092,10 +2041,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series inputSeries)
         {
             // Check arguments
-            if (filterInterface == null)
-                throw new ArgumentNullException(nameof(filterInterface));
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
+            ArgumentNullException.ThrowIfNull(filterInterface);
+            ArgumentNullException.ThrowIfNull(inputSeries);
 
             Filter(filterInterface,
                 ConvertToSeriesArray(inputSeries, false),
@@ -2113,10 +2060,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series outputSeries)
         {
             // Check arguments
-            if (filterInterface == null)
-                throw new ArgumentNullException(nameof(filterInterface));
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
+            ArgumentNullException.ThrowIfNull(filterInterface);
+            ArgumentNullException.ThrowIfNull(inputSeries);
 
             Filter(filterInterface,
                 ConvertToSeriesArray(inputSeries, false),
@@ -2133,10 +2078,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string inputSeriesNames)
         {
             // Check arguments
-            if (filterInterface == null)
-                throw new ArgumentNullException(nameof(filterInterface));
-            if (inputSeriesNames == null)
-                throw new ArgumentNullException(nameof(inputSeriesNames));
+            ArgumentNullException.ThrowIfNull(filterInterface);
+            ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
             Filter(filterInterface,
                 ConvertToSeriesArray(inputSeriesNames, false),
@@ -2154,10 +2097,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string outputSeriesNames)
         {
             // Check arguments
-            if (filterInterface == null)
-                throw new ArgumentNullException(nameof(filterInterface));
-            if (inputSeriesNames == null)
-                throw new ArgumentNullException(nameof(inputSeriesNames));
+            ArgumentNullException.ThrowIfNull(filterInterface);
+            ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
             Filter(filterInterface,
                 ConvertToSeriesArray(inputSeriesNames, false),
@@ -2197,8 +2138,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private void GroupByAxisLabel(string formula, Series[] inputSeries, Series[] outputSeries)
         {
             // Check arguments
-            if (formula == null)
-                throw new ArgumentNullException(nameof(formula));
+            ArgumentNullException.ThrowIfNull(formula);
 
             //**************************************************
             //** Check input/output series arrays
@@ -2446,8 +2386,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series[] outputSeries)
         {
             // Check arguments
-            if (formula == null)
-                throw new ArgumentNullException(nameof(formula));
+            ArgumentNullException.ThrowIfNull(formula);
 
             //**************************************************
             //** Check input/output series arrays
@@ -2945,7 +2884,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Calculate average first
                         double average = pointTempValues[functionInfo.outputIndex] / (intervalLastIndex - intervalFirstIndex - numberOfEmptyPoints + 1);
 
-                        // Second pass through inteval points required for calculations
+                        // Second pass through interval points required for calculations
                         pointTempValues[functionInfo.outputIndex] = 0;
                         for (int secondPassIndex = intervalFirstIndex; secondPassIndex <= intervalLastIndex; secondPassIndex++)
                         {
@@ -3003,8 +2942,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Split formula by comma
-            string[] valueFormulas = formula.Split(',');
-
+            string[] valueFormulas = formula.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             // At least one formula must be specified
             if (valueFormulas.Length == 0)
             {
@@ -3013,12 +2951,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Check each formula in the array
             GroupingFunctionInfo defaultFormula = new GroupingFunctionInfo();
-            foreach (string s in valueFormulas)
+            foreach (string formulaString in valueFormulas)
             {
-                // Trim white space and make upper case
-                string formulaString = s.Trim();
-                formulaString = formulaString.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
-
                 // Get value index and formula type from the string
                 GroupingFunction formulaType = ParseFormulaAndValueType(formulaString, out int valueIndex);
 
@@ -3095,32 +3029,30 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="formulaString">One formula name with optional value prefix.</param>
         /// <param name="valueIndex">Return value index.</param>
         /// <returns>Formula type.</returns>
-        private GroupingFunction ParseFormulaAndValueType(string formulaString, out int valueIndex)
+        private static GroupingFunction ParseFormulaAndValueType(ReadOnlySpan<char> formulaString, out int valueIndex)
         {
             // Initialize value index as first Y value (default)
             valueIndex = 1;
 
             // Split formula by optional ':' character
-            string[] formulaParts = formulaString.Split(':');
-
+            int colonInd = formulaString.IndexOf(':');
             // There must be at least one and no more than two result strings
-            if (formulaParts.Length < 1 && formulaParts.Length > 2)
-            {
-                throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString));
-            }
+            if (colonInd == 0 || (colonInd > 0 && (colonInd == formulaString.Length - 1 || formulaString.LastIndexOf(':') != colonInd)))
+                throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString.ToString()));
 
+            ReadOnlySpan<char> func;
             // Check specified value type
-            if (formulaParts.Length == 2)
+            if (colonInd > -1)
             {
-                if (formulaParts[0] == "X")
+                var val = formulaString[..colonInd];
+                if (val.Equals("X", StringComparison.OrdinalIgnoreCase))
                 {
                     valueIndex = 0;
                 }
-                else if (formulaParts[0].StartsWith("Y", StringComparison.Ordinal))
+                else if (val.StartsWith("Y", StringComparison.OrdinalIgnoreCase))
                 {
-                    formulaParts[0] = formulaParts[0].TrimStart('Y');
-
-                    if (formulaParts[0].Length == 0)
+                    val = val[1..];
+                    if (val.Length == 0)
                     {
                         valueIndex = 1;
                     }
@@ -3129,50 +3061,32 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Try to convert the rest of the string to integer
                         try
                         {
-                            valueIndex = Int32.Parse(formulaParts[0], System.Globalization.CultureInfo.InvariantCulture);
+                            valueIndex = int.Parse(val, provider: Globalization.CultureInfo.InvariantCulture);
                         }
-                        catch (System.Exception)
+                        catch (Exception)
                         {
-                            throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString));
+                            throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString.ToString()));
                         }
                     }
                 }
                 else
                 {
-                    throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString));
+                    throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString.ToString()));
                 }
+
+                func = formulaString[(colonInd + 1)..];
+            }
+            else
+            {
+                func = formulaString;
             }
 
             // Check formula name
-            if (formulaParts[formulaParts.Length - 1] == "MIN")
-                return GroupingFunction.Min;
-            else if (formulaParts[formulaParts.Length - 1] == "MAX")
-                return GroupingFunction.Max;
-            else if (formulaParts[formulaParts.Length - 1] == "AVE")
-                return GroupingFunction.Ave;
-            else if (formulaParts[formulaParts.Length - 1] == "SUM")
-                return GroupingFunction.Sum;
-            else if (formulaParts[formulaParts.Length - 1] == "FIRST")
-                return GroupingFunction.First;
-            else if (formulaParts[formulaParts.Length - 1] == "LAST")
-                return GroupingFunction.Last;
-            else if (formulaParts[formulaParts.Length - 1] == "HILOOPCL")
-                return GroupingFunction.HiLoOpCl;
-            else if (formulaParts[formulaParts.Length - 1] == "HILO")
-                return GroupingFunction.HiLo;
-            else if (formulaParts[formulaParts.Length - 1] == "COUNT")
-                return GroupingFunction.Count;
-            else if (formulaParts[formulaParts.Length - 1] == "DISTINCTCOUNT")
-                return GroupingFunction.DistinctCount;
-            else if (formulaParts[formulaParts.Length - 1] == "VARIANCE")
-                return GroupingFunction.Variance;
-            else if (formulaParts[formulaParts.Length - 1] == "DEVIATION")
-                return GroupingFunction.Deviation;
-            else if (formulaParts[formulaParts.Length - 1] == "CENTER")
-                return GroupingFunction.Center;
+            if (Enum.TryParse<GroupingFunction>(func, true, out var groupingFunction) && groupingFunction != GroupingFunction.None)
+                return groupingFunction;
 
             // Invalid formula name
-            throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaNameInvalid(formulaString));
+            throw new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaNameInvalid(func.ToString()));
         }
 
         /// <summary>
@@ -3214,8 +3128,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series inputSeries)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
+            ArgumentNullException.ThrowIfNull(inputSeries);
 
             Group(formula, interval, intervalType, inputSeries, null);
         }
@@ -3234,9 +3147,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string inputSeriesName)
         {
             // Check arguments
-            if (inputSeriesName == null)
-                throw new ArgumentNullException(nameof(inputSeriesName));
-
+            ArgumentNullException.ThrowIfNull(inputSeriesName);
             Group(formula, interval, intervalType, inputSeriesName, string.Empty);
         }
 
@@ -3258,9 +3169,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series inputSeries)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
-
+            ArgumentNullException.ThrowIfNull(inputSeries);
             Group(formula, interval, intervalType, intervalOffset, intervalOffsetType, inputSeries, null);
         }
 
@@ -3282,9 +3191,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string inputSeriesName)
         {
             // Check arguments
-            if (inputSeriesName == null)
-                throw new ArgumentNullException(nameof(inputSeriesName));
-
+            ArgumentNullException.ThrowIfNull(inputSeriesName);
             Group(formula, interval, intervalType, intervalOffset, intervalOffsetType, inputSeriesName, string.Empty);
         }
 
@@ -3298,9 +3205,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void GroupByAxisLabel(string formula, string inputSeriesName, string outputSeriesName)
         {
             // Check arguments
-            if (inputSeriesName == null)
-                throw new ArgumentNullException(nameof(inputSeriesName));
-
+            ArgumentNullException.ThrowIfNull(inputSeriesName);
             GroupByAxisLabel(formula,
                 ConvertToSeriesArray(inputSeriesName, false),
                 ConvertToSeriesArray(outputSeriesName, true));
@@ -3315,9 +3220,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void GroupByAxisLabel(string formula, Series inputSeries)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
-
+            ArgumentNullException.ThrowIfNull(inputSeries);
             GroupByAxisLabel(formula, inputSeries, null);
         }
 
@@ -3330,9 +3233,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void GroupByAxisLabel(string formula, string inputSeriesName)
         {
             // Check arguments
-            if (inputSeriesName == null)
-                throw new ArgumentNullException(nameof(inputSeriesName));
-
+            ArgumentNullException.ThrowIfNull(inputSeriesName);
             GroupByAxisLabel(formula, inputSeriesName, null);
         }
 
@@ -3357,9 +3258,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string outputSeriesName)
         {
             // Check arguments
-            if (inputSeriesName == null)
-                throw new ArgumentNullException(nameof(inputSeriesName));
-
+            ArgumentNullException.ThrowIfNull(inputSeriesName);
             Group(formula,
                 interval,
                 intervalType,
@@ -3385,9 +3284,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series outputSeries)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
-
+            ArgumentNullException.ThrowIfNull(inputSeries);
             Group(formula, interval, intervalType, 0, IntervalType.Number, inputSeries, outputSeries);
         }
 
@@ -3407,8 +3304,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             string outputSeriesName)
         {
             // Check arguments
-            if (inputSeriesName == null)
-                throw new ArgumentNullException(nameof(inputSeriesName));
+            ArgumentNullException.ThrowIfNull(inputSeriesName);
 
             Group(formula, interval, intervalType, 0, IntervalType.Number, inputSeriesName, outputSeriesName);
         }
@@ -3433,8 +3329,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Series outputSeries)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
+            ArgumentNullException.ThrowIfNull(inputSeries);
 
             Group(formula,
                 interval,
@@ -3455,8 +3350,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         public void GroupByAxisLabel(string formula, Series inputSeries, Series outputSeries)
         {
             // Check arguments
-            if (inputSeries == null)
-                throw new ArgumentNullException(nameof(inputSeries));
+            ArgumentNullException.ThrowIfNull(inputSeries);
 
             GroupByAxisLabel(formula,
                 ConvertToSeriesArray(inputSeries, false),

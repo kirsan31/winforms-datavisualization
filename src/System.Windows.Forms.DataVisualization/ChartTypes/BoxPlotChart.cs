@@ -711,7 +711,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             float width,
             bool draw3D)
         {
-            markerStyle = markerStyle.ToUpper(CultureInfo.InvariantCulture);
             if (markerStyle.Length > 0 && !string.Equals(markerStyle, "None", StringComparison.OrdinalIgnoreCase))
             {
                 // Make sure Y value is in range
@@ -724,8 +723,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // 3D Transform coordinates
                 if (draw3D)
                 {
-                    Point3D[] points = new Point3D[1];
-                    points[0] = new Point3D(xPosition, yPosition, zPosition);
+                    Point3D[] points = [new Point3D(xPosition, yPosition, zPosition)];
                     area.matrix3D.TransformPoints(points);
                     xPosition = points[0].X;
                     yPosition = points[0].Y;
@@ -755,7 +753,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 else
                 {
                     MarkerStyle marker = (MarkerStyle)Enum.Parse(typeof(MarkerStyle), markerStyle, true);
-
                     // Get marker size
                     SizeF markerSize = GetMarkerSize(
                         graph,

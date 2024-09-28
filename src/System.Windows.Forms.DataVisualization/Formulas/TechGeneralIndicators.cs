@@ -775,70 +775,64 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
 		public override void Formula(string formulaName, double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList, out string[][] outLabels)
         {
-            string name;
             outputValues = null;
-
-            name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
-
             // Not used for these formulas.
             outLabels = null;
 
             try
             {
-                switch (name)
+                if (string.Equals(formulaName, "STANDARDDEVIATION", StringComparison.OrdinalIgnoreCase))
                 {
-                    case "STANDARDDEVIATION":
-                        StandardDeviation(inputValues, out outputValues, parameterList, extraParameterList);
-                        break;
-
-                    case "AVERAGETRUERANGE":
-                        AverageTrueRange(inputValues, out outputValues, parameterList);
-                        break;
-
-                    case "EASEOFMOVEMENT":
-                        EaseOfMovement(inputValues, out outputValues);
-                        break;
-
-                    case "MASSINDEX":
-                        MassIndex(inputValues, out outputValues, parameterList);
-                        break;
-
-                    case "PERFORMANCE":
-                        Performance(inputValues, out outputValues);
-                        break;
-
-                    case "RATEOFCHANGE":
-                        RateOfChange(inputValues, out outputValues, parameterList);
-                        break;
-
-                    case "RELATIVESTRENGTHINDEX":
-                        RelativeStrengthIndex(inputValues, out outputValues, parameterList);
-                        break;
-
-                    case "TRIPLEEXPONENTIALMOVINGAVERAGE":
-                        Trix(inputValues, out outputValues, parameterList);
-                        break;
-
-                    case "MOVINGAVERAGECONVERGENCEDIVERGENCE":
-                        Macd(inputValues, out outputValues, parameterList);
-                        break;
-
-                    case "COMMODITYCHANNELINDEX":
-                        CommodityChannelIndex(inputValues, out outputValues, parameterList);
-                        break;
-
-                    default:
-                        outputValues = null;
-                        break;
+                    StandardDeviation(inputValues, out outputValues, parameterList, extraParameterList);
+                }
+                else if (string.Equals(formulaName, "AVERAGETRUERANGE", StringComparison.OrdinalIgnoreCase))
+                {
+                    AverageTrueRange(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "EASEOFMOVEMENT", StringComparison.OrdinalIgnoreCase))
+                {
+                    EaseOfMovement(inputValues, out outputValues);
+                }
+                else if (string.Equals(formulaName, "MASSINDEX", StringComparison.OrdinalIgnoreCase))
+                {
+                    MassIndex(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "PERFORMANCE", StringComparison.OrdinalIgnoreCase))
+                {
+                    Performance(inputValues, out outputValues);
+                }
+                else if (string.Equals(formulaName, "RATEOFCHANGE", StringComparison.OrdinalIgnoreCase))
+                {
+                    RateOfChange(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "RELATIVESTRENGTHINDEX", StringComparison.OrdinalIgnoreCase))
+                {
+                    RelativeStrengthIndex(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "TRIPLEEXPONENTIALMOVINGAVERAGE", StringComparison.OrdinalIgnoreCase))
+                {
+                    Trix(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "MOVINGAVERAGECONVERGENCEDIVERGENCE", StringComparison.OrdinalIgnoreCase))
+                {
+                    Macd(inputValues, out outputValues, parameterList);
+                }
+                else if (string.Equals(formulaName, "COMMODITYCHANNELINDEX", StringComparison.OrdinalIgnoreCase))
+                {
+                    CommodityChannelIndex(inputValues, out outputValues, parameterList);
+                }
+                else
+                {
+                    outputValues = null;
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaInvalidPeriod(formulaName));
             }
             catch (OverflowException)
             {
-                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(name));
+                throw new InvalidOperationException(SR.ExceptionFormulaNotEnoughDataPoints(formulaName));
             }
         }
 
