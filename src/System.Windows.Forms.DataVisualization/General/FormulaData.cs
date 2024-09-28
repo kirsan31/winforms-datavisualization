@@ -758,10 +758,8 @@ public class DataFormula
     /// <param name="outputSeries">Comma separated list of output data series names and optional X and Y values names.</param>
     public void CopySeriesValues(string inputSeries, string outputSeries)
     {
-        if (inputSeries == null)
-            throw new ArgumentNullException(nameof(inputSeries));
-        if (outputSeries == null)
-            throw new ArgumentNullException(nameof(outputSeries));
+        ArgumentNullException.ThrowIfNull(inputSeries);
+        ArgumentNullException.ThrowIfNull(outputSeries);
 
         double[][] outValues;
 
@@ -1116,11 +1114,8 @@ public class DataFormula
     /// <param name="outputSeries">Output series</param>
     public void FinancialFormula(FinancialFormula formulaName, string parameters, Series inputSeries, Series outputSeries)
     {
-        if (inputSeries == null)
-            throw new ArgumentNullException(nameof(inputSeries));
-
-        if (outputSeries == null)
-            throw new ArgumentNullException(nameof(outputSeries));
+        ArgumentNullException.ThrowIfNull(inputSeries);
+        ArgumentNullException.ThrowIfNull(outputSeries);
 
         FinancialFormula(formulaName, parameters, inputSeries.Name, outputSeries.Name);
     }
@@ -1158,11 +1153,8 @@ public class DataFormula
     /// <param name="outputSeries">Comma separated list of output series names and optional X and Y values names.</param>
     public void FinancialFormula(FinancialFormula formulaName, string parameters, string inputSeries, string outputSeries)
     {
-        if (inputSeries == null)
-            throw new ArgumentNullException(nameof(inputSeries));
-
-        if (outputSeries == null)
-            throw new ArgumentNullException(nameof(outputSeries));
+        ArgumentNullException.ThrowIfNull(inputSeries);
+        ArgumentNullException.ThrowIfNull(outputSeries);
 
         // Get formula info
         FormulaInfo formulaInfo = FormulaHelper.GetFormulaInfo(formulaName);

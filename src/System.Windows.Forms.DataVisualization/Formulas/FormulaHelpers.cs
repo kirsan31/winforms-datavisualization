@@ -130,7 +130,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                     return new AccumulationDistributionFormulaInfo();
 
                 default:
-                    Debug.Fail(String.Format(CultureInfo.InvariantCulture, "{0} case is not defined", formula));
+                    Debug.Fail(string.Format(CultureInfo.InvariantCulture, "{0} case is not defined", formula));
                     return null;
             }
         }
@@ -140,40 +140,38 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="chartType">Type of the chart.</param>
         /// <returns>Data fields</returns>
-        internal static IList<DataField> GetDataFields(SeriesChartType chartType)
+        internal static DataField[] GetDataFields(SeriesChartType chartType)
         {
             switch (chartType)
             {
                 case SeriesChartType.BoxPlot:
-                    return new DataField[] {
+                    return [
                         DataField.LowerWisker, DataField.UpperWisker,
                         DataField.LowerBox, DataField.UpperBox,
-                        DataField.Average, DataField.Median };
+                        DataField.Average, DataField.Median];
 
                 case SeriesChartType.Bubble:
-                    return new DataField[] {
-                        DataField.Bubble, DataField.BubbleSize };
+                    return [DataField.Bubble, DataField.BubbleSize];
 
                 case SeriesChartType.Candlestick:
                 case SeriesChartType.Stock:
-                    return new DataField[] {
+                    return [
                         DataField.High, DataField.Low,
-                        DataField.Open, DataField.Close };
+                        DataField.Open, DataField.Close];
 
                 case SeriesChartType.ErrorBar:
-                    return new DataField[] {
+                    return [
                         DataField.Center,
-                        DataField.LowerError, DataField.UpperError};
+                        DataField.LowerError, DataField.UpperError];
 
                 case SeriesChartType.RangeBar:
                 case SeriesChartType.Range:
                 case SeriesChartType.RangeColumn:
                 case SeriesChartType.SplineRange:
-                    return new DataField[] {
-                        DataField.Top, DataField.Bottom };
+                    return [DataField.Top, DataField.Bottom];
 
                 default:
-                    return new DataField[] { DataField.Y };
+                    return [DataField.Y];
             }
         }
 
@@ -385,7 +383,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="parameters">Csv string with parameters.</param>
         internal virtual void LoadParametersFromString(string parameters)
         {
-            if (String.IsNullOrEmpty(parameters))
+            if (string.IsNullOrEmpty(parameters))
                 return;
 
             string[] paramStringList = parameters.Split(',');
@@ -393,7 +391,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             for (int i = 0; i < _parameters.Length && paramStringIndex < paramStringList.Length; i++)
             {
                 string newParamValue = paramStringList[paramStringIndex++];
-                if (!String.IsNullOrEmpty(newParamValue))
+                if (!string.IsNullOrEmpty(newParamValue))
                 {
                     _parameters[i] = ParseParameter(i, newParamValue);
                 }
@@ -430,7 +428,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="parameters">The parameters.</param>
         internal virtual void CheckParameterString(string parameters)
         {
-            if (String.IsNullOrEmpty(parameters))
+            if (string.IsNullOrEmpty(parameters))
                 return;
 
             string[] paramStringList = parameters.Split(',');
@@ -438,7 +436,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             for (int i = 0; i < _parameters.Length && paramStringIndex < paramStringList.Length; i++)
             {
                 string newParamValue = paramStringList[paramStringIndex++];
-                if (!String.IsNullOrEmpty(newParamValue))
+                if (!string.IsNullOrEmpty(newParamValue))
                 {
                     try
                     {
@@ -476,8 +474,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
         public MovingAverageFormulaInfo(int period, bool startFromFirst)
             : base(
-                new DataField[] { DataField.Y }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.Y], //Input fields
+                [DataField.Y], //Output fields
                 period, startFromFirst)
         {
         }
@@ -504,8 +502,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
         public ExponentialMovingAverageFormulaInfo(int period, bool startFromFirst)
             : base(
-                new DataField[] { DataField.Y }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.Y], //Input fields
+                [DataField.Y], //Output fields
                 period, startFromFirst)
         {
         }
@@ -532,8 +530,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
         public WeightedMovingAverageFormulaInfo(int period, bool startFromFirst)
            : base(
-                new DataField[] { DataField.Y }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.Y], //Input fields
+                [DataField.Y], //Output fields
                 period, startFromFirst)
         {
         }
@@ -560,8 +558,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
         public TriangularMovingAverageFormulaInfo(int period, bool startFromFirst)
             : base(
-                new DataField[] { DataField.Y }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.Y], //Input fields
+                [DataField.Y], //Output fields
                 period, startFromFirst)
         {
         }
@@ -587,8 +585,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="period">The period.</param>
         public TripleExponentialMovingAverageFormulaInfo(int period)
             : base(
-                new DataField[] { DataField.Y }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.Y], //Input fields
+                [DataField.Y], //Output fields
                 period)
         {
         }
@@ -616,8 +614,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
         public BollingerBandsFormulaInfo(int period, double deviation, bool startFromFirst)
             : base(
-                new DataField[] { DataField.Y },                        //Input fields
-                new DataField[] { DataField.Top, DataField.Bottom },    //Output fields
+                [DataField.Y],                        //Input fields
+                [DataField.Top, DataField.Bottom],    //Output fields
                 period, deviation, startFromFirst)
         {
         }
@@ -634,8 +632,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         public TypicalPriceFormulaInfo()
             : base(
-                new DataField[] { DataField.Close, DataField.High, DataField.Low }, //Input fields
-                new DataField[] { DataField.Y })                                    //Output fields
+                [DataField.Close, DataField.High, DataField.Low], //Input fields
+                [DataField.Y])                                    //Output fields
         {
         }
     }
@@ -651,8 +649,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         public WeightedCloseFormulaInfo()
             : base(
-                new DataField[] { DataField.Close, DataField.High, DataField.Low }, //Input fields
-                new DataField[] { DataField.Y })                                    //Output fields
+                [DataField.Close, DataField.High, DataField.Low], //Input fields
+                [DataField.Y])                                    //Output fields
         {
         }
     }
@@ -668,8 +666,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         public MedianPriceFormulaInfo()
             : base(
-                new DataField[] { DataField.High, DataField.Low }, //Input fields
-                new DataField[] { DataField.Y })                    //Output fields
+                [DataField.High, DataField.Low], //Input fields
+                [DataField.Y])                    //Output fields
         {
         }
     }
@@ -696,8 +694,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
         public EnvelopesFormulaInfo(int period, double shiftPercentage, bool startFromFirst)
             : base(
-                new DataField[] { DataField.Y },                        //Input fields
-                new DataField[] { DataField.Top, DataField.Bottom },    //Output fields
+                [DataField.Y],                        //Input fields
+                [DataField.Top, DataField.Bottom],    //Output fields
                 period, shiftPercentage, startFromFirst)
         {
         }
@@ -724,8 +722,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
         public StandardDeviationFormulaInfo(int period, bool startFromFirst)
             : base(
-                new DataField[] { DataField.Y }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.Y], //Input fields
+                [DataField.Y], //Output fields
                 period, startFromFirst)
         {
         }
@@ -753,8 +751,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
         public ChaikinOscillatorFormulaInfo(int shortPeriod, int longPeriod, bool startFromFirst)
             : base(
-                new DataField[] { DataField.High, DataField.Low, DataField.Close, DataField.Y }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.High, DataField.Low, DataField.Close, DataField.Y], //Input fields
+                [DataField.Y], //Output fields
                 shortPeriod, longPeriod, startFromFirst)
         {
         }
@@ -781,8 +779,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
         public DetrendedPriceOscillatorFormulaInfo(int period, bool startFromFirst)
             : base(
-                new DataField[] { DataField.Y }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.Y], //Input fields
+                [DataField.Y], //Output fields
                 period, startFromFirst)
         {
         }
@@ -809,8 +807,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="signalPeriod">The signal period.</param>
         public VolatilityChaikinsFormulaInfo(int period, int signalPeriod)
             : base(
-                new DataField[] { DataField.High, DataField.Low }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.High, DataField.Low], //Input fields
+                [DataField.Y], //Output fields
                 period, signalPeriod)
         {
         }
@@ -838,8 +836,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="percentage">if set to <c>true</c> [percentage].</param>
         public VolumeOscillatorFormulaInfo(int shortPeriod, int longPeriod, bool percentage)
             : base(
-                new DataField[] { DataField.Y }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.Y], //Input fields
+                [DataField.Y], //Output fields
                 shortPeriod, longPeriod, percentage)
         {
         }
@@ -866,8 +864,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="periodK">The period K.</param>
         public StochasticIndicatorFormulaInfo(int periodD, int periodK)
             : base(
-                new DataField[] { DataField.High, DataField.Low, DataField.Close }, //Input fields
-                new DataField[] { DataField.Y, DataField.Y }, //Output fields
+                [DataField.High, DataField.Low, DataField.Close], //Input fields
+                [DataField.Y, DataField.Y], //Output fields
                 periodD, periodK)
         {
         }
@@ -893,8 +891,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="period">The period.</param>
         public WilliamsRFormulaInfo(int period)
             : base(
-                new DataField[] { DataField.High, DataField.Low, DataField.Close }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.High, DataField.Low, DataField.Close], //Input fields
+                [DataField.Y], //Output fields
                 period)
         {
         }
@@ -920,8 +918,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="period">The period.</param>
         public AverageTrueRangeFormulaInfo(int period)
             : base(
-                new DataField[] { DataField.High, DataField.Low, DataField.Close }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.High, DataField.Low, DataField.Close], //Input fields
+                [DataField.Y], //Output fields
                 period)
         {
         }
@@ -938,8 +936,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         public EaseOfMovementFormulaInfo()
             : base(
-                new DataField[] { DataField.High, DataField.Low, DataField.Close }, //Input fields
-                new DataField[] { DataField.Y }) //Output fields
+                [DataField.High, DataField.Low, DataField.Close], //Input fields
+                [DataField.Y]) //Output fields
         {
         }
     }
@@ -965,8 +963,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="averagePeriod">The average period.</param>
         public MassIndexFormulaInfo(int period, int averagePeriod)
             : base(
-                new DataField[] { DataField.High, DataField.Low }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.High, DataField.Low], //Input fields
+                [DataField.Y], //Output fields
                 period, averagePeriod)
         {
         }
@@ -983,8 +981,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         public PerformanceFormulaInfo()
             : base(
-                new DataField[] { DataField.Close }, //Input fields
-                new DataField[] { DataField.Y }) //Output fields
+                [DataField.Close], //Input fields
+                [DataField.Y]) //Output fields
         {
         }
     }
@@ -1009,8 +1007,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="period">The period.</param>
         public RateOfChangeFormulaInfo(int period)
             : base(
-                new DataField[] { DataField.Close }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.Close], //Input fields
+                [DataField.Y], //Output fields
                 period)
         {
         }
@@ -1036,8 +1034,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="period">The period.</param>
         public RelativeStrengthIndexFormulaInfo(int period)
             : base(
-                new DataField[] { DataField.Close }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.Close], //Input fields
+                [DataField.Y], //Output fields
                 period)
         {
         }
@@ -1064,8 +1062,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="longPeriod">The long period.</param>
         public MovingAverageConvergenceDivergenceFormulaInfo(int shortPeriod, int longPeriod)
             : base(
-                new DataField[] { DataField.Close }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.Close], //Input fields
+                [DataField.Y], //Output fields
                 shortPeriod, longPeriod)
         {
         }
@@ -1091,8 +1089,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="period">The period.</param>
         public CommodityChannelIndexFormulaInfo(int period)
             : base(
-                new DataField[] { DataField.High, DataField.Low, DataField.Close }, //Input fields
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.High, DataField.Low, DataField.Close], //Input fields
+                [DataField.Y], //Output fields
                 period)
         {
         }
@@ -1125,8 +1123,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="returnForecastingError">if set to <c>true</c> [return forecasting error].</param>
         public ForecastingFormulaInfo(TimeSeriesAndForecasting.RegressionType regressionType, int polynomialDegree, int forecastingPeriod, bool returnApproximationError, bool returnForecastingError)
             : base(
-                new DataField[] { DataField.Close }, //Input fields
-                new DataField[] { DataField.Close, DataField.High, DataField.Low }, //Output fields
+                [DataField.Close], //Input fields
+                [DataField.Close, DataField.High, DataField.Low], //Output fields
                 regressionType, polynomialDegree, forecastingPeriod, returnApproximationError, returnForecastingError)
         {
         }
@@ -1147,7 +1145,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="parameters">The parameters.</param>
         internal override void CheckParameterString(string parameters)
         {
-            if (String.IsNullOrEmpty(parameters))
+            if (string.IsNullOrEmpty(parameters))
                 return;
 
             string[] paramStringList = parameters.Split(',');
@@ -1156,7 +1154,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             for (int i = 2; i < Parameters.Length && paramStringIndex < paramStringList.Length; i++)
             {
                 string newParamValue = paramStringList[paramStringIndex++];
-                if (!String.IsNullOrEmpty(newParamValue))
+                if (!string.IsNullOrEmpty(newParamValue))
                 {
                     try
                     {
@@ -1176,7 +1174,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <returns>Csv string with parameters</returns>
         internal override string SaveParametersToString()
         {
-            if (String.IsNullOrEmpty(_parameters))
+            if (string.IsNullOrEmpty(_parameters))
                 return _parameters;
             else
                 return "2,0,true,true";
@@ -1203,8 +1201,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="period">The period.</param>
         public MoneyFlowFormulaInfo(int period)
             : base(
-                new DataField[] { DataField.High, DataField.Low, DataField.Close, DataField.Y }, //Input fields: High,Low,Close,Volume
-                new DataField[] { DataField.Y }, //Output fields
+                [DataField.High, DataField.Low, DataField.Close, DataField.Y], //Input fields: High,Low,Close,Volume
+                [DataField.Y], //Output fields
                 period)
         {
         }
@@ -1221,8 +1219,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         public PriceVolumeTrendFormulaInfo()
             : base(
-                new DataField[] { DataField.Close, DataField.Y }, //Input=Close,Volume
-                new DataField[] { DataField.Y }) //Output fields
+                [DataField.Close, DataField.Y], //Input=Close,Volume
+                [DataField.Y]) //Output fields
         {
         }
     }
@@ -1238,8 +1236,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         public OnBalanceVolumeFormulaInfo()
             : base(
-                new DataField[] { DataField.Close, DataField.Y }, //Input=Close,Volume
-                new DataField[] { DataField.Y }) //Output fields
+                [DataField.Close, DataField.Y], //Input=Close,Volume
+                [DataField.Y]) //Output fields
         {
         }
     }
@@ -1264,8 +1262,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="startValue">The start value.</param>
         public NegativeVolumeIndexFormulaInfo(double startValue)
             : base(
-                new DataField[] { DataField.Close, DataField.Y }, //Input=Close,Volume
-                new DataField[] { DataField.Y },
+                [DataField.Close, DataField.Y], //Input=Close,Volume
+                [DataField.Y],
                 startValue) //Output fields
         {
         }
@@ -1291,8 +1289,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="startValue">The start value.</param>
         public PositiveVolumeIndexFormulaInfo(double startValue)
             : base(
-                new DataField[] { DataField.Close, DataField.Y }, //Input=Close,Volume
-                new DataField[] { DataField.Y },
+                [DataField.Close, DataField.Y], //Input=Close,Volume
+                [DataField.Y],
                 startValue) //Output fields
         {
         }
@@ -1309,8 +1307,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         public AccumulationDistributionFormulaInfo() //Note about parameters: Start value is mandatory so we don't provide the default
             : base(
-                new DataField[] { DataField.High, DataField.Low, DataField.Close, DataField.Y }, //Input=High, Low, Close, Volume
-                new DataField[] { DataField.Y }) //Output fields
+                [DataField.High, DataField.Low, DataField.Close, DataField.Y], //Input=High, Low, Close, Volume
+                [DataField.Y]) //Output fields
         {
         }
     }
@@ -1449,14 +1447,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                                                         info.Series.ChartType :
                                                         FormulaHelper.GetDefaultChartType(info.DataField);
 
-                IList<DataField> dataFields = FormulaHelper.GetDataFields(seriesChartType);
-
-                int dataFieldIndex = dataFields.IndexOf(info.DataField);
+                DataField[] dataFields = FormulaHelper.GetDataFields(seriesChartType);
+                int dataFieldIndex = Array.IndexOf(dataFields, info.DataField);
                 if (dataFieldIndex == 0)
                     sb.AppendFormat(CultureInfo.InvariantCulture, "{0}:Y", info.SeriesName); //The string field descriptor is 1 based ;-(
                 else
                     sb.AppendFormat(CultureInfo.InvariantCulture, "{0}:Y{1}", info.SeriesName, dataFieldIndex + 1); //The string field descriptor is 1 based ;-(
             }
+
             return sb.ToString();
         }
 
@@ -1468,15 +1466,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="seriesFields">The series fields list. The series name can be followed by the field names. For example: "Series1:Y,Series1:Y3,Series2:Close"</param>
         /// <param name="formulaFields">The formula fields list.</param>
         /// <returns></returns>
-        public static SeriesFieldList FromString(Chart chart, string seriesFields, IList<DataField> formulaFields)
+        public static SeriesFieldList FromString(Chart chart, string seriesFields, DataField[] formulaFields)
         {
-            SeriesFieldList result = new SeriesFieldList();
-            if (String.IsNullOrEmpty(seriesFields))
+            SeriesFieldList result = [];
+            if (string.IsNullOrEmpty(seriesFields))
             {
                 return result;
             }
 
-            List<DataField> unmappedFormulaFields = new List<DataField>(formulaFields);
+            List<DataField> unmappedFormulaFields = new (formulaFields);
 
             //Loop through the series/field pairs
             foreach (string seriesField in seriesFields.Split(','))
@@ -1522,6 +1520,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                     }
                 }
             }
+
             return result;
         }
 
@@ -1531,7 +1530,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="result">The result.</param>
         /// <param name="series">The series.</param>
         /// <param name="unmappedFormulaFields">The unmapped formula fields.</param>
-        private static void AddSeriesFieldInfo(SeriesFieldList result, Series series, IList<DataField> unmappedFormulaFields)
+        private static void AddSeriesFieldInfo(SeriesFieldList result, Series series, List<DataField> unmappedFormulaFields)
         {
             List<DataField> seriesFields = new List<DataField>(FormulaHelper.GetDataFields(series.ChartType));
 
@@ -1545,6 +1544,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 {
                     seriesField = formulaField;
                 }
+
                 // Case 2. Try to map the formula field to the series field
                 seriesField ??= FormulaHelper.MapFormulaDataField(series.ChartType, formulaField);
 
@@ -1569,9 +1569,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="series">The series.</param>
         /// <param name="unmappedFormulaFields">The unmapped formula fields.</param>
         /// <param name="seriesFieldId">The series field id.</param>
-        private static void AddSeriesFieldInfo(SeriesFieldList result, Series series, IList<DataField> unmappedFormulaFields, ReadOnlySpan<char> seriesFieldId)
+        private static void AddSeriesFieldInfo(SeriesFieldList result, Series series, List<DataField> unmappedFormulaFields, ReadOnlySpan<char> seriesFieldId)
         {
-            IList<DataField> seriesFields = FormulaHelper.GetDataFields(series.ChartType);
+            DataField[] seriesFields = FormulaHelper.GetDataFields(series.ChartType);
             DataField? seriesField = null;
             seriesFieldId = seriesFieldId.Trim();
             if (seriesFieldId.StartsWith("Y", StringComparison.OrdinalIgnoreCase))
@@ -1582,7 +1582,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 }
                 else
                 {
-                    if (int.TryParse(seriesFieldId[1..], out int id) && id > 0 && id - 1 < seriesFields.Count)
+                    if (int.TryParse(seriesFieldId[1..], out int id) && id > 0 && id - 1 < seriesFields.Length)
                         seriesField = seriesFields[id - 1];
                     else
                         throw new ArgumentException(SR.ExceptionFormulaYIndexInvalid, seriesFieldId.ToString());
@@ -1619,7 +1619,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="result">The result.</param>
         /// <param name="seriesName">Name of the series.</param>
         /// <param name="unmappedFormulaFields">The unmapped formula fields.</param>
-        private static void AddSeriesFieldInfo(SeriesFieldList result, string seriesName, IList<DataField> unmappedFormulaFields)
+        private static void AddSeriesFieldInfo(SeriesFieldList result, string seriesName, List<DataField> unmappedFormulaFields)
         {
             SeriesChartType chartType = FormulaHelper.GetDefaultChartType(unmappedFormulaFields[0]);
             List<DataField> seriesFields = new List<DataField>(FormulaHelper.GetDataFields(chartType));
@@ -1656,10 +1656,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="seriesName">Name of the series.</param>
         /// <param name="unmappedFormulaFields">The unmapped formula fields.</param>
         /// <param name="seriesFieldId">The series field id.</param>
-        private static void AddSeriesFieldInfo(SeriesFieldList result, string seriesName, IList<DataField> unmappedFormulaFields, ReadOnlySpan<char> seriesFieldId)
+        private static void AddSeriesFieldInfo(SeriesFieldList result, string seriesName, List<DataField> unmappedFormulaFields, ReadOnlySpan<char> seriesFieldId)
         {
             SeriesChartType chartType = FormulaHelper.GetDefaultChartType(unmappedFormulaFields[0]);
-            IList<DataField> seriesFields = FormulaHelper.GetDataFields(chartType);
+            DataField[] seriesFields = FormulaHelper.GetDataFields(chartType);
             //Find the field
             DataField? seriesField = null;
             seriesFieldId = seriesFieldId.Trim();
@@ -1671,7 +1671,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 }
                 else
                 {
-                    if (int.TryParse(seriesFieldId[1..], out int seriesFieldIndex) && seriesFieldIndex > 0 && seriesFieldIndex - 1 < seriesFields.Count)
+                    if (int.TryParse(seriesFieldId[1..], out int seriesFieldIndex) && seriesFieldIndex > 0 && seriesFieldIndex - 1 < seriesFields.Length)
                         seriesField = seriesFields[seriesFieldIndex - 1];
                     else
                         throw new ArgumentException(SR.ExceptionFormulaYIndexInvalid, seriesFieldId.ToString());
