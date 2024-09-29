@@ -399,7 +399,7 @@ internal class NoNameExpandableObjectConverter : ExpandableObjectConverter
     /// <param name="context">Descriptor context.</param>
     /// <param name="culture">Culture information.</param>
     /// <param name="value">Value to convert.</param>
-    /// <param name="destinationType">Convertion destination type.</param>
+    /// <param name="destinationType">Conversion destination type.</param>
     /// <returns>Converted object.</returns>
     public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
     {
@@ -431,8 +431,8 @@ internal sealed class DoubleArrayConverter : ArrayConverter
     /// provide information about the design-time container.
     /// </summary>
     /// <param name="context">Descriptor context.</param>
-    /// <param name="sourceType">Convertion source type.</param>
-    /// <returns>Indicates if convertion is possible.</returns>
+    /// <param name="sourceType">Conversion source type.</param>
+    /// <returns>Indicates if conversion is possible.</returns>
     public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
     {
         if (sourceType == typeof(string))
@@ -468,7 +468,7 @@ internal sealed class DoubleArrayConverter : ArrayConverter
         // Can convert from string where each array element is separated by comma
         if (value is string stringValue)
         {
-            string[] values = stringValue.Split(new char[] { ',' });
+            string[] values = stringValue.Split(',');
             double[] array = new double[values.Length];
             for (int index = 0; index < values.Length; index++)
             {
@@ -513,7 +513,7 @@ internal sealed class DoubleArrayConverter : ArrayConverter
     /// <param name="context">Descriptor context.</param>
     /// <param name="culture">Culture information.</param>
     /// <param name="value">Value to convert.</param>
-    /// <param name="destinationType">Convertion destination type.</param>
+    /// <param name="destinationType">Conversion destination type.</param>
     /// <returns>Converted object.</returns>
     public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
     {
@@ -539,11 +539,11 @@ internal sealed class DoubleArrayConverter : ArrayConverter
             {
                 if (convertToDate)
                 {
-                    result += DateTime.FromOADate(d).ToString("g", System.Globalization.CultureInfo.InvariantCulture) + ",";
+                    result += DateTime.FromOADate(d).ToString("g", CultureInfo.InvariantCulture) + ",";
                 }
                 else
                 {
-                    result += d.ToString(System.Globalization.CultureInfo.InvariantCulture) + ",";
+                    result += d.ToString(CultureInfo.InvariantCulture) + ",";
                 }
             }
 
@@ -570,7 +570,7 @@ internal sealed class DataPointValueConverter : DoubleConverter
     /// <param name="context">Descriptor context.</param>
     /// <param name="culture">Culture information.</param>
     /// <param name="value">Value to convert.</param>
-    /// <param name="destinationType">Convertion destination type.</param>
+    /// <param name="destinationType">Conversion destination type.</param>
     /// <returns>Converted object.</returns>
     public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
     {
@@ -581,7 +581,7 @@ internal sealed class DataPointValueConverter : DoubleConverter
             if (destinationType == typeof(string) && dataPoint.series.IsXValueDateTime())
             {
                 DateTime valueAsSate = DateTime.FromOADate((double)value);
-                return valueAsSate.ToString("g", System.Globalization.CultureInfo.CurrentCulture);
+                return valueAsSate.ToString("g", CultureInfo.CurrentCulture);
             }
         }
 
@@ -605,7 +605,7 @@ internal sealed class DataPointValueConverter : DoubleConverter
 
                 if (dataPoint.series.IsXValueDateTime())
                 {
-                    DateTime valueAsSate = DateTime.Parse(stringValue, System.Globalization.CultureInfo.CurrentCulture);
+                    DateTime valueAsSate = DateTime.Parse(stringValue, CultureInfo.CurrentCulture);
                     return valueAsSate.ToOADate();
                 }
             }
@@ -693,8 +693,8 @@ internal sealed class ColorArrayConverter : TypeConverter
     /// provide information about the design-time container.
     /// </summary>
     /// <param name="context">Descriptor context.</param>
-    /// <param name="sourceType">Convertion source type.</param>
-    /// <returns>Indicates if convertion is possible.</returns>
+    /// <param name="sourceType">Conversion source type.</param>
+    /// <returns>Indicates if conversion is possible.</returns>
     public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
     {
         if (sourceType == typeof(string))
@@ -711,7 +711,7 @@ internal sealed class ColorArrayConverter : TypeConverter
     /// <param name="context">Descriptor context.</param>
     /// <param name="culture">Culture information.</param>
     /// <param name="value">Value to convert.</param>
-    /// <param name="destinationType">Convertion destination type.</param>
+    /// <param name="destinationType">Conversion destination type.</param>
     /// <returns>Converted object.</returns>
     public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
     {
