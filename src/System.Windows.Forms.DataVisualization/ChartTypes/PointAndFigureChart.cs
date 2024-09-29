@@ -322,7 +322,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <summary>
         /// Gets box size of the renko chart.
         /// </summary>
-        /// <param name="series">Range column chart series used to dispaly the renko chart.</param>
+        /// <param name="series">Range column chart series used to display the renko chart.</param>
         /// <param name="minPrice">Max price.</param>
         /// <param name="maxPrice">Min price.</param>
         private static double GetBoxSize(
@@ -415,17 +415,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <summary>
         /// Gets reversal amount of the pointAndFigure chart.
         /// </summary>
-        /// <param name="series">Step line chart series used to dispaly the pointAndFigure chart.</param>
-        private static double GetReversalAmount(
-            Series series)
+        /// <param name="series">Step line chart series used to display the pointAndFigure chart.</param>
+        private static double GetReversalAmount(Series series)
         {
             // Check "ReversalAmount" custom attribute
             double reversalAmount = 3.0;
             if (series.IsCustomPropertySet(CustomPropertyName.ReversalAmount))
             {
-                string attrValue = series[CustomPropertyName.ReversalAmount].Trim();
-
-                bool parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double amount);
+                bool parseSucceed = double.TryParse(series[CustomPropertyName.ReversalAmount], NumberStyles.Any, CultureInfo.InvariantCulture, out double amount);
                 if (parseSucceed)
                 {
                     reversalAmount = amount;
@@ -443,7 +440,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <summary>
         /// Fills step line series with data to draw the PointAndFigure chart.
         /// </summary>
-        /// <param name="series">Step line chart series used to dispaly the PointAndFigure chart.</param>
+        /// <param name="series">Step line chart series used to display the PointAndFigure chart.</param>
         /// <param name="originalData">Series with original data.</param>
         private static void FillPointAndFigureData(Series series, Series originalData)
         {

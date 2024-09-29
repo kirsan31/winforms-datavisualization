@@ -236,19 +236,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Array of series.</returns>
         internal Series[] ConvertToSeriesArray(object obj, bool createNew)
         {
-            Series[] array = null;
-
             if (obj is null)
-            {
                 return null;
-            }
 
+            Series[] array = null;
             // Parameter is one series
             if (obj is Series ser)
             {
-                array = new Series[1] { ser };
+                array = [ser];
             }
-
             // Parameter is a string (comma separated series names)
             else if (obj is string series)
             {
@@ -267,7 +263,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         ++index;
                     }
                 }
-
                 // Comma separated list
                 else if (series.Length > 0)
                 {
@@ -276,7 +271,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     series = series.Replace("\\=", "\\x46");
 
                     // Split string by comma
-                    string[] seriesNames = series.Split(',');
+                    string[] seriesNames = series.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
                     // Create array of series
                     array = new Series[seriesNames.Length];
@@ -290,13 +285,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                         try
                         {
-                            array[index] = Common.DataManager.Series[seriesName.Trim()];
+                            array[index] = Common.DataManager.Series[seriesName];
                         }
                         catch (Exception)
                         {
                             if (createNew)
                             {
-                                Series newSeries = new Series(seriesName.Trim());
+                                Series newSeries = new Series(seriesName);
                                 Common.DataManager.Series.Add(newSeries);
                                 array[index] = newSeries;
                             }

@@ -134,18 +134,18 @@ internal sealed class DataPointConverter : DataPointCustomPropertiesConverter
         {
             if (dataPoint.YValues.Length > 1)
             {
-                ConstructorInfo ci = typeof(DataPoint).GetConstructor(new Type[] { typeof(double), typeof(string) });
+                ConstructorInfo ci = typeof(DataPoint).GetConstructor([typeof(double), typeof(string)]);
                 string yValues = string.Empty;
                 foreach (double y in dataPoint.YValues)
                 {
-                    yValues += y.ToString(System.Globalization.CultureInfo.InvariantCulture) + ",";
+                    yValues += y.ToString(CultureInfo.InvariantCulture) + ",";
                 }
 
                 return new InstanceDescriptor(ci, new object[] { dataPoint.XValue, yValues.TrimEnd(',') }, false);
             }
             else
             {
-                ConstructorInfo ci = typeof(DataPoint).GetConstructor(new Type[] { typeof(double), typeof(double) });
+                ConstructorInfo ci = typeof(DataPoint).GetConstructor([typeof(double), typeof(double)]);
                 return new InstanceDescriptor(ci, new object[] { dataPoint.XValue, dataPoint.YValues[0] }, false);
             }
         }

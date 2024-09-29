@@ -1021,11 +1021,10 @@ public class DataFormula
     private void SplitParameters(string parameters, out string[] parameterList)
     {
         // Split string by comma
-        parameterList = parameters.Split(',');
-
+        parameterList = parameters.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
         for (int i = 0; i < parameterList.Length; i++)
         {
-            parameterList[i] = parameterList[i].Trim();
+            parameterList[i] = parameterList[i];
         }
     }
 

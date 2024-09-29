@@ -1371,7 +1371,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         Type columnDataType = null;
 
         // Check parameters
-        if (enumerator == null)
+        if (enumerator is null)
         {
             return type;
         }
@@ -1379,7 +1379,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
         // Check if current enumeration element is available
         try
         {
-            if (enumerator.Current == null)
+            if (enumerator.Current is null)
             {
                 return type;
             }
@@ -1391,15 +1391,15 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 
 
         // If original object is DataRow
-        if (enumerator.Current is DataRow)
+        if (enumerator.Current is DataRow row)
         {
-            if (field != null && field.Length > 0)
+            if (!string.IsNullOrEmpty(field))
             {
                 // Check if specified column exist
                 bool failed = true;
-                if (((DataRow)enumerator.Current).Table.Columns.Contains(field))
+                if (row.Table.Columns.Contains(field))
                 {
-                    columnDataType = ((DataRow)enumerator.Current).Table.Columns[field].DataType;
+                    columnDataType = row.Table.Columns[field].DataType;
                     failed = false;
                 }
 
@@ -1410,7 +1410,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 
                     if (parseSucceed)
                     {
-                        columnDataType = ((DataRow)enumerator.Current).Table.Columns[columnIndex].DataType;
+                        columnDataType = row.Table.Columns[columnIndex].DataType;
                         failed = false;
                     }
                     else
@@ -1425,16 +1425,15 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                 }
 
             }
-            else if (((DataRow)enumerator.Current).Table.Columns.Count > 0)
+            else if (row.Table.Columns.Count > 0)
             {
-                columnDataType = ((DataRow)enumerator.Current).Table.Columns[0].DataType;
+                columnDataType = row.Table.Columns[0].DataType;
             }
         }
-
         // If original object is DataRowView
         else if (enumerator.Current is DataRowView dRView)
         {
-            if (field != null && field.Length > 0)
+            if (!string.IsNullOrEmpty(field))
             {
                 // Check if specified column exist
                 bool failed = true;
@@ -1470,11 +1469,10 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                 columnDataType = dRView.DataView.Table.Columns[0].DataType;
             }
         }
-
         // If original object is DbDataRecord
         else if (enumerator.Current is DbDataRecord record)
         {
-            if (field != null && field.Length > 0)
+            if (!string.IsNullOrEmpty(field))
             {
                 bool failed = true;
                 int columnIndex;
@@ -1519,14 +1517,11 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                 }
             }
 
-            if (columnDataType is null)
-            {
-                columnDataType = enumerator.Current.GetType();
-            }
+            columnDataType ??= enumerator.Current.GetType();
         }
 
         // Use data type
-        if (columnDataType != null)
+        if (columnDataType is not null)
         {
             if (columnDataType == typeof(DateTime))
                 type = ChartValueType.DateTime;
@@ -4673,7 +4668,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 string[] nameValueStrings = value.Split(',');
                 foreach (string nameValue in nameValueStrings)
                 {
-                    string[] values = nameValue.Split('=');
+                    string[] values = nameValue.Split('=', StringSplitOptions.TrimEntries);
 
                     // Check format
                     if (values.Length != 2)
@@ -4681,9 +4676,7 @@ public class DataPointCustomProperties : ChartNamedElement
                         throw new FormatException(SR.ExceptionAttributeInvalidFormat);
                     }
 
-                    // Check for empty name or value
-                    values[0] = values[0].Trim();
-                    values[1] = values[1].Trim();
+                    // Check for empty name
                     if (values[0].Length == 0)
                     {
                         throw new FormatException(SR.ExceptionAttributeInvalidFormat);
@@ -4703,7 +4696,6 @@ public class DataPointCustomProperties : ChartNamedElement
 
                     string newValue = values[1].Replace("\\x45", ",");
                     newAttributes[values[0]] = newValue.Replace("\\x46", "=");
-
                 }
             }
 
@@ -6157,7 +6149,7 @@ public class CustomProperties
             string[] nameValueStrings = customAttribute.Split(',');
             foreach (string nameValue in nameValueStrings)
             {
-                string[] values = nameValue.Split('=');
+                string[] values = nameValue.Split('=', StringSplitOptions.TrimEntries);
 
                 // Check format
                 if (values.Length != 2)
@@ -6165,9 +6157,7 @@ public class CustomProperties
                     throw new FormatException(SR.ExceptionAttributeInvalidFormat);
                 }
 
-                // Check for empty name or value
-                values[0] = values[0].Trim();
-                values[1] = values[1].Trim();
+                // Check for empty name
                 if (values[0].Length == 0)
                 {
                     throw new FormatException(SR.ExceptionAttributeInvalidFormat);

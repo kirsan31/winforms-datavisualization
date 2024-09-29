@@ -4123,7 +4123,7 @@ public partial class Axis : ChartNamedElement, IDisposable
         {
             for (int rowIndex = 0; rowIndex < textRows.Length; rowIndex++)
             {
-                if (textRows[rowIndex].Length > longestLabelSize && textRows[rowIndex].Trim().IndexOf(' ') > 0)
+                if (textRows[rowIndex].Length > longestLabelSize && textRows[rowIndex].AsSpan().Trim().IndexOf(' ') > 0)
                 {
                     longestLabelSize = textRows[rowIndex].Length;
                     longestLabelIndex = index;

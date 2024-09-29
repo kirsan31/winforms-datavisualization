@@ -1484,14 +1484,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                     break;
 
                 //Split a pair into a series + field
-                string[] seriesFieldParts = seriesField.Split(':');
+                string[] seriesFieldParts = seriesField.Split(':', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                 if (seriesFieldParts.Length > 2)
                 {
                     throw new ArgumentException(SR.ExceptionFormulaDataFormatInvalid(seriesField));
                 }
 
                 //Get the series and series fields
-                string seriesName = seriesFieldParts[0].Trim();
+                string seriesName = seriesFieldParts[0];
                 Series series = chart.Series.FindByName(seriesName);
                 if (series != null)
                 {
@@ -1573,7 +1573,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         {
             DataField[] seriesFields = FormulaHelper.GetDataFields(series.ChartType);
             DataField? seriesField = null;
-            seriesFieldId = seriesFieldId.Trim();
             if (seriesFieldId.StartsWith("Y", StringComparison.OrdinalIgnoreCase))
             {
                 if (seriesFieldId.Length == 1)
@@ -1662,7 +1661,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             DataField[] seriesFields = FormulaHelper.GetDataFields(chartType);
             //Find the field
             DataField? seriesField = null;
-            seriesFieldId = seriesFieldId.Trim();
             if (seriesFieldId.StartsWith("Y", StringComparison.OrdinalIgnoreCase))
             {
                 if (seriesFieldId.Length == 1)

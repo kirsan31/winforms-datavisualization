@@ -1689,7 +1689,7 @@ public class Series : DataPointCustomProperties
             }
             else
             {
-                _dataSourceXMember = value;
+                _dataSourceXMember = value?.Trim();
             }
 
             // Reset data bound flag

@@ -545,10 +545,10 @@ internal sealed class ChartImage : ChartPicture
                         string[] yFieldNames = null;
                         if (series.YValueMembers.Length > 0)
                         {
-                            yFieldNames = series.YValueMembers.Replace(",,", "\n").Split(',');
+                            yFieldNames = series.YValueMembers.Replace(",,", "\n").Split(',', StringSplitOptions.TrimEntries);
                             for (int index = 0; index < yFieldNames.Length; index++)
                             {
-                                yFieldNames[index] = yFieldNames[index].Replace('\n', ',').Trim();
+                                yFieldNames[index] = yFieldNames[index].Replace('\n', ',');
                             }
                         }
 
@@ -582,7 +582,7 @@ internal sealed class ChartImage : ChartPicture
                                     yField = yFieldNames[fieldIndex++];
                                 }
 
-                                DataPointCollection.AutoDetectValuesType(series, enumerator, series.XValueMember.Trim(), enumerator, yField);
+                                DataPointCollection.AutoDetectValuesType(series, enumerator, series.XValueMember, enumerator, yField);
                             }
 
                             // Create new point
@@ -599,7 +599,7 @@ internal sealed class ChartImage : ChartPicture
                             // Set X to the value provided or use sequence numbers starting with 1
                             if (series.XValueMember.Length > 0)
                             {
-                                xValueObj = DataPointCollection.ConvertEnumerationItem(enumerator.Current, series.XValueMember.Trim());
+                                xValueObj = DataPointCollection.ConvertEnumerationItem(enumerator.Current, series.XValueMember);
                                 if (xValueObj is DBNull || xValueObj == null)
                                 {
                                     xValueIsNull = true;
