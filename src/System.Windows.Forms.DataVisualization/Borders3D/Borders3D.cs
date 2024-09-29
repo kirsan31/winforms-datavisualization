@@ -12,6 +12,7 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
@@ -507,8 +508,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         private ResourceManager _resourceManager;
 
         // Storage for all registered border types
-        internal Hashtable registeredBorderTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
-        private Hashtable _createdBorderTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, Type> _registeredBorderTypes = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, IBorderType> _createdBorderTypes = new(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
@@ -548,13 +549,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         public void Register(string name, Type borderType)
         {
             // First check if border type with specified name already registered
-            if (registeredBorderTypes.Contains(name))
+            if (_registeredBorderTypes.TryGetValue(name, out var curT))
             {
                 // If same type provided - ignore
-                if (registeredBorderTypes[name].GetType() == borderType)
-                {
+                if (curT == borderType)
                     return;
-                }
 
                 // Error - throw exception
                 throw new ArgumentException(SR.ExceptionBorderTypeNameIsNotUnique(name));
@@ -577,7 +576,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             }
 
             // Add border type to the hash table
-            registeredBorderTypes[name] = borderType;
+            _registeredBorderTypes[name] = borderType;
         }
 
         /// <summary>
@@ -587,22 +586,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// <returns>Border type object derived from IBorderType.</returns>
         public IBorderType GetBorderType(string name)
         {
-            // First check if border type with specified name registered
-            if (!registeredBorderTypes.Contains(name))
-            {
-                throw new ArgumentException(SR.ExceptionBorderTypeUnknown(name));
-            }
-
             // Check if the border type object is already created
-            if (!_createdBorderTypes.Contains(name))
-            {
-                // Create border type object
-                _createdBorderTypes[name] =
-                    ((Type)registeredBorderTypes[name]).Assembly.
-                    CreateInstance(((Type)registeredBorderTypes[name]).ToString());
-            }
+            if (_createdBorderTypes.TryGetValue(name, out var curT))
+                return curT;
 
-            return (IBorderType)_createdBorderTypes[name];
+            // Check if border type with specified name registered
+            if (!_registeredBorderTypes.TryGetValue(name, out var regT))
+                throw new ArgumentException(SR.ExceptionBorderTypeUnknown(name));
+
+            // Create border type object
+            var res = (IBorderType)regT.Assembly.CreateInstance(regT.ToString());
+            _createdBorderTypes[name] = res;
+            return res;
         }
 
         /// <summary>
@@ -613,10 +608,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             get
             {
                 // Create border images resource manager
-                if (_resourceManager == null)
-                {
-                    _resourceManager = new ResourceManager("System.Web.UI.DataVisualization.Charting", Assembly.GetExecutingAssembly());
-                }
+                _resourceManager ??= new ResourceManager("System.Web.UI.DataVisualization.Charting", Assembly.GetExecutingAssembly());
                 return _resourceManager;
             }
         }

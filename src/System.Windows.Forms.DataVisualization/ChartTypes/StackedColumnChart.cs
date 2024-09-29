@@ -43,9 +43,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
         #region Fields
 
-        // Total Y values from all series at specified index orgonized by stacked groups
-        // Hashtable will contain arrays of doubles stored by group name key.
-        private Hashtable _stackedGroupsTotalPerPoint;
+        // Total Y values from all series at specified index organized by stacked groups
+        // Dictionary will contain arrays of doubles stored by group name key.
+        private Dictionary<string, double[]> _stackedGroupsTotalPerPoint;
 
         #endregion Fields
 
@@ -85,9 +85,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         public override void Paint(ChartGraphics graph, CommonElements common, ChartArea area, Series seriesToDraw)
         {
             // Reset pre-calculated totals
-
             this._stackedGroupsTotalPerPoint = null;
-
             base.Paint(graph, common, area, seriesToDraw);
         }
 
@@ -100,24 +98,24 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// </summary>
         /// <param name="common">Chart common elements.</param>
         /// <param name="area">Chart area the series belongs to.</param>
-        /// <param name="series">Sereis of the point.</param>
+        /// <param name="series">Series of the point.</param>
         /// <param name="point">Point object.</param>
         /// <param name="pointIndex">Index of the point.</param>
         /// <param name="yValueIndex">Index of the Y value to get.</param>
         /// <returns>Y value of the point.</returns>
         public override double GetYValue(CommonElements common, ChartArea area, Series series, DataPoint point, int pointIndex, int yValueIndex)
         {
-            string currentStackedGroupName = HundredPercentStackedColumnChart.GetSeriesStackGroupName(series);
-            if (this._stackedGroupsTotalPerPoint == null)
+            string currentStackedGroupName = GetSeriesStackGroupName(series);
+            if (this._stackedGroupsTotalPerPoint is null)
             {
-                // Create new hashtable
-                this._stackedGroupsTotalPerPoint = new Hashtable();
+                // Create new Dictionary
+                this._stackedGroupsTotalPerPoint = [];
 
                 // Iterate through all stacked groups
                 foreach (string groupName in this.stackGroupNames)
                 {
                     // Get series that belong to the same group
-                    Series[] seriesArray = HundredPercentStackedColumnChart.GetSeriesByStackedGroupName(
+                    Series[] seriesArray = GetSeriesByStackedGroupName(
                         common, groupName, series.ChartTypeName, series.ChartArea);
 
                     // Check if series are aligned
@@ -136,14 +134,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         }
                     }
 
-                    // Add totals array into the hashtable
+                    // Add totals array into the Dictionary
                     this._stackedGroupsTotalPerPoint.Add(groupName, totals);
                 }
             }
 
             // Array of Y totals for individual series index in the current stacked group
             // Find array of total Y values based on the current stacked group name
-            double[] currentGroupTotalPerPoint = (double[])_stackedGroupsTotalPerPoint[currentStackedGroupName];
+            double[] currentGroupTotalPerPoint = _stackedGroupsTotalPerPoint[currentStackedGroupName];
 
             // IsEmpty point
             if (!area.Area3DStyle.Enable3D)
@@ -494,7 +492,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
             //************************************************************
             //** If stacked series is attached to diferent X and Y axis
             //** they can not be processed. To solve this issue series 
-            //** will be orgonized in groups based on the axes.
+            //** will be organized in groups based on the axes.
             //************************************************************
 
             // Loop through all series and check if different axes are used
@@ -1210,7 +1208,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         /// </summary>
         /// <param name="common">Chart common elements.</param>
         /// <param name="area">Chart area the series belongs to.</param>
-        /// <param name="series">Sereis of the point.</param>
+        /// <param name="series">Series of the point.</param>
         /// <param name="point">Point object.</param>
         /// <param name="pointIndex">Index of the point.</param>
         /// <param name="yValueIndex">Index of the Y value to get.  Set to -1 to get the height.</param>

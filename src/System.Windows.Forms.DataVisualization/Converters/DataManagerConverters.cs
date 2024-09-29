@@ -26,7 +26,7 @@ internal sealed class SeriesAreaNameConverter : StringConverter
     #region Converter methods
 
     /// <summary>
-    /// Standart values supported - return true
+    /// Standard values supported - return true
     /// </summary>
     /// <param name="context">Descriptor context.</param>
     /// <returns>Standard values supported.</returns>
@@ -36,7 +36,7 @@ internal sealed class SeriesAreaNameConverter : StringConverter
     }
 
     /// <summary>
-    /// Standart values are not exclusive - return false
+    /// Standard values are not exclusive - return false
     /// </summary>
     /// <param name="context">Descriptor context.</param>
     /// <returns>Non exclusive standard values.</returns>
@@ -49,7 +49,7 @@ internal sealed class SeriesAreaNameConverter : StringConverter
     /// Fill in the list of the chart areas for the series.
     /// </summary>
     /// <param name="context">Descriptor context.</param>
-    /// <returns>Standart values collection.</returns>
+    /// <returns>Standard values collection.</returns>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
         ArrayList values = new ArrayList();
@@ -78,7 +78,7 @@ internal sealed class ChartDataSourceConverter : StringConverter
     #region Converter methods
 
     /// <summary>
-    /// Standart values supported - return true
+    /// Standard values supported - return true
     /// </summary>
     /// <param name="context">Descriptor context.</param>
     /// <returns>Standard values supported.</returns>
@@ -88,7 +88,7 @@ internal sealed class ChartDataSourceConverter : StringConverter
     }
 
     /// <summary>
-    /// Standart values are not exclusive - return false
+    /// Standard values are not exclusive - return false
     /// </summary>
     /// <param name="context">Descriptor context.</param>
     /// <returns>Non exclusive standard values.</returns>
@@ -137,7 +137,7 @@ internal sealed class SeriesDataSourceMemberConverter : StringConverter
     #region Converter methods
 
     /// <summary>
-    /// Standart values supported - return true
+    /// Standard values supported - return true
     /// </summary>
     /// <param name="context">Descriptor context.</param>
     /// <returns>Standard values supported.</returns>
@@ -147,7 +147,7 @@ internal sealed class SeriesDataSourceMemberConverter : StringConverter
     }
 
     /// <summary>
-    /// Standart values are not exclusive - return false
+    /// Standard values are not exclusive - return false
     /// </summary>
     /// <param name="context">Descriptor context.</param>
     /// <returns>Non exclusive standard values.</returns>
@@ -160,7 +160,7 @@ internal sealed class SeriesDataSourceMemberConverter : StringConverter
     /// Fill in the list of the data source members.
     /// </summary>
     /// <param name="context">Descriptor context.</param>
-    /// <returns>Standart values collection.</returns>
+    /// <returns>Standard values collection.</returns>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
         ArrayList values = new ArrayList();
@@ -206,7 +206,7 @@ internal sealed class SeriesLegendNameConverter : StringConverter
     #region Converter methods
 
     /// <summary>
-    /// Standart values supported - return true
+    /// Standard values supported - return true
     /// </summary>
     /// <param name="context">Descriptor context.</param>
     /// <returns>Standard values supported.</returns>
@@ -216,7 +216,7 @@ internal sealed class SeriesLegendNameConverter : StringConverter
     }
 
     /// <summary>
-    /// Standart values are not exclusive - return false
+    /// Standard values are not exclusive - return false
     /// </summary>
     /// <param name="context">Descriptor context.</param>
     /// <returns>Non exclusive standard values.</returns>
@@ -229,7 +229,7 @@ internal sealed class SeriesLegendNameConverter : StringConverter
     /// Fill in the list of the chart legend for the series.
     /// </summary>
     /// <param name="context">Descriptor context.</param>
-    /// <returns>Standart values collection.</returns>
+    /// <returns>Standard values collection.</returns>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
         ArrayList values = new ArrayList();
@@ -258,7 +258,7 @@ internal sealed class ChartTypeConverter : StringConverter
     #region Converter methods
 
     /// <summary>
-    /// Standart values supported - return true
+    /// Standard values supported - return true
     /// </summary>
     /// <param name="context">Descriptor context.</param>
     /// <returns>Standard values supported.</returns>
@@ -268,7 +268,7 @@ internal sealed class ChartTypeConverter : StringConverter
     }
 
     /// <summary>
-    /// Standart values are not exclusive - return false
+    /// Standard values are not exclusive - return false
     /// </summary>
     /// <param name="context">Descriptor context.</param>
     /// <returns>Non exclusive standard values.</returns>
@@ -284,23 +284,17 @@ internal sealed class ChartTypeConverter : StringConverter
     /// <returns>Standard values collection.</returns>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
-        ArrayList values = new ArrayList();
-
+        Collections.Generic.List<string> values = [];
         Chart chart = ConverterHelper.GetChartFromContext(context);
-        if (chart != null)
+        if (chart is not null)
         {
             // Get chart type registry service
             ChartTypeRegistry registry = (ChartTypeRegistry)chart.GetService(typeof(ChartTypeRegistry));
-            if (registry != null)
+            if (registry is not null)
             {
                 // Enumerate all chart types names
-                foreach (object obj in registry.registeredChartTypes.Keys)
-                {
-                    if (obj is string)
-                    {
-                        values.Add(obj);
-                    }
-                }
+                foreach (string n in registry.registeredChartTypes.Keys)
+                    values.Add(n);
             }
             else
             {
@@ -310,7 +304,6 @@ internal sealed class ChartTypeConverter : StringConverter
 
         // Sort all values
         values.Sort();
-
         return new StandardValuesCollection(values);
     }
 
@@ -326,7 +319,7 @@ internal sealed class SeriesNameConverter : StringConverter
     #region Converter methods
 
     /// <summary>
-    /// Standart values supported - return true
+    /// Standard values supported - return true
     /// </summary>
     /// <param name="context">Descriptor context.</param>
     /// <returns>Standard values supported.</returns>
@@ -336,7 +329,7 @@ internal sealed class SeriesNameConverter : StringConverter
     }
 
     /// <summary>
-    /// Standart values are not exclusive - return false
+    /// Standard values are not exclusive - return false
     /// </summary>
     /// <param name="context">Descriptor context.</param>
     /// <returns>Non exclusive standard values.</returns>

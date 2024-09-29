@@ -38,8 +38,8 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
     #region Fields
 
     // Storage for registered/created chart types
-    internal readonly Hashtable registeredChartTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
-    private readonly Hashtable _createdChartTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
+    internal readonly Dictionary<string, Type> registeredChartTypes = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, IChartType> _createdChartTypes = new(StringComparer.OrdinalIgnoreCase);
 
     #endregion
 
@@ -57,7 +57,7 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
     /// </summary>
     /// <param name="serviceType">Service type to get.</param>
     /// <returns>Chart type registry service.</returns>
-    [EditorBrowsableAttribute(EditorBrowsableState.Never)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     object IServiceProvider.GetService(Type serviceType)
     {
         if (serviceType == typeof(ChartTypeRegistry))
@@ -80,13 +80,11 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
     public void Register(string name, Type chartType)
     {
         // First check if chart type with specified name already registered
-        if (registeredChartTypes.Contains(name))
+        if (registeredChartTypes.TryGetValue(name, out var curT))
         {
             // If same type provided - ignore
-            if (registeredChartTypes[name].GetType() == chartType)
-            {
+            if (curT == chartType)
                 return;
-            }
 
             // Error - throw exception
             throw new ArgumentException(SR.ExceptionChartTypeNameIsNotUnique(name));
@@ -105,9 +103,7 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
         }
 
         if (!found)
-        {
             throw new ArgumentException(SR.ExceptionChartTypeHasNoInterface);
-        }
 
         // Add chart type to the hash table
         registeredChartTypes[name] = chartType;
@@ -130,22 +126,18 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
     /// <returns>Chart type object derived from IChartType.</returns>
     public IChartType GetChartType(string name)
     {
-        // First check if chart type with specified name registered
-        if (!registeredChartTypes.Contains(name))
-        {
-            throw new ArgumentException(SR.ExceptionChartTypeUnknown(name));
-        }
-
         // Check if the chart type object is already created
-        if (!_createdChartTypes.Contains(name))
-        {
-            // Create chart type object
-            _createdChartTypes[name] =
-                ((Type)registeredChartTypes[name]).Assembly.
-                CreateInstance(((Type)registeredChartTypes[name]).ToString());
-        }
+        if (_createdChartTypes.TryGetValue(name, out var curT))
+            return curT;
 
-        return (IChartType)_createdChartTypes[name];
+        // Check if chart type with specified name registered
+        if (!registeredChartTypes.TryGetValue(name, out var regT))
+            throw new ArgumentException(SR.ExceptionChartTypeUnknown(name));
+
+        // Create chart type object
+        var res = (IChartType)regT.Assembly.CreateInstance(regT.ToString());
+        _createdChartTypes[name] = res;
+        return res;
     }
 
     #endregion
@@ -163,7 +155,7 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
             // Dispose managed resource
             foreach (string name in this._createdChartTypes.Keys)
             {
-                IChartType chartType = (IChartType)_createdChartTypes[name];
+                IChartType chartType = _createdChartTypes[name];
                 chartType.Dispose();
             }
 

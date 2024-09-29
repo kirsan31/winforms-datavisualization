@@ -7,6 +7,7 @@
 //
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace System.Windows.Forms.DataVisualization.Charting.Formulas
@@ -17,13 +18,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
     internal sealed class FormulaRegistry : IServiceProvider
     {
         #region Fields
-
         // Storage for all registered formula modules
-        internal Hashtable registeredModules = new Hashtable(StringComparer.OrdinalIgnoreCase);
-
-        private readonly Hashtable _createdModules = new Hashtable(StringComparer.OrdinalIgnoreCase);
-        private readonly ArrayList _modulesNames = new ArrayList();
-
+        private readonly Dictionary<string, Type> _registeredModules = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, IFormula> _createdModules = new(StringComparer.OrdinalIgnoreCase);
+        private readonly List<string> _modulesNames = [];
         #endregion Fields
 
         #region Methods
@@ -43,13 +41,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         public void Register(string name, Type moduleType)
         {
             // First check if module with specified name already registered
-            if (registeredModules.Contains(name))
+            if (_registeredModules.TryGetValue(name, out var curT))
             {
                 // If same type provided - ignore
-                if (registeredModules[name].GetType() == moduleType)
-                {
+                if (curT == moduleType)
                     return;
-                }
 
                 // Error - throw exception
                 throw new ArgumentException(SR.ExceptionFormulaModuleNameIsNotUnique(name));
@@ -75,7 +71,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             }
 
             // Add formula module to the hash table
-            registeredModules[name] = moduleType;
+            _registeredModules[name] = moduleType;
         }
 
         /// <summary>
@@ -87,9 +83,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         object IServiceProvider.GetService(Type serviceType)
         {
             if (serviceType == typeof(FormulaRegistry))
-            {
                 return this;
-            }
+
             throw new ArgumentException(SR.ExceptionFormulaModuleRegistryUnsupportedType(serviceType.ToString()));
         }
 
@@ -100,22 +95,18 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <returns>Formula module object derived from IFormula.</returns>
         public IFormula GetFormulaModule(string name)
         {
-            // First check if formula module with specified name registered
-            if (!registeredModules.Contains(name))
-            {
-                throw new ArgumentException(SR.ExceptionFormulaModuleNameUnknown(name));
-            }
-
             // Check if the formula module object is already created
-            if (!_createdModules.Contains(name))
-            {
-                // Create formula module object
-                _createdModules[name] =
-                    ((Type)registeredModules[name]).Assembly.
-                    CreateInstance(((Type)registeredModules[name]).ToString());
-            }
+            if (_createdModules.TryGetValue(name, out var curT))
+                return curT;
 
-            return (IFormula)_createdModules[name];
+            // Check if formula module with specified name registered
+            if (!_registeredModules.TryGetValue(name, out var regT))
+                throw new ArgumentException(SR.ExceptionFormulaModuleNameUnknown(name));
+
+            // Create formula module type object
+            var res = (IFormula)regT.Assembly.CreateInstance(regT.ToString());
+            _createdModules[name] = res;
+            return res;
         }
 
         /// <summary>
@@ -125,7 +116,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <returns>Module Name.</returns>
         public string GetModuleName(int index)
         {
-            return (string)_modulesNames[index];
+            return _modulesNames[index];
         }
 
         #endregion Methods
