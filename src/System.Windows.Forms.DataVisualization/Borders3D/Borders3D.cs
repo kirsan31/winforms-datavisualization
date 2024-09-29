@@ -11,7 +11,6 @@
 //
 
 
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -167,10 +166,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public Color PageColor
         {
-            get
-            {
-                return _pageColor;
-            }
+            get => _pageColor;
             set
             {
                 _pageColor = value;
@@ -192,10 +188,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public BorderSkinStyle SkinStyle
         {
-            get
-            {
-                return _skinStyle;
-            }
+            get => _skinStyle;
             set
             {
                 _skinStyle = value;
@@ -218,10 +211,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public Color BackColor
         {
-            get
-            {
-                return _backColor;
-            }
+            get => _backColor;
             set
             {
                 _backColor = value;
@@ -244,10 +234,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public Color BorderColor
         {
-            get
-            {
-                return _borderColor;
-            }
+            get => _borderColor;
             set
             {
                 _borderColor = value;
@@ -269,10 +256,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public ChartHatchStyle BackHatchStyle
         {
-            get
-            {
-                return _backHatchStyle;
-            }
+            get => _backHatchStyle;
             set
             {
                 _backHatchStyle = value;
@@ -294,10 +278,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public string BackImage
         {
-            get
-            {
-                return _backImage;
-            }
+            get => _backImage;
             set
             {
                 _backImage = value;
@@ -318,10 +299,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public ChartImageWrapMode BackImageWrapMode
         {
-            get
-            {
-                return _backImageWrapMode;
-            }
+            get => _backImageWrapMode;
             set
             {
                 _backImageWrapMode = value;
@@ -345,10 +323,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public Color BackImageTransparentColor
         {
-            get
-            {
-                return _backImageTransparentColor;
-            }
+            get => _backImageTransparentColor;
             set
             {
                 _backImageTransparentColor = value;
@@ -372,10 +347,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public ChartImageAlignmentStyle BackImageAlignment
         {
-            get
-            {
-                return _backImageAlignment;
-            }
+            get => _backImageAlignment;
             set
             {
                 _backImageAlignment = value;
@@ -397,10 +369,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public GradientStyle BackGradientStyle
         {
-            get
-            {
-                return _backGradientStyle;
-            }
+            get => _backGradientStyle;
             set
             {
                 _backGradientStyle = value;
@@ -427,10 +396,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public Color BackSecondaryColor
         {
-            get
-            {
-                return _backSecondaryColor;
-            }
+            get => _backSecondaryColor;
             set
             {
                 _backSecondaryColor = value;
@@ -451,16 +417,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public int BorderWidth
         {
-            get
-            {
-                return _borderWidth;
-            }
+            get => _borderWidth;
             set
             {
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive);
                 }
+
                 _borderWidth = value;
                 this.Invalidate();
             }
@@ -479,10 +443,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         ]
         public ChartDashStyle BorderDashStyle
         {
-            get
-            {
-                return _borderDashStyle;
-            }
+            get => _borderDashStyle;
             set
             {
                 _borderDashStyle = value;
@@ -534,6 +495,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             {
                 return this;
             }
+
             throw new ArgumentException(SR.ExceptionBorderTypeRegistryUnsupportedType(serviceType.ToString()));
         }
 
@@ -570,6 +532,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
                     break;
                 }
             }
+
             if (!found)
             {
                 throw new ArgumentException(SR.ExceptionBorderTypeHasNoInterface);
