@@ -365,14 +365,13 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
     #region Fields
 
     // List of registered properties
-    internal List<CustomPropertyInfo> registeredCustomProperties = new();
-
+    internal readonly List<CustomPropertyInfo> registeredCustomProperties = new(94);
     // Defines maximum value which can be set to the attribute which uses pixels
     internal static int MaxValueOfPixelAttribute = 10000;
 
     internal static List<SeriesChartType> IsXAxisQuantitativeChartTypes =
         new List<SeriesChartType>(
-            new SeriesChartType[] {
+            [
                 SeriesChartType.Line,
                 SeriesChartType.FastLine,
                 SeriesChartType.Spline,
@@ -381,7 +380,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
                 SeriesChartType.Bubble,
                 SeriesChartType.RangeColumn,
                 SeriesChartType.RangeBar,
-            }
+            ]
         );
     #endregion
 
@@ -414,7 +413,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
 
     #endregion
 
-    #region Properties Regestering methods
+    #region Properties Registering methods
 
     /// <summary>
     /// This method registers all standard custom properties used in 
@@ -427,14 +426,14 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** DrawSideBySide properties
         //***********************************************************************
-        SeriesChartType[] chartTypes = new SeriesChartType[] {
+        SeriesChartType[] chartTypes = [
             SeriesChartType.Bar,
             SeriesChartType.Column,
             SeriesChartType.RangeColumn,
             SeriesChartType.BoxPlot,
             SeriesChartType.RangeBar,
             SeriesChartType.ErrorBar,
-        };
+        ];
 
         // "DrawSideBySide" attribute 
         CustomPropertyInfo attrInfo = new CustomPropertyInfo(
@@ -450,7 +449,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** EmptyPointValue properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.Point,
             SeriesChartType.Bubble,
             SeriesChartType.Line,
@@ -466,7 +465,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             SeriesChartType.Area,
             SeriesChartType.SplineArea,
             SeriesChartType.Bar,
-        };
+        ];
 
         registeredCustomProperties.Add(new CustomPropertyInfo(
             CustomPropertyName.EmptyPointValue,
@@ -481,18 +480,18 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** Bar label styles properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.StackedBar,
             SeriesChartType.StackedBar100,
             SeriesChartType.RangeBar,
-        };
+        ];
 
         // "BarLabelStyle" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.BarLabelStyle,
             typeof(BarValueLabelDrawingStyle),
             "Center",
-        SR.DescriptionCustomAttributeBarLabelStyle,
+            SR.DescriptionCustomAttributeBarLabelStyle,
             chartTypes,
             true,
             true);
@@ -503,12 +502,12 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** Stacked Column/Bar properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.StackedBar,
             SeriesChartType.StackedBar100,
             SeriesChartType.StackedColumn,
             SeriesChartType.StackedColumn100,
-        };
+        ];
 
         // "StackedGroupName" attribute 
         attrInfo = new CustomPropertyInfo(
@@ -526,25 +525,25 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** Bar label styles properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.Bar,
-        };
+        ];
 
         // "BarLabelStyle" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.BarLabelStyle,
             typeof(BarValueLabelDrawingStyle),
             "Outside",
-        SR.DescriptionCustomAttributeBarLabelStyle,
+            SR.DescriptionCustomAttributeBarLabelStyle,
             chartTypes,
             true,
             true);
         registeredCustomProperties.Add(attrInfo);
 
         //***********************************************************************
-        //** Bar and Columnt chart types properties
+        //** Bar and Column chart types properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.Bar,
             SeriesChartType.Column,
             SeriesChartType.StackedBar,
@@ -554,14 +553,14 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             SeriesChartType.RangeBar,
             SeriesChartType.RangeColumn,
 
-        };
+        ];
 
         // "DrawingStyle" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.DrawingStyle,
             typeof(BarDrawingStyle),
             "Default",
-        SR.DescriptionCustomAttributeDrawingStyle,
+            SR.DescriptionCustomAttributeDrawingStyle,
             chartTypes,
             true,
             true);
@@ -570,7 +569,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** Chart types point width properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.Bar,
             SeriesChartType.Candlestick,
             SeriesChartType.Column,
@@ -583,14 +582,14 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             SeriesChartType.ErrorBar,
             SeriesChartType.RangeBar,
             SeriesChartType.RangeColumn,
-        };
+        ];
 
         // "PointWidth" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.PointWidth,
             typeof(float),
             0.8f,
-        SR.DescriptionCustomAttributePointWidth,
+            SR.DescriptionCustomAttributePointWidth,
             chartTypes,
             true,
             false);
@@ -603,7 +602,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.PixelPointWidth,
             typeof(int),
             0,
-        SR.DescriptionCustomAttributePixelPointWidth,
+            SR.DescriptionCustomAttributePixelPointWidth,
             chartTypes,
             true,
             false);
@@ -616,7 +615,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.MinPixelPointWidth,
             typeof(int),
             0,
-        SR.DescriptionCustomAttributeMinPixelPointWidth,
+            SR.DescriptionCustomAttributeMinPixelPointWidth,
             chartTypes,
             true,
             false);
@@ -629,7 +628,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.MaxPixelPointWidth,
             typeof(int),
             0,
-        SR.DescriptionCustomAttributeMaxPixelPointWidth,
+            SR.DescriptionCustomAttributeMaxPixelPointWidth,
             chartTypes,
             true,
             false);
@@ -642,7 +641,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** CandleStick chart types properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] { SeriesChartType.Candlestick };
+        chartTypes = [SeriesChartType.Candlestick];
 
         // "PriceUpColor" attribute 
         attrInfo = new CustomPropertyInfo(
@@ -670,14 +669,14 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** Stock and CandleStick chart types properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] { SeriesChartType.Stock, SeriesChartType.Candlestick };
+        chartTypes = [SeriesChartType.Stock, SeriesChartType.Candlestick];
 
         // "LabelValueType" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.LabelValueType,
             typeof(StockLabelValueTypes),
             "Close",
-        SR.DescriptionCustomAttributeLabelValueType,
+            SR.DescriptionCustomAttributeLabelValueType,
             chartTypes,
             true,
             true);
@@ -686,14 +685,14 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** Stock chart types properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] { SeriesChartType.Stock };
+        chartTypes = [SeriesChartType.Stock];
 
         // "OpenCloseStyle" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.OpenCloseStyle,
             typeof(StockOpenCloseMarkStyle),
             "Line",
-        SR.DescriptionCustomAttributeOpenCloseStyle,
+            SR.DescriptionCustomAttributeOpenCloseStyle,
             chartTypes,
             true,
             true);
@@ -704,7 +703,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.ShowOpenClose,
             typeof(StockShowOpenCloseTypes),
             "Both",
-        SR.DescriptionCustomAttributeShowOpenClose,
+            SR.DescriptionCustomAttributeShowOpenClose,
             chartTypes,
             true,
             true);
@@ -714,14 +713,14 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** Bubble chart types properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] { SeriesChartType.Bubble };
+        chartTypes = [SeriesChartType.Bubble];
 
         // "BubbleScaleMin" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.BubbleScaleMin,
             typeof(float),
             0f,
-        SR.DescriptionCustomAttributeBubbleScaleMin,
+            SR.DescriptionCustomAttributeBubbleScaleMin,
             chartTypes,
             true,
             false);
@@ -732,7 +731,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.BubbleScaleMax,
             typeof(float),
             0f,
-        SR.DescriptionCustomAttributeBubbleScaleMax,
+            SR.DescriptionCustomAttributeBubbleScaleMax,
             chartTypes,
             true,
             false);
@@ -743,7 +742,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.BubbleMaxSize,
             typeof(float),
             15f,
-        SR.DescriptionCustomAttributeBubbleMaxSize,
+            SR.DescriptionCustomAttributeBubbleMaxSize,
             chartTypes,
             true,
             false);
@@ -756,7 +755,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.BubbleMinSize,
             typeof(float),
             3f,
-        SR.DescriptionCustomAttributeBubbleMaxSize,
+            SR.DescriptionCustomAttributeBubbleMaxSize,
             chartTypes,
             true,
             false);
@@ -769,7 +768,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.BubbleUseSizeForLabel,
             typeof(bool),
             false,
-        SR.DescriptionCustomAttributeBubbleUseSizeForLabel,
+            SR.DescriptionCustomAttributeBubbleUseSizeForLabel,
             chartTypes,
             true,
             false);
@@ -780,17 +779,17 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** Pie and Doughnut chart types properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.Pie,
             SeriesChartType.Doughnut
-        };
+        ];
 
         // "PieDrawingStyle" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.PieDrawingStyle,
             typeof(PieDrawingStyle),
             "Default",
-        SR.DescriptionCustomAttributePieDrawingStyle,
+            SR.DescriptionCustomAttributePieDrawingStyle,
             chartTypes,
             true,
             false);
@@ -803,7 +802,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.CollectedThreshold,
             typeof(double),
             0.0,
-        SR.DescriptionCustomAttributeCollectedThreshold,
+            SR.DescriptionCustomAttributeCollectedThreshold,
             chartTypes,
             true,
             false);
@@ -816,7 +815,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.CollectedThresholdUsePercent,
             typeof(bool),
             true,
-        SR.DescriptionCustomAttributeCollectedThresholdUsePercent,
+            SR.DescriptionCustomAttributeCollectedThresholdUsePercent,
             chartTypes,
             true,
             false);
@@ -827,7 +826,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.CollectedSliceExploded,
             typeof(bool),
             false,
-        SR.DescriptionCustomAttributeCollectedSliceExploded,
+            SR.DescriptionCustomAttributeCollectedSliceExploded,
             chartTypes,
             true,
             false);
@@ -849,7 +848,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.CollectedLegendText,
             typeof(string),
             SR.DescriptionCustomAttributeCollectedLegendDefaultText,
-        SR.DescriptionCustomAttributeCollectedLegendText,
+            SR.DescriptionCustomAttributeCollectedLegendText,
             chartTypes,
             true,
             false);
@@ -860,7 +859,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.CollectedToolTip,
             typeof(string),
             string.Empty,
-        SR.DescriptionCustomAttributeCollectedToolTip,
+            SR.DescriptionCustomAttributeCollectedToolTip,
             chartTypes,
             true,
             false);
@@ -909,7 +908,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.LabelsRadialLineSize,
             typeof(float),
             1f,
-        SR.DescriptionCustomAttributeLabelsRadialLineSize,
+            SR.DescriptionCustomAttributeLabelsRadialLineSize,
             chartTypes,
             true,
             true);
@@ -923,7 +922,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.LabelsHorizontalLineSize,
             typeof(float),
             1f,
-        SR.DescriptionCustomAttributeLabelsHorizontalLineSize,
+            SR.DescriptionCustomAttributeLabelsHorizontalLineSize,
             chartTypes,
             true,
             true);
@@ -938,7 +937,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.PieLabelStyle,
             typeof(PieLabelStyle),
             "Inside",
-        SR.DescriptionCustomAttributePieLabelStyle,
+            SR.DescriptionCustomAttributePieLabelStyle,
             chartTypes,
             true,
             true));
@@ -949,7 +948,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.MinimumRelativePieSize,
             typeof(float),
             30f,
-        SR.DescriptionCustomAttributeMinimumRelativePieSize,
+            SR.DescriptionCustomAttributeMinimumRelativePieSize,
             chartTypes,
             true,
             false);
@@ -962,7 +961,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName._3DLabelLineSize,
             typeof(float),
             100f,
-        SR.DescriptionCustomAttribute_3DLabelLineSize,
+            SR.DescriptionCustomAttribute_3DLabelLineSize,
             chartTypes,
             true,
             false);
@@ -991,8 +990,8 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.DoughnutRadius,
             typeof(float),
             60f,
-        SR.DescriptionCustomAttributeDoughnutRadius,
-            new SeriesChartType[] { SeriesChartType.Doughnut },
+            SR.DescriptionCustomAttributeDoughnutRadius,
+            [SeriesChartType.Doughnut],
             true,
             false);
         attrInfo.MinValue = 0f;
@@ -1005,7 +1004,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
 
         // "LabelStyle" attribute
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.Point,
             SeriesChartType.Column,
             SeriesChartType.Bubble,
@@ -1018,19 +1017,19 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             SeriesChartType.SplineRange,
             SeriesChartType.Radar,
             SeriesChartType.Polar,
-        };
+        ];
 
         registeredCustomProperties.Add(new CustomPropertyInfo(
             CustomPropertyName.LabelStyle,
         typeof(LabelAlignments),
             "Auto",
-        SR.DescriptionCustomAttributeLabelStyle,
+            SR.DescriptionCustomAttributeLabelStyle,
             chartTypes,
             true,
             true));
 
         // "ShowMarkerLines" attribute
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.Line,
             SeriesChartType.Spline,
             SeriesChartType.StepLine,
@@ -1038,13 +1037,13 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             SeriesChartType.SplineArea,
             SeriesChartType.Range,
             SeriesChartType.SplineRange
-        };
+        ];
 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.ShowMarkerLines,
             typeof(bool),
             false,
-        SR.DescriptionCustomAttributeShowMarkerLines,
+            SR.DescriptionCustomAttributeShowMarkerLines,
             chartTypes,
             true,
             true);
@@ -1052,17 +1051,17 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         registeredCustomProperties.Add(attrInfo);
 
         // "LineTension" attribute
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.Spline,
             SeriesChartType.SplineArea,
             SeriesChartType.SplineRange
-        };
+        ];
 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.LineTension,
             typeof(float),
             0.5f,
-        SR.DescriptionCustomAttributeLineTension,
+            SR.DescriptionCustomAttributeLineTension,
             chartTypes,
             true,
             false);
@@ -1071,7 +1070,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         registeredCustomProperties.Add(attrInfo);
 
         // "PixelPointDepth" attribute
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.Area,
             SeriesChartType.Bar,
             SeriesChartType.Bubble,
@@ -1100,7 +1099,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             SeriesChartType.Renko,
             SeriesChartType.SplineRange,
             SeriesChartType.FastLine,
-        };
+        ];
 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.PixelPointDepth,
@@ -1134,14 +1133,14 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         registeredCustomProperties.Add(attrInfo);
 
         // "ZValue" attribute
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.Line,
             SeriesChartType.Spline,
             SeriesChartType.StepLine,
             SeriesChartType.FastLine,
             SeriesChartType.Point,
             SeriesChartType.FastPoint
-        };
+        ];
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.ZValue,
             typeof(float),
@@ -1158,42 +1157,19 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         registeredCustomProperties.Add(attrInfo);
 
 
-
-        //***********************************************************************
-        //** FastLine chart type properties
-        //***********************************************************************
-        /*  NOTE: This is an internal attribute
-* 
-        chartTypes = new SeriesChartType[] {
-                SeriesChartType.FastLine,
-                SeriesChartType.FastPoint,
-        };
-        // "PermittedPixelError" attribute 
-        attrInfo = new CustomPropertyInfo(
-            CustomPropertyName.PixelPointGapDepth,
-            typeof(float),
-            1f,
-            "Gets or sets the acceptable error in pixels for the data point filtering algorithm.",
-            chartTypes,
-            true,
-            false);
-        attrInfo.MinValue = 0f;
-        attrInfo.MaxValue = 1f;
-        registeredCustomProperties.Add( attrInfo );
-*/
         //***********************************************************************
         //** Polar chart type properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.Polar
-        };
+        ];
 
         // "AreaDrawingStyle" attribute 
         attrInfo = new CustomPropertyInfo(
         CustomPropertyName.AreaDrawingStyle,
             typeof(CircularAreaDrawingStyles),
             "Circle",
-        SR.DescriptionCustomAttributePolarAreaDrawingStyle,
+            SR.DescriptionCustomAttributePolarAreaDrawingStyle,
             chartTypes,
             true,
             false);
@@ -1204,7 +1180,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.CircularLabelsStyle,
             typeof(CircularAxisLabelsStyle),
             "Auto",
-        SR.DescriptionCustomAttributePolarCircularLabelsStyle,
+            SR.DescriptionCustomAttributePolarCircularLabelsStyle,
             chartTypes,
             true,
             false);
@@ -1215,27 +1191,26 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         CustomPropertyName.PolarDrawingStyle,
             typeof(PolarDrawingStyles),
             "Line",
-        SR.DescriptionCustomAttributePolarDrawingStyle,
+            SR.DescriptionCustomAttributePolarDrawingStyle,
             chartTypes,
             true,
             false);
         registeredCustomProperties.Add(attrInfo);
 
 
-
         //***********************************************************************
         //** Radar chart type properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.Radar
-        };
+        ];
 
         // "AreaDrawingStyle" attribute 
         attrInfo = new CustomPropertyInfo(
         CustomPropertyName.AreaDrawingStyle,
             typeof(CircularAreaDrawingStyles),
             "Circle",
-        SR.DescriptionCustomAttributeRadarAreaDrawingStyle,
+            SR.DescriptionCustomAttributeRadarAreaDrawingStyle,
             chartTypes,
             true,
             false);
@@ -1246,7 +1221,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.CircularLabelsStyle,
             typeof(CircularAxisLabelsStyle),
             "Auto",
-        SR.DescriptionCustomAttributeRadarCircularLabelsStyle,
+            SR.DescriptionCustomAttributeRadarCircularLabelsStyle,
             chartTypes,
             true,
             false);
@@ -1257,7 +1232,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.RadarDrawingStyle,
             typeof(RadarDrawingStyle),
             "Area",
-        SR.DescriptionCustomAttributeRadarDrawingStyle,
+            SR.DescriptionCustomAttributeRadarDrawingStyle,
             chartTypes,
             true,
             false);
@@ -1267,16 +1242,16 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** BoxPlot chart type properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.BoxPlot
-        };
+        ];
 
         // "BoxPlotPercentile" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.BoxPlotPercentile,
             typeof(float),
             25f,
-        SR.DescriptionCustomAttributeBoxPlotPercentile,
+            SR.DescriptionCustomAttributeBoxPlotPercentile,
             chartTypes,
             true,
             false);
@@ -1289,7 +1264,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.BoxPlotWhiskerPercentile,
             typeof(float),
             10f,
-        SR.DescriptionCustomAttributeBoxPlotWhiskerPercentile,
+            SR.DescriptionCustomAttributeBoxPlotWhiskerPercentile,
             chartTypes,
             true,
             false);
@@ -1302,7 +1277,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.BoxPlotShowAverage,
             typeof(bool),
             true,
-        SR.DescriptionCustomAttributeBoxPlotShowAverage,
+            SR.DescriptionCustomAttributeBoxPlotShowAverage,
             chartTypes,
             true,
             false);
@@ -1313,7 +1288,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.BoxPlotShowMedian,
             typeof(bool),
             true,
-        SR.DescriptionCustomAttributeBoxPlotShowMedian,
+            SR.DescriptionCustomAttributeBoxPlotShowMedian,
             chartTypes,
             true,
             false);
@@ -1324,7 +1299,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.BoxPlotShowUnusualValues,
             typeof(bool),
             false,
-        SR.DescriptionCustomAttributeBoxPlotShowUnusualValues,
+            SR.DescriptionCustomAttributeBoxPlotShowUnusualValues,
             chartTypes,
             true,
             false);
@@ -1344,16 +1319,16 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** ErrorBar chart type properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] {
+        chartTypes = [
             SeriesChartType.ErrorBar
-        };
+        ];
 
         // "ErrorBarStyle" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.ErrorBarStyle,
             typeof(ErrorBarStyle),
             "Both",
-        SR.DescriptionCustomAttributeErrorBarStyle,
+            SR.DescriptionCustomAttributeErrorBarStyle,
             chartTypes,
             true,
             true);
@@ -1364,7 +1339,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.ErrorBarCenterMarkerStyle,
             typeof(ErrorBarMarkerStyles),
             "Line",
-        SR.DescriptionCustomAttributeErrorBarCenterMarkerStyle,
+            SR.DescriptionCustomAttributeErrorBarCenterMarkerStyle,
             chartTypes,
             true,
             true);
@@ -1396,14 +1371,14 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** PointAndFigure chart types properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] { SeriesChartType.PointAndFigure };
+        chartTypes = [SeriesChartType.PointAndFigure];
 
         // "UsedYValueHigh" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.UsedYValueHigh,
             typeof(int),
             0,
-        SR.DescriptionCustomAttributeUsedYValueHigh,
+            SR.DescriptionCustomAttributeUsedYValueHigh,
             chartTypes,
             true,
             false);
@@ -1416,7 +1391,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.UsedYValueLow,
             typeof(int),
             1,
-        SR.DescriptionCustomAttributeUsedYValueLow,
+            SR.DescriptionCustomAttributeUsedYValueLow,
             chartTypes,
             true,
             false);
@@ -1471,7 +1446,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** Kagi chart types properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] { SeriesChartType.Kagi };
+        chartTypes = [SeriesChartType.Kagi];
 
         // "UsedYValue" attribute 
         attrInfo = new CustomPropertyInfo(
@@ -1511,14 +1486,14 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** Renko chart types properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] { SeriesChartType.Renko };
+        chartTypes = [SeriesChartType.Renko];
 
         // "UsedYValue" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.UsedYValue,
             typeof(int),
             0,
-        SR.DescriptionCustomAttributeRenkoUsedYValue,
+            SR.DescriptionCustomAttributeRenkoUsedYValue,
             chartTypes,
             true,
             false);
@@ -1551,14 +1526,14 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** ThreeLineBreak chart types properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] { SeriesChartType.ThreeLineBreak };
+        chartTypes = [SeriesChartType.ThreeLineBreak];
 
         // "UsedYValue" attribute 
         attrInfo = new CustomPropertyInfo(
             CustomPropertyName.UsedYValue,
             typeof(int),
             0,
-        SR.DescriptionCustomAttributeThreeLineBreakUsedYValue,
+            SR.DescriptionCustomAttributeThreeLineBreakUsedYValue,
             chartTypes,
             true,
             false);
@@ -1582,7 +1557,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.NumberOfLinesInBreak,
             typeof(int),
             3,
-        SR.DescriptionCustomAttributeNumberOfLinesInBreak,
+            SR.DescriptionCustomAttributeNumberOfLinesInBreak,
             chartTypes,
             true,
             false);
@@ -1593,7 +1568,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** Funnel chart types properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] { SeriesChartType.Funnel };
+        chartTypes = [SeriesChartType.Funnel];
 
 
         // "FunnelLabelStyle" attribute 
@@ -1601,7 +1576,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.FunnelLabelStyle,
             typeof(FunnelLabelStyle),
             "OutsideInColumn",
-        SR.DescriptionCustomAttributeFunnelLabelStyle,
+            SR.DescriptionCustomAttributeFunnelLabelStyle,
             chartTypes,
             true,
             true);
@@ -1613,7 +1588,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.FunnelNeckWidth,
             typeof(float),
             5f,
-        SR.DescriptionCustomAttributeFunnelNeckWidth,
+            SR.DescriptionCustomAttributeFunnelNeckWidth,
             chartTypes,
             true,
             false);
@@ -1626,7 +1601,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.FunnelNeckHeight,
             typeof(float),
             5f,
-        SR.DescriptionCustomAttributeFunnelNeckHeight,
+            SR.DescriptionCustomAttributeFunnelNeckHeight,
             chartTypes,
             true,
             false);
@@ -1639,7 +1614,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.FunnelMinPointHeight,
             typeof(float),
             0f,
-        SR.DescriptionCustomAttributeFunnelMinPointHeight,
+            SR.DescriptionCustomAttributeFunnelMinPointHeight,
             chartTypes,
             true,
             false);
@@ -1652,7 +1627,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.Funnel3DRotationAngle,
             typeof(float),
             5f,
-        SR.DescriptionCustomAttributeFunnel3DRotationAngle,
+            SR.DescriptionCustomAttributeFunnel3DRotationAngle,
             chartTypes,
             true,
             false);
@@ -1666,7 +1641,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.FunnelPointGap,
             typeof(float),
             0f,
-        SR.DescriptionCustomAttributeFunnelPointGap,
+            SR.DescriptionCustomAttributeFunnelPointGap,
             chartTypes,
             true,
             false);
@@ -1679,7 +1654,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.Funnel3DDrawingStyle,
             typeof(Funnel3DDrawingStyle),
             "CircularBase",
-        SR.DescriptionCustomAttributeFunnel3DDrawingStyle,
+            SR.DescriptionCustomAttributeFunnel3DDrawingStyle,
             chartTypes,
             true,
             false);
@@ -1691,7 +1666,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.FunnelStyle,
             typeof(FunnelStyle),
             "YIsHeight",
-        SR.DescriptionCustomAttributeFunnelStyle,
+            SR.DescriptionCustomAttributeFunnelStyle,
             chartTypes,
             true,
             false);
@@ -1702,7 +1677,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.FunnelInsideLabelAlignment,
             typeof(FunnelLabelVerticalAlignment),
             "Center",
-        SR.DescriptionCustomAttributeFunnelInsideLabelAlignment,
+            SR.DescriptionCustomAttributeFunnelInsideLabelAlignment,
             chartTypes,
             true,
             true);
@@ -1713,7 +1688,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.FunnelOutsideLabelPlacement,
             typeof(FunnelLabelPlacement),
             "Right",
-        SR.DescriptionCustomAttributeFunnelOutsideLabelPlacement,
+            SR.DescriptionCustomAttributeFunnelOutsideLabelPlacement,
             chartTypes,
             true,
             true);
@@ -1724,7 +1699,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.CalloutLineColor,
             typeof(Color),
             "Black",
-        SR.DescriptionCustomAttributeCalloutLineColor,
+            SR.DescriptionCustomAttributeCalloutLineColor,
             chartTypes,
             true,
             true);
@@ -1733,7 +1708,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
         //***********************************************************************
         //** Pyramid chart types properties
         //***********************************************************************
-        chartTypes = new SeriesChartType[] { SeriesChartType.Pyramid };
+        chartTypes = [SeriesChartType.Pyramid];
 
 
         // "PyramidLabelStyle" attribute 
@@ -1741,7 +1716,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.PyramidLabelStyle,
             typeof(FunnelLabelStyle),
             "OutsideInColumn",
-        SR.DescriptionCustomAttributePyramidLabelStyle,
+            SR.DescriptionCustomAttributePyramidLabelStyle,
             chartTypes,
             true,
             true);
@@ -1753,7 +1728,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.PyramidMinPointHeight,
             typeof(float),
             0f,
-        SR.DescriptionCustomAttributePyramidMinPointHeight,
+            SR.DescriptionCustomAttributePyramidMinPointHeight,
             chartTypes,
             true,
             false);
@@ -1766,7 +1741,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.Pyramid3DRotationAngle,
             typeof(float),
             5f,
-        SR.DescriptionCustomAttributePyramid3DRotationAngle,
+            SR.DescriptionCustomAttributePyramid3DRotationAngle,
             chartTypes,
             true,
             false);
@@ -1780,7 +1755,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.PyramidPointGap,
             typeof(float),
             0f,
-        SR.DescriptionCustomAttributePyramidPointGap,
+            SR.DescriptionCustomAttributePyramidPointGap,
             chartTypes,
             true,
             false);
@@ -1793,7 +1768,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.Pyramid3DDrawingStyle,
             typeof(Funnel3DDrawingStyle),
             "SquareBase",
-        SR.DescriptionCustomAttributePyramid3DDrawingStyle,
+            SR.DescriptionCustomAttributePyramid3DDrawingStyle,
             chartTypes,
             true,
             false);
@@ -1805,7 +1780,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.PyramidInsideLabelAlignment,
             typeof(FunnelLabelVerticalAlignment),
             "Center",
-        SR.DescriptionCustomAttributePyramidInsideLabelAlignment,
+            SR.DescriptionCustomAttributePyramidInsideLabelAlignment,
             chartTypes,
             true,
             true);
@@ -1816,7 +1791,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.PyramidOutsideLabelPlacement,
             typeof(FunnelLabelPlacement),
             "Right",
-        SR.DescriptionCustomAttributePyramidOutsideLabelPlacement,
+            SR.DescriptionCustomAttributePyramidOutsideLabelPlacement,
             chartTypes,
             true,
             true);
@@ -1827,7 +1802,7 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.CalloutLineColor,
             typeof(Color),
             "Black",
-        SR.DescriptionCustomAttributeCalloutLineColor,
+            SR.DescriptionCustomAttributeCalloutLineColor,
             chartTypes,
             true,
             true);
@@ -1838,16 +1813,14 @@ internal sealed class CustomPropertyRegistry : IServiceProvider
             CustomPropertyName.PyramidValueType,
             typeof(PyramidValueType),
             "Linear",
-        SR.DescriptionCustomAttributePyramidValueType,
+            SR.DescriptionCustomAttributePyramidValueType,
             chartTypes,
             true,
             false);
         registeredCustomProperties.Add(attrInfo);
-
-
     }
 
-    #endregion // Attributes Regestering methods
+    #endregion // Attributes Registering methods
 
     #region Registry methods
 
@@ -1902,7 +1875,7 @@ internal sealed class CustomPropertyInfo
     /// <summary>
     /// Array of chart type supported by the attribute
     /// </summary>
-    public SeriesChartType[] AppliesToChartType;
+    public HashSet<SeriesChartType> AppliesToChartType;
 
     /// <summary>
     /// Indicates that attribute can be applied on series.
@@ -1957,11 +1930,14 @@ internal sealed class CustomPropertyInfo
             bool appliesToSeries,
             bool appliesToDataPoint)
     {
+        if (string.IsNullOrEmpty(name))
+            throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
+
         this.Name = name;
         this.ValueType = valueType;
         this.DefaultValue = defaultValue;
         this.Description = description;
-        this.AppliesToChartType = appliesToChartType;
+        this.AppliesToChartType = new(appliesToChartType);
         this.AppliesToSeries = appliesToSeries;
         this.AppliesToDataPoint = appliesToDataPoint;
     }

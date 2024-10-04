@@ -154,12 +154,11 @@ internal sealed class CustomPropertiesTypeConverter : TypeConverter
     public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object obj, Attribute[] attributes)
     {
         PropertyDescriptorCollection propCollection = new PropertyDescriptorCollection(null);
-        if (obj is CustomProperties attr && context != null)
+        if (obj is CustomProperties attr && context is not null)
         {
             // Get series associated with custom attribute
-            Series series = (attr.DataPointCustomProperties is Series) ? ((Series)attr.DataPointCustomProperties) : attr.DataPointCustomProperties.series;
-            if (series != null &&
-                series.Common != null)
+            Series series = (attr.DataPointCustomProperties is Series series1) ? series1 : attr.DataPointCustomProperties.series;
+            if (series?.Common is not null)
             {
                 // Loop through all registered custom properties
                 CustomPropertyRegistry registry = (CustomPropertyRegistry)series.Common.container.GetService(typeof(CustomPropertyRegistry));
@@ -208,7 +207,7 @@ internal sealed class CustomPropertiesTypeConverter : TypeConverter
     }
 
     /// <summary>
-    /// Checks if provided custom attribute appies to the selected points or series.
+    /// Checks if provided custom attribute applies to the selected points or series.
     /// </summary>
     /// <param name="attrInfo">Custom attribute information.</param>
     /// <param name="obj">Selected series or points.</param>
@@ -230,16 +229,10 @@ internal sealed class CustomPropertiesTypeConverter : TypeConverter
             {
 
                 // Check if custom attribute applies to the chart types selected
-                SeriesChartType[] chartTypes = GetSelectedChartTypes(obj);
-                foreach (SeriesChartType chartType in chartTypes)
+                foreach (SeriesChartType chartType in GetSelectedChartTypes(obj))
                 {
-                    foreach (SeriesChartType attrChartType in attrInfo.AppliesToChartType)
-                    {
-                        if (attrChartType == chartType)
-                        {
-                            return true;
-                        }
-                    }
+                    if (attrInfo.AppliesToChartType.Contains(chartType))
+                        return true;
                 }
             }
         }
@@ -301,7 +294,7 @@ internal sealed class CustomPropertiesTypeConverter : TypeConverter
     private Series[] GetSelectedSeries(object obj)
     {
         // Get array of series
-        Series[] seriesArray = Array.Empty<Series>();
+        Series[] seriesArray = [];
         if (obj is Array array && array.Length > 0)
         {
             if (array.GetValue(0) is Series)

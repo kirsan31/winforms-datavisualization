@@ -2390,7 +2390,7 @@ public class DataPoint : DataPointCustomProperties
     public DataPoint Clone()
     {
         // Create new data point
-        DataPoint clonePoint = new DataPoint();
+        DataPoint clonePoint = new();
 
         // Reset series pointer
         clonePoint.series = null;
@@ -2404,10 +2404,11 @@ public class DataPoint : DataPointCustomProperties
         clonePoint.isEmptyPoint = this.isEmptyPoint;
 
         // Copy properties
-        foreach (object key in this.properties.Keys)
-        {
-            clonePoint.properties.Add(key, this.properties[key]);
-        }
+        foreach (var kV in this.commonCustomProperties)
+            clonePoint.commonCustomProperties.Add(kV.Key, kV.Value);
+
+        foreach (var kV in this.customProperties)
+            clonePoint.customProperties.Add(kV.Key, kV.Value);
 
         return clonePoint;
     }
@@ -2846,22 +2847,38 @@ public class DataPointCustomProperties : ChartNamedElement
 {
     #region Fields and enumerations
 
-    // True indicates data point properties. Otherwise - series.
+    /// <summary>
+    /// True indicates data point properties. Otherwise - series.
+    /// </summary>
     internal bool pointCustomProperties = true;
 
-    // Reference to the data point series
+    /// <summary>
+    /// Reference to the data point series.
+    /// </summary>
     internal Series series;
 
-    // Storage for the custom properties names/values
-    internal Hashtable properties = new Hashtable();
+    /// <summary>
+    /// Storage for string based custom properties - other than <see cref="CommonCustomProperties"/>.
+    /// </summary>
+    internal Dictionary<string, string> customProperties = [];
+    /// <summary>
+    /// Storage for <see cref="CommonCustomProperties"/>.
+    /// </summary>
+    internal readonly Dictionary<CommonCustomProperties, object> commonCustomProperties = [];
 
-    // Flag indicating that temp. color was set
+    /// <summary>
+    /// Flag indicating that temp. color was set.
+    /// </summary>
     internal bool tempColorIsSet;
 
-    // Design time custom properties data
-    internal CustomProperties customProperties;
+    /// <summary>
+    /// Design time custom properties data.
+    /// </summary>
+    private CustomProperties _designCustomProperties;
 
-    // IsEmpty point indicator
+    /// <summary>
+    /// IsEmpty point indicator.
+    /// </summary>
     internal bool isEmptyPoint;
 
     #endregion
@@ -2875,7 +2892,7 @@ public class DataPointCustomProperties : ChartNamedElement
     {
         // Initialize the data series
         this.series = null;
-        this.customProperties = new CustomProperties(this);
+        this._designCustomProperties = new CustomProperties(this);
     }
 
     /// <summary>
@@ -2888,7 +2905,7 @@ public class DataPointCustomProperties : ChartNamedElement
         // Initialize the data series
         this.series = series;
         this.pointCustomProperties = pointProperties;
-        this.customProperties = new CustomProperties(this);
+        this._designCustomProperties = new CustomProperties(this);
     }
 
     #endregion
@@ -2902,17 +2919,17 @@ public class DataPointCustomProperties : ChartNamedElement
     /// <returns>True if custom property was set.</returns>
     public virtual bool IsCustomPropertySet(string name)
     {
-        return properties.ContainsKey(name);
+        return customProperties.ContainsKey(name);
     }
 
     /// <summary>
-    /// Checks if the custom property with specified name was set.
+    /// Checks if the specified custom property was set.
     /// </summary>
     /// <param name="property">The CommonCustomProperties object to check for.</param>
     /// <returns>True if attribute was set.</returns>
     internal bool IsCustomPropertySet(CommonCustomProperties property)
     {
-        return properties.ContainsKey((int)property);
+        return commonCustomProperties.ContainsKey(property);
     }
 
     /// <summary>
@@ -2921,23 +2938,21 @@ public class DataPointCustomProperties : ChartNamedElement
     /// <param name="name">Name of the property to delete.</param>
     public virtual void DeleteCustomProperty(string name)
     {
-        if (name == null)
-        {
+        if (name is null)
             throw new ArgumentNullException(SR.ExceptionAttributeNameIsEmpty);
-        }
+
+        // I think that below is some sort of strange bug - to allow to remove internal attribute in public method.
+        // Wile other public methods like IsCustomPropertySet or GetCustomProperty will not check them.
 
         // Check if trying to delete the common attribute
-        string[] AttributesNames = Enum.GetNames(typeof(CommonCustomProperties));
-        foreach (string commonName in AttributesNames)
-        {
-            if (name == commonName)
-            {
-                DeleteCustomProperty((CommonCustomProperties)Enum.Parse(typeof(CommonCustomProperties), commonName));
-            }
-        }
+        //if (Enum.TryParse<CommonCustomProperties>(name, out var v))
+        //{
+        //    DeleteCustomProperty(v);
+        //    return;
+        //}
 
         // Remove attribute
-        properties.Remove(name);
+        customProperties.Remove(name);
     }
 
     /// <summary>
@@ -2948,76 +2963,53 @@ public class DataPointCustomProperties : ChartNamedElement
     {
         // Check if trying to delete the common attribute from the series
         if (!this.pointCustomProperties)
-        {
             throw new ArgumentException(SR.ExceptionAttributeUnableToDelete);
-        }
 
         // Remove attribute
-        properties.Remove((int)property);
+        commonCustomProperties.Remove(property);
     }
 
     /// <summary>
     /// Gets the data point custom property with the specified name.
     /// </summary>
     /// <param name="name">Name of the property to get.</param>
-    /// <returns>Returns the data point custom property with the specified name.  If the requested one is not set, 
+    /// <returns>Returns the data point custom property with the specified name. If the requested one is not set, 
     /// the default custom property of the data series will be returned.</returns>
     public virtual string GetCustomProperty(string name)
     {
-        if (!IsCustomPropertySet(name) && this.pointCustomProperties)
+        if (customProperties.TryGetValue(name, out var res) || !this.pointCustomProperties)
+            return res;
+
+        // Check if we are in serialization mode
+        if (!IsSerializing()) // Get data point properties from series
         {
-            // Check if we are in serialization mode
-            bool serializing = false;
-
-            if (Chart != null && Chart.serializing)
+            if (this.isEmptyPoint)
             {
-                serializing = true;
+                // Return empty point properties from series
+                series.EmptyPointStyle.customProperties.TryGetValue(name, out res);
+                return res;
             }
 
-            if (!serializing)
-            {
-
-                if (this.isEmptyPoint)
-                {
-                    // Return empty point properties from series
-                    return (string)series.EmptyPointStyle.properties[name];
-                }
-
-                // Return properties from series
-                return (string)series.properties[name];
-            }
-            else
-            {
-                // Return default properties
-                return Series.defaultCustomProperties[name];
-            }
+            // Return properties from series
+            series.customProperties.TryGetValue(name, out res);
+            return res;
         }
-
-        return (string)properties[name];
+        else // Return default data point properties
+        {
+            Series.defaultCustomProperties.customProperties.TryGetValue(name, out res);
+            return res;
+        }
     }
 
 
     /// <summary>
     /// Checks if data is currently serialized.
     /// </summary>
-    /// <returns>True if serialized.</returns>
+    /// <returns>True if serialized or <see cref="series"/> is <see langword="null" />.</returns>
     internal bool IsSerializing()
     {
-        // Check if series object is provided
-        if (series == null)
-        {
-            return true;
-        }
-
-        // Check if we are in serialization mode
-        if (Chart != null)
-        {
-            return Chart.serializing;
-        }
-        else
-        {
-            return false;
-        }
+        // Check if series object is provided or we are in serialization mode
+        return series is null || Chart?.serializing == true;
     }
 
     /// <summary>
@@ -3028,51 +3020,43 @@ public class DataPointCustomProperties : ChartNamedElement
     /// <returns>Attribute value.</returns>
     internal object GetAttributeObject(CommonCustomProperties attrib)
     {
-        // Get series properties
-        if (!this.pointCustomProperties || series == null)
+        // Get data point or series properties
+        if (commonCustomProperties.TryGetValue(attrib, out var res) || !this.pointCustomProperties)
+            return res;
+
+        // Check if we are in serialization mode
+        if (!IsSerializing())  // Get data point properties from series
         {
-            return properties[(int)attrib];
-        }
+            if (this.isEmptyPoint)
+            {
+                // Return empty point properties from series
+                series.EmptyPointStyle.commonCustomProperties.TryGetValue(attrib, out res);
+                return res;
+            }
 
-        // Get data point properties
-        if (properties.Count == 0 || !IsCustomPropertySet(attrib))
+            // Return properties from series
+            series.commonCustomProperties.TryGetValue(attrib, out res);
+            return res;
+        }
+        else  // Return default data point properties
         {
-            // Check if we are in serialization mode
-            bool serializing = false;
-            if (Chart != null)
-            {
-                serializing = Chart.serializing;
-            }
-
-            if (!serializing)
-            {
-                if (this.isEmptyPoint)
-                {
-                    // Return empty point properties from series
-                    return series.EmptyPointStyle.properties[(int)attrib];
-                }
-
-                // Return properties from series
-                return series.properties[(int)attrib];
-            }
-            else
-            {
-                // Return default properties
-                return Series.defaultCustomProperties.properties[(int)attrib];
-            }
+            Series.defaultCustomProperties.commonCustomProperties.TryGetValue(attrib, out res);
+            return res;
         }
-
-        return properties[(int)attrib];
     }
 
     /// <summary>
-    /// Sets a custom property of the data point. 
+    /// Sets a custom property of the data point.
     /// </summary>
     /// <param name="name">Property name.</param>
     /// <param name="propertyValue">Property value.</param>
+    /// <exception cref="System.ArgumentNullException"></exception>
     public virtual void SetCustomProperty(string name, string propertyValue)
     {
-        properties[name] = propertyValue;
+        if (string.IsNullOrEmpty(name))
+            throw new ArgumentNullException(SR.ExceptionAttributeNameIsEmpty);
+
+        customProperties[name] = propertyValue ?? string.Empty;
     }
 
     /// <summary>
@@ -3082,7 +3066,7 @@ public class DataPointCustomProperties : ChartNamedElement
     /// <param name="attributeValue">Attribute new value.</param>
     internal void SetAttributeObject(CommonCustomProperties attrib, object attributeValue)
     {
-        properties[(int)attrib] = attributeValue;
+        commonCustomProperties[attrib] = attributeValue;
     }
 
     /// <summary>
@@ -3096,7 +3080,8 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (clearAll)
             {
-                properties.Clear();
+                commonCustomProperties.Clear();
+                customProperties.Clear();
             }
 
             // !!! IMPORTANT !!!
@@ -3122,7 +3107,6 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.BorderWidth, 1);
             if (!IsCustomPropertySet(CommonCustomProperties.BorderDashStyle))
                 SetAttributeObject(CommonCustomProperties.BorderDashStyle, ChartDashStyle.Solid);
-
 
             if (!IsCustomPropertySet(CommonCustomProperties.AxisLabel))
                 SetAttributeObject(CommonCustomProperties.AxisLabel, string.Empty);
@@ -3193,11 +3177,10 @@ public class DataPointCustomProperties : ChartNamedElement
             if (!IsCustomPropertySet(CommonCustomProperties.IsVisibleInLegend))
                 SetAttributeObject(CommonCustomProperties.IsVisibleInLegend, true);
         }
-
-        // If setting defaults for the data point - clear all properties
-        else
+        else // If setting defaults for the data point - clear all properties
         {
-            properties.Clear();
+            commonCustomProperties.Clear();
+            customProperties.Clear();
         }
     }
 
@@ -3206,62 +3189,37 @@ public class DataPointCustomProperties : ChartNamedElement
     #region	DataPointCustomProperties Properties
 
     /// <summary>
-    /// Indexer of the custom properties. Returns the DataPointCustomProperties object by index.
-    /// </summary>
-    /// <param name="index">Index of the custom property.</param>
-    public string this[int index]
-    {
-        get
-        {
-            int currentIndex = 0;
-            foreach (object key in properties.Keys)
-            {
-                if (currentIndex == index)
-                {
-                    if (key is string keyStr)
-                    {
-                        return keyStr;
-                    }
-                    else if (key is int)
-                    {
-                        return Enum.GetName(typeof(CommonCustomProperties), key);
-                    }
-
-                    return key.ToString();
-                }
-
-                ++currentIndex;
-            }
-            // we can't throw IndexOutOfRangeException here, it is reserved
-            // by the CLR.
-            throw new InvalidOperationException();
-        }
-    }
-
-    /// <summary>
-    /// Indexer of the custom properties. Returns the DataPointCustomProperties object by name.
+    /// Indexer of the custom properties. Gets the data point custom property with the specified name.
     /// </summary>
     /// <param name="name">Name of the custom property.</param>
+    ///<value>If set to <see langword="null" /> - delete <paramref name="name" /> property.</value>
+    /// <exception cref="System.ArgumentNullException"></exception>
     public string this[string name]
     {
         get
         {
+            if (customProperties.TryGetValue(name, out var res))
+                return res;
+
             // If attribute is not set in data point - try getting it from the series
-            if (!IsCustomPropertySet(name) && this.pointCustomProperties)
+            if (this.pointCustomProperties && series is not null)
             {
                 if (this.isEmptyPoint)
                 {
-                    return (string)series.EmptyPointStyle.properties[name];
+                    series.EmptyPointStyle.customProperties.TryGetValue(name, out res);
+                    return res;
                 }
 
-                return (string)series.properties[name];
+                series.customProperties.TryGetValue(name, out res);
+                return res;
             }
 
-            return (string)properties[name];
+            return null;
         }
+
         set
         {
-            properties[name] = value;
+            SetCustomProperty(name, value);
             this.Invalidate(true);
         }
     }
@@ -3281,9 +3239,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.Label))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.Label, out var res))
                 {
-                    return (string)GetAttributeObject(CommonCustomProperties.Label);
+                    return (string)res;
                 }
                 else
                 {
@@ -3334,9 +3292,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.AxisLabel))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.AxisLabel, out var res))
                 {
-                    return (string)GetAttributeObject(CommonCustomProperties.AxisLabel);
+                    return (string)res;
                 }
                 else
                 {
@@ -3393,9 +3351,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.LabelFormat))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.LabelFormat, out var res))
                 {
-                    return (string)GetAttributeObject(CommonCustomProperties.LabelFormat);
+                    return (string)res;
                 }
                 else
                 {
@@ -3426,6 +3384,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.LabelFormat, value);
             else
                 series.labelFormat = value;
+
             this.Invalidate(false);
         }
     }
@@ -3444,9 +3403,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.IsValueShownAsLabel))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.IsValueShownAsLabel, out var res))
                 {
-                    return (bool)GetAttributeObject(CommonCustomProperties.IsValueShownAsLabel);
+                    return (bool)res;
                 }
                 else
                 {
@@ -3475,6 +3434,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.IsValueShownAsLabel, value);
             else
                 series.showLabelAsValue = value;
+
             this.Invalidate(false);
         }
     }
@@ -3495,9 +3455,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.Color))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.Color, out var res))
                 {
-                    return (Color)GetAttributeObject(CommonCustomProperties.Color);
+                    return (Color)res;
                 }
                 else
                 {
@@ -3523,7 +3483,6 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             // Remove the temp color flag
             this.tempColorIsSet = false;
-
             if (value == Color.Empty && this.pointCustomProperties)
             {
                 DeleteCustomProperty(CommonCustomProperties.Color);
@@ -3534,6 +3493,7 @@ public class DataPointCustomProperties : ChartNamedElement
                     SetAttributeObject(CommonCustomProperties.Color, value);
                 else
                     series.color = value;
+
                 this.Invalidate(true);
             }
         }
@@ -3555,9 +3515,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.BorderColor))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.BorderColor, out var res))
                 {
-                    return (Color)GetAttributeObject(CommonCustomProperties.BorderColor);
+                    return (Color)res;
                 }
                 else
                 {
@@ -3585,6 +3545,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.BorderColor, value);
             else
                 series.borderColor = value;
+
             this.Invalidate(true);
         }
     }
@@ -3603,9 +3564,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.BorderDashStyle))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.BorderDashStyle, out var res))
                 {
-                    return (ChartDashStyle)GetAttributeObject(CommonCustomProperties.BorderDashStyle);
+                    return (ChartDashStyle)res;
                 }
                 else
                 {
@@ -3634,6 +3595,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.BorderDashStyle, value);
             else
                 series.borderDashStyle = value;
+
             this.Invalidate(true);
         }
     }
@@ -3652,9 +3614,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.BorderWidth))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.BorderWidth, out var res))
                 {
-                    return (int)GetAttributeObject(CommonCustomProperties.BorderWidth);
+                    return (int)res;
                 }
                 else
                 {
@@ -3688,6 +3650,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.BorderWidth, value);
             else
                 series.borderWidth = value;
+
             this.Invalidate(true);
         }
     }
@@ -3707,9 +3670,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.BackImage))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.BackImage, out var res))
                 {
-                    return (string)GetAttributeObject(CommonCustomProperties.BackImage);
+                    return (string)res;
                 }
                 else
                 {
@@ -3741,6 +3704,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.BackImage, value);
             else
                 series.backImage = value;
+
             this.Invalidate(true);
         }
     }
@@ -3762,9 +3726,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.BackImageWrapMode))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.BackImageWrapMode, out var res))
                 {
-                    return (ChartImageWrapMode)GetAttributeObject(CommonCustomProperties.BackImageWrapMode);
+                    return (ChartImageWrapMode)res;
                 }
                 else
                 {
@@ -3793,6 +3757,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.BackImageWrapMode, value);
             else
                 series.backImageWrapMode = value;
+
             this.Invalidate(true);
         }
     }
@@ -3817,9 +3782,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.BackImageTransparentColor))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.BackImageTransparentColor, out var res))
                 {
-                    return (Color)GetAttributeObject(CommonCustomProperties.BackImageTransparentColor);
+                    return (Color)res;
                 }
                 else
                 {
@@ -3848,6 +3813,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.BackImageTransparentColor, value);
             else
                 series.backImageTransparentColor = value;
+
             this.Invalidate(true);
         }
     }
@@ -3867,9 +3833,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.BackImageAlignment))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.BackImageAlignment, out var res))
                 {
-                    return (ChartImageAlignmentStyle)GetAttributeObject(CommonCustomProperties.BackImageAlignment);
+                    return (ChartImageAlignmentStyle)res;
                 }
                 else
                 {
@@ -3898,6 +3864,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.BackImageAlignment, value);
             else
                 series.backImageAlignment = value;
+
             this.Invalidate(true);
         }
     }
@@ -3917,9 +3884,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.BackGradientStyle))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.BackGradientStyle, out var res))
                 {
-                    return (GradientStyle)GetAttributeObject(CommonCustomProperties.BackGradientStyle);
+                    return (GradientStyle)res;
                 }
                 else
                 {
@@ -3948,6 +3915,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.BackGradientStyle, value);
             else
                 series.backGradientStyle = value;
+
             this.Invalidate(true);
         }
     }
@@ -3968,9 +3936,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.BackSecondaryColor))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.BackSecondaryColor, out var res))
                 {
-                    return (Color)GetAttributeObject(CommonCustomProperties.BackSecondaryColor);
+                    return (Color)res;
                 }
                 else
                 {
@@ -3999,6 +3967,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.BackSecondaryColor, value);
             else
                 series.backSecondaryColor = value;
+
             this.Invalidate(true);
         }
     }
@@ -4018,9 +3987,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.BackHatchStyle))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.BackHatchStyle, out var res))
                 {
-                    return (ChartHatchStyle)GetAttributeObject(CommonCustomProperties.BackHatchStyle);
+                    return (ChartHatchStyle)res;
                 }
                 else
                 {
@@ -4049,6 +4018,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.BackHatchStyle, value);
             else
                 series.backHatchStyle = value;
+
             this.Invalidate(true);
         }
     }
@@ -4067,10 +4037,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.Font))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.Font, out var res) && res is Font font)
                 {
-                    if (GetAttributeObject(CommonCustomProperties.Font) is Font font)
-                        return font;
+                    return font;
                 }
 
                 if (IsSerializing())
@@ -4118,10 +4087,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.LabelForeColor))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.LabelForeColor, out var res))
                 {
-                    Color color = (Color)GetAttributeObject(CommonCustomProperties.LabelForeColor);
-                    return color;
+                    return (Color)res;
                 }
                 else
                 {
@@ -4155,6 +4123,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.LabelForeColor, value);
             else
                 series.fontColor = value;
+
             this.Invalidate(false);
         }
     }
@@ -4173,9 +4142,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.LabelAngle))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.LabelAngle, out var res))
                 {
-                    return (int)GetAttributeObject(CommonCustomProperties.LabelAngle);
+                    return (int)res;
                 }
                 else
                 {
@@ -4209,6 +4178,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.LabelAngle, value);
             else
                 series.fontAngle = value;
+
             this.Invalidate(false);
         }
     }
@@ -4229,9 +4199,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.MarkerStyle))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.MarkerStyle, out var res))
                 {
-                    return (MarkerStyle)GetAttributeObject(CommonCustomProperties.MarkerStyle);
+                    return (MarkerStyle)res;
                 }
                 else
                 {
@@ -4262,7 +4232,6 @@ public class DataPointCustomProperties : ChartNamedElement
                 series.markerStyle = value;
 
             if (this is Series thisSeries)
-
                 thisSeries.tempMarkerStyleIsSet = false;
 
             this.Invalidate(true);
@@ -4284,9 +4253,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.MarkerSize))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.MarkerSize, out var res))
                 {
-                    return (int)GetAttributeObject(CommonCustomProperties.MarkerSize);
+                    return (int)res;
                 }
                 else
                 {
@@ -4311,6 +4280,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.MarkerSize, value);
             else
                 series.markerSize = value;
+
             this.Invalidate(true);
         }
     }
@@ -4331,9 +4301,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.MarkerImage))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.MarkerImage, out var res))
                 {
-                    return (string)GetAttributeObject(CommonCustomProperties.MarkerImage);
+                    return (string)res;
                 }
                 else
                 {
@@ -4365,6 +4335,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.MarkerImage, value);
             else
                 series.markerImage = value;
+
             this.Invalidate(true);
         }
     }
@@ -4386,9 +4357,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.MarkerImageTransparentColor))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.MarkerImageTransparentColor, out var res))
                 {
-                    return (Color)GetAttributeObject(CommonCustomProperties.MarkerImageTransparentColor);
+                    return (Color)res;
                 }
                 else
                 {
@@ -4413,6 +4384,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.MarkerImageTransparentColor, value);
             else
                 series.markerImageTransparentColor = value;
+
             this.Invalidate(true);
         }
     }
@@ -4434,9 +4406,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.MarkerColor))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.MarkerColor, out var res))
                 {
-                    return (Color)GetAttributeObject(CommonCustomProperties.MarkerColor);
+                    return (Color)res;
                 }
                 else
                 {
@@ -4461,6 +4433,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.MarkerColor, value);
             else
                 series.markerColor = value;
+
             this.Invalidate(true);
         }
     }
@@ -4482,9 +4455,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.MarkerBorderColor))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.MarkerBorderColor, out var res))
                 {
-                    return (Color)GetAttributeObject(CommonCustomProperties.MarkerBorderColor);
+                    return (Color)res;
                 }
                 else
                 {
@@ -4509,6 +4482,7 @@ public class DataPointCustomProperties : ChartNamedElement
                 SetAttributeObject(CommonCustomProperties.MarkerBorderColor, value);
             else
                 series.markerBorderColor = value;
+
             this.Invalidate(true);
         }
     }
@@ -4529,9 +4503,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.MarkerBorderWidth))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.MarkerBorderWidth, out var res))
                 {
-                    return (int)GetAttributeObject(CommonCustomProperties.MarkerBorderWidth);
+                    return (int)res;
                 }
                 else
                 {
@@ -4586,15 +4560,16 @@ public class DataPointCustomProperties : ChartNamedElement
     ]
     public CustomProperties CustomPropertiesExtended
     {
-        set => customProperties = value;
-        get => customProperties;
+        set => _designCustomProperties = value;
+        get => _designCustomProperties;
     }
 
     /// <summary>
     /// Gets or sets the custom properties of the data point.
-    /// Custom properties can be specified in the following format: 
-    /// AttrName1=Value1, AttrName2=Value2, ...  
+    /// Custom properties can be specified in the following format:
+    /// AttrName1=Value1, AttrName2=Value2, ...
     /// </summary>
+    /// <exception cref="System.FormatException"></exception>
     [
     SRCategory("CategoryAttributeMisc"),
     Bindable(true),
@@ -4607,57 +4582,24 @@ public class DataPointCustomProperties : ChartNamedElement
         get
         {
             // Save all custom properties in a string
-            string result = string.Empty;
-            string[] attributesNames = Enum.GetNames(typeof(CommonCustomProperties));
-            for (int i = properties.Count - 1; i >= 0; i--)
+            StringBuilder result = new(customProperties.Count * 70);
+            foreach (var kv in customProperties)
             {
-                if (this[i] != null)
-                {
-                    string attributeName = this[i];
-
-                    // Check if attribute is custom
-                    bool customAttribute = true;
-                    foreach (string name in attributesNames)
-                    {
-                        if (string.Equals(attributeName, name, StringComparison.OrdinalIgnoreCase))
-                        {
-                            customAttribute = false;
-                            break;
-                        }
-                    }
-
-                    // Add custom attribute to the string
-                    if (customAttribute && properties[attributeName] != null)
-                    {
-                        if (result.Length > 0)
-                            result += ", ";
-
-                        string attributeValue = properties[attributeName].ToString().Replace(",", "\\,");
-                        attributeValue = attributeValue.Replace("=", "\\=");
-
-                        result += attributeName + "=" + attributeValue;
-                    }
-                }
+                // Add custom attribute to the string
+                if (result.Length > 0)
+                    result.Append(", " + kv.Key + "=" + kv.Value.Replace(",", "\\,").Replace("=", "\\="));
+                else
+                    result.Append(kv.Key + "=" + kv.Value.Replace(",", "\\,").Replace("=", "\\="));
             }
 
-            return result;
+            return result.ToString();
         }
+
         set
         {
             // Replace NULL with empty string
             value ??= string.Empty;
-
-            // Copy all common properties to the new collection
-            Hashtable newAttributes = new Hashtable();
-            Array enumValues = Enum.GetValues(typeof(CommonCustomProperties));
-            foreach (object val in enumValues)
-            {
-                if (IsCustomPropertySet((CommonCustomProperties)val))
-                {
-                    newAttributes[(int)val] = properties[(int)val];
-                }
-            }
-
+            Dictionary<string, string> newAttributes = new(StringComparer.OrdinalIgnoreCase);
             if (value.Length > 0)
             {
                 // Replace commas in value string
@@ -4683,23 +4625,15 @@ public class DataPointCustomProperties : ChartNamedElement
                     }
 
                     // Check if value already defined
-                    foreach (object existingAttributeName in newAttributes.Keys)
-                    {
-                        if (existingAttributeName is string existingAttributeNameStr)
-                        {
-                            if (string.Equals(existingAttributeNameStr, values[0], StringComparison.OrdinalIgnoreCase))
-                            {
-                                throw new FormatException(SR.ExceptionAttributeNameIsNotUnique(values[0]));
-                            }
-                        }
-                    }
+                    if (newAttributes.ContainsKey(values[0]))
+                        throw new FormatException(SR.ExceptionAttributeNameIsNotUnique(values[0]));
 
                     string newValue = values[1].Replace("\\x45", ",");
                     newAttributes[values[0]] = newValue.Replace("\\x46", "=");
                 }
             }
 
-            properties = newAttributes;
+            customProperties = newAttributes;
             this.Invalidate(true);
         }
     }
@@ -4735,9 +4669,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.ToolTip))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.ToolTip, out var res))
                 {
-                    return (string)GetAttributeObject(CommonCustomProperties.ToolTip);
+                    return (string)res;
                 }
                 else
                 {
@@ -4786,9 +4720,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.IsVisibleInLegend))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.IsVisibleInLegend, out var res))
                 {
-                    return (bool)GetAttributeObject(CommonCustomProperties.IsVisibleInLegend);
+                    return (bool)res;
                 }
                 else
                 {
@@ -4839,9 +4773,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.LegendText))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.LegendText, out var res))
                 {
-                    return (string)GetAttributeObject(CommonCustomProperties.LegendText);
+                    return (string)res;
                 }
                 else
                 {
@@ -4888,9 +4822,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.LegendToolTip))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.LegendToolTip, out var res))
                 {
-                    return (string)GetAttributeObject(CommonCustomProperties.LegendToolTip);
+                    return (string)res;
                 }
                 else
                 {
@@ -4930,9 +4864,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.LabelBackColor))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.LabelBackColor, out var res))
                 {
-                    return (Color)GetAttributeObject(CommonCustomProperties.LabelBackColor);
+                    return (Color)res;
                 }
                 else
                 {
@@ -4980,9 +4914,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.LabelBorderColor))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.LabelBorderColor, out var res))
                 {
-                    return (Color)GetAttributeObject(CommonCustomProperties.LabelBorderColor);
+                    return (Color)res;
                 }
                 else
                 {
@@ -5027,9 +4961,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.LabelBorderDashStyle))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.LabelBorderDashStyle, out var res))
                 {
-                    return (ChartDashStyle)GetAttributeObject(CommonCustomProperties.LabelBorderDashStyle);
+                    return (ChartDashStyle)res;
                 }
                 else
                 {
@@ -5072,9 +5006,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.LabelBorderWidth))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.LabelBorderWidth, out var res))
                 {
-                    return (int)GetAttributeObject(CommonCustomProperties.LabelBorderWidth);
+                    return (int)res;
                 }
                 else
                 {
@@ -5132,9 +5066,9 @@ public class DataPointCustomProperties : ChartNamedElement
         {
             if (this.pointCustomProperties)
             {
-                if (properties.Count != 0 && IsCustomPropertySet(CommonCustomProperties.LabelToolTip))
+                if (commonCustomProperties.TryGetValue(CommonCustomProperties.LabelToolTip, out var res))
                 {
-                    return (string)GetAttributeObject(CommonCustomProperties.LabelToolTip);
+                    return (string)res;
                 }
                 else
                 {
@@ -6134,6 +6068,9 @@ public class CustomProperties
     {
         // Get comma separated string of custom properties
         string customAttribute = this.DataPointCustomProperties.CustomProperties;
+        if (customAttribute.Length == 0)
+            return string.Empty;
+
         string userDefinedCustomAttribute = string.Empty;
 
         // Get custom attribute registry
@@ -6144,47 +6081,44 @@ public class CustomProperties
         customAttribute = customAttribute.Replace("\\=", "\\x46");
 
         // Split custom properties by commas into individual properties
-        if (customAttribute.Length > 0)
+        string[] nameValueStrings = customAttribute.Split(',');
+        foreach (string nameValue in nameValueStrings)
         {
-            string[] nameValueStrings = customAttribute.Split(',');
-            foreach (string nameValue in nameValueStrings)
+            string[] values = nameValue.Split('=', StringSplitOptions.TrimEntries);
+            // Check format
+            if (values.Length != 2)
             {
-                string[] values = nameValue.Split('=', StringSplitOptions.TrimEntries);
+                throw new FormatException(SR.ExceptionAttributeInvalidFormat);
+            }
 
-                // Check format
-                if (values.Length != 2)
+            // Check for empty name
+            if (values[0].Length == 0)
+            {
+                throw new FormatException(SR.ExceptionAttributeInvalidFormat);
+            }
+
+            // Check if attribute is registered or user defined
+            bool userDefinedAttribute = true;
+            for (int i = 0; i < registry.registeredCustomProperties.Count; i++)
+            {
+                if (string.Equals(registry.registeredCustomProperties[i].Name, values[0], StringComparison.OrdinalIgnoreCase))
                 {
-                    throw new FormatException(SR.ExceptionAttributeInvalidFormat);
+                    userDefinedAttribute = false;
+                    break;
+                }
+            }
+
+            // Copy attribute into the output string
+            if (userDefinedAttribute == userDefined)
+            {
+                if (userDefinedCustomAttribute.Length > 0)
+                {
+                    userDefinedCustomAttribute += ", ";
                 }
 
-                // Check for empty name
-                if (values[0].Length == 0)
-                {
-                    throw new FormatException(SR.ExceptionAttributeInvalidFormat);
-                }
-
-                // Check if attribute is registered or user defined
-                bool userDefinedAttribute = true;
-                foreach (CustomPropertyInfo info in registry.registeredCustomProperties)
-                {
-                    if (string.Equals(info.Name, values[0], StringComparison.OrdinalIgnoreCase))
-                    {
-                        userDefinedAttribute = false;
-                    }
-                }
-
-                // Copy attribute into the output string
-                if (userDefinedAttribute == userDefined)
-                {
-                    if (userDefinedCustomAttribute.Length > 0)
-                    {
-                        userDefinedCustomAttribute += ", ";
-                    }
-
-                    string val = values[1].Replace("\\x45", ",");
-                    val = val.Replace("\\x46", "=");
-                    userDefinedCustomAttribute += values[0] + "=" + val;
-                }
+                string val = values[1].Replace("\\x45", ",");
+                val = val.Replace("\\x46", "=");
+                userDefinedCustomAttribute += values[0] + "=" + val;
             }
         }
 

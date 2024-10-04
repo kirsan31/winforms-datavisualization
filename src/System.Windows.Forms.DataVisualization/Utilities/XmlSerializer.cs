@@ -1551,31 +1551,26 @@ internal class XmlFormatSerializer : SerializerBase
             xmlNode.Attributes.Append(attrib);
         }
 
-        bool hasCustomProperties = false;
-        foreach (DictionaryEntry entry in dataPoint.properties)
+        foreach (var entry in dataPoint.commonCustomProperties)
         {
-            if (entry.Key is int)
+            string properyName = entry.Key.ToString();
+            if (IsSerializableContent(properyName, objectToSerialize))
             {
-                CommonCustomProperties propertyType = (CommonCustomProperties)(int)entry.Key;
-                string properyName = propertyType.ToString();
-                if (IsSerializableContent(properyName, objectToSerialize))
-                {
-                    XmlAttribute attrib = xmlDocument.CreateAttribute(properyName);
-                    attrib.Value = GetXmlValue(entry.Value, dataPoint, properyName);
-                    xmlNode.Attributes.Append(attrib);
-                }
-            }
-            else
-            {
-                hasCustomProperties = true;
+                XmlAttribute attrib = xmlDocument.CreateAttribute(properyName);
+                attrib.Value = GetXmlValue(entry.Value, dataPoint, properyName);
+                xmlNode.Attributes.Append(attrib);
             }
         }
 
-        if (hasCustomProperties && !string.IsNullOrEmpty(dataPoint.CustomProperties) && IsSerializableContent("CustomProperties", objectToSerialize))
+        if (dataPoint.customProperties.Count > 0 && IsSerializableContent("CustomProperties", objectToSerialize))
         {
-            XmlAttribute attrib = xmlDocument.CreateAttribute("CustomProperties");
-            attrib.Value = GetXmlValue(dataPoint.CustomProperties, dataPoint, "CustomProperties");
-            xmlNode.Attributes.Append(attrib);
+            string customProperties = dataPoint.CustomProperties;
+            if (!string.IsNullOrEmpty(customProperties))
+            {
+                XmlAttribute attrib = xmlDocument.CreateAttribute("CustomProperties");
+                attrib.Value = GetXmlValue(customProperties, dataPoint, "CustomProperties");
+                xmlNode.Attributes.Append(attrib);
+            }
         }
     }
 
@@ -2382,27 +2377,20 @@ internal class BinaryFormatSerializer : SerializerBase
             SerializeProperty(dataPoint.IsEmpty, dataPoint, "IsEmpty", writer);
         }
 
-        bool hasCustomProperties = false;
-        foreach (DictionaryEntry entry in dataPoint.properties)
+        foreach (var entry in dataPoint.commonCustomProperties)
         {
-            if (entry.Key is int)
+            string properyName = entry.Key.ToString();
+            if (IsSerializableContent(properyName, objectToSerialize))
             {
-                CommonCustomProperties propertyType = (CommonCustomProperties)(int)entry.Key;
-                string properyName = propertyType.ToString();
-                if (IsSerializableContent(properyName, objectToSerialize))
-                {
-                    SerializeProperty(entry.Value, dataPoint, properyName, writer);
-                }
-            }
-            else
-            {
-                hasCustomProperties = true;
+                SerializeProperty(entry.Value, dataPoint, properyName, writer);
             }
         }
 
-        if (hasCustomProperties && !string.IsNullOrEmpty(dataPoint.CustomProperties) && IsSerializableContent("CustomProperties", objectToSerialize))
+        if (dataPoint.customProperties.Count > 0 && IsSerializableContent("CustomProperties", objectToSerialize))
         {
-            SerializeProperty(dataPoint.CustomProperties, dataPoint, "CustomProperties", writer);
+            string customProperties = dataPoint.CustomProperties;
+            if (!string.IsNullOrEmpty(customProperties))
+                SerializeProperty(customProperties, dataPoint, "CustomProperties", writer);
         }
 
         // If position of the writer did not change - nothing was written

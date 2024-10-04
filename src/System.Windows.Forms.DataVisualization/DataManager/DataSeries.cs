@@ -198,8 +198,10 @@ public class Series : DataPointCustomProperties
     // X value type if X value is indexed
     internal ChartValueType indexedXValueType = ChartValueType.Auto;
 
-    // Default properties
-    internal static DataPointCustomProperties defaultCustomProperties = InitializeDefaultCustomProperties();
+    /// <summary>
+    /// Default point CustomProperties.
+    /// </summary>
+    internal static readonly DataPointCustomProperties defaultCustomProperties = InitializeDefaultCustomProperties();
 
     // Indicates that a temp. marker style was set for drawing
     internal bool tempMarkerStyleIsSet;
@@ -411,7 +413,6 @@ public class Series : DataPointCustomProperties
         DataPointCustomProperties customProperties = new DataPointCustomProperties(null, false);
         customProperties.SetDefault(true);
         customProperties.pointCustomProperties = true;
-
         return customProperties;
     }
 

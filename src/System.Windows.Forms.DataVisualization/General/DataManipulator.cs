@@ -2920,7 +2920,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="formula">Formula string.</param>
         /// <param name="outputValuesNumber">Number of values in output series.</param>
         /// <returns>Array of functions for each Y value.</returns>
-        private GroupingFunctionInfo[] GetGroupingFunctions(Series[] inputSeries, string formula, out int outputValuesNumber)
+        private static GroupingFunctionInfo[] GetGroupingFunctions(Series[] inputSeries, string formula, out int outputValuesNumber)
         {
             // Get maximum number of Y values in all series
             int numberOfYValues = 0;
