@@ -1324,7 +1324,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Get funnel neck size
                 this._funnelNeckSize = GetFunnelNeckSize(series);
 
-                // Loop through all ponts in the data series
+                // Loop through all points in the data series
                 float currentLocation = this.Graph.GetAbsolutePoint(this.PlotAreaPosition.Location).Y;
                 if (this.isPyramid)
                 {
@@ -1559,7 +1559,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             Series series = GetDataSeries();
             if (series != null)
             {
-                // Loop through all ponts in the data series
+                // Loop through all points in the data series
                 int pointIndex = 0;
                 foreach (DataPoint point in series.Points)
                 {
@@ -2057,12 +2057,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Get string value of the custom attribute
             string attrValue = properties[this.funnelLabelStyleAttributeName];
-            if (attrValue != null && attrValue.Length > 0)
+            if (!string.IsNullOrEmpty(attrValue))
             {
                 // Convert string to the labels style
                 try
                 {
-                    labelStyle = (FunnelLabelStyle)Enum.Parse(typeof(FunnelLabelStyle), attrValue, true);
+                    labelStyle = Enum.Parse<FunnelLabelStyle>(attrValue, true);
                 }
                 catch
                 {
@@ -2429,12 +2429,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             if (!this.isPyramid)
             {
                 string attrValue = properties[CustomPropertyName.FunnelStyle];
-                if (attrValue != null && attrValue.Length > 0)
+                if (!string.IsNullOrEmpty(attrValue))
                 {
                     // Convert string to the labels style
                     try
                     {
-                        drawingStyle = (FunnelStyle)Enum.Parse(typeof(FunnelStyle), attrValue, true);
+                        drawingStyle = Enum.Parse<FunnelStyle>(attrValue, true);
                     }
                     catch
                     {
@@ -2442,6 +2442,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     }
                 }
             }
+
             return drawingStyle;
         }
 
@@ -2456,18 +2457,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Get string value of the custom attribute
             string attrValue = properties[this.funnelOutsideLabelPlacementAttributeName];
-            if (attrValue != null && attrValue.Length > 0)
+            if (!string.IsNullOrEmpty(attrValue))
             {
                 // Convert string to the labels placement
                 try
                 {
-                    placement = (FunnelLabelPlacement)Enum.Parse(typeof(FunnelLabelPlacement), attrValue, true);
+                    placement = Enum.Parse<FunnelLabelPlacement>(attrValue, true);
                 }
                 catch
                 {
                     throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelOutsideLabelPlacementAttributeName));
                 }
             }
+
             return placement;
         }
 
@@ -2482,18 +2484,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Get string value of the custom attribute
             string attrValue = properties[this.funnelInsideLabelAlignmentAttributeName];
-            if (attrValue != null && attrValue.Length > 0)
+            if (!string.IsNullOrEmpty(attrValue))
             {
                 // Convert string to the labels style
                 try
                 {
-                    alignment = (FunnelLabelVerticalAlignment)Enum.Parse(typeof(FunnelLabelVerticalAlignment), attrValue, true);
+                    alignment = Enum.Parse<FunnelLabelVerticalAlignment>(attrValue, true);
                 }
                 catch
                 {
                     throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelInsideLabelAlignmentAttributeName));
                 }
             }
+
             return alignment;
         }
 
@@ -2509,12 +2512,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Get string value of the custom attribute
             string attrValue = properties[funnel3DDrawingStyleAttributeName];
-            if (attrValue != null && attrValue.Length > 0)
+            if (!string.IsNullOrEmpty(attrValue))
             {
                 // Convert string to the labels style
                 try
                 {
-                    drawingStyle = (Funnel3DDrawingStyle)Enum.Parse(typeof(Funnel3DDrawingStyle), attrValue, true);
+                    drawingStyle = Enum.Parse<Funnel3DDrawingStyle>(attrValue, true);
                 }
                 catch
                 {
@@ -2582,7 +2585,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     this._valuePercentages = percentages;
                 }
 
-                // Loop through all ponts in the data series
+                // Loop through all points in the data series
                 foreach (DataPoint point in series.Points)
                 {
                     // Ignore empty points
@@ -2658,12 +2661,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             if (this.isPyramid)
             {
                 string attrValue = properties[CustomPropertyName.PyramidValueType];
-                if (attrValue != null && attrValue.Length > 0)
+                if (!string.IsNullOrEmpty(attrValue))
                 {
                     // Convert string to the labels style
                     try
                     {
-                        valueType = (PyramidValueType)Enum.Parse(typeof(PyramidValueType), attrValue, true);
+                        valueType = Enum.Parse<PyramidValueType>(attrValue, true);
                     }
                     catch
                     {

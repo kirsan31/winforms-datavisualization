@@ -1592,7 +1592,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 //Try parse the field name
                 try
                 {
-                    seriesField = (DataField)Enum.Parse(typeof(DataField), seriesFieldId, true);
+                    seriesField = Enum.Parse<DataField>(seriesFieldId, true);
                 }
                 catch (ArgumentException) { }
             }
@@ -1680,7 +1680,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 //Try parse the field name
                 try
                 {
-                    seriesField = (DataField)Enum.Parse(typeof(DataField), seriesFieldId, true);
+                    seriesField = Enum.Parse<DataField>(seriesFieldId, true);
                 }
                 catch (ArgumentException) { }
             }

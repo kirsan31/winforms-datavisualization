@@ -2183,7 +2183,7 @@ public class Series : DataPointCustomProperties
             {
                 try
                 {
-                    type = (SeriesChartType)Enum.Parse(typeof(SeriesChartType), this.ChartTypeName, true);
+                    type = Enum.Parse<SeriesChartType>(this.ChartTypeName, true);
                 }
                 catch (ArgumentException)
                 {
@@ -2192,6 +2192,7 @@ public class Series : DataPointCustomProperties
 
             return type;
         }
+
         set => this.ChartTypeName = ChartTypeNames.GetChartTypeName(value);
     }
 

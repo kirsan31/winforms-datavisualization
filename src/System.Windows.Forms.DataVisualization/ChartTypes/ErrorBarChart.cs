@@ -810,7 +810,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Draw standard marker
                 else
                 {
-                    MarkerStyle marker = (MarkerStyle)Enum.Parse(typeof(MarkerStyle), markerStyle, true);
+                    MarkerStyle marker = Enum.Parse<MarkerStyle>(markerStyle, true);
 
                     // Get marker size
                     SizeF markerSize = GetMarkerSize(

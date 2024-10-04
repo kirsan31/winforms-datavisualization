@@ -333,10 +333,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Color foreColor
             )
         {
-            // Convert Chart Hatch Style enum
-            // to Hatch Style enum.
-            HatchStyle hatch;
-            hatch = (HatchStyle)Enum.Parse(typeof(HatchStyle), hatchStyle.ToString());
+            // Convert Chart Hatch Style enum to Hatch Style enum.
+            HatchStyle hatch = Enum.Parse<HatchStyle>(hatchStyle.ToString());
 
             // Create Hatch Brush
             return new HatchBrush(hatch, foreColor, backColor);

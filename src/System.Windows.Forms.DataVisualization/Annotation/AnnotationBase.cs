@@ -3114,7 +3114,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     if (separatorIndex > 0)
                     {
                         string areaName = axisName[..separatorIndex].ToString();
-                        switch ((AxisName)Enum.Parse(typeof(AxisName), axisName[(separatorIndex + 2)..]))
+                        switch (Enum.Parse<AxisName>(axisName[(separatorIndex + 2)..]))
                         {
                             case AxisName.X:
                                 axis = Chart.ChartAreas[areaName].AxisX;
