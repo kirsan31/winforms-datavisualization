@@ -1511,9 +1511,9 @@ public partial class Axis : ChartNamedElement, IDisposable
                 // NOTE: Solves Issue #4423
                 // Transform title position coordinates using current Graphics matrix
                 RectangleF transformedTitlePosition = graph.GetAbsoluteRectangle(_titlePosition);
-                PointF[] rectPoints = new PointF[] {
+                PointF[] rectPoints = [
                     new PointF(transformedTitlePosition.X, transformedTitlePosition.Y),
-                    new PointF(transformedTitlePosition.Right, transformedTitlePosition.Bottom) };
+                    new PointF(transformedTitlePosition.Right, transformedTitlePosition.Bottom) ];
                 using var mt = graph.Transform;
                 mt.TransformPoints(rectPoints);
                 transformedTitlePosition = new RectangleF(
@@ -1883,9 +1883,9 @@ public partial class Axis : ChartNamedElement, IDisposable
         float angleAxis = 0;
         if (this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom)
         {
-            rotationCenterPoints = new Point3D[] {
+            rotationCenterPoints = [
                 new Point3D(rotationCenter.X, rotationCenter.Y, zPosition),
-                new Point3D(rotationCenter.X - 20f, rotationCenter.Y, zPosition) };
+                new Point3D(rotationCenter.X - 20f, rotationCenter.Y, zPosition) ];
 
             // Transform coordinates of text rotation point
             ChartArea.matrix3D.TransformPoints(rotationCenterPoints);
@@ -1902,9 +1902,9 @@ public partial class Axis : ChartNamedElement, IDisposable
         }
         else
         {
-            rotationCenterPoints = new Point3D[] {
+            rotationCenterPoints = [
                 new Point3D(rotationCenter.X, rotationCenter.Y, zPosition),
-                new Point3D(rotationCenter.X, rotationCenter.Y - 20f, zPosition) };
+                new Point3D(rotationCenter.X, rotationCenter.Y - 20f, zPosition) ];
 
             // Transform coordinates of text rotation point
             ChartArea.matrix3D.TransformPoints(rotationCenterPoints);
@@ -2199,11 +2199,11 @@ public partial class Axis : ChartNamedElement, IDisposable
         }
 
         // Get the rectangle points
-        PointF[] points = new PointF[] {
+        PointF[] points = [
                 new PointF(rect.Left, rect.Top),
                 new PointF(rect.Right, rect.Top),
                 new PointF(rect.Right, rect.Bottom),
-                new PointF(rect.Left, rect.Bottom)};
+                new PointF(rect.Left, rect.Bottom)];
 
         // If we are dealing with the 3D - transform the rectangle
         if (ChartArea.Area3DStyle.Enable3D && !ChartArea.chartAreaIsCurcular)
@@ -3517,8 +3517,8 @@ public partial class Axis : ChartNamedElement, IDisposable
             // Fill labels using new segment intervals
             bool removeLabels = true;
             int segmentIndex = 0;
-            ArrayList removedLabels = new ArrayList();
-            ArrayList removedLabelsIndexes = new ArrayList();
+            List<CustomLabel> removedLabels = [];
+            List<int> removedLabelsIndexes = [];
             foreach (AxisScaleSegment scaleSegment in this.ScaleSegments)
             {
                 scaleSegment.SetTempAxisScaleAndInterval();
@@ -3527,8 +3527,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                 scaleSegment.RestoreAxisScaleAndInterval();
 
                 // Remove last label of all segments except of the last
-                if (segmentIndex < this.ScaleSegments.Count - 1 &&
-                    this.CustomLabels.Count > 0)
+                if (segmentIndex < this.ScaleSegments.Count - 1 && this.CustomLabels.Count > 0)
                 {
                     // Remove label and save it in the list
                     removedLabels.Add(this.CustomLabels[^1]);
@@ -3546,7 +3545,7 @@ public partial class Axis : ChartNamedElement, IDisposable
             foreach (CustomLabel label in removedLabels)
             {
                 // Re-insert the label
-                int labelInsertIndex = (int)removedLabelsIndexes[labelIndex] + reInsertedLabelsCount;
+                int labelInsertIndex = removedLabelsIndexes[labelIndex] + reInsertedLabelsCount;
                 if (labelIndex < this.CustomLabels.Count)
                 {
                     this.CustomLabels.Insert(labelInsertIndex, label);
@@ -3556,9 +3555,8 @@ public partial class Axis : ChartNamedElement, IDisposable
                     this.CustomLabels.Add(label);
                 }
 
-                // Check labels fit. Only horizontal or vertical fit is checked depending
-                // on the axis orientation.
-                List<RectangleF> labelPositions = new();
+                // Check labels fit. Only horizontal or vertical fit is checked depending on the axis orientation.
+                List<RectangleF> labelPositions = [];
                 bool fitDone = CheckLabelsFit(
                     chartGraph,
                     this.markSize + this.scrollBarSize + this.titleSize,
@@ -3682,7 +3680,7 @@ public partial class Axis : ChartNamedElement, IDisposable
 
         // Calculate minimum interval size
         double minIntervalSzie = double.NaN;
-        ArrayList axisSeries = AxisScaleBreakStyle.GetAxisSeries(this);
+        List<Series> axisSeries = AxisScaleBreakStyle.GetAxisSeries(this);
         foreach (Series series in axisSeries)
         {
             if (this.axisType == AxisName.X || this.axisType == AxisName.X2)
@@ -3720,7 +3718,7 @@ public partial class Axis : ChartNamedElement, IDisposable
         DateTimeIntervalType currentIntervalType = (axisScaleSegment == null) ? this.labelStyle.GetIntervalType() : axisScaleSegment.IntervalType;
         DateTimeIntervalType lastFitIntervalType = currentIntervalType;
         double lastFitInterval = currentInterval;
-        ArrayList lastFitLabels = new ArrayList();
+        List<CustomLabel> lastFitLabels = [];
         bool intervalFound = false;
         int iterationNumber = 0;
         while (!intervalFound && iterationNumber <= 1000)
@@ -4108,7 +4106,7 @@ public partial class Axis : ChartNamedElement, IDisposable
 
         // Each label may contain several lines of text.
         // Create a list that contains an array of text for each label.
-        ArrayList labelTextRows = new ArrayList(labels.Count);
+        List<string[]> labelTextRows = new(labels.Count);
         foreach (CustomLabel label in labels)
         {
             labelTextRows.Add(label.Text.Split('\n'));
@@ -4138,7 +4136,7 @@ public partial class Axis : ChartNamedElement, IDisposable
         if (longestLabelIndex >= 0 && longestLabelRowIndex >= 0)
         {
             // Try to find a space and replace it with a new line
-            string newText = ((string[])labelTextRows[longestLabelIndex])[longestLabelRowIndex];
+            string newText = labelTextRows[longestLabelIndex][longestLabelRowIndex];
             for (index = 0; index < newText.Length / 2 - 1; index++)
             {
                 if (newText[newText.Length / 2 - index] == ' ')
@@ -4154,7 +4152,7 @@ public partial class Axis : ChartNamedElement, IDisposable
 
                 if (changed)
                 {
-                    ((string[])labelTextRows[longestLabelIndex])[longestLabelRowIndex] = newText;
+                    labelTextRows[longestLabelIndex][longestLabelRowIndex] = newText;
                     break;
                 }
             }
@@ -4165,14 +4163,14 @@ public partial class Axis : ChartNamedElement, IDisposable
                 // Construct label text from multiple rows separated by "\n"
                 CustomLabel label = labels[longestLabelIndex];
                 label.Text = string.Empty;
-                for (int rowIndex = 0; rowIndex < ((string[])labelTextRows[longestLabelIndex]).Length; rowIndex++)
+                for (int rowIndex = 0; rowIndex < labelTextRows[longestLabelIndex].Length; rowIndex++)
                 {
                     if (rowIndex > 0)
                     {
                         label.Text += "\n";
                     }
 
-                    label.Text += ((string[])labelTextRows[longestLabelIndex])[rowIndex];
+                    label.Text += labelTextRows[longestLabelIndex][rowIndex];
                 }
             }
         }
@@ -4356,7 +4354,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                 outsidePoint.Y -= textSize.Height;
                 outsidePoint.Y -= spacing;
 
-                PointF[] rotatedPoint = new PointF[] { outsidePoint };
+                PointF[] rotatedPoint = [outsidePoint];
                 if (newMatrix is null)
                     newMatrix = new Matrix();
                 else
@@ -4387,7 +4385,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                 }
 
                 // Get label rotated position
-                PointF[] labelPosition = new PointF[] { new PointF(areaCenterAbs.X, plotAreaRectAbs.Y) };
+                PointF[] labelPosition = [new PointF(areaCenterAbs.X, plotAreaRectAbs.Y)];
                 labelPosition[0].Y += labelsSizeEstimate;
                 labelPosition[0].Y -= spacing;
                 if (newMatrix is null)

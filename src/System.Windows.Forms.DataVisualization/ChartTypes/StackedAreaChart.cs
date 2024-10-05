@@ -9,6 +9,7 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
@@ -386,10 +387,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             Series seriesToDraw)
         {
             this.Common = common;
-            ArrayList prevPointsArray = null;
-            ArrayList curentPointsArray = null;
+            List<double> prevPointsArray = null;
+            List<double> curentPointsArray = null;
 
-            // Prosess 3D chart type
+            // Process 3D chart type
             if (area.Area3DStyle.Enable3D)
             {
                 base.ProcessChartType(
@@ -403,7 +404,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Zero X values mode.
             bool indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(this.Name));
-
             // Indicates that the second point loop for drawing lines or labels is required
             bool requiresSecondPointLoop = false;
             bool requiresThirdPointLoop = false;
@@ -426,6 +426,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     areaPath.Dispose();
                     areaPath = null;
                 }
+
                 areaBottomPath.Reset();
 
                 // Check that all seres has the same number of points
@@ -453,14 +454,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 axisPos = graph.GetAbsolutePoint(axisPos);
 
                 // Fill previous series values array 
-                if (curentPointsArray == null)
+                if (curentPointsArray is null)
                 {
-                    curentPointsArray = new ArrayList(ser.Points.Count);
+                    curentPointsArray = new(ser.Points.Count);
                 }
                 else
                 {
                     prevPointsArray = curentPointsArray;
-                    curentPointsArray = new ArrayList(ser.Points.Count);
+                    curentPointsArray = new(ser.Points.Count);
                 }
 
                 // Call Back Paint event
@@ -485,17 +486,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     double xValue = indexedSeries ? (index + 1.0) : point.XValue;
 
                     // Adjust point position with previous value
-                    if (prevPointsArray != null && index < prevPointsArray.Count)
+                    if (prevPointsArray is not null && index < prevPointsArray.Count)
                     {
-                        yValue += (double)prevPointsArray[index];
+                        yValue += prevPointsArray[index];
                     }
-                    curentPointsArray.Insert(index, yValue);
 
+                    curentPointsArray.Insert(index, yValue);
                     // Get point position
                     float yPosition = (float)VAxis.GetPosition(yValue);
                     float xPosition = (float)HAxis.GetPosition(xValue);
 
-                    // Remeber pre-calculated point position
+                    // Remember pre-calculated point position
                     point.positionRel = new PointF(xPosition, yPosition);
 
                     yValue = VAxis.GetLogValue(yValue);
@@ -506,13 +507,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     {
                         firstPoint.X = xPosition;
                         firstPoint.Y = yPosition;
-                        if (prevPointsArray != null && index < prevPointsArray.Count)
+                        if (prevPointsArray is not null && index < prevPointsArray.Count)
                         {
                             prevYValue1 = (float)VAxis.GetPosition((double)prevPointsArray[index]);
                             prevYValue1 = graph.GetAbsolutePoint(new PointF(prevYValue1, prevYValue1)).Y;
                         }
-                        firstPoint = graph.GetAbsolutePoint(firstPoint);
 
+                        firstPoint = graph.GetAbsolutePoint(firstPoint);
                         ++index;
                         continue;
                     }
@@ -627,16 +628,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 graph.EndHotRegion();
                             }
 
-                            if (areaPath == null)
-                            {
-                                areaPath = new GraphicsPath();
-                            }
+                            areaPath ??= new GraphicsPath();
                             areaPath.AddLine(firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
                             areaBottomPath.AddLine(firstPoint.X, prevYValue1, secondPoint.X, prevYValue2);
 
                             //Clean up
-                            if (areaBrush != null)
-                                areaBrush.Dispose();
+                            areaBrush?.Dispose();
                         }
 
                         if (common.ProcessModeRegions)
@@ -706,13 +703,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             }
                         }
                     }
+
                     // Save previous point
                     firstPoint = secondPoint;
                     prevYValue1 = prevYValue2;
 
                     // Increase data point index
                     ++index;
-
                 }
 
                 // Fill whole series area with gradient
@@ -775,14 +772,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     axisPos = graph.GetAbsolutePoint(axisPos);
 
                     // Fill previous series values array 
-                    if (curentPointsArray == null)
+                    if (curentPointsArray is null)
                     {
-                        curentPointsArray = new ArrayList(ser.Points.Count);
+                        curentPointsArray = new(ser.Points.Count);
                     }
                     else
                     {
                         prevPointsArray = curentPointsArray;
-                        curentPointsArray = new ArrayList(ser.Points.Count);
+                        curentPointsArray = new(ser.Points.Count);
                     }
 
                     // The data points loop
@@ -802,6 +799,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         {
                             yValue += (double)prevPointsArray[index];
                         }
+
                         curentPointsArray.Insert(index, yValue);
 
                         // Get point position
@@ -819,6 +817,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 prevYValue1 = (float)VAxis.GetPosition((double)prevPointsArray[index]);
                                 prevYValue1 = graph.GetAbsolutePoint(new PointF(prevYValue1, prevYValue1)).Y;
                             }
+
                             firstPoint = graph.GetAbsolutePoint(firstPoint);
                             secondPoint = firstPoint;
                             prevYValue2 = prevYValue1;
@@ -880,14 +879,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     axisPos = graph.GetAbsolutePoint(axisPos);
 
                     // Fill previous series values array 
-                    if (curentPointsArray == null)
+                    if (curentPointsArray is null)
                     {
-                        curentPointsArray = new ArrayList(ser.Points.Count);
+                        curentPointsArray = new(ser.Points.Count);
                     }
                     else
                     {
                         prevPointsArray = curentPointsArray;
-                        curentPointsArray = new ArrayList(ser.Points.Count);
+                        curentPointsArray = new(ser.Points.Count);
                     }
 
                     // The data points loop
@@ -907,6 +906,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         {
                             yValue += (double)prevPointsArray[index];
                         }
+
                         curentPointsArray.Insert(index, yValue);
 
                         // Get point position
@@ -957,6 +957,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                                 {
                                     pointLabelValue = Math.Round(pointLabelValue, 2);
                                 }
+
                                 text = ValueConverter.FormatValue(
                                     ser.Chart,
                                     point,
@@ -1026,14 +1027,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             graph.Clip = oldClipRegion;
                         }
 
-
                         // Save previous point
                         firstPoint = secondPoint;
                         prevYValue1 = prevYValue2;
 
                         // Increase data point index
                         ++index;
-
                     }
                 }
             }

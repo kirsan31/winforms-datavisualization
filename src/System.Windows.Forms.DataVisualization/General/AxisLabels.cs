@@ -130,10 +130,8 @@ public partial class Axis
     /// Gets the axis series.
     /// </summary>
     /// <returns></returns>
-    internal ArrayList GetAxisSeries()
+    private bool IsSeriesAttached()
     {
-        ArrayList dataSeries = new ArrayList();
-
         // check for attached series.
         foreach (string seriesName in this.ChartArea.Series)
         {
@@ -141,20 +139,16 @@ public partial class Axis
             if (this.axisType == AxisName.X || this.axisType == AxisName.X2)
             {
                 if (series.XAxisType == this.GetAxisType())
-                {
-                    dataSeries.Add(series);
-                }
+                    return true;
             }
             else
             {
                 if (series.YAxisType == this.GetAxisType())
-                {
-                    dataSeries.Add(series);
-                }
+                    return true;
             }
         }
 
-        return dataSeries;
+        return false;
     }
 
     /// <summary>
@@ -197,8 +191,8 @@ public partial class Axis
             return;
         }
 
-        // check if no series attached.
-        if (this.GetAxisSeries().Count > 0)
+        // check if series attached.
+        if (this.IsSeriesAttached())
         {
             return;
         }

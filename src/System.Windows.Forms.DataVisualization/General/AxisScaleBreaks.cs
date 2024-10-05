@@ -408,7 +408,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Check series associated with this axis
-            ArrayList axisSeries = AxisScaleBreakStyle.GetAxisSeries(this.axis);
+            List<Series> axisSeries = GetAxisSeries(this.axis);
             foreach (Series series in axisSeries)
             {
                 // Some special chart type are not supported
@@ -442,17 +442,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="axis">Axis to get the series for.</param>
         /// <returns>A list of series that are attached to the specified axis.</returns>
-        static internal ArrayList GetAxisSeries(Axis axis)
+        static internal List<Series> GetAxisSeries(Axis axis)
         {
-            ArrayList seriesList = new ArrayList();
-            if (axis != null && axis.ChartArea != null && axis.ChartArea.Common.Chart != null)
+            List<Series> seriesList = [];
+            if (axis?.ChartArea?.Common?.Chart.Series.Count > 0)
             {
                 // Iterate through series in the chart
                 foreach (Series series in axis.ChartArea.Common.Chart.Series)
                 {
                     // Series should be on the same chart area and visible
-                    if (series.ChartArea == axis.ChartArea.Name &&
-                        series.Enabled)
+                    if (series.ChartArea == axis.ChartArea.Name && series.Enabled)
                     {
                         // Check primary/secondary axis
                         if ((axis.axisType == AxisName.Y && series.YAxisType == AxisType.Secondary) ||
@@ -466,6 +465,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     }
                 }
             }
+
             return seriesList;
         }
 
@@ -896,7 +896,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             out double[] segmentMinValue)
         {
             // Get all series associated with the axis
-            ArrayList axisSeries = AxisScaleBreakStyle.GetAxisSeries(this.axis);
+            List<Series> axisSeries = GetAxisSeries(this.axis);
 
             // Get range of Y values from axis series
             axis.Common.DataManager.GetMinMaxYValue(axisSeries, out minYValue, out maxYValue);
@@ -926,6 +926,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 segmentMaxValue[index] = double.NaN;
                 segmentMinValue[index] = double.NaN;
             }
+
             foreach (Series series in axisSeries)
             {
                 // Get number of Y values to process

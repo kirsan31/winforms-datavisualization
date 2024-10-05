@@ -315,7 +315,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.EnableAxes();
 
             // Get scale break segments
-            Axis[] axesYArray = new Axis[] { axisY, axisY2 };
+            Axis[] axesYArray = [axisY, axisY2];
             foreach (Axis currentAxis in axesYArray)
             {
                 // Get automatic scale break segments
@@ -341,7 +341,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool useScaleSegments = false;
 
             // Fill Labels
-            Axis[] axesArray = new Axis[] { axisX, axisX2, axisY, axisY2 };
+            Axis[] axesArray = [axisX, axisX2, axisY, axisY2];
             foreach (Axis currentAxis in axesArray)
             {
                 useScaleSegments = currentAxis.ScaleSegments.Count > 0;

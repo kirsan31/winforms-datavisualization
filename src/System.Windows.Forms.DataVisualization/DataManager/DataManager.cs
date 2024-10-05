@@ -537,7 +537,7 @@ internal sealed class DataManager : ChartElement, IServiceProvider
     /// <param name="seriesList">Series objects list.</param>
     /// <param name="min">Returns maximum Y value.</param>
     /// <param name="max">Returns minimum Y value.</param>
-    internal void GetMinMaxYValue(System.Collections.ArrayList seriesList, out double min, out double max)
+    internal void GetMinMaxYValue(List<Series> seriesList, out double min, out double max)
     {
         max = double.MinValue;
         min = double.MaxValue;
@@ -1070,7 +1070,7 @@ internal sealed class DataManager : ChartElement, IServiceProvider
     Editor("SeriesCollectionEditor", typeof(UITypeEditor)),
     Bindable(true)
     ]
-    public SeriesCollection Series { get; private set; }
+    public SeriesCollection Series { get; }
 
     /// <summary>
     /// Color palette to use
@@ -1097,7 +1097,7 @@ internal sealed class DataManager : ChartElement, IServiceProvider
     SRDescription("DescriptionAttributeDataManager_PaletteCustomColors"),
     TypeConverter(typeof(ColorArrayConverter))
     ]
-    public Color[] PaletteCustomColors { set; get; } = Array.Empty<Color>();
+    public Color[] PaletteCustomColors { set; get; } = [];
 
 
 
