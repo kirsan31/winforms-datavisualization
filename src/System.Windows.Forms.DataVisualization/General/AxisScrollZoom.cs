@@ -22,6 +22,7 @@
 //
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
@@ -114,7 +115,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private DateTimeIntervalType _currentSmallScrollSizeType = DateTimeIntervalType.Auto;
 
         // Storage for the saved data scaleView states (position/size/sizetype)
-        internal ArrayList dataViewStates;
+        private List<(double Position, double Size, DateTimeIntervalType SizeType)> _dataViewStates;
 
         // Ignore validation flag
         private bool _ignoreValidation;
@@ -830,33 +831,31 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // Check parameters
             if (numberOfViews < 0)
-            {
                 throw new ArgumentOutOfRangeException(nameof(numberOfViews), SR.ExceptionScrollBarZoomResetsNumberInvalid);
-            }
+
+            Chart chart = GetChartObject();
             // Check if storage was created
-            if (dataViewStates != null && dataViewStates.Count >= 3)
+            if (_dataViewStates?.Count > 0)
             {
                 // Find starting index of restoring state
-                int dataStartIndex = 0;
+                int dataIndex = 0;
                 if (numberOfViews > 0)
                 {
-                    dataStartIndex = dataViewStates.Count - numberOfViews * 3;
-                    if (dataStartIndex < 0)
-                    {
-                        dataStartIndex = 0;
-                    }
+                    dataIndex = _dataViewStates.Count - numberOfViews;
+                    if (dataIndex < 0)
+                        dataIndex = 0;
                 }
 
+                var state = _dataViewStates[dataIndex];
                 // Fire scaleView position/size changing events
                 ViewEventArgs arguments = new ViewEventArgs(
-                    this.axis,
-                    (double)dataViewStates[dataStartIndex],
-                    (double)dataViewStates[dataStartIndex + 1],
-                    (DateTimeIntervalType)dataViewStates[dataStartIndex + 2]);
-                if (fireChangeEvents && GetChartObject() != null)
-                {
-                    GetChartObject().OnAxisViewChanging(arguments);
-                }
+                    axis,
+                    state.Position,
+                    state.Size,
+                    state.SizeType);
+
+                if (fireChangeEvents && chart is not null)
+                    chart.OnAxisViewChanging(arguments);
 
                 // Restore data
                 this.Position = arguments.NewPosition;
@@ -864,25 +863,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.SizeType = arguments.NewSizeType;
 
                 // Fire scaleView position/size changed events
-                if (fireChangeEvents && GetChartObject() != null)
-                {
-                    GetChartObject().OnAxisViewChanged(arguments);
-                }
-
-                // Clear data
-                int itemsToRemove = numberOfViews * 3;
-                if (itemsToRemove > dataViewStates.Count - dataStartIndex)
-                {
-                    itemsToRemove = dataViewStates.Count - dataStartIndex;
-                }
-
-                dataViewStates.RemoveRange(dataStartIndex, itemsToRemove);
+                if (fireChangeEvents && chart is not null)
+                    chart.OnAxisViewChanged(arguments);
 
                 // clean up the history state when the numberOfViews == 0 (reset all by docs)
-                if (numberOfViews == 0)
-                {
-                    dataViewStates.Clear();
-                }
+                if (dataIndex == 0)
+                    _dataViewStates.Clear();
+                else // Clear data
+                    _dataViewStates.RemoveRange(dataIndex, _dataViewStates.Count - dataIndex);
 
                 if (double.IsNaN(this.Position) || double.IsNaN(this.Size))
                 {
@@ -890,7 +878,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     this.Size = double.NaN;
                 }
             }
-
             // Nothing to restore - just disable the data scaleView
             else
             {
@@ -901,10 +888,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     double.NaN,
                     DateTimeIntervalType.Auto);
 
-                if (fireChangeEvents && GetChartObject() != null)
-                {
-                    GetChartObject().OnAxisViewChanging(arguments);
-                }
+                if (fireChangeEvents && chart is not null)
+                    chart.OnAxisViewChanging(arguments);
 
                 // Restore data
                 this.Position = arguments.NewPosition;
@@ -912,13 +897,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 this.SizeType = arguments.NewSizeType;
 
                 // Fire scaleView position/size changed events
-                if (fireChangeEvents && GetChartObject() != null)
-                {
-                    GetChartObject().OnAxisViewChanged(arguments);
-                }
+                if (fireChangeEvents && chart is not null)
+                    chart.OnAxisViewChanged(arguments);
             }
+
             // clear cached chart areas and bitmap buffers
-            GetChartObject().Refresh();
+            chart?.Refresh();
         }
 
         /// <summary>
@@ -928,12 +912,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private void SaveDataViewState()
         {
             // Create storage array
-            dataViewStates ??= new ArrayList();
+            _dataViewStates ??= [];
 
             // Save data scaleView state
-            dataViewStates.Add(this.Position);
-            dataViewStates.Add(this.Size);
-            dataViewStates.Add(this.SizeType);
+            _dataViewStates.Add((Position, Size, SizeType));
         }
 
         #endregion Data scaleView state saving/restoring methods

@@ -871,7 +871,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             CircularAxisLabelsStyle labelsStyle = this._axis.ChartArea.GetCircularAxisLabelsStyle();
 
             // Get list of circular axes with labels
-            ArrayList circularAxes = this._axis.ChartArea.GetCircularAxisList();
+            List<CircularChartAreaAxis> circularAxes = this._axis.ChartArea.GetCircularAxisList();
 
             // Draw each axis label
             int index = 0;

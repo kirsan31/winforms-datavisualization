@@ -14,6 +14,7 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
@@ -1315,7 +1316,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             float positionZ,
             DataPoint3D firstPoint,
             DataPoint3D secondPoint,
-            ArrayList points,
+            List<DataPoint3D> points,
             float tension,
             bool flatten,
             bool translateCoordinates,
@@ -1328,6 +1329,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 --firtsSplinePointIndex;
             }
+
             if (firtsSplinePointIndex < 1)
             {
                 firtsSplinePointIndex = 1;
@@ -1335,11 +1337,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Find four points which are required to draw the spline
             int pointArrayIndex = int.MinValue;
-            DataPoint3D[] splineDataPoints = new DataPoint3D[4];
-            splineDataPoints[0] = FindPointByIndex(points, firtsSplinePointIndex, null, ref pointArrayIndex);
-            splineDataPoints[1] = FindPointByIndex(points, firtsSplinePointIndex + 1, null, ref pointArrayIndex);
-            splineDataPoints[2] = FindPointByIndex(points, firtsSplinePointIndex + 2, null, ref pointArrayIndex);
-            splineDataPoints[3] = FindPointByIndex(points, firtsSplinePointIndex + 3, null, ref pointArrayIndex);
+            DataPoint3D[] splineDataPoints =
+            [
+                FindPointByIndex(points, firtsSplinePointIndex, null, ref pointArrayIndex),
+                FindPointByIndex(points, firtsSplinePointIndex + 1, null, ref pointArrayIndex),
+                FindPointByIndex(points, firtsSplinePointIndex + 2, null, ref pointArrayIndex),
+                FindPointByIndex(points, firtsSplinePointIndex + 3, null, ref pointArrayIndex),
+            ];
 
             // Get offset of spline segment in array
             int splineSegmentOffset = 0;
@@ -1350,6 +1354,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     break;
                 }
+
                 ++splineSegmentOffset;
             }
 
@@ -1357,6 +1362,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             int nonNullPoints = 2;
             if (splineDataPoints[2] != null)
                 ++nonNullPoints;
+
             if (splineDataPoints[3] != null)
                 ++nonNullPoints;
 
@@ -1471,7 +1477,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             ChartDashStyle borderDashStyle,
             DataPoint3D firstPoint,
             DataPoint3D secondPoint,
-            ArrayList points,
+            List<DataPoint3D> points,
             int pointIndex,
             float tension,
             DrawingOperationTypes operationType,
@@ -1522,7 +1528,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             bool reversed = false;
             if ((pointIndex + 1) < points.Count)
             {
-                DataPoint3D p = (DataPoint3D)points[pointIndex + 1];
+                DataPoint3D p = points[pointIndex + 1];
                 if (p.index == firstPoint.index)
                 {
                     reversed = true;
@@ -1670,7 +1676,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             ChartDashStyle borderDashStyle,
             DataPoint3D firstPoint,
             DataPoint3D secondPoint,
-            ArrayList points,
+            List<DataPoint3D> points,
             int pointIndex,
             float tension,
             DrawingOperationTypes operationType,
@@ -2457,7 +2463,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             SurfaceNames surfaceName,
             SurfaceNames boundaryRectVisibleSurfaces,
             Color color,
-            ArrayList points,
+            List<DataPoint3D> points,
             DataPoint3D firstPoint,
             DataPoint3D secondPoint,
             bool multiSeries,
@@ -2472,14 +2478,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
             double hAxisMax = hAxis.ViewMaximum;
 
             //****************************************************************
-            //** Check if data point and it's neigbours have non-transparent
+            //** Check if data point and it's neighbors have non-transparent
             //** colors.
             //****************************************************************
 
             // Check if point main color has transparency
             bool transparent = color.A != 255;
 
-            // Check if points on the left and right side exsit and are transparent
+            // Check if points on the left and right side exist and are transparent
             bool leftPointVisible = false;
             bool rightPointVisible = false;
             if (surfaceName == SurfaceNames.Left)
@@ -2688,7 +2694,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="neighborDataPoint">Neighbor point of the same series.</param>
         /// <param name="neighborPointIndex">Neighbor point index in the array list.</param>
         /// <returns>Data point found.</returns>
-        internal static DataPoint3D FindPointByIndex(ArrayList points, int index, DataPoint3D neighborDataPoint, ref int neighborPointIndex)
+        internal static DataPoint3D FindPointByIndex(List<DataPoint3D> points, int index, DataPoint3D neighborDataPoint, ref int neighborPointIndex)
         {
             // Try to look around the neighbor point index
             if (neighborPointIndex != int.MinValue)
@@ -2696,7 +2702,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Try getting the next point
                 if (neighborPointIndex < (points.Count - 2))
                 {
-                    DataPoint3D point = (DataPoint3D)points[neighborPointIndex + 1];
+                    DataPoint3D point = points[neighborPointIndex + 1];
 
                     // Check required point index for the first point
                     if (point.index == index &&
@@ -2710,7 +2716,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Try getting the prev point
                 if (neighborPointIndex > 0)
                 {
-                    DataPoint3D point = (DataPoint3D)points[neighborPointIndex - 1];
+                    DataPoint3D point = points[neighborPointIndex - 1];
 
                     // Check required point index for the first point
                     if (point.index == index &&

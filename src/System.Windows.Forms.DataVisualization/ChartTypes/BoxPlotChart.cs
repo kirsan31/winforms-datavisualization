@@ -1689,7 +1689,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         static private void BoxPlotAddUnusual(ref DataPoint boxPoint, List<double> yValues)
         {
             // Get unusual values
-            ArrayList unusualValuesList = new ArrayList();
+            List<double> unusualValuesList = [];
             foreach (double yValue in yValues)
             {
                 if (yValue < boxPoint.YValues[0] || yValue > boxPoint.YValues[1])
@@ -1713,7 +1713,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 // Add unusual values
                 for (int index = 0; index < unusualValuesList.Count; index++)
                 {
-                    newYValues[6 + index] = (double)unusualValuesList[index];
+                    newYValues[6 + index] = unusualValuesList[index];
                 }
 
                 // Set new values array

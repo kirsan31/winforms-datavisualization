@@ -1214,7 +1214,7 @@ internal class LineChart : PointChart
         //************************************************************
         //** Get order of data points drawing
         //************************************************************
-        ArrayList dataPointDrawingOrder = area.GetDataPointDrawingOrder(
+        List<DataPoint3D> dataPointDrawingOrder = area.GetDataPointDrawingOrder(
             typeSeries,
             this,
             selection,
@@ -1230,7 +1230,7 @@ internal class LineChart : PointChart
         this.lineTension = GetDefaultTension();
         if (dataPointDrawingOrder.Count > 0)
         {
-            Series firstSeries = ((DataPoint3D)dataPointDrawingOrder[0]).dataPoint.series;
+            Series firstSeries = dataPointDrawingOrder[0].dataPoint.series;
             if (IsLineTensionSupported() && firstSeries.IsCustomPropertySet(CustomPropertyName.LineTension))
             {
                 this.lineTension = CommonElements.ParseFloat(firstSeries[CustomPropertyName.LineTension]);
@@ -1249,10 +1249,9 @@ internal class LineChart : PointChart
         {
             int index = 0;
             this.centerPointIndex = int.MaxValue;
-            foreach (object obj in dataPointDrawingOrder)
+            foreach (DataPoint3D pointEx in dataPointDrawingOrder)
             {
                 // Get point & series
-                DataPoint3D pointEx = (DataPoint3D)obj;
                 DataPoint point = pointEx.dataPoint;
                 Series ser = point.series;
 
@@ -1446,7 +1445,7 @@ internal class LineChart : PointChart
         DataPoint3D prevDataPointEx,
         float positionZ,
         float depth,
-        ArrayList points,
+        List<DataPoint3D> points,
         int pointIndex,
         int pointLoopIndex,
         float tension,
@@ -1466,7 +1465,7 @@ internal class LineChart : PointChart
         //************************************************************
         //** Find line first & second points
         //************************************************************
-        DataPoint3D secondPoint = (DataPoint3D)points[pointIndex];
+        DataPoint3D secondPoint = points[pointIndex];
         int pointArrayIndex = pointIndex;
         DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
             points,
@@ -1531,12 +1530,12 @@ internal class LineChart : PointChart
     /// </summary>
     /// <param name="points">Points list.</param>
     /// <returns>Index of center point or int.MaxValue.</returns>
-    protected int GetCenterPointIndex(ArrayList points)
+    protected static int GetCenterPointIndex(List<DataPoint3D> points)
     {
         for (int pointIndex = 1; pointIndex < points.Count; pointIndex++)
         {
-            DataPoint3D firstPoint = (DataPoint3D)points[pointIndex - 1];
-            DataPoint3D secondPoint = (DataPoint3D)points[pointIndex];
+            DataPoint3D firstPoint = points[pointIndex - 1];
+            DataPoint3D secondPoint = points[pointIndex];
             if (Math.Abs(secondPoint.index - firstPoint.index) != 1)
             {
                 return pointIndex - 1;
@@ -1552,7 +1551,7 @@ internal class LineChart : PointChart
     /// <param name="selection">Selection indicator.</param>
     /// <param name="pointsArray">Points array list.</param>
     /// <returns>Number of loops (1 or 2).</returns>
-    protected virtual int GetPointLoopNumber(bool selection, ArrayList pointsArray)
+    protected virtual int GetPointLoopNumber(bool selection, List<DataPoint3D> pointsArray)
     {
         return 1;
     }
@@ -1593,7 +1592,7 @@ internal class LineChart : PointChart
         DataPoint3D prevDataPointEx,
         float positionZ,
         float depth,
-        ArrayList points,
+        List<DataPoint3D> points,
         int pointIndex,
         int pointLoopIndex,
         float tension,
@@ -1647,7 +1646,7 @@ internal class LineChart : PointChart
         //** Clip area data points inside the plotting area
         //****************************************************************
 
-        // Chech data points X values
+        // Check data points X values
         if ((decimal)firstPoint.xPosition < plotAreaPositionX ||
             (decimal)firstPoint.xPosition > plotAreaPositionRight ||
             (decimal)secondPoint.xPosition < plotAreaPositionX ||
@@ -1973,7 +1972,7 @@ internal class LineChart : PointChart
         DataPoint3D prevDataPointEx,
         float positionZ,
         float depth,
-        ArrayList points,
+        List<DataPoint3D> points,
         int pointIndex,
         int pointLoopIndex,
         float tension,
@@ -2396,7 +2395,7 @@ internal class LineChart : PointChart
         DataPoint3D prevDataPointEx,
         float positionZ,
         float depth,
-        ArrayList points,
+        List<DataPoint3D> points,
         int pointIndex,
         int pointLoopIndex,
         float tension,

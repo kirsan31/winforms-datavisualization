@@ -1013,16 +1013,16 @@ internal class PointChart : IChartType
         //************************************************************
         //** Get order of data points drawing
         //************************************************************
-        ArrayList dataPointDrawingOrder = area.GetDataPointDrawingOrder(typeSeries, this, selection, COPCoordinates.X, null, this.YValueIndex, false);
+        List<DataPoint3D> dataPointDrawingOrder = area.GetDataPointDrawingOrder(typeSeries, this, selection, COPCoordinates.X, null, this.YValueIndex, false);
 
         //************************************************************
         //** Loop through all data points
         //************************************************************
-        foreach (object obj in dataPointDrawingOrder)
+        foreach (DataPoint3D dp in dataPointDrawingOrder)
         {
             // Process single point
             ProcessSinglePoint3D(
-                (DataPoint3D)obj,
+                dp,
                 graph,
                 common,
                 area

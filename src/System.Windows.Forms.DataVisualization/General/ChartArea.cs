@@ -89,7 +89,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
     // Center of the circular chart area
     internal PointF circularCenter = PointF.Empty;
 
-    private ArrayList _circularAxisList;
+    private List<CircularChartAreaAxis> _circularAxisList;
 
     // Buffered plotting area image
     internal Bitmap areaBufferBitmap;
@@ -1864,7 +1864,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
             }
         }
 
-        Axis[] axesArray = new Axis[] { axisY, axisY2, axisX, axisX2 };
+        Axis[] axesArray = [axisY, axisY2, axisX, axisX2];
 
         // Draw Axis StripLines (only when StripWidth > 0)
         bool useScaleSegments;
@@ -1890,7 +1890,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
         }
 
         // Draw Axis Grids
-        axesArray = new Axis[] { axisY, axisX2, axisY2, axisX };
+        axesArray = [axisY, axisX2, axisY2, axisX];
         foreach (Axis currentAxis in axesArray)
         {
             useScaleSegments = currentAxis.ScaleSegments.Count > 0;
@@ -1976,7 +1976,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
             // If two chart series of the same type (for example Line) are separated
             // by other series (for example Area) the order is not correct.
             // Old implementation draws ALL series that belongs to the chart type.
-            ArrayList typeAndSeries = this.GetChartTypesAndSeriesToDraw();
+            List<ChartTypeAndSeriesInfo> typeAndSeries = this.GetChartTypesAndSeriesToDraw();
 
             // Draw series by chart type or by series
             foreach (ChartTypeAndSeriesInfo chartTypeInfo in typeAndSeries)
@@ -2032,7 +2032,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
         Common.Chart.CallOnPostPaint(new ChartPaintEventArgs(this, graph, Common, PlotAreaPosition));
 
         // Draw axis scale break lines
-        axesArray = new Axis[] { axisY, axisY2 };
+        axesArray = [axisY, axisY2];
         foreach (Axis currentAxis in axesArray)
         {
             for (int segmentIndex = 0; segmentIndex < currentAxis.ScaleSegments.Count - 1; segmentIndex++)
@@ -2252,7 +2252,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
         float spacing = chartGraph.GetAbsolutePoint(new PointF(0, this.AxisX.markSize + Axis.elementSpacing)).Y;
 
         // Get circular axis list
-        ArrayList axisList = GetCircularAxisList();
+        List<CircularChartAreaAxis> axisList = GetCircularAxisList();
 
         // Get circular axis labels style
         CircularAxisLabelsStyle labelsStyle = GetCircularAxisLabelsStyle();
@@ -2340,7 +2340,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
         PointF areaCenterAbs = chartGraph.GetAbsolutePoint(this.circularCenter);
 
         // Get circular axis list
-        ArrayList axisList = GetCircularAxisList();
+        List<CircularChartAreaAxis> axisList = GetCircularAxisList();
 
         // Get circular axis labels style
         CircularAxisLabelsStyle labelsStyle = GetCircularAxisLabelsStyle();
@@ -2400,7 +2400,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 }
 
                 // Get label rotated position
-                PointF[] labelPosition = new PointF[] { new PointF(areaCenterAbs.X, plotAreaRectAbs.Y) };
+                PointF[] labelPosition = [new PointF(areaCenterAbs.X, plotAreaRectAbs.Y)];
                 if (newMatrix is null)
                     newMatrix = new Matrix();
                 else
@@ -2555,12 +2555,12 @@ public partial class ChartArea : ChartNamedElement, IDisposable
     /// Fills a list of circular axis.
     /// </summary>
     /// <returns>Axes list.</returns>
-    internal ArrayList GetCircularAxisList()
+    internal List<CircularChartAreaAxis> GetCircularAxisList()
     {
         // Check if list was already created
-        if (_circularAxisList == null)
+        if (_circularAxisList is null)
         {
-            _circularAxisList = new ArrayList();
+            _circularAxisList = [];
 
             // Loop through all sectors
             int sectorNumber = GetCircularSectorNumber();
@@ -2629,9 +2629,9 @@ public partial class ChartArea : ChartNamedElement, IDisposable
     /// type incorrectly overlaps point or line chart type.
     /// </summary>
     /// <returns>List of 'ChartTypeAndSeriesInfo' objects.</returns>
-    private ArrayList GetChartTypesAndSeriesToDraw()
+    private List<ChartTypeAndSeriesInfo> GetChartTypesAndSeriesToDraw()
     {
-        ArrayList resultList = new ArrayList();
+        List<ChartTypeAndSeriesInfo> resultList = [];
 
         // Build chart type or series position based lists
         if (this.ChartTypes.Count > 1 && (this.ChartTypes.Contains(ChartTypeNames.Area) || this.ChartTypes.Contains(ChartTypeNames.SplineArea)))

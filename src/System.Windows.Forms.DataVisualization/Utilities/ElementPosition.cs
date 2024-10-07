@@ -211,20 +211,21 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>true if the specified Object is equal to the current Object; otherwise, false.</returns>
 		internal override bool EqualsInternal(object obj)
         {
-            ElementPosition pos = obj as ElementPosition;
-            if (pos != null)
+            if (obj is ElementPosition pos)
             {
-                if (this._auto == true && this._auto == pos._auto)
+                if (this._auto == true && pos._auto == true)
                 {
                     return true;
                 }
-                else if (this._x == pos._x && this._y == pos._y &&
+
+                if (this._x == pos._x && this._y == pos._y &&
                         this._width == pos._width && this._height == pos._height)
                 {
                     return true;
                 }
 
             }
+
             return false;
         }
 

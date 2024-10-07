@@ -679,15 +679,14 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //************************************************************
             //** Get order of data points drawing
             //************************************************************
-            ArrayList dataPointDrawingOrder = area.GetDataPointDrawingOrder(typeSeries, this, selection, coordinates, null, this.YValueIndex, currentDrawSeriesSideBySide);
+            List<DataPoint3D> dataPointDrawingOrder = area.GetDataPointDrawingOrder(typeSeries, this, selection, coordinates, null, this.YValueIndex, currentDrawSeriesSideBySide);
 
             //************************************************************
             //** Loop through all data points
             //************************************************************
-            foreach (object obj in dataPointDrawingOrder)
+            foreach (DataPoint3D pointEx in dataPointDrawingOrder)
             {
                 // Get point & series
-                DataPoint3D pointEx = (DataPoint3D)obj;
                 DataPoint point = pointEx.dataPoint;
                 Series ser = point.series;
 

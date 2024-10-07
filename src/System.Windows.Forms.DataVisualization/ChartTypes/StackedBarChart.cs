@@ -122,7 +122,7 @@ internal sealed class HundredPercentStackedBarChart : StackedBarChart
                     common, groupName, series.ChartTypeName, series.ChartArea);
 
                 // Check if series are aligned
-                common.DataManipulator.CheckXValuesAlignment(seriesArray);
+                DataManipulator.CheckXValuesAlignment(seriesArray);
 
                 // Allocate memory for the array of totals
                 double[] totals = new double[series.Points.Count];
@@ -1304,7 +1304,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         //************************************************************
         //** Get order of data points drawing
         //************************************************************
-        ArrayList dataPointDrawingOrder = area.GetDataPointDrawingOrder(
+        List<DataPoint3D> dataPointDrawingOrder = area.GetDataPointDrawingOrder(
             typeSeries,
             this,
             selection,
@@ -1315,14 +1315,13 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
 
 
         //************************************************************
-        //** Loop through all data poins and draw them
+        //** Loop through all data points and draw them
         //************************************************************
         if (!drawLabels)
         {
-            foreach (object obj in dataPointDrawingOrder)
+            foreach (DataPoint3D pointEx in dataPointDrawingOrder)
             {
                 // Get point & series
-                DataPoint3D pointEx = (DataPoint3D)obj;
                 DataPoint point = pointEx.dataPoint;
                 Series ser = point.series;
 
@@ -1620,7 +1619,7 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
         }
 
         //************************************************************
-        //** Loop through all data poins and draw labels
+        //** Loop through all data points and draw labels
         //************************************************************
         if (drawLabels)
         {

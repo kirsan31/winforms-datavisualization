@@ -150,10 +150,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         #region Fields and Constructor
 
         // Array list of funnel segments
-        internal ArrayList segmentList;
+        private List<FunnelSegmentInfo> segmentList;
 
         // List of data point labels information 
-        internal ArrayList labelInfoList;
+        private List<FunnelPointLabelInfo> labelInfoList;
 
         // Chart graphics object.
         internal ChartGraphics Graph { get; set; }
@@ -1302,15 +1302,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// Fill list with information about every segment of the funnel.
         /// </summary>
         /// <returns>Funnel segment information list.</returns>
-        private ArrayList GetFunnelSegmentPositions()
+        private List<FunnelSegmentInfo> GetFunnelSegmentPositions()
         {
             // Create new list
-            ArrayList list = new ArrayList();
+            List<FunnelSegmentInfo> list = [];
 
             // Funnel chart process only first series in the chart area
             // and cannot be combined with any other chart types.
             Series series = GetDataSeries();
-            if (series != null)
+            if (series is not null)
             {
                 // Get funnel drawing style 
                 this._funnelStyle = GetFunnelStyle(series);
@@ -1548,16 +1548,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// Creates a list of structures with the data point labels information.
         /// </summary>
         /// <returns>Array list of labels information.</returns>
-        private ArrayList CreateLabelsInfoList()
+        private List<FunnelPointLabelInfo> CreateLabelsInfoList()
         {
-            ArrayList list = new ArrayList();
+            List<FunnelPointLabelInfo> list = [];
 
             // Get area position in pixels
             RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.Area.Position.ToRectangleF());
 
             // Get funnel chart type series
             Series series = GetDataSeries();
-            if (series != null)
+            if (series is not null)
             {
                 // Loop through all points in the data series
                 int pointIndex = 0;
@@ -1626,9 +1626,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                             }
                         }
                     }
+
                     ++pointIndex;
                 }
             }
+
             return list;
         }
 
@@ -1735,7 +1737,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //Loop through all labels
             foreach (FunnelPointLabelInfo labelInfo in this.labelInfoList)
             {
-                // Get assosiated funnel segment information
+                // Get associated funnel segment information
                 bool lastLabel = false;
                 int pointIndex = labelInfo.PointIndex + (ShouldDrawFirstPoint() ? 0 : 1);
                 if (pointIndex > this.segmentList.Count && !ShouldDrawFirstPoint())
@@ -2918,7 +2920,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     {
         #region Fields
 
-        // Assosiated data point
+        // Associated data point
         public DataPoint Point;
 
         // Data point index
@@ -2952,7 +2954,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     {
         #region Fields
 
-        // Assosiated data point
+        // Associated data point
         public DataPoint Point;
 
         // Data point index

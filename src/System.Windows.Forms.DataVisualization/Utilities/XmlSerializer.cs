@@ -2245,7 +2245,10 @@ internal class BinaryFormatSerializer : SerializerBase
         long elementStartPosition = writer.Seek(0, SeekOrigin.Current);
 
         // Retrieve properties list of the object
-        ArrayList propNamesList = new ArrayList();
+        List<string> propNamesList = null;
+#if DEBUG
+        propNamesList = [];
+#endif
         PropertyInfo[] properties = objectToSerialize.GetType().GetProperties();
         if (properties != null)
         {
@@ -2257,11 +2260,11 @@ internal class BinaryFormatSerializer : SerializerBase
                 {
                     continue;
                 }
+
                 // Serialize collection
                 if (pi.CanRead && pi.PropertyType.GetInterface("ICollection", true) != null && !this.SerializeICollAsAtribute(pi, objectToSerialize))
                 {
                     bool serialize = IsSerializableContent(pi.Name, objectToSerialize);
-
                     // fixing Axes Array Framework 2.0 side effect
                     // fixed by:DT
                     if (serialize && objectToSerialize != null)
@@ -2284,7 +2287,7 @@ internal class BinaryFormatSerializer : SerializerBase
                     if (serialize && mi != null)
                     {
                         object result = mi.Invoke(objectToSerialize, null);
-                        if (result is bool && (bool)result == false)
+                        if (result is bool v && v == false)
                         {
                             // Do not serialize collection
                             serialize = false;
@@ -2294,7 +2297,7 @@ internal class BinaryFormatSerializer : SerializerBase
                     // Serialize collection
                     if (serialize)
                     {
-                        propNamesList.Add(pi.Name);
+                        propNamesList?.Add(pi.Name);
                         SerializeCollection(pi.GetValue(objectToSerialize, null), pi.Name, writer);
                     }
                 }
@@ -2307,6 +2310,7 @@ internal class BinaryFormatSerializer : SerializerBase
                     {
                         continue;
                     }
+
                     // Check if this property is serializable content
                     if (IsSerializableContent(pi.Name, objectToSerialize))
                     {
@@ -2323,11 +2327,11 @@ internal class BinaryFormatSerializer : SerializerBase
                         }
                     }
 
-                    propNamesList.Add(pi.Name);
+                    propNamesList?.Add(pi.Name);
                 }
             }
 
-            // Check that all properties have unique IDs
+            // Check that all properties have unique IDs only in DEBUG
             CheckPropertiesID(propNamesList);
         }
 
@@ -2643,22 +2647,22 @@ internal class BinaryFormatSerializer : SerializerBase
     /// !!!USED IN DEBUG BUILD ONLY!!!
     /// </summary>
     /// <param name="propNames">Array of properties names.</param>
-    internal void CheckPropertiesID(ArrayList propNames)
+    internal static void CheckPropertiesID(List<string> propNames)
     {
 #if DEBUG
-        if (propNames != null)
+        if (propNames is null)
+            return;
+
+        // Loop through all properties and check the hash values
+        foreach (string name1 in propNames)
         {
-            // Loop through all properties and check the hash values
-            foreach (string name1 in propNames)
+            foreach (string name2 in propNames)
             {
-                foreach (string name2 in propNames)
+                if (name1 != name2)
                 {
-                    if (name1 != name2)
+                    if (GetStringHashCode(name1) == GetStringHashCode(name2))
                     {
-                        if (GetStringHashCode(name1) == GetStringHashCode(name2))
-                        {
-                            throw new InvalidOperationException(SR.ExceptionChartSerializerBinaryHashCodeDuplicate(name1, name2));
-                        }
+                        throw new InvalidOperationException(SR.ExceptionChartSerializerBinaryHashCodeDuplicate(name1, name2));
                     }
                 }
             }

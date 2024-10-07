@@ -1644,19 +1644,19 @@ public partial class ChartArea
     /// <param name="mainYValueIndex">Index of the main Y value.</param>
     /// <param name="sideBySide">Series should be drawn side by side.</param>
     /// <returns>Array list of points in drawing order.</returns>
-    internal ArrayList GetDataPointDrawingOrder(
+    internal List<DataPoint3D> GetDataPointDrawingOrder(
     List<string> seriesNamesList,
     IChartType chartType,
     bool selection,
     COPCoordinates coord,
-    IComparer comparer,
+    IComparer<DataPoint3D> comparer,
     int mainYValueIndex,
     bool sideBySide)
     {
         ChartArea area = this;
 
         // Array of points in all series
-        ArrayList pointsList = new ArrayList();
+        List<DataPoint3D> pointsList = [];
 
         //************************************************************
         //** Analyze input series
@@ -1808,7 +1808,6 @@ public partial class ChartArea
         //************************************************************
         comparer ??= new PointsDrawingOrderComparer(this, selection, coord);
         pointsList.Sort(comparer);
-
         return pointsList;
     }
 
@@ -1819,7 +1818,7 @@ public partial class ChartArea
     /// <summary>
     /// Used to compare points in array and sort them by drawing order.
     /// </summary>
-    internal sealed class PointsDrawingOrderComparer : IComparer
+    internal sealed class PointsDrawingOrderComparer : IComparer<DataPoint3D>
     {
         /// <summary>
         /// Chart area object reference.
@@ -1857,14 +1856,13 @@ public partial class ChartArea
         /// <summary>
         /// Comparer method.
         /// </summary>
-        /// <param name="o1">First object.</param>
-        /// <param name="o2">Second object.</param>
-        /// <returns>Comparison result.</returns>
-        public int Compare(object o1, object o2)
+        /// <param name="point1">The point1.</param>
+        /// <param name="point2">The point2.</param>
+        /// <returns>
+        /// Comparison result.
+        /// </returns>
+        public int Compare(DataPoint3D point1, DataPoint3D point2)
         {
-            DataPoint3D point1 = (DataPoint3D)o1;
-            DataPoint3D point2 = (DataPoint3D)o2;
-
             int result = 0;
             if (point1.xPosition < point2.xPosition)
             {

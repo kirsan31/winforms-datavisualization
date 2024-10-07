@@ -11,6 +11,7 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -180,7 +181,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="thirdPointPosition">Position where the third point is actually located or float.NaN if same as in "firstPoint".</param>
         /// <param name="fourthPointPosition">Position where the fourth point is actually located or float.NaN if same as in "secondPoint".</param>
         /// <param name="clippedSegment">Indicates that drawn segment is 3D clipped. Only top/bottom should be drawn.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         protected override GraphicsPath Draw3DSurface(
             ChartArea area,
             ChartGraphics graph,
@@ -189,7 +190,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             DataPoint3D prevDataPointEx,
             float positionZ,
             float depth,
-            ArrayList points,
+            List<DataPoint3D> points,
             int pointIndex,
             int pointLoopIndex,
             float tension,
@@ -213,7 +214,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //************************************************************
             //** Find line first & second points
             //************************************************************
-            DataPoint3D secondPoint = (DataPoint3D)points[pointIndex];
+            DataPoint3D secondPoint = points[pointIndex];
             int pointArrayIndex = pointIndex;
             DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
                 points,
@@ -221,7 +222,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 this.multiSeries ? secondPoint : null,
                 ref pointArrayIndex);
 
-            // Fint point with line properties
+            // Find point with line properties
             DataPoint3D pointAttr = secondPoint;
             if (prevDataPointEx.dataPoint.IsEmpty)
             {
@@ -253,9 +254,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Check if reversed drawing order required
             bool originalDrawOrder = true;
-            if ((pointIndex + 1) < points.Count)
+            if (pointIndex + 1 < points.Count)
             {
-                DataPoint3D p = (DataPoint3D)points[pointIndex + 1];
+                DataPoint3D p = points[pointIndex + 1];
                 if (p.index == firstPoint.index)
                 {
                     originalDrawOrder = false;

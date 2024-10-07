@@ -4189,7 +4189,7 @@ public partial class Axis : ChartNamedElement, IDisposable
     /// <param name="labelsSizeEstimate">Estimated size of labels.</param>
     internal void GetCircularAxisLabelsAutoFitFont(
         ChartGraphics graph,
-        ArrayList axisList,
+        List<CircularChartAreaAxis> axisList,
         CircularAxisLabelsStyle labelsStyle,
         RectangleF plotAreaRectAbs,
         RectangleF areaRectAbs,
@@ -4275,7 +4275,7 @@ public partial class Axis : ChartNamedElement, IDisposable
     /// <returns>True if labels fit.</returns>
     internal bool CheckCircularLabelsFit(
         ChartGraphics graph,
-        ArrayList axisList,
+        List<CircularChartAreaAxis> axisList,
         CircularAxisLabelsStyle labelsStyle,
         RectangleF plotAreaRectAbs,
         RectangleF areaRectAbs,

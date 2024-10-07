@@ -95,12 +95,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 foreach (Series ser in common.DataManager.Series)
                 {
                     // Use series of the same type which belong to this area 
-                    if (String.Compare(ser.ChartTypeName, Name, true, System.Globalization.CultureInfo.CurrentCulture) == 0
-                        && ser.ChartArea == area.Name && ser.IsVisible())
+                    if (string.Equals(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) && ser.ChartArea == area.Name && ser.IsVisible())
                     {
                         ++seriesCount;
                     }
                 }
+
                 _seriesCount = seriesCount;
             }
             return _seriesCount;
@@ -118,7 +118,6 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <returns>Y value of the point.</returns>
         override public double GetYValue(CommonElements common, ChartArea area, Series series, DataPoint point, int pointIndex, int yValueIndex)
         {
-
             // Calculate the totals of all Y values for all series
             if (_totalPerPoint == null)
             {
@@ -130,15 +129,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 foreach (Series ser in common.DataManager.Series)
                 {
                     // Use series of the same type which belong to this area 
-                    if (String.Compare(ser.ChartTypeName, Name, true, System.Globalization.CultureInfo.CurrentCulture) == 0
-                        && ser.ChartArea == area.Name && ser.IsVisible())
-                    {
+                    if (string.Equals(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) && ser.ChartArea == area.Name && ser.IsVisible())
                         seriesArray[seriesIndex++] = ser;
-                    }
                 }
 
                 // Check if series are aligned
-                common.DataManipulator.CheckXValuesAlignment(seriesArray);
+                DataManipulator.CheckXValuesAlignment(seriesArray);
 
                 // Allocate memory for the array
                 _totalPerPoint = new double[series.Points.Count];
@@ -210,8 +206,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             foreach (Series ser in common.DataManager.Series)
             {
                 // Check series of the current chart type & area
-                if (String.Compare(series.ChartArea, ser.ChartArea, true, System.Globalization.CultureInfo.CurrentCulture) == 0 &&
-                    String.Compare(series.ChartTypeName, ser.ChartTypeName, true, System.Globalization.CultureInfo.CurrentCulture) == 0 &&
+                if (string.Equals(series.ChartArea, ser.ChartArea, StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) &&
                     series.IsVisible())
                 {
                     yValue = ser.Points[pointIndex].YValues[0] / _totalPerPoint[pointIndex] * 100.0;
@@ -1063,7 +1059,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="thirdPointPosition">Position where the third point is actually located or float.NaN if same as in "firstPoint".</param>
         /// <param name="fourthPointPosition">Position where the fourth point is actually located or float.NaN if same as in "secondPoint".</param>
         /// <param name="clippedSegment">Indicates that drawn segment is 3D clipped. Only top/bottom should be drawn.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         protected override GraphicsPath Draw3DSurface(
             ChartArea area,
             ChartGraphics graph,
@@ -1072,7 +1068,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             DataPoint3D prevDataPointEx,
             float positionZ,
             float depth,
-            ArrayList points,
+            List<DataPoint3D> points,
             int pointIndex,
             int pointLoopIndex,
             float tension,
@@ -1152,7 +1148,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="positionZ">Z coordinate of the back side of the cube.</param>
         /// <param name="depth">Cube depth.</param>
         /// <param name="matrix">Coordinate transformation matrix.</param>
-        /// <param name="visibleSurfaces">Surface visibility reference. Initialized with bounary cube visibility.</param>
+        /// <param name="visibleSurfaces">Surface visibility reference. Initialized with boundary cube visibility.</param>
         protected override void GetTopSurfaceVisibility(
             ChartArea area,
             DataPoint3D firstPoint,
@@ -1174,7 +1170,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 bool seriesFound = false;
                 foreach (Series ser in area.Common.DataManager.Series)
                 {
-                    if (String.Compare(ser.ChartTypeName, secondPoint.dataPoint.series.ChartTypeName, true, System.Globalization.CultureInfo.CurrentCulture) == 0)
+                    if (string.Equals(ser.ChartTypeName, secondPoint.dataPoint.series.ChartTypeName, StringComparison.OrdinalIgnoreCase))
                     {
                         // If series on top of current was found - check point transparency
                         if (seriesFound)
@@ -1358,12 +1354,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Returns how many loops through all data points is required (1 or 2)
+        /// Returns how many loops through all data points is required (1, 2 or 3)
         /// </summary>
         /// <param name="selection">Selection indicator.</param>
         /// <param name="pointsArray">Points array list.</param>
         /// <returns>Number of loops (1 or 2).</returns>
-        override protected int GetPointLoopNumber(bool selection, ArrayList pointsArray)
+        override protected int GetPointLoopNumber(bool selection, List<DataPoint3D> pointsArray)
         {
             // Always one loop for selection
             if (selection)
@@ -1373,11 +1369,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Second loop will be required for semi-transparent colors
             int loopNumber = 1;
-            foreach (object obj in pointsArray)
+            foreach (DataPoint3D pointEx in pointsArray)
             {
-                // Get point & series
-                DataPoint3D pointEx = (DataPoint3D)obj;
-
                 // Check properties
                 if (pointEx.dataPoint.Color.A != 255)
                 {

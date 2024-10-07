@@ -460,7 +460,7 @@ internal sealed class ChartImage : ChartPicture
     /// </summary>
     /// <param name="dataSource">Data source to bind to.</param>
     /// <param name="seriesList">List of series to bind.</param>
-    internal void DataBind(IEnumerable dataSource, ArrayList seriesList)
+    internal void DataBind(IEnumerable dataSource, List<Series> seriesList)
     {
         // Data bind series
         if (dataSource != null && this.Common != null)
@@ -468,9 +468,9 @@ internal sealed class ChartImage : ChartPicture
             //************************************************************
             //** If list of series is not provided - bind all of them.
             //************************************************************
-            if (seriesList == null)
+            if (seriesList is null)
             {
-                seriesList = new ArrayList();
+                seriesList = [];
                 foreach (Series series in this.Common.Chart.Series)
                 {
                     // note: added for design time data binding
@@ -632,7 +632,7 @@ internal sealed class ChartImage : ChartPicture
                                     }
                                     else
                                     {
-                                        yValuesObj[i] = ((Series)seriesList[0]).IsYValueDateTime() ? DateTime.Now.Date.ToOADate() : 0.0;
+                                        yValuesObj[i] = (seriesList[0]).IsYValueDateTime() ? DateTime.Now.Date.ToOADate() : 0.0;
                                     }
                                 }
                             }
@@ -872,8 +872,8 @@ internal sealed class ChartImage : ChartPicture
             throw new ArgumentException(SR.ExceptionDataBindSeriesGroupByParameterIsEmpty, nameof(seriesGroupByField));
 
         // List of series and group by field values
-        ArrayList seriesList = new ArrayList();
-        ArrayList groupByValueList = new ArrayList();
+        List<Series> seriesList = [];
+        ArrayList groupByValueList = [];
 
         // Convert comma separated Y values field names string to array of names
         string[] yFieldNames = null;
@@ -944,7 +944,7 @@ internal sealed class ChartImage : ChartPicture
                 if (seriesIndex >= 0)
                 {
                     // Select existing series from the list
-                    series = (Series)seriesList[seriesIndex];
+                    series = seriesList[seriesIndex];
                 }
                 else
                 {
@@ -957,10 +957,10 @@ internal sealed class ChartImage : ChartPicture
                     // If not the first series in the list copy some properties
                     if (seriesList.Count > 0)
                     {
-                        series.XValueType = ((Series)seriesList[0]).XValueType;
-                        series.autoXValueType = ((Series)seriesList[0]).autoXValueType;
-                        series.YValueType = ((Series)seriesList[0]).YValueType;
-                        series.autoYValueType = ((Series)seriesList[0]).autoYValueType;
+                        series.XValueType = seriesList[0].XValueType;
+                        series.autoXValueType = seriesList[0].autoXValueType;
+                        series.YValueType = seriesList[0].YValueType;
+                        series.autoYValueType = seriesList[0].autoYValueType;
                     }
 
                     // Try to set series name based on grouping value
@@ -1088,7 +1088,7 @@ internal sealed class ChartImage : ChartPicture
             }
 
             // Change order of series in collection
-            ArrayList sortedSeriesList = new ArrayList();
+            List<Series> sortedSeriesList = new(groupByValueList.Count);
             foreach (object obj in groupByValueList)
             {
                 sortedSeriesList.Add(seriesList[oldList.IndexOf(obj)]);
@@ -1155,7 +1155,7 @@ internal sealed class ChartImage : ChartPicture
         if (seriesNumber > 0)
         {
             // Create as many series as fields in the data source
-            ArrayList seriesList = new ArrayList();
+            List<Series> seriesList = [];
             int index = 0;
             foreach (string fieldName in dataSourceFields)
             {
@@ -2334,32 +2334,29 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
     /// <param name="type">Alignment type.</param>
     /// <param name="orientation">Vertical or Horizontal orientation.</param>
     /// <returns>List of areas that area aligned to the master area.</returns>
-    private ArrayList GetAlignedAreasGroup(ChartArea masterArea, AreaAlignmentStyles type, AreaAlignmentOrientations orientation)
+    private List<ChartArea> GetAlignedAreasGroup(ChartArea masterArea, AreaAlignmentStyles type, AreaAlignmentOrientations orientation)
     {
-        ArrayList areaList = new ArrayList();
+        List<ChartArea> areaList = [];
 
         // Loop through the chart areas and get the ones aligned with specified master area
         foreach (ChartArea area in this.ChartAreas)
         {
             // Check if chart area is visible
             if (area.Visible)
-
             {
                 if (area.Name != masterArea.Name &&
                     area.AlignWithChartArea == masterArea.Name &&
                     (area.AlignmentStyle & type) == type &&
                     (area.AlignmentOrientation & orientation) == orientation)
                 {
+                    // Insert "master" area in the beginning
+                    if (areaList.Count == 0)
+                        areaList.Add(masterArea);
+
                     // Add client area into the list
                     areaList.Add(area);
                 }
             }
-        }
-
-        // If list is not empty insert "master" area in the beginning
-        if (areaList.Count > 0)
-        {
-            areaList.Insert(0, masterArea);
         }
 
         return areaList;
@@ -2382,7 +2379,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
 
                 {
                     // Get vertical areas alignment group using current area as a master
-                    ArrayList alignGroup = GetAlignedAreasGroup(
+                    List<ChartArea> alignGroup = GetAlignedAreasGroup(
                         area,
                         type,
                         AreaAlignmentOrientations.Vertical);
@@ -2414,12 +2411,12 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
     /// </summary>
     /// <param name="areasGroup">List of areas in the group.</param>
     /// <param name="orientation">Group orientation.</param>
-    private void AlignChartAreasPlotPosition(ArrayList areasGroup, AreaAlignmentOrientations orientation)
+    private void AlignChartAreasPlotPosition(List<ChartArea> areasGroup, AreaAlignmentOrientations orientation)
     {
         //****************************************************************
         //** Find the smallest size of the inner plot
         //****************************************************************
-        RectangleF areaPlotPosition = ((ChartArea)areasGroup[0]).PlotAreaPosition.ToRectangleF();
+        RectangleF areaPlotPosition = (areasGroup[0]).PlotAreaPosition.ToRectangleF();
         foreach (ChartArea area in areasGroup)
         {
             if (area.PlotAreaPosition.X > areaPlotPosition.X)
@@ -2565,7 +2562,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
 
                 {
                     // Get vertical areas alignment group using current area as a master
-                    ArrayList alignGroup = GetAlignedAreasGroup(
+                    List<ChartArea> alignGroup = GetAlignedAreasGroup(
                         area,
                         AreaAlignmentStyles.Cursor,
                         orientation);
@@ -2631,7 +2628,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
 
                 {
                     // Get vertical areas alignment group using current area as a master
-                    ArrayList alignGroup = GetAlignedAreasGroup(
+                    List<ChartArea> alignGroup = GetAlignedAreasGroup(
                         area,
                         AreaAlignmentStyles.AxesView,
                         orientation);
@@ -2685,7 +2682,7 @@ internal class ChartPicture : ChartElement, IServiceProvider, IDisposable
 
                 {
                     // Get vertical areas alignment group using current area as a master
-                    ArrayList alignGroup = GetAlignedAreasGroup(
+                    List<ChartArea> alignGroup = GetAlignedAreasGroup(
                         area,
                         AreaAlignmentStyles.AxesView,
                         orientation);

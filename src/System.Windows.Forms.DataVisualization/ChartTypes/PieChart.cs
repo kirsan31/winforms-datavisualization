@@ -108,7 +108,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
         // Array of label rectangles used to prevent labels overlapping 
         // for 2D pie chart outside labels.
-        private ArrayList _labelsRectangles = new ArrayList();
+        private readonly List<RectangleF> _labelsRectangles = [];
 
         #endregion
 
@@ -1334,7 +1334,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     if (this._labelsOverlap)
                     {
-                        float calculatedY3 = (((RectangleF)this._labelsRectangles[pointIndex]).Top + ((RectangleF)this._labelsRectangles[pointIndex]).Bottom) / 2f;
+                        float calculatedY3 = (this._labelsRectangles[pointIndex].Top + this._labelsRectangles[pointIndex].Bottom) / 2f;
                         graph.DrawLineRel(pieLineColor, point.BorderWidth, ChartDashStyle.Solid, new PointF(x2, y2), new PointF(x3Overlap, calculatedY3));
                     }
                     else
@@ -1347,7 +1347,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     if (this._labelsOverlap)
                     {
                         // Draw label from collection if original labels overlap.
-                        rect = (RectangleF)this._labelsRectangles[pointIndex];
+                        rect = this._labelsRectangles[pointIndex];
                         rect.X = labelRectOver.X;
                         rect.Width = labelRectOver.Width;
                     }
@@ -1902,7 +1902,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 int splitIndex = 0;
                 for (int index = 0; index < _labelsRectangles.Count; index++)
                 {
-                    RectangleF rect = (RectangleF)_labelsRectangles[index];
+                    RectangleF rect = _labelsRectangles[index];
                     if (rect.X < splitPoint)
                     {
                         startPoints[splitIndex] = rect.Top;
@@ -1923,7 +1923,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     splitIndex = 0;
                     for (int index = 0; index < _labelsRectangles.Count; index++)
                     {
-                        RectangleF rect = (RectangleF)_labelsRectangles[index];
+                        RectangleF rect = _labelsRectangles[index];
                         if (rect.X < splitPoint)
                         {
                             rect.Y = (float)startPoints[splitIndex];
@@ -1955,7 +1955,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 int splitIndex = 0;
                 for (int index = 0; index < _labelsRectangles.Count; index++)
                 {
-                    RectangleF rect = (RectangleF)_labelsRectangles[index];
+                    RectangleF rect = _labelsRectangles[index];
                     if (rect.X >= splitPoint)
                     {
                         startPoints[splitIndex] = rect.Top;
@@ -1976,7 +1976,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     splitIndex = 0;
                     for (int index = 0; index < _labelsRectangles.Count; index++)
                     {
-                        RectangleF rect = (RectangleF)_labelsRectangles[index];
+                        RectangleF rect = _labelsRectangles[index];
                         if (rect.X >= splitPoint)
                         {
                             rect.Y = (float)startPoints[splitIndex];

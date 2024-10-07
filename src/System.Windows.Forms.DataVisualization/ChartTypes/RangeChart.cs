@@ -15,6 +15,7 @@
 
 
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -695,7 +696,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="thirdPointPosition">Position where the third point is actually located or float.NaN if same as in "firstPoint".</param>
         /// <param name="fourthPointPosition">Position where the fourth point is actually located or float.NaN if same as in "secondPoint".</param>
         /// <param name="clippedSegment">Indicates that drawn segment is 3D clipped. Only top/bottom should be drawn.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
         protected override GraphicsPath Draw3DSurface(
             ChartArea area,
             ChartGraphics graph,
@@ -704,7 +705,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             DataPoint3D prevDataPointEx,
             float positionZ,
             float depth,
-            ArrayList points,
+            List<DataPoint3D> points,
             int pointIndex,
             int pointLoopIndex,
             float tension,
@@ -735,7 +736,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //************************************************************
             //** Find line first & second points
             //************************************************************
-            DataPoint3D secondPoint = (DataPoint3D)points[pointIndex];
+            DataPoint3D secondPoint = points[pointIndex];
             int pointArrayIndex = pointIndex;
             DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
                 points,
@@ -749,9 +750,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             bool reversed = false;
             if (firstPoint.index > secondPoint.index)
             {
-                DataPoint3D tempPoint = firstPoint;
-                firstPoint = secondPoint;
-                secondPoint = tempPoint;
+                (secondPoint, firstPoint) = (firstPoint, secondPoint);
                 reversed = true;
             }
 
@@ -837,7 +836,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             DataPoint3D prevDataPointEx,
             float positionZ,
             float depth,
-            ArrayList points,
+            List<DataPoint3D> points,
             int pointIndex,
             int pointLoopIndex,
             float tension,
@@ -855,7 +854,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             GraphicsPath resultPath = ((operationType & DrawingOperationTypes.CalcElementPath) == DrawingOperationTypes.CalcElementPath)
                 ? new GraphicsPath() : null;
 
-            // Fint point with line properties
+            // Find point with line properties
             DataPoint3D pointAttr = secondPoint;
             if (prevDataPointEx.dataPoint.IsEmpty)
             {
@@ -887,7 +886,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
 
             //****************************************************************
-            //** Calculate position of top/bootom points.
+            //** Calculate position of top/bottom points.
             //****************************************************************
             GetBottomPointsPosition(
                 Common,
@@ -903,6 +902,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             {
                 thirdPoint.Y = thirdPointPosition.Y;
             }
+
             if (!float.IsNaN(fourthPointPosition.Y))
             {
                 fourthPoint.Y = fourthPointPosition.Y;
@@ -959,9 +959,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                 {
                     // Check if reversed drawing order required
                     reversed = false;
-                    if ((pointIndex + 1) < points.Count)
+                    if (pointIndex + 1 < points.Count)
                     {
-                        DataPoint3D p = (DataPoint3D)points[pointIndex + 1];
+                        DataPoint3D p = points[pointIndex + 1];
                         if (p.index == firstPoint.index)
                         {
                             reversed = true;
@@ -1187,7 +1187,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         surfaceColor = Color.Transparent;
                         if (surfaceBorderColor == Color.Empty)
                         {
-                            // If border color is emty use color slightly darker than main back color
+                            // If border color is empty use color slightly darker than main back color
                             surfaceBorderColor = ChartGraphics.GetGradientColor(color, Color.Black, 0.2);
                         }
                     }
@@ -1568,8 +1568,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="operationType">AxisName of operation Drawing, Calculating Path or Both</param>
         /// <param name="lineSegmentType">AxisName of line segment. Used for step lines and splines.</param>
         /// <param name="forceThinBorder">Thin border will be drawn on all segments.</param>
-        /// <returns>Returns elemnt shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
-        internal GraphicsPath Draw3DSplinePolygon(
+        /// <returns>Returns element shape path if operationType parameter is set to CalcElementPath, otherwise Null.</returns>
+        internal static GraphicsPath Draw3DSplinePolygon(
             ChartGraphics graph,
             ChartArea area,
             float positionZ,
@@ -1580,7 +1580,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             DataPoint3D secondPoint,
             DataPoint3D thirdPoint,
             DataPoint3D fourthPoint,
-            ArrayList points,
+            List<DataPoint3D> points,
             float tension,
             DrawingOperationTypes operationType,
             LineSegmentType lineSegmentType,
@@ -1630,10 +1630,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //**********************************************************************
 
             // Define 3 points polygon
-            Point3D[] points3D = new Point3D[3];
-            points3D[0] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ);
-            points3D[1] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ);
-            points3D[2] = new Point3D((float)thirdPoint.xPosition, (float)thirdPoint.yPosition, positionZ);
+            Point3D[] points3D =
+            [
+                new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ),
+                new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ),
+                new Point3D((float)thirdPoint.xPosition, (float)thirdPoint.yPosition, positionZ),
+            ];
 
             // Transform coordinates
             area.matrix3D.TransformPoints(points3D);
@@ -1644,7 +1646,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             Color surfaceBorderColor = borderColor;
             if (surfaceBorderColor == Color.Empty)
             {
-                // If border color is emty use color slightly darker than main back color
+                // If border color is empty use color slightly darker than main back color
                 surfaceBorderColor = ChartGraphics.GetGradientColor(backColor, Color.Black, 0.2);
             }
 

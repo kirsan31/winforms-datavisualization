@@ -1324,7 +1324,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //************************************************************
             //** Get order of data points drawing
             //************************************************************
-            ArrayList dataPointDrawingOrder = area.GetDataPointDrawingOrder(
+            List<DataPoint3D> dataPointDrawingOrder = area.GetDataPointDrawingOrder(
                     typeSeries,
                     this,
                     selection,
@@ -1334,7 +1334,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                     currentDrawSeriesSideBySide);
 
             //************************************************************
-            //** Loop through all data poins
+            //** Loop through all data points
             //************************************************************
             bool drawLabels = false;
 
@@ -1342,10 +1342,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //** Get list of series to draw
             //************************************************************
             double xValue;
-            foreach (object obj in dataPointDrawingOrder)
+            foreach (DataPoint3D pointEx in dataPointDrawingOrder)
             {
                 // Get point & series
-                DataPoint3D pointEx = (DataPoint3D)obj;
                 DataPoint point = pointEx.dataPoint;
                 Series ser = point.series;
 
@@ -2148,7 +2147,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
     /// BarPointsDrawingOrderComparer class is used sort data 
     /// points of the Bar chart type.
     /// </summary>
-    internal sealed class BarPointsDrawingOrderComparer : IComparer
+    internal sealed class BarPointsDrawingOrderComparer : IComparer<DataPoint3D>
     {
         #region Fields
 
@@ -2196,16 +2195,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         }
 
         /// <summary>
-        /// Comarer method.
+        /// Compare method.
         /// </summary>
-        /// <param name="o1">First object.</param>
-        /// <param name="o2">Second object.</param>
-        /// <returns>Comparison result.</returns>
-        public int Compare(object o1, object o2)
+        /// <param name="point1">The point1.</param>
+        /// <param name="point2">The point2.</param>
+        /// <returns>
+        /// Comparison result.
+        /// </returns>
+        public int Compare(DataPoint3D point1, DataPoint3D point2)
         {
-            DataPoint3D point1 = (DataPoint3D)o1;
-            DataPoint3D point2 = (DataPoint3D)o2;
-
             int result = 0;
             if (point1.xPosition < point2.xPosition)
             {

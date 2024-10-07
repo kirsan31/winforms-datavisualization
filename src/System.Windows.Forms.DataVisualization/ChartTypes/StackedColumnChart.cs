@@ -116,7 +116,7 @@ internal sealed class HundredPercentStackedColumnChart : StackedColumnChart
                     common, groupName, series.ChartTypeName, series.ChartArea);
 
                 // Check if series are aligned
-                common.DataManipulator.CheckXValuesAlignment(seriesArray);
+                DataManipulator.CheckXValuesAlignment(seriesArray);
 
                 // Allocate memory for the array of totals
                 double[] totals = new double[series.Points.Count];
@@ -956,7 +956,7 @@ internal class StackedColumnChart : IChartType
     internal static Series[] GetSeriesByStackedGroupName(CommonElements common, string groupName, string chartTypeName, string chartAreaName)
     {
         // Get a list of series with specified group name
-        ArrayList list = new ArrayList();
+        List<Series> list = [];
         foreach (Series series in common.DataManager.Series)
         {
             if (string.Equals(series.ChartTypeName, chartTypeName, StringComparison.OrdinalIgnoreCase) &&
@@ -970,15 +970,7 @@ internal class StackedColumnChart : IChartType
             }
         }
 
-        // Convert array list to array of series
-        int index = 0;
-        Series[] arrayOfSeries = new Series[list.Count];
-        foreach (Series series in list)
-        {
-            arrayOfSeries[index++] = series;
-        }
-
-        return arrayOfSeries;
+        return [.. list];
     }
 
     /// <summary>
@@ -1327,16 +1319,15 @@ internal class StackedColumnChart : IChartType
         //************************************************************
         //** Get order of data points drawing
         //************************************************************
-        ArrayList dataPointDrawingOrder = area.GetDataPointDrawingOrder(typeSeries, this, selection, COPCoordinates.X | COPCoordinates.Y, null, 0, false);
+        List<DataPoint3D> dataPointDrawingOrder = area.GetDataPointDrawingOrder(typeSeries, this, selection, COPCoordinates.X | COPCoordinates.Y, null, 0, false);
 
         //************************************************************
-        //** Loop through all data poins and draw them
+        //** Loop through all data points and draw them
         //************************************************************
         bool drawLabels = false;
-        foreach (object obj in dataPointDrawingOrder)
+        foreach (DataPoint3D pointEx in dataPointDrawingOrder)
         {
             // Get point & series
-            DataPoint3D pointEx = (DataPoint3D)obj;
             DataPoint point = pointEx.dataPoint;
             Series ser = point.series;
 
@@ -1377,7 +1368,7 @@ internal class StackedColumnChart : IChartType
                 // Check if it is a first series with non-zero Y value
                 if (firstVisibleSeries)
                 {
-                    // Make series has non zero vallue
+                    // Make series has non zero value
                     if (pointEx.index <= currentSeries.Points.Count &&
                         currentSeries.Points[pointEx.index - 1].YValues[0] != 0.0)
                     {
@@ -1619,7 +1610,7 @@ internal class StackedColumnChart : IChartType
         }
 
         //************************************************************
-        //** Loop through all data poins and draw labels
+        //** Loop through all data points and draw labels
         //************************************************************
         if (drawLabels)
         {

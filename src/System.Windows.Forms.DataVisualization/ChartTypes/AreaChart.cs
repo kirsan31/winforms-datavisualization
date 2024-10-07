@@ -10,6 +10,7 @@
 //
 
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -605,7 +606,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             DataPoint3D prevDataPointEx,
             float positionZ,
             float depth,
-            ArrayList points,
+            List<DataPoint3D> points,
             int pointIndex,
             int pointLoopIndex,
             float tension,
@@ -632,7 +633,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             //************************************************************
             //** Find line first & second points
             //************************************************************
-            DataPoint3D secondPoint = (DataPoint3D)points[pointIndex];
+            DataPoint3D secondPoint = points[pointIndex];
             int pointArrayIndex = pointIndex;
             DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
                 points,
@@ -687,7 +688,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             int indexOffset = 1;
             while ((pointIndex + indexOffset) < points.Count)
             {
-                DataPoint3D p = (DataPoint3D)points[pointIndex + indexOffset];
+                DataPoint3D p = points[pointIndex + indexOffset];
                 if (p.dataPoint.series.Name == firstPoint.dataPoint.series.Name)
                 {
                     if (p.index == firstPoint.index)
@@ -753,7 +754,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         dp1.yPosition = splinePoints[pIndex].Y;
                     }
 
-                    // Get sefment type
+                    // Get segment type
                     surfaceSegmentType = LineSegmentType.Middle;
                     if (pIndex == 1)
                     {
@@ -843,7 +844,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             DataPoint3D prevDataPointEx,
             float positionZ,
             float depth,
-            ArrayList points,
+            List<DataPoint3D> points,
             int pointIndex,
             int pointLoopIndex,
             float tension,
@@ -870,7 +871,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             //****************************************************************
-            //** Fint point with line properties
+            //** Find point with line properties
             //****************************************************************
             DataPoint3D pointAttr = secondPoint;
             if (prevDataPointEx.dataPoint.IsEmpty)
@@ -1122,7 +1123,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         continue;
                     }
 
-                    // To solvce segments overlapping issues with semi-transparent colors ->
+                    // To solve segments overlapping issues with semi-transparent colors ->
                     // Draw invisible surfaces in the first loop, visible in second
                     if (this.allPointsLoopsNumber == 2 && (operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement)
                     {
@@ -1402,6 +1403,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
                         resultPath.SetMarkers();
                         resultPath.AddPath(surfacePath, true);
                     }
+
                     surfacePath?.Dispose();
                 }
             }
@@ -1531,7 +1533,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
         /// <param name="selection">Selection indicator.</param>
         /// <param name="pointsArray">Points array list.</param>
         /// <returns>Number of loops (1 or 2).</returns>
-        protected override int GetPointLoopNumber(bool selection, ArrayList pointsArray)
+        protected override int GetPointLoopNumber(bool selection, List<DataPoint3D> pointsArray)
         {
             // Always one loop for selection
             if (selection)
@@ -1541,15 +1543,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
 
             // Second loop will be required for semi-transparent colors
             int loopNumber = 1;
-            foreach (object obj in pointsArray)
+            foreach (DataPoint3D pointEx in pointsArray)
             {
-                // Get point & series
-                DataPoint3D pointEx = (DataPoint3D)obj;
-
                 // Check properties
                 if (pointEx.dataPoint.Color.A != 255)
                 {
                     loopNumber = 2;
+                    break;
                 }
             }
 
