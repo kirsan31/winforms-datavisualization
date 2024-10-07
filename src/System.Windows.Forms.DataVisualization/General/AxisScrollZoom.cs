@@ -1074,7 +1074,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
             }
             else
+            {
                 minViewSize = ChartHelper.GetIntervalSize(viewPosition, 1, this.MinSizeType);
+            }
 
             //****************************************************************
             //** Check if new scaleView size is smaller than (0.000000001)
