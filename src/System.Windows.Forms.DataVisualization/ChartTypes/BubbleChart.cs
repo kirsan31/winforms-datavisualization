@@ -16,329 +16,204 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
-namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
+namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes;
+
+/// <summary>
+/// BubbleChart class extends PointChart class to add support for
+/// additional Y value which controls the size of the markers used.
+/// </summary>
+internal sealed class BubbleChart : PointChart
 {
+    #region Fields and Constructor
+
+    // Indicates that bubble size scale is calculated
+    private bool _scaleDetected;
+
+    // Minimum/Maximum bubble size
+    private double _maxPossibleBubbleSize = 15F;
+    private double _minPossibleBubbleSize = 3F;
+    private float _maxBubleSize;
+    private float _minBubleSize;
+
+    // Current min/max size of the bubble size
+    private double _minAll = double.MaxValue;
+    private double _maxAll = double.MinValue;
+
+
+    // Bubble size difference value
+    private double _valueDiff;
+    private double _valueScale = 1;
+
     /// <summary>
-    /// BubbleChart class extends PointChart class to add support for
-    /// additional Y value which controls the size of the markers used.
+    /// Class public constructor
     /// </summary>
-    internal sealed class BubbleChart : PointChart
+    public BubbleChart() : base(true)
     {
-        #region Fields and Constructor
+    }
 
-        // Indicates that bubble size scale is calculated
-        private bool _scaleDetected;
+    #endregion
 
-        // Minimum/Maximum bubble size
-        private double _maxPossibleBubbleSize = 15F;
-        private double _minPossibleBubbleSize = 3F;
-        private float _maxBubleSize;
-        private float _minBubleSize;
+    #region IChartType interface implementation
 
-        // Current min/max size of the bubble size
-        private double _minAll = double.MaxValue;
-        private double _maxAll = double.MinValue;
+    /// <summary>
+    /// Chart type name
+    /// </summary>
+    public override string Name => ChartTypeNames.Bubble;
 
+    /// <summary>
+    /// Number of supported Y value(s) per point 
+    /// </summary>
+    public override int YValuesPerPoint => 2;
 
-        // Bubble size difference value
-        private double _valueDiff;
-        private double _valueScale = 1;
+    /// <summary>
+    /// Chart type with two y values used for scale ( bubble chart type )
+    /// </summary>
+    public override bool SecondYScale => true;
 
-        /// <summary>
-        /// Class public constructor
-        /// </summary>
-        public BubbleChart() : base(true)
+    #endregion
+
+    #region Bubble chart methods
+
+    /// <summary>
+    /// This method recalculates size of the bars. This method is used 
+    /// from Paint or Select method.
+    /// </summary>
+    /// <param name="selection">If True selection mode is active, otherwise paint mode is active</param>
+    /// <param name="graph">The Chart Graphics object</param>
+    /// <param name="common">The Common elements object</param>
+    /// <param name="area">Chart area for this chart</param>
+    /// <param name="seriesToDraw">Chart series to draw.</param>
+    protected override void ProcessChartType(
+        bool selection,
+        ChartGraphics graph,
+        CommonElements common,
+        ChartArea area,
+        Series seriesToDraw)
+    {
+        _scaleDetected = false;
+        base.ProcessChartType(selection, graph, common, area, seriesToDraw);
+    }
+
+    /// <summary>
+    /// Gets marker border size.
+    /// </summary>
+    /// <param name="point">Data point.</param>
+    /// <returns>Marker border size.</returns>
+    protected override int GetMarkerBorderSize(DataPointCustomProperties point)
+    {
+        if (point.series != null)
         {
+            return point.series.BorderWidth;
         }
 
-        #endregion
+        return 1;
+    }
 
-        #region IChartType interface implementation
-
-        /// <summary>
-        /// Chart type name
-        /// </summary>
-        override public string Name { get { return ChartTypeNames.Bubble; } }
-
-        /// <summary>
-        /// Number of supported Y value(s) per point 
-        /// </summary>
-        override public int YValuesPerPoint { get { return 2; } }
-
-        /// <summary>
-        /// Chart type with two y values used for scale ( bubble chart type )
-        /// </summary>
-        override public bool SecondYScale { get { return true; } }
-
-        #endregion
-
-        #region Bubble chart methods
-
-        /// <summary>
-        /// This method recalculates size of the bars. This method is used 
-        /// from Paint or Select method.
-        /// </summary>
-        /// <param name="selection">If True selection mode is active, otherwise paint mode is active</param>
-        /// <param name="graph">The Chart Graphics object</param>
-        /// <param name="common">The Common elements object</param>
-        /// <param name="area">Chart area for this chart</param>
-        /// <param name="seriesToDraw">Chart series to draw.</param>
-        override protected void ProcessChartType(
-            bool selection,
-            ChartGraphics graph,
-            CommonElements common,
-            ChartArea area,
-            Series seriesToDraw)
+    /// <summary>
+    /// Returns marker size.
+    /// </summary>
+    /// <param name="graph">The Chart Graphics object.</param>
+    /// <param name="common">The Common elements object.</param>
+    /// <param name="area">Chart area for this chart.</param>
+    /// <param name="point">Data point.</param>
+    /// <param name="markerSize">Marker size.</param>
+    /// <param name="markerImage">Marker image.</param>
+    /// <returns>Marker width and height.</returns>
+    protected override SizeF GetMarkerSize(
+        ChartGraphics graph,
+        CommonElements common,
+        ChartArea area,
+        DataPoint point,
+        int markerSize,
+        string markerImage)
+    {
+        // Check required Y values number
+        if (point.YValues.Length < this.YValuesPerPoint)
         {
-            _scaleDetected = false;
-            base.ProcessChartType(selection, graph, common, area, seriesToDraw);
+            throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
         }
 
-        /// <summary>
-        /// Gets marker border size.
-        /// </summary>
-        /// <param name="point">Data point.</param>
-        /// <returns>Marker border size.</returns>
-        override protected int GetMarkerBorderSize(DataPointCustomProperties point)
+        // Marker size
+        SizeF size = new SizeF(markerSize, markerSize);
+        if (graph != null && graph.Graphics != null)
         {
-            if (point.series != null)
-            {
-                return point.series.BorderWidth;
-            }
-
-            return 1;
+            // Marker size is in pixels and we do the mapping for higher DPIs
+            size.Width = markerSize * graph.Graphics.DpiX * Chart.DPIScale / 96;
+            size.Height = markerSize * graph.Graphics.DpiY * Chart.DPIScale / 96;
         }
 
-        /// <summary>
-        /// Returns marker size.
-        /// </summary>
-        /// <param name="graph">The Chart Graphics object.</param>
-        /// <param name="common">The Common elements object.</param>
-        /// <param name="area">Chart area for this chart.</param>
-        /// <param name="point">Data point.</param>
-        /// <param name="markerSize">Marker size.</param>
-        /// <param name="markerImage">Marker image.</param>
-        /// <returns>Marker width and height.</returns>
-        override protected SizeF GetMarkerSize(
-            ChartGraphics graph,
-            CommonElements common,
-            ChartArea area,
-            DataPoint point,
-            int markerSize,
-            string markerImage)
+        // Check number of Y values for non empty points
+        if (point.series.YValuesPerPoint > 1 && !point.IsEmpty)
         {
-            // Check required Y values number
-            if (point.YValues.Length < this.YValuesPerPoint)
-            {
-                throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
-            }
-
-            // Marker size
-            SizeF size = new SizeF(markerSize, markerSize);
-            if (graph != null && graph.Graphics != null)
-            {
-                // Marker size is in pixels and we do the mapping for higher DPIs
-                size.Width = markerSize * graph.Graphics.DpiX * Chart.DPIScale / 96;
-                size.Height = markerSize * graph.Graphics.DpiY * Chart.DPIScale / 96;
-            }
-
-            // Check number of Y values for non empty points
-            if (point.series.YValuesPerPoint > 1 && !point.IsEmpty)
-            {
-                // Scale Y values
-                size.Width = ScaleBubbleSize(graph, common, area, point.YValues[1]);
-                size.Height = ScaleBubbleSize(graph, common, area, point.YValues[1]);
-            }
-
-            return size;
+            // Scale Y values
+            size.Width = ScaleBubbleSize(graph, common, area, point.YValues[1]);
+            size.Height = ScaleBubbleSize(graph, common, area, point.YValues[1]);
         }
 
-        /// <summary>
-        /// Scales the value used to determine the size of the Bubble.
-        /// </summary>
-        /// <param name="graph">The Chart Graphics object</param>
-        /// <param name="common">The Common elements object</param>
-        /// <param name="area">Chart area for this chart</param>
-        /// <param name="value">Value to scale.</param>
-        /// <returns>Scaled values.</returns>
-        private float ScaleBubbleSize(ChartGraphics graph, CommonElements common, ChartArea area, double value)
+        return size;
+    }
+
+    /// <summary>
+    /// Scales the value used to determine the size of the Bubble.
+    /// </summary>
+    /// <param name="graph">The Chart Graphics object</param>
+    /// <param name="common">The Common elements object</param>
+    /// <param name="area">Chart area for this chart</param>
+    /// <param name="value">Value to scale.</param>
+    /// <returns>Scaled values.</returns>
+    private float ScaleBubbleSize(ChartGraphics graph, CommonElements common, ChartArea area, double value)
+    {
+        // Check if scaling numbers are detected
+        if (!_scaleDetected)
         {
-            // Check if scaling numbers are detected
-            if (!_scaleDetected)
-            {
-                // Try to find bubble size scale in the custom series properties
-                _minAll = double.MaxValue;
-                _maxAll = double.MinValue;
-                foreach (Series ser in common.DataManager.Series)
-                {
-                    if (String.Compare(ser.ChartTypeName, this.Name, true, System.Globalization.CultureInfo.CurrentCulture) == 0 &&
-                        ser.ChartArea == area.Name &&
-                        ser.IsVisible())
-                    {
-                        // Check if custom properties are set to specify scale
-                        if (ser.IsCustomPropertySet(CustomPropertyName.BubbleScaleMin))
-                        {
-                            _minAll = Math.Min(_minAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMin]));
-                        }
-                        if (ser.IsCustomPropertySet(CustomPropertyName.BubbleScaleMax))
-                        {
-                            _maxAll = Math.Max(_maxAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMax]));
-                        }
-
-                        // Check if attribute for max. size is set
-                        if (ser.IsCustomPropertySet(CustomPropertyName.BubbleMaxSize))
-                        {
-                            _maxPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMaxSize]);
-                            if (_maxPossibleBubbleSize < 0 || _maxPossibleBubbleSize > 100)
-                            {
-                                throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize"));
-                            }
-                        }
-
-                        // Check if attribute for min. size is set
-                        if (ser.IsCustomPropertySet(CustomPropertyName.BubbleMinSize))
-                        {
-                            _minPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMinSize]);
-                            if (_minPossibleBubbleSize < 0 || _minPossibleBubbleSize > 100)
-                            {
-                                throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMinSize"));
-                            }
-                        }
-
-
-                        // Check if custom properties set to use second Y value (bubble size) as label text
-                        labelYValueIndex = 0;
-                        if (ser.IsCustomPropertySet(CustomPropertyName.BubbleUseSizeForLabel))
-                        {
-                            if (string.Equals(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase))
-                            {
-                                labelYValueIndex = 1;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                // Scale values are not specified - auto detect
-                if (_minAll == double.MaxValue || _maxAll == double.MinValue)
-                {
-                    double minSer = double.MaxValue;
-                    double maxSer = double.MinValue;
-                    foreach (Series ser in common.DataManager.Series)
-                    {
-                        if (ser.ChartTypeName == this.Name && ser.ChartArea == area.Name && ser.IsVisible())
-                        {
-                            foreach (DataPoint point in ser.Points)
-                            {
-                                if (!point.IsEmpty)
-                                {
-                                    // Check required Y values number
-                                    if (point.YValues.Length < this.YValuesPerPoint)
-                                    {
-                                        throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
-                                    }
-
-                                    minSer = Math.Min(minSer, point.YValues[1]);
-                                    maxSer = Math.Max(maxSer, point.YValues[1]);
-                                }
-                            }
-                        }
-                    }
-                    if (_minAll == double.MaxValue)
-                    {
-                        _minAll = minSer;
-                    }
-                    if (_maxAll == double.MinValue)
-                    {
-                        _maxAll = maxSer;
-                    }
-                }
-
-                // Calculate maximum bubble size
-                SizeF areaSize = graph.GetAbsoluteSize(area.PlotAreaPosition.Size);
-                _maxBubleSize = (float)(Math.Min(areaSize.Width, areaSize.Height) / (100.0 / _maxPossibleBubbleSize));
-                _minBubleSize = (float)(Math.Min(areaSize.Width, areaSize.Height) / (100.0 / _minPossibleBubbleSize));
-
-                // Calculate scaling variables depending on the Min/Max values
-                if (_maxAll == _minAll)
-                {
-                    this._valueScale = 1;
-                    this._valueDiff = _minAll - (_maxBubleSize - _minBubleSize) / 2f;
-                }
-                else
-                {
-                    this._valueScale = (_maxBubleSize - _minBubleSize) / (_maxAll - _minAll);
-                    this._valueDiff = _minAll;
-                }
-
-                _scaleDetected = true;
-            }
-
-            // Check if value do not exceed Min&Max
-            if (value > _maxAll)
-            {
-                return 0F;
-            }
-            if (value < _minAll)
-            {
-                return 0F;
-            }
-
-            // Return scaled value
-            return (float)((value - this._valueDiff) * this._valueScale) + _minBubleSize;
-        }
-
-        /// <summary>
-        /// Scales the value used to determine the size of the Bubble.
-        /// </summary>
-        /// <param name="common">The Common elements object</param>
-        /// <param name="area">Chart area for this chart</param>
-        /// <param name="value">Value to scale.</param>
-        /// <param name="yValue">True if Y value is calculated, false if X.</param>
-        /// <returns>Scaled values.</returns>
-        static internal double AxisScaleBubbleSize(CommonElements common, ChartArea area, double value, bool yValue)
-        {
-
             // Try to find bubble size scale in the custom series properties
-            double minAll = double.MaxValue;
-            double maxAll = double.MinValue;
-            double maxPossibleBubbleSize = 15F;
-            double minPossibleBubbleSize = 3F;
-            float maxBubleSize;
-            float minBubleSize;
-            double valueScale;
-            double valueDiff;
+            _minAll = double.MaxValue;
+            _maxAll = double.MinValue;
             foreach (Series ser in common.DataManager.Series)
             {
-                if (string.Equals(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) &&
+                if (string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) &&
                     ser.ChartArea == area.Name &&
                     ser.IsVisible())
                 {
                     // Check if custom properties are set to specify scale
                     if (ser.IsCustomPropertySet(CustomPropertyName.BubbleScaleMin))
                     {
-                        minAll = Math.Min(minAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMin]));
+                        _minAll = Math.Min(_minAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMin]));
                     }
+
                     if (ser.IsCustomPropertySet(CustomPropertyName.BubbleScaleMax))
                     {
-                        maxAll = Math.Max(maxAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMax]));
+                        _maxAll = Math.Max(_maxAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMax]));
                     }
 
                     // Check if attribute for max. size is set
                     if (ser.IsCustomPropertySet(CustomPropertyName.BubbleMaxSize))
                     {
-                        maxPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMaxSize]);
-                        if (maxPossibleBubbleSize < 0 || maxPossibleBubbleSize > 100)
+                        _maxPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMaxSize]);
+                        if (_maxPossibleBubbleSize < 0 || _maxPossibleBubbleSize > 100)
                         {
                             throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize"));
                         }
                     }
 
+                    // Check if attribute for min. size is set
+                    if (ser.IsCustomPropertySet(CustomPropertyName.BubbleMinSize))
+                    {
+                        _minPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMinSize]);
+                        if (_minPossibleBubbleSize < 0 || _minPossibleBubbleSize > 100)
+                        {
+                            throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMinSize"));
+                        }
+                    }
+
+
                     // Check if custom properties set to use second Y value (bubble size) as label text
+                    labelYValueIndex = 0;
                     if (ser.IsCustomPropertySet(CustomPropertyName.BubbleUseSizeForLabel))
                     {
                         if (string.Equals(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase))
                         {
+                            labelYValueIndex = 1;
                             break;
                         }
                     }
@@ -346,106 +221,238 @@ namespace System.Windows.Forms.DataVisualization.Charting.ChartTypes
             }
 
             // Scale values are not specified - auto detect
-            double minimum = double.MaxValue;
-            double maximum = double.MinValue;
-            double minSer = double.MaxValue;
-            double maxSer = double.MinValue;
-            foreach (Series ser in common.DataManager.Series)
+            if (_minAll == double.MaxValue || _maxAll == double.MinValue)
             {
-                if (string.Equals(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) && ser.ChartArea == area.Name
-                    && ser.IsVisible())
+                double minSer = double.MaxValue;
+                double maxSer = double.MinValue;
+                foreach (Series ser in common.DataManager.Series)
                 {
-                    foreach (DataPoint point in ser.Points)
+                    if (ser.ChartTypeName == this.Name && ser.ChartArea == area.Name && ser.IsVisible())
                     {
-                        if (!point.IsEmpty)
+                        foreach (DataPoint point in ser.Points)
                         {
-                            minSer = Math.Min(minSer, point.YValues[1]);
-                            maxSer = Math.Max(maxSer, point.YValues[1]);
+                            if (!point.IsEmpty)
+                            {
+                                // Check required Y values number
+                                if (point.YValues.Length < this.YValuesPerPoint)
+                                {
+                                    throw new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture)));
+                                }
 
-                            if (yValue)
-                            {
-                                minimum = Math.Min(minimum, point.YValues[0]);
-                                maximum = Math.Max(maximum, point.YValues[0]);
-                            }
-                            else
-                            {
-                                minimum = Math.Min(minimum, point.XValue);
-                                maximum = Math.Max(maximum, point.XValue);
+                                minSer = Math.Min(minSer, point.YValues[1]);
+                                maxSer = Math.Max(maxSer, point.YValues[1]);
                             }
                         }
                     }
                 }
-            }
-            if (minAll == double.MaxValue)
-            {
-                minAll = minSer;
-            }
-            if (maxAll == double.MinValue)
-            {
-                maxAll = maxSer;
+
+                if (_minAll == double.MaxValue)
+                {
+                    _minAll = minSer;
+                }
+
+                if (_maxAll == double.MinValue)
+                {
+                    _maxAll = maxSer;
+                }
             }
 
             // Calculate maximum bubble size
-            maxBubleSize = (float)((maximum - minimum) / (100.0 / maxPossibleBubbleSize));
-            minBubleSize = (float)((maximum - minimum) / (100.0 / minPossibleBubbleSize));
+            SizeF areaSize = graph.GetAbsoluteSize(area.PlotAreaPosition.Size);
+            _maxBubleSize = (float)(Math.Min(areaSize.Width, areaSize.Height) / (100.0 / _maxPossibleBubbleSize));
+            _minBubleSize = (float)(Math.Min(areaSize.Width, areaSize.Height) / (100.0 / _minPossibleBubbleSize));
 
             // Calculate scaling variables depending on the Min/Max values
-            if (maxAll == minAll)
+            if (_maxAll == _minAll)
             {
-                valueScale = 1;
-                valueDiff = minAll - (maxBubleSize - minBubleSize) / 2f;
+                this._valueScale = 1;
+                this._valueDiff = _minAll - (_maxBubleSize - _minBubleSize) / 2f;
             }
             else
             {
-                valueScale = (maxBubleSize - minBubleSize) / (maxAll - minAll);
-                valueDiff = minAll;
+                this._valueScale = (_maxBubleSize - _minBubleSize) / (_maxAll - _minAll);
+                this._valueDiff = _minAll;
             }
 
-
-            // Check if value do not exceed Min&Max
-            if (value > maxAll)
-            {
-                return 0F;
-            }
-            if (value < minAll)
-            {
-                return 0F;
-            }
-
-            // Return scaled value
-            return (float)((value - valueDiff) * valueScale) + minBubleSize;
+            _scaleDetected = true;
         }
 
-        /// <summary>
-        /// Get value from custom attribute BubbleMaxSize 
-        /// </summary>
-        /// <param name="area">Chart Area</param>
-        /// <returns>Bubble Max size</returns>
-        static internal double GetBubbleMaxSize(ChartArea area)
+        // Check if value do not exceed Min&Max
+        if (value > _maxAll)
         {
-            double maxPossibleBubbleSize = 15;
-            // Try to find bubble size scale in the custom series properties
-            foreach (Series ser in area.Common.DataManager.Series)
+            return 0F;
+        }
+
+        if (value < _minAll)
+        {
+            return 0F;
+        }
+
+        // Return scaled value
+        return (float)((value - this._valueDiff) * this._valueScale) + _minBubleSize;
+    }
+
+    /// <summary>
+    /// Scales the value used to determine the size of the Bubble.
+    /// </summary>
+    /// <param name="common">The Common elements object</param>
+    /// <param name="area">Chart area for this chart</param>
+    /// <param name="value">Value to scale.</param>
+    /// <param name="yValue">True if Y value is calculated, false if X.</param>
+    /// <returns>Scaled values.</returns>
+    internal static double AxisScaleBubbleSize(CommonElements common, ChartArea area, double value, bool yValue)
+    {
+
+        // Try to find bubble size scale in the custom series properties
+        double minAll = double.MaxValue;
+        double maxAll = double.MinValue;
+        double maxPossibleBubbleSize = 15F;
+        double minPossibleBubbleSize = 3F;
+        float maxBubleSize;
+        float minBubleSize;
+        double valueScale;
+        double valueDiff;
+        foreach (Series ser in common.DataManager.Series)
+        {
+            if (string.Equals(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) &&
+                ser.ChartArea == area.Name &&
+                ser.IsVisible())
             {
-                if (string.Equals(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) &&
-                    ser.ChartArea == area.Name &&
-                    ser.IsVisible())
+                // Check if custom properties are set to specify scale
+                if (ser.IsCustomPropertySet(CustomPropertyName.BubbleScaleMin))
                 {
-                    // Check if attribute for max. size is set
-                    if (ser.IsCustomPropertySet(CustomPropertyName.BubbleMaxSize))
+                    minAll = Math.Min(minAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMin]));
+                }
+
+                if (ser.IsCustomPropertySet(CustomPropertyName.BubbleScaleMax))
+                {
+                    maxAll = Math.Max(maxAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMax]));
+                }
+
+                // Check if attribute for max. size is set
+                if (ser.IsCustomPropertySet(CustomPropertyName.BubbleMaxSize))
+                {
+                    maxPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMaxSize]);
+                    if (maxPossibleBubbleSize < 0 || maxPossibleBubbleSize > 100)
                     {
-                        maxPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMaxSize]);
-                        if (maxPossibleBubbleSize < 0 || maxPossibleBubbleSize > 100)
+                        throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize"));
+                    }
+                }
+
+                // Check if custom properties set to use second Y value (bubble size) as label text
+                if (ser.IsCustomPropertySet(CustomPropertyName.BubbleUseSizeForLabel))
+                {
+                    if (string.Equals(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase))
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Scale values are not specified - auto detect
+        double minimum = double.MaxValue;
+        double maximum = double.MinValue;
+        double minSer = double.MaxValue;
+        double maxSer = double.MinValue;
+        foreach (Series ser in common.DataManager.Series)
+        {
+            if (string.Equals(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) && ser.ChartArea == area.Name
+                && ser.IsVisible())
+            {
+                foreach (DataPoint point in ser.Points)
+                {
+                    if (!point.IsEmpty)
+                    {
+                        minSer = Math.Min(minSer, point.YValues[1]);
+                        maxSer = Math.Max(maxSer, point.YValues[1]);
+
+                        if (yValue)
                         {
-                            throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize"));
+                            minimum = Math.Min(minimum, point.YValues[0]);
+                            maximum = Math.Max(maximum, point.YValues[0]);
+                        }
+                        else
+                        {
+                            minimum = Math.Min(minimum, point.XValue);
+                            maximum = Math.Max(maximum, point.XValue);
                         }
                     }
                 }
             }
-
-            return maxPossibleBubbleSize / 100;
         }
 
-        #endregion
+        if (minAll == double.MaxValue)
+        {
+            minAll = minSer;
+        }
+
+        if (maxAll == double.MinValue)
+        {
+            maxAll = maxSer;
+        }
+
+        // Calculate maximum bubble size
+        maxBubleSize = (float)((maximum - minimum) / (100.0 / maxPossibleBubbleSize));
+        minBubleSize = (float)((maximum - minimum) / (100.0 / minPossibleBubbleSize));
+
+        // Calculate scaling variables depending on the Min/Max values
+        if (maxAll == minAll)
+        {
+            valueScale = 1;
+            valueDiff = minAll - (maxBubleSize - minBubleSize) / 2f;
+        }
+        else
+        {
+            valueScale = (maxBubleSize - minBubleSize) / (maxAll - minAll);
+            valueDiff = minAll;
+        }
+
+
+        // Check if value do not exceed Min&Max
+        if (value > maxAll)
+        {
+            return 0F;
+        }
+
+        if (value < minAll)
+        {
+            return 0F;
+        }
+
+        // Return scaled value
+        return (float)((value - valueDiff) * valueScale) + minBubleSize;
     }
+
+    /// <summary>
+    /// Get value from custom attribute BubbleMaxSize 
+    /// </summary>
+    /// <param name="area">Chart Area</param>
+    /// <returns>Bubble Max size</returns>
+    internal static double GetBubbleMaxSize(ChartArea area)
+    {
+        double maxPossibleBubbleSize = 15;
+        // Try to find bubble size scale in the custom series properties
+        foreach (Series ser in area.Common.DataManager.Series)
+        {
+            if (string.Equals(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) &&
+                ser.ChartArea == area.Name &&
+                ser.IsVisible())
+            {
+                // Check if attribute for max. size is set
+                if (ser.IsCustomPropertySet(CustomPropertyName.BubbleMaxSize))
+                {
+                    maxPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMaxSize]);
+                    if (maxPossibleBubbleSize < 0 || maxPossibleBubbleSize > 100)
+                    {
+                        throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize"));
+                    }
+                }
+            }
+        }
+
+        return maxPossibleBubbleSize / 100;
+    }
+
+    #endregion
 }
