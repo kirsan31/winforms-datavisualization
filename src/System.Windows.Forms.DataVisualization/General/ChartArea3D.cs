@@ -777,7 +777,7 @@ public partial class ChartArea
         {
             GetNumberOfClusters(); // need to fill seriesClusters
             // Get point depth and Z value from series
-            foreach (string serN in _series)
+            foreach (string serN in Series)
             {
                 var ser = Common.DataManager.Series[serN];
                 _pointsZDepth[serN] = ser.GetZValues(
@@ -795,20 +795,20 @@ public partial class ChartArea
         //***********************************************************
 
         // Check if any series attached to the area is indexed
-        bool indexedSeries = ChartHelper.IndexedSeries(this.Common, this._series);
+        bool indexedSeries = ChartHelper.IndexedSeries(this.Common, this.Series);
 
         // Smallest interval series
         Series smallestIntervalSeries = null;
-        if (this._series.Count > 0)
+        if (this.Series.Count > 0)
         {
-            smallestIntervalSeries = this.Common.DataManager.Series[this._series[0]];
+            smallestIntervalSeries = this.Common.DataManager.Series[this.Series[0]];
         }
 
         // Get X axis
         Axis xAxis = this.AxisX;
-        if (this._series.Count > 0)
+        if (this.Series.Count > 0)
         {
-            Series firstSeries = this.Common.DataManager.Series[this._series[0]];
+            Series firstSeries = this.Common.DataManager.Series[this.Series[0]];
             if (firstSeries != null && firstSeries.XAxisType == AxisType.Secondary)
             {
                 xAxis = this.AxisX2;
@@ -819,7 +819,7 @@ public partial class ChartArea
         double clusteredInterval = 1;
         if (!indexedSeries)
         {
-            clusteredInterval = this.GetPointsInterval(this._series, xAxis.IsLogarithmic, xAxis.logarithmBase, false, out _, out smallestIntervalSeries);
+            clusteredInterval = this.GetPointsInterval(this.Series, xAxis.IsLogarithmic, xAxis.logarithmBase, false, out _, out smallestIntervalSeries);
         }
 
         //***********************************************************
@@ -829,7 +829,7 @@ public partial class ChartArea
         if (smallestIntervalSeries != null)
         {
             drawSideBySide = Common.ChartTypeRegistry.GetChartType(smallestIntervalSeries.ChartTypeName).SideBySideSeries;
-            foreach (string seriesName in this._series)
+            foreach (string seriesName in this.Series)
             {
                 if (this.Common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
                 {
@@ -875,7 +875,7 @@ public partial class ChartArea
             {
                 // Count number of side-by-side series
                 seriesNumber = 0;
-                foreach (string seriesName in this._series)
+                foreach (string seriesName in this.Series)
                 {
                     // Get series object from name
                     Series curSeries = this.Common.DataManager.Series[seriesName];
@@ -903,7 +903,7 @@ public partial class ChartArea
             {
                 // Calculate how many stack groups exist
                 var stackGroupNames = new HashSet<string>();
-                foreach (string seriesName in this._series)
+                foreach (string seriesName in this.Series)
                 {
                     // Get series object from name
                     Series curSeries = this.Common.DataManager.Series[seriesName];
@@ -1002,10 +1002,10 @@ public partial class ChartArea
         seriesClusters = new List<List<string>>();
         if (Area3DStyle.ZDepthRealCalc)
         {
-            foreach (string seriesName in _series)
+            foreach (string seriesName in Series)
                 seriesClusters.Add(new List<string> { seriesName });
 
-            return _series.Count;
+            return Series.Count;
         }
 
         // Lists that hold processed chart types and stacked groups
@@ -1014,7 +1014,7 @@ public partial class ChartArea
 
         // Iterate through all series that belong to this chart area
         int clusterIndex = -1;
-        foreach (string seriesName in this._series)
+        foreach (string seriesName in this.Series)
         {
             // Get series object by name
             Series curSeries = this.Common.DataManager.Series[seriesName];
