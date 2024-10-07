@@ -1222,11 +1222,8 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                 // Get first column value if name not specified
                 result = dataRow[0];
             }
-        }
-
-        // If original object is DataRowView
-
-        if (item is DataRowView dataRowView)
+        } 
+        else if (item is DataRowView dataRowView) // If original object is DataRowView
         {
             if (fieldName?.Length > 0)
             {
@@ -1258,9 +1255,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                 result = dataRowView[0];
             }
         }
-
-        // If original object is DbDataRecord
-        if (item is DbDataRecord dbDataRecord)
+        else if (item is DbDataRecord dbDataRecord) // If original object is DbDataRecord
         {
             if (fieldName?.Length > 0)
             {

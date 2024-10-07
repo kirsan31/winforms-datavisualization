@@ -547,7 +547,7 @@ public class DataFormula
         valueArray = new int[subStrings.Length];
 
         int index = 0;
-        foreach (string str in subStrings)        
+        foreach (string str in subStrings)
         {
             // Split formula by optional ':' character
             int colonInd = str.IndexOf(':');
@@ -750,6 +750,7 @@ public class DataFormula
                 // Increase data point index.
                 indexPoint++;
             }
+
             // Increase data series index.
             indexSeries++;
         }
@@ -797,13 +798,11 @@ public class DataFormula
         // Check alignment of X values.
         for (int indexSeries = 0; indexSeries < inSeries.Length; indexSeries++)
         {
-            Series[] series = [inSeries[indexSeries], outSeries[indexSeries]];
-            CheckXValuesAlignment(series);
+            CheckXValuesAlignment([inSeries[indexSeries], outSeries[indexSeries]]);
         }
 
         // Covert Series X and Y values to arrays of doubles
         GetDoubleArray(inSeries, inValueIndexes, out double[][] inValues, true);
-
         outValues = new double[inValues.Length][];
 
         // Copy Series X and Y values.
@@ -1047,31 +1046,30 @@ public class DataFormula
     }
 
     /// <summary>
-    /// This method will check if X values from different series 
-    /// are aligned.
+    /// This method will check if X values from different series are aligned.
     /// </summary>
     /// <param name="series">Array of series</param>
-    internal void CheckXValuesAlignment(Series[] series)
+    internal static void CheckXValuesAlignment(Series[] series)
     {
         // Check alignment only if more than 1 series provided
-        if (series.Length > 1)
-        {
-            // Series loop
-            for (int seriesIndex = 0; seriesIndex < series.Length - 1; seriesIndex++)
-            {
-                // Check the number of data points
-                if (series[seriesIndex].Points.Count != series[seriesIndex + 1].Points.Count)
-                {
-                    throw new ArgumentException(SR.ExceptionFormulaDataSeriesAreNotAlignedDifferentDataPoints(series[seriesIndex].Name, series[seriesIndex + 1].Name));
-                }
+        if (series.Length < 2)
+            return;
 
-                // Data points loop
-                for (int pointIndex = 0; pointIndex < series[seriesIndex].Points.Count; pointIndex++)
-                {
-                    // Check X values.
-                    if (series[seriesIndex].Points[pointIndex].XValue != series[seriesIndex + 1].Points[pointIndex].XValue)
-                        throw new ArgumentException(SR.ExceptionFormulaDataSeriesAreNotAlignedDifferentXValues(series[seriesIndex].Name, series[seriesIndex + 1].Name));
-                }
+        // Series loop
+        for (int seriesIndex = 0; seriesIndex < series.Length - 1; seriesIndex++)
+        {
+            // Check the number of data points
+            if (series[seriesIndex].Points.Count != series[seriesIndex + 1].Points.Count)
+            {
+                throw new ArgumentException(SR.ExceptionFormulaDataSeriesAreNotAlignedDifferentDataPoints(series[seriesIndex].Name, series[seriesIndex + 1].Name));
+            }
+
+            // Data points loop
+            for (int pointIndex = 0; pointIndex < series[seriesIndex].Points.Count; pointIndex++)
+            {
+                // Check X values.
+                if (series[seriesIndex].Points[pointIndex].XValue != series[seriesIndex + 1].Points[pointIndex].XValue)
+                    throw new ArgumentException(SR.ExceptionFormulaDataSeriesAreNotAlignedDifferentXValues(series[seriesIndex].Name, series[seriesIndex + 1].Name));
             }
         }
     }
