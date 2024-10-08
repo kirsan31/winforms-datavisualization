@@ -288,7 +288,7 @@ internal class PointChart : IChartType
             }
 
             // Process only point chart series in this chart area
-            if (string.Compare(ser.ChartTypeName, this.Name, true, CultureInfo.CurrentCulture) != 0
+            if (!string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase)
                 || ser.ChartArea != area.Name || !ser.IsVisible())
             {
                 continue;

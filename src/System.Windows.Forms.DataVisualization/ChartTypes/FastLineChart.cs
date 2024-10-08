@@ -218,7 +218,7 @@ internal class FastLineChart : IChartType
         foreach (Series series in common.DataManager.Series)
         {
             // Process non empty series of the area with FastLine chart type
-            if (string.Compare(series.ChartTypeName, this.Name, true, CultureInfo.CurrentCulture) != 0 || series.ChartArea != area.Name || !series.IsVisible())
+            if (!string.Equals(series.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) || series.ChartArea != area.Name || !series.IsVisible())
             {
                 continue;
             }

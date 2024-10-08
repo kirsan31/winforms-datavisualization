@@ -329,7 +329,7 @@ internal class LineChart : PointChart
         foreach (Series ser in common.DataManager.Series)
         {
             // Process non empty series of the area with Line chart type
-            if (string.Compare(ser.ChartTypeName, this.Name, true, System.Globalization.CultureInfo.CurrentCulture) != 0
+            if (!string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase)
                 || ser.ChartArea != area.Name || !ser.IsVisible())
             {
                 continue;
