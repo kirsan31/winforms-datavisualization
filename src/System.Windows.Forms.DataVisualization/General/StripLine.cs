@@ -546,7 +546,8 @@ public class StripLine : ChartElement
             return;
 
         // Get title text
-        string titleText = this.Text;
+        string titleText = this.Text.Replace("\\n", "\n");
+        TextOrientation drawOrientation = GetTextOrientation();
 
         // Prepare string format
         using StringFormat format = new StringFormat();
@@ -598,7 +599,7 @@ public class StripLine : ChartElement
         }
 
         // Measure string size
-        SizeF size = graph.MeasureStringRel(titleText.Replace("\\n", "\n"), this.Font, new SizeF(100, 100), format, this.GetTextOrientation());
+        SizeF size = graph.MeasureStringRel(titleText, this.Font, new SizeF(100, 100), format, drawOrientation);
 
         // Adjust text size
         float zPositon = 0f;
@@ -616,8 +617,16 @@ public class StripLine : ChartElement
 
             // Adjust text size
             int index = this.Axis.ChartArea.IsMainSceneWallOnFront() ? 0 : 1;
-            size.Width *= size.Width / (textSizeProjection[index].X - textSizeProjection[(index == 0) ? 1 : 0].X);
-            size.Height *= size.Height / (textSizeProjection[2].Y - textSizeProjection[0].Y);
+            float f = textSizeProjection[index].X - textSizeProjection[(index == 0) ? 1 : 0].X;
+            if (Math.Abs(f) < 1)
+                f = f >= 0 ? 1 : -1;
+
+            size.Width *= size.Width / f;
+            f = textSizeProjection[2].Y - textSizeProjection[0].Y;
+            if (Math.Abs(f) < 1)
+                f = f >= 0 ? 1 : -1;
+
+            size.Height *= size.Height / f;
         }
 
 
@@ -688,11 +697,11 @@ public class StripLine : ChartElement
                 rotationCenterProjection[0].PointF = graph.GetAbsolutePoint(rotationCenterProjection[0].PointF);
                 rotationCenterProjection[1].PointF = graph.GetAbsolutePoint(rotationCenterProjection[1].PointF);
 
-                // Calcuate axis angle
-                float angleXAxis = (float)Math.Atan(
+                // Calculate axis angle
+                float angleXAxis = MathF.Atan(
                     (rotationCenterProjection[1].Y - rotationCenterProjection[0].Y) /
                     (rotationCenterProjection[1].X - rotationCenterProjection[0].X));
-                angleXAxis = (float)Math.Round(angleXAxis * 180f / (float)Math.PI);
+                angleXAxis = MathF.Round(angleXAxis * 180 / MathF.PI);
                 angle += (int)angleXAxis;
             }
         }
@@ -700,13 +709,13 @@ public class StripLine : ChartElement
         // Draw string
         using Brush brush = new SolidBrush(this.ForeColor);
         graph.DrawStringRel(
-            titleText.Replace("\\n", "\n"),
+            titleText,
             this.Font,
             brush,
             rotationCenter,
             format,
             angle,
-            this.GetTextOrientation());
+            drawOrientation);
     }
 
     #endregion
