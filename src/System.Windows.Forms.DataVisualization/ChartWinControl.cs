@@ -312,7 +312,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
         selection = new Selection(serviceContainer);
 
         // Create named images collection
-        Images = new NamedImagesCollection();
+        Images = [];
 
         // Hook up event handlers
         ChartAreas.NameReferenceChanged += new EventHandler<NameReferenceChangedEventArgs>(Series.ChartAreaNameReferenceChanged);

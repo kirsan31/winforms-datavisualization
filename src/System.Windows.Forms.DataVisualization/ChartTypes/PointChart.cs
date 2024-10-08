@@ -1006,7 +1006,7 @@ internal class PointChart : IChartType
         else
         {
             // Draw just one chart series
-            typeSeries = new List<string> { seriesToDraw.Name };
+            typeSeries = [seriesToDraw.Name];
         }
 
 
@@ -1250,7 +1250,7 @@ internal class PointChart : IChartType
         }
 
         // Check if labels info list was created
-        this.label3DInfoList ??= new();
+        this.label3DInfoList ??= [];
 
         // Store information about the label for future drawing
         Label3DInfo label3DInfo = new Label3DInfo

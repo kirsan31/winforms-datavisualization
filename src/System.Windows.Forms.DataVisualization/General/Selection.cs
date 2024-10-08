@@ -365,7 +365,7 @@ internal class HotRegionsList : IDisposable
     /// <summary>
     /// Collection with Hor Region Elements
     /// </summary>
-    internal List<HotRegion> List { get; } = new List<HotRegion>();
+    internal List<HotRegion> List { get; } = [];
 
     #endregion // Properties
 
@@ -1457,7 +1457,7 @@ internal sealed class Selection : IServiceProvider
     /// any).</remarks>
     internal List<HitTestResult> HitTest(int x, int y, bool ignoreTransparent, params ChartElementType[] requestedElementTypes)
     {
-        List<HitTestResult> result = new List<HitTestResult>();
+        List<HitTestResult> result = [];
         var regionList = this.ChartPicture.Common.HotRegionsList.List;
 
         if (regionList.Count == 0)
@@ -2059,7 +2059,7 @@ internal sealed class Selection : IServiceProvider
     /// <returns></returns>
     private List<HotRegion> GetHotRegions(object cntxObj, ChartElementType elementType)
     {
-        List<HotRegion> result = new List<HotRegion>();
+        List<HotRegion> result = [];
         HotRegionsList hrList = this.ChartPicture.Common.HotRegionsList;
         string dataPointSeries = string.Empty;
         int dataPointIndex = -1;
@@ -2179,7 +2179,7 @@ internal sealed class Selection : IServiceProvider
     /// <returns></returns>
     private List<PointF> GetMarkersFromRegions(object chartObject, ChartElementType elementType)
     {
-        List<PointF> list = new List<PointF>();
+        List<PointF> list = [];
         List<HotRegion> regions = this.GetHotRegions(chartObject, elementType);
         ChartGraphics graph = this.Graph;
         RectangleF rect;
@@ -2414,7 +2414,7 @@ internal sealed class Selection : IServiceProvider
     /// <returns>List of PointF.</returns>
     private List<PointF> GetSeriesMarkers(Series series)
     {
-        List<PointF> list = new List<PointF>();
+        List<PointF> list = [];
         if (series != null)
         {
             string areaName = series.ChartArea;
@@ -2465,7 +2465,7 @@ internal sealed class Selection : IServiceProvider
     /// <returns>List of PointF.</returns>
     private List<PointF> GetAxisMarkers(ChartGraphics graph, Axis axis)
     {
-        List<PointF> list = new List<PointF>();
+        List<PointF> list = [];
         if (axis == null)
         {
             return list;
@@ -2569,7 +2569,7 @@ internal sealed class Selection : IServiceProvider
     /// <returns>List of PointF.</returns>
     private List<PointF> GetAreaMarkers(ChartGraphics graph, ChartArea area)
     {
-        List<PointF> list = new List<PointF>();
+        List<PointF> list = [];
         if (area == null)
         {
             return list;
@@ -2642,7 +2642,7 @@ internal sealed class Selection : IServiceProvider
     /// <returns>List of PointF</returns>
     private List<PointF> GetMarkers(RectangleF rect, bool addAdditionalMarkers)
     {
-        List<PointF> list = new List<PointF>();
+        List<PointF> list = [];
         if (!addAdditionalMarkers)
         {
             if (rect.Width > 0 && rect.Height > 0)

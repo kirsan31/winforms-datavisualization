@@ -1147,7 +1147,7 @@ internal class LineChart : PointChart
         else
         {
             // Draw just one chart series
-            typeSeries = new List<string> { seriesToDraw.Name };
+            typeSeries = [seriesToDraw.Name];
         }
 
         //***************************************************************

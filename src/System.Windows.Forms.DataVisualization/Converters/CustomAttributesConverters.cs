@@ -362,12 +362,13 @@ internal sealed class CustomPropertiesTypeConverter : TypeConverter
             throw new InvalidOperationException(SR.ExceptionCustomAttributeDefaultValueTypeInvalid);
         }
         // Add all properties into the list
-        ArrayList propList = new ArrayList();
-
-        propList.Add(new NotifyParentPropertyAttribute(true));
-        propList.Add(new RefreshPropertiesAttribute(RefreshProperties.All));
-        propList.Add(new DescriptionAttribute(attrInfo.Description));
-        propList.Add(defaultValueAttribute);
+        ArrayList propList =
+        [
+            new NotifyParentPropertyAttribute(true),
+            new RefreshPropertiesAttribute(RefreshProperties.All),
+            new DescriptionAttribute(attrInfo.Description),
+            defaultValueAttribute,
+        ];
 
         if (attrInfo.Name.Equals(CustomPropertyName.ErrorBarType, StringComparison.Ordinal))
         {
@@ -423,7 +424,7 @@ internal sealed class CustomPropertiesTypeConverter : TypeConverter
         /// </returns>
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            ArrayList result = new ArrayList();
+            ArrayList result = [];
             foreach (ChartTypes.ErrorBarType item in Enum.GetValues(typeof(ChartTypes.ErrorBarType)))
             {
                 string itemStr = string.Format(CultureInfo.InvariantCulture, "{0}({1:N0})", item, ChartTypes.ErrorBarChart.DefaultErrorBarTypeValue(item));

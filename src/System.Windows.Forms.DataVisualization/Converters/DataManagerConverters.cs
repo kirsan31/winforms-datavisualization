@@ -52,7 +52,7 @@ internal sealed class SeriesAreaNameConverter : StringConverter
     /// <returns>Standard values collection.</returns>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
-        ArrayList values = new ArrayList();
+        ArrayList values = [];
 
         Chart chart = ConverterHelper.GetChartFromContext(context);
 
@@ -104,7 +104,7 @@ internal sealed class ChartDataSourceConverter : StringConverter
     /// <returns>Standard values collection.</returns>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
-        ArrayList values = new ArrayList();
+        ArrayList values = [];
 
         if (context != null && context.Container != null)
         {
@@ -163,7 +163,7 @@ internal sealed class SeriesDataSourceMemberConverter : StringConverter
     /// <returns>Standard values collection.</returns>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
-        ArrayList values = new ArrayList();
+        ArrayList values = [];
 
         Chart chart = ConverterHelper.GetChartFromContext(context);
         object dataSource = null;
@@ -232,7 +232,7 @@ internal sealed class SeriesLegendNameConverter : StringConverter
     /// <returns>Standard values collection.</returns>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
-        ArrayList values = new ArrayList();
+        ArrayList values = [];
 
         Chart chart = ConverterHelper.GetChartFromContext(context);
 
@@ -346,7 +346,7 @@ internal sealed class SeriesNameConverter : StringConverter
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
         DataManager dataManager = null;
-        ArrayList values = new ArrayList();
+        ArrayList values = [];
 
         if (context != null && context.Instance != null)
         {
@@ -632,7 +632,7 @@ internal sealed class SeriesYValueTypeConverter : EnumConverter
     /// <returns>Standard values collection.</returns>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
-        ArrayList values = new ArrayList();
+        ArrayList values = [];
 
         // Call base class
         StandardValuesCollection val = base.GetStandardValues(context);

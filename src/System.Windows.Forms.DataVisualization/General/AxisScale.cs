@@ -108,7 +108,7 @@ public partial class Axis
     // Used for column chart margin
     internal double marginTemp;
 
-    private readonly List<double> _stripLineOffsets = new();
+    private readonly List<double> _stripLineOffsets = [];
 
     // Data members, which store properties values
     private bool _isLogarithmic;

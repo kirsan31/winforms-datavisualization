@@ -1300,10 +1300,10 @@ internal class BarChart : IChartType
         else
         {
             // Draw just one chart series
-            typeSeries = new List<string>
-            {
+            typeSeries =
+            [
                 seriesToDraw.Name
-            };
+            ];
         }
 
         //************************************************************

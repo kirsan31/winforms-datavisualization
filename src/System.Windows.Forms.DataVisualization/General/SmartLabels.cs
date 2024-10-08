@@ -562,7 +562,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal void Reset()
         {
             // Re-initialize list of labels position
-            smartLabelsPositions = new List<RectangleF>();
+            smartLabelsPositions = [];
         }
 
         /// <summary>
@@ -1302,7 +1302,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             // Create array list if needed
                             if (this.smartLabelsPositions == null)
                             {
-                                this.smartLabelsPositions = new List<RectangleF>();
+                                this.smartLabelsPositions = [];
                             }
 
                             // Add label position into the list
@@ -1334,7 +1334,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             if (this.smartLabelsPositions == null)
             {
-                this.smartLabelsPositions = new List<RectangleF>();
+                this.smartLabelsPositions = [];
             }
 
             // Add label position into the list

@@ -121,7 +121,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         private void FillChartAccessibleObjectList()
         {
             // Create new list
-            this._chartAccessibleObjectList = new List<AccessibleObject>();
+            this._chartAccessibleObjectList = [];
 
             // Chart reference must set first
             if (this._chart != null)
@@ -551,7 +551,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         #region Fields
 
         // List of child accessible objects
-        private readonly List<ChartChildAccessibleObject> _childList = new List<ChartChildAccessibleObject>();
+        private readonly List<ChartChildAccessibleObject> _childList = [];
 
         #endregion Fields
 
@@ -624,7 +624,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         #region Fields
 
         // List of child accessible objects
-        private readonly List<ChartChildAccessibleObject> _childList = new List<ChartChildAccessibleObject>();
+        private readonly List<ChartChildAccessibleObject> _childList = [];
 
         #endregion Fields
 
@@ -753,7 +753,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         #region Fields
 
         // List of child accessible objects
-        private readonly List<ChartChildAccessibleObject> _childList = new List<ChartChildAccessibleObject>();
+        private readonly List<ChartChildAccessibleObject> _childList = [];
 
         #endregion Fields
 

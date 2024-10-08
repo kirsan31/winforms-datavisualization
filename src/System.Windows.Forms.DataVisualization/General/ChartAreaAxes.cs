@@ -42,7 +42,7 @@ public partial class ChartArea
     /// </summary>
 
     // Array of chart types which belong to this chart area
-    internal List<string> chartTypes = new List<string>();
+    internal List<string> chartTypes = [];
 
     /// <summary>
     /// List of series names that last interval numbers where cashed for
@@ -115,7 +115,7 @@ public partial class ChartArea
     /// <summary>
     /// Data series which belongs to this chart area. Disabled series are not included.
     /// </summary>
-    internal List<string> Series { get; } = new List<string>();
+    internal List<string> Series { get; } = [];
 
     /// <summary>
     /// Chart types which belongs to this chart area.
@@ -1176,7 +1176,7 @@ public partial class ChartArea
     /// <returns>An array list that contains sub-arrays of series names split by group name.</returns>
     private List<List<string>> SplitSeriesInStackedGroups(List<string> seriesNames)
     {
-        Dictionary<string, List<string>> groupsDict = new Dictionary<string, List<string>>();
+        Dictionary<string, List<string>> groupsDict = [];
 
         foreach (string seriesName in seriesNames)
         {
@@ -1196,7 +1196,7 @@ public partial class ChartArea
             if (groupsDict.TryGetValue(groupName, out var list))
                 list.Add(seriesName);
             else
-                groupsDict.Add(groupName, new List<string> { seriesName });
+                groupsDict.Add(groupName, [seriesName]);
         }
 
         // Convert results to a list that contains list of strings
@@ -1445,7 +1445,7 @@ public partial class ChartArea
     internal List<string> GetSeriesFromChartType(string chartType)
     {
         // New collection
-        List<string> list = new List<string>();
+        List<string> list = [];
 
         foreach (string seriesName in Series)
         {
@@ -1466,7 +1466,7 @@ public partial class ChartArea
     internal List<Series> GetSeries()
     {
         // New collection
-        List<Series> list = new List<Series>();
+        List<Series> list = [];
 
         foreach (string seriesName in Series)
         {
@@ -1485,7 +1485,7 @@ public partial class ChartArea
     internal List<string> GetXAxesSeries(AxisType type, string subAxisName)
     {
         // Create a new collection of series
-        List<string> list = new List<string>();
+        List<string> list = [];
         if (Series.Count == 0)
         {
             return list;
@@ -1547,7 +1547,7 @@ public partial class ChartArea
     internal List<string> GetYAxesSeries(AxisType type, string subAxisName)
     {
         // Create a new collection of series
-        List<string> list = new List<string>();
+        List<string> list = [];
 
         // Find series which have same axis type
         foreach (string ser in Series)
@@ -1717,7 +1717,7 @@ public partial class ChartArea
             bool isXValueDateTime = dataSeries.IsXValueDateTime();
 
             // Copy X values to array and prepare for sorting Sort X values.
-            seriesXValues[seriesIndex] = new List<double>();
+            seriesXValues[seriesIndex] = [];
             bool sortPoints = false;
             double prevXValue = double.MinValue;
             double curentXValue = 0.0;

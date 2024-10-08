@@ -1327,10 +1327,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="context">Descriptor context.</param>
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            ArrayList values = new ArrayList
-            {
+            ArrayList values =
+            [
                 double.NaN
-            };
+            ];
 
             return new StandardValuesCollection(values);
         }
@@ -1414,10 +1414,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="context">Descriptor context.</param>
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            ArrayList values = new ArrayList
-            {
+            ArrayList values =
+            [
                 double.NaN
-            };
+            ];
 
             return new StandardValuesCollection(values);
         }

@@ -226,12 +226,12 @@ internal sealed class AxisCrossingValueConverter : AxisMinMaxValueConverter
     /// <returns>Standard values collection.</returns>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
-        ArrayList values = new ArrayList
-        {
+        ArrayList values =
+        [
             double.NaN,
             double.MinValue,
             double.MaxValue
-        };
+        ];
 
         return new StandardValuesCollection(values);
     }
@@ -441,10 +441,10 @@ internal sealed class AxisMinMaxAutoValueConverter : AxisMinMaxValueConverter
     /// <param name="context">Descriptor context.</param>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
-        ArrayList values = new ArrayList
-        {
+        ArrayList values =
+        [
             double.NaN
-        };
+        ];
 
         return new StandardValuesCollection(values);
     }
@@ -527,13 +527,13 @@ internal sealed class StripLineTitleAngleConverter : Int32Converter
     /// <param name="context">Descriptor context.</param>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
-        ArrayList values = new ArrayList
-        {
+        ArrayList values =
+        [
             0,
             90,
             180,
             270
-        };
+        ];
 
         return new StandardValuesCollection(values);
     }
@@ -580,7 +580,7 @@ internal class AxisIntervalValueConverter : DoubleConverter
     /// <returns>Standard values collection.</returns>
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     {
-        ArrayList values = new ArrayList();
+        ArrayList values = [];
         if (!hideNotSet)
         {
             values.Add(double.NaN);

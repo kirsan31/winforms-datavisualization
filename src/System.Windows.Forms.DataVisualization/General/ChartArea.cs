@@ -2637,8 +2637,8 @@ public partial class ChartArea : ChartNamedElement, IDisposable
         if (this.ChartTypes.Count > 1 && (this.ChartTypes.Contains(ChartTypeNames.Area) || this.ChartTypes.Contains(ChartTypeNames.SplineArea)))
         {
             // Array of chart type names that do not require further processing
-            HashSet<string> processedChartType = new();
-            HashSet<string> splitChartType = new();
+            HashSet<string> processedChartType = [];
+            HashSet<string> splitChartType = [];
 
             // Draw using the exact order in the series collection
             int seriesIndex = 0;

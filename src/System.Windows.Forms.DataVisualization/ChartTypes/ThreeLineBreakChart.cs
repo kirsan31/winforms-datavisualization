@@ -296,7 +296,7 @@ internal class ThreeLineBreakChart : IChartType
         }
 
         // Create an array to store the history of high/low values of drawn lines
-        List<double> highLowHistory = new();
+        List<double> highLowHistory = [];
 
         // Fill points
         double prevLow = double.NaN;

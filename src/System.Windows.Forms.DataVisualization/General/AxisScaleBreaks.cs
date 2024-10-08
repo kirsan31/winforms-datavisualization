@@ -712,7 +712,7 @@ public class AxisScaleBreakStyle
         double dataRangePercent = (maxYValue - minYValue) / ((maximum - minimum) / 100.0);
 
         // Get sequences of empty segments
-        List<int> emptySequences = new();
+        List<int> emptySequences = [];
         bool doneFlag = false;
         while (!doneFlag)
         {

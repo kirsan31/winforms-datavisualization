@@ -316,7 +316,7 @@ internal sealed class ChartImage : ChartPicture
     /// <returns>List of member names.</returns>
     internal static List<string> GetDataSourceMemberNames(object dataSource, bool usedForYValue)
     {
-        List<string> names = new List<string>();
+        List<string> names = [];
         if (dataSource != null)
         {
             // ADDED: for VS2005 compatibility, DT Nov 25, 2004
@@ -3185,7 +3185,7 @@ internal sealed class FontCache : IDisposable
     #region Fields
 
     // Cached fonts dictionary
-    private readonly Dictionary<(string Name, FontStyle Style, GraphicsUnit Unit, float Size), Font> _fontCache = new();
+    private readonly Dictionary<(string Name, FontStyle Style, GraphicsUnit Unit, float Size), Font> _fontCache = [];
     // Global font cash for default fonts.
     private static readonly FontCache s_globalfontCache = new();
 

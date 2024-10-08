@@ -48,10 +48,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Standard values collection.</returns>
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            ArrayList values = new ArrayList
-            {
+            ArrayList values =
+            [
                 Constants.NotSetValue
-            };
+            ];
 
             ChartAreaCollection areaCollection = null;
             string areaName = string.Empty;
@@ -200,10 +200,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="context">Descriptor context.</param>
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            ArrayList values = new ArrayList
-            {
+            ArrayList values =
+            [
                 Drawing.Size.Empty
-            };
+            ];
 
             return new StandardValuesCollection(values);
         }
@@ -400,10 +400,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="context">Descriptor context.</param>
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            ArrayList values = new ArrayList
-            {
+            ArrayList values =
+            [
                 -1
-            };
+            ];
 
             return new StandardValuesCollection(values);
         }

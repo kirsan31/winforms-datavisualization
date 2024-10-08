@@ -468,7 +468,7 @@ public partial class ChartArea
     /// <summary>
     /// Z axis depth and position for <see cref="ChartArea3DStyle.ZDepthRealCalc"/>.
     /// </summary>
-    private readonly Dictionary<string, (float Depth, float PositionZ)> _pointsZDepth = new Dictionary<string, (float Depth, float PositionZ)>();
+    private readonly Dictionary<string, (float Depth, float PositionZ)> _pointsZDepth = [];
     /// <summary>
     /// Old X axis reversed flag
     /// </summary>
@@ -999,11 +999,11 @@ public partial class ChartArea
             return seriesClusters.Count;
 
         // Reset series cluster list
-        seriesClusters = new List<List<string>>();
+        seriesClusters = [];
         if (Area3DStyle.ZDepthRealCalc)
         {
             foreach (string seriesName in Series)
-                seriesClusters.Add(new List<string> { seriesName });
+                seriesClusters.Add([seriesName]);
 
             return Series.Count;
         }
@@ -1091,7 +1091,7 @@ public partial class ChartArea
             // Create an item in the cluster list that will hold all series names
             if (this.seriesClusters.Count <= clusterIndex)
             {
-                this.seriesClusters.Add(new List<string>());
+                this.seriesClusters.Add([]);
             }
 
             // Add series name into the current cluster
@@ -1509,7 +1509,7 @@ public partial class ChartArea
             }
         }
 
-        return new List<string>();
+        return [];
     }
 
     /// <summary>
@@ -1520,7 +1520,7 @@ public partial class ChartArea
     private List<Series> GetSeriesDrawingOrder(bool reverseSeriesOrder)
     {
         // Create list of series
-        List<Series> seriesList = new List<Series>();
+        List<Series> seriesList = [];
 
         // Iterate through all clusters
         foreach (List<string> seriesNames in this.seriesClusters)
@@ -1587,7 +1587,7 @@ public partial class ChartArea
     /// <returns>Number of stack groups. One by default.</returns>
     private int GetNumberOfStackGroups(List<string> seriesNamesList)
     {
-        this.StackGroupNames = new List<string>();
+        this.StackGroupNames = [];
         foreach (var seriesName in seriesNamesList)
         {
             // Get series object

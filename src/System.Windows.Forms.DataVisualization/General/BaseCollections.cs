@@ -259,7 +259,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         private List<T> _cachedState;
         private int _disableDeleteCount;
-        private readonly Dictionary<string, int> _nameIdxDic = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> _nameIdxDic = [];
 
         #endregion Fields
 

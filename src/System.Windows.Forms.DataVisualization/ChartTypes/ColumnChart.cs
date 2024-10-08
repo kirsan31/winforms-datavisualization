@@ -648,10 +648,10 @@ internal class ColumnChart : PointChart
         else
         {
             // Draw just one chart series
-            typeSeries = new List<string>
-            {
+            typeSeries =
+            [
                 seriesToDraw.Name
-            };
+            ];
         }
 
         //************************************************************

@@ -172,7 +172,7 @@ internal abstract class SerializerBase
     /// <summary>
     /// Contains chart specific converters
     /// </summary>
-    private readonly HybridDictionary _converterDict = new HybridDictionary();
+    private readonly HybridDictionary _converterDict = [];
 
     #endregion Fields
 
