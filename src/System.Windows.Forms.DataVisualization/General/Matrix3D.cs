@@ -219,8 +219,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this._angleY = angleY;
 
             // Change Degrees to radians.
-            angleX = angleX / 180F * (float)Math.PI;
-            angleY = angleY / 180F * (float)Math.PI;
+            angleX = angleX / 180F * MathF.PI;
+            angleY = angleY / 180F * MathF.PI;
 
             // Set points for 3D Bar which represents 3D Chart Area Cube.
             Point3D[] points = Set3DBarPoints(width, height, depth);
@@ -242,12 +242,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 if (this._angleY >= 45)
                 {
                     // Rotate Chart Area Cube by Y axis. 
-                    Rotate(Math.PI / 2, RotationAxis.Y);
+                    Rotate(MathF.PI / 2, RotationAxis.Y);
                 }
                 else if (this._angleY <= -45)
                 {
                     // Rotate Chart Area Cube by Y axis. 
-                    Rotate(-Math.PI / 2, RotationAxis.Y);
+                    Rotate(-MathF.PI / 2, RotationAxis.Y);
                 }
             }
 
@@ -494,7 +494,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Prepend to this Matrix object a translation. This method is used 
+        /// Perpend to this Matrix object a translation. This method is used 
         /// only if CENTER OF ROTATION HAS TO BE MOVED.
         /// </summary>
         /// <param name="dx">Translate in x axis direction.</param>
@@ -647,11 +647,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Prepend to this Matrix object a clockwise rotation, around the axis and by the specified angle.
+        /// Perpend to this Matrix object a clockwise rotation, around the axis and by the specified angle.
         /// </summary>
         /// <param name="angle">Angle to rotate</param>
         /// <param name="axis">Axis used for rotation</param>
-        private void Rotate(double angle, RotationAxis axis)
+        private void Rotate(float angle, RotationAxis axis)
         {
             float[][] rotationMatrix =
             [
@@ -689,33 +689,32 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Rotation about X axis
                 case RotationAxis.X:
-                    rotationMatrix[1][1] = (float)Math.Cos(angle);
-                    rotationMatrix[1][2] = (float)-Math.Sin(angle);
-                    rotationMatrix[2][1] = (float)Math.Sin(angle);
-                    rotationMatrix[2][2] = (float)Math.Cos(angle);
+                    rotationMatrix[1][1] = MathF.Cos(angle);
+                    rotationMatrix[1][2] = -MathF.Sin(angle);
+                    rotationMatrix[2][1] = MathF.Sin(angle);
+                    rotationMatrix[2][2] = MathF.Cos(angle);
                     break;
 
                 // Rotation about Y axis
                 case RotationAxis.Y:
-                    rotationMatrix[0][0] = (float)Math.Cos(angle);
-                    rotationMatrix[0][2] = (float)Math.Sin(angle);
-                    rotationMatrix[2][0] = (float)-Math.Sin(angle);
-                    rotationMatrix[2][2] = (float)Math.Cos(angle);
+                    rotationMatrix[0][0] = MathF.Cos(angle);
+                    rotationMatrix[0][2] = MathF.Sin(angle);
+                    rotationMatrix[2][0] = -MathF.Sin(angle);
+                    rotationMatrix[2][2] = MathF.Cos(angle);
                     break;
 
                 // Rotation about Z axis
                 case RotationAxis.Z:
-                    rotationMatrix[0][0] = (float)Math.Cos(angle);
-                    rotationMatrix[0][1] = (float)-Math.Sin(angle);
-                    rotationMatrix[1][0] = (float)Math.Sin(angle);
-                    rotationMatrix[1][1] = (float)Math.Cos(angle);
+                    rotationMatrix[0][0] = MathF.Cos(angle);
+                    rotationMatrix[0][1] = -MathF.Sin(angle);
+                    rotationMatrix[1][0] = MathF.Sin(angle);
+                    rotationMatrix[1][1] = MathF.Cos(angle);
                     break;
 
             }
 
             // Rotate Main matrix
             Multiply(rotationMatrix, MatrixOrder.Prepend, true);
-
         }
 
         /// <summary>

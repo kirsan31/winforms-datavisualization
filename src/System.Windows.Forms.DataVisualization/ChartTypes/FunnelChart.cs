@@ -641,8 +641,8 @@ internal class FunnelChart : IChartType
         }
 
         // Get 3D rotation angle
-        float topRotationHeight = (float)(startWidth / 2f * Math.Sin(this._rotation3D / 180F * Math.PI));
-        float bottomRotationHeight = (float)(endWidth / 2f * Math.Sin(this._rotation3D / 180F * Math.PI));
+        float topRotationHeight = startWidth / 2f * MathF.Sin(this._rotation3D / 180F * MathF.PI);
+        float bottomRotationHeight = endWidth / 2f * MathF.Sin(this._rotation3D / 180F * MathF.PI);
 
         // Get plotting area position in pixels
         RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition);
@@ -958,8 +958,8 @@ internal class FunnelChart : IChartType
 
         // Get 3D rotation angle
         float tension = 0.8f;
-        float topRotationHeight = (float)(startWidth / 2f * Math.Sin(this._rotation3D / 180F * Math.PI));
-        float bottomRotationHeight = (float)(endWidth / 2f * Math.Sin(this._rotation3D / 180F * Math.PI));
+        float topRotationHeight = startWidth / 2f * MathF.Sin(this._rotation3D / 180F * MathF.PI);
+        float bottomRotationHeight = endWidth / 2f * MathF.Sin(this._rotation3D / 180F * MathF.PI);
 
         // Get plotting area position in pixels
         RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition);
@@ -2005,7 +2005,7 @@ internal class FunnelChart : IChartType
                     // Adjust label Y position in 3D
                     if (this.Area.Area3DStyle.Enable3D)
                     {
-                        labelInfo.Position.Y += (float)((segmentInfo.EndWidth + segmentInfo.StartWidth) / 4f * Math.Sin(this._rotation3D / 180F * Math.PI));
+                        labelInfo.Position.Y += (segmentInfo.EndWidth + segmentInfo.StartWidth) / 4f * MathF.Sin(this._rotation3D / 180F * MathF.PI);
                     }
                 }
 
@@ -2181,8 +2181,8 @@ internal class FunnelChart : IChartType
             }
 
             // Get top and bottom spacing
-            float topSpacing = (float)Math.Abs(plotAreaPositionAbs.Width / 2f * Math.Sin(this._rotation3D / 180F * Math.PI));
-            float bottomSpacing = (float)Math.Abs(plotAreaPositionAbs.Width / 2f * Math.Sin(this._rotation3D / 180F * Math.PI));
+            float topSpacing = MathF.Abs(plotAreaPositionAbs.Width / 2f * MathF.Sin(this._rotation3D / 180F * MathF.PI));
+            float bottomSpacing = MathF.Abs(plotAreaPositionAbs.Width / 2f * MathF.Sin(this._rotation3D / 180F * MathF.PI));
 
             // Adjust position
             if (this.isPyramid)

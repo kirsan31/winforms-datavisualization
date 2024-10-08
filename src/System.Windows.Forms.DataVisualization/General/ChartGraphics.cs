@@ -228,10 +228,10 @@ public partial class ChartGraphics : ChartElement, IDisposable
 
         // Draw a line
         this.DrawLine(Pen,
-            (float)Math.Round(firstPoint.X),
-            (float)Math.Round(firstPoint.Y),
-            (float)Math.Round(secondPoint.X),
-            (float)Math.Round(secondPoint.Y));
+            MathF.Round(firstPoint.X),
+            MathF.Round(firstPoint.Y),
+            MathF.Round(secondPoint.X),
+            MathF.Round(secondPoint.Y));
 
         // Return old smoothing mode
         this.SmoothingMode = oldSmoothingMode;
@@ -351,7 +351,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
         )
     {
         // Load a image
-        System.Drawing.Image image = _common.ImageLoader.LoadImage(name);
+        Image image = _common.ImageLoader.LoadImage(name);
 
         // Create a brush
         using ImageAttributes attrib = new ImageAttributes();
@@ -438,11 +438,11 @@ public partial class ChartGraphics : ChartElement, IDisposable
         }
         else if (type == GradientStyle.DiagonalLeft)
         {
-            angle = (float)(Math.Atan(rectangle.Width / rectangle.Height) * 180 / Math.PI);
+            angle = MathF.Atan(rectangle.Width / rectangle.Height) * 180 / MathF.PI;
         }
         else if (type == GradientStyle.DiagonalRight)
         {
-            angle = (float)(180 - Math.Atan(rectangle.Width / rectangle.Height) * 180 / Math.PI);
+            angle = 180 - MathF.Atan(rectangle.Width / rectangle.Height) * 180 / MathF.PI;
         }
 
         // Create a linear gradient brush
@@ -669,7 +669,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
         if (markerImage.Length > 0)
         {
             // Get image
-            System.Drawing.Image image = _common.ImageLoader.LoadImage(markerImage);
+            Image image = _common.ImageLoader.LoadImage(markerImage);
 
             if (image != null)
             {
@@ -864,8 +864,8 @@ public partial class ChartGraphics : ChartElement, IDisposable
                     case MarkerStyle.Cross:
                         {
                             // Calculate cross line width and size
-                            float crossLineWidth = (float)Math.Ceiling(markerSize / 4F);
-                            float crossSize = markerSize;// * (float)Math.Sin(45f/180f*Math.PI);
+                            float crossLineWidth = MathF.Ceiling(markerSize / 4F);
+                            float crossSize = markerSize;// * MathF.Sin(45f/180f*Math.PI);
 
                             // Calculate cross coordinates
                             PointF[] points = new PointF[12];
@@ -997,7 +997,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
                                 else
                                 {
                                     // Calculate diamond size
-                                    float diamondSize = markerSize * (float)Math.Sin(45f / 180f * Math.PI);
+                                    float diamondSize = markerSize * MathF.Sin(45f / 180f * MathF.PI);
 
                                     // Calculate diamond rectangle position
                                     RectangleF diamondRect = RectangleF.Empty;
@@ -1209,10 +1209,10 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="textOrientation">Text orientation.</param>
     internal void DrawStringRel(
         string text,
-        System.Drawing.Font font,
-        System.Drawing.Brush brush,
+        Font font,
+        Brush brush,
         PointF position,
-        System.Drawing.StringFormat format,
+        StringFormat format,
         int angle,
         TextOrientation textOrientation
         )
@@ -1240,10 +1240,10 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="textOrientation">Text orientation.</param>
     internal void DrawStringRel(
         string text,
-        System.Drawing.Font font,
-        System.Drawing.Brush brush,
+        Font font,
+        Brush brush,
         RectangleF position,
-        System.Drawing.StringFormat format,
+        StringFormat format,
         TextOrientation textOrientation
         )
     {
@@ -1301,10 +1301,10 @@ public partial class ChartGraphics : ChartElement, IDisposable
     internal void DrawPointLabelStringRel(
         CommonElements common,
         string text,
-        System.Drawing.Font font,
-        System.Drawing.Brush brush,
+        Font font,
+        Brush brush,
         RectangleF position,
-        System.Drawing.StringFormat format,
+        StringFormat format,
         int angle,
         RectangleF backPosition,
         Color backColor,
@@ -1379,10 +1379,10 @@ public partial class ChartGraphics : ChartElement, IDisposable
     internal void DrawPointLabelStringRel(
         CommonElements common,
         string text,
-        System.Drawing.Font font,
-        System.Drawing.Brush brush,
+        Font font,
+        Brush brush,
         PointF position,
-        System.Drawing.StringFormat format,
+        StringFormat format,
         int angle,
         RectangleF backPosition,
         Color backColor,
@@ -1584,10 +1584,10 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="angle">Text angle.</param>
     internal void DrawStringRel(
         string text,
-        System.Drawing.Font font,
-        System.Drawing.Brush brush,
+        Font font,
+        Brush brush,
         PointF position,
-        System.Drawing.StringFormat format,
+        StringFormat format,
         int angle
         )
     {
@@ -1611,10 +1611,10 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="angle">Text angle.</param>
     internal void DrawStringAbs(
         string text,
-        System.Drawing.Font font,
-        System.Drawing.Brush brush,
+        Font font,
+        Brush brush,
         PointF absPosition,
-        System.Drawing.StringFormat format,
+        StringFormat format,
         int angle
         )
     {
@@ -1706,10 +1706,10 @@ public partial class ChartGraphics : ChartElement, IDisposable
         string text,
         string image,
         Color imageTransparentColor,
-        System.Drawing.Font font,
-        System.Drawing.Brush brush,
+        Font font,
+        Brush brush,
         RectangleF position,
-        System.Drawing.StringFormat format,
+        StringFormat format,
         int angle,
         RectangleF boundaryRect,
         CustomLabel label,
@@ -1960,8 +1960,8 @@ public partial class ChartGraphics : ChartElement, IDisposable
             if (angle != 0 && angle != 90 && angle != -90)
             {
                 // Adjust label rectangle so it will not overlap the plotting area
-                offsetY = (float)Math.Sin((90 - angle) / 180F * Math.PI) * labelRect.Height / 2F;
-                offsetX = (float)Math.Sin(Math.Abs(angle) / 180F * Math.PI) * labelRect.Height / 2F;
+                offsetY = MathF.Sin((90 - angle) / 180F * MathF.PI) * labelRect.Height / 2F;
+                offsetX = MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * labelRect.Height / 2F;
 
                 if (axis.AxisPosition == AxisPosition.Left)
                 {
@@ -2015,10 +2015,10 @@ public partial class ChartGraphics : ChartElement, IDisposable
                         this.Transform = oldTransform;
                         RectangleF truncateRect = region.GetBounds(Graphics);
 
-                        float sizeChange = truncateRect.Width / (float)Math.Cos(Math.Abs(angle) / 180F * Math.PI);
+                        float sizeChange = truncateRect.Width / MathF.Cos(Math.Abs(angle) / 180F * MathF.PI);
                         if (axis.AxisPosition == AxisPosition.Left)
                         {
-                            sizeChange -= labelRect.Height * (float)Math.Tan(Math.Abs(angle) / 180F * Math.PI);
+                            sizeChange -= labelRect.Height * MathF.Tan(Math.Abs(angle) / 180F * MathF.PI);
                             absPosition.Y = labelRect.Y;
                             absPosition.X = labelRect.X + sizeChange;
                             absPosition.Width = labelRect.Width - sizeChange;
@@ -2026,7 +2026,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
                         }
                         else if (axis.AxisPosition == AxisPosition.Right)
                         {
-                            sizeChange -= labelRect.Height * (float)Math.Tan(Math.Abs(angle) / 180F * Math.PI);
+                            sizeChange -= labelRect.Height * MathF.Tan(Math.Abs(angle) / 180F * MathF.PI);
                             absPosition.Y = labelRect.Y;
                             absPosition.X = labelRect.X;
                             absPosition.Width = labelRect.Width - sizeChange;
@@ -2066,7 +2066,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
             //********************************************************************
             RectangleF absPositionWithoutImage = new RectangleF(absPosition.Location, absPosition.Size);
 
-            System.Drawing.Image labelImage = null;
+            Image labelImage = null;
             SizeF imageAbsSize = new SizeF();
 
             if (image.Length > 0)
@@ -2465,7 +2465,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
 
         {
             // Calculate center of the text rectangle
-            System.Drawing.Point center = System.Drawing.Point.Round(new PointF(absPosition.X + absPosition.Width / 2F, absPosition.Y + absPosition.Height / 2F));
+            Point center = Point.Round(new PointF(absPosition.X + absPosition.Width / 2F, absPosition.Y + absPosition.Height / 2F));
 
             // Round position to achieve crisp lines with AntiAliasing
             Rectangle absPositionRounded = Rectangle.Round(absPosition);
@@ -2483,14 +2483,14 @@ public partial class ChartGraphics : ChartElement, IDisposable
             leftLine[0].Y = absPositionRounded.Bottom;
             leftLine[1].X = absPositionRounded.Left;
             leftLine[1].Y = center.Y;
-            leftLine[2].X = (float)Math.Round((double)center.X - labelSize.Width / 2F - 1F);
+            leftLine[2].X = MathF.Round(center.X - labelSize.Width / 2F - 1F);
             leftLine[2].Y = center.Y;
 
             rightLine[0].X = absPositionRounded.Right;
             rightLine[0].Y = absPositionRounded.Bottom;
             rightLine[1].X = absPositionRounded.Right;
             rightLine[1].Y = center.Y;
-            rightLine[2].X = (float)Math.Round((double)center.X + labelSize.Width / 2F - 1F);
+            rightLine[2].X = MathF.Round(center.X + labelSize.Width / 2F - 1F);
             rightLine[2].Y = center.Y;
 
             if (axis.AxisPosition == AxisPosition.Bottom)
@@ -2876,12 +2876,12 @@ public partial class ChartGraphics : ChartElement, IDisposable
                     gradientRect.Inflate(-shadowSize, -shadowSize);
                     if (isVertical)
                     {
-                        gradientRect.Height = (float)Math.Floor(gradientRect.Height / 3f);
+                        gradientRect.Height = MathF.Floor(gradientRect.Height / 3f);
                     }
                     else
                     {
-                        gradientRect.X = gradientRect.Right - (float)Math.Floor(gradientRect.Width / 3f);
-                        gradientRect.Width = (float)Math.Floor(gradientRect.Width / 3f);
+                        gradientRect.X = gradientRect.Right - MathF.Floor(gradientRect.Width / 3f);
+                        gradientRect.Width = MathF.Floor(gradientRect.Width / 3f);
                     }
 
                     if (gradientRect.Width > 0 && gradientRect.Height > 0)
@@ -2905,12 +2905,12 @@ public partial class ChartGraphics : ChartElement, IDisposable
                         gradientRect.Inflate(-shadowSize, -shadowSize);
                         if (isVertical)
                         {
-                            gradientRect.Y = gradientRect.Bottom - (float)Math.Floor(gradientRect.Height / 3f);
-                            gradientRect.Height = (float)Math.Floor(gradientRect.Height / 3f);
+                            gradientRect.Y = gradientRect.Bottom - MathF.Floor(gradientRect.Height / 3f);
+                            gradientRect.Height = MathF.Floor(gradientRect.Height / 3f);
                         }
                         else
                         {
-                            gradientRect.Width = (float)Math.Floor(gradientRect.Width / 3f);
+                            gradientRect.Width = MathF.Floor(gradientRect.Width / 3f);
                         }
 
                         this.FillRectangleAbs(
@@ -3419,7 +3419,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
         if (backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
         {
             // Load image
-            System.Drawing.Image image = _common.ImageLoader.LoadImage(backImage);
+            Image image = _common.ImageLoader.LoadImage(backImage);
 
             // Prepare image properties (transparent color)
             using ImageAttributes attrib = new ImageAttributes();
@@ -3682,7 +3682,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
             radius = Math.Max(radius, 2f);
             radius = Math.Min(radius, offset.Width / 4f);
             radius = Math.Min(radius, offset.Height / 4f);
-            radius = (float)Math.Ceiling(radius);
+            radius = MathF.Ceiling(radius);
             if (circular)
             {
                 radius = offset.Width / 2f;
@@ -5440,10 +5440,10 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <returns>Rounded rectangle</returns>
     internal RectangleF Round(RectangleF rect)
     {
-        float left = (float)Math.Round((double)rect.Left);
-        float right = (float)Math.Round((double)rect.Right);
-        float top = (float)Math.Round((double)rect.Top);
-        float bottom = (float)Math.Round((double)rect.Bottom);
+        float left = MathF.Round(rect.Left);
+        float right = MathF.Round(rect.Right);
+        float top = MathF.Round(rect.Top);
+        float bottom = MathF.Round(rect.Bottom);
 
         return new RectangleF(left, top, right - left, bottom - top);
     }
@@ -5491,7 +5491,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
     {
         // Set Common elements
         this._common = common;
-        base.Common = common;
+        Common = common;
         // Create a pen object
         Pen = new Pen(Color.Black);
 

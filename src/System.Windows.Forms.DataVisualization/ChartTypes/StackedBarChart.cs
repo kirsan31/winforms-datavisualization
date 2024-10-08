@@ -435,11 +435,11 @@ internal class StackedBarChart : IChartType
 
         // Set Clip Region in rounded to a pixel coordinates
         RectangleF areaPosition = graph.GetAbsoluteRectangle(area.PlotAreaPosition.ToRectangleF());
-        float right = (float)Math.Ceiling(areaPosition.Right);
-        float bottom = (float)Math.Ceiling(areaPosition.Bottom);
-        areaPosition.X = (float)Math.Floor(areaPosition.X);
+        float right = MathF.Ceiling(areaPosition.Right);
+        float bottom = MathF.Ceiling(areaPosition.Bottom);
+        areaPosition.X = MathF.Floor(areaPosition.X);
         areaPosition.Width = right - areaPosition.X;
-        areaPosition.Y = (float)Math.Floor(areaPosition.Y);
+        areaPosition.Y = MathF.Floor(areaPosition.Y);
         areaPosition.Height = bottom - areaPosition.Y;
         graph.SetClipAbs(areaPosition);
 
@@ -1932,18 +1932,18 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
             // Adjust rotation point
             rotationCenter = rotationCenterProjection[0].PointF;
 
-            // Adjust angle of the horisontal text
+            // Adjust angle of the horizontal text
             if (angle == 0 || angle == 180)
             {
                 // Convert coordinates to absolute
                 rotationCenterProjection[0].PointF = graph.GetAbsolutePoint(rotationCenterProjection[0].PointF);
                 rotationCenterProjection[1].PointF = graph.GetAbsolutePoint(rotationCenterProjection[1].PointF);
 
-                // Calcuate axis angle
-                float angleXAxis = (float)Math.Atan(
+                // Calculate axis angle
+                float angleXAxis = MathF.Atan(
                     (rotationCenterProjection[1].Y - rotationCenterProjection[0].Y) /
                     (rotationCenterProjection[1].X - rotationCenterProjection[0].X));
-                angleXAxis = (float)Math.Round(angleXAxis * 180f / (float)Math.PI);
+                angleXAxis = MathF.Round(angleXAxis * 180f / MathF.PI);
                 angle += (int)angleXAxis;
             }
 

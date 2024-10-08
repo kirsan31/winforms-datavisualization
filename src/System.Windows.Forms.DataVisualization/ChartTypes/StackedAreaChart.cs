@@ -532,8 +532,8 @@ internal class StackedAreaChart : AreaChart
                 }
 
                 // Round X coordinates
-                firstPoint.X = (float)Math.Round(firstPoint.X);
-                secondPoint.X = (float)Math.Round(secondPoint.X);
+                firstPoint.X = MathF.Round(firstPoint.X);
+                secondPoint.X = MathF.Round(secondPoint.X);
 
 
                 // Calculate data point area segment path
@@ -841,8 +841,8 @@ internal class StackedAreaChart : AreaChart
                     if (index != 0)
                     {
                         // Round X coordinates
-                        firstPoint.X = (float)Math.Round(firstPoint.X);
-                        secondPoint.X = (float)Math.Round(secondPoint.X);
+                        firstPoint.X = MathF.Round(firstPoint.X);
+                        secondPoint.X = MathF.Round(secondPoint.X);
 
                         // Draw border
                         graph.DrawLineRel(point.BorderColor, point.BorderWidth, point.BorderDashStyle, graph.GetRelativePoint(firstPoint), graph.GetRelativePoint(secondPoint), point.series.ShadowColor, point.series.ShadowOffset);

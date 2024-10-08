@@ -831,13 +831,13 @@ internal class PieChart : IChartType
             {
                 _sliceExploded = true;
                 midAngle = (2 * startAngle + sweepAngle) / 2;
-                double xComponent = Math.Cos(midAngle * Math.PI / 180) * rectangle.Width / 10;
-                double yComponent = Math.Sin(midAngle * Math.PI / 180) * rectangle.Height / 10;
+                float xComponent = MathF.Cos(midAngle * MathF.PI / 180) * rectangle.Width / 10;
+                float yComponent = MathF.Sin(midAngle * MathF.PI / 180) * rectangle.Height / 10;
 
-                rectangle.Offset((float)xComponent, (float)yComponent);
+                rectangle.Offset(xComponent, yComponent);
             }
 
-            // Hot regions of the data points. Labels hot regions are processed aftre drawing.
+            // Hot regions of the data points. Labels hot regions are processed after drawing.
             if (common.ProcessModeRegions && labels == LabelsMode.Draw)
             {
                 Map(common, point, startAngle, sweepAngle, rectangle, Doughnut, doughnutRadius, graph, pointIndx);
@@ -849,17 +849,17 @@ internal class PieChart : IChartType
                 // Draw Shadow
                 if (shadow)
                 {
-                    double offset = graph.GetRelativeSize(new SizeF(point.series.ShadowOffset, point.series.ShadowOffset)).Width;
+                    float offset = graph.GetRelativeSize(new SizeF(point.series.ShadowOffset, point.series.ShadowOffset)).Width;
 
                     // Offset is zero. Do not draw shadow pie slice.
-                    if (offset == 0.0)
+                    if (offset == 0f)
                     {
                         break;
                     }
 
                     // Shadow Rectangle
                     RectangleF shadowRect = new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-                    shadowRect.Offset((float)offset, (float)offset);
+                    shadowRect.Offset(offset, offset);
 
                     // Change shadow color
                     Color shcolor = new Color();
@@ -997,8 +997,8 @@ internal class PieChart : IChartType
             midAngle = startAngle + sweepAngle / 2;
 
             // Find first line position
-            point.positionRel.X = (float)Math.Cos(midAngle * Math.PI / 180) * rectangle.Width * expShift / 2 + middlePoint.X;
-            point.positionRel.Y = (float)Math.Sin(midAngle * Math.PI / 180) * rectangle.Height * expShift / 2 + middlePoint.Y;
+            point.positionRel.X = MathF.Cos(midAngle * MathF.PI / 180) * rectangle.Width * expShift / 2 + middlePoint.X;
+            point.positionRel.Y = MathF.Sin(midAngle * MathF.PI / 180) * rectangle.Height * expShift / 2 + middlePoint.Y;
 
             // Increase point index and sweep angle
             pointIndx++;
@@ -1023,7 +1023,7 @@ internal class PieChart : IChartType
     }
 
     /// <summary>
-    /// Draw Pie labels or test for overlaping.
+    /// Draw Pie labels or test for overlapping.
     /// </summary>
     /// <param name="graph">Chart Graphics object</param>
     /// <param name="middlePoint">Center of the pie chart</param>
@@ -1206,8 +1206,8 @@ internal class PieChart : IChartType
             }
 
             // Find string position
-            x = (float)Math.Cos((startAngle + sweepAngle / 2) * Math.PI / 180) * width + middlePoint.X;
-            y = (float)Math.Sin((startAngle + sweepAngle / 2) * Math.PI / 180) * height + middlePoint.Y;
+            x = MathF.Cos((startAngle + sweepAngle / 2) * MathF.PI / 180) * width + middlePoint.X;
+            y = MathF.Sin((startAngle + sweepAngle / 2) * MathF.PI / 180) * height + middlePoint.Y;
 
             // Center the string horizontally and vertically.
             using StringFormat format = new StringFormat();
@@ -1270,11 +1270,11 @@ internal class PieChart : IChartType
             float midAngle = startAngle + sweepAngle / 2;
 
             // Find first line position
-            float x1 = (float)Math.Cos(midAngle * Math.PI / 180) * relativeSize.Width * expShift / 2 + middlePoint.X;
-            float y1 = (float)Math.Sin(midAngle * Math.PI / 180) * relativeSize.Height * expShift / 2 + middlePoint.Y;
+            float x1 = MathF.Cos(midAngle * MathF.PI / 180) * relativeSize.Width * expShift / 2 + middlePoint.X;
+            float y1 = MathF.Sin(midAngle * MathF.PI / 180) * relativeSize.Height * expShift / 2 + middlePoint.Y;
 
-            float x2 = (float)Math.Cos(midAngle * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X;
-            float y2 = (float)Math.Sin(midAngle * Math.PI / 180) * relativeSize.Height * shift * expShift + middlePoint.Y;
+            float x2 = MathF.Cos(midAngle * MathF.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X;
+            float y2 = MathF.Sin(midAngle * MathF.PI / 180) * relativeSize.Height * shift * expShift + middlePoint.Y;
 
             if (pieLineColor == Color.Empty)
             {
@@ -1287,13 +1287,13 @@ internal class PieChart : IChartType
                 graph.DrawLineRel(pieLineColor, point.BorderWidth, ChartDashStyle.Solid, new PointF(x1, y1), new PointF(x2, y2));
             }
 
-            // Set string alingment
+            // Set string alignment
             using StringFormat format = new StringFormat();
             format.Alignment = StringAlignment.Center;
             format.LineAlignment = StringAlignment.Center;
 
             // Find second line position
-            float y3 = (float)Math.Sin(midAngle * Math.PI / 180) * relativeSize.Height * shift * expShift + middlePoint.Y;
+            float y3 = MathF.Sin(midAngle * MathF.PI / 180) * relativeSize.Height * shift * expShift + middlePoint.Y;
             float x3;
             float x3Overlap;
 
@@ -1304,7 +1304,7 @@ internal class PieChart : IChartType
             {
                 format.Alignment = StringAlignment.Far;
                 x3Overlap = -relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
-                x3 = (float)Math.Cos(midAngle * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
+                x3 = MathF.Cos(midAngle * MathF.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
 
                 if (overlapTest)
                 {
@@ -1321,7 +1321,7 @@ internal class PieChart : IChartType
                 format.Alignment = StringAlignment.Near;
 
                 x3Overlap = relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
-                x3 = (float)Math.Cos(midAngle * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
+                x3 = MathF.Cos(midAngle * MathF.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
 
                 if (overlapTest)
                 {
@@ -1666,15 +1666,15 @@ internal class PieChart : IChartType
 
             float midAngle = startAngle + sweepAngle / 2;
             // Find second line position
-            float y3 = (float)Math.Sin(midAngle * Math.PI / 180) * relativeSize.Height * shift * expShift + middlePoint.Y;
+            float y3 = MathF.Sin(midAngle * MathF.PI / 180) * relativeSize.Height * shift * expShift + middlePoint.Y;
             float x3;
             if (midAngle > 90 && midAngle < 270)
             {
-                x3 = (float)Math.Cos(midAngle * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
+                x3 = MathF.Cos(midAngle * MathF.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
             }
             else
             {
-                x3 = (float)Math.Cos(midAngle * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
+                x3 = MathF.Cos(midAngle * MathF.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
             }
 
             // Get label text
@@ -2198,7 +2198,7 @@ internal class PieChart : IChartType
             throw new InvalidOperationException(SR.ExceptionPieIntervalsInvalid);
         }
 
-        // Find first overlaping intervals
+        // Find first overlapping intervals
         for (int index = 0; index < startOfIntervals.Length - 1; index++)
         {
             // Intervals overlap
@@ -2217,7 +2217,7 @@ internal class PieChart : IChartType
     /// </summary>
     /// <param name="startOfIntervals">The start positions of intervals.</param>
     /// <param name="endOfIntervals">The end positions of intervals.</param>
-    /// <param name="splitIndex">Position of the interval which ovelap.</param>
+    /// <param name="splitIndex">Position of the interval which overlap.</param>
     /// <param name="overlapShift">The half of the overlapping range.</param>
     private void SpreadInterval(double[] startOfIntervals, double[] endOfIntervals, int splitIndex, double overlapShift)
     {
@@ -2528,10 +2528,10 @@ internal class PieChart : IChartType
                 {
                     _sliceExploded = true;
                     midAngle = (2 * startAngle + sweepAngle) / 2;
-                    double xComponent = Math.Cos(midAngle * Math.PI / 180) * rectangle.Width / 10;
-                    double yComponent = Math.Sin(midAngle * Math.PI / 180) * rectangle.Height / 10;
+                    float xComponent = MathF.Cos(midAngle * MathF.PI / 180) * rectangle.Width / 10;
+                    float yComponent = MathF.Sin(midAngle * MathF.PI / 180) * rectangle.Height / 10;
 
-                    rectangle.Offset((float)xComponent, (float)yComponent);
+                    rectangle.Offset(xComponent, yComponent);
                 }
 
                 // Adjust inner plot position 
@@ -2548,7 +2548,7 @@ internal class PieChart : IChartType
                 // Start Svg Selection mode
                 graph.StartHotRegion(point);
 
-                // Drawing or selection of pie clice
+                // Drawing or selection of pie slice
                 Draw3DPie(turn, graph, point, area, rectangle, startAngle, sweepAngle, doughnutRadius, pieWidth, sameBackFront, exploded, pointIndexList[pointIndx]);
 
                 // End Svg Selection mode
@@ -2576,7 +2576,7 @@ internal class PieChart : IChartType
                     }
                 }
 
-                // Increae point index
+                // Increase point index
                 pointIndx++;
             }
         }
@@ -2598,7 +2598,7 @@ internal class PieChart : IChartType
     /// <param name="graph">Chart Graphics</param>
     /// <param name="point">Data Point to draw</param>
     /// <param name="area">Chart area</param>
-    /// <param name="rectangle">Rectangle used for drawing pie clice.</param>
+    /// <param name="rectangle">Rectangle used for drawing pie slice.</param>
     /// <param name="startAngle">Start angle for pie slice</param>
     /// <param name="sweepAngle">End angle for pie slice</param>
     /// <param name="doughnutRadius">Inner Radius if chart is doughnut</param>
@@ -2961,7 +2961,7 @@ internal class PieChart : IChartType
     /// <param name="graph">Chart Graphics</param>
     /// <param name="area">Chart Area</param>
     /// <param name="pieWidth">The width of a pie.</param>
-    /// <param name="rectangle">Rectangle used for drawing pie clice.</param>
+    /// <param name="rectangle">Rectangle used for drawing pie slice.</param>
     /// <param name="startAngle">Start angle for pie slice.</param>
     /// <param name="sweepAngle">End angle for pie slice.</param>
     /// <param name="relativeCoordinates">true if relative coordinates has to be returned.</param>
@@ -2999,50 +2999,50 @@ internal class PieChart : IChartType
 
         // Angle 180 Top point on the arc
         points[(int)PiePoints.Top180] = new Point3D(
-            rectangle.X + (float)Math.Cos(180 * Math.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
-            rectangle.Y + (float)Math.Sin(180 * Math.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
+            rectangle.X + MathF.Cos(180 * MathF.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
+            rectangle.Y + MathF.Sin(180 * MathF.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
             pieWidth);
 
         // Angle 180 Bottom point on the arc
         points[(int)PiePoints.Bottom180] = new Point3D(
-            rectangle.X + (float)Math.Cos(180 * Math.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
-            rectangle.Y + (float)Math.Sin(180 * Math.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
+            rectangle.X + MathF.Cos(180 * MathF.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
+            rectangle.Y + MathF.Sin(180 * MathF.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
             0);
 
         // Angle 0 Top point on the arc
         points[(int)PiePoints.Top0] = new Point3D(
-            rectangle.X + (float)Math.Cos(0 * Math.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
-            rectangle.Y + (float)Math.Sin(0 * Math.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
+            rectangle.X + MathF.Cos(0 * MathF.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
+            rectangle.Y + MathF.Sin(0 * MathF.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
             pieWidth);
 
         // Angle 0 Bottom point on the arc
         points[(int)PiePoints.Bottom0] = new Point3D(
-            rectangle.X + (float)Math.Cos(0 * Math.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
-            rectangle.Y + (float)Math.Sin(0 * Math.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
+            rectangle.X + MathF.Cos(0 * MathF.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
+            rectangle.Y + MathF.Sin(0 * MathF.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
             0);
 
         // Top Start Angle point on the arc
         points[(int)PiePoints.TopStart] = new Point3D(
-        rectangle.X + (float)Math.Cos(startAngle * Math.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
-        rectangle.Y + (float)Math.Sin(startAngle * Math.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
+        rectangle.X + MathF.Cos(startAngle * MathF.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
+        rectangle.Y + MathF.Sin(startAngle * MathF.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
         pieWidth);
 
         // Top End Angle point on the arc
         points[(int)PiePoints.TopEnd] = new Point3D(
-        rectangle.X + (float)Math.Cos((startAngle + sweepAngle) * Math.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
-        rectangle.Y + (float)Math.Sin((startAngle + sweepAngle) * Math.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
+        rectangle.X + MathF.Cos((startAngle + sweepAngle) * MathF.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
+        rectangle.Y + MathF.Sin((startAngle + sweepAngle) * MathF.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
         pieWidth);
 
         // Bottom Start Angle point on the arc
         points[(int)PiePoints.BottomStart] = new Point3D(
-        rectangle.X + (float)Math.Cos(startAngle * Math.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
-        rectangle.Y + (float)Math.Sin(startAngle * Math.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
+        rectangle.X + MathF.Cos(startAngle * MathF.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
+        rectangle.Y + MathF.Sin(startAngle * MathF.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
         0);
 
         // Bottom End Angle point on the arc
         points[(int)PiePoints.BottomEnd] = new Point3D(
-        rectangle.X + (float)Math.Cos((startAngle + sweepAngle) * Math.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
-        rectangle.Y + (float)Math.Sin((startAngle + sweepAngle) * Math.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
+        rectangle.X + MathF.Cos((startAngle + sweepAngle) * MathF.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
+        rectangle.Y + MathF.Sin((startAngle + sweepAngle) * MathF.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
         0);
 
         // Center Top
@@ -3059,8 +3059,8 @@ internal class PieChart : IChartType
 
         // Top Label Line
         points[(int)PiePoints.TopLabelLine] = new Point3D(
-            rectangle.X + (float)Math.Cos((startAngle + sweepAngle / 2) * Math.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
-            rectangle.Y + (float)Math.Sin((startAngle + sweepAngle / 2) * Math.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
+            rectangle.X + MathF.Cos((startAngle + sweepAngle / 2) * MathF.PI / 180) * rectangle.Width / 2F + rectangle.Width / 2F,
+            rectangle.Y + MathF.Sin((startAngle + sweepAngle / 2) * MathF.PI / 180) * rectangle.Height / 2F + rectangle.Height / 2F,
             pieWidth);
 
         // If Pie slice is exploded Label line out size is changed
@@ -3076,23 +3076,23 @@ internal class PieChart : IChartType
 
         // Top Label Line Out
         points[(int)PiePoints.TopLabelLineout] = new Point3D(
-            rectangle.X + (float)Math.Cos((startAngle + sweepAngle / 2) * Math.PI / 180) * rectangle.Width * sizeOut / 2F + rectangle.Width / 2F,
-            rectangle.Y + (float)Math.Sin((startAngle + sweepAngle / 2) * Math.PI / 180) * rectangle.Height * sizeOut / 2F + rectangle.Height / 2F,
+            rectangle.X + MathF.Cos((startAngle + sweepAngle / 2) * MathF.PI / 180) * rectangle.Width * sizeOut / 2F + rectangle.Width / 2F,
+            rectangle.Y + MathF.Sin((startAngle + sweepAngle / 2) * MathF.PI / 180) * rectangle.Height * sizeOut / 2F + rectangle.Height / 2F,
             pieWidth);
 
         // Top Label Center
         if (this.Doughnut)
         {
             points[(int)PiePoints.TopLabelCenter] = new Point3D(
-                rectangle.X + (float)Math.Cos((startAngle + sweepAngle / 2) * Math.PI / 180) * rectangle.Width * (1 + doughnutRadius) / 4F + rectangle.Width / 2F,
-                rectangle.Y + (float)Math.Sin((startAngle + sweepAngle / 2) * Math.PI / 180) * rectangle.Height * (1 + doughnutRadius) / 4F + rectangle.Height / 2F,
+                rectangle.X + MathF.Cos((startAngle + sweepAngle / 2) * MathF.PI / 180) * rectangle.Width * (1 + doughnutRadius) / 4F + rectangle.Width / 2F,
+                rectangle.Y + MathF.Sin((startAngle + sweepAngle / 2) * MathF.PI / 180) * rectangle.Height * (1 + doughnutRadius) / 4F + rectangle.Height / 2F,
                 pieWidth);
         }
         else
         {
             points[(int)PiePoints.TopLabelCenter] = new Point3D(
-                rectangle.X + (float)Math.Cos((startAngle + sweepAngle / 2) * Math.PI / 180) * rectangle.Width * 0.5F / 2F + rectangle.Width / 2F,
-                rectangle.Y + (float)Math.Sin((startAngle + sweepAngle / 2) * Math.PI / 180) * rectangle.Height * 0.5F / 2F + rectangle.Height / 2F,
+                rectangle.X + MathF.Cos((startAngle + sweepAngle / 2) * MathF.PI / 180) * rectangle.Width * 0.5F / 2F + rectangle.Width / 2F,
+                rectangle.Y + MathF.Sin((startAngle + sweepAngle / 2) * MathF.PI / 180) * rectangle.Height * 0.5F / 2F + rectangle.Height / 2F,
                 pieWidth);
         }
 
@@ -3113,50 +3113,50 @@ internal class PieChart : IChartType
         {
             // Angle 180 Top point on the Doughnut arc
             points[(int)PiePoints.DoughnutTop180] = new Point3D(
-                rectangle.X + (float)Math.Cos(180 * Math.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
-                rectangle.Y + (float)Math.Sin(180 * Math.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
+                rectangle.X + MathF.Cos(180 * MathF.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
+                rectangle.Y + MathF.Sin(180 * MathF.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
                 pieWidth);
 
             // Angle 180 Bottom point on the Doughnut arc
             points[(int)PiePoints.DoughnutBottom180] = new Point3D(
-                rectangle.X + (float)Math.Cos(180 * Math.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
-                rectangle.Y + (float)Math.Sin(180 * Math.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
+                rectangle.X + MathF.Cos(180 * MathF.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
+                rectangle.Y + MathF.Sin(180 * MathF.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
                 0);
 
             // Angle 0 Top point on the Doughnut arc
             points[(int)PiePoints.DoughnutTop0] = new Point3D(
-                rectangle.X + (float)Math.Cos(0 * Math.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
-                rectangle.Y + (float)Math.Sin(0 * Math.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
+                rectangle.X + MathF.Cos(0 * MathF.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
+                rectangle.Y + MathF.Sin(0 * MathF.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
                 pieWidth);
 
             // Angle 0 Bottom point on the Doughnut arc
             points[(int)PiePoints.DoughnutBottom0] = new Point3D(
-                rectangle.X + (float)Math.Cos(0 * Math.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
-                rectangle.Y + (float)Math.Sin(0 * Math.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
+                rectangle.X + MathF.Cos(0 * MathF.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
+                rectangle.Y + MathF.Sin(0 * MathF.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
                 0);
 
             // Top Start Angle point on the Doughnut arc
             points[(int)PiePoints.DoughnutTopStart] = new Point3D(
-                rectangle.X + (float)Math.Cos(startAngle * Math.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
-                rectangle.Y + (float)Math.Sin(startAngle * Math.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
+                rectangle.X + MathF.Cos(startAngle * MathF.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
+                rectangle.Y + MathF.Sin(startAngle * MathF.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
                 pieWidth);
 
             // Top End Angle point on the Doughnut arc
             points[(int)PiePoints.DoughnutTopEnd] = new Point3D(
-                rectangle.X + (float)Math.Cos((startAngle + sweepAngle) * Math.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
-                rectangle.Y + (float)Math.Sin((startAngle + sweepAngle) * Math.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
+                rectangle.X + MathF.Cos((startAngle + sweepAngle) * MathF.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
+                rectangle.Y + MathF.Sin((startAngle + sweepAngle) * MathF.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
                 pieWidth);
 
             // Bottom Start Angle point on the Doughnut arc
             points[(int)PiePoints.DoughnutBottomStart] = new Point3D(
-                rectangle.X + (float)Math.Cos(startAngle * Math.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
-                rectangle.Y + (float)Math.Sin(startAngle * Math.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
+                rectangle.X + MathF.Cos(startAngle * MathF.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
+                rectangle.Y + MathF.Sin(startAngle * MathF.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
                 0);
 
             // Bottom End Angle point on the Doughnut arc
             points[(int)PiePoints.DoughnutBottomEnd] = new Point3D(
-                rectangle.X + (float)Math.Cos((startAngle + sweepAngle) * Math.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
-                rectangle.Y + (float)Math.Sin((startAngle + sweepAngle) * Math.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
+                rectangle.X + MathF.Cos((startAngle + sweepAngle) * MathF.PI / 180) * rectangle.Width * doughnutRadius / 2F + rectangle.Width / 2F,
+                rectangle.Y + MathF.Sin((startAngle + sweepAngle) * MathF.PI / 180) * rectangle.Height * doughnutRadius / 2F + rectangle.Height / 2F,
                 0);
 
             rectangle.Inflate(-rectangle.Width * (1 - doughnutRadius) / 2F, -rectangle.Height * (1 - doughnutRadius) / 2F);
@@ -4408,6 +4408,7 @@ internal class PieChart : IChartType
                 {
                     if (points[listIndx] != null)
                         throw new InvalidOperationException(SR.ExceptionPiePointOrderInvalid);
+
                     points[listIndx] = point;
                     newStartAngleList[listIndx] = startAngleList[pointIndx];
                     newSweepAngleList[listIndx] = sweepAngleList[pointIndx];
@@ -4863,7 +4864,7 @@ internal class PieChart : IChartType
                 pointIndex++;
             }
 
-            // Find initial X position for labels ( All labels are aligne ).
+            // Find initial X position for labels ( All labels are align ).
             if (_rightPosition)
             {
                 position.X = _innerPlotPosition.Right + _chartAreaPosition.Width * this._labelLineSize;
@@ -4873,20 +4874,18 @@ internal class PieChart : IChartType
                 position.X = _innerPlotPosition.Left - _chartAreaPosition.Width * this._labelLineSize;
             }
 
-            // Find angle between invisible line (which connects center of a pie and label) 
-            // and any horizontal line.
-            float angle;
-            angle = (float)Math.Atan((position.Y - _innerPlotPosition.Top - _innerPlotPosition.Height / 2) / (position.X - _innerPlotPosition.Left - _innerPlotPosition.Width / 2));
+            // Find angle between invisible line (which connects center of a pie and label) and any horizontal line.
+            float angle = MathF.Atan((position.Y - _innerPlotPosition.Top - _innerPlotPosition.Height / 2) / (position.X - _innerPlotPosition.Left - _innerPlotPosition.Width / 2));
 
             // Make Angle correction for X Position
             float correct;
-            if (Math.Cos(angle) == 0)
+            if (MathF.Cos(angle) == 0)
             {
                 correct = 0;
             }
             else
             {
-                correct = (float)(_innerPlotPosition.Width * 0.4 - _innerPlotPosition.Width * 0.4 / Math.Cos(angle));
+                correct = _innerPlotPosition.Width * 0.4f - _innerPlotPosition.Width * 0.4f / MathF.Cos(angle);
             }
 
             // Set Corrected X Position

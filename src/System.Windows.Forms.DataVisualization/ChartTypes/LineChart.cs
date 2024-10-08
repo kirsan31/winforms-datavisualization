@@ -2010,11 +2010,11 @@ internal class LineChart : PointChart
         secondPoint.xPosition = Math.Round(secondPoint.xPosition, decimals);
         secondPoint.yPosition = Math.Round(secondPoint.yPosition, decimals);
 
-        thirdPoint.X = (float)Math.Round(thirdPoint.X, decimals);
-        thirdPoint.Y = (float)Math.Round(thirdPoint.Y, decimals);
+        thirdPoint.X = MathF.Round(thirdPoint.X, decimals);
+        thirdPoint.Y = MathF.Round(thirdPoint.Y, decimals);
 
-        fourthPoint.X = (float)Math.Round(fourthPoint.X, decimals);
-        fourthPoint.Y = (float)Math.Round(fourthPoint.Y, decimals);
+        fourthPoint.X = MathF.Round(fourthPoint.X, decimals);
+        fourthPoint.Y = MathF.Round(fourthPoint.Y, decimals);
 
         //****************************************************************
         //** Clip area data points inside the plotting area

@@ -353,13 +353,13 @@ internal class BoxPlotChart : IChartType
 
                 low = vAxis.GetLinearPosition(low);
 
-                // Remeber pre-calculated point position
+                // Remember pre-calculated point position
                 point.positionRel = new PointF(xPosition, (float)Math.Min(high, low));
 
                 if (common.ProcessModePaint)
                 {
 
-                    // Check if chart is partialy in the data scaleView
+                    // Check if chart is partially in the data scaleView
                     bool clipRegionSet = false;
                     if (xValue == hAxis.ViewMinimum || xValue == hAxis.ViewMaximum)
                     {
@@ -1132,7 +1132,7 @@ internal class BoxPlotChart : IChartType
 
                 low = vAxis.GetLinearPosition(low);
 
-                // Remeber pre-calculated point position
+                // Remember pre-calculated point position
                 point.positionRel = new PointF(xPosition, (float)Math.Min(high, low));
 
                 // 3D Transform coordinates
@@ -1149,7 +1149,7 @@ internal class BoxPlotChart : IChartType
 
                 if (common.ProcessModePaint)
                 {
-                    // Check if chart is partialy in the data scaleView
+                    // Check if chart is partially in the data scaleView
                     bool clipRegionSet = false;
                     if (xValue == hAxis.ViewMinimum || xValue == hAxis.ViewMaximum)
                     {

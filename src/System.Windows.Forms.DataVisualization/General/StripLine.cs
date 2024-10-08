@@ -228,7 +228,7 @@ public class StripLine : ChartElement
             // Always use original grid interval for isInterlaced strip lines.
             if (this.interlaced)
             {
-                // Automaticly generated isInterlaced strips have interval twice as big as major grids
+                // Automatically generated isInterlaced strips have interval twice as big as major grids
                 intervalToUse /= 2.0;
             }
 
@@ -248,7 +248,7 @@ public class StripLine : ChartElement
             currentPosition = this.IntervalOffset;
         }
         /******************************************************************
-			 * Removed by AG. Causing issues with interalced strip lines.
+			 * Removed by AG. Causing issues with interlaced strip lines.
 			 /******************************************************************
 			else if(axisSeries != null && axisSeries.IsXValueIndexed)
 			{
@@ -295,14 +295,14 @@ public class StripLine : ChartElement
                 {
                     // Calculate strip rectangle
                     RectangleF rect = RectangleF.Empty;
-                    double pos1 = (float)this.Axis.GetLinearPosition(currentPosition);
-                    double pos2 = (float)this.Axis.GetLinearPosition(stripRightPosition);
+                    float pos1 = (float)this.Axis.GetLinearPosition(currentPosition);
+                    float pos2 = (float)this.Axis.GetLinearPosition(stripRightPosition);
                     if (horizontal)
                     {
                         rect.X = plotAreaPosition.X;
                         rect.Width = plotAreaPosition.Width;
-                        rect.Y = (float)Math.Min(pos1, pos2);
-                        rect.Height = (float)Math.Max(pos1, pos2) - rect.Y;
+                        rect.Y = Math.Min(pos1, pos2);
+                        rect.Height = Math.Max(pos1, pos2) - rect.Y;
 
                         // Check rectangle boundaries
                         rect.Intersect(plotAreaPosition);
@@ -311,8 +311,8 @@ public class StripLine : ChartElement
                     {
                         rect.Y = plotAreaPosition.Y;
                         rect.Height = plotAreaPosition.Height;
-                        rect.X = (float)Math.Min(pos1, pos2);
-                        rect.Width = (float)Math.Max(pos1, pos2) - rect.X;
+                        rect.X = Math.Min(pos1, pos2);
+                        rect.Width = Math.Max(pos1, pos2) - rect.X;
 
                         // Check rectangle boundaries
                         rect.Intersect(plotAreaPosition);

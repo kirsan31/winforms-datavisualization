@@ -477,7 +477,7 @@ internal class BarChart : IChartType
                 {
                     // The formula for position is based on a distance 
                     // from the grid line or nPoints position.
-                    xPosition = vAxis.GetPosition((double)pointIndex + 1) - width * numOfSeries / 2.0 + width / 2 + seriesIndx * width;
+                    xPosition = vAxis.GetPosition(pointIndex + 1) - width * numOfSeries / 2.0 + width / 2 + seriesIndx * width;
                 }
                 else if (sameInterval)
                 {
@@ -2037,18 +2037,18 @@ internal class BarChart : IChartType
             // Adjust rotation point
             rotationCenter = rotationCenterProjection[0].PointF;
 
-            // Adjust angle of the horisontal text
+            // Adjust angle of the horizontal text
             if (angle == 0 || angle == 180)
             {
                 // Convert coordinates to absolute
                 rotationCenterProjection[0].PointF = graph.GetAbsolutePoint(rotationCenterProjection[0].PointF);
                 rotationCenterProjection[1].PointF = graph.GetAbsolutePoint(rotationCenterProjection[1].PointF);
 
-                // Calcuate axis angle
-                float angleXAxis = (float)Math.Atan(
+                // Calculate axis angle
+                float angleXAxis = MathF.Atan(
                     (rotationCenterProjection[1].Y - rotationCenterProjection[0].Y) /
                     (rotationCenterProjection[1].X - rotationCenterProjection[0].X));
-                angleXAxis = (float)Math.Round(angleXAxis * 180f / (float)Math.PI);
+                angleXAxis = MathF.Round(angleXAxis * 180f / MathF.PI);
                 angle += (int)angleXAxis;
             }
 

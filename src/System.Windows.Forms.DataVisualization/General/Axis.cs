@@ -1776,7 +1776,8 @@ public partial class Axis : ChartNamedElement, IDisposable
             return;
         }
 
-        string axisTitle = this.Title;
+        string axisTitle = this.Title.Replace("\\n", "\n");
+        TextOrientation drawTextOrientation = this.GetTextOrientation();
 
         // Draw axis title
         PointF rotationCenter = PointF.Empty;
@@ -1789,7 +1790,7 @@ public partial class Axis : ChartNamedElement, IDisposable
         format.FormatFlags |= StringFormatFlags.LineLimit;
 
         // Measure title size for non-centered alignment
-        SizeF realTitleSize = graph.MeasureString(axisTitle.Replace("\\n", "\n"), this.TitleFont, new SizeF(10000f, 10000f), format, this.GetTextOrientation());
+        SizeF realTitleSize = graph.MeasureString(axisTitle, this.TitleFont, new SizeF(10000f, 10000f), format, drawTextOrientation);
         SizeF axisTitleSize = SizeF.Empty;
         if (format.Alignment != StringAlignment.Center)
         {
@@ -1818,11 +1819,11 @@ public partial class Axis : ChartNamedElement, IDisposable
         }
 
         // Set text rotation angle based on the text orientation
-        if (this.GetTextOrientation() == TextOrientation.Rotated90)
+        if (drawTextOrientation == TextOrientation.Rotated90)
         {
             angle = 90;
         }
-        else if (this.GetTextOrientation() == TextOrientation.Rotated270)
+        else if (drawTextOrientation == TextOrientation.Rotated270)
         {
             angle = -90;
         }
@@ -1896,7 +1897,7 @@ public partial class Axis : ChartNamedElement, IDisposable
             rotationCenterPoints[1].PointF = graph.GetAbsolutePoint(rotationCenterPoints[1].PointF);
 
             // Calculate X axis angle
-            angleAxis = (float)Math.Atan(
+            angleAxis = MathF.Atan(
                 (rotationCenterPoints[1].Y - rotationCenterPoints[0].Y) /
                 (rotationCenterPoints[1].X - rotationCenterPoints[0].X));
         }
@@ -1917,13 +1918,13 @@ public partial class Axis : ChartNamedElement, IDisposable
             // Calculate Y axis angle
             if (rotationCenterPoints[1].Y != rotationCenterPoints[0].Y)
             {
-                angleAxis = -(float)Math.Atan(
+                angleAxis = -MathF.Atan(
                     (rotationCenterPoints[1].X - rotationCenterPoints[0].X) /
                     (rotationCenterPoints[1].Y - rotationCenterPoints[0].Y));
             }
         }
 
-        angle += (int)Math.Round(angleAxis * 180f / (float)Math.PI);
+        angle += (int)Math.Round(angleAxis * 180f / MathF.PI);
 
         // Calculate title center offset from the axis line
         float offset = this.labelSize + this.markSize + this.titleSize / 2f;
@@ -1932,18 +1933,18 @@ public partial class Axis : ChartNamedElement, IDisposable
         // Adjust center of title with labels, marker and title size
         if (this.AxisPosition == AxisPosition.Left)
         {
-            dX = (float)(offset * Math.Cos(angleAxis));
+            dX = offset * MathF.Cos(angleAxis);
             rotationCenter.X -= dX;
         }
         else if (this.AxisPosition == AxisPosition.Right)
         {
-            dX = (float)(offset * Math.Cos(angleAxis));
+            dX = offset * MathF.Cos(angleAxis);
             rotationCenter.X += dX;
         }
         else if (this.AxisPosition == AxisPosition.Top)
         {
-            dY = (float)(offset * Math.Cos(angleAxis));
-            dX = (float)(offset * Math.Sin(angleAxis));
+            dY = offset * MathF.Cos(angleAxis);
+            dX = offset * MathF.Sin(angleAxis);
             rotationCenter.Y -= dY;
             if (dY > 0)
             {
@@ -1956,8 +1957,8 @@ public partial class Axis : ChartNamedElement, IDisposable
         }
         else if (this.AxisPosition == AxisPosition.Bottom)
         {
-            dY = (float)(offset * Math.Cos(angleAxis));
-            dX = (float)(offset * Math.Sin(angleAxis));
+            dY = offset * MathF.Cos(angleAxis);
+            dX = offset * MathF.Sin(angleAxis);
             rotationCenter.Y += dY;
             if (dY > 0)
             {
@@ -1982,13 +1983,13 @@ public partial class Axis : ChartNamedElement, IDisposable
         using (Brush brush = new SolidBrush(this.TitleForeColor))
         {
             graph.DrawStringRel(
-                axisTitle.Replace("\\n", "\n"),
+                axisTitle,
                 this.TitleFont,
                 brush,
                 rotationCenter,
                 format,
                 angle,
-                this.GetTextOrientation());
+                drawTextOrientation);
         }
 
         // Add hot region
@@ -4326,7 +4327,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                 plotAreaRadius += spacing;
 
                 // Calculate angle on the side of the label
-                float leftSideAngle = (float)(Math.Atan(textSize.Width / 2f / plotAreaRadius) * 180f / Math.PI);
+                float leftSideAngle = MathF.Atan(textSize.Width / 2f / plotAreaRadius) * 180f / MathF.PI;
                 float rightSideAngle = axis.AxisPosition + leftSideAngle;
                 leftSideAngle = axis.AxisPosition - leftSideAngle;
 
@@ -4945,19 +4946,19 @@ public partial class Axis : ChartNamedElement, IDisposable
 
                         if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
                         {
-                            width = (float)Math.Cos(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Height;
-                            width += (float)Math.Sin(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Width;
+                            width = MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
+                            width += MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Width;
 
-                            height = (float)Math.Sin(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Height;
-                            height += (float)Math.Cos(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Width;
+                            height = MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
+                            height += MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Width;
                         }
                         else
                         {
-                            width = (float)Math.Cos(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Width;
-                            width += (float)Math.Sin(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Height;
+                            width = MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Width;
+                            width += MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
 
-                            height = (float)Math.Sin(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Width;
-                            height += (float)Math.Cos(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Height;
+                            height = MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Width;
+                            height += MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
                         }
                     }
 
@@ -5072,10 +5073,10 @@ public partial class Axis : ChartNamedElement, IDisposable
                     rect.Width = maxLabelSize;
 
                     // Set label From and To coordinates
-                    double fromPosition = this.GetLinearPosition(label.FromPosition);
-                    double toPosition = this.GetLinearPosition(label.ToPosition);
-                    rect.Y = (float)Math.Min(fromPosition, toPosition);
-                    rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
+                    float fromPosition = (float)this.GetLinearPosition(label.FromPosition);
+                    float toPosition = (float)this.GetLinearPosition(label.ToPosition);
+                    rect.Y = Math.Min(fromPosition, toPosition);
+                    rect.Height = Math.Max(fromPosition, toPosition) - rect.Y;
 
                     // Adjust label From/To position if labels are displayed with offset
                     if ((autoLabelOffset == -1) ? this.LabelStyle.IsStaggered : (autoLabelOffset == 1))
@@ -5107,8 +5108,8 @@ public partial class Axis : ChartNamedElement, IDisposable
                     }
 
                     // Measure label text size
-                    rect.Width = (float)Math.Ceiling(rect.Width);
-                    rect.Height = (float)Math.Ceiling(rect.Height);
+                    rect.Width = MathF.Ceiling(rect.Width);
+                    rect.Height = MathF.Ceiling(rect.Height);
                     SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"),
                         autoLabelFont ?? this.LabelStyle.Font,
                         rect.Size,
@@ -5163,17 +5164,17 @@ public partial class Axis : ChartNamedElement, IDisposable
                     float height = axisLabelSize.Height;
                     if (angle != 0)
                     {
-                        width = (float)Math.Cos((90 - Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
-                        width += (float)Math.Cos(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Height;
+                        width = MathF.Cos((90 - Math.Abs(angle)) / 180F * MathF.PI) * axisLabelSize.Width;
+                        width += MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
 
-                        height = (float)Math.Sin(Math.Abs(angle) / 180F * Math.PI) * axisLabelSize.Height;
-                        height += (float)Math.Sin((90 - Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
+                        height = MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
+                        height += MathF.Sin((90 - Math.Abs(angle)) / 180F * MathF.PI) * axisLabelSize.Width;
                     }
 
-                    width = (float)Math.Ceiling(width) * 1.05f;
-                    height = (float)Math.Ceiling(height) * 1.05f;
-                    axisLabelSize.Width = (float)Math.Ceiling(axisLabelSize.Width) * 1.05f;
-                    axisLabelSize.Height = (float)Math.Ceiling(axisLabelSize.Height) * 1.05f;
+                    width = MathF.Ceiling(width) * 1.05f;
+                    height = MathF.Ceiling(height) * 1.05f;
+                    axisLabelSize.Width = MathF.Ceiling(axisLabelSize.Width) * 1.05f;
+                    axisLabelSize.Height = MathF.Ceiling(axisLabelSize.Height) * 1.05f;
 
                     // If axis is horizontal
                     if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
@@ -5184,8 +5185,8 @@ public partial class Axis : ChartNamedElement, IDisposable
                             resultRotatedSize = Math.Max(resultRotatedSize, axisLabelSize.Height);
 
                             // Calculate the overhang of labels on the side
-                            labelNearOffset = (float)Math.Min(labelNearOffset, (fromPosition + toPosition) / 2f - axisLabelSize.Width / 2f);
-                            labelFarOffset = (float)Math.Max(labelFarOffset, (fromPosition + toPosition) / 2f + axisLabelSize.Width / 2f);
+                            labelNearOffset = Math.Min(labelNearOffset, (fromPosition + toPosition) / 2f - axisLabelSize.Width / 2f);
+                            labelFarOffset = Math.Max(labelFarOffset, (fromPosition + toPosition) / 2f + axisLabelSize.Width / 2f);
                         }
                         else
                         {
@@ -5195,11 +5196,11 @@ public partial class Axis : ChartNamedElement, IDisposable
                             // Calculate the overhang of labels on the side
                             if (angle > 0)
                             {
-                                labelFarOffset = (float)Math.Max(labelFarOffset, (fromPosition + toPosition) / 2f + width * 1.1f);
+                                labelFarOffset = MathF.Max(labelFarOffset, (fromPosition + toPosition) / 2f + width * 1.1f);
                             }
                             else
                             {
-                                labelNearOffset = (float)Math.Min(labelNearOffset, (fromPosition + toPosition) / 2f - width * 1.1f);
+                                labelNearOffset = MathF.Min(labelNearOffset, (fromPosition + toPosition) / 2f - width * 1.1f);
                             }
                         }
                     }
@@ -5212,8 +5213,8 @@ public partial class Axis : ChartNamedElement, IDisposable
                             resultRotatedSize = Math.Max(resultRotatedSize, axisLabelSize.Width);
 
                             // Calculate the overhang of labels on the side
-                            labelNearOffset = (float)Math.Min(labelNearOffset, (fromPosition + toPosition) / 2f - axisLabelSize.Height / 2f);
-                            labelFarOffset = (float)Math.Max(labelFarOffset, (fromPosition + toPosition) / 2f + axisLabelSize.Height / 2f);
+                            labelNearOffset = MathF.Min(labelNearOffset, (fromPosition + toPosition) / 2f - axisLabelSize.Height / 2f);
+                            labelFarOffset = MathF.Max(labelFarOffset, (fromPosition + toPosition) / 2f + axisLabelSize.Height / 2f);
                         }
                         else
                         {
@@ -5223,11 +5224,11 @@ public partial class Axis : ChartNamedElement, IDisposable
                             // Calculate the overhang of labels on the side
                             if (angle > 0)
                             {
-                                labelFarOffset = (float)Math.Max(labelFarOffset, (fromPosition + toPosition) / 2f + height * 1.1f);
+                                labelFarOffset = MathF.Max(labelFarOffset, (fromPosition + toPosition) / 2f + height * 1.1f);
                             }
                             else
                             {
-                                labelNearOffset = (float)Math.Min(labelNearOffset, (fromPosition + toPosition) / 2f - height * 1.1f);
+                                labelNearOffset = MathF.Min(labelNearOffset, (fromPosition + toPosition) / 2f - height * 1.1f);
                             }
                         }
                     }
@@ -5343,8 +5344,8 @@ public partial class Axis : ChartNamedElement, IDisposable
                     {
                         // Measure label text size
                         SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), autoLabelFont ?? this.LabelStyle.Font);
-                        axisLabelSize.Width = (float)Math.Ceiling(axisLabelSize.Width);
-                        axisLabelSize.Height = (float)Math.Ceiling(axisLabelSize.Height);
+                        axisLabelSize.Width = MathF.Ceiling(axisLabelSize.Width);
+                        axisLabelSize.Height = MathF.Ceiling(axisLabelSize.Height);
 
                         // Add image size
                         if (label.Image.Length > 0)
@@ -5827,10 +5828,10 @@ public partial class Axis : ChartNamedElement, IDisposable
         ChartArea.matrix3D.TransformPoints(axisPoints);
 
         // Round result
-        axisPoints[0].X = (float)Math.Round(axisPoints[0].X, 4);
-        axisPoints[0].Y = (float)Math.Round(axisPoints[0].Y, 4);
-        axisPoints[1].X = (float)Math.Round(axisPoints[1].X, 4);
-        axisPoints[1].Y = (float)Math.Round(axisPoints[1].Y, 4);
+        axisPoints[0].X = MathF.Round(axisPoints[0].X, 4);
+        axisPoints[0].Y = MathF.Round(axisPoints[0].Y, 4);
+        axisPoints[1].X = MathF.Round(axisPoints[1].X, 4);
+        axisPoints[1].Y = MathF.Round(axisPoints[1].Y, 4);
 
         // Calculate angle
         double angle;

@@ -2444,7 +2444,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
                 // Calculate start point
                 PointF point = new PointF(
-                    this._legendItemsAreaPosition.X + this._legendItemsAreaPosition.Width / 2 - step * (float)Math.Floor(markerCount / 2f),
+                    this._legendItemsAreaPosition.X + this._legendItemsAreaPosition.Width / 2 - step * MathF.Floor(markerCount / 2f),
                     this._legendItemsAreaPosition.Bottom + (this._truncatedDotsSize + this._offset.Height) / 2);
 
                 // Draw several dots at the bottom of the legend

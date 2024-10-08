@@ -698,7 +698,7 @@ public partial class ChartGraphics
 
         // Angle correction algorithm. After rotation AddArc method should used 
         // different transformed angles. This method transforms angles.
-        double angleCorrection = pieTopRectangle.Height / pieTopRectangle.Width;
+        float angleCorrection = pieTopRectangle.Height / pieTopRectangle.Width;
 
         float endAngle;
         endAngle = AngleCorrection(startAngle + sweepAngle, angleCorrection);
@@ -808,7 +808,7 @@ public partial class ChartGraphics
 
         // Angle correction algorithm. After rotation AddArc method should used 
         // different transformed angles. This method transforms angles.
-        double angleCorrection = pieRectangle.Height / pieRectangle.Width;
+        float angleCorrection = pieRectangle.Height / pieRectangle.Width;
 
         float endAngle;
         endAngle = AngleCorrection(startAngle + sweepAngle, angleCorrection);
@@ -826,7 +826,7 @@ public partial class ChartGraphics
             path.AddArc(pieRectangle.X, pieRectangle.Y, pieRectangle.Width, pieRectangle.Height, startAngle, sweepAngle);
         }
 
-        // Add Line between the end of the arc and the centre.
+        // Add Line between the end of the arc and the center.
         path.AddLine(secondPoint, center);
 
         if (common.ProcessModePaint)
@@ -924,7 +924,7 @@ public partial class ChartGraphics
 
         // Angle correction algorithm. After rotation AddArc method should used 
         // different transformed angles. This method transforms angles.
-        double angleCorrection = pieRectangle.Height / pieRectangle.Width;
+        float angleCorrection = pieRectangle.Height / pieRectangle.Width;
 
         float endAngle;
         endAngle = AngleCorrection(startAngle + sweepAngle, angleCorrection);
@@ -1054,35 +1054,35 @@ public partial class ChartGraphics
     /// <param name="angle">Not transformed angle</param>
     /// <param name="correction">Correction of bounding rectangle (change between width and height)</param>
     /// <returns>Transformed angle</returns>
-    private float AngleCorrection(float angle, double correction)
+    private static float AngleCorrection(float angle, float correction)
     {
         // Make all angles to be between -90 and 90.			
         if (angle > -90 && angle < 90)
         {
-            angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
+            angle = MathF.Atan(MathF.Tan(angle * MathF.PI / 180) * correction) * 180 / MathF.PI;
         }
         else if (angle > -270 && angle < -90)
         {
             angle += 180;
-            angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
+            angle = MathF.Atan(MathF.Tan(angle * MathF.PI / 180) * correction) * 180 / MathF.PI;
             angle -= 180;
         }
         else if (angle > 90 && angle < 270)
         {
             angle -= 180;
-            angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
+            angle = MathF.Atan(MathF.Tan(angle * MathF.PI / 180) * correction) * 180 / MathF.PI;
             angle += 180;
         }
         else if (angle > 270 && angle < 450)
         {
             angle -= 360;
-            angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
+            angle = MathF.Atan(MathF.Tan(angle * MathF.PI / 180) * correction) * 180 / MathF.PI;
             angle += 360;
         }
         else if (angle > 450)
         {
             angle -= 540;
-            angle = (float)(Math.Atan(Math.Tan(angle * Math.PI / 180) * correction) * 180 / Math.PI);
+            angle = MathF.Atan(MathF.Tan(angle * MathF.PI / 180) * correction) * 180 / MathF.PI;
             angle += 540;
         }
 
@@ -1264,10 +1264,10 @@ public partial class ChartGraphics
                     // Draw line !!!! 
                     DrawLine(
                         frontLinePen,
-                        (float)Math.Round(frontLinePoint1.X),
-                        (float)Math.Round(frontLinePoint1.Y),
-                        (float)Math.Round(frontLinePoint2.X),
-                        (float)Math.Round(frontLinePoint2.Y));
+                        MathF.Round(frontLinePoint1.X),
+                        MathF.Round(frontLinePoint1.Y),
+                        MathF.Round(frontLinePoint2.X),
+                        MathF.Round(frontLinePoint2.Y));
                 }
 
                 // Reset line properties
@@ -2301,19 +2301,19 @@ public partial class ChartGraphics
                     {
                         DrawLine(
                             thickBorderPen,
-                            (float)Math.Round(polygonPoints[0].X),
-                            (float)Math.Round(polygonPoints[0].Y),
-                            (float)Math.Round(polygonPoints[1].X),
-                            (float)Math.Round(polygonPoints[1].Y));
+                            MathF.Round(polygonPoints[0].X),
+                            MathF.Round(polygonPoints[0].Y),
+                            MathF.Round(polygonPoints[1].X),
+                            MathF.Round(polygonPoints[1].Y));
                     }
 
                     // Calculate path for selection
                     // Add front line to the path
                     resultPath?.AddLine(
-                        (float)Math.Round(polygonPoints[0].X),
-                        (float)Math.Round(polygonPoints[0].Y),
-                        (float)Math.Round(polygonPoints[1].X),
-                        (float)Math.Round(polygonPoints[1].Y));
+                        MathF.Round(polygonPoints[0].X),
+                        MathF.Round(polygonPoints[0].Y),
+                        MathF.Round(polygonPoints[1].X),
+                        MathF.Round(polygonPoints[1].Y));
                 }
 
 
@@ -2333,19 +2333,19 @@ public partial class ChartGraphics
                         {
                             DrawLine(
                                 thickBorderPen,
-                                (float)Math.Round(polygonPoints[3].X),
-                                (float)Math.Round(polygonPoints[3].Y),
-                                (float)Math.Round(polygonPoints[0].X),
-                                (float)Math.Round(polygonPoints[0].Y));
+                                MathF.Round(polygonPoints[3].X),
+                                MathF.Round(polygonPoints[3].Y),
+                                MathF.Round(polygonPoints[0].X),
+                                MathF.Round(polygonPoints[0].Y));
                         }
 
                         // Calculate path for selection
                         // Add left line to the path
                         resultPath?.AddLine(
-                            (float)Math.Round(polygonPoints[3].X),
-                            (float)Math.Round(polygonPoints[3].Y),
-                            (float)Math.Round(polygonPoints[0].X),
-                            (float)Math.Round(polygonPoints[0].Y));
+                            MathF.Round(polygonPoints[3].X),
+                            MathF.Round(polygonPoints[3].Y),
+                            MathF.Round(polygonPoints[0].X),
+                            MathF.Round(polygonPoints[0].Y));
                     }
 
                     //** Draw border on the right side of the line surface
@@ -2355,19 +2355,19 @@ public partial class ChartGraphics
                         {
                             DrawLine(
                                 thickBorderPen,
-                                (float)Math.Round(polygonPoints[1].X),
-                                (float)Math.Round(polygonPoints[1].Y),
-                                (float)Math.Round(polygonPoints[2].X),
-                                (float)Math.Round(polygonPoints[2].Y));
+                                MathF.Round(polygonPoints[1].X),
+                                MathF.Round(polygonPoints[1].Y),
+                                MathF.Round(polygonPoints[2].X),
+                                MathF.Round(polygonPoints[2].Y));
                         }
 
                         // Calculate path for selection
                         // Add right line to the path
                         resultPath?.AddLine(
-                            (float)Math.Round(polygonPoints[1].X),
-                            (float)Math.Round(polygonPoints[1].Y),
-                            (float)Math.Round(polygonPoints[2].X),
-                            (float)Math.Round(polygonPoints[2].Y));
+                            MathF.Round(polygonPoints[1].X),
+                            MathF.Round(polygonPoints[1].Y),
+                            MathF.Round(polygonPoints[2].X),
+                            MathF.Round(polygonPoints[2].Y));
                     }
                 }
             }
@@ -2383,10 +2383,10 @@ public partial class ChartGraphics
                     // Draw line
                     DrawLine(
                         frontLinePen,
-                        (float)Math.Round(frontLinePoint1.X),
-                        (float)Math.Round(frontLinePoint1.Y),
-                        (float)Math.Round(frontLinePoint2.X),
-                        (float)Math.Round(frontLinePoint2.Y));
+                        MathF.Round(frontLinePoint1.X),
+                        MathF.Round(frontLinePoint1.Y),
+                        MathF.Round(frontLinePoint2.X),
+                        MathF.Round(frontLinePoint2.Y));
 
                     // Reset line properties
                     if (frontLinePen is not null)
@@ -3258,12 +3258,12 @@ public partial class ChartGraphics
             gradientRect.Inflate(-shadowSizeRel.Width, -shadowSizeRel.Height);
             if (isVertical)
             {
-                gradientRect.Height = (float)Math.Floor(gradientRect.Height / 3f);
+                gradientRect.Height = MathF.Floor(gradientRect.Height / 3f);
             }
             else
             {
-                gradientRect.X = gradientRect.Right - (float)Math.Floor(gradientRect.Width / 3f);
-                gradientRect.Width = (float)Math.Floor(gradientRect.Width / 3f);
+                gradientRect.X = gradientRect.Right - MathF.Floor(gradientRect.Width / 3f);
+                gradientRect.Width = MathF.Floor(gradientRect.Width / 3f);
             }
 
 
@@ -3314,12 +3314,12 @@ public partial class ChartGraphics
             gradientRect.Inflate(-shadowSizeRel.Width, -shadowSizeRel.Height);
             if (isVertical)
             {
-                gradientRect.Y = gradientRect.Bottom - (float)Math.Floor(gradientRect.Height / 3f);
-                gradientRect.Height = (float)Math.Floor(gradientRect.Height / 3f);
+                gradientRect.Y = gradientRect.Bottom - MathF.Floor(gradientRect.Height / 3f);
+                gradientRect.Height = MathF.Floor(gradientRect.Height / 3f);
             }
             else
             {
-                gradientRect.Width = (float)Math.Floor(gradientRect.Width / 3f);
+                gradientRect.Width = MathF.Floor(gradientRect.Width / 3f);
             }
 
 
@@ -4084,10 +4084,10 @@ public partial class ChartGraphics
         float cylinderAngle = 90f;
         if (cubePoints[5].PointF.Y != cubePoints[4].PointF.Y)
         {
-            cylinderAngle = (float)Math.Atan(
+            cylinderAngle = MathF.Atan(
                 (cubePoints[4].PointF.X - cubePoints[5].PointF.X) /
                 (cubePoints[5].PointF.Y - cubePoints[4].PointF.Y));
-            cylinderAngle = (float)Math.Round(cylinderAngle * 180f / (float)Math.PI);
+            cylinderAngle = MathF.Round(cylinderAngle * 180f / MathF.PI);
         }
 
         //*******************************************************
@@ -4178,7 +4178,7 @@ public partial class ChartGraphics
                                             boundsRectMiddlePoint.Y = boundsRect.Y + boundsRect.Height / 2f;
 
                                             PointF centralLinePoint = PointF.Empty;
-                                            double centralLineAngle = cylinderAngle * Math.PI / 180f;
+                                            float centralLineAngle = cylinderAngle * MathF.PI / 180f;
                                             if (cylinderAngle == 0 || cylinderAngle == 180 || cylinderAngle == -180)
                                             {
                                                 centralLinePoint.X = boundsRectMiddlePoint.X + 100f;
@@ -4192,16 +4192,15 @@ public partial class ChartGraphics
                                             else if (cylinderAngle > -45 && cylinderAngle < 45)
                                             {
                                                 centralLinePoint.X = boundsRectMiddlePoint.X + 100f;
-                                                centralLinePoint.Y = (float)(Math.Tan(centralLineAngle) * centralLinePoint.X);
-                                                centralLinePoint.Y += (float)(boundsRectMiddlePoint.Y - Math.Tan(centralLineAngle) * boundsRectMiddlePoint.X);
+                                                centralLinePoint.Y = MathF.Tan(centralLineAngle) * centralLinePoint.X;
+                                                centralLinePoint.Y += boundsRectMiddlePoint.Y - MathF.Tan(centralLineAngle) * boundsRectMiddlePoint.X;
                                             }
                                             else
                                             {
                                                 centralLinePoint.Y = boundsRectMiddlePoint.Y + 100f;
-                                                centralLinePoint.X = (float)(centralLinePoint.Y - (boundsRectMiddlePoint.Y - Math.Tan(centralLineAngle) * boundsRectMiddlePoint.X));
-                                                centralLinePoint.X /= (float)Math.Tan(centralLineAngle);
+                                                centralLinePoint.X = centralLinePoint.Y - (boundsRectMiddlePoint.Y - MathF.Tan(centralLineAngle) * boundsRectMiddlePoint.X);
+                                                centralLinePoint.X /= MathF.Tan(centralLineAngle);
                                             }
-
 
                                             PointF middlePoint1 = GetLinesIntersection(
                                                 boundsRectMiddlePoint.X, boundsRectMiddlePoint.Y,

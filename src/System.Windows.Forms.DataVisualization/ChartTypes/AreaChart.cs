@@ -239,17 +239,17 @@ internal class AreaChart : SplineChart
         // Calculate points position
         PointF point1 = points[pointIndex - 1];
         PointF point2 = points[pointIndex];
-        point1.X = (float)Math.Round(point1.X);
-        point1.Y = (float)Math.Round(point1.Y);
-        point2.X = (float)Math.Round(point2.X);
-        point2.Y = (float)Math.Round(point2.Y);
+        point1.X = MathF.Round(point1.X);
+        point1.Y = MathF.Round(point1.Y);
+        point2.X = MathF.Round(point2.X);
+        point2.Y = MathF.Round(point2.Y);
         if (axisPos == PointF.Empty)
         {
             axisPos.X = (float)VAxis.GetPosition(this.VAxis.Crossing);
             axisPos.Y = (float)VAxis.GetPosition(this.VAxis.Crossing);
             axisPos = graph.GetAbsolutePoint(axisPos);
-            axisPos.X = (float)Math.Round(axisPos.X);
-            axisPos.Y = (float)Math.Round(axisPos.Y);
+            axisPos.X = MathF.Round(axisPos.X);
+            axisPos.Y = MathF.Round(axisPos.Y);
         }
 
         // Point properties

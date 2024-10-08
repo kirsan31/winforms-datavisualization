@@ -431,7 +431,7 @@ internal class ErrorBarChart : IChartType
 
                 if (showSideBySide)
                 {
-                    xPosition = (float)(hAxis.GetPosition(xValue) - sideBySideWidth * (double)numberOfLinkedSeries / 2.0 + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth);
+                    xPosition = (float)hAxis.GetPosition(xValue) - sideBySideWidth * numberOfLinkedSeries / 2f + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth;
                 }
                 else
                 {
@@ -442,7 +442,7 @@ internal class ErrorBarChart : IChartType
                 double yValue1 = vAxis.GetLogValue(point.YValues[2]);
                 xValue = hAxis.GetLogValue(xValue);
 
-                // Check if chart is completly out of the data scaleView
+                // Check if chart is completely out of the data scaleView
                 if (xValue < hAxis.ViewMinimum ||
                     xValue > hAxis.ViewMaximum ||
                     (yValue0 < vAxis.ViewMinimum && yValue1 < vAxis.ViewMinimum) ||
@@ -513,13 +513,13 @@ internal class ErrorBarChart : IChartType
 
                 low = vAxis.GetLinearPosition(low);
 
-                // Remeber pre-calculated point position
+                // Remember pre-calculated point position
                 point.positionRel = new PointF(xPosition, (float)Math.Min(high, low));
 
                 if (common.ProcessModePaint)
                 {
 
-                    // Check if chart is partialy in the data scaleView
+                    // Check if chart is partially in the data scaleView
                     bool clipRegionSet = false;
                     if (xValue == hAxis.ViewMinimum || xValue == hAxis.ViewMaximum)
                     {
@@ -584,11 +584,11 @@ internal class ErrorBarChart : IChartType
                     if (indexedSeries)
                     {
                         xValue = index;
-                        xPosition = (float)(hAxis.GetPosition(index) - sideBySideWidth * (double)numberOfLinkedSeries / 2.0 + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth);
+                        xPosition = (float)hAxis.GetPosition(index) - sideBySideWidth * numberOfLinkedSeries / 2f + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth;
                     }
                     else if (showSideBySide)
                     {
-                        xPosition = (float)(hAxis.GetPosition(xValue) - sideBySideWidth * (double)numberOfLinkedSeries / 2.0 + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth);
+                        xPosition = (float)hAxis.GetPosition(xValue) - sideBySideWidth * numberOfLinkedSeries / 2f + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth;
                     }
                     else
                     {
@@ -599,7 +599,7 @@ internal class ErrorBarChart : IChartType
                     double yValue1 = vAxis.GetLogValue(point.YValues[2]);
                     xValue = hAxis.GetLogValue(xValue);
 
-                    // Check if chart is completly out of the data scaleView
+                    // Check if chart is completely out of the data scaleView
                     if (xValue < hAxis.ViewMinimum ||
                         xValue > hAxis.ViewMaximum ||
                         (yValue0 < vAxis.ViewMinimum && yValue1 < vAxis.ViewMinimum) ||
@@ -1177,11 +1177,11 @@ internal class ErrorBarChart : IChartType
                 if (indexedSeries)
                 {
                     xValue = index;
-                    xPosition = (float)(hAxis.GetPosition(index) - sideBySideWidth * (double)numberOfLinkedSeries / 2.0 + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth);
+                    xPosition = (float)hAxis.GetPosition(index) - sideBySideWidth * numberOfLinkedSeries / 2f + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth;
                 }
                 else if (showSideBySide)
                 {
-                    xPosition = (float)(hAxis.GetPosition(xValue) - sideBySideWidth * (double)numberOfLinkedSeries / 2.0 + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth);
+                    xPosition = (float)hAxis.GetPosition(xValue) - sideBySideWidth * numberOfLinkedSeries / 2f + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth;
                 }
                 else
                 {
@@ -1192,7 +1192,7 @@ internal class ErrorBarChart : IChartType
                 double yValue1 = vAxis.GetLogValue(point.YValues[2]);
                 xValue = hAxis.GetLogValue(xValue);
 
-                // Check if chart is completly out of the data scaleView
+                // Check if chart is completely out of the data scaleView
                 if (xValue < hAxis.ViewMinimum ||
                     xValue > hAxis.ViewMaximum ||
                     (yValue0 < vAxis.ViewMinimum && yValue1 < vAxis.ViewMinimum) ||
@@ -1262,7 +1262,7 @@ internal class ErrorBarChart : IChartType
 
                 low = vAxis.GetLinearPosition(low);
 
-                // Remeber pre-calculated point position
+                // Remember pre-calculated point position
                 point.positionRel = new PointF(xPosition, (float)Math.Min(high, low));
 
                 // 3D Transform coordinates
@@ -1276,7 +1276,7 @@ internal class ErrorBarChart : IChartType
                 if (common.ProcessModePaint)
                 {
 
-                    // Check if chart is partialy in the data scaleView
+                    // Check if chart is partially in the data scaleView
                     bool clipRegionSet = false;
                     if (xValue == hAxis.ViewMinimum || xValue == hAxis.ViewMaximum)
                     {
@@ -1352,11 +1352,11 @@ internal class ErrorBarChart : IChartType
                     if (indexedSeries)
                     {
                         xValue = index;
-                        xPosition = (float)(hAxis.GetPosition(index) - sideBySideWidth * (double)numberOfLinkedSeries / 2.0 + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth);
+                        xPosition = (float)hAxis.GetPosition(index) - sideBySideWidth * numberOfLinkedSeries / 2f + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth;
                     }
                     else if (showSideBySide)
                     {
-                        xPosition = (float)(hAxis.GetPosition(xValue) - sideBySideWidth * (double)numberOfLinkedSeries / 2.0 + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth);
+                        xPosition = (float)hAxis.GetPosition(xValue) - sideBySideWidth * numberOfLinkedSeries / 2f + sideBySideWidth / 2 + indexOfLinkedSeries * sideBySideWidth;
                     }
                     else
                     {
@@ -1368,7 +1368,7 @@ internal class ErrorBarChart : IChartType
                     double yValue1 = vAxis.GetLogValue(point.YValues[2]);
                     xValue = hAxis.GetLogValue(xValue);
 
-                    // Check if chart is completly out of the data scaleView
+                    // Check if chart is completely out of the data scaleView
                     if (xValue < hAxis.ViewMinimum ||
                         xValue > hAxis.ViewMaximum ||
                         (yValue0 < vAxis.ViewMinimum && yValue1 < vAxis.ViewMinimum) ||

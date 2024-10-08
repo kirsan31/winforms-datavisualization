@@ -494,16 +494,16 @@ internal sealed class KagiChart : StepLineChart
         }
 
         // Round line point values
-        point1.X = (float)Math.Round(point1.X);
-        point1.Y = (float)Math.Round(point1.Y);
-        point2.X = (float)Math.Round(point2.X);
-        point2.Y = (float)Math.Round(point2.Y);
-        point3.X = (float)Math.Round(point3.X);
-        point3.Y = (float)Math.Round(point3.Y);
+        point1.X = MathF.Round(point1.X);
+        point1.Y = MathF.Round(point1.Y);
+        point2.X = MathF.Round(point2.X);
+        point2.Y = MathF.Round(point2.Y);
+        point3.X = MathF.Round(point3.X);
+        point3.Y = MathF.Round(point3.Y);
         if (!point4.IsEmpty)
         {
-            point4.X = (float)Math.Round(point4.X);
-            point4.Y = (float)Math.Round(point4.Y);
+            point4.X = MathF.Round(point4.X);
+            point4.Y = MathF.Round(point4.Y);
         }
 
 

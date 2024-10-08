@@ -492,7 +492,7 @@ internal class FastPointChart : IChartType
             case MarkerStyle.Cross:
                 {
                     // Calculate cross line width and size
-                    float crossLineWidth = (float)Math.Ceiling(markerSize / 4F);
+                    float crossLineWidth = MathF.Ceiling(markerSize / 4F);
                     float crossSize = markerSize;   // * (float)Math.Sin(45f/180f*Math.PI);
 
                     // Calculate cross coordinates

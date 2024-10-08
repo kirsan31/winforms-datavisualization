@@ -431,11 +431,11 @@ internal class StackedColumnChart : IChartType
 
         // Set Clip Region in rounded to a pixel coordinates
         RectangleF areaPosition = graph.GetAbsoluteRectangle(area.PlotAreaPosition.ToRectangleF());
-        float right = (float)Math.Ceiling(areaPosition.Right);
-        float bottom = (float)Math.Ceiling(areaPosition.Bottom);
-        areaPosition.X = (float)Math.Floor(areaPosition.X);
+        float right = MathF.Ceiling(areaPosition.Right);
+        float bottom = MathF.Ceiling(areaPosition.Bottom);
+        areaPosition.X = MathF.Floor(areaPosition.X);
         areaPosition.Width = right - areaPosition.X;
-        areaPosition.Y = (float)Math.Floor(areaPosition.Y);
+        areaPosition.Y = MathF.Floor(areaPosition.Y);
         areaPosition.Height = bottom - areaPosition.Y;
         graph.SetClipAbs(areaPosition);
 
@@ -1124,7 +1124,7 @@ internal class StackedColumnChart : IChartType
                     PointF absPosition = graph.GetAbsolutePoint(labelPosition);
                     if (graph.TextRenderingHint != TextRenderingHint.AntiAlias)
                     {
-                        absPosition.X = (float)Math.Ceiling(absPosition.X) + 1f;
+                        absPosition.X = MathF.Ceiling(absPosition.X) + 1f;
                         labelPosition = graph.GetRelativePoint(absPosition);
                     }
 

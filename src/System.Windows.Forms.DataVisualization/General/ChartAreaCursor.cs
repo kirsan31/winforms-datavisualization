@@ -1284,8 +1284,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this._axis != null &&
                 this.SelectionStart != this.SelectionEnd)
             {
-                double start = (float)this._axis.GetLinearPosition(this.SelectionStart);
-                double end = (float)this._axis.GetLinearPosition(this.SelectionEnd);
+                float start = (float)this._axis.GetLinearPosition(this.SelectionStart);
+                float end = (float)this._axis.GetLinearPosition(this.SelectionEnd);
 
                 // Detect if cursor is horizontal or vertical
                 bool horizontal = true;
@@ -1298,15 +1298,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     rect.X = plotAreaPosition.X;
                     rect.Width = plotAreaPosition.Width;
-                    rect.Y = (float)Math.Min(start, end);
-                    rect.Height = (float)Math.Max(start, end) - rect.Y;
+                    rect.Y = MathF.Min(start, end);
+                    rect.Height = MathF.Max(start, end) - rect.Y;
                 }
                 else
                 {
                     rect.Y = plotAreaPosition.Y;
                     rect.Height = plotAreaPosition.Height;
-                    rect.X = (float)Math.Min(start, end);
-                    rect.Width = (float)Math.Max(start, end) - rect.X;
+                    rect.X = MathF.Min(start, end);
+                    rect.Width = MathF.Max(start, end) - rect.X;
                 }
             }
 

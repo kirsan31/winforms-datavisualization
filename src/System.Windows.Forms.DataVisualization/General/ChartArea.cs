@@ -1543,10 +1543,10 @@ public partial class ChartArea : ChartNamedElement, IDisposable
 
         PlotAreaPosition.FromRectangleF(plottingRect);
         InnerPlotPosition.SetPositionNoAuto(
-            (float)Math.Round((plottingRect.X - Position.X) / (Position.Width / 100F), 5),
-            (float)Math.Round((plottingRect.Y - Position.Y) / (Position.Height / 100F), 5),
-            (float)Math.Round(plottingRect.Width / (Position.Width / 100F), 5),
-            (float)Math.Round(plottingRect.Height / (Position.Height / 100F), 5));
+            MathF.Round((plottingRect.X - Position.X) / (Position.Width / 100F), 5),
+            MathF.Round((plottingRect.Y - Position.Y) / (Position.Height / 100F), 5),
+            MathF.Round(plottingRect.Width / (Position.Width / 100F), 5),
+            MathF.Round(plottingRect.Height / (Position.Height / 100F), 5));
 
         //******************************************************
         //** Adjust label font size for axis, which were
@@ -2360,8 +2360,8 @@ public partial class ChartArea : ChartNamedElement, IDisposable
             SizeF textSize = chartGraph.MeasureString(
                 axis.Title.Replace("\\n", "\n"),
             this.AxisX.autoLabelFont ?? this.AxisX.LabelStyle.Font);
-            textSize.Width = (float)Math.Ceiling(textSize.Width * 1.1f);
-            textSize.Height = (float)Math.Ceiling(textSize.Height * 1.1f);
+            textSize.Width = MathF.Ceiling(textSize.Width * 1.1f);
+            textSize.Height = MathF.Ceiling(textSize.Height * 1.1f);
 
             //*****************************************************************
             //** Calculate area size change depending on labels style
@@ -2375,10 +2375,10 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 float textAngle = axis.AxisPosition + 90;
 
                 // For angled text find it's X and Y components
-                float width = (float)Math.Cos(textAngle / 180F * Math.PI) * textSize.Width;
-                float height = (float)Math.Sin(textAngle / 180F * Math.PI) * textSize.Width;
-                width = (float)Math.Abs(Math.Ceiling(width));
-                height = (float)Math.Abs(Math.Ceiling(height));
+                float width = MathF.Cos(textAngle / 180F * MathF.PI) * textSize.Width;
+                float height = MathF.Sin(textAngle / 180F * MathF.PI) * textSize.Width;
+                width = MathF.Abs(MathF.Ceiling(width));
+                height = MathF.Abs(MathF.Ceiling(height));
 
                 // Reduce text size by current spacing between plotting area and chart area
                 width -= areaDiff.Width;
