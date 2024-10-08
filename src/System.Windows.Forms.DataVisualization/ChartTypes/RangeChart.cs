@@ -402,10 +402,7 @@ internal class RangeChart : SplineChart
                 // Path can not have polygon width two points
                 if (pointF.Length == 2)
                 {
-                    PointF[] newPointF = new PointF[3];
-                    newPointF[0] = pointF[0];
-                    newPointF[1] = pointF[1];
-                    newPointF[2] = pointF[1];
+                    PointF[] newPointF = [pointF[0], pointF[1], pointF[1]];
                     pointF = newPointF;
                 }
 
@@ -1161,9 +1158,9 @@ internal class RangeChart : SplineChart
             // Loop through all surfaces
             SurfaceNames[] surfacesOrder;
             if (bottomFirst)
-                surfacesOrder = new SurfaceNames[] { SurfaceNames.Back, SurfaceNames.Bottom, SurfaceNames.Top, SurfaceNames.Left, SurfaceNames.Right, SurfaceNames.Front };
+                surfacesOrder = [SurfaceNames.Back, SurfaceNames.Bottom, SurfaceNames.Top, SurfaceNames.Left, SurfaceNames.Right, SurfaceNames.Front];
             else
-                surfacesOrder = new SurfaceNames[] { SurfaceNames.Back, SurfaceNames.Top, SurfaceNames.Bottom, SurfaceNames.Left, SurfaceNames.Right, SurfaceNames.Front };
+                surfacesOrder = [SurfaceNames.Back, SurfaceNames.Top, SurfaceNames.Bottom, SurfaceNames.Left, SurfaceNames.Right, SurfaceNames.Front];
 
             LineSegmentType lineSegmentType = LineSegmentType.Middle;
             foreach (SurfaceNames currentSurface in surfacesOrder)

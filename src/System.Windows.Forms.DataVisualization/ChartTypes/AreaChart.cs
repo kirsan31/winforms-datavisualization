@@ -1118,7 +1118,7 @@ internal class AreaChart : SplineChart
         for (int elemLayer = 1; elemLayer <= 2; elemLayer++)
         {
             // Loop through all surfaces
-            SurfaceNames[] surfacesOrder = new SurfaceNames[] { SurfaceNames.Back, SurfaceNames.Bottom, SurfaceNames.Top, SurfaceNames.Left, SurfaceNames.Right, SurfaceNames.Front };
+            SurfaceNames[] surfacesOrder = [SurfaceNames.Back, SurfaceNames.Bottom, SurfaceNames.Top, SurfaceNames.Left, SurfaceNames.Right, SurfaceNames.Front];
             LineSegmentType lineSegmentType = LineSegmentType.Middle;
             foreach (SurfaceNames currentSurface in surfacesOrder)
             {

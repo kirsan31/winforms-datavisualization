@@ -739,7 +739,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             int positionIndex = 0;
             float labelMovement = 0f;
             bool labelMovedAway = false;
-            LabelAlignmentStyles[] positions = new LabelAlignmentStyles[] {
+            LabelAlignmentStyles[] positions = [
                                     LabelAlignmentStyles.Top,
                                     LabelAlignmentStyles.Bottom,
                                     LabelAlignmentStyles.Left,
@@ -749,7 +749,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                     LabelAlignmentStyles.BottomLeft,
                                     LabelAlignmentStyles.BottomRight,
                                     LabelAlignmentStyles.Center
-                                };
+                                ];
 
             // Get relative size of single pixel
             SizeF pixelSize = graph.GetRelativeSize(new SizeF(1f, 1f));

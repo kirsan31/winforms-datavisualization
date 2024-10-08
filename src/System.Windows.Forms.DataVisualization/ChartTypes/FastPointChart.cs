@@ -413,8 +413,7 @@ internal class FastPointChart : IChartType
         // Transform 3D coordinates
         if (chartArea3DEnabled)
         {
-            Point3D[] points = new Point3D[1];
-            points[0] = new Point3D(point.positionRel.X, point.positionRel.Y, this.seriesZCoordinate);
+            Point3D[] points = [new Point3D(point.positionRel.X, point.positionRel.Y, this.seriesZCoordinate)];
             matrix3D.TransformPoints(points);
             location.X = points[0].X;
             location.Y = points[0].Y;

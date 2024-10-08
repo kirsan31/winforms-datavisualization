@@ -752,11 +752,12 @@ internal class RadarChart : IChartType, ICircularChartType
                     // Insert circle area
                     if (point.MarkerStyle == MarkerStyle.Circle)
                     {
-                        float[] circCoord = new float[3];
-                        circCoord[0] = relativeMarkerPosition.X;
-                        circCoord[1] = relativeMarkerPosition.Y;
-                        circCoord[2] = relativeMarkerSize.Width / 2f;
-
+                        float[] circCoord =
+                        [
+                            relativeMarkerPosition.X,
+                            relativeMarkerPosition.Y,
+                            relativeMarkerSize.Width / 2f,
+                        ];
                         common.HotRegionsList.AddHotRegion(
                             graph,
                             circCoord[0],
@@ -945,7 +946,7 @@ internal class RadarChart : IChartType, ICircularChartType
             float sectorAngle = 360f / area.CircularSectorsNumber * index;
             using Matrix matrix = new Matrix();
             matrix.RotateAt(sectorAngle, graph.GetAbsolutePoint(area.circularCenter));
-            PointF[] rotatedPoint = new PointF[] { pointPos[index] };
+            PointF[] rotatedPoint = [pointPos[index]];
             matrix.TransformPoints(rotatedPoint);
             pointPos[index] = rotatedPoint[0];
 

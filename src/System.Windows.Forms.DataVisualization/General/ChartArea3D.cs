@@ -1962,9 +1962,11 @@ public partial class ChartArea
     internal Point3D GetCenterOfProjection(COPCoordinates coord)
     {
         // Define 2 points in the opposite corners of the plotting area
-        Point3D[] points = new Point3D[2];
-        points[0] = new Point3D(this.PlotAreaPosition.X, this.PlotAreaPosition.Bottom, 0f);
-        points[1] = new Point3D(this.PlotAreaPosition.Right, this.PlotAreaPosition.Y, this.areaSceneDepth);
+        Point3D[] points =
+        [
+            new Point3D(this.PlotAreaPosition.X, this.PlotAreaPosition.Bottom, 0f),
+            new Point3D(this.PlotAreaPosition.Right, this.PlotAreaPosition.Y, this.areaSceneDepth),
+        ];
 
         // Check if surfaces (points 1 & 2) has same orientation
         CheckSurfaceOrientation(

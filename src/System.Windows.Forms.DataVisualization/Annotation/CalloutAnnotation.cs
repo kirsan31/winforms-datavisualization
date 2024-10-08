@@ -1255,49 +1255,61 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             // Create paths of perspective
                             if (anchorPoint.Y < rectanglePosition.Y)
                             {
-                                PointF[] points1 = new PointF[3];
-                                points1[0] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y);
-                                points1[1] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y);
-                                points1[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+                                PointF[] points1 =
+                                [
+                                    new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y),
+                                    new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y),
+                                    new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+                                ];
                                 perspectivePaths[0].AddLines(points1);
                                 if (anchorPoint.X < rectanglePosition.X)
                                 {
-                                    PointF[] points2 = new PointF[3];
-                                    points2[0] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom);
-                                    points2[1] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y);
-                                    points2[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+                                    PointF[] points2 =
+                                    [
+                                        new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom),
+                                        new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y),
+                                        new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+                                    ];
                                     perspectivePaths[1].AddLines(points2);
                                 }
                                 else if (anchorPoint.X > rectanglePosition.Right)
                                 {
-                                    PointF[] points2 = new PointF[3];
-                                    points2[0] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom);
-                                    points2[1] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y);
-                                    points2[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+                                    PointF[] points2 =
+                                    [
+                                        new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom),
+                                        new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y),
+                                        new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+                                    ];
                                     perspectivePaths[1].AddLines(points2);
                                 }
                             }
                             else if (anchorPoint.Y > rectanglePosition.Bottom)
                             {
-                                PointF[] points1 = new PointF[3];
-                                points1[0] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom);
-                                points1[1] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom);
-                                points1[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+                                PointF[] points1 =
+                                [
+                                    new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom),
+                                    new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom),
+                                    new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+                                ];
                                 perspectivePaths[0].AddLines(points1);
                                 if (anchorPoint.X < rectanglePosition.X)
                                 {
-                                    PointF[] points2 = new PointF[3];
-                                    points2[0] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom);
-                                    points2[1] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y);
-                                    points2[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+                                    PointF[] points2 =
+                                    [
+                                        new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom),
+                                        new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y),
+                                        new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+                                    ];
                                     perspectivePaths[1].AddLines(points2);
                                 }
                                 else if (anchorPoint.X > rectanglePosition.Right)
                                 {
-                                    PointF[] points2 = new PointF[3];
-                                    points2[0] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom);
-                                    points2[1] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y);
-                                    points2[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+                                    PointF[] points2 =
+                                    [
+                                        new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom),
+                                        new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y),
+                                        new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+                                    ];
                                     perspectivePaths[1].AddLines(points2);
                                 }
                             }
@@ -1305,18 +1317,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             {
                                 if (anchorPoint.X < rectanglePosition.X)
                                 {
-                                    PointF[] points2 = new PointF[3];
-                                    points2[0] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom);
-                                    points2[1] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y);
-                                    points2[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+                                    PointF[] points2 =
+                                    [
+                                        new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom),
+                                        new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y),
+                                        new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+                                    ];
                                     perspectivePaths[1].AddLines(points2);
                                 }
                                 else if (anchorPoint.X > rectanglePosition.Right)
                                 {
-                                    PointF[] points2 = new PointF[3];
-                                    points2[0] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom);
-                                    points2[1] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y);
-                                    points2[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+                                    PointF[] points2 =
+                                    [
+                                        new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom),
+                                        new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y),
+                                        new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+                                    ];
                                     perspectivePaths[1].AddLines(points2);
                                 }
                             }

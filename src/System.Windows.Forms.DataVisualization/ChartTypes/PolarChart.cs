@@ -136,8 +136,7 @@ internal sealed class PolarChart : RadarChart
     /// <returns>Returns an array of one or more locations of Y axis.</returns>
     public override float[] GetYAxisLocations(ChartArea area)
     {
-        float[] axesLocation = new float[1];
-        axesLocation[0] = 0f;
+        float[] axesLocation = [0f];
 
         // Check if X axis crossing is set to change location of Y axis
         if (!double.IsNaN(area.AxisX.Crossing))
@@ -224,7 +223,7 @@ internal sealed class PolarChart : RadarChart
                 matrix.Reset();
 
             matrix.RotateAt(sectorAngle, graph.GetAbsolutePoint(area.circularCenter));
-            PointF[] rotatedPoint = new PointF[] { pointPos[index] };
+            PointF[] rotatedPoint = [pointPos[index]];
             matrix.TransformPoints(rotatedPoint);
             pointPos[index] = rotatedPoint[0];
 

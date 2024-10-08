@@ -1198,7 +1198,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             if (this.LegendStyle == LegendStyle.Column || numberOfItemsToCheck <= 1)
             {
                 columnNumber = 1;
-                numberOfRowsPerColumn = new int[] { numberOfItemsToCheck };
+                numberOfRowsPerColumn = [numberOfItemsToCheck];
             }
             else if (this.LegendStyle == LegendStyle.Row)
             {
@@ -1213,7 +1213,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
                 // Start with 1 column and 1 row
                 columnNumber = 1;
-                numberOfRowsPerColumn = new int[] { 1 };
+                numberOfRowsPerColumn = [1];
 
                 // Get legend table style and adjust number of columns and rows accordinly
                 LegendTableStyle tableStyle = this.GetLegendTableStyle(chartGraph);

@@ -1762,7 +1762,7 @@ internal class StackedColumnChart : IChartType
             labelPosition.Y = rectangle.Y + rectangle.Height / 2f;
 
             // Transform coordinates
-            Point3D[] marker3DPosition = { new Point3D(labelPosition.X, labelPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth) };
+            Point3D[] marker3DPosition = [new Point3D(labelPosition.X, labelPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth)];
             area.matrix3D.TransformPoints(marker3DPosition);
 
             labelPosition.X = marker3DPosition[0].X;

@@ -1465,8 +1465,7 @@ internal class StackedAreaChart : AreaChart
             }
 
             // Get label position
-            Point3D[] points = new Point3D[1];
-            points[0] = new Point3D((float)pointEx.xPosition, (float)(pointEx.yPosition + pointEx.height) / 2f, positionZ + depth);
+            Point3D[] points = [new Point3D((float)pointEx.xPosition, (float)(pointEx.yPosition + pointEx.height) / 2f, positionZ + depth)];
             area.matrix3D.TransformPoints(points);
 
             // Measure string

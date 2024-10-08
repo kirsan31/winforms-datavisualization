@@ -890,7 +890,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     labelRelativePosition.Y -= _axis.markSize + Axis.elementSpacing;
 
                     // Convert to absolute
-                    PointF[] labelPosition = new PointF[] { graph.GetAbsolutePoint(labelRelativePosition) };
+                    PointF[] labelPosition = [graph.GetAbsolutePoint(labelRelativePosition)];
 
                     // Get label rotation angle
                     float labelAngle = circAxis.AxisPosition;
@@ -998,13 +998,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             labelPosition[0],
                             size,
                             format);
-                        PointF[] points = new PointF[]
-                        {
+                        PointF[] points =
+                        [
                                 labelRect.Location,
                                 new PointF(labelRect.Right, labelRect.Y),
                                 new PointF(labelRect.Right, labelRect.Bottom),
                                 new PointF(labelRect.X, labelRect.Bottom)
-                        };
+                        ];
 
                         using GraphicsPath path = new GraphicsPath();
                         path.AddPolygon(points);
@@ -2182,8 +2182,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         if (firstLabelsRowHeight == -1f)
                         {
                             // Calculate first labels row max height
-                            Point3D[] labelPositionPoints = new Point3D[1];
-                            labelPositionPoints[0] = new Point3D(initialRect.X, initialRect.Bottom - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment, labelsZPosition);
+                            Point3D[] labelPositionPoints =
+                            [
+                                new Point3D(initialRect.X, initialRect.Bottom - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment, labelsZPosition),
+                            ];
                             this._axis.ChartArea.matrix3D.TransformPoints(labelPositionPoints);
 
                             float height = labelPositionPoints[0].Y - rect.Y;

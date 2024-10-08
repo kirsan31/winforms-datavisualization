@@ -210,10 +210,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
                 return;
             }
 
-            double[][] inputErrorEst = new double[2][];
-            inputErrorEst[0] = new double[inputValues[0].Length / 2];
-            inputErrorEst[1] = new double[inputValues[0].Length / 2];
-
+            double[][] inputErrorEst = [new double[inputValues[0].Length / 2], new double[inputValues[0].Length / 2]];
             for (int index = 0; index < inputValues[0].Length / 2; index++)
             {
                 inputErrorEst[0][index] = inputValues[0][index];

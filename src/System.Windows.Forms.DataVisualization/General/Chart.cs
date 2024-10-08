@@ -332,7 +332,7 @@ internal sealed class ChartImage : ChartPicture
                             // SQL derived datasource
                             Type selectArgsType = dataSource.GetType().Assembly.GetType("System.Web.UI.DataSourceSelectArguments", true);
                             ConstructorInfo ci = selectArgsType.GetConstructor(Array.Empty<Type>());
-                            dataSource = m.Invoke(dataSource, new object[] { ci.Invoke(Array.Empty<object>()) });
+                            dataSource = m.Invoke(dataSource, [ci.Invoke(Array.Empty<object>())]);
                         }
                         else
                         {

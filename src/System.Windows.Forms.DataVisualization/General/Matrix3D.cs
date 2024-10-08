@@ -502,11 +502,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="dz">Translate in z axis direction.</param>
         private void Translate(float dx, float dy, float dz)
         {
-            float[][] translationMatrix = new float[4][];
-            translationMatrix[0] = new float[4];
-            translationMatrix[1] = new float[4];
-            translationMatrix[2] = new float[4];
-            translationMatrix[3] = new float[4];
+            float[][] translationMatrix =
+            [
+                new float[4],
+                new float[4],
+                new float[4],
+                new float[4],
+            ];
 
             // Matrix initialization
             // Row loop
@@ -584,11 +586,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             // A matrix which is result of matrix multiplication
             // of mulMatrix and mainMatrix
-            float[][] resultMatrix = new float[4][];
-            resultMatrix[0] = new float[4];
-            resultMatrix[1] = new float[4];
-            resultMatrix[2] = new float[4];
-            resultMatrix[3] = new float[4];
+            float[][] resultMatrix = [new float[4], new float[4], new float[4], new float[4]];
 
             // Row loop
             for (int row = 0; row < 4; row++)
@@ -655,11 +653,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="axis">Axis used for rotation</param>
         private void Rotate(double angle, RotationAxis axis)
         {
-            float[][] rotationMatrix = new float[4][];
-            rotationMatrix[0] = new float[4];
-            rotationMatrix[1] = new float[4];
-            rotationMatrix[2] = new float[4];
-            rotationMatrix[3] = new float[4];
+            float[][] rotationMatrix =
+            [
+                new float[4],
+                new float[4],
+                new float[4],
+                new float[4],
+            ];
 
             // Change angle direction
             angle = -1F * angle;
@@ -760,24 +760,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Collection of Points 3D.</returns>
         private Point3D[] Set3DBarPoints(float dx, float dy, float dz)
         {
-            Point3D[] points = new Point3D[8];
-
-            // ********************************************
-            // 3D Bar side: Front
-            // ********************************************
-            points[0] = new Point3D(-dx / 2, -dy / 2, dz / 2);
-            points[1] = new Point3D(dx / 2, -dy / 2, dz / 2);
-            points[2] = new Point3D(dx / 2, dy / 2, dz / 2);
-            points[3] = new Point3D(-dx / 2, dy / 2, dz / 2);
-
-            // ********************************************
-            // 3D Bar side: Back
-            // ********************************************
-            points[4] = new Point3D(-dx / 2, -dy / 2, -dz / 2);
-            points[5] = new Point3D(dx / 2, -dy / 2, -dz / 2);
-            points[6] = new Point3D(dx / 2, dy / 2, -dz / 2);
-            points[7] = new Point3D(-dx / 2, dy / 2, -dz / 2);
-
+            Point3D[] points =
+            [
+                // ********************************************
+                // 3D Bar side: Front
+                // ********************************************
+                new Point3D(-dx / 2, -dy / 2, dz / 2),
+                new Point3D(dx / 2, -dy / 2, dz / 2),
+                new Point3D(dx / 2, dy / 2, dz / 2),
+                new Point3D(-dx / 2, dy / 2, dz / 2),
+                // ********************************************
+                // 3D Bar side: Back
+                // ********************************************
+                new Point3D(-dx / 2, -dy / 2, -dz / 2),
+                new Point3D(dx / 2, -dy / 2, -dz / 2),
+                new Point3D(dx / 2, dy / 2, -dz / 2),
+                new Point3D(-dx / 2, dy / 2, -dz / 2),
+            ];
             return points;
         }
 
@@ -906,8 +905,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         {
                             // LightStyle source Vector
                             Point3D lightSource = new Point3D(0F, 0F, -1F);
-                            Point3D[] rightPRpoints = new Point3D[1];
-                            rightPRpoints[0] = lightSource;
+                            Point3D[] rightPRpoints = [lightSource];
                             RightAngleProjection(rightPRpoints);
 
                             // ******************************************************************

@@ -1923,9 +1923,9 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
             int angle = point.LabelAngle;
 
             // Get projection coordinates
-            Point3D[] rotationCenterProjection = new Point3D[] {
+            Point3D[] rotationCenterProjection = [
                 new Point3D(rotationCenter.X, rotationCenter.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth),
-                new Point3D(rotationCenter.X - 20f, rotationCenter.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth) };
+                new Point3D(rotationCenter.X - 20f, rotationCenter.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth) ];
             // Transform coordinates of text rotation point
             area.matrix3D.TransformPoints(rotationCenterProjection);
 

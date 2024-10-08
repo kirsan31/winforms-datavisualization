@@ -547,11 +547,7 @@ internal class StockChart : IChartType
                             // Insert circle area
                             if (point.MarkerStyle == MarkerStyle.Circle)
                             {
-                                float[] circCoord = new float[3];
-                                circCoord[0] = markerPosition.X;
-                                circCoord[1] = markerPosition.Y;
-                                circCoord[2] = relativeMarkerSize.Width / 2f;
-
+                                float[] circCoord = [markerPosition.X, markerPosition.Y, relativeMarkerSize.Width / 2f];
                                 common.HotRegionsList.AddHotRegion(
                                     graph,
                                     circCoord[0],
@@ -1190,9 +1186,11 @@ internal class StockChart : IChartType
                 point.positionRel = new PointF(xPosition, (float)high);
 
                 // 3D Transform coordinates
-                Point3D[] points = new Point3D[2];
-                points[0] = new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f);
-                points[1] = new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f);
+                Point3D[] points =
+                [
+                    new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f),
+                    new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f),
+                ];
                 area.matrix3D.TransformPoints(points);
 
                 // Start Svg Selection mode
@@ -1304,9 +1302,11 @@ internal class StockChart : IChartType
 
 
                 // 3D Transform coordinates
-                Point3D[] points = new Point3D[2];
-                points[0] = new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f);
-                points[1] = new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f);
+                Point3D[] points =
+                [
+                    new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f),
+                    new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f),
+                ];
                 area.matrix3D.TransformPoints(points);
                 xPosition = points[0].X;
                 high = points[0].Y;
@@ -1365,11 +1365,7 @@ internal class StockChart : IChartType
                             // Insert circle area
                             if (point.MarkerStyle == MarkerStyle.Circle)
                             {
-                                float[] circCoord = new float[3];
-                                circCoord[0] = markerPosition.X;
-                                circCoord[1] = markerPosition.Y;
-                                circCoord[2] = relativeMarkerSize.Width / 2f;
-
+                                float[] circCoord = [markerPosition.X, markerPosition.Y, relativeMarkerSize.Width / 2f];
                                 common.HotRegionsList.AddHotRegion(
                                     graph,
                                     circCoord[0],
@@ -1586,9 +1582,11 @@ internal class StockChart : IChartType
             Color barBorderColor = (point.BorderColor == Color.Empty) ? (barColor == Color.Empty) ? point.Color : barColor : point.BorderColor;
 
             // Translate coordinates
-            Point3D[] points = new Point3D[2];
-            points[0] = new Point3D(rect.X, rect.Y, zPosition + depth / 2f);
-            points[1] = new Point3D(rect.Right, rect.Bottom, zPosition + depth / 2f);
+            Point3D[] points =
+            [
+                new Point3D(rect.X, rect.Y, zPosition + depth / 2f),
+                new Point3D(rect.Right, rect.Bottom, zPosition + depth / 2f),
+            ];
             area.matrix3D.TransformPoints(points);
             rect.Location = points[0].PointF;
             rect.Width = Math.Abs(points[1].X - points[0].X);
@@ -1629,10 +1627,12 @@ internal class StockChart : IChartType
             using GraphicsPath path = new GraphicsPath();
 
             // Translate coordinates
-            Point3D[] points = new Point3D[3];
-            points[0] = new Point3D(xPosition, open, zPosition + depth / 2f);
-            points[1] = new Point3D(xPosition - width / 2f, open + height / 2f, zPosition + depth / 2f);
-            points[2] = new Point3D(xPosition - width / 2f, open - height / 2f, zPosition + depth / 2f);
+            Point3D[] points =
+            [
+                new Point3D(xPosition, open, zPosition + depth / 2f),
+                new Point3D(xPosition - width / 2f, open + height / 2f, zPosition + depth / 2f),
+                new Point3D(xPosition - width / 2f, open - height / 2f, zPosition + depth / 2f),
+            ];
             area.matrix3D.TransformPoints(points);
             points[0].PointF = graph.GetAbsolutePoint(points[0].PointF);
             points[1].PointF = graph.GetAbsolutePoint(points[1].PointF);
@@ -1682,9 +1682,11 @@ internal class StockChart : IChartType
                 if (openY <= VAxis.ViewMaximum && openY >= VAxis.ViewMinimum)
                 {
                     // Translate coordinates
-                    Point3D[] points = new Point3D[2];
-                    points[0] = new Point3D(xPosition - width / 2f, open, zPosition + depth / 2f);
-                    points[1] = new Point3D(xPosition, open, zPosition + depth / 2f);
+                    Point3D[] points =
+                    [
+                        new Point3D(xPosition - width / 2f, open, zPosition + depth / 2f),
+                        new Point3D(xPosition, open, zPosition + depth / 2f),
+                    ];
                     area.matrix3D.TransformPoints(points);
 
                     graph.DrawLineRel(point.Color, point.BorderWidth, point.BorderDashStyle,
@@ -1700,9 +1702,11 @@ internal class StockChart : IChartType
                 if (closeY <= VAxis.ViewMaximum && closeY >= VAxis.ViewMinimum)
                 {
                     // Translate coordinates
-                    Point3D[] points = new Point3D[2];
-                    points[0] = new Point3D(xPosition, close, zPosition + depth / 2f);
-                    points[1] = new Point3D(xPosition + width / 2f, close, zPosition + depth / 2f);
+                    Point3D[] points =
+                    [
+                        new Point3D(xPosition, close, zPosition + depth / 2f),
+                        new Point3D(xPosition + width / 2f, close, zPosition + depth / 2f),
+                    ];
                     area.matrix3D.TransformPoints(points);
 
                     graph.DrawLineRel(point.Color, point.BorderWidth, point.BorderDashStyle,
@@ -1844,10 +1848,10 @@ internal class StockChart : IChartType
                 // Get series depth and Z position
                 area.GetSeriesZPositionAndDepth(series, out float seriesDepth, out float seriesZPosition);
 
-                Point3D[] marker3DPosition = { new Point3D(
+                Point3D[] marker3DPosition = [ new Point3D(
                     markerPosition.X,
                     markerPosition.Y,
-                    seriesZPosition + seriesDepth / 2f) };
+                    seriesZPosition + seriesDepth / 2f) ];
 
                 // Transform coordinates
                 area.matrix3D.TransformPoints(marker3DPosition);

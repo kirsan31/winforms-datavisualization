@@ -1121,11 +1121,7 @@ internal class RangeColumnChart : ColumnChart
                 // Insert circle area
                 if (pointMarkerStyle == MarkerStyle.Circle)
                 {
-                    float[] circCoord = new float[3];
-                    circCoord[0] = markerPosition.X;
-                    circCoord[1] = markerPosition.Y;
-                    circCoord[2] = relativeMarkerSize.Width / 2f;
-
+                    float[] circCoord = [markerPosition.X, markerPosition.Y, relativeMarkerSize.Width / 2f];
                     common.HotRegionsList.AddHotRegion(
                         graph,
                         circCoord[0],
@@ -1303,7 +1299,7 @@ internal class RangeColumnChart : ColumnChart
             labelPosition.Y = columnPosition.Y + columnPosition.Height / 2f;
 
             // Transform coordinates
-            Point3D[] marker3DPosition = { new Point3D(labelPosition.X, labelPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth) };
+            Point3D[] marker3DPosition = [new Point3D(labelPosition.X, labelPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth)];
             area.matrix3D.TransformPoints(marker3DPosition);
 
             labelPosition.X = marker3DPosition[0].X;

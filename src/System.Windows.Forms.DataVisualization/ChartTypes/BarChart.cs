@@ -1722,7 +1722,7 @@ internal class BarChart : IChartType
                 //** Transform marker position in 3D space
                 //************************************************************
                 // Get projection coordinates
-                Point3D[] marker3DPosition = { new Point3D(markerPosition.X, markerPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth / 2f) };
+                Point3D[] marker3DPosition = [new Point3D(markerPosition.X, markerPosition.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth / 2f)];
 
                 // Transform coordinates of text size
                 area.matrix3D.TransformPoints(marker3DPosition);
@@ -2027,9 +2027,9 @@ internal class BarChart : IChartType
             int angle = point.LabelAngle;
 
             // Get projection coordinates
-            Point3D[] rotationCenterProjection = new Point3D[] {
+            Point3D[] rotationCenterProjection = [
                     new Point3D(rotationCenter.X, rotationCenter.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth),
-                    new Point3D(rotationCenter.X - 20f, rotationCenter.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth) };
+                    new Point3D(rotationCenter.X - 20f, rotationCenter.Y, pointEx.zPosition + (area.ReverseSeriesOrder ? -1 : 1) * pointEx.depth) ];
 
             // Transform coordinates of text rotation point
             area.matrix3D.TransformPoints(rotationCenterProjection);

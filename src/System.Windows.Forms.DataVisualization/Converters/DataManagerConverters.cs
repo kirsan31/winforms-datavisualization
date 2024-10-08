@@ -354,8 +354,7 @@ internal sealed class SeriesNameConverter : StringConverter
             MethodInfo methodInfo = context.Instance.GetType().GetMethod("GetService");
             if (methodInfo != null)
             {
-                object[] parameters = new object[1];
-                parameters[0] = typeof(DataManager);
+                object[] parameters = [typeof(DataManager)];
                 dataManager = (DataManager)methodInfo.Invoke(context.Instance, parameters);
             }
 

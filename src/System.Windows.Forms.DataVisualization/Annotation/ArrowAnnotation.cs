@@ -342,18 +342,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
             PointF[] points;
             if (this.ArrowStyle == ArrowStyle.Simple)
             {
-                points = new PointF[] {
+                points = [
                                           firstPoint,
                                           new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
                                           new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
                                           new PointF(firstPoint.X + arrowLength, firstPoint.Y - this.ArrowSize),
                                           new PointF(firstPoint.X + arrowLength, firstPoint.Y + this.ArrowSize),
                                           new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
-                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) };
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) ];
             }
             else if (this.ArrowStyle == ArrowStyle.DoubleArrow)
             {
-                points = new PointF[] {
+                points = [
                                           firstPoint,
                                           new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
                                           new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
@@ -363,12 +363,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                           new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio),
                                           new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
                                           new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
-                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) };
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) ];
             }
             else if (this.ArrowStyle == ArrowStyle.Tailed)
             {
                 float tailRatio = 2.1f;
-                points = new PointF[] {
+                points = [
                                           firstPoint,
                                           new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
                                           new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
@@ -376,7 +376,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                                           new PointF(firstPoint.X + arrowLength - this.ArrowSize*tailRatio, firstPoint.Y),
                                           new PointF(firstPoint.X + arrowLength, firstPoint.Y + this.ArrowSize*tailRatio),
                                           new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
-                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) };
+                                          new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) ];
             }
             else
             {

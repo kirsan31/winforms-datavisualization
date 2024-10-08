@@ -895,8 +895,8 @@ public class Series : DataPointCustomProperties
     /// <returns>Dummy data for chart in design-time.</returns>
     internal IEnumerable GetDummyData(ChartValueType type)
     {
-        string[] stringValues = { "abc1", "abc2", "abc3", "abc4", "abc5", "abc6" };
-        DateTime[] dateValues = { DateTime.Now.Date, DateTime.Now.Date.AddDays(1), DateTime.Now.Date.AddDays(2), DateTime.Now.Date.AddDays(3), DateTime.Now.Date.AddDays(4), DateTime.Now.Date.AddDays(4) };
+        string[] stringValues = ["abc1", "abc2", "abc3", "abc4", "abc5", "abc6"];
+        DateTime[] dateValues = [DateTime.Now.Date, DateTime.Now.Date.AddDays(1), DateTime.Now.Date.AddDays(2), DateTime.Now.Date.AddDays(3), DateTime.Now.Date.AddDays(4), DateTime.Now.Date.AddDays(4)];
 
         // Fill array of random data
         if (_dummyDoubleValues == null)
@@ -927,7 +927,7 @@ public class Series : DataPointCustomProperties
         }
         else if (type == ChartValueType.Time)
         {
-            dateValues = new DateTime[] { DateTime.Now, DateTime.Now.AddMinutes(1), DateTime.Now.AddMinutes(2), DateTime.Now.AddMinutes(3), DateTime.Now.AddMinutes(4), DateTime.Now.AddMinutes(4) };
+            dateValues = [DateTime.Now, DateTime.Now.AddMinutes(1), DateTime.Now.AddMinutes(2), DateTime.Now.AddMinutes(3), DateTime.Now.AddMinutes(4), DateTime.Now.AddMinutes(4)];
             return dateValues;
         }
         else if (type == ChartValueType.String)
@@ -1530,10 +1530,10 @@ public class Series : DataPointCustomProperties
             }
             else
             {
-                double[] xValues = new double[] { 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 };
+                double[] xValues = [2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
                 if (this.ChartType == SeriesChartType.Polar)
                 {
-                    xValues = new double[] { 0.0, 45.0, 115.0, 145.0, 180.0, 220.0 };
+                    xValues = [0.0, 45.0, 115.0, 145.0, 180.0, 220.0];
                 }
                 this.Points.DataBindXY(xValues, GetDummyData(_yValueType));
             }

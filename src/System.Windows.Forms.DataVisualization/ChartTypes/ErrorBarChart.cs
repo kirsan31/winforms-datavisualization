@@ -799,8 +799,7 @@ internal class ErrorBarChart : IChartType
             // 3D Transform coordinates
             if (draw3D)
             {
-                Point3D[] points = new Point3D[1];
-                points[0] = new Point3D(xPosition, yPosition, zPosition);
+                Point3D[] points = [new Point3D(xPosition, yPosition, zPosition)];
                 area.matrix3D.TransformPoints(points);
                 xPosition = points[0].X;
                 yPosition = points[0].Y;
@@ -1267,9 +1266,11 @@ internal class ErrorBarChart : IChartType
                 point.positionRel = new PointF(xPosition, (float)Math.Min(high, low));
 
                 // 3D Transform coordinates
-                Point3D[] points = new Point3D[2];
-                points[0] = new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f);
-                points[1] = new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f);
+                Point3D[] points =
+                [
+                    new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f),
+                    new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f),
+                ];
                 area.matrix3D.TransformPoints(points);
 
                 if (common.ProcessModePaint)
@@ -1436,9 +1437,11 @@ internal class ErrorBarChart : IChartType
 
 
                     // 3D Transform coordinates
-                    Point3D[] points = new Point3D[2];
-                    points[0] = new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f);
-                    points[1] = new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f);
+                    Point3D[] points =
+                    [
+                        new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f),
+                        new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f),
+                    ];
                     area.matrix3D.TransformPoints(points);
                     xPosition = points[0].X;
                     high = points[0].Y;

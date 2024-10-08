@@ -1136,13 +1136,15 @@ internal class BoxPlotChart : IChartType
                 point.positionRel = new PointF(xPosition, (float)Math.Min(high, low));
 
                 // 3D Transform coordinates
-                Point3D[] points = new Point3D[6];
-                points[0] = new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f);
-                points[1] = new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f);
-                points[2] = new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[2]), seriesZPosition + seriesDepth / 2f);
-                points[3] = new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[3]), seriesZPosition + seriesDepth / 2f);
-                points[4] = new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[4]), seriesZPosition + seriesDepth / 2f);
-                points[5] = new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[5]), seriesZPosition + seriesDepth / 2f);
+                Point3D[] points =
+                [
+                    new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f),
+                    new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f),
+                    new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[2]), seriesZPosition + seriesDepth / 2f),
+                    new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[3]), seriesZPosition + seriesDepth / 2f),
+                    new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[4]), seriesZPosition + seriesDepth / 2f),
+                    new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[5]), seriesZPosition + seriesDepth / 2f),
+                ];
                 area.matrix3D.TransformPoints(points);
 
                 if (common.ProcessModePaint)
@@ -1411,9 +1413,11 @@ internal class BoxPlotChart : IChartType
 
 
                     // 3D Transform coordinates
-                    Point3D[] points = new Point3D[2];
-                    points[0] = new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f);
-                    points[1] = new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f);
+                    Point3D[] points =
+                    [
+                        new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f),
+                        new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f),
+                    ];
                     area.matrix3D.TransformPoints(points);
                     xPosition = points[0].X;
                     high = points[0].Y;

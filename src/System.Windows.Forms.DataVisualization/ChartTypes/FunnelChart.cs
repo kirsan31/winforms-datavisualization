@@ -787,11 +787,13 @@ internal class FunnelChart : IChartType
         {
             if (this.Area.Area3DStyle.Enable3D)
             {
-                PointF[] sidePoints = new PointF[4];
-                sidePoints[0] = new PointF(xCenterPointAbs + startWidth / 2f, location);
-                sidePoints[1] = new PointF(xCenterPointAbs, location + topRotationHeight);
-                sidePoints[2] = new PointF(xCenterPointAbs - startWidth / 2f, location);
-                sidePoints[3] = new PointF(xCenterPointAbs, location - topRotationHeight);
+                PointF[] sidePoints =
+                [
+                    new PointF(xCenterPointAbs + startWidth / 2f, location),
+                    new PointF(xCenterPointAbs, location + topRotationHeight),
+                    new PointF(xCenterPointAbs - startWidth / 2f, location),
+                    new PointF(xCenterPointAbs, location - topRotationHeight),
+                ];
                 GraphicsPath topCurve = new GraphicsPath();
                 topCurve.AddLines(sidePoints);
                 topCurve.CloseAllFigures();
@@ -837,11 +839,13 @@ internal class FunnelChart : IChartType
         {
             if (this.Area.Area3DStyle.Enable3D)
             {
-                PointF[] sidePoints = new PointF[4];
-                sidePoints[0] = new PointF(xCenterPointAbs + endWidth / 2f, location + height);
-                sidePoints[1] = new PointF(xCenterPointAbs, location + height + bottomRotationHeight);
-                sidePoints[2] = new PointF(xCenterPointAbs - endWidth / 2f, location + height);
-                sidePoints[3] = new PointF(xCenterPointAbs, location + height - bottomRotationHeight);
+                PointF[] sidePoints =
+                [
+                    new PointF(xCenterPointAbs + endWidth / 2f, location + height),
+                    new PointF(xCenterPointAbs, location + height + bottomRotationHeight),
+                    new PointF(xCenterPointAbs - endWidth / 2f, location + height),
+                    new PointF(xCenterPointAbs, location + height - bottomRotationHeight),
+                ];
                 GraphicsPath topCurve = new GraphicsPath();
                 topCurve.AddLines(sidePoints);
                 topCurve.CloseAllFigures();
@@ -974,11 +978,13 @@ internal class FunnelChart : IChartType
         {
             if (this.Area.Area3DStyle.Enable3D)
             {
-                PointF[] sidePoints = new PointF[4];
-                sidePoints[0] = new PointF(xCenterPointAbs + startWidth / 2f, location);
-                sidePoints[1] = new PointF(xCenterPointAbs, location + topRotationHeight);
-                sidePoints[2] = new PointF(xCenterPointAbs - startWidth / 2f, location);
-                sidePoints[3] = new PointF(xCenterPointAbs, location - topRotationHeight);
+                PointF[] sidePoints =
+                [
+                    new PointF(xCenterPointAbs + startWidth / 2f, location),
+                    new PointF(xCenterPointAbs, location + topRotationHeight),
+                    new PointF(xCenterPointAbs - startWidth / 2f, location),
+                    new PointF(xCenterPointAbs, location - topRotationHeight),
+                ];
                 using GraphicsPath topCurve = new GraphicsPath();
                 topCurve.AddClosedCurve(sidePoints, tension);
                 topCurve.Flatten();
@@ -1039,11 +1045,13 @@ internal class FunnelChart : IChartType
         {
             if (this.Area.Area3DStyle.Enable3D)
             {
-                PointF[] sidePoints = new PointF[4];
-                sidePoints[0] = new PointF(xCenterPointAbs + endWidth / 2f, location + height);
-                sidePoints[1] = new PointF(xCenterPointAbs, location + height + bottomRotationHeight);
-                sidePoints[2] = new PointF(xCenterPointAbs - endWidth / 2f, location + height);
-                sidePoints[3] = new PointF(xCenterPointAbs, location + height - bottomRotationHeight);
+                PointF[] sidePoints =
+                [
+                    new PointF(xCenterPointAbs + endWidth / 2f, location + height),
+                    new PointF(xCenterPointAbs, location + height + bottomRotationHeight),
+                    new PointF(xCenterPointAbs - endWidth / 2f, location + height),
+                    new PointF(xCenterPointAbs, location + height - bottomRotationHeight),
+                ];
                 using GraphicsPath topCurve = new GraphicsPath();
                 topCurve.AddClosedCurve(sidePoints, tension);
                 topCurve.Flatten();
@@ -1208,11 +1216,13 @@ internal class FunnelChart : IChartType
         {
             if (this.Area.Area3DStyle.Enable3D)
             {
-                PointF[] sidePoints = new PointF[4];
-                sidePoints[0] = new PointF(xCenterPointAbs + startWidth / 2f, location);
-                sidePoints[1] = new PointF(xCenterPointAbs, location + topRotationHeight);
-                sidePoints[2] = new PointF(xCenterPointAbs - startWidth / 2f, location);
-                sidePoints[3] = new PointF(xCenterPointAbs, location - topRotationHeight);
+                PointF[] sidePoints =
+                [
+                    new PointF(xCenterPointAbs + startWidth / 2f, location),
+                    new PointF(xCenterPointAbs, location + topRotationHeight),
+                    new PointF(xCenterPointAbs - startWidth / 2f, location),
+                    new PointF(xCenterPointAbs, location - topRotationHeight),
+                ];
                 using GraphicsPath topCurve = new GraphicsPath();
                 topCurve.AddClosedCurve(sidePoints, tension);
 
@@ -1255,11 +1265,13 @@ internal class FunnelChart : IChartType
         {
             if (this.Area.Area3DStyle.Enable3D)
             {
-                PointF[] sidePoints = new PointF[4];
-                sidePoints[0] = new PointF(xCenterPointAbs + endWidth / 2f, location + height);
-                sidePoints[1] = new PointF(xCenterPointAbs, location + height + bottomRotationHeight);
-                sidePoints[2] = new PointF(xCenterPointAbs - endWidth / 2f, location + height);
-                sidePoints[3] = new PointF(xCenterPointAbs, location + height - bottomRotationHeight);
+                PointF[] sidePoints =
+                [
+                    new PointF(xCenterPointAbs + endWidth / 2f, location + height),
+                    new PointF(xCenterPointAbs, location + height + bottomRotationHeight),
+                    new PointF(xCenterPointAbs - endWidth / 2f, location + height),
+                    new PointF(xCenterPointAbs, location + height - bottomRotationHeight),
+                ];
                 using GraphicsPath topCurve = new GraphicsPath();
                 topCurve.AddClosedCurve(sidePoints, tension);
 

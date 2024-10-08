@@ -494,7 +494,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
         pathGradientBrush.CenterColor = firstColor;
 
         // Set the Surround color
-        Color[] colors = { secondColor };
+        Color[] colors = [secondColor];
         pathGradientBrush.SurroundColors = colors;
 
         path?.Dispose();
@@ -529,7 +529,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
 
         // Set the color along the entire boundary
         // of the path to aqua.
-        Color[] colors = { secondColor };
+        Color[] colors = [secondColor];
 
         gradientBrush.SurroundColors = colors;
 
@@ -818,7 +818,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
                                     shadowBrush.CenterColor = shadowColor;
 
                                     // Set the color along the entire boundary of the path
-                                    Color[] colors = { Color.Transparent };
+                                    Color[] colors = [Color.Transparent];
                                     shadowBrush.SurroundColors = colors;
                                     shadowBrush.CenterPoint = new PointF(point.X, point.Y);
 
@@ -929,7 +929,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
                                     shadowBrush.CenterColor = shadowColor;
 
                                     // Set the color along the entire boundary of the path
-                                    Color[] colors = { Color.Transparent };
+                                    Color[] colors = [Color.Transparent];
                                     shadowBrush.SurroundColors = colors;
                                     shadowBrush.CenterPoint = new PointF(point.X, point.Y);
 
@@ -1057,7 +1057,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
                                     shadowBrush.CenterColor = shadowColor;
 
                                     // Set the color along the entire boundary of the path
-                                    Color[] colors = { Color.Transparent };
+                                    Color[] colors = [Color.Transparent];
                                     shadowBrush.SurroundColors = colors;
                                     shadowBrush.CenterPoint = new PointF(point.X, point.Y);
 
@@ -1660,11 +1660,11 @@ public partial class ChartGraphics : ChartElement, IDisposable
 
         // Get the absolute center and create the centered rectangle points
         PointF absCenter = GetAbsolutePoint(center);
-        PointF[] points = new PointF[] {
+        PointF[] points = [
             new PointF(absCenter.X - size.Width / 2f, absCenter.Y - size.Height / 2f),
             new PointF(absCenter.X + size.Width / 2f, absCenter.Y - size.Height / 2f),
             new PointF(absCenter.X + size.Width / 2f, absCenter.Y + size.Height / 2f),
-            new PointF(absCenter.X - size.Width / 2f, absCenter.Y + size.Height / 2f)};
+            new PointF(absCenter.X - size.Width / 2f, absCenter.Y + size.Height / 2f)];
 
         //Prepare the same transformation matrix as used for the axis title
         using Matrix matrix = this.Transform;
@@ -2824,13 +2824,13 @@ public partial class ChartGraphics : ChartElement, IDisposable
                     using (GraphicsPath path = new GraphicsPath())
                     {
                         // Add shadow polygon to the path
-                        PointF[] points = new PointF[] {
+                        PointF[] points = [
                                                            new PointF(rect.Left, rect.Bottom),
                                                            new PointF(rect.Left, rect.Top),
                                                            new PointF(rect.Right, rect.Top),
                                                            new PointF(rect.Right - shadowSize, rect.Top + shadowSize),
                                                            new PointF(rect.Left + shadowSize, rect.Top + shadowSize),
-                                                           new PointF(rect.Left + shadowSize, rect.Bottom - shadowSize) };
+                                                           new PointF(rect.Left + shadowSize, rect.Bottom - shadowSize) ];
                         path.AddPolygon(points);
 
                         // Create brush
@@ -2843,13 +2843,13 @@ public partial class ChartGraphics : ChartElement, IDisposable
                     using (GraphicsPath path = new GraphicsPath())
                     {
                         // Add shadow polygon to the path
-                        PointF[] points = new PointF[] {
+                        PointF[] points = [
                                                            new PointF(rect.Right, rect.Top),
                                                            new PointF(rect.Right, rect.Bottom),
                                                            new PointF(rect.Left, rect.Bottom),
                                                            new PointF(rect.Left + shadowSize, rect.Bottom - shadowSize),
                                                            new PointF(rect.Right - shadowSize, rect.Bottom - shadowSize),
-                                                           new PointF(rect.Right - shadowSize, rect.Top + shadowSize) };
+                                                           new PointF(rect.Right - shadowSize, rect.Top + shadowSize) ];
                         path.AddPolygon(points);
 
                         // Create brush
@@ -3719,7 +3719,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
             shadowBrush.CenterColor = shadowColor;
 
             // Set the color along the entire boundary of the path
-            Color[] colors = { Color.Transparent };
+            Color[] colors = [Color.Transparent];
             shadowBrush.SurroundColors = colors;
             shadowBrush.CenterPoint = new PointF(offset.X + offset.Width / 2f, offset.Y + offset.Height / 2f);
 
@@ -3784,7 +3784,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
             matrix.RotateAt(curentSector, centerPoint);
 
             // Get point and rotate it
-            PointF[] points = new PointF[] { firstPoint };
+            PointF[] points = [firstPoint];
             matrix.TransformPoints(points);
 
             // Add point into the path
@@ -3870,7 +3870,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
                 matrix.RotateAt(curentSector, centerPoint);
 
                 // Get point and rotate it
-                PointF[] points = new PointF[] { firstPoint };
+                PointF[] points = [firstPoint];
                 matrix.TransformPoints(points);
 
                 // Add point into the path
@@ -4729,7 +4729,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
         shadowBrush.CenterColor = centerColor;
 
         // Set the color along the entire boundary of the path
-        Color[] colors = { surroundColor };
+        Color[] colors = [surroundColor];
         shadowBrush.SurroundColors = colors;
         shadowBrush.CenterPoint = new PointF(rect.X + rect.Width / 2f, rect.Y + rect.Height / 2f);
 
@@ -5097,7 +5097,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
                 // Create shadow brush
                 using PathGradientBrush brush = new PathGradientBrush(brushPath);
                 brush.CenterColor = Color.Transparent;
-                brush.SurroundColors = new Color[] { Color.FromArgb(100, Color.Black) };
+                brush.SurroundColors = [Color.FromArgb(100, Color.Black)];
 
                 Blend blend = new Blend(3);
                 blend.Positions[0] = 0f;
@@ -5130,7 +5130,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
                 // Create shadow brush
                 using PathGradientBrush brushInner = new PathGradientBrush(brushInsidePath);
                 brushInner.CenterColor = Color.FromArgb(100, Color.Black);
-                brushInner.SurroundColors = new Color[] { Color.Transparent };
+                brushInner.SurroundColors = [Color.Transparent];
 
                 Blend blend = new Blend(3);
                 blend.Positions[0] = 0f;
@@ -5162,14 +5162,14 @@ public partial class ChartGraphics : ChartElement, IDisposable
 
         using PathGradientBrush brush = new PathGradientBrush(path);
 
-        Color[] colors = {
+        Color[] colors = [
                             Color.FromArgb( 0, backColor ),
                             Color.FromArgb( backColor.A, backColor ),
-                            Color.FromArgb( backColor.A, backColor )};
+                            Color.FromArgb( backColor.A, backColor )];
 
-        float[] relativePositions = {0f,
+        float[] relativePositions = [0f,
                                      0.05f,
-                                     1.0f}; // at the center point.
+                                     1.0f]; // at the center point.
 
         ColorBlend colorBlend = new ColorBlend
         {

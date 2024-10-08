@@ -2740,8 +2740,7 @@ internal sealed class Selection : IServiceProvider
             PointF pf = point.positionRel;
 
             // Define 3D points of annotation object
-            Point3D[] annot3DPoints = new Point3D[1];
-            annot3DPoints[0] = new Point3D(pf.X, pf.Y, positionZ);
+            Point3D[] annot3DPoints = [new Point3D(pf.X, pf.Y, positionZ)];
 
             // Transform cube coordinates
             chartArea.matrix3D.TransformPoints(annot3DPoints);

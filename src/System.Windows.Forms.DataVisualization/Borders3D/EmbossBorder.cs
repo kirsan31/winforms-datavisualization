@@ -31,7 +31,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// <summary>
         /// Array of corner radius
         /// </summary>
-        internal float[] cornerRadius = { 15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f };
+        internal float[] cornerRadius = [15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f];
 
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
                 resolution = value;
                 float radius = 15f * value / 96.0f;
                 defaultRadiusSize = radius;
-                cornerRadius = new float[] { radius, radius, radius, radius, radius, radius, radius, radius };
+                cornerRadius = [radius, radius, radius, radius, radius, radius, radius, radius];
             }
 
         }

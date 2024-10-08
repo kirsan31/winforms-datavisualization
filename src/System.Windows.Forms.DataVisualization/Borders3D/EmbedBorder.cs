@@ -306,7 +306,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         public FrameTitle7Border()
         {
             this.sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
-            float[] corners = { 15f, 1f, 1f, 1f, 1f, 15f, 15f, 15f };
+            float[] corners = [15f, 1f, 1f, 1f, 1f, 15f, 15f, 15f];
             innerCorners = corners;
         }
 
@@ -324,7 +324,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
                 this.sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
                 float largeRadius = 15f * resolution / 96.0f;
                 float smallRadius = 1 * resolution / 96.0f;
-                float[] corners = { largeRadius, smallRadius, smallRadius, smallRadius, smallRadius, largeRadius, largeRadius, largeRadius };
+                float[] corners = [largeRadius, smallRadius, smallRadius, smallRadius, smallRadius, largeRadius, largeRadius, largeRadius];
                 innerCorners = corners;
             }
         }
@@ -346,7 +346,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         {
             this.sizeLeftTop = new SizeF(0, sizeLeftTop.Height);
             this.sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
-            float[] corners = { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+            float[] corners = [1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f];
             innerCorners = corners;
         }
 
@@ -365,7 +365,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
                 this.sizeLeftTop = new SizeF(0, sizeLeftTop.Height);
                 this.sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
                 float radius = 1 * resolution / 96.0f;
-                float[] corners = { radius, radius, radius, radius, radius, radius, radius, radius };
+                float[] corners = [radius, radius, radius, radius, radius, radius, radius, radius];
                 innerCorners = corners;
             }
         }
@@ -385,7 +385,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// </summary>
         public FrameThin2Border()
         {
-            float[] corners = { 15f, 15f, 15f, 1f, 1f, 1f, 1f, 15f };
+            float[] corners = [15f, 15f, 15f, 1f, 1f, 1f, 1f, 15f];
             cornerRadius = corners;
             innerCorners = corners;
         }
@@ -404,7 +404,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 
                 float largeRadius = 15f * resolution / 96.0f;
                 float smallRadius = 1 * resolution / 96.0f;
-                float[] corners = { largeRadius, largeRadius, largeRadius, smallRadius, smallRadius, smallRadius, smallRadius, largeRadius };
+                float[] corners = [largeRadius, largeRadius, largeRadius, smallRadius, smallRadius, smallRadius, smallRadius, largeRadius];
                 cornerRadius = corners;
                 innerCorners = corners;
             }
@@ -425,7 +425,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// </summary>
         public FrameThin3Border()
         {
-            float[] corners = { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+            float[] corners = [1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f];
             cornerRadius = corners;
             innerCorners = corners;
         }
@@ -442,7 +442,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             {
                 base.Resolution = value;
                 float radius = resolution / 96.0f;
-                float[] corners = { radius, radius, radius, radius, radius, radius, radius, radius };
+                float[] corners = [radius, radius, radius, radius, radius, radius, radius, radius];
                 cornerRadius = corners;
                 innerCorners = corners;
             }
@@ -463,7 +463,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// </summary>
         public FrameThin4Border()
         {
-            float[] corners = { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+            float[] corners = [1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f];
             cornerRadius = corners;
         }
 
@@ -479,7 +479,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             {
                 base.Resolution = value;
                 float radius = 1f * resolution / 96.0f;
-                cornerRadius = new float[] { radius, radius, radius, radius, radius, radius, radius, radius };
+                cornerRadius = [radius, radius, radius, radius, radius, radius, radius, radius];
             }
         }
 
@@ -521,7 +521,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// </summary>
         public FrameThin6Border()
         {
-            float[] corners = { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+            float[] corners = [1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f];
             innerCorners = corners;
         }
 
@@ -537,7 +537,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             {
                 base.Resolution = value;
                 float radius = resolution / 96.0f;
-                float[] corners = { radius, radius, radius, radius, radius, radius, radius, radius };
+                float[] corners = [radius, radius, radius, radius, radius, radius, radius, radius];
                 innerCorners = corners;
             }
         }
@@ -555,7 +555,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// <summary>
         /// Inner corners radius array
         /// </summary>
-        internal float[] innerCorners = { 15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f };
+        internal float[] innerCorners = [15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f];
 
         /// <summary>
         /// Default constructor
@@ -578,7 +578,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
             {
                 base.Resolution = value;
                 float radius = 15.0f * resolution / 96.0f;
-                innerCorners = new float[] { radius, radius, radius, radius, radius, radius, radius, radius };
+                innerCorners = [radius, radius, radius, radius, radius, radius, radius, radius];
                 sizeLeftTop = new SizeF(defaultRadiusSize * .8f, defaultRadiusSize * .8f);
                 sizeRightBottom = new SizeF(defaultRadiusSize * .8f, defaultRadiusSize * .8f);
 
@@ -737,7 +737,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
         /// <summary>
         /// Array of corner radius
         /// </summary>
-        internal float[] cornerRadius = { 15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f };
+        internal float[] cornerRadius = [15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f];
 
         /// <summary>
         /// Border top/left size 
@@ -779,7 +779,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
                 defaultRadiusSize = 15 * resolution / 96;
                 //X = defaultRadiusSize;
                 //Y = defaultRadiusSize;
-                cornerRadius = new float[] { defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize };
+                cornerRadius = [defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize];
             }
         }
 

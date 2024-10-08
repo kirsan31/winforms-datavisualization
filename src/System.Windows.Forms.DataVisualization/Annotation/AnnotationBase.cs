@@ -2045,8 +2045,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
 
                             // Define 3D points of annotation object
-                            Point3D[] annot3DPoints = new Point3D[1];
-                            annot3DPoints[0] = new Point3D((float)anchorX, (float)anchorY, positionZ);
+                            Point3D[] annot3DPoints = [new Point3D((float)anchorX, (float)anchorY, positionZ)];
 
                             // Transform cube coordinates
                             chartArea.matrix3D.TransformPoints(annot3DPoints);
@@ -2546,10 +2545,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 }
 
                 // Define 3D points of annotation object
-                Point3D[] annot3DPoints = new Point3D[3];
-                annot3DPoints[0] = new Point3D((float)relativeX, (float)relativeY, positionZ);
-                annot3DPoints[1] = new Point3D((float)(relativeX + relativeWidth), (float)(relativeY + relativeHeight), positionZ);
-                annot3DPoints[2] = new Point3D((float)anchorX, (float)anchorY, positionZ);
+                Point3D[] annot3DPoints =
+                [
+                    new Point3D((float)relativeX, (float)relativeY, positionZ),
+                    new Point3D((float)(relativeX + relativeWidth), (float)(relativeY + relativeHeight), positionZ),
+                    new Point3D((float)anchorX, (float)anchorY, positionZ),
+                ];
 
                 // Transform cube coordinates
                 chartArea.matrix3D.TransformPoints(annot3DPoints);
@@ -3313,8 +3314,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
 
                         // Define 3D points of annotation object
-                        Point3D[] annot3DPoints = new Point3D[1];
-                        annot3DPoints[0] = new Point3D((float)anchorX, (float)anchorY, positionZ);
+                        Point3D[] annot3DPoints = [new Point3D((float)anchorX, (float)anchorY, positionZ)];
 
                         // Transform cube coordinates
                         chartArea.matrix3D.TransformPoints(annot3DPoints);
@@ -3861,8 +3861,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             }
 
                             // Define 3D points of annotation object
-                            Point3D[] annot3DPoints = new Point3D[1];
-                            annot3DPoints[0] = new Point3D((float)anchorX, (float)anchorY, positionZ);
+                            Point3D[] annot3DPoints = [new Point3D((float)anchorX, (float)anchorY, positionZ)];
 
                             // Transform cube coordinates
                             chartArea.matrix3D.TransformPoints(annot3DPoints);

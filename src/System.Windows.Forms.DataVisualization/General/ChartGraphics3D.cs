@@ -399,7 +399,7 @@ public partial class ChartGraphics
     {
 
         // Transform coordinates
-        Point3D[] points = new Point3D[] { firstPoint, secondPoint };
+        Point3D[] points = [firstPoint, secondPoint];
         matrix.TransformPoints(points);
 
         // Selection mode
@@ -1137,21 +1137,25 @@ public partial class ChartGraphics
         //**********************************************************************
 
         // Define 4 points polygon
-        Point3D[] points3D = new Point3D[4];
-        points3D[0] = new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ);
-        points3D[1] = new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ);
-        points3D[2] = new Point3D((float)thirdPoint.xPosition, (float)thirdPoint.yPosition, positionZ);
-        points3D[3] = new Point3D((float)fourthPoint.xPosition, (float)fourthPoint.yPosition, positionZ);
+        Point3D[] points3D =
+        [
+            new Point3D((float)firstPoint.xPosition, (float)firstPoint.yPosition, positionZ),
+            new Point3D((float)secondPoint.xPosition, (float)secondPoint.yPosition, positionZ),
+            new Point3D((float)thirdPoint.xPosition, (float)thirdPoint.yPosition, positionZ),
+            new Point3D((float)fourthPoint.xPosition, (float)fourthPoint.yPosition, positionZ),
+        ];
 
         // Transform coordinates
         matrix.TransformPoints(points3D);
 
         // Get absolute coordinates and create array of PointF
-        PointF[] polygonPoints = new PointF[4];
-        polygonPoints[0] = GetAbsolutePoint(points3D[0].PointF);
-        polygonPoints[1] = GetAbsolutePoint(points3D[1].PointF);
-        polygonPoints[2] = GetAbsolutePoint(points3D[2].PointF);
-        polygonPoints[3] = GetAbsolutePoint(points3D[3].PointF);
+        PointF[] polygonPoints =
+        [
+            GetAbsolutePoint(points3D[0].PointF),
+            GetAbsolutePoint(points3D[1].PointF),
+            GetAbsolutePoint(points3D[2].PointF),
+            GetAbsolutePoint(points3D[3].PointF),
+        ];
 
 
         //**********************************************************************
@@ -3264,11 +3268,13 @@ public partial class ChartGraphics
 
 
             // Top gradient
-            Point3D[] gradientPoints = new Point3D[4];
-            gradientPoints[0] = new Point3D(gradientRect.Left, gradientRect.Top, positionZ + depth);
-            gradientPoints[1] = new Point3D(gradientRect.Left, gradientRect.Bottom, positionZ + depth);
-            gradientPoints[2] = new Point3D(gradientRect.Right, gradientRect.Bottom, positionZ + depth);
-            gradientPoints[3] = new Point3D(gradientRect.Right, gradientRect.Top, positionZ + depth);
+            Point3D[] gradientPoints =
+            [
+                new Point3D(gradientRect.Left, gradientRect.Top, positionZ + depth),
+                new Point3D(gradientRect.Left, gradientRect.Bottom, positionZ + depth),
+                new Point3D(gradientRect.Right, gradientRect.Bottom, positionZ + depth),
+                new Point3D(gradientRect.Right, gradientRect.Top, positionZ + depth),
+            ];
 
             // Transform cube coordinates
             matrix.TransformPoints(gradientPoints);
@@ -3372,13 +3378,15 @@ public partial class ChartGraphics
             SizeF shadowSizeRel = GetRelativeSize(new SizeF(shadowSizeAbs, shadowSizeAbs));
 
             // Left/top Side
-            Point3D[] gradientPoints = new Point3D[6];
-            gradientPoints[0] = new Point3D(position.Left, position.Bottom, positionZ + depth);
-            gradientPoints[1] = new Point3D(position.Left, position.Top, positionZ + depth);
-            gradientPoints[2] = new Point3D(position.Right, position.Top, positionZ + depth);
-            gradientPoints[3] = new Point3D(position.Right - shadowSizeRel.Width, position.Top + shadowSizeRel.Height, positionZ + depth);
-            gradientPoints[4] = new Point3D(position.Left + shadowSizeRel.Width, position.Top + shadowSizeRel.Height, positionZ + depth);
-            gradientPoints[5] = new Point3D(position.Left + shadowSizeRel.Width, position.Bottom - shadowSizeRel.Height, positionZ + depth);
+            Point3D[] gradientPoints =
+            [
+                new Point3D(position.Left, position.Bottom, positionZ + depth),
+                new Point3D(position.Left, position.Top, positionZ + depth),
+                new Point3D(position.Right, position.Top, positionZ + depth),
+                new Point3D(position.Right - shadowSizeRel.Width, position.Top + shadowSizeRel.Height, positionZ + depth),
+                new Point3D(position.Left + shadowSizeRel.Width, position.Top + shadowSizeRel.Height, positionZ + depth),
+                new Point3D(position.Left + shadowSizeRel.Width, position.Bottom - shadowSizeRel.Height, positionZ + depth),
+            ];
 
             // Transform cube coordinates
             matrix.TransformPoints(gradientPoints);
@@ -3484,7 +3492,7 @@ public partial class ChartGraphics
         //** Transform marker position in 3D space
         //************************************************************
         // Get projection coordinates
-        Point3D[] marker3DPosition = { new Point3D(point.X, point.Y, positionZ) };
+        Point3D[] marker3DPosition = [new Point3D(point.X, point.Y, positionZ)];
 
         // Transform coordinates of the marker center
         matrix.TransformPoints(marker3DPosition);
@@ -3563,7 +3571,7 @@ public partial class ChartGraphics
                                     shadowBrush.CenterColor = shadowColor;
 
                                     // Set the color along the entire boundary of the path
-                                    Color[] colors = { Color.Transparent };
+                                    Color[] colors = [Color.Transparent];
                                     shadowBrush.SurroundColors = colors;
                                     shadowBrush.CenterPoint = new PointF(markerRotatedPosition.X, markerRotatedPosition.Y);
 
@@ -3593,10 +3601,10 @@ public partial class ChartGraphics
                             brushPath.AddEllipse(rectLightCenter);
                             using PathGradientBrush circleBrush = new PathGradientBrush(brushPath);
                             circleBrush.CenterColor = GetGradientColor(markerColor, Color.White, 0.85);
-                            circleBrush.SurroundColors = new Color[] { markerColor };
+                            circleBrush.SurroundColors = [markerColor];
 
                             // Calculate the center point of the gradient
-                            Point3D[] centerPoint = new Point3D[] { new Point3D(point.X, point.Y, positionZ + markerRelativeSize.Width) };
+                            Point3D[] centerPoint = [new Point3D(point.X, point.Y, positionZ + markerRelativeSize.Width)];
                             matrix.TransformPoints(centerPoint);
                             centerPoint[0].PointF = graph.GetAbsolutePoint(centerPoint[0].PointF);
                             circleBrush.CenterPoint = centerPoint[0].PointF;
@@ -3719,19 +3727,19 @@ public partial class ChartGraphics
         Matrix3D matrix)
     {
         // Create cube coordinates in 3D space
-        Point3D[] cubePoints = new Point3D[8];
-
-        // Front Side
-        cubePoints[0] = new Point3D(position.X, position.Y, positionZ + depth);
-        cubePoints[1] = new Point3D(position.X, position.Bottom, positionZ + depth);
-        cubePoints[2] = new Point3D(position.Right, position.Bottom, positionZ + depth);
-        cubePoints[3] = new Point3D(position.Right, position.Y, positionZ + depth);
-
-        // Back Side
-        cubePoints[4] = new Point3D(position.X, position.Y, positionZ);
-        cubePoints[5] = new Point3D(position.X, position.Bottom, positionZ);
-        cubePoints[6] = new Point3D(position.Right, position.Bottom, positionZ);
-        cubePoints[7] = new Point3D(position.Right, position.Y, positionZ);
+        Point3D[] cubePoints =
+        [
+            // Front Side
+            new Point3D(position.X, position.Y, positionZ + depth),
+            new Point3D(position.X, position.Bottom, positionZ + depth),
+            new Point3D(position.Right, position.Bottom, positionZ + depth),
+            new Point3D(position.Right, position.Y, positionZ + depth),
+            // Back Side
+            new Point3D(position.X, position.Y, positionZ),
+            new Point3D(position.X, position.Bottom, positionZ),
+            new Point3D(position.Right, position.Bottom, positionZ),
+            new Point3D(position.Right, position.Y, positionZ),
+        ];
 
         // Transform coordinates 
         matrix.TransformPoints(cubePoints);
@@ -4052,11 +4060,13 @@ public partial class ChartGraphics
         //** Create flattened paths for the sides of the 
         //** cylinder (top,bottom/left,rigth)
         //*******************************************************
-        PointF[] sidePoints = new PointF[4];
-        sidePoints[0] = cubePoints[6].PointF;
-        sidePoints[1] = cubePoints[1].PointF;
-        sidePoints[2] = cubePoints[5].PointF;
-        sidePoints[3] = cubePoints[2].PointF;
+        PointF[] sidePoints =
+        [
+            cubePoints[6].PointF,
+            cubePoints[1].PointF,
+            cubePoints[5].PointF,
+            cubePoints[2].PointF,
+        ];
         using GraphicsPath bottomLeftSide = new GraphicsPath();
         bottomLeftSide.AddClosedCurve(sidePoints, 0.8f);
         bottomLeftSide.Flatten();

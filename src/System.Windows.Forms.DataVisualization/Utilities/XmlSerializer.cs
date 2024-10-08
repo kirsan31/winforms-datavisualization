@@ -647,8 +647,8 @@ internal abstract class SerializerBase
         }
 
         reusedObject = false;
-        PropertyInfo pi = list.GetType().GetProperty("Item", itemType, new Type[] { typeof(string) });
-        MethodInfo mi = list.GetType().GetMethod("IndexOf", new Type[] { typeof(string) });
+        PropertyInfo pi = list.GetType().GetProperty("Item", itemType, [typeof(string)]);
+        MethodInfo mi = list.GetType().GetMethod("IndexOf", [typeof(string)]);
         if (pi is not null)
         {
             // Try to get object by name using the indexer
@@ -660,7 +660,7 @@ internal abstract class SerializerBase
                     try
                     {
                         int index = -1;
-                        object oindex = mi.Invoke(list, new object[] { itemName });
+                        object oindex = mi.Invoke(list, [itemName]);
                         if (oindex is int indV)
                         {
                             index = indV;
@@ -710,7 +710,7 @@ internal abstract class SerializerBase
                     object objByName;
                     try
                     {
-                        objByName = pi.GetValue(list, new object[] { itemName });
+                        objByName = pi.GetValue(list, [itemName]);
                     }
                     catch (ArgumentException)
                     {
@@ -2183,7 +2183,7 @@ internal class BinaryFormatSerializer : SerializerBase
         }
 
         // Write bnary format header into the stream, which consist of 15 characters
-        char[] header = new char[15] { 'D', 'C', 'B', 'F', '4', '0', '0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0' };
+        char[] header = ['D', 'C', 'B', 'F', '4', '0', '0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'];
         writer.Write(header);
 
         // Serialize object
@@ -2807,7 +2807,7 @@ internal class BinaryFormatSerializer : SerializerBase
 
         if (objectToDeserialize is IList list)
         {
-            PropertyInfo listItemPI = objectToDeserialize.GetType().GetProperty("Item", new Type[] { typeof(int) });
+            PropertyInfo listItemPI = objectToDeserialize.GetType().GetProperty("Item", [typeof(int)]);
             // Loop through all list items
             short typeHash;
             while ((typeHash = this.ReadHashID(reader)) != 0)
