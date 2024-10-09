@@ -7,6 +7,7 @@ This control is a [.NET](https://dotnet.microsoft.com/) continuation of [.NET Fr
 - **Full support of new WinForms designer.**  
 - Lots of performance improvements.
 - New 3D mode for emulating Z axis.
+- Per-Monitor DPI awareness (`PerMonitorV2`) support.
 - New API elements.
 - This Nuget package.  
 - Bugs fixes and other improvements.

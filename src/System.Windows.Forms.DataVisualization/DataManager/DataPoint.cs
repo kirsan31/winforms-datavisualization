@@ -3187,7 +3187,6 @@ public class DataPointCustomProperties : ChartNamedElement
     /// Indexer of the custom properties. Gets the data point custom property with the specified name.
     /// </summary>
     /// <param name="name">Name of the custom property.</param>
-    ///<value>If set to <see langword="null" /> - delete <paramref name="name" /> property.</value>
     /// <exception cref="System.ArgumentNullException"></exception>
     public string this[string name]
     {

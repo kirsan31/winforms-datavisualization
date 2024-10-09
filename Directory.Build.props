@@ -9,11 +9,14 @@
 
 	<PropertyGroup>
 		<MajorVer>1</MajorVer>
-		<MinorPatchVer>9.2</MinorPatchVer>
-		<PRVer></PRVer>
+		<MinorPatchVer>10.0</MinorPatchVer>
+		<PRVer>-pr</PRVer>
 		<NugetReleaseNotes>
-			.NET 8 support.
-			Small bug fixes.
+			Per-Monitor DPI awareness (`PerMonitorV2`) support.
+			Lots of performance improvements.
+			Old small bugs fixes.
+			Some breaking changes.
+			More info: https://github.com/kirsan31/winforms-datavisualization/releases/tag/1.10pr
 		</NugetReleaseNotes>
 	</PropertyGroup>
 </Project>

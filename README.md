@@ -10,6 +10,7 @@ This repository is a [.NET](https://dotnet.microsoft.com/) continuation of [.NET
 - **Full support of new WinForms designer.**  
 - Lots of performance improvements.
 - New [3D mode](Docs/ZDepthRealCalc/ZDepthRealCalc.md) for emulating Z axis.
+- Per-Monitor DPI awareness (`PerMonitorV2`) support.
 - [New API elements](Docs/NewAPI.md).
 - [Nuget package](https://www.nuget.org/packages/WinForms.DataVisualization/).  
 - Bugs fixes and other improvements.
