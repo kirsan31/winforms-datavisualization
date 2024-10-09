@@ -203,7 +203,9 @@ internal sealed class ImageLoader : IDisposable, IServiceProvider
             {
                 try
                 {
+#pragma warning disable SYSLIB0014 // Type or member is obsolete
                     WebRequest request = WebRequest.Create(imageUri);
+#pragma warning restore SYSLIB0014 // Type or member is obsolete
                     image = Image.FromStream(request.GetResponse().GetResponseStream());
                 }
                 catch (ArgumentException)

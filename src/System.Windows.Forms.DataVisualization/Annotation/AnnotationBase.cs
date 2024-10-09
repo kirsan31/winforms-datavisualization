@@ -3102,10 +3102,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Data point.</returns>
         private Axis GetAxisByName(ReadOnlySpan<char> axisName)
         {
-            Debug.Assert(axisName != null, "GetAxisByName: handed a null axis name");
-
             Axis axis = null;
-
             try
             {
                 if (Chart != null && axisName.Length > 0)

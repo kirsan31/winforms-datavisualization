@@ -7,6 +7,7 @@
 		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
 		<RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
 		<EnableNETAnalyzers>False</EnableNETAnalyzers>
+		<NoWarn>$(NoWarn);MSB3825</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>

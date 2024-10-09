@@ -23,7 +23,7 @@ namespace WinForms.DataVisualization.Designer.Client
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.Container _components;
+        private System.ComponentModel.Container _components = null;
 
         #region Windows Form Designer generated code
         /// <summary>

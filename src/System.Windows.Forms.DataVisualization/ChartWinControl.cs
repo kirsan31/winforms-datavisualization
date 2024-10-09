@@ -1660,11 +1660,13 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize
     /// <summary>
     /// Initial DPi. Will fill only after first DPI scaling in PerMonitorV2 mode.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal static float InitialDPI { get; private set; }
 
     /// <summary>
     /// CurrentDPI / InitialDPI for PerMonitorV2 mode. <br/>
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal static float DPIScale { get; private set; } = 1;
     #endregion
 
