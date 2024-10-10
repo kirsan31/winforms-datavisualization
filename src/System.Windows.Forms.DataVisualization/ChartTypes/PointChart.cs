@@ -625,8 +625,7 @@ internal class PointChart : IChartType
         // ****************************
         // Draw data point value label
         // ****************************
-        if ((!point.IsEmpty && (ser.IsValueShownAsLabel || pointShowLabelAsValue || pointLabel.Length > 0)) ||
-            pointShowLabelAsValue || pointLabel.Length > 0)
+        if (pointLabel.Length > 0 || pointShowLabelAsValue || (!point.IsEmpty && ser.IsValueShownAsLabel))
         {
             // Label text format
             using StringFormat format = new StringFormat();

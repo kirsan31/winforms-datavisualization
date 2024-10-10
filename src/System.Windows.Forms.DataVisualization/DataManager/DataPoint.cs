@@ -2622,6 +2622,7 @@ public class DataPoint : DataPointCustomProperties
 
                 keyEndIndex = formatEnd + 1;
             }
+
             // Remove keyword string (with optional format)
             result = result.Remove(keyIndex, keyEndIndex - keyIndex);
             var strToReplace = SR.FormatErrorString;
@@ -2667,21 +2668,13 @@ public class DataPoint : DataPointCustomProperties
                     string attributeName = result.Substring(attributeNameStartIndex, keyEndIndex - attributeNameStartIndex - 1);
 
                     // Get attribute value
-                    if (properties.IsCustomPropertySet(attributeName))
-                    {
-                        attributeValue = properties.GetCustomProperty(attributeName);
-                    }
-                    else
-                    {
-                        // In case of the DataPoint check if the attribute is set in the parent series
-                        if (properties is DataPoint dataPoint && dataPoint.series is not null)
-                        {
-                            if (dataPoint.series.IsCustomPropertySet(attributeName))
-                            {
-                                attributeValue = dataPoint.series.GetCustomProperty(attributeName);
-                            }
-                        }
-                    }
+                    attributeValue = properties[attributeName];
+                    ////////////////////////////
+                    // This is to maintain backward compatibility with old buggy code that takes CustomProperty for empty point not from series.EmptyPointStyle.customProperties
+                    // but from series.customProperties.
+                    if (attributeValue is null && properties is DataPoint dataPoint && dataPoint.isEmptyPoint && dataPoint.series is not null)
+                        attributeValue = dataPoint.series[attributeName];
+                    ////////////////////////////
                 }
             }
 
@@ -2689,7 +2682,8 @@ public class DataPoint : DataPointCustomProperties
             result = result.Remove(keyStartIndex, keyEndIndex - keyStartIndex);
 
             // Insert value of the custom attribute
-            result = result.Insert(keyStartIndex, attributeValue);
+            if (!string.IsNullOrEmpty(attributeValue))
+                result = result.Insert(keyStartIndex, attributeValue);
         }
 
         return result;
@@ -2969,7 +2963,7 @@ public class DataPointCustomProperties : ChartNamedElement
     /// </summary>
     /// <param name="name">Name of the property to get.</param>
     /// <returns>Returns the data point custom property with the specified name. If the requested one is not set, 
-    /// the default custom property of the data series will be returned.</returns>
+    /// the default custom property of the data series will be returned. <see langword="null" /> if not found.</returns>
     public virtual string GetCustomProperty(string name)
     {
         if (customProperties.TryGetValue(name, out var res) || !this.pointCustomProperties)
@@ -3186,7 +3180,7 @@ public class DataPointCustomProperties : ChartNamedElement
     /// <summary>
     /// Indexer of the custom properties. Gets the data point custom property with the specified name.
     /// </summary>
-    /// <param name="name">Name of the custom property.</param>
+    /// <param name="name">Name of the custom property. <see langword="null" /> if not found.</param>
     /// <exception cref="System.ArgumentNullException"></exception>
     public string this[string name]
     {
