@@ -249,10 +249,11 @@ internal class PieChart : IChartType
         }
 
         // Check if collected threshold value is set
-        double threshold = 0.0;
-        if (series.IsCustomPropertySet(CustomPropertyName.CollectedThreshold))
+        double threshold;
+        string attr;
+        if ((attr = series.TryGetCustomProperty(CustomPropertyName.CollectedThreshold)) is not null)
         {
-            bool parseSucceed = double.TryParse(series[CustomPropertyName.CollectedThreshold], NumberStyles.Any, CultureInfo.InvariantCulture, out double t);
+            bool parseSucceed = double.TryParse(attr, NumberStyles.Any, CultureInfo.InvariantCulture, out double t);
             if (parseSucceed)
             {
                 threshold = t;
@@ -266,6 +267,10 @@ internal class PieChart : IChartType
             {
                 throw new InvalidOperationException(SR.ExceptionDoughnutThresholdInvalid);
             }
+        }
+        else
+        {
+            threshold = 0.0;
         }
 
         // Check if threshold is set
@@ -306,14 +311,14 @@ internal class PieChart : IChartType
             }
 
             // Check if threshold value is set in percents
-            bool percent = true;
-            if (series.IsCustomPropertySet(CustomPropertyName.CollectedThresholdUsePercent))
+            bool percent;
+            if ((attr = series.TryGetCustomProperty(CustomPropertyName.CollectedThresholdUsePercent)) is not null)
             {
-                if (string.Equals(series[CustomPropertyName.CollectedThresholdUsePercent], "True", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(attr, "True", StringComparison.OrdinalIgnoreCase))
                 {
                     percent = true;
                 }
-                else if (string.Equals(series[CustomPropertyName.CollectedThresholdUsePercent], "False", StringComparison.OrdinalIgnoreCase))
+                else if (string.Equals(attr, "False", StringComparison.OrdinalIgnoreCase))
                 {
                     percent = false;
                 }
@@ -322,8 +327,12 @@ internal class PieChart : IChartType
                     throw new InvalidOperationException(SR.ExceptionDoughnutCollectedThresholdUsePercentInvalid);
                 }
             }
+            else
+            {
+                percent = true;
+            }
 
-            // Convert from percent valur to data point value
+            // Convert from percent value to data point value
             if (percent)
             {
                 if (threshold > 100.0)
@@ -386,12 +395,12 @@ internal class PieChart : IChartType
                 series.Points.Add(collectedPoint);
 
                 // Set collected point color
-                if (series.IsCustomPropertySet(CustomPropertyName.CollectedColor))
+                if ((attr = series.TryGetCustomProperty(CustomPropertyName.CollectedColor)) is not null)
                 {
                     ColorConverter colorConverter = new ColorConverter();
                     try
                     {
-                        collectedPoint.Color = (Color)colorConverter.ConvertFromString(null, CultureInfo.InvariantCulture, series[CustomPropertyName.CollectedColor]);
+                        collectedPoint.Color = (Color)colorConverter.ConvertFromString(null, CultureInfo.InvariantCulture, attr);
                     }
                     catch
                     {
@@ -400,21 +409,21 @@ internal class PieChart : IChartType
                 }
 
                 // Set collected point exploded attribute
-                if (series.IsCustomPropertySet(CustomPropertyName.CollectedSliceExploded))
+                if ((attr = series.TryGetCustomProperty(CustomPropertyName.CollectedSliceExploded)) is not null)
                 {
-                    collectedPoint[CustomPropertyName.Exploded] = series[CustomPropertyName.CollectedSliceExploded];
+                    collectedPoint[CustomPropertyName.Exploded] = attr;
                 }
 
                 // Set collected point tooltip
-                if (series.IsCustomPropertySet(CustomPropertyName.CollectedToolTip))
+                if ((attr = series.TryGetCustomProperty(CustomPropertyName.CollectedToolTip)) is not null)
                 {
-                    collectedPoint.ToolTip = series[CustomPropertyName.CollectedToolTip];
+                    collectedPoint.ToolTip = attr;
                 }
 
                 // Set collected point legend text
-                if (series.IsCustomPropertySet(CustomPropertyName.CollectedLegendText))
+                if ((attr = series.TryGetCustomProperty(CustomPropertyName.CollectedLegendText)) is not null)
                 {
-                    collectedPoint.LegendText = series[CustomPropertyName.CollectedLegendText];
+                    collectedPoint.LegendText = attr;
                 }
                 else
                 {
@@ -422,9 +431,9 @@ internal class PieChart : IChartType
                 }
 
                 // Set collected point label
-                if (series.IsCustomPropertySet(CustomPropertyName.CollectedLabel))
+                if ((attr = series.TryGetCustomProperty(CustomPropertyName.CollectedLabel)) is not null)
                 {
-                    collectedPoint.Label = series[CustomPropertyName.CollectedLabel];
+                    collectedPoint.Label = attr;
                 }
             }
         }
@@ -582,9 +591,10 @@ internal class PieChart : IChartType
         SeriesCollection dataSeries = area.Common.DataManager.Series;
 
         // Take Relative Minimum Pie Size attribute
-        if (dataSeries[typeSeries[0]].IsCustomPropertySet(CustomPropertyName.MinimumRelativePieSize))
+        string attr;
+        if ((attr = dataSeries[typeSeries[0]].TryGetCustomProperty(CustomPropertyName.MinimumRelativePieSize)) is not null)
         {
-            minimumSize = CommonElements.ParseFloat(dataSeries[typeSeries[0]][CustomPropertyName.MinimumRelativePieSize]) / 100.0;
+            minimumSize = CommonElements.ParseFloat(attr) / 100.0;
 
             // Validation
             if (minimumSize < 0.1 || minimumSize > 0.7)
@@ -665,11 +675,12 @@ internal class PieChart : IChartType
         }
 
         // Get first pie starting angle
+        string attr;
         if (typeSeries.Count > 0)
         {
-            if (dataSeries[typeSeries[0]].IsCustomPropertySet(CustomPropertyName.PieStartAngle))
+            if ((attr = dataSeries[typeSeries[0]].TryGetCustomProperty(CustomPropertyName.PieStartAngle)) is not null)
             {
-                bool parseSucceed = float.TryParse(dataSeries[typeSeries[0]][CustomPropertyName.PieStartAngle], NumberStyles.Any, CultureInfo.InvariantCulture, out float angle);
+                bool parseSucceed = float.TryParse(attr, NumberStyles.Any, CultureInfo.InvariantCulture, out float angle);
                 if (parseSucceed)
                 {
                     startAngle = angle;
@@ -705,15 +716,19 @@ internal class PieChart : IChartType
         }
 
         // Take radius attribute
-        float doughnutRadius = 60f;
-        if (dataSeries[typeSeries[0]].IsCustomPropertySet(CustomPropertyName.DoughnutRadius))
+        float doughnutRadius;
+        if ((attr = dataSeries[typeSeries[0]].TryGetCustomProperty(CustomPropertyName.DoughnutRadius)) is not null)
         {
-            doughnutRadius = CommonElements.ParseFloat(dataSeries[typeSeries[0]][CustomPropertyName.DoughnutRadius]);
+            doughnutRadius = CommonElements.ParseFloat(attr);
 
             // Validation
             if (doughnutRadius < 0f || doughnutRadius > 99f)
                 throw new ArgumentException(SR.ExceptionPieRadiusInvalid);
 
+        }
+        else
+        {
+            doughnutRadius = 60f;
         }
 
         // This method is introduced to check colors of palette. For 
@@ -787,27 +802,17 @@ internal class PieChart : IChartType
             float sweepAngle = (float)(Math.Abs(point.YValues[0]) / sum * 360);
 
             // Check Exploded attribute for data point
-            exploded = false;
-            if (point.IsCustomPropertySet(CustomPropertyName.Exploded))
-            {
-                string explodedAttrib = point[CustomPropertyName.Exploded];
-                if (string.Equals(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase))
-                    exploded = true;
-                else
-                    exploded = false;
-            }
-
+            exploded = string.Equals(point.TryGetCustomProperty(CustomPropertyName.Exploded), "true", StringComparison.OrdinalIgnoreCase);
             Color pieLineColor = Color.Empty;
             ColorConverter colorConverter = new ColorConverter();
 
             // Check if special color properties are set
-            if (point.IsCustomPropertySet(CustomPropertyName.PieLineColor) || dataSeries[typeSeries[0]].IsCustomPropertySet(CustomPropertyName.PieLineColor))
+            if ((attr = point.TryGetCustomProperty(CustomPropertyName.PieLineColor) ?? dataSeries[typeSeries[0]].TryGetCustomProperty(CustomPropertyName.PieLineColor)) is not null)
             {
                 bool failed = false;
                 try
                 {
-                    pieLineColor = (Color)colorConverter.ConvertFromString(
-                        point.IsCustomPropertySet(CustomPropertyName.PieLineColor) ? point[CustomPropertyName.PieLineColor] : dataSeries[typeSeries[0]][CustomPropertyName.PieLineColor]);
+                    pieLineColor = (Color)colorConverter.ConvertFromString(attr);
                     failed = false;
                 }
                 catch (ArgumentException)
@@ -821,8 +826,7 @@ internal class PieChart : IChartType
 
                 if (failed)
                 {
-                    pieLineColor = (Color)colorConverter.ConvertFromInvariantString(
-                        point.IsCustomPropertySet(CustomPropertyName.PieLineColor) ? point[CustomPropertyName.PieLineColor] : dataSeries[typeSeries[0]][CustomPropertyName.PieLineColor]);
+                    pieLineColor = (Color)colorConverter.ConvertFromInvariantString(attr);
                 }
             }
 
@@ -1042,9 +1046,8 @@ internal class PieChart : IChartType
         bool added = false; // Indicates that label position was added
         float x; // Label Position
         float y; // Label Position
-        Series series; // Data Series
-        float labelsHorizontalLineSize = 1; // Horizontal line size for outside labels
-        float labelsRadialLineSize = 1; // Radial line size for outside labels
+        float labelsHorizontalLineSize; // Horizontal line size for outside labels
+        float labelsRadialLineSize; // Radial line size for outside labels
         string text;
 
         // Disable the clip region
@@ -1054,115 +1057,12 @@ internal class PieChart : IChartType
         // Get label text
         text = this.GetLabelText(point);
         if (text.Length == 0)
-        {
             return;
-        }
 
         float shift;
-
-        series = point.series;
-
-        PieLabelStyle style = PieLabelStyle.Inside;
-
-        // Get label style attribute from series
-        if (series.IsCustomPropertySet(CustomPropertyName.LabelStyle))
-        {
-            string labelStyleAttrib = series[CustomPropertyName.LabelStyle];
-
-            // Labels Disabled
-            if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Disabled;
-            else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Outside;
-            else
-                style = PieLabelStyle.Inside;
-        }
-        else if (series.IsCustomPropertySet(CustomPropertyName.PieLabelStyle))
-        {
-            string labelStyleAttrib = series[CustomPropertyName.PieLabelStyle];
-
-            // Labels Disabled
-            if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Disabled;
-            else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Outside;
-            else
-                style = PieLabelStyle.Inside;
-        }
-
-        // Get label style attribute from point
-        if (point.IsCustomPropertySet(CustomPropertyName.LabelStyle))
-        {
-            string labelStyleAttrib = point[CustomPropertyName.LabelStyle];
-
-            // Labels Disabled
-            if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Disabled;
-            else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Outside;
-            else
-                style = PieLabelStyle.Inside;
-        }
-        // Get label style attribute from point
-        else if (point.IsCustomPropertySet(CustomPropertyName.PieLabelStyle))
-        {
-            string labelStyleAttrib = point[CustomPropertyName.PieLabelStyle];
-
-            // Labels Disabled
-            if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Disabled;
-            else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Outside;
-            else
-                style = PieLabelStyle.Inside;
-        }
-
-
-        // Take labels radial line size attribute from series
-        if (series.IsCustomPropertySet(CustomPropertyName.LabelsRadialLineSize))
-        {
-            string labelsRadialLineSizeAttrib = series[CustomPropertyName.LabelsRadialLineSize];
-            labelsRadialLineSize = CommonElements.ParseFloat(labelsRadialLineSizeAttrib);
-
-            // Validation
-            if (labelsRadialLineSize < 0 || labelsRadialLineSize > 100)
-                throw new InvalidOperationException(SR.ExceptionPieRadialLineSizeInvalid);
-        }
-
-        // Take labels radial line size attribute from point
-        if (point.IsCustomPropertySet(CustomPropertyName.LabelsRadialLineSize))
-        {
-            string labelsRadialLineSizeAttrib = point[CustomPropertyName.LabelsRadialLineSize];
-            labelsRadialLineSize = CommonElements.ParseFloat(labelsRadialLineSizeAttrib);
-
-            // Validation
-            if (labelsRadialLineSize < 0 || labelsRadialLineSize > 100)
-                throw new InvalidOperationException(SR.ExceptionPieRadialLineSizeInvalid);
-        }
-
-        // Take labels horizontal line size attribute from series
-        if (series.IsCustomPropertySet(CustomPropertyName.LabelsHorizontalLineSize))
-        {
-            string labelsHorizontalLineSizeAttrib = series[CustomPropertyName.LabelsHorizontalLineSize];
-            labelsHorizontalLineSize = CommonElements.ParseFloat(labelsHorizontalLineSizeAttrib);
-
-            // Validation
-            if (labelsHorizontalLineSize < 0 || labelsHorizontalLineSize > 100)
-                throw new InvalidOperationException(SR.ExceptionPieHorizontalLineSizeInvalid);
-        }
-
-        // Take labels horizontal line size attribute from point
-        if (point.IsCustomPropertySet(CustomPropertyName.LabelsHorizontalLineSize))
-        {
-            string labelsHorizontalLineSizeAttrib = point[CustomPropertyName.LabelsHorizontalLineSize];
-            labelsHorizontalLineSize = CommonElements.ParseFloat(labelsHorizontalLineSizeAttrib);
-
-            // Validation
-            if (labelsHorizontalLineSize < 0 || labelsHorizontalLineSize > 100)
-                throw new InvalidOperationException(SR.ExceptionPieHorizontalLineSizeInvalid);
-        }
-
         float expShift = 1;
+        PieLabelStyle style = GetLabelStyle(point);
+        (labelsRadialLineSize, labelsHorizontalLineSize) = GetLabelSizes(point);
 
         // ********************************************
         // Labels are set inside pie
@@ -1174,16 +1074,15 @@ internal class PieChart : IChartType
 
             // If exploded the shift is bigger
             if (exploded)
-            {
                 expShift = 1.4F;
-            }
 
             // Get offset of the inside labels position
             // NOTE: This custom attribute is NOT released!
             float positionRatio = 4.0f;
-            if (point.IsCustomPropertySet("InsideLabelOffset"))
+            string attr;
+            if ((attr = point.TryGetCustomProperty("InsideLabelOffset")) is not null)
             {
-                bool parseSucceed = float.TryParse(point["InsideLabelOffset"], NumberStyles.Any, CultureInfo.InvariantCulture, out positionRatio);
+                bool parseSucceed = float.TryParse(attr, NumberStyles.Any, CultureInfo.InvariantCulture, out positionRatio);
                 if (!parseSucceed || positionRatio < 0f || positionRatio > 100f)
                 {
                     throw new InvalidOperationException(SR.ExceptionCustomAttributeIsNotInRange0to100("InsideLabelOffset"));
@@ -1249,7 +1148,7 @@ internal class PieChart : IChartType
                 point.LabelBorderColor,
                 point.LabelBorderWidth,
                 point.LabelBorderDashStyle,
-                series,
+                point.series,
                 point,
                 pointIndex);
         }
@@ -1397,7 +1296,7 @@ internal class PieChart : IChartType
                     point.LabelBorderColor,
                     point.LabelBorderWidth,
                     point.LabelBorderDashStyle,
-                    series,
+                    point.series,
                     point,
                     pointIndex);
             }
@@ -1470,43 +1369,15 @@ internal class PieChart : IChartType
     /// </summary>
     /// <param name="point">Data Point</param>
     /// <returns>Pie label style enumeration</returns>
-    private PieLabelStyle GetLabelStyle(DataPoint point)
+    private static PieLabelStyle GetLabelStyle(DataPoint point)
     {
         Series series = point.series;
-
-        PieLabelStyle style = PieLabelStyle.Inside;
-
-        // Get label style attribute from series
-        if (series.IsCustomPropertySet(CustomPropertyName.LabelStyle))
-        {
-            string labelStyleAttrib = series[CustomPropertyName.LabelStyle];
-
-            // Labels Disabled
-            if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Disabled;
-            else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Outside;
-            else
-                style = PieLabelStyle.Inside;
-        }
-        else if (series.IsCustomPropertySet(CustomPropertyName.PieLabelStyle))
-        {
-            string labelStyleAttrib = series[CustomPropertyName.PieLabelStyle];
-
-            // Labels Disabled
-            if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Disabled;
-            else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Outside;
-            else
-                style = PieLabelStyle.Inside;
-        }
+        string labelStyleAttrib;
+        PieLabelStyle style;
 
         // Get label style attribute from point
-        if (point.IsCustomPropertySet(CustomPropertyName.LabelStyle))
+        if ((labelStyleAttrib = point.TryGetCustomProperty(CustomPropertyName.LabelStyle)) is not null)
         {
-            string labelStyleAttrib = point[CustomPropertyName.LabelStyle];
-
             // Labels Disabled
             if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
                 style = PieLabelStyle.Disabled;
@@ -1515,10 +1386,8 @@ internal class PieChart : IChartType
             else
                 style = PieLabelStyle.Inside;
         }
-        else if (point.IsCustomPropertySet(CustomPropertyName.PieLabelStyle))
+        else if ((labelStyleAttrib = point.TryGetCustomProperty(CustomPropertyName.PieLabelStyle)) is not null)
         {
-            string labelStyleAttrib = point[CustomPropertyName.PieLabelStyle];
-
             // Labels Disabled
             if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
                 style = PieLabelStyle.Disabled;
@@ -1526,9 +1395,78 @@ internal class PieChart : IChartType
                 style = PieLabelStyle.Outside;
             else
                 style = PieLabelStyle.Inside;
+        }
+        // Get label style attribute from series
+        else if ((labelStyleAttrib = series.TryGetCustomProperty(CustomPropertyName.LabelStyle)) is not null)
+        {
+            // Labels Disabled
+            if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
+                style = PieLabelStyle.Disabled;
+            else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
+                style = PieLabelStyle.Outside;
+            else
+                style = PieLabelStyle.Inside;
+        }
+        else if ((labelStyleAttrib = series.TryGetCustomProperty(CustomPropertyName.PieLabelStyle)) is not null)
+        {
+            // Labels Disabled
+            if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
+                style = PieLabelStyle.Disabled;
+            else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
+                style = PieLabelStyle.Outside;
+            else
+                style = PieLabelStyle.Inside;
+        }
+        else
+        {
+            style = PieLabelStyle.Inside;
         }
 
         return style;
+    }
+
+    private static (float LabelsRadialLineSize, float LabelsHorizontalLineSize) GetLabelSizes(DataPoint point)
+    {
+        Series series = point.series;
+        string attr;
+        float labelsHorizontalLineSize = 1; // Horizontal line size for outside labels
+        float labelsRadialLineSize = 1; // Radial line size for outside labels
+
+        // Take labels radial line size attribute from point
+        if ((attr = point.TryGetCustomProperty(CustomPropertyName.LabelsRadialLineSize)) is not null)
+        {
+            labelsRadialLineSize = CommonElements.ParseFloat(attr);
+            // Validation
+            if (labelsRadialLineSize < 0 || labelsRadialLineSize > 100)
+                throw new InvalidOperationException(SR.ExceptionPieRadialLineSizeInvalid);
+        }
+        // Take labels radial line size attribute from series
+        else if ((attr = series.TryGetCustomProperty(CustomPropertyName.LabelsRadialLineSize)) is not null)
+        {
+            labelsRadialLineSize = CommonElements.ParseFloat(attr);
+            // Validation
+            if (labelsRadialLineSize < 0 || labelsRadialLineSize > 100)
+                throw new InvalidOperationException(SR.ExceptionPieRadialLineSizeInvalid);
+        }
+
+        // Take labels horizontal line size attribute from point
+        if ((attr = point.TryGetCustomProperty(CustomPropertyName.LabelsHorizontalLineSize)) is not null)
+        {
+            labelsHorizontalLineSize = CommonElements.ParseFloat(attr);
+            // Validation
+            if (labelsHorizontalLineSize < 0 || labelsHorizontalLineSize > 100)
+                throw new InvalidOperationException(SR.ExceptionPieHorizontalLineSizeInvalid);
+        }
+        // Take labels horizontal line size attribute from series
+        else if ((attr = series.TryGetCustomProperty(CustomPropertyName.LabelsHorizontalLineSize)) is not null)
+        {
+            labelsHorizontalLineSize = CommonElements.ParseFloat(attr);
+            // Validation
+            if (labelsHorizontalLineSize < 0 || labelsHorizontalLineSize > 100)
+                throw new InvalidOperationException(SR.ExceptionPieHorizontalLineSizeInvalid);
+        }
+
+        return (labelsRadialLineSize, labelsHorizontalLineSize);
     }
 
     /// <summary>
@@ -1544,114 +1482,13 @@ internal class PieChart : IChartType
     /// <param name="area">Chart area</param>
     public bool EstimateLabels(ChartGraphics graph, PointF middlePoint, SizeF relativeSize, float startAngle, float sweepAngle, DataPoint point, bool exploded, ChartArea area)
     {
-        float labelsHorizontalLineSize = 1; // Horizontal line size for outside labels
-        float labelsRadialLineSize = 1; // Radial line size for outside labels
+        float labelsHorizontalLineSize; // Horizontal line size for outside labels
+        float labelsRadialLineSize; // Radial line size for outside labels
         float shift;
-
-        string pointLabel = this.GetPointLabel(point);
-
-        Series series = point.series;
-
-        PieLabelStyle style = PieLabelStyle.Inside;
-
-        // Get label style attribute from series
-        if (series.IsCustomPropertySet(CustomPropertyName.LabelStyle))
-        {
-            string labelStyleAttrib = series[CustomPropertyName.LabelStyle];
-
-            // Labels Disabled
-            if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Disabled;
-            else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Outside;
-            else
-                style = PieLabelStyle.Inside;
-        }
-        else if (series.IsCustomPropertySet(CustomPropertyName.PieLabelStyle))
-        {
-            string labelStyleAttrib = series[CustomPropertyName.PieLabelStyle];
-
-            // Labels Disabled
-            if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Disabled;
-            else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Outside;
-            else
-                style = PieLabelStyle.Inside;
-        }
-
-        // Get label style attribute from point
-        if (point.IsCustomPropertySet(CustomPropertyName.LabelStyle))
-        {
-            string labelStyleAttrib = point[CustomPropertyName.LabelStyle];
-
-            // Labels Disabled
-            if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Disabled;
-            else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Outside;
-            else
-                style = PieLabelStyle.Inside;
-        }
-        else if (point.IsCustomPropertySet(CustomPropertyName.PieLabelStyle))
-        {
-            string labelStyleAttrib = point[CustomPropertyName.PieLabelStyle];
-
-            // Labels Disabled
-            if (string.Equals(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Disabled;
-            else if (string.Equals(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase))
-                style = PieLabelStyle.Outside;
-            else
-                style = PieLabelStyle.Inside;
-        }
-
-        // Take labels radial line size attribute from series
-        if (series.IsCustomPropertySet(CustomPropertyName.LabelsRadialLineSize))
-        {
-            string labelsRadialLineSizeAttrib = series[CustomPropertyName.LabelsRadialLineSize];
-            labelsRadialLineSize = CommonElements.ParseFloat(labelsRadialLineSizeAttrib);
-
-            // Validation
-            if (labelsRadialLineSize < 0 || labelsRadialLineSize > 100)
-                throw new InvalidOperationException(SR.ExceptionPieRadialLineSizeInvalid);
-        }
-
-        // Take labels radial line size attribute from point
-        if (point.IsCustomPropertySet(CustomPropertyName.LabelsRadialLineSize))
-        {
-            string labelsRadialLineSizeAttrib = point[CustomPropertyName.LabelsRadialLineSize];
-            labelsRadialLineSize = CommonElements.ParseFloat(labelsRadialLineSizeAttrib);
-
-            // Validation
-            if (labelsRadialLineSize < 0 || labelsRadialLineSize > 100)
-                throw new InvalidOperationException(SR.ExceptionPieRadialLineSizeInvalid);
-        }
-
-        // Take labels horizontal line size attribute from series
-        if (series.IsCustomPropertySet(CustomPropertyName.LabelsHorizontalLineSize))
-        {
-            string labelsHorizontalLineSizeAttrib = series[CustomPropertyName.LabelsHorizontalLineSize];
-            labelsHorizontalLineSize = CommonElements.ParseFloat(labelsHorizontalLineSizeAttrib);
-
-            // Validation
-            if (labelsHorizontalLineSize < 0 || labelsHorizontalLineSize > 100)
-                throw new InvalidOperationException(SR.ExceptionPieHorizontalLineSizeInvalid);
-        }
-
-        // Take labels horizontal line size attribute from point
-        if (point.IsCustomPropertySet(CustomPropertyName.LabelsHorizontalLineSize))
-        {
-            string labelsHorizontalLineSizeAttrib = point[CustomPropertyName.LabelsHorizontalLineSize];
-            labelsHorizontalLineSize = CommonElements.ParseFloat(labelsHorizontalLineSizeAttrib);
-
-            // Validation
-            if (labelsHorizontalLineSize < 0 || labelsHorizontalLineSize > 100)
-                throw new InvalidOperationException(SR.ExceptionPieHorizontalLineSizeInvalid);
-        }
-
         float expShift = 1;
-
+        string pointLabel = this.GetPointLabel(point);
+        PieLabelStyle style = GetLabelStyle(point);
+        (labelsRadialLineSize, labelsHorizontalLineSize) = GetLabelSizes(point);        
 
         // ********************************************
         // Labels are set outside pie
@@ -1669,20 +1506,16 @@ internal class PieChart : IChartType
             float y3 = MathF.Sin(midAngle * MathF.PI / 180) * relativeSize.Height * shift * expShift + middlePoint.Y;
             float x3;
             if (midAngle > 90 && midAngle < 270)
-            {
                 x3 = MathF.Cos(midAngle * MathF.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
-            }
             else
-            {
                 x3 = MathF.Cos(midAngle * MathF.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
-            }
 
             // Get label text
             string text;
             if (pointLabel.Length == 0 && point.IsValueShownAsLabel)
             {
                 text = ValueConverter.FormatValue(
-                    series.Chart,
+                    point.series.Chart,
                     point,
                     point.Tag,
                     point.YValues[0],
@@ -2316,90 +2149,85 @@ internal class PieChart : IChartType
 
         // Data series collection
         SeriesCollection dataSeries = common.DataManager.Series;
-
         // All data series from chart area which have Pie chart type
         List<string> typeSeries = area.GetSeriesFromChartType(Name);
 
         if (typeSeries.Count == 0)
-        {
             return;
-        }
 
+        string attr;
         // Get first pie starting angle
-        if (dataSeries[typeSeries[0]].IsCustomPropertySet(CustomPropertyName.PieStartAngle))
+        if ((attr = dataSeries[typeSeries[0]].TryGetCustomProperty(CustomPropertyName.PieStartAngle)) is not null)
         {
-            bool parseSucceed = int.TryParse(dataSeries[typeSeries[0]][CustomPropertyName.PieStartAngle], NumberStyles.Any, CultureInfo.InvariantCulture, out int angle);
+            bool parseSucceed = int.TryParse(attr, NumberStyles.Any, CultureInfo.InvariantCulture, out int angle);
 
             if (parseSucceed)
             {
                 if (angle > 180 && angle <= 360)
-                {
                     angle = -(360 - angle);
-                }
 
                 area.Area3DStyle.Rotation = angle;
             }
 
 
             if (!parseSucceed || area.Area3DStyle.Rotation > 180 || area.Area3DStyle.Rotation < -180)
-            {
                 throw new InvalidOperationException(SR.ExceptionCustomAttributeAngleOutOfRange("PieStartAngle"));
-            }
         }
 
         // Call Back Paint event
         if (!selection)
-        {
             common.Chart.CallOnPrePaint(new ChartPaintEventArgs(dataSeries[typeSeries[0]], graph, common, area.PlotAreaPosition));
-        }
 
         // The data points loop. Find Sum of data points.
         double sum = 0;
         foreach (DataPoint point in dataSeries[typeSeries[0]].Points)
         {
             if (!point.IsEmpty)
-            {
                 sum += Math.Abs(point.YValues[0]);
-            }
         }
 
         // Is exploded if only one is exploded
         bool isExploded = false;
-        string explodedAttrib;
         foreach (DataPoint point in dataSeries[typeSeries[0]].Points)
         {
-            if (point.IsCustomPropertySet(CustomPropertyName.Exploded))
+            if ((attr = point.TryGetCustomProperty(CustomPropertyName.Exploded)) is not null)
             {
-                explodedAttrib = point[CustomPropertyName.Exploded];
-                if (string.Equals(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(attr, "true", StringComparison.OrdinalIgnoreCase))
                 {
                     isExploded = true;
+                    break;
                 }
             }
         }
 
         // Take radius attribute
-        float doughnutRadius = 60f;
-        if (dataSeries[typeSeries[0]].IsCustomPropertySet(CustomPropertyName.DoughnutRadius))
+        float doughnutRadius;
+        if ((attr = dataSeries[typeSeries[0]].TryGetCustomProperty(CustomPropertyName.DoughnutRadius)) is not null)
         {
-            doughnutRadius = CommonElements.ParseFloat(dataSeries[typeSeries[0]][CustomPropertyName.DoughnutRadius]);
-
+            doughnutRadius = CommonElements.ParseFloat(attr);
             // Validation
             if (doughnutRadius < 0f || doughnutRadius > 99f)
                 throw new ArgumentException(SR.ExceptionPieRadiusInvalid);
 
         }
+        else
+        {
+            doughnutRadius = 60f;
+        }
 
         // Take 3D Label Line Size attribute
-        float labelLineSize = 100f;
-        if (dataSeries[typeSeries[0]].IsCustomPropertySet(CustomPropertyName._3DLabelLineSize))
+        float labelLineSize;
+        if ((attr = dataSeries[typeSeries[0]].TryGetCustomProperty(CustomPropertyName._3DLabelLineSize)) is not null)
         {
-            labelLineSize = CommonElements.ParseFloat(dataSeries[typeSeries[0]][CustomPropertyName._3DLabelLineSize]);
-
+            labelLineSize = CommonElements.ParseFloat(attr);
             // Validation
             if (labelLineSize < 30f || labelLineSize > 200f)
                 throw new ArgumentException(SR.ExceptionPie3DLabelLineSizeInvalid);
 
+        }
+        else
+        {
+            labelLineSize = 100f;
         }
 
         labelLineSize = labelLineSize * 0.1F / 100F;
@@ -2416,27 +2244,20 @@ internal class PieChart : IChartType
         DataPoint[] points = PointOrder(dataSeries[typeSeries[0]], area, out float[] startAngleList, out float[] sweepAngleList, out int[] pointIndexList, out bool sameBackFront);
 
         // There are no points or all points are empty.
-        if (points == null)
-        {
+        if (points is null)
             return;
-        }
 
         RectangleF plotingRectangle = new RectangleF(area.Position.ToRectangleF().X + 1, area.Position.ToRectangleF().Y + 1, area.Position.ToRectangleF().Width - 2, area.Position.ToRectangleF().Height - 2);
 
         // Check if any data point has outside label
-        bool outside = false;
-        foreach (DataPoint point in points)
+        for (int i = 0; i < points.Length; i++)
         {
-            if (GetLabelStyle(point) == PieLabelStyle.Outside)
+            // If outside labels resize Pie size
+            if (GetLabelStyle(points[i]) == PieLabelStyle.Outside)
             {
-                outside = true;
+                InitPieSize(graph, area, ref plotingRectangle, ref pieWidth, points, startAngleList, sweepAngleList, dataSeries[typeSeries[0]], labelLineSize);
+                break;
             }
-        }
-
-        // If outside labels resize Pie size
-        if (outside)
-        {
-            InitPieSize(graph, area, ref plotingRectangle, ref pieWidth, points, startAngleList, sweepAngleList, dataSeries[typeSeries[0]], labelLineSize);
         }
 
         // Initialize Matrix 3D
@@ -2500,15 +2321,7 @@ internal class PieChart : IChartType
                 rectangle = new RectangleF(middlePoint.X - relativeSize.Width / 2, middlePoint.Y - relativeSize.Height / 2, relativeSize.Width, relativeSize.Height);
 
                 // Check Exploded attribute for data point
-                exploded = false;
-                if (point.IsCustomPropertySet(CustomPropertyName.Exploded))
-                {
-                    explodedAttrib = point[CustomPropertyName.Exploded];
-                    if (string.Equals(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase))
-                        exploded = true;
-                    else
-                        exploded = false;
-                }
+                exploded = string.Equals(point.TryGetCustomProperty(CustomPropertyName.Exploded), "true", StringComparison.OrdinalIgnoreCase);
 
                 // Size correction because of exploded or labels
                 float sizeCorrection = 1.0F;
@@ -2521,7 +2334,6 @@ internal class PieChart : IChartType
                     rectangle.Width *= sizeCorrection;
                     rectangle.Height *= sizeCorrection;
                 }
-
 
                 // Find Direction to move exploded pie slice
                 if (exploded)
@@ -2898,21 +2710,14 @@ internal class PieChart : IChartType
             {
                 // Check if special color properties are set
                 Color pieLineColor = pen.Color;
-                if (point.IsCustomPropertySet(CustomPropertyName.PieLineColor) || (point.series != null && point.series.IsCustomPropertySet(CustomPropertyName.PieLineColor)))
+                string attr = point.TryGetCustomProperty(CustomPropertyName.PieLineColor) ?? point.series?.TryGetCustomProperty(CustomPropertyName.PieLineColor);
+                if (attr is not null)
                 {
                     ColorConverter colorConverter = new ColorConverter();
                     bool failed = false;
-
                     try
                     {
-                        if (point.IsCustomPropertySet(CustomPropertyName.PieLineColor))
-                        {
-                            pieLineColor = (Color)colorConverter.ConvertFromString(point[CustomPropertyName.PieLineColor]);
-                        }
-                        else if (point.series != null && point.series.IsCustomPropertySet(CustomPropertyName.PieLineColor))
-                        {
-                            pieLineColor = (Color)colorConverter.ConvertFromString(point.series[CustomPropertyName.PieLineColor]);
-                        }
+                        pieLineColor = (Color)colorConverter.ConvertFromString(attr);
                     }
                     catch (ArgumentException)
                     {
@@ -2924,16 +2729,7 @@ internal class PieChart : IChartType
                     }
 
                     if (failed)
-                    {
-                        if (point.IsCustomPropertySet(CustomPropertyName.PieLineColor))
-                        {
-                            pieLineColor = (Color)colorConverter.ConvertFromInvariantString(point[CustomPropertyName.PieLineColor]);
-                        }
-                        else if (point.series != null && point.series.IsCustomPropertySet(CustomPropertyName.PieLineColor))
-                        {
-                            pieLineColor = (Color)colorConverter.ConvertFromInvariantString(point.series[CustomPropertyName.PieLineColor]);
-                        }
-                    }
+                        pieLineColor = (Color)colorConverter.ConvertFromInvariantString(attr);
                 }
 
                 // Draw labels
@@ -5528,18 +5324,17 @@ internal class PieChart : IChartType
     private string GetPointLabel(DataPoint point)
     {
         string pointLabel;
-
         // If There is no Label take axis Label
         if (point.Label.Length == 0)
         {
-            pointLabel = point.AxisLabel;
             // remove axis label if is set the CustomPropertyName.PieAutoAxisLabels and is set to false
-            if (point.series != null &&
-                point.series.IsCustomPropertySet(CustomPropertyName.PieAutoAxisLabels) &&
-                string.Equals(point.series.GetCustomProperty(CustomPropertyName.PieAutoAxisLabels), "false", StringComparison.OrdinalIgnoreCase))
+            if ((pointLabel = point.series?.TryGetCustomProperty(CustomPropertyName.PieAutoAxisLabels)) is not null &&
+                string.Equals(pointLabel, "false", StringComparison.OrdinalIgnoreCase))
             {
-                pointLabel = string.Empty;
+                return string.Empty;
             }
+
+            pointLabel = point.AxisLabel;
         }
         else
         {

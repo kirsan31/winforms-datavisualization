@@ -2670,7 +2670,7 @@ public class DataPoint : DataPointCustomProperties
                     // Get attribute value
                     attributeValue = properties[attributeName];
                     ////////////////////////////
-                    // This is to maintain backward compatibility with old buggy code that takes CustomProperty for empty point not from series.EmptyPointStyle.customProperties
+                    // This is to maintain backward compatibility with old code that takes CustomProperty for empty point not from series.EmptyPointStyle.customProperties
                     // but from series.customProperties.
                     if (attributeValue is null && properties is DataPoint dataPoint && dataPoint.isEmptyPoint && dataPoint.series is not null)
                         attributeValue = dataPoint.series[attributeName];
@@ -2959,11 +2959,13 @@ public class DataPointCustomProperties : ChartNamedElement
     }
 
     /// <summary>
-    /// Gets the data point custom property with the specified name.
+    /// Gets the data point or series custom property with the specified name.
     /// </summary>
     /// <param name="name">Name of the property to get.</param>
-    /// <returns>Returns the data point custom property with the specified name. If the requested one is not set, 
-    /// the default custom property of the data series will be returned. <see langword="null" /> if not found.</returns>
+    /// <returns>Returns the data point or series custom property with the specified name. If the requested one is not set then:<br/>
+    /// If this is series custom property <see langword="null" /> will be returned.<br/>
+    /// If this is data point custom property, properties from it's series will be returned if it exists and we are not in serialization process or the default custom property of the data series otherwise.
+    /// And <see langword="null" /> if not found.</returns>
     public virtual string GetCustomProperty(string name)
     {
         if (customProperties.TryGetValue(name, out var res) || !this.pointCustomProperties)
@@ -2988,6 +2990,17 @@ public class DataPointCustomProperties : ChartNamedElement
             Series.defaultCustomProperties.customProperties.TryGetValue(name, out res);
             return res;
         }
+    }
+
+    /// <summary>
+    /// Gets the data point or series custom property with the specified name if it was set.
+    /// </summary>
+    /// <param name="name">Name of the property to get.</param>
+    /// <returns>Returns the data point or series custom property with the specified name. <see langword="null" /> if was not set.</returns>
+    public virtual string TryGetCustomProperty(string name)
+    {
+        customProperties.TryGetValue(name, out var res);
+        return res;
     }
 
 
@@ -3178,9 +3191,11 @@ public class DataPointCustomProperties : ChartNamedElement
     #region	DataPointCustomProperties Properties
 
     /// <summary>
-    /// Indexer of the custom properties. Gets the data point custom property with the specified name.
+    /// Indexer of the custom properties. Gets / sets the data point or series custom property with the specified name.
     /// </summary>
-    /// <param name="name">Name of the custom property. <see langword="null" /> if not found.</param>
+    /// <returns>Returns the data point or series custom property with the specified name. If the requested one is not set then:<br/>
+    /// If this is series custom property <see langword="null" /> will be returned.<br/>
+    /// If this is data point custom property, properties from it's series will be returned if it exists. And <see langword="null" /> if not found.</returns>
     /// <exception cref="System.ArgumentNullException"></exception>
     public string this[string name]
     {

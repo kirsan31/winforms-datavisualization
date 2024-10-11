@@ -248,10 +248,11 @@ internal sealed class KagiChart : StepLineChart
         // Check "ReversalAmount" custom attribute
         double reversalAmount = 1.0;
         percentOfPrice = 3.0;
-        if (series.IsCustomPropertySet(CustomPropertyName.ReversalAmount))
+        string attrValueStr;
+        if ((attrValueStr = series.TryGetCustomProperty(CustomPropertyName.ReversalAmount)) is not null)
         {
-            string attrValue = series[CustomPropertyName.ReversalAmount].Trim();
-            if (attrValue.EndsWith('%'))
+            ReadOnlySpan<char> attrValue = attrValueStr.AsSpan().Trim();
+            if (attrValue[^1] == '%')
             {
                 attrValue = attrValue[..^1];
                 bool parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double percent);
@@ -292,10 +293,10 @@ internal sealed class KagiChart : StepLineChart
     {
         // Get index of the Y values used
         int yValueIndex = 0;
-        if (series.IsCustomPropertySet(CustomPropertyName.UsedYValue))
+        string attr;
+        if ((attr = series.TryGetCustomProperty(CustomPropertyName.UsedYValue)) is not null)
         {
-            bool parseSucceed = int.TryParse(series[CustomPropertyName.UsedYValue], NumberStyles.Any, CultureInfo.InvariantCulture, out int yi);
-
+            bool parseSucceed = int.TryParse(attr, NumberStyles.Any, CultureInfo.InvariantCulture, out int yi);
             if (parseSucceed)
             {
                 yValueIndex = yi;
@@ -320,7 +321,7 @@ internal sealed class KagiChart : StepLineChart
         int pointIndex = 0;
         foreach (DataPoint dataPoint in originalData.Points)
         {
-            // Check if previus values exists
+            // Check if previous values exists
             if (double.IsNaN(prevClose))
             {
                 prevClose = dataPoint.YValues[yValueIndex];

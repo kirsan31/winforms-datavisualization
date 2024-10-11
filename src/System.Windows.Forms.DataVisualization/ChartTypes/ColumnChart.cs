@@ -227,9 +227,9 @@ internal class ColumnChart : PointChart
         bool currentDrawSeriesSideBySide = this.drawSeriesSideBySide;
         foreach (string seriesName in typeSeries)
         {
-            if (common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+            string attribValue = common.DataManager.Series[seriesName].TryGetCustomProperty(CustomPropertyName.DrawSideBySide);
+            if (attribValue is not null)
             {
-                string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
                 if (string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
                 {
                     currentDrawSeriesSideBySide = false;
@@ -286,7 +286,7 @@ internal class ColumnChart : PointChart
 
             // Get points interval:
             //  - set interval to 1 for indexed series
-            //  - if points are not equaly spaced, the minimum interval between points is selected.
+            //  - if points are not equally spaced, the minimum interval between points is selected.
             //  - if points have same interval bars do not overlap each other.
             bool sameInterval = false;
             double interval = 1;
@@ -623,9 +623,9 @@ internal class ColumnChart : PointChart
             // Check if series should be drawn side by side
             foreach (string seriesName in typeSeries)
             {
-                if (common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+                string attribValue = common.DataManager.Series[seriesName].TryGetCustomProperty(CustomPropertyName.DrawSideBySide);
+                if (attribValue is not null)
                 {
-                    string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
                     if (string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
                     {
                         currentDrawSeriesSideBySide = false;

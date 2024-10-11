@@ -2443,19 +2443,20 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                     if (series.ChartArea == this.Name && series.IsVisible())
                     {
                         // Get custom attribute
-                        if (series.IsCustomPropertySet(CustomPropertyName.AreaDrawingStyle))
+                        string attr;
+                        if ((attr = series.TryGetCustomProperty(CustomPropertyName.AreaDrawingStyle)) is not null)
                         {
-                            if (string.Equals(series[CustomPropertyName.AreaDrawingStyle], "Polygon", StringComparison.OrdinalIgnoreCase))
+                            if (string.Equals(attr, "Polygon", StringComparison.OrdinalIgnoreCase))
                             {
                                 _circularUsePolygons = 1;
                             }
-                            else if (string.Equals(series[CustomPropertyName.AreaDrawingStyle], "Circle", StringComparison.OrdinalIgnoreCase))
+                            else if (string.Equals(attr, "Circle", StringComparison.OrdinalIgnoreCase))
                             {
                                 _circularUsePolygons = 0;
                             }
                             else
                             {
-                                throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(series[CustomPropertyName.AreaDrawingStyle], "AreaDrawingStyle"));
+                                throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attr, "AreaDrawingStyle"));
                             }
 
                             break;
@@ -2479,9 +2480,9 @@ public partial class ChartArea : ChartNamedElement, IDisposable
         // Get maximum number of points in all series
         foreach (Series series in this.Common.DataManager.Series)
         {
-            if (series.IsVisible() && series.ChartArea == this.Name && series.IsCustomPropertySet(CustomPropertyName.CircularLabelsStyle))
+            string styleName;
+            if (series.IsVisible() && series.ChartArea == this.Name && (styleName = series.TryGetCustomProperty(CustomPropertyName.CircularLabelsStyle)) is not null)
             {
-                string styleName = series[CustomPropertyName.CircularLabelsStyle];
                 if (string.Equals(styleName, "Auto", StringComparison.OrdinalIgnoreCase))
                 {
                     style = CircularAxisLabelsStyle.Auto;

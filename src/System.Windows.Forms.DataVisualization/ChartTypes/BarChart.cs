@@ -295,7 +295,7 @@ internal class BarChart : IChartType
         SizeF pixelRelSize = graph.GetRelativeSize(new SizeF(1.1f, 1.1f));
 
         //************************************************************
-        //** Prosess 3D chart type
+        //** Process 3D chart type
         //************************************************************
         if (area.Area3DStyle.Enable3D)
         {
@@ -314,9 +314,9 @@ internal class BarChart : IChartType
         bool currentDrawSeriesSideBySide = this.drawSeriesSideBySide;
         foreach (string seriesName in typeSeries)
         {
-            if (common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+            string attribValue = common.DataManager.Series[seriesName].TryGetCustomProperty(CustomPropertyName.DrawSideBySide);
+            if (attribValue is not null)
             {
-                string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
                 if (string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
                 {
                     currentDrawSeriesSideBySide = false;
@@ -811,18 +811,9 @@ internal class BarChart : IChartType
             //************************************************************
             // Check labels style custom properties 
             //************************************************************
-            BarValueLabelDrawingStyle drawingStyle = defLabelDrawingStyle;
-            string valueLabelAttrib = string.Empty;
-            if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
-            {
-                valueLabelAttrib = point[CustomPropertyName.BarLabelStyle];
-            }
-            else if (ser.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
-            {
-                valueLabelAttrib = ser[CustomPropertyName.BarLabelStyle];
-            }
-
-            if (valueLabelAttrib.Length > 0)
+            BarValueLabelDrawingStyle drawingStyle;
+            string valueLabelAttrib = point.TryGetCustomProperty(CustomPropertyName.BarLabelStyle) ?? ser.TryGetCustomProperty(CustomPropertyName.BarLabelStyle);
+            if (!string.IsNullOrEmpty(valueLabelAttrib))
             {
                 if (string.Equals(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase))
                     drawingStyle = BarValueLabelDrawingStyle.Left;
@@ -832,6 +823,12 @@ internal class BarChart : IChartType
                     drawingStyle = BarValueLabelDrawingStyle.Center;
                 else if (string.Equals(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase))
                     drawingStyle = BarValueLabelDrawingStyle.Outside;
+                else
+                    drawingStyle = defLabelDrawingStyle;
+            }
+            else
+            {
+                drawingStyle = defLabelDrawingStyle;
             }
 
             //************************************************************
@@ -1160,15 +1157,7 @@ internal class BarChart : IChartType
         //************************************************************
         //** Check custom attribute "EmptyPointValue"
         //************************************************************
-        string emptyPointValue = string.Empty;
-        if (series.EmptyPointStyle.IsCustomPropertySet(CustomPropertyName.EmptyPointValue))
-        {
-            emptyPointValue = series.EmptyPointStyle[CustomPropertyName.EmptyPointValue];
-        }
-        else if (series.IsCustomPropertySet(CustomPropertyName.EmptyPointValue))
-        {
-            emptyPointValue = series[CustomPropertyName.EmptyPointValue];
-        }
+        string emptyPointValue = series.EmptyPointStyle.TryGetCustomProperty(CustomPropertyName.EmptyPointValue) ?? series.TryGetCustomProperty(CustomPropertyName.EmptyPointValue);
 
         // Take attribute value
         if (string.Equals(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase))
@@ -1178,7 +1167,7 @@ internal class BarChart : IChartType
         }
 
         //************************************************************
-        //** IsEmpty point value is an average of neighbour points
+        //** IsEmpty point value is an average of neighbor points
         //************************************************************
 
         // Find previous non-empty point value
@@ -1275,9 +1264,9 @@ internal class BarChart : IChartType
             // Check if series should be drawn side by side
             foreach (string seriesName in typeSeries)
             {
-                if (common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+                string attribValue = common.DataManager.Series[seriesName].TryGetCustomProperty(CustomPropertyName.DrawSideBySide);
+                if (attribValue is not null)
                 {
-                    string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
                     if (string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
                     {
                         currentDrawSeriesSideBySide = false;
@@ -1834,18 +1823,9 @@ internal class BarChart : IChartType
             //************************************************************
             // Check labels style custom properties 
             //************************************************************
-            BarValueLabelDrawingStyle drawingStyle = defLabelDrawingStyle;
-            string valueLabelAttrib = string.Empty;
-            if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
-            {
-                valueLabelAttrib = point[CustomPropertyName.BarLabelStyle];
-            }
-            else if (ser.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
-            {
-                valueLabelAttrib = ser[CustomPropertyName.BarLabelStyle];
-            }
-
-            if (valueLabelAttrib != null && valueLabelAttrib.Length > 0)
+            BarValueLabelDrawingStyle drawingStyle;
+            string valueLabelAttrib = point.TryGetCustomProperty(CustomPropertyName.BarLabelStyle) ?? ser.TryGetCustomProperty(CustomPropertyName.BarLabelStyle);
+            if (!string.IsNullOrEmpty(valueLabelAttrib))
             {
                 if (string.Equals(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase))
                     drawingStyle = BarValueLabelDrawingStyle.Left;
@@ -1855,6 +1835,12 @@ internal class BarChart : IChartType
                     drawingStyle = BarValueLabelDrawingStyle.Center;
                 else if (string.Equals(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase))
                     drawingStyle = BarValueLabelDrawingStyle.Outside;
+                else
+                    drawingStyle = defLabelDrawingStyle;
+            }
+            else
+            {
+                drawingStyle = defLabelDrawingStyle;
             }
 
             //************************************************************

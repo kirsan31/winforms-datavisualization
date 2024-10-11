@@ -253,17 +253,18 @@ internal class ThreeLineBreakChart : IChartType
     /// <summary>
     /// Fills range column series with data to draw the ThreeLineBreak chart.
     /// </summary>
-    /// <param name="series">Range column chart series used to dispaly the ThreeLineBreak chart.</param>
+    /// <param name="series">Range column chart series used to display the ThreeLineBreak chart.</param>
     /// <param name="originalData">Series with original data.</param>
     private static void FillThreeLineBreakData(Series series, Series originalData)
     {
         // Get index of the Y values used
-        int yValueIndex = 0;
-        if (series.IsCustomPropertySet(CustomPropertyName.UsedYValue))
+        int yValueIndex;
+        string attr;
+        if ((attr = series.TryGetCustomProperty(CustomPropertyName.UsedYValue)) is not null)
         {
             try
             {
-                yValueIndex = int.Parse(series[CustomPropertyName.UsedYValue], CultureInfo.InvariantCulture);
+                yValueIndex = int.Parse(attr, CultureInfo.InvariantCulture);
             }
             catch
             {
@@ -275,14 +276,18 @@ internal class ThreeLineBreakChart : IChartType
                 throw new InvalidOperationException(SR.ExceptionThreeLineBreakUsedYValueOutOfRange);
             }
         }
+        else
+        {
+            yValueIndex = 0;
+        }
 
         // Get number of lines in the break
-        int linesInBreak = 3;
-        if (series.IsCustomPropertySet(CustomPropertyName.NumberOfLinesInBreak))
+        int linesInBreak;
+        if ((attr = series.TryGetCustomProperty(CustomPropertyName.NumberOfLinesInBreak)) is not null)
         {
             try
             {
-                linesInBreak = int.Parse(series[CustomPropertyName.NumberOfLinesInBreak], CultureInfo.InvariantCulture);
+                linesInBreak = int.Parse(attr, CultureInfo.InvariantCulture);
             }
             catch
             {
@@ -293,6 +298,10 @@ internal class ThreeLineBreakChart : IChartType
             {
                 throw new InvalidOperationException(SR.ExceptionThreeLineBreakNumberOfLinesInBreakValueInvalid);
             }
+        }
+        else
+        {
+            linesInBreak = 3;
         }
 
         // Create an array to store the history of high/low values of drawn lines
@@ -365,7 +374,7 @@ internal class ThreeLineBreakChart : IChartType
                 }
                 else
                 {
-                    // If number of lines darwn in same direction is more or equal
+                    // If number of lines drawn in same direction is more or equal
                     // to number of lines in the break, the price must extend the 
                     // high or low price of the lines in the whole break.
                     if (sameDirectionLines >= linesInBreak)

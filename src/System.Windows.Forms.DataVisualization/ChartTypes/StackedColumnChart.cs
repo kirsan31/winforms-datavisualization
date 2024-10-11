@@ -981,13 +981,7 @@ internal class StackedColumnChart : IChartType
     internal static string GetSeriesStackGroupName(Series series)
     {
         // Get stack group name from the series
-        string stackGroupName = string.Empty;
-        if (series.IsCustomPropertySet(CustomPropertyName.StackedGroupName))
-        {
-            stackGroupName = series[CustomPropertyName.StackedGroupName];
-        }
-
-        return stackGroupName;
+        return series.TryGetCustomProperty(CustomPropertyName.StackedGroupName) ?? string.Empty;
     }
 
     /// <summary>

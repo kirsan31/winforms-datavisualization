@@ -504,19 +504,6 @@ public class Series : DataPointCustomProperties
     #region Helper methods
 
     /// <summary>
-    /// Gets series caption that may not be the same as series name.
-    /// </summary>
-    /// <returns>Series caption string.</returns>
-    internal string GetCaption()
-    {
-        if (this.IsCustomPropertySet("SeriesCaption"))
-        {
-            return this["SeriesCaption"];
-        }
-        return this.Name;
-    }
-
-    /// <summary>
     /// Gets custom points depth and gap depth in relative coordinates from series properties.
     /// </summary>
     /// <param name="graph">Chart graphics.</param>
@@ -1323,11 +1310,12 @@ public class Series : DataPointCustomProperties
     /// <param name="toSeries">To series.</param>
     internal static void MovePositionMarkers(Series fromSeries, Series toSeries)
     {
+        string attr;
         foreach (DataPoint dp in fromSeries.Points)
         {
-            if (dp.IsCustomPropertySet("OriginalPointIndex"))
+            if ((attr = dp.TryGetCustomProperty("OriginalPointIndex")) is not null)
             {
-                if (int.TryParse(dp["OriginalPointIndex"], NumberStyles.Integer, CultureInfo.InvariantCulture, out int index))
+                if (int.TryParse(attr, NumberStyles.Integer, CultureInfo.InvariantCulture, out int index))
                 {
                     if (index > -1 && index < toSeries.Points.Count)
                     {
@@ -1512,12 +1500,9 @@ public class Series : DataPointCustomProperties
             {
                 fillTempData = true;
             }
-            else if (this.IsCustomPropertySet("UseDummyData"))
+            else if (string.Equals(this.TryGetCustomProperty("UseDummyData"), "True", StringComparison.OrdinalIgnoreCase))
             {
-                if (string.Equals(this["UseDummyData"], "True", StringComparison.OrdinalIgnoreCase))
-                {
-                    fillTempData = true;
-                }
+                fillTempData = true;
             }
         }
 

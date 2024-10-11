@@ -338,10 +338,11 @@ internal sealed class PointAndFigureChart : RangeColumnChart
         double boxSize = 1.0;
         double percentOfPriceRange = 4.0;
         bool roundBoxSize = true;
-        if (series.IsCustomPropertySet(CustomPropertyName.BoxSize))
+        string attr;
+        if ((attr = series.TryGetCustomProperty(CustomPropertyName.BoxSize)) is not null)
         {
-            string attrValue = series[CustomPropertyName.BoxSize].Trim();
-            bool usePercentage = attrValue.EndsWith('%');
+            ReadOnlySpan<char> attrValue = attr.AsSpan().Trim();
+            bool usePercentage = attrValue[^1] == '%';
             if (usePercentage)
             {
                 attrValue = attrValue[..^1];
@@ -423,10 +424,11 @@ internal sealed class PointAndFigureChart : RangeColumnChart
     private static double GetReversalAmount(Series series)
     {
         // Check "ReversalAmount" custom attribute
-        double reversalAmount = 3.0;
-        if (series.IsCustomPropertySet(CustomPropertyName.ReversalAmount))
+        double reversalAmount;
+        string attr;
+        if ((attr = series.TryGetCustomProperty(CustomPropertyName.ReversalAmount)) is not null)
         {
-            bool parseSucceed = double.TryParse(series[CustomPropertyName.ReversalAmount], NumberStyles.Any, CultureInfo.InvariantCulture, out double amount);
+            bool parseSucceed = double.TryParse(attr, NumberStyles.Any, CultureInfo.InvariantCulture, out double amount);
             if (parseSucceed)
             {
                 reversalAmount = amount;
@@ -435,6 +437,10 @@ internal sealed class PointAndFigureChart : RangeColumnChart
             {
                 throw new InvalidOperationException(SR.ExceptionPointAndFigureReversalAmountInvalidFormat);
             }
+        }
+        else
+        {
+            reversalAmount = 3.0;
         }
 
         return reversalAmount;
@@ -449,13 +455,14 @@ internal sealed class PointAndFigureChart : RangeColumnChart
     private static void FillPointAndFigureData(Series series, Series originalData)
     {
         // Get index of the Y values used for High/Low
-        int yValueHighIndex = 0;
-        if (series.IsCustomPropertySet(CustomPropertyName.UsedYValueHigh))
+        int yValueHighIndex;
+        string attr;
+        if ((attr = series.TryGetCustomProperty(CustomPropertyName.UsedYValueHigh)) is not null)
         {
             try
             {
 
-                yValueHighIndex = int.Parse(series[CustomPropertyName.UsedYValueHigh], CultureInfo.InvariantCulture);
+                yValueHighIndex = int.Parse(attr, CultureInfo.InvariantCulture);
             }
             catch
             {
@@ -467,13 +474,17 @@ internal sealed class PointAndFigureChart : RangeColumnChart
                 throw new InvalidOperationException(SR.ExceptionPointAndFigureUsedYValueHighOutOfRange);
             }
         }
+        else
+        {
+            yValueHighIndex = 0;
+        }
 
-        int yValueLowIndex = 1;
-        if (series.IsCustomPropertySet(CustomPropertyName.UsedYValueLow))
+        int yValueLowIndex;
+        if ((attr = series.TryGetCustomProperty(CustomPropertyName.UsedYValueLow)) is not null)
         {
             try
             {
-                yValueLowIndex = int.Parse(series[CustomPropertyName.UsedYValueLow], CultureInfo.InvariantCulture);
+                yValueLowIndex = int.Parse(attr, CultureInfo.InvariantCulture);
             }
             catch
             {
@@ -484,6 +495,10 @@ internal sealed class PointAndFigureChart : RangeColumnChart
             {
                 throw new InvalidOperationException(SR.ExceptionPointAndFigureUsedYValueLowOutOfrange);
             }
+        }
+        else
+        {
+            yValueLowIndex = 1;
         }
 
         // Get Up Brick color

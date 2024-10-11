@@ -1045,27 +1045,22 @@ internal class StackedBarChart : IChartType
                 //************************************************************
                 // Check labels style custom properties 
                 //************************************************************
-                BarValueLabelDrawingStyle drawingStyle = BarValueLabelDrawingStyle.Center;
-                string valueLabelAttrib = string.Empty;
-                if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
-                {
-                    valueLabelAttrib = point[CustomPropertyName.BarLabelStyle];
-                }
-                else if (series.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
-                {
-                    valueLabelAttrib = series[CustomPropertyName.BarLabelStyle];
-                }
-
-                if (valueLabelAttrib != null && valueLabelAttrib.Length > 0)
+                BarValueLabelDrawingStyle drawingStyle;
+                string valueLabelAttrib = point.TryGetCustomProperty(CustomPropertyName.BarLabelStyle) ?? series.TryGetCustomProperty(CustomPropertyName.BarLabelStyle);
+                if (!string.IsNullOrEmpty(valueLabelAttrib))
                 {
                     if (string.Equals(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase))
                         drawingStyle = BarValueLabelDrawingStyle.Left;
                     else if (string.Equals(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase))
                         drawingStyle = BarValueLabelDrawingStyle.Right;
-                    else if (string.Equals(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase))
-                        drawingStyle = BarValueLabelDrawingStyle.Center;
                     else if (string.Equals(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase))
                         drawingStyle = BarValueLabelDrawingStyle.Outside;
+                    else
+                        drawingStyle = BarValueLabelDrawingStyle.Center;
+                }
+                else
+                {
+                    drawingStyle = BarValueLabelDrawingStyle.Center;
                 }
 
                 //************************************************************
@@ -1775,27 +1770,22 @@ string.Equals(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalI
             //************************************************************
             // Check labels style custom properties 
             //************************************************************
-            BarValueLabelDrawingStyle drawingStyle = BarValueLabelDrawingStyle.Center;
-            string valueLabelAttrib = string.Empty;
-            if (point.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
-            {
-                valueLabelAttrib = point[CustomPropertyName.BarLabelStyle];
-            }
-            else if (ser.IsCustomPropertySet(CustomPropertyName.BarLabelStyle))
-            {
-                valueLabelAttrib = ser[CustomPropertyName.BarLabelStyle];
-            }
-
-            if (valueLabelAttrib != null && valueLabelAttrib.Length > 0)
+            BarValueLabelDrawingStyle drawingStyle;
+            string valueLabelAttrib = point.TryGetCustomProperty(CustomPropertyName.BarLabelStyle) ?? ser.TryGetCustomProperty(CustomPropertyName.BarLabelStyle);
+            if (!string.IsNullOrEmpty(valueLabelAttrib))
             {
                 if (string.Equals(valueLabelAttrib, "Left", StringComparison.OrdinalIgnoreCase))
                     drawingStyle = BarValueLabelDrawingStyle.Left;
                 else if (string.Equals(valueLabelAttrib, "Right", StringComparison.OrdinalIgnoreCase))
                     drawingStyle = BarValueLabelDrawingStyle.Right;
-                else if (string.Equals(valueLabelAttrib, "Center", StringComparison.OrdinalIgnoreCase))
-                    drawingStyle = BarValueLabelDrawingStyle.Center;
                 else if (string.Equals(valueLabelAttrib, "Outside", StringComparison.OrdinalIgnoreCase))
                     drawingStyle = BarValueLabelDrawingStyle.Outside;
+                else
+                    drawingStyle = BarValueLabelDrawingStyle.Center;
+            }
+            else
+            {
+                drawingStyle = BarValueLabelDrawingStyle.Center;
             }
 
             //************************************************************

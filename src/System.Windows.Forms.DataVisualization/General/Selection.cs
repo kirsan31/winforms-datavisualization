@@ -406,8 +406,9 @@ internal class HotRegionsList : IDisposable
             };
 
             // Use index of the original data point
-            if (point?.IsCustomPropertySet("OriginalPointIndex") == true)
-                region.PointIndex = int.Parse(point["OriginalPointIndex"], CultureInfo.InvariantCulture);
+            string attr;
+            if ((attr = point?.TryGetCustomProperty("OriginalPointIndex")) is not null)
+                region.PointIndex = int.Parse(attr, CultureInfo.InvariantCulture);
 
             List.Add(region);
         }
@@ -444,9 +445,11 @@ internal class HotRegionsList : IDisposable
                 BoundingRectangle = path.GetBounds(),
                 RelativeCoordinates = relativePath
             };
+
             // Use index of the original data point
-            if (point?.IsCustomPropertySet("OriginalPointIndex") == true)
-                region.PointIndex = int.Parse(point["OriginalPointIndex"], CultureInfo.InvariantCulture);
+            string attr;
+            if ((attr = point?.TryGetCustomProperty("OriginalPointIndex")) is not null)
+                region.PointIndex = int.Parse(attr, CultureInfo.InvariantCulture);
 
             List.Add(region);
         }
@@ -594,8 +597,9 @@ internal class HotRegionsList : IDisposable
             };
 
             // Use index of the original data point
-            if (point?.IsCustomPropertySet("OriginalPointIndex") == true)
-                region.PointIndex = int.Parse(point["OriginalPointIndex"], CultureInfo.InvariantCulture);
+            string attr;
+            if ((attr = point?.TryGetCustomProperty("OriginalPointIndex")) is not null)
+                region.PointIndex = int.Parse(attr, CultureInfo.InvariantCulture);
 
             List.Add(region);
         }
@@ -1198,15 +1202,12 @@ internal sealed class Selection : IServiceProvider
         // Chart areas loop
         foreach (ChartArea area in _chartControl.ChartAreas)
         {
-
             // Check if chart area is visible
             if (area.Visible)
-
             {
                 // Axis loop
                 foreach (Axis axis in area.Axes)
                 {
-
                     // Check ToolTip
                     if (axis.ToolTip.Length > 0)
                     {
@@ -1993,9 +1994,10 @@ internal sealed class Selection : IServiceProvider
         if (dataPoint != null && dataPoint.series != null)
         {
             pointIndex = dataPoint.series.Points.IndexOf(dataPoint);
-            if (pointIndex == -1 && dataPoint.IsCustomPropertySet("OriginalPointIndex"))
+            if (pointIndex == -1)
             {
-                if (!int.TryParse(dataPoint.GetCustomProperty("OriginalPointIndex"), out pointIndex))
+                string attr = dataPoint.TryGetCustomProperty("OriginalPointIndex");
+                if (attr is null || !int.TryParse(attr, out pointIndex))
                     return -1;
             }
         }

@@ -382,7 +382,7 @@ internal class StockChart : IChartType
                 if (common.ProcessModePaint)
                 {
 
-                    // Check if chart is partialy in the data scaleView
+                    // Check if chart is partially in the data scaleView
                     bool clipRegionSet = false;
                     if (xValue == HAxis.ViewMinimum || xValue == HAxis.ViewMaximum)
                     {
@@ -611,14 +611,14 @@ internal class StockChart : IChartType
         double openY = VAxis.GetLogValue(point.YValues[2]);
         double closeY = VAxis.GetLogValue(point.YValues[3]);
 
-        // Check if mark is inside data scaleView
-        if ((openY > VAxis.ViewMaximum ||
-            openY < VAxis.ViewMinimum) &&
-            (closeY > VAxis.ViewMaximum ||
-            closeY < VAxis.ViewMinimum))
-        {
-            //return;
-        }
+        //// Check if mark is inside data scaleView
+        //if ((openY > VAxis.ViewMaximum ||
+        //    openY < VAxis.ViewMinimum) &&
+        //    (closeY > VAxis.ViewMaximum ||
+        //    closeY < VAxis.ViewMinimum))
+        //{
+        //    //return;
+        //}
 
         // Calculate open-close position
         float open = (float)VAxis.GetLinearPosition(openY);
@@ -626,67 +626,13 @@ internal class StockChart : IChartType
         SizeF absSize = graph.GetAbsoluteSize(new SizeF(width, width));
         float height = graph.GetRelativeSize(absSize).Height;
 
-        // Detect style
-        StockOpenCloseMarkStyle style = openCloseStyle;
-        string styleType = string.Empty;
-        if (point.IsCustomPropertySet(CustomPropertyName.OpenCloseStyle))
-        {
-            styleType = point[CustomPropertyName.OpenCloseStyle];
-        }
-        else if (ser.IsCustomPropertySet(CustomPropertyName.OpenCloseStyle))
-        {
-            styleType = ser[CustomPropertyName.OpenCloseStyle];
-        }
+        // Detect style and get attribute which controls if open/close marks are shown
+        StockOpenCloseMarkStyle style;
+        bool showOpen;
+        bool showClose;
+        (style, showOpen, showClose) = GetOpenCloseMarksParams(point, ser);
 
-        if (styleType != null && styleType.Length > 0)
-        {
-            if (string.Equals(styleType, "Candlestick", StringComparison.OrdinalIgnoreCase))
-            {
-                style = StockOpenCloseMarkStyle.Candlestick;
-            }
-            else if (string.Equals(styleType, "Triangle", StringComparison.OrdinalIgnoreCase))
-            {
-                style = StockOpenCloseMarkStyle.Triangle;
-            }
-            else if (string.Equals(styleType, "Line", StringComparison.OrdinalIgnoreCase))
-            {
-                style = StockOpenCloseMarkStyle.Line;
-            }
-        }
-
-        // Get attribute which controls if open/close marks are shown
-        bool showOpen = true;
-        bool showClose = true;
-        string showOpenClose = string.Empty;
-        if (point.IsCustomPropertySet(CustomPropertyName.ShowOpenClose))
-        {
-            showOpenClose = point[CustomPropertyName.ShowOpenClose];
-        }
-        else if (ser.IsCustomPropertySet(CustomPropertyName.ShowOpenClose))
-        {
-            showOpenClose = ser[CustomPropertyName.ShowOpenClose];
-        }
-
-        if (showOpenClose != null && showOpenClose.Length > 0)
-        {
-            if (string.Equals(showOpenClose, "Both", StringComparison.OrdinalIgnoreCase))
-            {
-                showOpen = true;
-                showClose = true;
-            }
-            else if (string.Equals(showOpenClose, "Open", StringComparison.OrdinalIgnoreCase))
-            {
-                showOpen = true;
-                showClose = false;
-            }
-            else if (string.Equals(showOpenClose, "Close", StringComparison.OrdinalIgnoreCase))
-            {
-                showOpen = false;
-                showClose = true;
-            }
-        }
-
-        // Check if chart is partialy in the data scaleView
+        // Check if chart is partially in the data scaleView
         bool clipRegionSet = false;
         if (style == StockOpenCloseMarkStyle.Candlestick || xPosition - width / 2f < area.PlotAreaPosition.X || xPosition + width / 2f > area.PlotAreaPosition.Right)
         {
@@ -905,16 +851,7 @@ internal class StockChart : IChartType
             {
                 // Check what value to show (High, Low, Open, Close)
                 int valueIndex = 3;
-                string valueType = string.Empty;
-                if (point.IsCustomPropertySet(CustomPropertyName.LabelValueType))
-                {
-                    valueType = point[CustomPropertyName.LabelValueType];
-                }
-                else if (ser.IsCustomPropertySet(CustomPropertyName.LabelValueType))
-                {
-                    valueType = ser[CustomPropertyName.LabelValueType];
-                }
-
+                string valueType = point.TryGetCustomProperty(CustomPropertyName.LabelValueType) ?? ser.TryGetCustomProperty(CustomPropertyName.LabelValueType);
                 if (string.Equals(valueType, "High", StringComparison.OrdinalIgnoreCase))
                 {
                     valueIndex = 0;
@@ -1042,6 +979,61 @@ internal class StockChart : IChartType
         }
     }
 
+    private (StockOpenCloseMarkStyle Style, bool ShowOpen, bool ShowClose) GetOpenCloseMarksParams(DataPoint point, Series ser)
+    {
+        // Detect style
+        StockOpenCloseMarkStyle style;
+        string attr = point.TryGetCustomProperty(CustomPropertyName.OpenCloseStyle) ?? ser.TryGetCustomProperty(CustomPropertyName.OpenCloseStyle);
+        if (!string.IsNullOrEmpty(attr))
+        {
+            if (string.Equals(attr, "Candlestick", StringComparison.OrdinalIgnoreCase))
+            {
+                style = StockOpenCloseMarkStyle.Candlestick;
+            }
+            else if (string.Equals(attr, "Triangle", StringComparison.OrdinalIgnoreCase))
+            {
+                style = StockOpenCloseMarkStyle.Triangle;
+            }
+            else if (string.Equals(attr, "Line", StringComparison.OrdinalIgnoreCase))
+            {
+                style = StockOpenCloseMarkStyle.Line;
+            }
+            else
+            {
+                style = openCloseStyle;
+            }
+        }
+        else
+        {
+            style = openCloseStyle;
+        }
+
+        // Get attribute which controls if open/close marks are shown
+        bool showOpen = true;
+        bool showClose = true;
+        attr = point.TryGetCustomProperty(CustomPropertyName.ShowOpenClose) ?? ser.TryGetCustomProperty(CustomPropertyName.ShowOpenClose);
+        if (!string.IsNullOrEmpty(attr))
+        {
+            if (string.Equals(attr, "Both", StringComparison.OrdinalIgnoreCase))
+            {
+                showOpen = true;
+                showClose = true;
+            }
+            else if (string.Equals(attr, "Open", StringComparison.OrdinalIgnoreCase))
+            {
+                showOpen = true;
+                showClose = false;
+            }
+            else if (string.Equals(attr, "Close", StringComparison.OrdinalIgnoreCase))
+            {
+                showOpen = false;
+                showClose = true;
+            }
+        }
+
+        return (style, showOpen, showClose);
+    }
+
     #endregion
 
     #region 3D Drawing and Selection methods
@@ -1145,7 +1137,7 @@ internal class StockChart : IChartType
                     continue;
                 }
 
-                // Check if chart is partialy in the data scaleView
+                // Check if chart is partially in the data scaleView
                 bool clipRegionSet = false;
                 if (xValue == HAxis.ViewMinimum || xValue == HAxis.ViewMaximum)
                 {
@@ -1430,14 +1422,14 @@ internal class StockChart : IChartType
         double openY = VAxis.GetLogValue(point.YValues[2]);
         double closeY = VAxis.GetLogValue(point.YValues[3]);
 
-        // Check if mark is inside data scaleView
-        if ((openY > VAxis.ViewMaximum ||
-            openY < VAxis.ViewMinimum) &&
-            (closeY > VAxis.ViewMaximum ||
-            closeY < VAxis.ViewMinimum))
-        {
-            //return;
-        }
+        //// Check if mark is inside data scaleView
+        //if ((openY > VAxis.ViewMaximum ||
+        //    openY < VAxis.ViewMinimum) &&
+        //    (closeY > VAxis.ViewMaximum ||
+        //    closeY < VAxis.ViewMinimum))
+        //{
+        //    //return;
+        //}
 
         // Calculate open-close position
         float open = (float)VAxis.GetLinearPosition(openY);
@@ -1445,67 +1437,13 @@ internal class StockChart : IChartType
         SizeF absSize = graph.GetAbsoluteSize(new SizeF(width, width));
         float height = graph.GetRelativeSize(absSize).Height;
 
-        // Detect style
-        StockOpenCloseMarkStyle style = openCloseStyle;
-        string styleType = string.Empty;
-        if (point.IsCustomPropertySet(CustomPropertyName.OpenCloseStyle))
-        {
-            styleType = point[CustomPropertyName.OpenCloseStyle];
-        }
-        else if (ser.IsCustomPropertySet(CustomPropertyName.OpenCloseStyle))
-        {
-            styleType = ser[CustomPropertyName.OpenCloseStyle];
-        }
+        // Detect style and get attribute which controls if open/close marks are shown
+        StockOpenCloseMarkStyle style;
+        bool showOpen;
+        bool showClose;
+        (style, showOpen, showClose) = GetOpenCloseMarksParams(point, ser);
 
-        if (styleType != null && styleType.Length > 0)
-        {
-            if (string.Equals(styleType, "Candlestick", StringComparison.OrdinalIgnoreCase))
-            {
-                style = StockOpenCloseMarkStyle.Candlestick;
-            }
-            else if (string.Equals(styleType, "Triangle", StringComparison.OrdinalIgnoreCase))
-            {
-                style = StockOpenCloseMarkStyle.Triangle;
-            }
-            else if (string.Equals(styleType, "Line", StringComparison.OrdinalIgnoreCase))
-            {
-                style = StockOpenCloseMarkStyle.Line;
-            }
-        }
-
-        // Get attribute which controls if open/close marks are shown
-        bool showOpen = true;
-        bool showClose = true;
-        string showOpenClose = string.Empty;
-        if (point.IsCustomPropertySet(CustomPropertyName.ShowOpenClose))
-        {
-            showOpenClose = point[CustomPropertyName.ShowOpenClose];
-        }
-        else if (ser.IsCustomPropertySet(CustomPropertyName.ShowOpenClose))
-        {
-            showOpenClose = ser[CustomPropertyName.ShowOpenClose];
-        }
-
-        if (showOpenClose != null && showOpenClose.Length > 0)
-        {
-            if (string.Equals(showOpenClose, "Both", StringComparison.OrdinalIgnoreCase))
-            {
-                showOpen = true;
-                showClose = true;
-            }
-            else if (string.Equals(showOpenClose, "Open", StringComparison.OrdinalIgnoreCase))
-            {
-                showOpen = true;
-                showClose = false;
-            }
-            else if (string.Equals(showOpenClose, "Close", StringComparison.OrdinalIgnoreCase))
-            {
-                showOpen = false;
-                showClose = true;
-            }
-        }
-
-        // Check if chart is partialy in the data scaleView
+        // Check if chart is partially in the data scaleView
         bool clipRegionSet = false;
         if (xPosition - width / 2f < area.PlotAreaPosition.X || xPosition + width / 2f > area.PlotAreaPosition.Right)
         {

@@ -831,9 +831,9 @@ public partial class ChartArea
             drawSideBySide = Common.ChartTypeRegistry.GetChartType(smallestIntervalSeries.ChartTypeName).SideBySideSeries;
             foreach (string seriesName in this.Series)
             {
-                if (this.Common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+                string attribValue = this.Common.DataManager.Series[seriesName].TryGetCustomProperty(CustomPropertyName.DrawSideBySide);
+                if (attribValue is not null)
                 {
-                    string attribValue = this.Common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
                     if (string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
                     {
                         drawSideBySide = false;
@@ -909,11 +909,7 @@ public partial class ChartArea
                     Series curSeries = this.Common.DataManager.Series[seriesName];
                     if (string.Equals(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase))
                     {
-                        string seriesStackGroupName = string.Empty;
-                        if (curSeries.IsCustomPropertySet(CustomPropertyName.StackedGroupName))
-                        {
-                            seriesStackGroupName = curSeries[CustomPropertyName.StackedGroupName];
-                        }
+                        string seriesStackGroupName = curSeries.TryGetCustomProperty(CustomPropertyName.StackedGroupName) ?? string.Empty;
 
                         // Add group name if it do not already exist
                         stackGroupNames.Add(seriesStackGroupName);
@@ -1594,11 +1590,7 @@ public partial class ChartArea
             Series ser = this.Common.DataManager.Series[seriesName];
 
             // Get stack group name from the series
-            string stackGroupName = string.Empty;
-            if (ser.IsCustomPropertySet(CustomPropertyName.StackedGroupName))
-            {
-                stackGroupName = ser[CustomPropertyName.StackedGroupName];
-            }
+            string stackGroupName = ser.TryGetCustomProperty(CustomPropertyName.StackedGroupName) ?? string.Empty;
 
             // Add group name if it do not already exist
             if (!this.StackGroupNames.Contains(stackGroupName))
@@ -1618,18 +1610,14 @@ public partial class ChartArea
     /// <returns>Index of series stack group.</returns>
     internal int GetSeriesStackGroupIndex(Series series, ref string stackGroupName)
     {
-        stackGroupName = string.Empty;
-        if (this.StackGroupNames != null)
+        if (this.StackGroupNames is not null)
         {
             // Get stack group name from the series
-            if (series.IsCustomPropertySet(CustomPropertyName.StackedGroupName))
-            {
-                stackGroupName = series[CustomPropertyName.StackedGroupName];
-            }
-
+            stackGroupName = series.TryGetCustomProperty(CustomPropertyName.StackedGroupName) ?? string.Empty;
             return this.StackGroupNames.IndexOf(stackGroupName);
         }
 
+        stackGroupName = string.Empty;
         return 0;
     }
 

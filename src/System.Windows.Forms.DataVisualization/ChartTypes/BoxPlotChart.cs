@@ -240,9 +240,9 @@ internal class BoxPlotChart : IChartType
 
             // Check if side-by-side attribute is set
             bool currentShowSideBySide = showSideBySide;
-            if (ser.IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+            string attribValue = ser.TryGetCustomProperty(CustomPropertyName.DrawSideBySide);
+            if (attribValue is not null)
             {
-                string attribValue = ser[CustomPropertyName.DrawSideBySide];
                 if (string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
                 {
                     currentShowSideBySide = false;
@@ -263,18 +263,14 @@ internal class BoxPlotChart : IChartType
             // Find the number of "Column chart" data series
             double numOfSeries = typeSeries.Count;
             if (!currentShowSideBySide)
-            {
                 numOfSeries = 1;
-            }
 
             // Calculates the width of the points.
             float width = (float)(ser.GetPointWidth(graph, hAxis, interval, 0.8) / numOfSeries);
 
             // Call Back Paint event
             if (!selection)
-            {
                 common.Chart.CallOnPrePaint(new ChartPaintEventArgs(ser, graph, common, area.PlotAreaPosition));
-            }
 
 
             //************************************************************
@@ -423,14 +419,9 @@ internal class BoxPlotChart : IChartType
 
                     // Check if average line should be drawn
                     bool showAverage = true;
-                    if (point.IsCustomPropertySet(CustomPropertyName.BoxPlotShowAverage) || ser.IsCustomPropertySet(CustomPropertyName.BoxPlotShowAverage))
+                    string showAverageValue = point.TryGetCustomProperty(CustomPropertyName.BoxPlotShowAverage) ?? ser.TryGetCustomProperty(CustomPropertyName.BoxPlotShowAverage);
+                    if (showAverageValue is not null)
                     {
-                        string showAverageValue = ser[CustomPropertyName.BoxPlotShowAverage];
-                        if (point.IsCustomPropertySet(CustomPropertyName.BoxPlotShowAverage))
-                        {
-                            showAverageValue = point[CustomPropertyName.BoxPlotShowAverage];
-                        }
-
                         if (string.Equals(showAverageValue, "True", StringComparison.OrdinalIgnoreCase))
                         {
                             // default - do nothing
@@ -482,14 +473,9 @@ internal class BoxPlotChart : IChartType
 
                     // Check if median line should be drawn
                     bool showMedian = true;
-                    if (point.IsCustomPropertySet(CustomPropertyName.BoxPlotShowMedian) || ser.IsCustomPropertySet(CustomPropertyName.BoxPlotShowMedian))
+                    string showMedianValue = point.TryGetCustomProperty(CustomPropertyName.BoxPlotShowMedian) ?? ser.TryGetCustomProperty(CustomPropertyName.BoxPlotShowMedian);
+                    if (showMedianValue is not null)
                     {
-                        string showMedianValue = ser[CustomPropertyName.BoxPlotShowMedian];
-                        if (point.IsCustomPropertySet(CustomPropertyName.BoxPlotShowMedian))
-                        {
-                            showMedianValue = point[CustomPropertyName.BoxPlotShowMedian];
-                        }
-
                         if (string.Equals(showMedianValue, "True", StringComparison.OrdinalIgnoreCase))
                         {
                             // default - do nothing
@@ -1010,9 +996,9 @@ internal class BoxPlotChart : IChartType
 
             // Check if side-by-side attribute is set
             bool currentShowSideBySide = showSideBySide;
-            if (ser.IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+            string attribValue = ser.TryGetCustomProperty(CustomPropertyName.DrawSideBySide);
+            if (attribValue is not null)
             {
-                string attribValue = ser[CustomPropertyName.DrawSideBySide];
                 if (string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
                 {
                     currentShowSideBySide = false;
@@ -1212,14 +1198,9 @@ internal class BoxPlotChart : IChartType
 
                     // Check if average line should be drawn
                     bool showAverage = true;
-                    if (point.IsCustomPropertySet(CustomPropertyName.BoxPlotShowAverage) || ser.IsCustomPropertySet(CustomPropertyName.BoxPlotShowAverage))
+                    string showAverageValue = point.TryGetCustomProperty(CustomPropertyName.BoxPlotShowAverage) ?? ser.TryGetCustomProperty(CustomPropertyName.BoxPlotShowAverage);
+                    if (showAverageValue is not null)
                     {
-                        string showAverageValue = ser[CustomPropertyName.BoxPlotShowAverage];
-                        if (point.IsCustomPropertySet(CustomPropertyName.BoxPlotShowAverage))
-                        {
-                            showAverageValue = point[CustomPropertyName.BoxPlotShowAverage];
-                        }
-
                         if (string.Equals(showAverageValue, "True", StringComparison.OrdinalIgnoreCase))
                         {
                             // default - do nothing
@@ -1263,14 +1244,9 @@ internal class BoxPlotChart : IChartType
 
                     // Check if median line should be drawn
                     bool showMedian = true;
-                    if (point.IsCustomPropertySet(CustomPropertyName.BoxPlotShowMedian) || ser.IsCustomPropertySet(CustomPropertyName.BoxPlotShowMedian))
+                    string showMedianValue = point.TryGetCustomProperty(CustomPropertyName.BoxPlotShowMedian) ?? ser.TryGetCustomProperty(CustomPropertyName.BoxPlotShowMedian);
+                    if (showMedianValue is not null)
                     {
-                        string showMedianValue = ser[CustomPropertyName.BoxPlotShowMedian];
-                        if (point.IsCustomPropertySet(CustomPropertyName.BoxPlotShowMedian))
-                        {
-                            showMedianValue = point[CustomPropertyName.BoxPlotShowMedian];
-                        }
-
                         if (string.Equals(showMedianValue, "True", StringComparison.OrdinalIgnoreCase))
                         {
                             // default - do nothing
@@ -1533,10 +1509,11 @@ internal class BoxPlotChart : IChartType
         }
 
         // Check if "BoxPlotSeries" custom attribute is set for the series
-        if (boxPlotSeries.IsCustomPropertySet(CustomPropertyName.BoxPlotSeries))
+        string attr = boxPlotSeries.TryGetCustomProperty(CustomPropertyName.BoxPlotSeries);
+        if (attr is not null)
         {
             // Create as many data points as series in attribute
-            string[] attrValues = boxPlotSeries[CustomPropertyName.BoxPlotSeries].Split(';', StringSplitOptions.TrimEntries);
+            string[] attrValues = attr.Split(';', StringSplitOptions.TrimEntries);
 
             // Clear and and new points
             boxPlotSeries.Points.Clear();
@@ -1552,30 +1529,30 @@ internal class BoxPlotChart : IChartType
         for (int pointIndex = 0; pointIndex < boxPlotSeries.Points.Count; pointIndex++)
         {
             DataPoint point = boxPlotSeries.Points[pointIndex];
-            if (point.IsCustomPropertySet(CustomPropertyName.BoxPlotSeries))
+            attr = point.TryGetCustomProperty(CustomPropertyName.BoxPlotSeries);
+            if (attr is not null)
             {
                 // Get series and value name
-                string linkedSeriesName = point[CustomPropertyName.BoxPlotSeries];
                 string valueName = "Y";
-                int valueTypeIndex = linkedSeriesName.IndexOf(':', StringComparison.OrdinalIgnoreCase);
+                int valueTypeIndex = attr.IndexOf(':');
                 if (valueTypeIndex >= 0)
                 {
-                    valueName = linkedSeriesName[(valueTypeIndex + 1)..];
-                    linkedSeriesName = linkedSeriesName[..valueTypeIndex];
+                    valueName = attr[(valueTypeIndex + 1)..];
+                    attr = attr[..valueTypeIndex];
                 }
 
                 // Get reference to the chart control
                 Chart control = boxPlotSeries.Chart;
-                if (control != null)
+                if (control is not null)
                 {
                     // Get linked series and check existence
-                    if (control.Series.IndexOf(linkedSeriesName) == -1)
+                    if (control.Series.IndexOf(attr) == -1)
                     {
-                        throw new InvalidOperationException(SR.ExceptionCustomAttributeSeriesNameNotFound("BoxPlotSeries", linkedSeriesName));
+                        throw new InvalidOperationException(SR.ExceptionCustomAttributeSeriesNameNotFound("BoxPlotSeries", attr));
                     }
 
                     // Calculate box point values
-                    CalculateBoxPlotValues(ref point, control.Series[linkedSeriesName], valueName);
+                    CalculateBoxPlotValues(ref point, control.Series[attr], valueName);
                 }
             }
         }
@@ -1621,17 +1598,8 @@ internal class BoxPlotChart : IChartType
 
         // Get required percentiles
         double[] requiredPercentile = [10.0, 90.0, 25.0, 75.0, 50.0];
-        string boxPercentile = boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotPercentile) ? boxPoint[CustomPropertyName.BoxPlotPercentile] : string.Empty;
-        if (boxPercentile.Length == 0 && boxPoint.series != null && boxPoint.series.IsCustomPropertySet(CustomPropertyName.BoxPlotPercentile))
-        {
-            boxPercentile = boxPoint.series[CustomPropertyName.BoxPlotPercentile];
-        }
-
-        string boxWhiskerPercentile = boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotWhiskerPercentile) ? boxPoint[CustomPropertyName.BoxPlotWhiskerPercentile] : string.Empty;
-        if (boxWhiskerPercentile.Length == 0 && boxPoint.series != null && boxPoint.series.IsCustomPropertySet(CustomPropertyName.BoxPlotWhiskerPercentile))
-        {
-            boxWhiskerPercentile = boxPoint.series[CustomPropertyName.BoxPlotWhiskerPercentile];
-        }
+        string boxPercentile = (boxPoint.TryGetCustomProperty(CustomPropertyName.BoxPlotPercentile) ?? boxPoint.series?.TryGetCustomProperty(CustomPropertyName.BoxPlotPercentile)) ?? string.Empty;
+        string boxWhiskerPercentile = (boxPoint.TryGetCustomProperty(CustomPropertyName.BoxPlotWhiskerPercentile) ?? boxPoint.series?.TryGetCustomProperty(CustomPropertyName.BoxPlotWhiskerPercentile)) ?? string.Empty;
 
         // Check specified 
         if (boxPercentile.Length > 0)
@@ -1681,12 +1649,7 @@ internal class BoxPlotChart : IChartType
 
         // Check if unusual values should be added
         bool addUnusualValues = false;
-        string showUnusualValues = boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotShowUnusualValues) ? boxPoint[CustomPropertyName.BoxPlotShowUnusualValues] : string.Empty;
-        if (showUnusualValues.Length == 0 && boxPoint.series != null && boxPoint.series.IsCustomPropertySet(CustomPropertyName.BoxPlotShowUnusualValues))
-        {
-            showUnusualValues = boxPoint.series[CustomPropertyName.BoxPlotShowUnusualValues];
-        }
-
+        string showUnusualValues = (boxPoint.TryGetCustomProperty(CustomPropertyName.BoxPlotShowUnusualValues) ?? boxPoint.series?.TryGetCustomProperty(CustomPropertyName.BoxPlotShowUnusualValues)) ?? string.Empty;
         if (showUnusualValues.Length > 0)
         {
             if (string.Equals(showUnusualValues, "True", StringComparison.OrdinalIgnoreCase))

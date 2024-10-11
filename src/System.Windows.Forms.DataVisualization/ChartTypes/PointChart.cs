@@ -1475,17 +1475,7 @@ internal class PointChart : IChartType
         //************************************************************
         //** Check custom attribute "EmptyPointValue"
         //************************************************************
-        string emptyPointValue = string.Empty;
-        if (series.EmptyPointStyle.IsCustomPropertySet(CustomPropertyName.EmptyPointValue))
-        {
-            emptyPointValue = series.EmptyPointStyle[CustomPropertyName.EmptyPointValue];
-        }
-        else if (series.IsCustomPropertySet(CustomPropertyName.EmptyPointValue))
-        {
-            emptyPointValue = series[CustomPropertyName.EmptyPointValue];
-        }
-
-        // Take attribute value
+        string emptyPointValue = (series.EmptyPointStyle.TryGetCustomProperty(CustomPropertyName.EmptyPointValue) ?? series.TryGetCustomProperty(CustomPropertyName.EmptyPointValue)) ?? string.Empty;
         if (string.Equals(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase))
         {
             // IsEmpty points represented with zero values

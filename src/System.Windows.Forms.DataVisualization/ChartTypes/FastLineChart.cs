@@ -247,12 +247,10 @@ internal class FastLineChart : IChartType
 
             // Get "PermittedPixelError" attribute
             float permittedPixelError = 1.0f;
-            if (series.IsCustomPropertySet(CustomPropertyName.PermittedPixelError))
+            string attrValue;
+            if ((attrValue = series.TryGetCustomProperty(CustomPropertyName.PermittedPixelError)) is not null)
             {
-                string attrValue = series[CustomPropertyName.PermittedPixelError];
-
                 bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.CurrentCulture, out float pixelError);
-
                 if (parseSucceed)
                 {
                     permittedPixelError = pixelError;

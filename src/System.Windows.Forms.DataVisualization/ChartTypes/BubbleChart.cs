@@ -169,6 +169,7 @@ internal sealed class BubbleChart : PointChart
             // Try to find bubble size scale in the custom series properties
             _minAll = double.MaxValue;
             _maxAll = double.MinValue;
+            string attr;
             foreach (Series ser in common.DataManager.Series)
             {
                 if (string.Equals(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) &&
@@ -176,20 +177,20 @@ internal sealed class BubbleChart : PointChart
                     ser.IsVisible())
                 {
                     // Check if custom properties are set to specify scale
-                    if (ser.IsCustomPropertySet(CustomPropertyName.BubbleScaleMin))
+                    if ((attr = ser.TryGetCustomProperty(CustomPropertyName.BubbleScaleMin)) is not null)
                     {
-                        _minAll = Math.Min(_minAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMin]));
+                        _minAll = Math.Min(_minAll, CommonElements.ParseDouble(attr));
                     }
 
-                    if (ser.IsCustomPropertySet(CustomPropertyName.BubbleScaleMax))
+                    if ((attr = ser.TryGetCustomProperty(CustomPropertyName.BubbleScaleMax)) is not null)
                     {
-                        _maxAll = Math.Max(_maxAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMax]));
+                        _maxAll = Math.Max(_maxAll, CommonElements.ParseDouble(attr));
                     }
 
                     // Check if attribute for max. size is set
-                    if (ser.IsCustomPropertySet(CustomPropertyName.BubbleMaxSize))
+                    if ((attr = ser.TryGetCustomProperty(CustomPropertyName.BubbleMaxSize)) is not null)
                     {
-                        _maxPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMaxSize]);
+                        _maxPossibleBubbleSize = CommonElements.ParseDouble(attr);
                         if (_maxPossibleBubbleSize < 0 || _maxPossibleBubbleSize > 100)
                         {
                             throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize"));
@@ -197,21 +198,20 @@ internal sealed class BubbleChart : PointChart
                     }
 
                     // Check if attribute for min. size is set
-                    if (ser.IsCustomPropertySet(CustomPropertyName.BubbleMinSize))
+                    if ((attr = ser.TryGetCustomProperty(CustomPropertyName.BubbleMinSize)) is not null)
                     {
-                        _minPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMinSize]);
+                        _minPossibleBubbleSize = CommonElements.ParseDouble(attr);
                         if (_minPossibleBubbleSize < 0 || _minPossibleBubbleSize > 100)
                         {
                             throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMinSize"));
                         }
                     }
 
-
                     // Check if custom properties set to use second Y value (bubble size) as label text
                     labelYValueIndex = 0;
-                    if (ser.IsCustomPropertySet(CustomPropertyName.BubbleUseSizeForLabel))
+                    if ((attr = ser.TryGetCustomProperty(CustomPropertyName.BubbleUseSizeForLabel)) is not null)
                     {
-                        if (string.Equals(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase))
+                        if (string.Equals(attr, "true", StringComparison.OrdinalIgnoreCase))
                         {
                             labelYValueIndex = 1;
                             break;
@@ -312,6 +312,7 @@ internal sealed class BubbleChart : PointChart
         float minBubleSize;
         double valueScale;
         double valueDiff;
+        string attr;
         foreach (Series ser in common.DataManager.Series)
         {
             if (string.Equals(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) &&
@@ -319,20 +320,20 @@ internal sealed class BubbleChart : PointChart
                 ser.IsVisible())
             {
                 // Check if custom properties are set to specify scale
-                if (ser.IsCustomPropertySet(CustomPropertyName.BubbleScaleMin))
+                if ((attr = ser.TryGetCustomProperty(CustomPropertyName.BubbleScaleMin)) is not null)
                 {
-                    minAll = Math.Min(minAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMin]));
+                    minAll = Math.Min(minAll, CommonElements.ParseDouble(attr));
                 }
 
-                if (ser.IsCustomPropertySet(CustomPropertyName.BubbleScaleMax))
+                if ((attr = ser.TryGetCustomProperty(CustomPropertyName.BubbleScaleMax)) is not null)
                 {
-                    maxAll = Math.Max(maxAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMax]));
+                    maxAll = Math.Max(maxAll, CommonElements.ParseDouble(attr));
                 }
 
                 // Check if attribute for max. size is set
-                if (ser.IsCustomPropertySet(CustomPropertyName.BubbleMaxSize))
+                if ((attr = ser.TryGetCustomProperty(CustomPropertyName.BubbleMaxSize)) is not null)
                 {
-                    maxPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMaxSize]);
+                    maxPossibleBubbleSize = CommonElements.ParseDouble(attr);
                     if (maxPossibleBubbleSize < 0 || maxPossibleBubbleSize > 100)
                     {
                         throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize"));
@@ -340,9 +341,9 @@ internal sealed class BubbleChart : PointChart
                 }
 
                 // Check if custom properties set to use second Y value (bubble size) as label text
-                if (ser.IsCustomPropertySet(CustomPropertyName.BubbleUseSizeForLabel))
+                if ((attr = ser.TryGetCustomProperty(CustomPropertyName.BubbleUseSizeForLabel)) is not null)
                 {
-                    if (string.Equals(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(attr, "true", StringComparison.OrdinalIgnoreCase))
                     {
                         break;
                     }
@@ -422,36 +423,6 @@ internal sealed class BubbleChart : PointChart
 
         // Return scaled value
         return (float)((value - valueDiff) * valueScale) + minBubleSize;
-    }
-
-    /// <summary>
-    /// Get value from custom attribute BubbleMaxSize 
-    /// </summary>
-    /// <param name="area">Chart Area</param>
-    /// <returns>Bubble Max size</returns>
-    internal static double GetBubbleMaxSize(ChartArea area)
-    {
-        double maxPossibleBubbleSize = 15;
-        // Try to find bubble size scale in the custom series properties
-        foreach (Series ser in area.Common.DataManager.Series)
-        {
-            if (string.Equals(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) &&
-                ser.ChartArea == area.Name &&
-                ser.IsVisible())
-            {
-                // Check if attribute for max. size is set
-                if (ser.IsCustomPropertySet(CustomPropertyName.BubbleMaxSize))
-                {
-                    maxPossibleBubbleSize = CommonElements.ParseDouble(ser[CustomPropertyName.BubbleMaxSize]);
-                    if (maxPossibleBubbleSize < 0 || maxPossibleBubbleSize > 100)
-                    {
-                        throw new ArgumentException(SR.ExceptionCustomAttributeIsNotInRange0to100("BubbleMaxSize"));
-                    }
-                }
-            }
-        }
-
-        return maxPossibleBubbleSize / 100;
     }
 
     #endregion

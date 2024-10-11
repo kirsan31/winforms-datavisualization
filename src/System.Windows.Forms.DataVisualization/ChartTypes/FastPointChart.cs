@@ -248,12 +248,10 @@ internal class FastPointChart : IChartType
             // Get "PermittedPixelError" attribute.
             // By default use 1/3 of the marker size.
             float permittedPixelError = series.MarkerSize / 3f;
-            if (series.IsCustomPropertySet(CustomPropertyName.PermittedPixelError))
+            string attrValue;
+            if ((attrValue = series.TryGetCustomProperty(CustomPropertyName.PermittedPixelError)) is not null)
             {
-                string attrValue = series[CustomPropertyName.PermittedPixelError];
-
                 bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.CurrentCulture, out float pixelError);
-
                 if (parseSucceed)
                 {
                     permittedPixelError = pixelError;

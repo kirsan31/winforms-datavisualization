@@ -264,10 +264,11 @@ internal class RenkoChart : IChartType
         double boxSize = 1.0;
         double percentOfPriceRange = 4.0;
         bool roundBoxSize = true;
-        if (series.IsCustomPropertySet(CustomPropertyName.BoxSize))
+        string attr;
+        if ((attr = series.TryGetCustomProperty(CustomPropertyName.BoxSize)) is not null)
         {
-            string attrValue = series[CustomPropertyName.BoxSize].Trim();
-            bool usePercentage = attrValue.EndsWith('%');
+            ReadOnlySpan<char> attrValue = attr.AsSpan().Trim();
+            bool usePercentage = attrValue[^1] == '%';
             if (usePercentage)
             {
                 attrValue = attrValue[..^1];
@@ -277,12 +278,12 @@ internal class RenkoChart : IChartType
             {
                 if (usePercentage)
                 {
-                    percentOfPriceRange = double.Parse(attrValue, CultureInfo.InvariantCulture);
+                    percentOfPriceRange = double.Parse(attrValue, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
                     roundBoxSize = false;
                 }
                 else
                 {
-                    boxSize = double.Parse(attrValue, CultureInfo.InvariantCulture);
+                    boxSize = double.Parse(attrValue, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
                     percentOfPriceRange = 0.0;
                 }
             }
@@ -362,12 +363,13 @@ internal class RenkoChart : IChartType
     private static void FillRenkoData(Series series, Series originalData)
     {
         // Get index of the Y values used
-        int yValueIndex = 0;
-        if (series.IsCustomPropertySet(CustomPropertyName.UsedYValue))
+        int yValueIndex;
+        string attr;
+        if ((attr = series.TryGetCustomProperty(CustomPropertyName.UsedYValue)) is not null)
         {
             try
             {
-                yValueIndex = int.Parse(series[CustomPropertyName.UsedYValue], CultureInfo.InvariantCulture);
+                yValueIndex = int.Parse(attr, CultureInfo.InvariantCulture);
             }
             catch
             {
@@ -378,6 +380,10 @@ internal class RenkoChart : IChartType
             {
                 throw new InvalidOperationException(SR.ExceptionRenkoUsedYValueOutOfRange);
             }
+        }
+        else
+        {
+            yValueIndex = 0;
         }
 
         // Calculate box size
@@ -394,7 +400,7 @@ internal class RenkoChart : IChartType
                 int numberOfBricks = 0;
                 bool goingUp = true;
 
-                // Check if previus values exists
+                // Check if previous values exists
                 if (double.IsNaN(prevLow) || double.IsNaN(prevHigh))
                 {
                     prevHigh = dataPoint.YValues[yValueIndex];

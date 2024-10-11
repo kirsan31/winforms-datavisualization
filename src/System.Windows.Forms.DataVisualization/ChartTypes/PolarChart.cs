@@ -163,26 +163,26 @@ internal sealed class PolarChart : RadarChart
     /// <returns>Returns polar drawing style.</returns>
     protected override RadarDrawingStyle GetDrawingStyle(Series ser, DataPoint point)
     {
-        RadarDrawingStyle drawingStyle = RadarDrawingStyle.Line;
-        if (point.IsCustomPropertySet(CustomPropertyName.PolarDrawingStyle) ||
-            ser.IsCustomPropertySet(CustomPropertyName.PolarDrawingStyle))
+        RadarDrawingStyle drawingStyle;
+        string drawingStyleStr = point.TryGetCustomProperty(CustomPropertyName.PolarDrawingStyle) ?? ser.TryGetCustomProperty(CustomPropertyName.PolarDrawingStyle);
+        if (drawingStyleStr is not null)
         {
-            string attributeValue =
-                point.IsCustomPropertySet(CustomPropertyName.PolarDrawingStyle) ?
-                point[CustomPropertyName.PolarDrawingStyle] :
-                ser[CustomPropertyName.PolarDrawingStyle];
-            if (string.Equals(attributeValue, "Line", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(drawingStyleStr, "Line", StringComparison.OrdinalIgnoreCase))
             {
                 drawingStyle = RadarDrawingStyle.Line;
             }
-            else if (string.Equals(attributeValue, "Marker", StringComparison.OrdinalIgnoreCase))
+            else if (string.Equals(drawingStyleStr, "Marker", StringComparison.OrdinalIgnoreCase))
             {
                 drawingStyle = RadarDrawingStyle.Marker;
             }
             else
             {
-                throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attributeValue, "PolarDrawingStyle"));
+                throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(drawingStyleStr, "PolarDrawingStyle"));
             }
+        }
+        else
+        {
+            drawingStyle = RadarDrawingStyle.Line;
         }
 
         return drawingStyle;

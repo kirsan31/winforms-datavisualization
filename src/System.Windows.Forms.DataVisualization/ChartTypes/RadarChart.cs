@@ -1281,14 +1281,10 @@ internal class RadarChart : IChartType, ICircularChartType
     /// <returns>Returns radar drawing style.</returns>
     protected virtual RadarDrawingStyle GetDrawingStyle(Series ser, DataPoint point)
     {
-        RadarDrawingStyle drawingStyle = RadarDrawingStyle.Area;
-        if (point.IsCustomPropertySet(CustomPropertyName.RadarDrawingStyle) ||
-            ser.IsCustomPropertySet(CustomPropertyName.RadarDrawingStyle))
+        RadarDrawingStyle drawingStyle;
+        string attributeValue = point.TryGetCustomProperty(CustomPropertyName.RadarDrawingStyle) ?? ser.TryGetCustomProperty(CustomPropertyName.RadarDrawingStyle);
+        if (attributeValue is not null)
         {
-            string attributeValue =
-                point.IsCustomPropertySet(CustomPropertyName.RadarDrawingStyle) ?
-                point[CustomPropertyName.RadarDrawingStyle] :
-                ser[CustomPropertyName.RadarDrawingStyle];
             if (string.Equals(attributeValue, "Area", StringComparison.OrdinalIgnoreCase))
             {
                 drawingStyle = RadarDrawingStyle.Area;
@@ -1306,6 +1302,10 @@ internal class RadarChart : IChartType, ICircularChartType
                 throw new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attributeValue, "RadarDrawingStyle"));
             }
         }
+        else
+        {
+            drawingStyle = RadarDrawingStyle.Area;
+        }
 
         return drawingStyle;
     }
@@ -1319,7 +1319,7 @@ internal class RadarChart : IChartType, ICircularChartType
     /// </summary>
     /// <param name="common">Chart common elements.</param>
     /// <param name="area">Chart area the series belongs to.</param>
-    /// <param name="series">Sereis of the point.</param>
+    /// <param name="series">Series of the point.</param>
     /// <param name="point">Point object.</param>
     /// <param name="pointIndex">Index of the point.</param>
     /// <param name="yValueIndex">Index of the Y value to get.</param>
@@ -1388,16 +1388,7 @@ internal class RadarChart : IChartType, ICircularChartType
         //************************************************************
         //** Check custom attribute "EmptyPointValue"
         //************************************************************
-        string emptyPointValue = string.Empty;
-        if (series.EmptyPointStyle.IsCustomPropertySet(CustomPropertyName.EmptyPointValue))
-        {
-            emptyPointValue = series.EmptyPointStyle[CustomPropertyName.EmptyPointValue];
-        }
-        else if (series.IsCustomPropertySet(CustomPropertyName.EmptyPointValue))
-        {
-            emptyPointValue = series[CustomPropertyName.EmptyPointValue];
-        }
-
+        string emptyPointValue = (series.EmptyPointStyle.TryGetCustomProperty(CustomPropertyName.EmptyPointValue) ?? series.TryGetCustomProperty(CustomPropertyName.EmptyPointValue)) ?? string.Empty;
         // Take attribute value
         if (string.Equals(emptyPointValue, "Zero", StringComparison.OrdinalIgnoreCase))
         {
@@ -1406,7 +1397,7 @@ internal class RadarChart : IChartType, ICircularChartType
         }
 
         //************************************************************
-        //** IsEmpty point value is an average of neighbour points
+        //** IsEmpty point value is an average of neighbor points
         //************************************************************
 
         // Find previous non-empty point value

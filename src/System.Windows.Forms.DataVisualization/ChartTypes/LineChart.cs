@@ -69,11 +69,11 @@ internal class SplineChart : LineChart
         bool indexedSeries)
     {
         // Check tension attribute in the series
-        base.lineTension = GetDefaultTension();
-        if (IsLineTensionSupported() && series.IsCustomPropertySet(CustomPropertyName.LineTension))
-        {
-            base.lineTension = CommonElements.ParseFloat(series[CustomPropertyName.LineTension]);
-        }
+        string attr;
+        if (IsLineTensionSupported() && (attr = series.TryGetCustomProperty(CustomPropertyName.LineTension)) is not null)
+            base.lineTension = CommonElements.ParseFloat(attr);
+        else
+            base.lineTension = GetDefaultTension();
 
         // Call base LineChart class
         return base.GetPointsPosition(graph, series, indexedSeries);
@@ -359,11 +359,11 @@ internal class LineChart : PointChart
             }
 
             // Check tension attribute in the series
-            this.lineTension = GetDefaultTension();
-            if (IsLineTensionSupported() && ser.IsCustomPropertySet(CustomPropertyName.LineTension))
-            {
-                this.lineTension = CommonElements.ParseFloat(ser[CustomPropertyName.LineTension]);
-            }
+            string attr;
+            if (IsLineTensionSupported() && (attr = ser.TryGetCustomProperty(CustomPropertyName.LineTension)) is not null)
+                this.lineTension = CommonElements.ParseFloat(attr);
+            else
+                this.lineTension = GetDefaultTension();
 
             // Fill the array of data points coordinates (absolute)
             bool dataPointPosFilled = false;
@@ -1231,10 +1231,9 @@ internal class LineChart : PointChart
         if (dataPointDrawingOrder.Count > 0)
         {
             Series firstSeries = dataPointDrawingOrder[0].dataPoint.series;
-            if (IsLineTensionSupported() && firstSeries.IsCustomPropertySet(CustomPropertyName.LineTension))
-            {
-                this.lineTension = CommonElements.ParseFloat(firstSeries[CustomPropertyName.LineTension]);
-            }
+            string attr;
+            if (IsLineTensionSupported() && (attr = firstSeries.TryGetCustomProperty(CustomPropertyName.LineTension)) is not null)
+                this.lineTension = CommonElements.ParseFloat(attr);
         }
 
         //************************************************************
@@ -1304,29 +1303,11 @@ internal class LineChart : PointChart
                         DrawingOperationTypes drawingOperationType = DrawingOperationTypes.DrawElement;
 
                         if (common.ProcessModeRegions)
-                        {
                             drawingOperationType |= DrawingOperationTypes.CalcElementPath;
-                        }
 
                         // Check if point markers lines should be drawn
-                        this.showPointLines = false;
-                        if (pointAttr.dataPoint.IsCustomPropertySet(CustomPropertyName.ShowMarkerLines))
-                        {
-                            if (string.Equals(pointAttr.dataPoint[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase))
-                            {
-                                this.showPointLines = true;
-                            }
-                        }
-                        else
-                        {
-                            if (pointAttr.dataPoint.series.IsCustomPropertySet(CustomPropertyName.ShowMarkerLines))
-                            {
-                                if (string.Equals(pointAttr.dataPoint.series[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    this.showPointLines = true;
-                                }
-                            }
-                        }
+                        this.showPointLines = string.Equals(pointAttr.dataPoint.TryGetCustomProperty(CustomPropertyName.ShowMarkerLines), "TRUE", StringComparison.OrdinalIgnoreCase) ||
+                            string.Equals(pointAttr.dataPoint.series.TryGetCustomProperty(CustomPropertyName.ShowMarkerLines), "TRUE", StringComparison.OrdinalIgnoreCase);
 
                         // Start Svg Selection mode
                         graph.StartHotRegion(point);

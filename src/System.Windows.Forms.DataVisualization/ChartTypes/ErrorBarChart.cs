@@ -253,7 +253,7 @@ internal class ErrorBarChart : IChartType
         ChartArea area,
         Series seriesToDraw)
     {
-        // Prosess 3D chart type
+        // Process 3D chart type
         if (area.Area3DStyle.Enable3D)
         {
             ProcessChartType3D(selection, graph, common, area, seriesToDraw);
@@ -294,46 +294,37 @@ internal class ErrorBarChart : IChartType
             int numberOfLinkedSeries = 1;
             int indexOfLinkedSeries = 0;
             bool showSideBySide = false;
-            string linkedSeriesName = string.Empty;
+            string linkedSeriesName;
             bool currentDrawSeriesSideBySide = false;
-            if (ser.IsCustomPropertySet(CustomPropertyName.ErrorBarSeries))
+            string attribValue;
+            if ((linkedSeriesName = ser.TryGetCustomProperty(CustomPropertyName.ErrorBarSeries)) is not null) // Get series name
             {
-                // Get series name
-                linkedSeriesName = ser[CustomPropertyName.ErrorBarSeries];
-                int valueTypeIndex = linkedSeriesName.IndexOf(':', StringComparison.OrdinalIgnoreCase);
+                int valueTypeIndex = linkedSeriesName.IndexOf(':');
                 if (valueTypeIndex >= 0)
-                {
                     linkedSeriesName = linkedSeriesName[..valueTypeIndex];
-                }
 
                 // All linked data series from chart area which have Error bar chart type
                 string linkedSeriesChartType = common.DataManager.Series[linkedSeriesName].ChartTypeName;
                 ChartArea linkedSeriesArea = common.ChartPicture.ChartAreas[common.DataManager.Series[linkedSeriesName].ChartArea];
                 List<string> typeLinkedSeries = linkedSeriesArea.GetSeriesFromChartType(linkedSeriesChartType);
 
-                // Get index of linked serries
+                // Get index of linked series
                 foreach (string name in typeLinkedSeries)
                 {
                     if (name == linkedSeriesName)
-                    {
                         break;
-                    }
 
                     ++indexOfLinkedSeries;
                 }
 
 
-                currentDrawSeriesSideBySide = false;
-                if (string.Equals(linkedSeriesChartType, ChartTypeNames.Column, StringComparison.OrdinalIgnoreCase) || string.Equals(linkedSeriesChartType, ChartTypeNames.RangeColumn, StringComparison.OrdinalIgnoreCase))
-                {
-                    currentDrawSeriesSideBySide = true;
-                }
+                currentDrawSeriesSideBySide = string.Equals(linkedSeriesChartType, ChartTypeNames.Column, StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(linkedSeriesChartType, ChartTypeNames.RangeColumn, StringComparison.OrdinalIgnoreCase);
 
                 foreach (string seriesName in typeLinkedSeries)
                 {
-                    if (common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+                    if ((attribValue = common.DataManager.Series[seriesName].TryGetCustomProperty(CustomPropertyName.DrawSideBySide)) is not null)
                     {
-                        string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
                         if (string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
                         {
                             currentDrawSeriesSideBySide = false;
@@ -371,9 +362,8 @@ internal class ErrorBarChart : IChartType
             }
 
             // Check if side-by-side attribute is set
-            if (!currentDrawSeriesSideBySide && ser.IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+            if (!currentDrawSeriesSideBySide && (attribValue = ser.TryGetCustomProperty(CustomPropertyName.DrawSideBySide)) is not null)
             {
-                string attribValue = ser[CustomPropertyName.DrawSideBySide];
                 if (string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
                 {
                     showSideBySide = false;
@@ -458,14 +448,9 @@ internal class ErrorBarChart : IChartType
 
                 // Check if lower and/or upper error bar are drawn
                 ErrorBarStyle barStyle = ErrorBarStyle.Both;
-                if (point.IsCustomPropertySet(CustomPropertyName.ErrorBarStyle) || ser.IsCustomPropertySet(CustomPropertyName.ErrorBarStyle))
+                string errorBarStyle = point.TryGetCustomProperty(CustomPropertyName.ErrorBarStyle) ?? ser.TryGetCustomProperty(CustomPropertyName.ErrorBarStyle);
+                if (errorBarStyle is not null)
                 {
-                    string errorBarStyle = ser[CustomPropertyName.ErrorBarStyle];
-                    if (point.IsCustomPropertySet(CustomPropertyName.ErrorBarStyle))
-                    {
-                        errorBarStyle = point[CustomPropertyName.ErrorBarStyle];
-                    }
-
                     if (string.Equals(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase))
                     {
                         // default - do nothing
@@ -614,14 +599,9 @@ internal class ErrorBarChart : IChartType
                     double low = vAxis.GetLogValue(point.YValues[2]);
 
                     // Check if lower and/or upper error bar are drawn
-                    if (point.IsCustomPropertySet(CustomPropertyName.ErrorBarStyle) || ser.IsCustomPropertySet(CustomPropertyName.ErrorBarStyle))
+                    string errorBarStyle = point.TryGetCustomProperty(CustomPropertyName.ErrorBarStyle) ?? ser.TryGetCustomProperty(CustomPropertyName.ErrorBarStyle);
+                    if (errorBarStyle is not null)
                     {
-                        string errorBarStyle = ser[CustomPropertyName.ErrorBarStyle];
-                        if (point.IsCustomPropertySet(CustomPropertyName.ErrorBarStyle))
-                        {
-                            errorBarStyle = point[CustomPropertyName.ErrorBarStyle];
-                        }
-
                         if (string.Equals(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase))
                         {
                             // default - do nothing
@@ -746,18 +726,10 @@ internal class ErrorBarChart : IChartType
         }
 
         // Draw center value marker
-        if (point.IsCustomPropertySet(CustomPropertyName.ErrorBarCenterMarkerStyle) || point.series.IsCustomPropertySet(CustomPropertyName.ErrorBarCenterMarkerStyle))
+        if ((markerStyle = (point.TryGetCustomProperty(CustomPropertyName.ErrorBarCenterMarkerStyle) ?? point.series.TryGetCustomProperty(CustomPropertyName.ErrorBarCenterMarkerStyle))) is not null)
         {
             // Get Y position
             yPosition = vAxis.GetLogValue(point.YValues[0]);
-
-            // Get marker style name
-            markerStyle = point.series[CustomPropertyName.ErrorBarCenterMarkerStyle];
-            if (point.IsCustomPropertySet(CustomPropertyName.ErrorBarCenterMarkerStyle))
-            {
-                markerStyle = point[CustomPropertyName.ErrorBarCenterMarkerStyle];
-            }
-
             // Draw marker
             DrawErrorBarSingleMarker(graph, area, point, markerStyle, xPosition, (float)yPosition, 0f, width, false);
         }
@@ -1076,42 +1048,33 @@ internal class ErrorBarChart : IChartType
             int numberOfLinkedSeries = 1;
             int indexOfLinkedSeries = 0;
             bool showSideBySide = false;
-            if (ser.IsCustomPropertySet(CustomPropertyName.ErrorBarSeries))
+            string attribValue;
+            if ((attribValue = ser.TryGetCustomProperty(CustomPropertyName.ErrorBarSeries)) is not null) // Get series name
             {
-                // Get series name
-                string attribValue = ser[CustomPropertyName.ErrorBarSeries];
-                int valueTypeIndex = attribValue.IndexOf(':', StringComparison.OrdinalIgnoreCase);
+                int valueTypeIndex = attribValue.IndexOf(':');
                 if (valueTypeIndex >= 0)
-                {
                     attribValue = attribValue[..valueTypeIndex];
-                }
 
                 // All linked data series from chart area which have Error bar chart type
                 string linkedSeriesChartType = common.DataManager.Series[attribValue].ChartTypeName;
                 List<string> typeLinkedSeries = area.GetSeriesFromChartType(linkedSeriesChartType);
 
-                // Get index of linked serries
+                // Get index of linked series
                 foreach (string name in typeLinkedSeries)
                 {
                     if (name == attribValue)
-                    {
                         break;
-                    }
 
                     ++indexOfLinkedSeries;
                 }
 
-                bool currentDrawSeriesSideBySide = false;
-                if (string.Equals(linkedSeriesChartType, ChartTypeNames.Column, StringComparison.OrdinalIgnoreCase) || string.Equals(linkedSeriesChartType, ChartTypeNames.RangeColumn, StringComparison.OrdinalIgnoreCase))
-                {
-                    currentDrawSeriesSideBySide = true;
-                }
+                bool currentDrawSeriesSideBySide = string.Equals(linkedSeriesChartType, ChartTypeNames.Column, StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(linkedSeriesChartType, ChartTypeNames.RangeColumn, StringComparison.OrdinalIgnoreCase);
 
                 foreach (string seriesName in typeLinkedSeries)
                 {
-                    if (common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+                    if ((attribValue = common.DataManager.Series[seriesName].TryGetCustomProperty(CustomPropertyName.DrawSideBySide)) is not null)
                     {
-                        attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
                         if (string.Equals(attribValue, "False", StringComparison.OrdinalIgnoreCase))
                         {
                             currentDrawSeriesSideBySide = false;
@@ -1208,14 +1171,9 @@ internal class ErrorBarChart : IChartType
 
                 // Check if lower and/or upper error bar are drawn
                 ErrorBarStyle barStyle = ErrorBarStyle.Both;
-                if (point.IsCustomPropertySet(CustomPropertyName.ErrorBarStyle) || ser.IsCustomPropertySet(CustomPropertyName.ErrorBarStyle))
+                string errorBarStyle;
+                if ((errorBarStyle = point.TryGetCustomProperty(CustomPropertyName.ErrorBarStyle) ?? ser.TryGetCustomProperty(CustomPropertyName.ErrorBarStyle)) is not null)
                 {
-                    string errorBarStyle = ser[CustomPropertyName.ErrorBarStyle];
-                    if (point.IsCustomPropertySet(CustomPropertyName.ErrorBarStyle))
-                    {
-                        errorBarStyle = point[CustomPropertyName.ErrorBarStyle];
-                    }
-
                     if (string.Equals(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase))
                     {
                         // default - do nothing
@@ -1383,14 +1341,9 @@ internal class ErrorBarChart : IChartType
                     double low = vAxis.GetLogValue(point.YValues[1]);
 
                     // Check if lower and/or upper error bar are drawn
-                    if (point.IsCustomPropertySet(CustomPropertyName.ErrorBarStyle) || ser.IsCustomPropertySet(CustomPropertyName.ErrorBarStyle))
+                    string errorBarStyle;
+                    if ((errorBarStyle = point.TryGetCustomProperty(CustomPropertyName.ErrorBarStyle) ?? ser.TryGetCustomProperty(CustomPropertyName.ErrorBarStyle)) is not null)
                     {
-                        string errorBarStyle = ser[CustomPropertyName.ErrorBarStyle];
-                        if (point.IsCustomPropertySet(CustomPropertyName.ErrorBarStyle))
-                        {
-                            errorBarStyle = point[CustomPropertyName.ErrorBarStyle];
-                        }
-
                         if (string.Equals(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase))
                         {
                             // default - do nothing
@@ -1522,17 +1475,10 @@ internal class ErrorBarChart : IChartType
         }
 
         // Draw center value marker
-        if (point.IsCustomPropertySet(CustomPropertyName.ErrorBarCenterMarkerStyle) || point.series.IsCustomPropertySet(CustomPropertyName.ErrorBarCenterMarkerStyle))
+        if ((markerStyle = point.TryGetCustomProperty(CustomPropertyName.ErrorBarCenterMarkerStyle) ?? point.series.TryGetCustomProperty(CustomPropertyName.ErrorBarCenterMarkerStyle)) is not null)
         {
             // Get Y position
             yPosition = (float)vAxis.GetLogValue(point.YValues[0]);
-
-            // Get marker style name
-            markerStyle = point.series[CustomPropertyName.ErrorBarCenterMarkerStyle];
-            if (point.IsCustomPropertySet(CustomPropertyName.ErrorBarCenterMarkerStyle))
-            {
-                markerStyle = point[CustomPropertyName.ErrorBarCenterMarkerStyle];
-            }
 
             // Draw marker
             DrawErrorBarSingleMarker(graph, area, point, markerStyle, xPosition, yPosition, zPosition + depth / 2f, width, true);
@@ -1581,18 +1527,16 @@ internal class ErrorBarChart : IChartType
         }
 
         // Check if "ErrorBarType" custom attribute is set
-        if (!errorBarSeries.IsCustomPropertySet(CustomPropertyName.ErrorBarType) &&
-            !errorBarSeries.IsCustomPropertySet(CustomPropertyName.ErrorBarSeries))
-        {
+        string typeNameStr;
+        if ((typeNameStr = errorBarSeries.TryGetCustomProperty(CustomPropertyName.ErrorBarType)) is null && !errorBarSeries.IsCustomPropertySet(CustomPropertyName.ErrorBarSeries))
             return;
-        }
 
         // Parse the value of the ErrorBarType attribute.
         double param = double.NaN;
         ErrorBarType errorBarType = ErrorBarType.StandardError;
-        if (errorBarSeries.IsCustomPropertySet(CustomPropertyName.ErrorBarType))
+        if (typeNameStr is not null)
         {
-            ReadOnlySpan<char> typeName = errorBarSeries[CustomPropertyName.ErrorBarType].AsSpan();
+            ReadOnlySpan<char> typeName = typeNameStr.AsSpan();
             if (typeName.StartsWith("FixedValue", StringComparison.OrdinalIgnoreCase))
             {
                 errorBarType = ErrorBarType.FixedValue;
@@ -1615,7 +1559,7 @@ internal class ErrorBarChart : IChartType
             }
             else
             {
-                throw new InvalidOperationException(SR.ExceptionErrorBarTypeInvalid(errorBarSeries[CustomPropertyName.ErrorBarType]));
+                throw new InvalidOperationException(SR.ExceptionErrorBarTypeInvalid(typeNameStr));
             }
 
             // Check if parameter is specified
@@ -1624,13 +1568,13 @@ internal class ErrorBarChart : IChartType
             {
                 // Must be followed by '(' and ends with ')'
                 if (typeName[0] != '(' || typeName[^1] != ')')
-                    throw new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(errorBarSeries[CustomPropertyName.ErrorBarType]));
+                    throw new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(typeNameStr));
 
                 typeName = typeName[1..^1];
                 if (typeName.Length > 0)
                 {
                     if (!double.TryParse(typeName, NumberStyles.Any, CultureInfo.InvariantCulture, out param))
-                        throw new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(errorBarSeries[CustomPropertyName.ErrorBarType]));
+                        throw new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(typeNameStr));
                 }
             }
         }
@@ -1648,7 +1592,7 @@ internal class ErrorBarChart : IChartType
             }
         }
 
-        // Number of poist without empty points
+        // Number of points without empty points
         pointNumber -= numberOfEmptyPoints;
 
         if (double.IsNaN(param))
@@ -1772,15 +1716,13 @@ internal class ErrorBarChart : IChartType
         }
 
         // Check if "ErrorBarSeries" custom attribute is set
-        if (!errorBarSeries.IsCustomPropertySet(CustomPropertyName.ErrorBarSeries))
-        {
+        string linkedSeriesName;
+        if ((linkedSeriesName = errorBarSeries.TryGetCustomProperty(CustomPropertyName.ErrorBarSeries)) is null)
             return;
-        }
 
         // Get series and value name
-        string linkedSeriesName = errorBarSeries[CustomPropertyName.ErrorBarSeries];
         string valueName = "Y";
-        int valueTypeIndex = linkedSeriesName.IndexOf(':', StringComparison.OrdinalIgnoreCase);
+        int valueTypeIndex = linkedSeriesName.IndexOf(':');
         if (valueTypeIndex >= 0)
         {
             valueName = linkedSeriesName[(valueTypeIndex + 1)..];
@@ -1789,7 +1731,7 @@ internal class ErrorBarChart : IChartType
 
         // Get reference to the chart control
         Chart control = errorBarSeries.Chart;
-        if (control != null)
+        if (control is not null)
         {
             // Get linked series and check existence
             if (control.Series.IndexOf(linkedSeriesName) == -1)
