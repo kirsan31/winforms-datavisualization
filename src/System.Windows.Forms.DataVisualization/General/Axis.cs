@@ -245,9 +245,6 @@ public partial class Axis : ChartNamedElement, IDisposable
 		}
 #endif
 
-        // Initialize axis scroll bar class
-        this.ScrollBar.Initialize();
-
         // Create collection of scale segments
         this.scaleSegments ??= new AxisScaleSegmentCollection(this);
 
@@ -1617,7 +1614,7 @@ public partial class Axis : ChartNamedElement, IDisposable
         if (ChartArea.CircularUsePolygons)
         {
             oldRegion = graph.Clip;
-            using var gp = graph.GetPolygonCirclePath(rect, ChartArea.CircularSectorsNumber);
+            using var gp = ChartGraphics.GetPolygonCirclePath(rect, ChartArea.CircularSectorsNumber);
             graph.Clip = new Region(gp);
         }
 
@@ -1712,7 +1709,7 @@ public partial class Axis : ChartNamedElement, IDisposable
 
         // Create circle pen
         using Pen circlePen = new Pen(color, width);
-        circlePen.DashStyle = graph.GetPenStyle(style);
+        circlePen.DashStyle = ChartGraphics.GetPenStyle(style);
 
         // Draw circle
         if (ChartArea.CircularUsePolygons)
@@ -1736,7 +1733,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                 {
                     if (ChartArea.CircularUsePolygons)
                     {
-                        path = graph.GetPolygonCirclePath(rect, ChartArea.CircularSectorsNumber);
+                        path = ChartGraphics.GetPolygonCirclePath(rect, ChartArea.CircularSectorsNumber);
                     }
                     else
                     {
@@ -4101,7 +4098,7 @@ public partial class Axis : ChartNamedElement, IDisposable
     /// </summary>
     /// <param name="labels">Labels collection.</param>
     /// <returns>True if collection was modified.</returns>
-    private bool WordWrapLongestLabel(CustomLabelsCollection labels)
+    private static bool WordWrapLongestLabel(CustomLabelsCollection labels)
     {
         bool changed = false;
 
@@ -5642,7 +5639,7 @@ public partial class Axis : ChartNamedElement, IDisposable
     /// <param name="arrowOrientation">Arrow orientation.</param>
     /// <param name="axisPosition">Axis position.</param>
     /// <returns>True if arrow will be drawn in axis space</returns>
-    private bool IsArrowInAxis(ArrowOrientation arrowOrientation, AxisPosition axisPosition)
+    private static bool IsArrowInAxis(ArrowOrientation arrowOrientation, AxisPosition axisPosition)
     {
         if (axisPosition == AxisPosition.Top && arrowOrientation == ArrowOrientation.Top)
             return true;

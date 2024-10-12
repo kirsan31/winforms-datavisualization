@@ -53,7 +53,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="extraParameterList">Array of strings - Extra parameters</param>
-        private void StandardDeviation(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
+        private static void StandardDeviation(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
         {
             int length = inputValues.Length;
 
@@ -122,7 +122,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        private void AverageTrueRange(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void AverageTrueRange(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 4)
@@ -198,7 +198,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
-        private void EaseOfMovement(double[][] inputValues, out double[][] outputValues)
+        private static void EaseOfMovement(double[][] inputValues, out double[][] outputValues)
         {
             // There is no enough input series
             if (inputValues.Length != 4)
@@ -253,7 +253,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        private void MassIndex(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void MassIndex(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 3)
@@ -338,7 +338,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
-        private void Performance(double[][] inputValues, out double[][] outputValues)
+        private static void Performance(double[][] inputValues, out double[][] outputValues)
         {
             // There is no enough input series
             if (inputValues.Length != 2)
@@ -387,7 +387,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        private void RateOfChange(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void RateOfChange(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 2)
@@ -442,7 +442,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        private void RelativeStrengthIndex(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void RelativeStrengthIndex(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 2)
@@ -525,7 +525,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        private void Trix(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void Trix(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 2)
@@ -602,7 +602,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        private void Macd(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void Macd(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 2)
@@ -687,7 +687,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        private void CommodityChannelIndex(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void CommodityChannelIndex(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 4)

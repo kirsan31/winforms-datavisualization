@@ -757,7 +757,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="dy">Height of the bar 3D.</param>
         /// <param name="dz">Depth of the bar 3D.</param>
         /// <returns>Collection of Points 3D.</returns>
-        private Point3D[] Set3DBarPoints(float dx, float dy, float dz)
+        private static Point3D[] Set3DBarPoints(float dx, float dy, float dz)
         {
             Point3D[] points =
             [
@@ -1140,12 +1140,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// This method creates gradien color with brightnes.
+        /// This method creates gradient color with brightens.
         /// </summary>
         /// <param name="beginColor">Start color for gradient.</param>
         /// <param name="position">Position used between Start and end color.</param>
         /// <returns>Calculated Gradient color from gradient position</returns>
-        private Color GetBrightGradientColor(Color beginColor, double position)
+        private static Color GetBrightGradientColor(Color beginColor, double position)
         {
             position *= 2;
             double brightness = 0.5;
@@ -1169,13 +1169,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="a">First vector</param>
         /// <param name="b">Second Vector</param>
         /// <returns>Angle between vectors</returns>
-        private float GetAngle(Point3D a, Point3D b)
+        private static float GetAngle(Point3D a, Point3D b)
         {
-            double angle;
-
-            angle = Math.Acos((a.X * b.X + a.Y * b.Y + a.Z * b.Z) / (Math.Sqrt(a.X * a.X + a.Y * a.Y + a.Z * a.Z) * Math.Sqrt(b.X * b.X + b.Y * b.Y + b.Z * b.Z)));
-
-            return (float)angle;
+            return MathF.Acos((a.X * b.X + a.Y * b.Y + a.Z * b.Z) / (MathF.Sqrt(a.X * a.X + a.Y * a.Y + a.Z * a.Z) * MathF.Sqrt(b.X * b.X + b.Y * b.Y + b.Z * b.Z)));
         }
 
         #endregion

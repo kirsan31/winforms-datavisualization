@@ -163,7 +163,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-        private void Anova(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        private static void Anova(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
             // There is no enough input series
             if (inputValues.Length < 3)
@@ -340,7 +340,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void Correlation(double[][] inputValues, out double[][] outputValues, out string[][] outLabels)
+		private static void Correlation(double[][] inputValues, out double[][] outputValues, out string[][] outLabels)
         {
             // There is no enough input series
             if (inputValues.Length != 3)
@@ -387,7 +387,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void Covariance(double[][] inputValues, out double[][] outputValues, out string[][] outLabels)
+		private static void Covariance(double[][] inputValues, out double[][] outputValues, out string[][] outLabels)
         {
             // There is no enough input series
             if (inputValues.Length != 3)
@@ -430,7 +430,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void FTest(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+		private static void FTest(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
             // There is no enough input series
             if (inputValues.Length != 3)
@@ -565,7 +565,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void ZTest(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+		private static void ZTest(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
             // There is no enough input series
             if (inputValues.Length != 3)
@@ -723,7 +723,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
         /// <param name="equalVariances">True if Variances are equal.</param>
-		private void TTest(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels, bool equalVariances)
+		private static void TTest(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels, bool equalVariances)
         {
             // There is no enough input series
             if (inputValues.Length != 3)
@@ -896,7 +896,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void TTestPaired(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+		private static void TTestPaired(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
             // There is no enough input series
             if (inputValues.Length != 3)
@@ -1036,7 +1036,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-        private void TDistribution(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+        private static void TDistribution(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
             // T value value
             double tValue;
@@ -1105,7 +1105,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void FDistribution(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+		private static void FDistribution(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
             // F value value
             double fValue;
@@ -1165,7 +1165,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void NormalDistribution(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+		private static void NormalDistribution(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
             // F value value
             double zValue;
@@ -1196,7 +1196,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 
             outLabels[0][0] = SR.LabelStatisticalProbability;
             outputValues[0][0] = 1;
-            outputValues[1][0] = this.NormalDistribution(zValue);
+            outputValues[1][0] = NormalDistribution(zValue);
         }
 
         /// <summary>
@@ -1207,7 +1207,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void TDistributionInverse(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+		private static void TDistributionInverse(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
             // T value value
             double probability;
@@ -1265,7 +1265,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void FDistributionInverse(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+		private static void FDistributionInverse(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
             // Probability value value
             double probability;
@@ -1330,7 +1330,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void NormalDistributionInverse(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+		private static void NormalDistributionInverse(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
             // Alpha value value
             double alpha;
@@ -1361,7 +1361,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
 
             outLabels[0][0] = SR.LabelStatisticalProbability;
             outputValues[0][0] = 1;
-            outputValues[1][0] = this.NormalDistributionInverse(alpha);
+            outputValues[1][0] = NormalDistributionInverse(alpha);
         }
 
         #endregion
@@ -1373,7 +1373,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// Check number of data points. The number should be greater then 1.
         /// </summary>
         /// <param name="inputValues">Input series</param>
-        private void CheckNumOfPoints(double[][] inputValues)
+        private static void CheckNumOfPoints(double[][] inputValues)
         {
             if (inputValues[1].Length < 2)
             {
@@ -1399,7 +1399,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="arrayX">First data set from X random variable.</param>
         /// <param name="arrayY">Second data set from Y random variable.</param>
         /// <returns>Returns covariance</returns>
-        private double Covar(double[] arrayX, double[] arrayY)
+        private static double Covar(double[] arrayX, double[] arrayY)
         {
             // Check the number of data points
             if (arrayX.Length != arrayY.Length)
@@ -1429,7 +1429,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="n">The value for which you want to calculate gamma function.</param>
         /// <returns>Returns the natural logarithm of the gamma function.</returns>
-        private double GammLn(double n)
+        private static double GammLn(double n)
         {
             double x;
             double y;
@@ -1461,7 +1461,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="m">First parameter for beta function</param>
         /// <param name="n">Second parameter for beta function</param>
         /// <returns>returns beta function</returns>
-        private double BetaFunction(double m, double n)
+        private static double BetaFunction(double m, double n)
         {
             return Math.Exp(GammLn(m) + GammLn(n) - GammLn(m + n));
         }
@@ -1474,7 +1474,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="b">Beta incomplete parameter</param>
         /// <param name="x">Beta incomplete parameter</param>
         /// <returns>Value used for Beta incomplete function</returns>
-		private double BetaCF(double a, double b, double x)
+		private static double BetaCF(double a, double b, double x)
         {
             int MAXIT = 100;
             double EPS = 3.0e-7;
@@ -1547,7 +1547,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="t">T Value</param>
         /// <returns>Standard normal density</returns>
-        private double NormalDistributionFunction(double t)
+        private static double NormalDistributionFunction(double t)
         {
             return 0.398942280401433 * Math.Exp(-t * t / 2);
         }
@@ -1559,7 +1559,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="b">Beta incomplete parameter</param>
         /// <param name="x">Beta incomplete parameter</param>
         /// <returns>Beta Incomplete value</returns>
-        private double BetaIncomplete(double a, double b, double x)
+        private static double BetaIncomplete(double a, double b, double x)
         {
             double bt;
             if (x < 0.0 || x > 1.0)
@@ -1594,7 +1594,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-        private void Average(double[][] inputValues, out double[][] outputValues, out string[][] outLabels)
+        private static void Average(double[][] inputValues, out double[][] outputValues, out string[][] outLabels)
         {
 
             outLabels = null;
@@ -1631,7 +1631,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void Variance(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+		private static void Variance(double[][] inputValues, out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
 
             // Sample Variance value
@@ -1679,7 +1679,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void Median(double[][] inputValues, out double[][] outputValues, out string[][] outLabels)
+		private static void Median(double[][] inputValues, out double[][] outputValues, out string[][] outLabels)
         {
 
             outLabels = null;
@@ -1715,7 +1715,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void BetaFunction(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+		private static void BetaFunction(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
             // Degree of freedom
             double m;
@@ -1767,7 +1767,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="outLabels">Array of strings - Used for Labels. Description for output results.</param>
-		private void GammaFunction(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
+		private static void GammaFunction(out double[][] outputValues, string[] parameterList, out string[][] outLabels)
         {
             // Degree of freedom
             double m;
@@ -1812,7 +1812,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// Sort array of double values.
         /// </summary>
         /// <param name="values">Array of doubles which should be sorted.</param>
-        private void Sort(ref double[] values)
+        private static void Sort(ref double[] values)
         {
 
             double tempValue;
@@ -1835,7 +1835,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="values">Array of double numbers</param>
         /// <returns>Median</returns>
-        private double Median(double[] values)
+        private static double Median(double[] values)
         {
             // Exception for zero lenght of series.
             if (values.Length == 0)
@@ -1864,7 +1864,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="values">series with double numbers</param>
         /// <returns>Returns Mean</returns>
-        private double Mean(double[] values)
+        private static double Mean(double[] values)
         {
             // Exception for zero lenght of series.
             if (values.Length == 0)
@@ -1889,7 +1889,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="values">double values</param>
         /// <param name="sampleVariance">If variance is calculated from sample sum has to be divided by n-1.</param>
         /// <returns>Variance</returns>
-        private double Variance(double[] values, bool sampleVariance)
+        private static double Variance(double[] values, bool sampleVariance)
         {
 
             // Exception for zero lenght of series.
@@ -1931,7 +1931,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="n">An integer indicating the number of degrees of freedom.</param>
         /// <param name="oneTailed">Specifies the number of distribution tails to return.</param>
         /// <returns>Returns the Percentage Points (probability) for the Student t-distribution.</returns>
-        private double StudentsDistribution(double tValue, int n, bool oneTailed)
+        private static double StudentsDistribution(double tValue, int n, bool oneTailed)
         {
             // Validation
             tValue = Math.Abs(tValue);
@@ -1961,7 +1961,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="zValue">The value for which you want the distribution.</param>
         /// <returns>Returns the standard normal cumulative distribution.</returns>
-        private double NormalDistribution(double zValue)
+        private static double NormalDistribution(double zValue)
         {
 
             double[] a = [0.31938153, -0.356563782, 1.781477937, -1.821255978, 1.330274429];
@@ -1985,7 +1985,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             return result;
         }
 
-        private double FDistribution(double x, int freedom1, int freedom2)
+        private static double FDistribution(double x, int freedom1, int freedom2)
         {
             if (x < 0)
                 throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidTValue);
@@ -2012,7 +2012,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="probability">The probability associated with the two-tailed Student's t-distribution.</param>
         /// <param name="n">The number of degrees of freedom to characterize the distribution.</param>
         /// <returns>Returns the t-value of the Student's t-distribution.</returns>
-        private double StudentsDistributionInverse(double probability, int n)
+        private static double StudentsDistributionInverse(double probability, int n)
         {
             //Fix for boundary cases
             if (probability == 0)
@@ -2035,8 +2035,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="step">Step for Numerical solution for non linear equations</param>
         /// <param name="start">Start for numerical process</param>
         /// <param name="end">End for numerical process</param>
-        /// <returns>Returns F ditribution inverse</returns>
-        private double StudentsDistributionSearch(double probability, int n, int step, double start, double end)
+        /// <returns>Returns F distribution inverse</returns>
+        private static double StudentsDistributionSearch(double probability, int n, int step, double start, double end)
         {
             step++;
 
@@ -2067,7 +2067,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="probability">A probability corresponding to the normal distribution.</param>
         /// <returns>Returns the inverse of the standard normal cumulative distribution.</returns>
-        private double NormalDistributionInverse(double probability)
+        private static double NormalDistributionInverse(double probability)
         {
 
             // Validation
@@ -2116,7 +2116,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="m">The numerator degrees of freedom.</param>
         /// <param name="n">The denominator degrees of freedom.</param>
         /// <returns>Returns the inverse of the F probability distribution.</returns>
-        private double FDistributionInverse(double probability, int m, int n)
+        private static double FDistributionInverse(double probability, int m, int n)
         {
             //Fix for boundary cases
             if (probability == 0)
@@ -2140,8 +2140,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="step">Step for solution for non linear equations.</param>
         /// <param name="start">Start for numerical process</param>
         /// <param name="end">End for numerical process</param>
-        /// <returns>Returns F ditribution inverse</returns>
-        private double FDistributionSearch(double probability, int m, int n, int step, double start, double end)
+        /// <returns>Returns F distribution inverse</returns>
+        private static double FDistributionSearch(double probability, int m, int n, int step, double start, double end)
         {
             step++;
 

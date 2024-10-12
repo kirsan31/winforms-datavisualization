@@ -1437,7 +1437,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
     /// </summary>
     /// <param name="years">Number of years</param>
     /// <returns>Interval in years</returns>
-    private double CalcYearInterval(double years)
+    private static double CalcYearInterval(double years)
     {
         // If the interval is zero return error
         if (years <= 1.0)
@@ -1462,7 +1462,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
     /// <param name="max">Maximum.</param>
     /// <param name="type">Date type.</param>
     /// <returns>Number of units.</returns>
-    private int GetNumOfUnits(double min, double max, DateTimeIntervalType type)
+    private static int GetNumOfUnits(double min, double max, DateTimeIntervalType type)
     {
         double current = ChartHelper.GetIntervalSize(min, 1, type);
         return (int)Math.Round((max - min) / current);

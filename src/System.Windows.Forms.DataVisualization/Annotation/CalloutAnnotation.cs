@@ -766,7 +766,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 // Add rounded rectangle shape
                 float radius = Math.Min(rectanglePositionAbs.Width, rectanglePositionAbs.Height);
                 radius /= 5f;
-                ellipsePath = this.CreateRoundedRectPath(rectanglePositionAbs, radius);
+                ellipsePath = CreateRoundedRectPath(rectanglePositionAbs, radius);
             }
 
             // Draw perspective polygons from anchoring point
@@ -1241,8 +1241,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     Color[] perspectivePathColors = new Color[2];
                     Color color = this.BackColor.IsEmpty ? Color.White : this.BackColor;
-                    perspectivePathColors[0] = graphics.GetBrightGradientColor(color, 0.6);
-                    perspectivePathColors[1] = graphics.GetBrightGradientColor(color, 0.8);
+                    perspectivePathColors[0] = ChartGraphics.GetBrightGradientColor(color, 0.6);
+                    perspectivePathColors[1] = ChartGraphics.GetBrightGradientColor(color, 0.8);
                     GraphicsPath[] perspectivePaths = new GraphicsPath[2];
                     using (perspectivePaths[0] = new GraphicsPath())
                     {
@@ -1780,7 +1780,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="x2">Second point X coordinate.</param>
         /// <param name="y2">Second point Y coordinate.</param>
         /// <param name="segments">Number of segments to add.</param>
-        private void PathAddLineAsSegments(GraphicsPath path, float x1, float y1, float x2, float y2, int segments)
+        private static void PathAddLineAsSegments(GraphicsPath path, float x1, float y1, float x2, float y2, int segments)
         {
             if (x1 == x2)
             {
@@ -1813,7 +1813,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="rect">Rectangle coordinates.</param>
         /// <param name="cornerRadius">Corner radius.</param>
         /// <returns>Graphics path object.</returns>
-        private GraphicsPath CreateRoundedRectPath(RectangleF rect, float cornerRadius)
+        private static GraphicsPath CreateRoundedRectPath(RectangleF rect, float cornerRadius)
         {
             // Create rounded rectangle path
             GraphicsPath path = new GraphicsPath();

@@ -1055,7 +1055,7 @@ internal class PieChart : IChartType
         graph.Clip = new Region();
 
         // Get label text
-        text = this.GetLabelText(point);
+        text = GetLabelText(point);
         if (text.Length == 0)
             return;
 
@@ -1335,7 +1335,7 @@ internal class PieChart : IChartType
     /// <param name="point">Data point</param>
     /// <param name="leftOrientation">Orientation for label. It could be left or right.</param>
     /// <returns>Calculated rectangle for label</returns>
-    private RectangleF GetLabelRect(PointF labelPosition, ChartArea area, string text, StringFormat format, ChartGraphics graph, DataPoint point, bool leftOrientation)
+    private static RectangleF GetLabelRect(PointF labelPosition, ChartArea area, string text, StringFormat format, ChartGraphics graph, DataPoint point, bool leftOrientation)
     {
         RectangleF labelRect = RectangleF.Empty;
         if (leftOrientation)
@@ -1486,7 +1486,7 @@ internal class PieChart : IChartType
         float labelsRadialLineSize; // Radial line size for outside labels
         float shift;
         float expShift = 1;
-        string pointLabel = this.GetPointLabel(point);
+        string pointLabel = GetPointLabel(point);
         PieLabelStyle style = GetLabelStyle(point);
         (labelsRadialLineSize, labelsHorizontalLineSize) = GetLabelSizes(point);        
 
@@ -1590,7 +1590,7 @@ internal class PieChart : IChartType
     /// <param name="doughnutRadius">Doughnut radius in %</param>
     /// <param name="graph">Chart graphics object</param>
     /// <param name="pointIndex">Data point index</param>
-    private void Map(CommonElements common, DataPoint point, float startAngle, float sweepAngle, RectangleF rectangle, bool doughnut, float doughnutRadius, ChartGraphics graph, int pointIndex)
+    private static void Map(CommonElements common, DataPoint point, float startAngle, float sweepAngle, RectangleF rectangle, bool doughnut, float doughnutRadius, ChartGraphics graph, int pointIndex)
     {
         // Create a graphics path
         using GraphicsPath path = new GraphicsPath();
@@ -1679,7 +1679,7 @@ internal class PieChart : IChartType
     /// not have same color because they are connected.
     /// </summary>
     /// <param name="points">Data points used for pie chart</param>
-    private void CheckPaleteColors(DataPointCollection points)
+    private static void CheckPaleteColors(DataPointCollection points)
     {
         DataPoint firstPoint, lastPoint;
 
@@ -1751,10 +1751,10 @@ internal class PieChart : IChartType
             }
 
             // Sort label positions
-            this.SortIntervals(startPoints, endPoints, positionIndex);
+            SortIntervals(startPoints, endPoints, positionIndex);
 
             // Find no overlapping positions if possible.
-            if (this.ArrangeOverlappingIntervals(startPoints, endPoints, area.Top, area.Bottom))
+            if (ArrangeOverlappingIntervals(startPoints, endPoints, area.Top, area.Bottom))
             {
                 // Fill label rectangle top and bottom coordinates 
                 // from double arrays.
@@ -1804,10 +1804,10 @@ internal class PieChart : IChartType
             }
 
             // Sort label positions
-            this.SortIntervals(startPoints, endPoints, positionIndex);
+            SortIntervals(startPoints, endPoints, positionIndex);
 
             // Find no overlapping positions if possible.
-            if (this.ArrangeOverlappingIntervals(startPoints, endPoints, area.Top, area.Bottom))
+            if (ArrangeOverlappingIntervals(startPoints, endPoints, area.Top, area.Bottom))
             {
                 // Fill label rectangle top and bottom coordinates 
                 // from double arrays.
@@ -1839,7 +1839,7 @@ internal class PieChart : IChartType
     /// <param name="startOfIntervals">Double array of label interval start points</param>
     /// <param name="endOfIntervals">Double array of label interval end points</param>
     /// <param name="positinIndex">Integer array of label interval indexes</param>
-    private void SortIntervals(double[] startOfIntervals, double[] endOfIntervals, int[] positinIndex)
+    private static void SortIntervals(double[] startOfIntervals, double[] endOfIntervals, int[] positinIndex)
     {
         double firstCenter;
         double secondCenter;
@@ -1909,7 +1909,7 @@ internal class PieChart : IChartType
     /// <param name="startArea">Start position of chart area vertical range.</param>
     /// <param name="endArea">End position of chart area vertical range.</param>
     /// <returns>False if non overlapping positions for intervals can not be found.</returns>
-    private bool ArrangeOverlappingIntervals(double[] startOfIntervals, double[] endOfIntervals, double startArea, double endArea)
+    private static bool ArrangeOverlappingIntervals(double[] startOfIntervals, double[] endOfIntervals, double startArea, double endArea)
     {
 
         // Invalidation
@@ -1967,7 +1967,7 @@ internal class PieChart : IChartType
     /// <param name="startOfIntervals">The start positions of intervals.</param>
     /// <param name="endOfIntervals">The end positions of intervals.</param>
     /// <param name="reduction">Relative value which presents size reduction.</param>
-    private void ReduceEmptySpace(double[] startOfIntervals, double[] endOfIntervals, double reduction)
+    private static void ReduceEmptySpace(double[] startOfIntervals, double[] endOfIntervals, double reduction)
     {
         for (int intervalIndex = 0; intervalIndex < startOfIntervals.Length - 1; intervalIndex++)
         {
@@ -1996,7 +1996,7 @@ internal class PieChart : IChartType
     /// <param name="endOfIntervals">The end positions of intervals.</param>
     /// <param name="startArea">Start position of chart area vertical range.</param>
     /// <param name="endArea">End position of chart area vertical range.</param>
-    private void ShiftIntervals(double[] startOfIntervals, double[] endOfIntervals, double startArea, double endArea)
+    private static void ShiftIntervals(double[] startOfIntervals, double[] endOfIntervals, double startArea, double endArea)
     {
 
         double shift = 0;
@@ -2023,7 +2023,7 @@ internal class PieChart : IChartType
     /// <param name="startOfIntervals">The start positions of intervals.</param>
     /// <param name="endOfIntervals">The end positions of intervals.</param>
     /// <returns>Returns true if any label overlaps before method is used.</returns>
-    private void ShiftOverlappingIntervals(double[] startOfIntervals, double[] endOfIntervals)
+    private static void ShiftOverlappingIntervals(double[] startOfIntervals, double[] endOfIntervals)
     {
         // Invalidation
         if (startOfIntervals.Length != endOfIntervals.Length)
@@ -2052,7 +2052,7 @@ internal class PieChart : IChartType
     /// <param name="endOfIntervals">The end positions of intervals.</param>
     /// <param name="splitIndex">Position of the interval which overlap.</param>
     /// <param name="overlapShift">The half of the overlapping range.</param>
-    private void SpreadInterval(double[] startOfIntervals, double[] endOfIntervals, int splitIndex, double overlapShift)
+    private static void SpreadInterval(double[] startOfIntervals, double[] endOfIntervals, int splitIndex, double overlapShift)
     {
         // Move first overlapping intervals.
         endOfIntervals[splitIndex] -= overlapShift;
@@ -2458,7 +2458,7 @@ internal class PieChart : IChartType
         }
 
         using Pen pen = new Pen(penColor, point.BorderWidth);
-        pen.DashStyle = graph.GetPenStyle(point.BorderDashStyle);
+        pen.DashStyle = ChartGraphics.GetPenStyle(point.BorderDashStyle);
 
         // Pen for back side slice.
         Pen backSlicePen = null;
@@ -2466,7 +2466,7 @@ internal class PieChart : IChartType
             backSlicePen = new Pen(point.Color);
 
         using Pen penCurve = new Pen(penCurveColor, point.BorderWidth);
-        penCurve.DashStyle = graph.GetPenStyle(point.BorderDashStyle);
+        penCurve.DashStyle = ChartGraphics.GetPenStyle(point.BorderDashStyle);
 
         // Set Border Width;
         PointF[] points = GetPiePoints(graph, area, pieWidth, rectangle, startAngle, sweepAngle, true, doughnutRadius, exploded);
@@ -3016,7 +3016,7 @@ internal class PieChart : IChartType
     /// <param name="rightPosition">Position of the curve of big pie slice. Big pie slice coud have to visible curves - left and right</param>
     /// <param name="sameBackFront">This is big pie slice which is in same time back and front slice.</param>
     /// <param name="pointIndex">Data Point Index</param>
-    private void DrawPieCurves(
+    private static void DrawPieCurves(
         ChartGraphics graph,
         ChartArea area,
         DataPoint dataPoint,
@@ -3038,7 +3038,7 @@ internal class PieChart : IChartType
         }
         else
         {
-            brush = brushToDispose = graph.GetGradientBrush(graph.GetAbsoluteRectangle(area.Position.ToRectangleF()), Color.FromArgb(brushWithoutLight.Color.A, 0, 0, 0), brushWithoutLight.Color, GradientStyle.VerticalCenter);
+            brush = brushToDispose = ChartGraphics.GetGradientBrush(graph.GetAbsoluteRectangle(area.Position.ToRectangleF()), Color.FromArgb(brushWithoutLight.Color.A, 0, 0, 0), brushWithoutLight.Color, GradientStyle.VerticalCenter);
         }
 
         float endAngle = startAngle + sweepAngle;
@@ -3239,7 +3239,7 @@ internal class PieChart : IChartType
     /// <param name="sameBackFront">This is big pie slice which is in same time back and front slice.</param>		
     /// <param name="pointIndex">Data Point Index</param>
     /// <returns>True if slice is special case and it is drawn as a special case.</returns>
-    private bool DrawPieCurvesBigSlice
+    private static bool DrawPieCurvesBigSlice
     (
         ChartGraphics graph,
         ChartArea area,
@@ -3525,7 +3525,7 @@ internal class PieChart : IChartType
     /// <param name="rightPosition">Position of the curve of big pie slice. Big pie slice coud have to visible curves - left and right</param>
     /// <param name="sameBackFront">This is big pie slice which is in same time back and front slice.</param>		
     /// <param name="pointIndex">Data Point Index</param>
-    private void DrawDoughnutCurves(
+    private static void DrawDoughnutCurves(
         ChartGraphics graph,
         ChartArea area,
         DataPoint dataPoint,
@@ -3547,7 +3547,7 @@ internal class PieChart : IChartType
         }
         else
         {
-            brush = brushToDispose = graph.GetGradientBrush(graph.GetAbsoluteRectangle(area.Position.ToRectangleF()), Color.FromArgb(brushWithoutLight.Color.A, 0, 0, 0), brushWithoutLight.Color, GradientStyle.VerticalCenter);
+            brush = brushToDispose = ChartGraphics.GetGradientBrush(graph.GetAbsoluteRectangle(area.Position.ToRectangleF()), Color.FromArgb(brushWithoutLight.Color.A, 0, 0, 0), brushWithoutLight.Color, GradientStyle.VerticalCenter);
         }
 
         float endAngle = startAngle + sweepAngle;
@@ -3749,7 +3749,7 @@ internal class PieChart : IChartType
     /// <param name="sameBackFront">This is big pie slice which is in same time back and front slice.</param>		
     /// <param name="pointIndex">Data Point Index</param>
     /// <returns>True if slice is special case and it is drawn as a special case.</returns>
-    private bool DrawDoughnutCurvesBigSlice
+    private static bool DrawDoughnutCurvesBigSlice
         (
         ChartGraphics graph,
         ChartArea area,
@@ -4041,7 +4041,7 @@ internal class PieChart : IChartType
     /// <param name="newPointIndexList">Data Point index list</param>
     /// <param name="sameBackFrontPoint">Beck and Fron Points are same - There is a big pie slice.</param>
     /// <returns>Sorted data point list.</returns>
-    private DataPoint[] PointOrder(Series series, ChartArea area, out float[] newStartAngleList, out float[] newSweepAngleList, out int[] newPointIndexList, out bool sameBackFrontPoint)
+    private static DataPoint[] PointOrder(Series series, ChartArea area, out float[] newStartAngleList, out float[] newSweepAngleList, out int[] newPointIndexList, out bool sameBackFrontPoint)
     {
 
         double startAngle;
@@ -4504,7 +4504,7 @@ internal class PieChart : IChartType
     /// <param name="newSweepAngleList">List of sweep angles which has to be switched together with data points</param>
     /// <param name="newPointIndexList">Indexes (position) of data points in the series</param>
     /// <param name="sameBackFront">There is big pie slice which has same back and front pie slice</param>
-    private void SwitchPoints(int numOfPoints, ref DataPoint[] points, ref float[] newStartAngleList, ref float[] newSweepAngleList, ref int[] newPointIndexList, bool sameBackFront)
+    private static void SwitchPoints(int numOfPoints, ref DataPoint[] points, ref float[] newStartAngleList, ref float[] newSweepAngleList, ref int[] newPointIndexList, bool sameBackFront)
     {
         float[] tempStartAngles = new float[numOfPoints];
         float[] tempSweepAngles = new float[numOfPoints];
@@ -5261,7 +5261,7 @@ internal class PieChart : IChartType
     /// <param name="points">Important pie points</param>
     /// <param name="point">Data point</param>
     /// <param name="pointIndex">Data point index</param>
-    private void Draw3DInsideLabels(ChartGraphics graph, PointF[] points, DataPoint point, int pointIndex)
+    private static void Draw3DInsideLabels(ChartGraphics graph, PointF[] points, DataPoint point, int pointIndex)
     {
         // Set String Alignment
         using StringFormat format = new StringFormat();
@@ -5321,7 +5321,7 @@ internal class PieChart : IChartType
     /// </summary>
     /// <param name="point">The point.</param>
     /// <returns></returns>
-    private string GetPointLabel(DataPoint point)
+    private static string GetPointLabel(DataPoint point)
     {
         string pointLabel;
         // If There is no Label take axis Label
@@ -5349,9 +5349,9 @@ internal class PieChart : IChartType
     /// </summary>
     /// <param name="point">Data point which is used.</param>
     /// <returns>Formated text</returns>
-    private string GetLabelText(DataPoint point)
+    private static string GetLabelText(DataPoint point)
     {
-        string pointLabel = this.GetPointLabel(point);
+        string pointLabel = GetPointLabel(point);
         // Get label text
         string text;
         if (point.Label.Length == 0 && point.IsValueShownAsLabel)

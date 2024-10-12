@@ -1531,7 +1531,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="position">Position in chart area.</param>
         /// <param name="stringFormat">Axis labels string format.</param>
         /// <returns>Axis labels rectangle.</returns>
-        private RectangleF GetAllLabelsRect(ChartArea area, AxisPosition position, StringFormat stringFormat)
+        private static RectangleF GetAllLabelsRect(ChartArea area, AxisPosition position, StringFormat stringFormat)
         {
             // Find axis with same position
             Axis labelsAxis = null;
@@ -1652,7 +1652,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="axis">Axis object.</param>
         /// <returns>Position where axis labels should be drawn.</returns>
-		private AxisPosition GetLabelsPosition(Axis axis)
+		private static AxisPosition GetLabelsPosition(Axis axis)
         {
             // Get angle between 2D axis and it's 3D projection.
             double axisAngle = axis.GetAxisProjectionAngle();
@@ -1748,7 +1748,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             //********************************************************************
             //** Initialize all labels position rectangle
             //********************************************************************
-            RectangleF rectLabels = this.GetAllLabelsRect(this._axis.ChartArea, this._axis.AxisPosition, format);
+            RectangleF rectLabels = GetAllLabelsRect(this._axis.ChartArea, this._axis.AxisPosition, format);
 
             //********************************************************************
             //** Calculate bounding rectangle used to truncate labels on the
@@ -2055,7 +2055,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                         else if (labelsPosition == AxisPosition.Right)
                         {
-                            RectangleF rightLabelsRect = this.GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
+                            RectangleF rightLabelsRect = GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
                             rect.Y = rectPoints[0].Y;
                             rect.Height = rectPoints[2].Y - rect.Y;
                             rect.X = rectPoints[1].X;
@@ -2063,7 +2063,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                         else if (labelsPosition == AxisPosition.Left)
                         {
-                            RectangleF rightLabelsRect = this.GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
+                            RectangleF rightLabelsRect = GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
                             rect.Y = rectPoints[2].Y;
                             rect.Height = rectPoints[0].Y - rect.Y;
                             rect.X = rightLabelsRect.X;
@@ -2087,7 +2087,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                         else if (labelsPosition == AxisPosition.Right)
                         {
-                            RectangleF rightLabelsRect = this.GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
+                            RectangleF rightLabelsRect = GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
                             rect.Y = rectPoints[2].Y;
                             rect.Height = rectPoints[0].Y - rect.Y;
                             rect.X = rectPoints[1].X;
@@ -2101,7 +2101,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         }
                         else if (labelsPosition == AxisPosition.Left)
                         {
-                            RectangleF rightLabelsRect = this.GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
+                            RectangleF rightLabelsRect = GetAllLabelsRect(this._axis.ChartArea, labelsPosition, format);
                             rect.Y = rectPoints[0].Y;
                             rect.Height = rectPoints[2].Y - rect.Y;
                             rect.X = rightLabelsRect.X;

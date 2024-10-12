@@ -2660,7 +2660,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         else
                         {
                             // Get new position using alignment in format
-                            RectangleF newPosition = this.Chart.chartPicture.annotationSmartLabel.GetLabelPosition(
+                            RectangleF newPosition = SmartLabel.GetLabelPosition(
                                 this.Chart.chartPicture.ChartGraph,
                                 newlocation,
                                 size,
@@ -3147,7 +3147,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="dataPoint">Data point to get the name for.</param>
         /// <returns>Data point name.</returns>
-        internal string GetDataPointName(DataPoint dataPoint)
+        internal static string GetDataPointName(DataPoint dataPoint)
         {
             if (dataPoint.series is not null)
             {
@@ -3164,7 +3164,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="axis">Axis to get the name for.</param>
         /// <returns>Axis name.</returns>
-        private string GetAxisName(Axis axis)
+        private static string GetAxisName(Axis axis)
         {
             if (axis.ChartArea is not null)
                 return axis.ChartArea.Name + "\\r" + axis.AxisName.ToString();

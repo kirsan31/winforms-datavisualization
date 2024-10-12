@@ -808,7 +808,7 @@ public class Series : DataPointCustomProperties
     /// Throws exception if specified value type is not supported.
     /// </summary>
     /// <param name="type">Value type to check.</param>
-    internal void CheckSupportedTypes(Type type)
+    internal static void CheckSupportedTypes(Type type)
     {
         // Check parameters type
         if (type == typeof(double) ||
@@ -1215,7 +1215,7 @@ public class Series : DataPointCustomProperties
     /// <param name="valueType">AxisName of value.</param>
     /// <param name="defaultFormat">Default format string.</param>
     /// <returns>Result string.</returns>
-    internal string ReplaceOneKeyword(Chart chart, object obj, object objTag, ChartElementType elementType, string strOriginal, string keyword, double value, ChartValueType valueType, string defaultFormat)
+    internal static string ReplaceOneKeyword(Chart chart, object obj, object objTag, ChartElementType elementType, string strOriginal, string keyword, double value, ChartValueType valueType, string defaultFormat)
 
     {
         string result = strOriginal;

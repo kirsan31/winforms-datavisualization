@@ -445,7 +445,7 @@ internal class FastPointChart : IChartType
                     }
 
                     // Get star polygon
-                    PointF[] points = graph.CreateStarPolygon(markerBounds, cornerNumber);
+                    PointF[] points = ChartGraphics.CreateStarPolygon(markerBounds, cornerNumber);
 
                     // Fill shape
                     graph.FillPolygon(brush, points);

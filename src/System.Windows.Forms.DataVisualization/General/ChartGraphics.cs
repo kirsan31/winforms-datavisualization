@@ -322,7 +322,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="backColor">Back Color.</param>
     /// <param name="foreColor">Fore Color.</param>
     /// <returns>Brush</returns>
-    internal Brush GetHatchBrush(
+    internal static Brush GetHatchBrush(
         ChartHatchStyle hatchStyle,
         Color backColor,
         Color foreColor
@@ -404,7 +404,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="secondColor">Second color.</param>
     /// <param name="type ">Gradient type .</param>
     /// <returns>Gradient Brush</returns>
-    internal Brush GetGradientBrush(
+    internal static Brush GetGradientBrush(
         RectangleF rectangle,
         Color firstColor,
         Color secondColor,
@@ -510,7 +510,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="firstColor">First color</param>
     /// <param name="secondColor">Second color</param>
     /// <returns>Gradient Brush</returns>
-    internal Brush GetPieGradientBrush(
+    internal static Brush GetPieGradientBrush(
         RectangleF rectangle,
         Color firstColor,
         Color secondColor
@@ -543,7 +543,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// </summary>
     /// <param name="style">Chart Line style.</param>
     /// <returns>GDI+ line style.</returns>
-    internal DashStyle GetPenStyle(ChartDashStyle style)
+    internal static DashStyle GetPenStyle(ChartDashStyle style)
     {
         // Convert to chart line styles. The custom style doesn’t exist.
         return style switch
@@ -566,7 +566,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="rect">Marker rectangle.</param>
     /// <param name="numberOfCorners">Number of corners (4 and up).</param>
     /// <returns>Array of points.</returns>
-    internal PointF[] CreateStarPolygon(RectangleF rect, int numberOfCorners)
+    internal static PointF[] CreateStarPolygon(RectangleF rect, int numberOfCorners)
     {
         int numberOfCornersX2;
         checked
@@ -1466,7 +1466,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
         // Draw background
         if (!backPosition.IsEmpty)
         {
-            RectangleF backPositionAbs = this.Round(this.GetAbsoluteRectangle(backPosition));
+            RectangleF backPositionAbs = Round(this.GetAbsoluteRectangle(backPosition));
 
             // Get rotation point
             PointF rotationPoint;
@@ -3750,7 +3750,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="position">Circle position.</param>
     /// <param name="polygonSectorsNumber">Number of sectors for the polygon.</param>
     /// <returns>Graphics path of the polygon circle.</returns>
-    internal GraphicsPath GetPolygonCirclePath(RectangleF position, int polygonSectorsNumber)
+    internal static GraphicsPath GetPolygonCirclePath(RectangleF position, int polygonSectorsNumber)
     {
         PointF firstPoint = new PointF(position.X + position.Width / 2f, position.Y);
         PointF centerPoint = new PointF(position.X + position.Width / 2f, position.Y + position.Height / 2f);
@@ -3938,7 +3938,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="curentSector">Sector position.</param>
     /// <param name="sectorSize">Sector size.</param>
     /// <returns>3D brush.</returns>
-    internal Brush GetSector3DBrush(Brush brush, float curentSector, float sectorSize)
+    internal static Brush GetSector3DBrush(Brush brush, float curentSector, float sectorSize)
     {
         // Get color from the brush
         Color brushColor = Color.Gray;
@@ -3989,7 +3989,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="beginColor">Start color for gradient.</param>
     /// <param name="position">Position used between Start and end color.</param>
     /// <returns>Calculated Gradient color from gradient position</returns>
-    internal Color GetBrightGradientColor(Color beginColor, double position)
+    internal static Color GetBrightGradientColor(Color beginColor, double position)
     {
         double brightness = 0.5;
         if (position < brightness)
@@ -4694,7 +4694,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="rect">Rectangle coordinates.</param>
     /// <param name="cornerRadius">Array of 4 corners radius.</param>
     /// <returns>Graphics path object.</returns>
-    internal GraphicsPath CreateRoundedRectPath(RectangleF rect, float[] cornerRadius)
+    internal static GraphicsPath CreateRoundedRectPath(RectangleF rect, float[] cornerRadius)
     {
         // Create rounded rectangle path
         GraphicsPath path = new GraphicsPath();
@@ -5438,7 +5438,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// </summary>
     /// <param name="rect">Rectangle which has to be rounded</param>
     /// <returns>Rounded rectangle</returns>
-    internal RectangleF Round(RectangleF rect)
+    internal static RectangleF Round(RectangleF rect)
     {
         float left = MathF.Round(rect.Left);
         float right = MathF.Round(rect.Right);

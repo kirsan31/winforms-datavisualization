@@ -115,7 +115,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles</param>
         /// <param name="outputValues">Arrays of doubles</param>
         /// <param name="parameterList">Array of strings</param>
-        private void MoneyFlow(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void MoneyFlow(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             int length = inputValues.Length;
 
@@ -221,7 +221,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
-        private void PriceVolumeTrend(double[][] inputValues, out double[][] outputValues)
+        private static void PriceVolumeTrend(double[][] inputValues, out double[][] outputValues)
         {
             // There is no enough input series
             if (inputValues.Length != 3)
@@ -278,7 +278,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
-        private void OnBalanceVolume(double[][] inputValues, out double[][] outputValues)
+        private static void OnBalanceVolume(double[][] inputValues, out double[][] outputValues)
         {
             // There is no enough input series
             if (inputValues.Length != 3)
@@ -330,7 +330,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        private void NegativeVolumeIndex(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void NegativeVolumeIndex(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 3)
@@ -400,7 +400,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        private void PositiveVolumeIndex(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void PositiveVolumeIndex(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 3)
@@ -464,7 +464,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
-        internal void AccumulationDistribution(double[][] inputValues, out double[][] outputValues)
+        internal static void AccumulationDistribution(double[][] inputValues, out double[][] outputValues)
         {
             // There is no enough input series
             if (inputValues.Length != 5)

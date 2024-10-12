@@ -1916,7 +1916,7 @@ public class DataPoint : DataPointCustomProperties
             }
             else
             {
-                doubleObj = this.ConvertValue(obj);
+                doubleObj = ConvertValue(obj);
             }
 
             // Try converting to string
@@ -1986,7 +1986,7 @@ public class DataPoint : DataPointCustomProperties
     /// </summary>
     /// <param name="value">Object to convert.</param>
     /// <returns>Double value.</returns>
-    private double ConvertValue(object value)
+    private static double ConvertValue(object value)
     {
         if (value is null)
             return 0;
@@ -1995,7 +1995,7 @@ public class DataPoint : DataPointCustomProperties
             return dbl;
 
         if (value is float single)
-            return (double)single;
+            return single;
 
         if (value is decimal dcml)
             return (double)dcml;
@@ -2089,10 +2089,7 @@ public class DataPoint : DataPointCustomProperties
 
         // Set Y value first
         SetValueY(yValue);
-
-        // Check if parameters type matches with series type
-        Type paramType = xValue.GetType();
-        series?.CheckSupportedTypes(paramType);
+        Series.CheckSupportedTypes(xValue.GetType());
 
         // Save value in the array
         if (xValue is string str)
@@ -2264,9 +2261,8 @@ public class DataPoint : DataPointCustomProperties
             }
         }
 
-        // Check if parameters type matches with series type
         Type paramType = yValue[0].GetType();
-        series?.CheckSupportedTypes(paramType);
+        Series.CheckSupportedTypes(paramType);
 
         // Make sure the Y values array is big enough
         if (this._yValue.Length < yValue.Length)
@@ -2518,7 +2514,7 @@ public class DataPoint : DataPointCustomProperties
             result = this.series.ReplaceKeywords(result);
 
             // #PERCENT - percentage of Y value from total
-            result = this.series.ReplaceOneKeyword(
+            result = Series.ReplaceOneKeyword(
                 this.Chart,
                 this,
                 this.Tag,
@@ -2536,7 +2532,7 @@ public class DataPoint : DataPointCustomProperties
             }
             else
             {
-                result = this.series.ReplaceOneKeyword(
+                result = Series.ReplaceOneKeyword(
                     this.Chart,
                     this,
                     this.Tag,
@@ -2559,7 +2555,7 @@ public class DataPoint : DataPointCustomProperties
                 // Need to iterate in revers order to correctly handle cases like #VALY11 and #VALY1
                 for (int index = this.YValues.Length; index >= 1; index--)
                 {
-                    result = this.series.ReplaceOneKeyword(
+                    result = Series.ReplaceOneKeyword(
                         this.Chart,
                         this,
                         this.Tag,
@@ -2571,7 +2567,7 @@ public class DataPoint : DataPointCustomProperties
                         string.Empty);
                 }
 
-                result = this.series.ReplaceOneKeyword(
+                result = Series.ReplaceOneKeyword(
                     Chart,
                     this,
                     this.Tag,
@@ -2583,7 +2579,7 @@ public class DataPoint : DataPointCustomProperties
                     string.Empty);
             }
 
-            result = this.series.ReplaceOneKeyword(
+            result = Series.ReplaceOneKeyword(
                 Chart,
                 this,
                 this.Tag,

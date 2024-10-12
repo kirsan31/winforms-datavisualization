@@ -1125,7 +1125,7 @@ internal class StackedBarChart : IChartType
                     // Adjust label background position that can be changed by the 
                     // Smart Labels algorithm
                     // NOTE: Fixes issue #4688
-                    labelBackPosition = area.smartLabels.GetLabelPosition(
+                    labelBackPosition = SmartLabel.GetLabelPosition(
                         graph,
                         labelPosition,
                         sizeLabel,

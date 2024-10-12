@@ -362,7 +362,7 @@ internal sealed class AxisScaleSegment
         {
             using Pen pen = new Pen(this.axis.ScaleBreakStyle.LineColor, this.axis.ScaleBreakStyle.LineWidth);
             // Set line style
-            pen.DashStyle = graph.GetPenStyle(this.axis.ScaleBreakStyle.LineDashStyle);
+            pen.DashStyle = ChartGraphics.GetPenStyle(this.axis.ScaleBreakStyle.LineDashStyle);
 
             // Draw break lines
             graph.DrawPath(pen, breakLinePathTop);
@@ -393,12 +393,12 @@ internal sealed class AxisScaleSegment
         else
         {
             // If a gradient type is set create a brush with gradient
-            brush = graph.GetGradientBrush(new RectangleF(0, 0, chart.chartPicture.Width - 1, chart.chartPicture.Height - 1), chart.BackColor, chart.BackSecondaryColor, chart.BackGradientStyle);
+            brush = ChartGraphics.GetGradientBrush(new RectangleF(0, 0, chart.chartPicture.Width - 1, chart.chartPicture.Height - 1), chart.BackColor, chart.BackSecondaryColor, chart.BackGradientStyle);
         }
 
         if (chart.BackHatchStyle != ChartHatchStyle.None)
         {
-            brush = graph.GetHatchBrush(chart.BackHatchStyle, chart.BackColor, chart.BackSecondaryColor);
+            brush = ChartGraphics.GetHatchBrush(chart.BackHatchStyle, chart.BackColor, chart.BackSecondaryColor);
         }
 
         if (chart.BackImage.Length > 0 &&

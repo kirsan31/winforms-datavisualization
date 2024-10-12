@@ -70,7 +70,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles: Moving average</param>
         /// <param name="period">Period</param>
         /// <param name="FromFirst">Start from first value</param>
-        internal void MovingAverage(double[] inputValues, out double[] outputValues, int period, bool FromFirst)
+        internal static void MovingAverage(double[] inputValues, out double[] outputValues, int period, bool FromFirst)
         {
             double[][] tempInput = new double[2][];
             double[][] tempOutput = new double[2][];
@@ -116,7 +116,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles: 1. row - X values, 2. row - Moving average</param>
         /// <param name="parameterList">Array of strings: 1. Period</param>
         /// <param name="extraParameterList">Array of strings: 1. Start from zero</param>
-        private void MovingAverage(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
+        private static void MovingAverage(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
         {
             int length = inputValues.Length;
 
@@ -248,7 +248,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles: Exponential Moving average</param>
         /// <param name="period">Period</param>
         /// <param name="startFromFirst">Start from first value</param>
-        internal void ExponentialMovingAverage(double[] inputValues, out double[] outputValues, int period, bool startFromFirst)
+        internal static void ExponentialMovingAverage(double[] inputValues, out double[] outputValues, int period, bool startFromFirst)
         {
             double[][] tempInput = new double[2][];
             double[][] tempOutput = new double[2][];
@@ -291,7 +291,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles: 1. row - X values, 2. row - Moving average</param>
         /// <param name="parameterList">Array of strings: 1. Period</param>
         /// <param name="extraParameterList">Array of strings: 1. Start from zero</param>
-        private void ExponentialMovingAverage(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
+        private static void ExponentialMovingAverage(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
         {
             int length = inputValues.Length;
 
@@ -435,7 +435,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles: 1. row - X values, 2. row - Moving average</param>
         /// <param name="parameterList">Array of strings: 1. Period</param>
         /// <param name="extraParameterList">Array of strings: 1. Start from zero</param>
-        private void TriangularMovingAverage(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
+        private static void TriangularMovingAverage(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
         {
             int length = inputValues.Length;
 
@@ -517,7 +517,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles: 1. row - X values, 2. row - Moving average</param>
         /// <param name="parameterList">Array of strings: 1. Period</param>
         /// <param name="extraParameterList">Array of strings: 1. Start from zero</param>
-        private void WeightedMovingAverage(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
+        private static void WeightedMovingAverage(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
         {
             int length = inputValues.Length;
 
@@ -660,7 +660,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles: 1. row - X values, 2. row - Bollinger Band Up, 3. row - Bollinger Band Down</param>
         /// <param name="parameterList">Array of strings: 1. Period</param>
         /// <param name="extraParameterList">Array of strings: 1. Start from zero</param>
-        private void BollingerBands(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
+        private static void BollingerBands(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
         {
             int length = inputValues.Length;
 
@@ -790,7 +790,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="inputValues">Arrays of doubles: 1. row - X values, 2. row - Y values (Close), 3. row - Y values (High), 4. row - Y values (Low)</param>
         /// <param name="outputValues">Arrays of doubles: 1. row - X values, 2. row - Weighted Close</param>
-        private void TypicalPrice(double[][] inputValues, out double[][] outputValues)
+        private static void TypicalPrice(double[][] inputValues, out double[][] outputValues)
         {
             int length = inputValues.Length;
 
@@ -832,7 +832,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="inputValues">Arrays of doubles: 1. row - X values, 2. row - Y values (High), 3. row - Y values (Low)</param>
         /// <param name="outputValues">Arrays of doubles: 1. row - X values, 2. row - Median Price</param>
-        private void MedianPrice(double[][] inputValues, out double[][] outputValues)
+        private static void MedianPrice(double[][] inputValues, out double[][] outputValues)
         {
             int length = inputValues.Length;
 
@@ -879,7 +879,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="inputValues">Arrays of doubles: 1. row - X values, 2. row - Y values (Close), 3. row - Y values (High), 4. row - Y values (Low)</param>
         /// <param name="outputValues">Arrays of doubles: 1. row - X values, 2. row - Weighted Close</param>
-        private void WeightedClose(double[][] inputValues, out double[][] outputValues)
+        private static void WeightedClose(double[][] inputValues, out double[][] outputValues)
         {
             int length = inputValues.Length;
 
@@ -936,7 +936,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles: 1. row - X values, 2. row - Envelopes Up, 3. row - Envelopes Down</param>
         /// <param name="parameterList">Array of strings: parameters</param>
         /// <param name="extraParameterList">Array of strings: Extra parameters </param>
-        private void Envelopes(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
+        private static void Envelopes(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
         {
             int length = inputValues.Length;
 
@@ -1002,7 +1002,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Output standard deviation</param>
         /// <param name="period">Period</param>
         /// <param name="startFromFirst">Start calculation from the first Y value</param>
-        internal void StandardDeviation(double[] inputValues, out double[] outputValues, int period, bool startFromFirst)
+        internal static void StandardDeviation(double[] inputValues, out double[] outputValues, int period, bool startFromFirst)
         {
             double[] movingOut;
 
@@ -1068,7 +1068,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="inputValues">Input X and Y values</param>
         /// <param name="numOfYValues">The number of Y values</param>
-        public void CheckNumOfValues(double[][] inputValues, int numOfYValues)
+        public static void CheckNumOfValues(double[][] inputValues, int numOfYValues)
         {
             // Different number of x and y values
             if (inputValues[0].Length != inputValues[1].Length)

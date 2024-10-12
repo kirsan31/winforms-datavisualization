@@ -318,7 +318,7 @@ public partial class ChartGraphics
         object obj
         )
     {
-        float zPositon = area.IsMainSceneWallOnFront() ? area.areaSceneDepth : 0f;
+        float zPositon = ChartArea.IsMainSceneWallOnFront() ? area.areaSceneDepth : 0f;
 
         ChartElementType chartElementType = obj is StripLine ? ChartElementType.StripLines : ChartElementType.Gridlines;
 
@@ -3671,7 +3671,7 @@ public partial class ChartGraphics
     /// <param name="depth">Cube depth.</param>
     /// <param name="matrix">Coordinate transformation matrix.</param>
     /// <returns>Visible surfaces.</returns>
-    internal SurfaceNames GetVisibleSurfaces(
+    internal static SurfaceNames GetVisibleSurfaces(
         RectangleF position,
         float positionZ,
         float depth,
@@ -3720,7 +3720,7 @@ public partial class ChartGraphics
     /// <param name="depth">Cube depth.</param>
     /// <param name="matrix">Coordinate transformation matrix.</param>
     /// <returns>Visible surfaces.</returns>
-    internal SurfaceNames GetVisibleSurfacesWithPerspective(
+    internal static SurfaceNames GetVisibleSurfacesWithPerspective(
         RectangleF position,
         float positionZ,
         float depth,
@@ -3754,7 +3754,7 @@ public partial class ChartGraphics
     /// </summary>
     /// <param name="cubePoints">Array of 8 points which define the cube.</param>
     /// <returns>Visible surfaces.</returns>
-    internal SurfaceNames GetVisibleSurfacesWithPerspective(Point3D[] cubePoints)
+    internal static SurfaceNames GetVisibleSurfacesWithPerspective(Point3D[] cubePoints)
     {
         // Check imput array size
         if (cubePoints.Length != 8)

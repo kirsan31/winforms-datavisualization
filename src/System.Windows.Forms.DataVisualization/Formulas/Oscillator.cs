@@ -51,7 +51,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         /// <param name="extraParameterList">Array of strings - Extra parameters</param>
-        private void ChaikinOscillator(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
+        private static void ChaikinOscillator(double[][] inputValues, out double[][] outputValues, string[] parameterList, string[] extraParameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 5)
@@ -89,7 +89,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
             double[][] outputDistribution = new double[2][];
 
             // Accumulation Distribution
-            volume.AccumulationDistribution(inputValues, out outputDistribution);
+            VolumeIndicators.AccumulationDistribution(inputValues, out outputDistribution);
 
 
             // Exponential Moving average of Accumulation Distribution
@@ -150,7 +150,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        private void DetrendedPriceOscillator(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void DetrendedPriceOscillator(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 2)
@@ -228,7 +228,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        private void VolatilityChaikins(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void VolatilityChaikins(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 3)
@@ -316,7 +316,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        private void VolumeOscillator(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void VolumeOscillator(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 2)
@@ -419,7 +419,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        internal void StochasticIndicator(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        internal static void StochasticIndicator(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 4)
@@ -530,7 +530,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputValues">Arrays of doubles - Input values</param>
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
-        internal void WilliamsR(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        internal static void WilliamsR(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // There is no enough input series
             if (inputValues.Length != 4)

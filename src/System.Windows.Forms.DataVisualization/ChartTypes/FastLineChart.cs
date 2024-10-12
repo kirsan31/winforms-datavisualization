@@ -274,13 +274,13 @@ internal class FastLineChart : IChartType
 
             // Create line pen
             using Pen linePen = new Pen(series.Color, series.BorderWidth);
-            linePen.DashStyle = graph.GetPenStyle(series.BorderDashStyle);
+            linePen.DashStyle = ChartGraphics.GetPenStyle(series.BorderDashStyle);
             linePen.StartCap = LineCap.Round;
             linePen.EndCap = LineCap.Round;
 
             // Create empty line pen
             using Pen emptyLinePen = new Pen(series.EmptyPointStyle.Color, series.EmptyPointStyle.BorderWidth);
-            emptyLinePen.DashStyle = graph.GetPenStyle(series.EmptyPointStyle.BorderDashStyle);
+            emptyLinePen.DashStyle = ChartGraphics.GetPenStyle(series.EmptyPointStyle.BorderDashStyle);
             emptyLinePen.StartCap = LineCap.Round;
             emptyLinePen.EndCap = LineCap.Round;
 

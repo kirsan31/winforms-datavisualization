@@ -134,13 +134,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
             this.axis = axis;
         }
 
-        /// <summary>
-        /// Initialize axis scroll bar class.
-        /// </summary>
-        internal void Initialize()
-        {
-        }
-
         #endregion Scroll bar constructors and initialization
 
         #region Scroll bar properties

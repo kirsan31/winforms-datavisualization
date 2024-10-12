@@ -568,7 +568,7 @@ internal class StackedAreaChart : AreaChart
                         Brush areaBrush = null;
                         if (point.BackHatchStyle != ChartHatchStyle.None)
                         {
-                            areaBrush = graph.GetHatchBrush(point.BackHatchStyle, point.Color, point.BackSecondaryColor);
+                            areaBrush = ChartGraphics.GetHatchBrush(point.BackHatchStyle, point.Color, point.BackSecondaryColor);
                         }
                         else if (point.BackGradientStyle != GradientStyle.None)
                         {
@@ -726,7 +726,7 @@ internal class StackedAreaChart : AreaChart
                     gradientPath.AddPath(areaBottomPath, true);
 
                     // Create brush
-                    using Brush areaBrush = graph.GetGradientBrush(gradientPath.GetBounds(), this.Series.Color, this.Series.BackSecondaryColor, this.Series.BackGradientStyle);
+                    using Brush areaBrush = ChartGraphics.GetGradientBrush(gradientPath.GetBounds(), this.Series.Color, this.Series.BackSecondaryColor, this.Series.BackGradientStyle);
                     // Fill area with gradient
                     graph.FillPath(areaBrush, gradientPath);
                 }

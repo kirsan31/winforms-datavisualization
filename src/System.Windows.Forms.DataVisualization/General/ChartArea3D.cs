@@ -589,7 +589,7 @@ public partial class ChartArea
         //***********************************************************
         //** Find chart area visible surfaces
         //***********************************************************
-        _visibleSurfaces = graph.GetVisibleSurfaces(
+        _visibleSurfaces = ChartGraphics.GetVisibleSurfaces(
             position,
             0,
             areaSceneDepth,
@@ -724,7 +724,7 @@ public partial class ChartArea
     /// chart area scene is displayed on the front side.
     /// </summary>
     /// <returns>True if front wall is visible.</returns>
-    internal bool IsMainSceneWallOnFront()
+    internal static bool IsMainSceneWallOnFront()
     {
         // Note: Not used in this version!
         return false;

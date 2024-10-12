@@ -244,7 +244,7 @@ internal sealed class ImageLoader : IDisposable, IServiceProvider
     /// </summary>
     /// <param name="fileName">File name.</param>
     /// <returns>Loaded image or null.</returns>
-    private Image? LoadFromFile(string fileName)
+    private static Image? LoadFromFile(string fileName)
     {
         // Try to load image from file
         try

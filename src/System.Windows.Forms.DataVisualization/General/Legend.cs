@@ -1428,7 +1428,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         // Check if we fit or if we have just one row that do not fit
                         // vertically but still have horizontal space.
                         if (autoFitDone ||
-                            ((this.GetMaximumNumberOfRows(numberOfRowsPerColumn) == 1 || vertSpaceLeft < 0) && horSpaceLeft > 0))
+                            ((GetMaximumNumberOfRows(numberOfRowsPerColumn) == 1 || vertSpaceLeft < 0) && horSpaceLeft > 0))
                         {
                             // Continue adding columns
                             continue;
@@ -1595,7 +1595,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Maximum number of rows.</returns>
         private int GetMaximumNumberOfRows()
         {
-            return this.GetMaximumNumberOfRows(this._numberOfRowsPerColumn);
+            return GetMaximumNumberOfRows(this._numberOfRowsPerColumn);
         }
 
         /// <summary>
@@ -1603,7 +1603,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="rowsPerColumn">Array that stores number of rows per column.</param>
         /// <returns>Maximum number of rows.</returns>
-        private int GetMaximumNumberOfRows(int[] rowsPerColumn)
+        private static int GetMaximumNumberOfRows(int[] rowsPerColumn)
         {
             // Find column with maximum number of rows
             int maxNumberOfColumns = 0;
@@ -1655,7 +1655,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             int numberOfSubColumns = this.GetNumberOfCells();
 
             // Each column may have its own number of rows. Calculate the maximum number of rows.
-            int maxNumberOfRows = this.GetMaximumNumberOfRows(numberOfRowsPerColumn);
+            int maxNumberOfRows = GetMaximumNumberOfRows(numberOfRowsPerColumn);
 
             // Create multidimensional arrays that will be holding the widths and heightsof all
             // individual cells. First dimension will be the legend column index, second dimension

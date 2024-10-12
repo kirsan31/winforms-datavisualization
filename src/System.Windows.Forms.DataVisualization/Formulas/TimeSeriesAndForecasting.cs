@@ -136,7 +136,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="parameterList">Array of strings - Parameters</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
-        private void Forecasting(double[][] inputValues, out double[][] outputValues, string[] parameterList)
+        private static void Forecasting(double[][] inputValues, out double[][] outputValues, string[] parameterList)
         {
             // Polynomial degree
             int degree;
@@ -276,7 +276,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="outputValues">Arrays of doubles - Output values</param>
         /// <param name="polynomialDegree">Polynomial degree (Default: 2 - Linear regression )</param>
         /// <param name="forecastingPeriod">Forecasting period (Default: Half of the series length )</param>
-		private void Regression(RegressionType regressionType, double[][] inputValues, out double[][] outputValues, int polynomialDegree, int forecastingPeriod)
+		private static void Regression(RegressionType regressionType, double[][] inputValues, out double[][] outputValues, int polynomialDegree, int forecastingPeriod)
         {
             if (regressionType == RegressionType.Exponential)
             {
@@ -373,7 +373,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="polynomialDegree">Polynomial degree (Default: 2 - Linear regression )</param>
         /// <param name="forecastingPeriod">Forecasting period (Default: Half of the series length )</param>
         /// <param name="logInterval">Interval for logarithmic scale</param>
-		private void PolynomialRegression(RegressionType regressionType, double[][] inputValues, out double[][] outputValues, int polynomialDegree, int forecastingPeriod, double logInterval)
+		private static void PolynomialRegression(RegressionType regressionType, double[][] inputValues, out double[][] outputValues, int polynomialDegree, int forecastingPeriod, double logInterval)
         {
             double[] coefficients = new double[polynomialDegree];
             int size = inputValues[0].Length;
@@ -516,7 +516,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="inputDeterminant">Input determinant</param>
         /// <returns>Result of determinant</returns>
-        private double Determinant(double[][] inputDeterminant)
+        private static double Determinant(double[][] inputDeterminant)
         {
             double sum = 0;
             double sign = 1.0;
@@ -548,7 +548,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// <param name="inputDeterminant">Input determinant</param>
         /// <param name="columnPos">Position of column, which has to be skipped</param>
         /// <returns>New determinant</returns>
-        private double[][] MakeSubDeterminant(double[][] inputDeterminant, int columnPos)
+        private static double[][] MakeSubDeterminant(double[][] inputDeterminant, int columnPos)
         {
             // Get Determinant Size
             int size = inputDeterminant.GetLength(0);
@@ -588,7 +588,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Formulas
         /// </summary>
         /// <param name="inputDeterminant">Input determinant</param>
         /// <returns>New determinant</returns>
-        private double[][] CopyDeterminant(double[][] inputDeterminant)
+        private static double[][] CopyDeterminant(double[][] inputDeterminant)
         {
             // Get Determinant Size
             int size = inputDeterminant.GetLength(0);

@@ -848,7 +848,7 @@ public class DataFormula
     /// </summary>
     /// <param name="input">Input matrix with empty values</param>
     /// <param name="output">Output matrix without empty values</param>
-    private void RemoveEmptyValues(double[][] input, out double[][] output)
+    private static void RemoveEmptyValues(double[][] input, out double[][] output)
     {
         // Allocate memory
         output = new double[input.Length][];
@@ -1017,7 +1017,7 @@ public class DataFormula
     /// </summary>
     /// <param name="parameters">a string with comma separated parameters</param>
     /// <param name="parameterList">the array of strings with parameters</param>
-    private void SplitParameters(string parameters, out string[] parameterList)
+    private static void SplitParameters(string parameters, out string[] parameterList)
     {
         // Split string by comma
         parameterList = parameters.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);

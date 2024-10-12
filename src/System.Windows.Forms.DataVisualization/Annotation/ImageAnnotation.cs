@@ -576,7 +576,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// </summary>
         /// <param name="alignment">Content alignment.</param>
         /// <returns>Image content alignment.</returns>
-        private ChartImageAlignmentStyle GetImageAlignment(ContentAlignment alignment)
+        private static ChartImageAlignmentStyle GetImageAlignment(ContentAlignment alignment)
         {
             if (alignment == ContentAlignment.TopLeft)
             {

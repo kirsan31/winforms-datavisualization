@@ -221,7 +221,7 @@ internal class RangeChart : SplineChart
                 gradientPath.AddPath(areaBottomPath, true);
 
                 // Create brush
-                using Brush areaGradientBrush = graph.GetGradientBrush(gradientPath.GetBounds(), this._series.Color, this._series.BackSecondaryColor, this._series.BackGradientStyle);
+                using Brush areaGradientBrush = ChartGraphics.GetGradientBrush(gradientPath.GetBounds(), this._series.Color, this._series.BackSecondaryColor, this._series.BackGradientStyle);
                 // Fill area with gradient
                 graph.FillPath(areaGradientBrush, gradientPath);
                 gradientFill = false;
@@ -342,7 +342,7 @@ internal class RangeChart : SplineChart
         Brush areaBrush = null;
         if (point.BackHatchStyle != ChartHatchStyle.None)
         {
-            areaBrush = graph.GetHatchBrush(point.BackHatchStyle, point.Color, point.BackSecondaryColor);
+            areaBrush = ChartGraphics.GetHatchBrush(point.BackHatchStyle, point.Color, point.BackSecondaryColor);
         }
         else if (point.BackGradientStyle != GradientStyle.None)
         {
@@ -1037,7 +1037,7 @@ internal class RangeChart : SplineChart
         float maxY = (float)Math.Max(firstPoint.yPosition, secondPoint.yPosition);
         maxY = Math.Max(maxY, axisPosition);
         RectangleF position = new RectangleF(minX, minY, maxX - minX, maxY - minY);
-        SurfaceNames visibleSurfaces = graph.GetVisibleSurfaces(position, positionZ, depth, matrix);
+        SurfaceNames visibleSurfaces = ChartGraphics.GetVisibleSurfaces(position, positionZ, depth, matrix);
 
         // Check if area point is drawn upside down.
         bool upSideDown = false;

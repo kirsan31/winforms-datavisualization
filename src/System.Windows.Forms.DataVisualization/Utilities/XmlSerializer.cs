@@ -323,7 +323,7 @@ internal abstract class SerializerBase
                         // Reset objects of the list
                         foreach (object listObject in (IList)pi.GetValue(objectToReset, null))
                         {
-                            ResetObjectProperties(listObject, objectToReset, this.GetObjectName(listObject));
+                            ResetObjectProperties(listObject, objectToReset, GetObjectName(listObject));
                         }
                     }
                 }
@@ -510,7 +510,7 @@ internal abstract class SerializerBase
     /// </summary>
     /// <param name="reader">Binary reader to get the data from.</param>
     /// <returns>Property name or collection member type ID.</returns>
-    internal short ReadHashID(BinaryReader reader)
+    internal static short ReadHashID(BinaryReader reader)
     {
         // For later versions return ID without transformations
         return reader.ReadInt16();
@@ -523,7 +523,7 @@ internal abstract class SerializerBase
     /// <param name="parent">Object parent.</param>
     /// <param name="pi">Serializable property information.</param>
     /// <returns>True if property belongs to the base class.</returns>
-    internal bool IsChartBaseProperty(object objectToSerialize, object parent, PropertyInfo pi)
+    internal static bool IsChartBaseProperty(object objectToSerialize, object parent, PropertyInfo pi)
     {
         bool result = false;
 
@@ -622,7 +622,7 @@ internal abstract class SerializerBase
     /// </summary>
     /// <param name="obj">Object to get the name of.</param>
     /// <returns>Name of the object class (without namespace).</returns>
-    internal string GetObjectName(object obj)
+    internal static string GetObjectName(object obj)
     {
         string name = obj.GetType().ToString();
         return name[(name.LastIndexOf('.') + 1)..];
@@ -637,7 +637,7 @@ internal abstract class SerializerBase
     /// <param name="itemName">Optional item name to return.</param>
     /// <param name="reusedObject">Indicates that object with specified name was already in the collection and it being reused.</param>
     /// <returns>New list item object.</returns>
-    internal object GetListNewItem(IList list, string itemTypeName, ref string itemName, ref bool reusedObject)
+    internal static object GetListNewItem(IList list, string itemTypeName, ref string itemName, ref bool reusedObject)
     {
         // Get type of item in collection
         Type itemType = null;
@@ -782,7 +782,7 @@ internal abstract class SerializerBase
     /// <param name="pi">Property information.</param>
     /// <param name="parent">Object that the property belongs to.</param>
     /// <returns>True if property should be serialized as attribute.</returns>
-    internal bool ShouldSerializeAsAttribute(PropertyInfo pi, object parent)
+    internal static bool ShouldSerializeAsAttribute(PropertyInfo pi, object parent)
     {
         // Check if SerializationVisibilityAttribute is set
         if (parent != null)
@@ -829,7 +829,7 @@ internal abstract class SerializerBase
     /// <param name="pi">Property information.</param>
     /// <param name="objectToSerialize">Object that the property belongs to.</param>
     /// <returns>True if should be serialized as attribute</returns>
-    internal bool SerializeICollAsAtribute(PropertyInfo pi, object objectToSerialize)
+    internal static bool SerializeICollAsAtribute(PropertyInfo pi, object objectToSerialize)
     {
         if (objectToSerialize != null)
         {
@@ -1025,9 +1025,9 @@ internal abstract class SerializerBase
     /// <returns>TypeConvetrer or null</returns>
     internal TypeConverter FindConverterByType(TypeConverterAttribute attr)
     {
-        // In default Inranet zone (partial trust) ConsrtuctorInfo.Invoke (PropertyDescriptor.Converter)
+        // In default Intranet zone (partial trust) ConsrtuctorInfo.Invoke (PropertyDescriptor.Converter)
         // throws SecurityException or MethodAccessException when the converter class is internal.
-        // Thats why we have this giant if - elseif here - to create type converters whitout reflection.
+        // Thats why we have this giant if - elseif here - to create type converters without reflection.
         if (_converterDict.Contains(attr.ConverterTypeName))
         {
             return (TypeConverter)_converterDict[attr.ConverterTypeName];
@@ -1452,7 +1452,7 @@ internal class XmlFormatSerializer : SerializerBase
 
                 // Serialize collection
 
-                if (pi.CanRead && pi.PropertyType.GetInterface("ICollection", true) != null && !this.SerializeICollAsAtribute(pi, objectToSerialize))
+                if (pi.CanRead && pi.PropertyType.GetInterface("ICollection", true) != null && !SerializeICollAsAtribute(pi, objectToSerialize))
                 {
                     // Check if SerializationVisibilityAttribute is set
                     bool serialize = true;
@@ -2262,7 +2262,7 @@ internal class BinaryFormatSerializer : SerializerBase
                 }
 
                 // Serialize collection
-                if (pi.CanRead && pi.PropertyType.GetInterface("ICollection", true) != null && !this.SerializeICollAsAtribute(pi, objectToSerialize))
+                if (pi.CanRead && pi.PropertyType.GetInterface("ICollection", true) != null && !SerializeICollAsAtribute(pi, objectToSerialize))
                 {
                     bool serialize = IsSerializableContent(pi.Name, objectToSerialize);
                     // fixing Axes Array Framework 2.0 side effect
@@ -2524,7 +2524,7 @@ internal class BinaryFormatSerializer : SerializerBase
     /// <param name="elementName">Object name.</param>
     /// <param name="writer">Binary writer.</param>
     /// <returns>Object value as string.</returns>
-    internal void WritePropertyValue(object obj, string elementName, BinaryWriter writer)
+    internal static void WritePropertyValue(object obj, string elementName, BinaryWriter writer)
     {
         // Write property ID (hash of the name) into the writer
         writer.Write(GetStringHashCode(elementName));
@@ -2768,7 +2768,7 @@ internal class BinaryFormatSerializer : SerializerBase
         }
 
         // Get ID of the root object
-        this.ReadHashID(reader);
+        ReadHashID(reader);
 
         // Reset properties of the root object
         if (IsResetWhenLoading)
@@ -2810,7 +2810,7 @@ internal class BinaryFormatSerializer : SerializerBase
             PropertyInfo listItemPI = objectToDeserialize.GetType().GetProperty("Item", [typeof(int)]);
             // Loop through all list items
             short typeHash;
-            while ((typeHash = this.ReadHashID(reader)) != 0)
+            while ((typeHash = ReadHashID(reader)) != 0)
             {
                 // Get collection item type from hashed type name
                 string typeName = string.Empty;
@@ -3048,10 +3048,10 @@ internal class BinaryFormatSerializer : SerializerBase
     /// <param name="properties">List of properties information.</param>
     /// <param name="reader">Binary reader.</param>
     /// <returns>Property information.</returns>
-    private PropertyInfo ReadPropertyInfo(object objectToDeserialize, object parent, PropertyInfo[] properties, BinaryReader reader)
+    private static PropertyInfo ReadPropertyInfo(object objectToDeserialize, object parent, PropertyInfo[] properties, BinaryReader reader)
     {
         // Read property ID
-        short propertyID = this.ReadHashID(reader);
+        short propertyID = ReadHashID(reader);
 
         // End objectTag reached
         if (propertyID == 0)

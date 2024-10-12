@@ -1048,7 +1048,7 @@ internal class BarChart : IChartType
     /// <param name="pointIndex">Data point index</param>
     /// <param name="pointMarkerStyle">Marker Style</param>
     /// <param name="markerPosition">Marker Position</param>
-    private void SetHotRegions(CommonElements common, ChartGraphics graph, DataPoint point, SizeF markerSize, string seriesName, int pointIndex, MarkerStyle pointMarkerStyle, PointF markerPosition)
+    private static void SetHotRegions(CommonElements common, ChartGraphics graph, DataPoint point, SizeF markerSize, string seriesName, int pointIndex, MarkerStyle pointMarkerStyle, PointF markerPosition)
     {
         // Get relative marker size
         SizeF relativeMarkerSize = markerSize;
@@ -1146,7 +1146,7 @@ internal class BarChart : IChartType
     /// <param name="pointIndex">IsEmpty data point index.</param>
     /// <param name="yValueIndex">Index of the Y value to get.</param>
     /// <returns>A Value for empty data point.</returns>
-    internal double GetEmptyPointValue(DataPoint point, int pointIndex, int yValueIndex)
+    internal static double GetEmptyPointValue(DataPoint point, int pointIndex, int yValueIndex)
     {
         Series series = point.series;               // Data series
         double previousPoint = 0;                   // Previous data point value (not empty)
@@ -1660,7 +1660,7 @@ internal class BarChart : IChartType
     /// <param name="ser">Data series.</param>
     /// <param name="barStartPosition">The zero position or the bottom of bars.</param>
     /// <param name="barSize">The Height of bars.</param>
-    private void DrawMarkers3D(
+    private static void DrawMarkers3D(
         ChartArea area,
         ChartGraphics graph,
         CommonElements common,

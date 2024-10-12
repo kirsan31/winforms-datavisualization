@@ -698,7 +698,7 @@ internal class LineChart : PointChart
                     if (color != Color.Empty && color != Color.Transparent && pointBorderWidth > 0 && dashStyle != ChartDashStyle.NotSet)
                     {
                         using Pen shadowPen = new Pen((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb(useBorderColor ? point.BorderColor.A / 2 : point.Color.A / 2, series.ShadowColor), pointBorderWidth);
-                        shadowPen.DashStyle = graph.GetPenStyle(point.BorderDashStyle);
+                        shadowPen.DashStyle = ChartGraphics.GetPenStyle(point.BorderDashStyle);
                         shadowPen.StartCap = LineCap.Round;
                         shadowPen.EndCap = LineCap.Round;
 
@@ -717,7 +717,7 @@ internal class LineChart : PointChart
                             }
                             catch (OverflowException)
                             {
-                                this.DrawTruncatedLine(graph, shadowPen, points[pointIndex - 1], points[pointIndex]);
+                                DrawTruncatedLine(graph, shadowPen, points[pointIndex - 1], points[pointIndex]);
                             }
                         }
                         else
@@ -748,9 +748,9 @@ internal class LineChart : PointChart
                         _linePen.Width = pointBorderWidth;
                     }
 
-                    if (_linePen.DashStyle != graph.GetPenStyle(dashStyle))
+                    if (_linePen.DashStyle != ChartGraphics.GetPenStyle(dashStyle))
                     {
-                        _linePen.DashStyle = graph.GetPenStyle(dashStyle);
+                        _linePen.DashStyle = ChartGraphics.GetPenStyle(dashStyle);
                     }
 
                     // Set Rounded Cap
@@ -764,7 +764,7 @@ internal class LineChart : PointChart
                         // VSTS: 9698 - issue: the line start from X = 0 when GDI overflows (before we expected exception)
                         if (IsLinePointsOverflow(points[pointIndex - 1]) || IsLinePointsOverflow(points[pointIndex]))
                         {
-                            this.DrawTruncatedLine(graph, _linePen, points[pointIndex - 1], points[pointIndex]);
+                            DrawTruncatedLine(graph, _linePen, points[pointIndex - 1], points[pointIndex]);
                         }
                         else
                         {
@@ -774,7 +774,7 @@ internal class LineChart : PointChart
                             }
                             catch (OverflowException)
                             {
-                                this.DrawTruncatedLine(graph, _linePen, points[pointIndex - 1], points[pointIndex]);
+                                DrawTruncatedLine(graph, _linePen, points[pointIndex - 1], points[pointIndex]);
                             }
                         }
                     }
@@ -897,7 +897,7 @@ internal class LineChart : PointChart
     /// <param name="pen">Pen object that determines the color, width, and style of the line.</param>
     /// <param name="pt1">PointF structure that represents the first point to connect.</param>
     /// <param name="pt2">PointF structure that represents the second point to connect.</param>
-    private void DrawTruncatedLine(ChartGraphics graph, Pen pen, PointF pt1, PointF pt2)
+    private static void DrawTruncatedLine(ChartGraphics graph, Pen pen, PointF pt1, PointF pt2)
     {
 
         // Check line angle. Intersection with vertical or horizontal lines will be done based on the results
@@ -968,7 +968,7 @@ internal class LineChart : PointChart
     /// <param name="series">Point series.</param>
     /// <param name="firstPoint">First line point.</param>
     /// <param name="secondPoint">Second line point.</param>
-    protected void DrawLine(
+    protected static void DrawLine(
         ChartGraphics graph,
         DataPoint point,
         Series series,

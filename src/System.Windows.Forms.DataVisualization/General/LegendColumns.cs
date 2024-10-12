@@ -1462,45 +1462,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
         }
 
         /// <summary>
-        /// Helper function that returns cell url.
-        /// </summary>
-        /// <remarks>
-        /// Url can be set in the cell or in the legend item. Cell 
-        /// tooltip always has a higher priority.
-        /// </remarks>
-        /// <returns>Returns cell text.</returns>
-        private string GetCellUrl()
-        {
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// Helper function that returns cell url.
-        /// </summary>
-        /// <remarks>
-        /// Url can be set in the cell or in the legend item. Cell 
-        /// tooltip always has a higher priority.
-        /// </remarks>
-        /// <returns>Returns cell text.</returns>
-        private string GetCellMapAreaAttributes()
-        {
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// Helper function that returns cell url.
-        /// </summary>
-        /// <remarks>
-        /// Url can be set in the cell or in the legend item. Cell 
-        /// tooltip always has a higher priority.
-        /// </remarks>
-        /// <returns>Returns cell text.</returns>
-        private string GetCellPostBackValue()
-        {
-            return string.Empty;
-        }
-
-        /// <summary>
         /// Helper function that returns the exact text presented in the cell.
         /// </summary>
         /// <remarks>
@@ -1704,7 +1665,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             Font cellFont = this.GetCellFont(legendAutoFont, fontSizeReducedBy, out bool disposeFont);
 
             // Start Svg Selection mode
-            chartGraph.StartHotRegion(this.GetCellUrl(), this.GetCellToolTip());
+            chartGraph.StartHotRegion(string.Empty, this.GetCellToolTip());
 
             // Create font brush
             using (SolidBrush fontBrush = new SolidBrush(this.GetCellForeColor()))
@@ -1974,7 +1935,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
 
             // Start Svg Selection mode
-            chartGraph.StartHotRegion(this.GetCellUrl(), this.GetCellToolTip());
+            chartGraph.StartHotRegion(string.Empty, this.GetCellToolTip());
 
             // Draw legend item image
             if (legendItem.Image.Length > 0)

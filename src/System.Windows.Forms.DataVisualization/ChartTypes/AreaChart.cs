@@ -262,7 +262,7 @@ internal class AreaChart : SplineChart
         Brush areaBrush = null;
         if (point.BackHatchStyle != ChartHatchStyle.None)
         {
-            areaBrush = graph.GetHatchBrush(point.BackHatchStyle, pointColor, point.BackSecondaryColor);
+            areaBrush = ChartGraphics.GetHatchBrush(point.BackHatchStyle, pointColor, point.BackSecondaryColor);
         }
         else if (point.BackGradientStyle != GradientStyle.None)
         {
@@ -406,7 +406,7 @@ internal class AreaChart : SplineChart
         if (pointBorderWidth > 0 && pointBorderColor != Color.Empty)
         {
             using Pen pen = new Pen((pointBorderColor != Color.Empty) ? pointBorderColor : pointColor, pointBorderWidth);
-            pen.DashStyle = graph.GetPenStyle(pointBorderDashStyle);
+            pen.DashStyle = ChartGraphics.GetPenStyle(pointBorderDashStyle);
 
             // Set Rounded Cap
             pen.StartCap = LineCap.Round;
@@ -546,7 +546,7 @@ internal class AreaChart : SplineChart
             graph.SetClip(Area.PlotAreaPosition.ToRectangleF());
 
             // Create brush
-            using (Brush areaGradientBrush = graph.GetGradientBrush(areaPath.GetBounds(), this.Series.Color, this.Series.BackSecondaryColor, this.Series.BackGradientStyle))
+            using (Brush areaGradientBrush = ChartGraphics.GetGradientBrush(areaPath.GetBounds(), this.Series.Color, this.Series.BackSecondaryColor, this.Series.BackGradientStyle))
             {
                 // Fill area with gradient
                 graph.FillPath(areaGradientBrush, areaPath);
@@ -916,7 +916,7 @@ internal class AreaChart : SplineChart
         float maxY = (float)Math.Max(firstPoint.yPosition, secondPoint.yPosition);
         maxY = Math.Max(maxY, axisPosition);
         RectangleF position = new RectangleF(minX, minY, maxX - minX, maxY - minY);
-        SurfaceNames visibleSurfaces = graph.GetVisibleSurfaces(position, positionZ, depth, matrix);
+        SurfaceNames visibleSurfaces = ChartGraphics.GetVisibleSurfaces(position, positionZ, depth, matrix);
 
         // Check if area point is drawn upside down.
         bool upSideDown = false;
@@ -1498,7 +1498,7 @@ internal class AreaChart : SplineChart
     /// <param name="secondPoint">Second data point.</param>
     /// <param name="axisPosition">Axis line position.</param>
     /// <returns>Intersection point coordinates.</returns>
-    internal DataPoint3D GetAxisIntersection(DataPoint3D firstPoint, DataPoint3D secondPoint, float axisPosition)
+    internal static DataPoint3D GetAxisIntersection(DataPoint3D firstPoint, DataPoint3D secondPoint, float axisPosition)
     {
         DataPoint3D intersectionPoint = new DataPoint3D();
         intersectionPoint.yPosition = axisPosition;

@@ -1934,7 +1934,7 @@ internal sealed class Selection : IServiceProvider
     /// <param name="chartObject">The chart object.</param>
     /// <param name="elementType">Type of the element.</param>
     /// <returns></returns>
-    private GraphicsPath GetGraphicsPath(IList markers, object chartObject, ChartElementType elementType)
+    private static GraphicsPath GetGraphicsPath(IList markers, object chartObject, ChartElementType elementType)
     {
         bool chartArea3D = false;
         if (chartObject is ChartArea chartArea && elementType == ChartElementType.PlottingArea)
@@ -2229,7 +2229,7 @@ internal sealed class Selection : IServiceProvider
                             }
                         }
 
-                        list.AddRange(this.GetMarkers(rect, false));
+                        list.AddRange(GetMarkers(rect, false));
                     }
                 }
                 else
@@ -2260,7 +2260,7 @@ internal sealed class Selection : IServiceProvider
             }
 
             ChartArea area = this.ChartControl.ChartAreas[series.ChartArea];
-            PointF pp = this.Transform3D(area, dataPoint);
+            PointF pp = Transform3D(area, dataPoint);
             if (!(float.IsNaN(pp.X) || float.IsNaN(pp.Y)))
             {
                 list.Add(graph.GetAbsolutePoint(pp));
@@ -2383,7 +2383,7 @@ internal sealed class Selection : IServiceProvider
     /// <returns>
     /// 	<c>true</c> if specified chart area is circular; otherwise, <c>false</c>.
     /// </returns>
-    private bool IsChartAreaCircular(ChartArea area)
+    private static bool IsChartAreaCircular(ChartArea area)
     {
         foreach (object o in area.ChartTypes)
         {
@@ -2404,9 +2404,9 @@ internal sealed class Selection : IServiceProvider
     /// <returns>
     /// 	<c>true</c> if the chart area is in 3D mode; otherwise, <c>false</c>.
     /// </returns>
-    private bool IsArea3D(ChartArea area)
+    private static bool IsArea3D(ChartArea area)
     {
-        return area.Area3DStyle.Enable3D && !this.IsChartAreaCircular(area) && area.matrix3D != null && area.matrix3D.IsInitialized();
+        return area.Area3DStyle.Enable3D && !IsChartAreaCircular(area) && area.matrix3D != null && area.matrix3D.IsInitialized();
     }
 
     /// <summary>
@@ -2445,7 +2445,7 @@ internal sealed class Selection : IServiceProvider
                 // transform points in 3D
                 foreach (DataPoint point in points)
                 {
-                    PointF pp = this.Transform3D(chartArea, point);
+                    PointF pp = Transform3D(chartArea, point);
                     if (float.IsNaN(pp.X) || float.IsNaN(pp.Y))
                     {
                         continue;
@@ -2537,7 +2537,7 @@ internal sealed class Selection : IServiceProvider
 
         IList list1 = this.GetMarkers(rect1, ChartElementType.Axis);
         ChartArea area = axis.ChartArea;
-        if (this.IsArea3D(area))
+        if (IsArea3D(area))
         {
             float zPositon = axis.GetMarksZPosition(out _);
 
@@ -2578,7 +2578,7 @@ internal sealed class Selection : IServiceProvider
         }
 
         IList list1 = this.GetMarkers(area.PlotAreaPosition.ToRectangleF(), ChartElementType.PlottingArea);
-        if (this.IsChartAreaCircular(area))
+        if (IsChartAreaCircular(area))
         {
             list1 = this.GetMarkers(area.lastAreaPosition, ChartElementType.PlottingArea);
         }
@@ -2629,10 +2629,10 @@ internal sealed class Selection : IServiceProvider
 
         if ((elementType != ChartElementType.Nothing) && (elementType != ChartElementType.PlottingArea))
         {
-            return this.GetMarkers(rect, false);
+            return GetMarkers(rect, false);
         }
 
-        return this.GetMarkers(rect, true);
+        return GetMarkers(rect, true);
     }
 
 
@@ -2642,7 +2642,7 @@ internal sealed class Selection : IServiceProvider
     /// <param name="rect">The rectangle</param>
     /// <param name="addAdditionalMarkers">Add additional markers to the rectangle.</param>
     /// <returns>List of PointF</returns>
-    private List<PointF> GetMarkers(RectangleF rect, bool addAdditionalMarkers)
+    private static List<PointF> GetMarkers(RectangleF rect, bool addAdditionalMarkers)
     {
         List<PointF> list = [];
         if (!addAdditionalMarkers)
@@ -2724,7 +2724,7 @@ internal sealed class Selection : IServiceProvider
     /// <param name="chartArea">3D chart area</param>
     /// <param name="point">The DataPoint</param>
     /// <returns>Calculated PointF</returns>
-    private PointF Transform3D(ChartArea chartArea, DataPoint point)
+    private static PointF Transform3D(ChartArea chartArea, DataPoint point)
     {
         if (chartArea is not null && IsArea3D(chartArea))
         {

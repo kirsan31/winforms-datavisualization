@@ -719,7 +719,7 @@ public class AxisScaleBreakStyle
             doneFlag = true;
 
             // Get longest sequence of segments with no points
-            this.GetLargestSequenseOfSegmentsWithNoPoints(
+            GetLargestSequenseOfSegmentsWithNoPoints(
                 segmentPointNumber,
                 out int startSegment,
                 out int numberOfSegments);
@@ -878,7 +878,7 @@ public class AxisScaleBreakStyle
         List<Series> axisSeries = GetAxisSeries(this.axis);
 
         // Get range of Y values from axis series
-        axis.Common.DataManager.GetMinMaxYValue(axisSeries, out minYValue, out maxYValue);
+        Data.DataManager.GetMinMaxYValue(axisSeries, out minYValue, out maxYValue);
 
         int numberOfPoints = 0;
         foreach (Series series in axisSeries)
@@ -968,7 +968,7 @@ public class AxisScaleBreakStyle
     /// <param name="startSegment">Returns largest empty segment sequence starting index.</param>
     /// <param name="numberOfSegments">Returns largest empty segment sequence length.</param>
     /// <returns>True if long empty segment sequence was found.</returns>
-    internal bool GetLargestSequenseOfSegmentsWithNoPoints(
+    internal static bool GetLargestSequenseOfSegmentsWithNoPoints(
         int[] segmentPointNumber,
         out int startSegment,
         out int numberOfSegments)

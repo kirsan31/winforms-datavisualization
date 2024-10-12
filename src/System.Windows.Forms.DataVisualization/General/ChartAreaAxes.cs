@@ -471,7 +471,7 @@ public partial class ChartArea
 #if SUBAXES
 					this.Activate( axisX, true, dataSeries.XSubAxisName );
 #else
-                this.Activate(axisX, true);
+                Activate(axisX, true);
 #endif // SUBAXES
             }
             else
@@ -480,7 +480,7 @@ public partial class ChartArea
 #if SUBAXES
 					this.Activate( axisX2, true, dataSeries.XSubAxisName );
 #else
-                this.Activate(axisX2, true);
+                Activate(axisX2, true);
 #endif // SUBAXES
             }
             // Y axes
@@ -490,7 +490,7 @@ public partial class ChartArea
 #if SUBAXES
 					this.Activate( axisY, true, dataSeries.YSubAxisName );
 #else
-                this.Activate(axisY, true);
+                Activate(axisY, true);
 #endif // SUBAXES
             }
             else
@@ -499,7 +499,7 @@ public partial class ChartArea
 #if SUBAXES
 					this.Activate( axisY2, true, dataSeries.YSubAxisName );
 #else
-                this.Activate(axisY2, true);
+                Activate(axisY2, true);
 #endif // SUBAXES
             }
         }
@@ -517,13 +517,13 @@ public partial class ChartArea
 #else // SUBAXES
         // Enable Axes
         if (!activeX)
-            this.Activate(axisX, false);
+            Activate(axisX, false);
         if (!activeY)
-            this.Activate(axisY, false);
+            Activate(axisY, false);
         if (!activeX2)
-            this.Activate(axisX2, false);
+            Activate(axisX2, false);
         if (!activeY2)
-            this.Activate(axisY2, false);
+            Activate(axisY2, false);
 #endif // SUBAXES
     }
 
@@ -563,7 +563,7 @@ public partial class ChartArea
     /// </summary>
     /// <param name="axis">Axis.</param>
     /// <param name="active">True if axis is active.</param>
-    private void Activate(Axis axis, bool active)
+    private static void Activate(Axis axis, bool active)
     {
         if (axis.autoEnabled == true)
         {
@@ -1887,7 +1887,7 @@ public partial class ChartArea
     /// <param name="value2">Second value.</param>
     /// <param name="monthsInteval">Interval in months.</param>
     /// <param name="ticksInterval">Interval in ticks.</param>
-    private void GetDateInterval(double value1, double value2, out int monthsInteval, out long ticksInterval)
+    private static void GetDateInterval(double value1, double value2, out int monthsInteval, out long ticksInterval)
     {
         // Convert values to dates
         DateTime date1 = DateTime.FromOADate(value1);

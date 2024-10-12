@@ -872,7 +872,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             // Create callout pen
             using Pen calloutPen = new Pen(smartLabelStyle.CalloutLineColor, smartLabelStyle.CalloutLineWidth);
-            calloutPen.DashStyle = graph.GetPenStyle(smartLabelStyle.CalloutLineDashStyle);
+            calloutPen.DashStyle = ChartGraphics.GetPenStyle(smartLabelStyle.CalloutLineDashStyle);
 
             // Draw callout frame
             if (smartLabelStyle.CalloutStyle == LabelCalloutStyle.Box)
@@ -1163,7 +1163,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="point1">First line point.</param>
         /// <param name="point2">Second line point.</param>
         /// <returns>True if line intersects rectangle.</returns>
-        private bool LineIntersectRectangle(RectangleF rect, PointF point1, PointF point2)
+        private static bool LineIntersectRectangle(RectangleF rect, PointF point1, PointF point2)
         {
             // Check for horizontal line
             if (point1.X == point2.X)
@@ -1349,7 +1349,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="format">Label string format.</param>
         /// <param name="adjustForDrawing">Result position is adjusted for drawing.</param>
         /// <returns>Label rectangle position.</returns>
-        internal RectangleF GetLabelPosition(
+        internal static RectangleF GetLabelPosition(
             ChartGraphics graph,
             PointF position,
             SizeF size,
@@ -1420,7 +1420,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <param name="sizeFont">Label size.</param>
         /// <param name="format">String format.</param>
         /// <returns>Label point position.</returns>
-        private PointF CalculatePosition(
+        private static PointF CalculatePosition(
             LabelAlignmentStyles labelAlignment,
             PointF markerPosition,
             SizeF sizeMarker,

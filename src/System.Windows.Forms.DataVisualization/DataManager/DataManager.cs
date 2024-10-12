@@ -234,15 +234,7 @@ internal sealed class DataManager : ChartElement, IServiceProvider
     /// </summary>
     /// <param name="point">Data point</param>
     /// <returns>This method returns true if data point is empty.</returns>
-    private bool IsPointSkipped(DataPoint point)
-    {
-        if (point.IsEmpty)
-        {
-            return true;
-        }
-
-        return false;
-    }
+    private static bool IsPointSkipped(DataPoint point) => point.IsEmpty;
 
     /// <summary>
     /// Gets max number of data points in specified series.
@@ -537,7 +529,7 @@ internal sealed class DataManager : ChartElement, IServiceProvider
     /// <param name="seriesList">Series objects list.</param>
     /// <param name="min">Returns maximum Y value.</param>
     /// <param name="max">Returns minimum Y value.</param>
-    internal void GetMinMaxYValue(List<Series> seriesList, out double min, out double max)
+    internal static void GetMinMaxYValue(List<Series> seriesList, out double min, out double max)
     {
         max = double.MinValue;
         min = double.MaxValue;

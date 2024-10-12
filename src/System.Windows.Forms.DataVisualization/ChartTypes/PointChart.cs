@@ -572,7 +572,7 @@ internal class PointChart : IChartType
     /// <param name="pointIndex">Data point index</param>
     /// <param name="pointMarkerStyle">Marker Style</param>
     /// <param name="markerPosition">Marker Position</param>
-    private void SetHotRegions(CommonElements common, ChartGraphics graph, DataPoint point, SizeF markerSize, string seriesName, int pointIndex, MarkerStyle pointMarkerStyle, PointF markerPosition)
+    private static void SetHotRegions(CommonElements common, ChartGraphics graph, DataPoint point, SizeF markerSize, string seriesName, int pointIndex, MarkerStyle pointMarkerStyle, PointF markerPosition)
     {
 
         // Get relative marker size

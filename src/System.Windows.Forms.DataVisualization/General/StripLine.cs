@@ -448,7 +448,7 @@ public class StripLine : ChartElement
         // Draw strip on the back/front wall
         GraphicsPath path = graph.Fill3DRectangle(
             rect,
-            area.IsMainSceneWallOnFront() ? area.areaSceneDepth : 0f,
+            ChartArea.IsMainSceneWallOnFront() ? area.areaSceneDepth : 0f,
             0,
             area.matrix3D,
             area.Area3DStyle.LightStyle,
@@ -607,7 +607,7 @@ public class StripLine : ChartElement
         {
             // Get projection coordinates
             Point3D[] textSizeProjection = new Point3D[3];
-            zPositon = this.Axis.ChartArea.IsMainSceneWallOnFront() ? this.Axis.ChartArea.areaSceneDepth : 0f;
+            zPositon = ChartArea.IsMainSceneWallOnFront() ? this.Axis.ChartArea.areaSceneDepth : 0f;
             textSizeProjection[0] = new Point3D(0f, 0f, zPositon);
             textSizeProjection[1] = new Point3D(size.Width, 0f, zPositon);
             textSizeProjection[2] = new Point3D(0f, size.Height, zPositon);
@@ -616,7 +616,7 @@ public class StripLine : ChartElement
             this.Axis.ChartArea.matrix3D.TransformPoints(textSizeProjection);
 
             // Adjust text size
-            int index = this.Axis.ChartArea.IsMainSceneWallOnFront() ? 0 : 1;
+            int index = ChartArea.IsMainSceneWallOnFront() ? 0 : 1;
             float f = textSizeProjection[index].X - textSizeProjection[(index == 0) ? 1 : 0].X;
             if (Math.Abs(f) < 1)
                 f = f >= 0 ? 1 : -1;

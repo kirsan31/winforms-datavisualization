@@ -1161,7 +1161,7 @@ internal class FunnelChart : IChartType
 
                 // Draw path border
                 Pen pen = new Pen(point.BorderColor, point.BorderWidth);
-                pen.DashStyle = this.Graph.GetPenStyle(point.BorderDashStyle);
+                pen.DashStyle = ChartGraphics.GetPenStyle(point.BorderDashStyle);
                 if (point.BorderWidth == 0 ||
                     point.BorderDashStyle == ChartDashStyle.NotSet ||
                     point.BorderColor == Color.Empty)
@@ -2297,7 +2297,7 @@ internal class FunnelChart : IChartType
     /// Gets callout line color.
     /// </summary>
     /// <returns>Callout line color.</returns>
-    private Color GetCalloutLineColor(DataPointCustomProperties properties)
+    private static Color GetCalloutLineColor(DataPointCustomProperties properties)
     {
         // Set default gap size
         Color color = Color.Black;

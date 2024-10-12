@@ -541,7 +541,7 @@ public class DataManipulator : DataFormula
     /// <param name="fromXValue">Check intervals from this X value.</param>
     /// <param name="toXValue">Check intervals until this X value.</param>
     /// <param name="series">Series array.</param>
-    private void InsertEmptyPoints(
+    private static void InsertEmptyPoints(
         double interval,
         IntervalType intervalType,
         double intervalOffset,
@@ -713,7 +713,7 @@ public class DataManipulator : DataFormula
     /// </summary>
     /// <param name="type">Interval type value.</param>
     /// <returns>Date time interval type value.</returns>
-    private DateTimeIntervalType ConvertIntervalType(IntervalType type)
+    private static DateTimeIntervalType ConvertIntervalType(IntervalType type)
     {
         switch (type)
         {
@@ -1365,7 +1365,7 @@ public class DataManipulator : DataFormula
         {
             this._dataManipulator = dataManipulator;
             this._dateRange = dateRange;
-            this._rangeElements = dataManipulator.ConvertElementIndexesToArray(rangeElements);
+            this._rangeElements = ConvertElementIndexesToArray(rangeElements);
         }
 
         /// <summary>
@@ -1377,7 +1377,7 @@ public class DataManipulator : DataFormula
         /// <returns>Indicates that point should be filtered.</returns>
         public bool FilterDataPoint(DataPoint point, Series series, int pointIndex)
         {
-            return _dataManipulator.CheckFilterElementCriteria(
+            return CheckFilterElementCriteria(
                 this._dateRange,
                 this._rangeElements,
                 point);
@@ -1466,7 +1466,7 @@ public class DataManipulator : DataFormula
     /// </summary>
     /// <param name="rangeElements">Element indexes string. Ex:"3,5,6-9,15"</param>
     /// <returns>Array of integer indexes.</returns>
-    private int[] ConvertElementIndexesToArray(string rangeElements)
+    private static int[] ConvertElementIndexesToArray(string rangeElements)
     {
         // Split input string by comma
         string[] indexes = rangeElements.Split(',');
@@ -1540,7 +1540,7 @@ public class DataManipulator : DataFormula
     /// <param name="rangeElements">Array of element indexes ranges (pairs).</param>
     /// <param name="point">Data point to check.</param>
     /// <returns>True if point matches the criteria.</returns>
-    private bool CheckFilterElementCriteria(
+    private static bool CheckFilterElementCriteria(
         DateRangeType dateRange,
         int[] rangeElements,
         DataPoint point)
