@@ -1335,6 +1335,122 @@ public class Series : DataPointCustomProperties
         return result;
     }
 
+    /// <summary>
+    /// Helper function which replaces all #VAL (#VALX, #VAL, #VALY, #VALY1..#VALY32) keywords..
+    /// </summary>
+    /// <param name="dataPoint"><see cref="DataPoint"/> being formatted.</param>
+    /// <param name="strOriginal">Original string.</param>
+    /// <param name="startInd">The search starting position.</param>
+    /// <returns>Result string.</returns>
+    internal static string ReplaceVALKeywords(DataPoint dataPoint, string strOriginal, int startInd)
+    {
+        string result = strOriginal;
+        int keyIndex;
+        ChartValueType valueType;
+        double value;
+        bool xValIsstring = dataPoint.series.XValueType == ChartValueType.String;
+        while ((keyIndex = result.IndexOf(KeywordName.Val, startInd, StringComparison.Ordinal)) != -1)
+        {
+            // Get optional format
+            int keyEndIndex = keyIndex + KeywordName.Val.Length;
+            string format = string.Empty;
+            bool removeWrongY = false;
+            bool xVal = false;
+            if (result.Length > keyEndIndex)
+            {
+                char ch = result[keyEndIndex];
+                if (ch == 'Y') // #VALY
+                {
+                    keyEndIndex++;
+                    int yIndStart = -1;
+                    // Maximum number of supported Y values is 32.
+                    while (result.Length > keyEndIndex && char.IsDigit(result[keyEndIndex]))
+                    {
+                        if (yIndStart == -1)
+                            yIndStart = keyEndIndex;
+
+                        ++keyEndIndex;
+                    }
+
+                    int yInd;
+                    if (yIndStart > -1)
+                    {
+                        yInd = int.Parse(result.AsSpan(yIndStart, keyEndIndex - yIndStart), provider: CultureInfo.InvariantCulture);
+                        if (yInd > dataPoint.YValues.Length)
+                        {
+                            removeWrongY = true;
+                            yInd = 0; // this is just to not get IndexOutOfRangeException below
+                        }
+                        else if (yInd > 0)
+                        {
+                            yInd--;
+                        }
+                    }
+                    else
+                    {
+                        yInd = 0;
+                    }
+
+                    valueType = dataPoint.series.YValueType;
+                    value = dataPoint.YValues[yInd];
+                }
+                else if (ch == 'X') // #VALX
+                {
+                    ++keyEndIndex;
+                    valueType = dataPoint.series.XValueType;
+                    value = dataPoint.XValue;
+                    xVal = true;
+                }
+                else // #VAL
+                {
+                    valueType = dataPoint.series.YValueType;
+                    value = dataPoint.YValues[0];
+                }
+
+                if (result.Length > keyEndIndex && result[keyEndIndex] == '{')
+                {
+                    int formatEnd = result.IndexOf('}', keyEndIndex);
+                    if (formatEnd == -1)
+                        throw new InvalidOperationException(SR.ExceptionDataSeriesKeywordFormatInvalid(result));
+
+                    format = result[(keyEndIndex + 1)..formatEnd];
+                    keyEndIndex = formatEnd + 1; // index of the first char behind the '}'
+                }
+            }
+            else // #VAL keyword at the end of the string
+            {
+                valueType = dataPoint.series.YValueType;
+                value = dataPoint.YValues[0];
+            }
+
+            string val;
+            if (removeWrongY)
+                val = null;
+            else if (xValIsstring && xVal)
+                val = dataPoint.AxisLabel;
+            else
+                val = ValueConverter.FormatValue(dataPoint.Chart, dataPoint, dataPoint.Tag, value, format, valueType, ChartElementType.DataPoint);
+
+            if (!string.IsNullOrEmpty(val))
+            {
+                // Remove keyword string (with optional format) and insert value
+                ReadOnlySpan<char> resultSpan = result.AsSpan();
+                result = string.Concat(resultSpan[..keyIndex], val, resultSpan[keyEndIndex..]);
+                startInd = keyIndex + val.Length;
+            }
+            else
+            {
+                // Remove keyword string (with optional format)
+                result = result.Remove(keyIndex, keyEndIndex - keyIndex);
+                startInd = keyIndex;
+            }
+
+            if (startInd >= result.Length - 1)
+                break;
+        }
+
+        return result;
+    }
 
     #endregion
 

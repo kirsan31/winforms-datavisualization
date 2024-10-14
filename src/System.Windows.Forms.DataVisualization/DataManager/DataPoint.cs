@@ -2548,87 +2548,8 @@ public class DataPoint : DataPointCustomProperties
             if (result.Length <= startInd)
                 return result;
 
-            if ((startInd = result.IndexOf(KeywordName.Val, startInd, StringComparison.Ordinal)) != -1)
-            {
-                original = result;
-                if (this.series.XValueType == ChartValueType.String)
-                {
-                    result = result.Replace(KeywordName.ValX, this.AxisLabel);
-                }
-                else
-                {
-                    result = Series.ReplaceOneKeyword(
-                        this.Chart,
-                        this,
-                        this.Tag,
-                        ChartElementType.DataPoint,
-                        result,
-                        KeywordName.ValX,
-                        this.XValue,
-                        this.series.XValueType,
-                        string.Empty,
-                        startInd);
-                }
-
-                if (!ReferenceEquals(original, result))
-                {
-                    if (result.Length <= startInd || (result[startInd] != '#' && (startInd = result.IndexOf(KeywordName.Val, startInd, StringComparison.Ordinal)) == -1))
-                        return result;
-
-                    original = result;
-                }
-
-                // Need to iterate in revers order to correctly handle cases like #VALY11 and #VALY1
-                for (int index = this.YValues.Length; index > 0; index--)
-                {
-                    result = Series.ReplaceOneKeyword(
-                        this.Chart,
-                        this,
-                        this.Tag,
-                        ChartElementType.DataPoint,
-                        result,
-                        KeywordName.ValY + index,
-                        this.YValues[index - 1],
-                        this.series.YValueType,
-                        string.Empty,
-                        startInd);
-
-                    if (!ReferenceEquals(original, result))
-                    {
-                        if (result.Length <= startInd || (result[startInd] != '#' && (startInd = result.IndexOf(KeywordName.Val, startInd, StringComparison.Ordinal)) == -1))
-                            return result;
-
-                        original = result;
-                    }
-                }
-
-                result = Series.ReplaceOneKeyword(
-                    Chart,
-                    this,
-                    this.Tag,
-                    ChartElementType.DataPoint,
-                    result,
-                    KeywordName.ValY,
-                    this.YValues[0],
-                    this.series.YValueType,
-                    string.Empty,
-                    startInd);
-
-                if (result.Length <= startInd)
-                    return result;
-
-                result = Series.ReplaceOneKeyword(
-                    Chart,
-                    this,
-                    this.Tag,
-                    ChartElementType.DataPoint,
-                    result,
-                    KeywordName.Val,
-                    this.YValues[0],
-                    this.series.YValueType,
-                    string.Empty,
-                    startInd);
-            }
+            // Replace all #VAL (#VALX, #VAL, #VALY, #VALY1..#VALY32) keywords.
+            result = Series.ReplaceVALKeywords(this, result, startInd);
         }
 
         return result;
