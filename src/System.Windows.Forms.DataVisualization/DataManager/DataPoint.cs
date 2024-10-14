@@ -2481,7 +2481,7 @@ public class DataPoint : DataPointCustomProperties
     /// </summary>
     /// <param name="strOriginal">Original string with keywords.</param>
     /// <returns>Modified string.</returns>
-    internal override string ReplaceKeywords(string strOriginal)
+    internal string ReplaceKeywords(string strOriginal)
     {
         // Nothing to process
         if (string.IsNullOrEmpty(strOriginal))
@@ -2489,9 +2489,11 @@ public class DataPoint : DataPointCustomProperties
 
         // Replace all "\n" strings with '\n' character
         string result = strOriginal.Replace("\\n", "\n");
-        if (!result.Contains('#')) // No keywords
+        int startInd;
+        if ((startInd = result.IndexOf('#')) == -1) // No keywords
             return result;
 
+        string original = result;
         // #LABEL - point label
         result = result.Replace(KeywordName.Label, this.Label);
 
@@ -2501,17 +2503,34 @@ public class DataPoint : DataPointCustomProperties
         // #AXISLABEL - series name
         result = result.Replace(KeywordName.AxisLabel, this.AxisLabel);
 
-        // #CUSTOMPROPERTY - one of the custom properties by name
-        result = ReplaceCustomPropertyKeyword(result, this);
+        if (!ReferenceEquals(original, result))
+        {
+            if (result.Length <= startInd || (result[startInd] != '#' && (startInd = result.IndexOf('#', startInd)) == -1))
+                return result;
 
+            original = result;
+        }
+
+        // #CUSTOMPROPERTY - one of the custom properties by name
+        result = ReplaceCustomPropertyKeyword(result, this, startInd);
         if (this.series is not null)
         {
             // #INDEX - point index
             if (result.Contains(KeywordName.Index, StringComparison.Ordinal)) // on series with many points unnecessary Points.IndexOf hang up GUI :(
                 result = result.Replace(KeywordName.Index, this.series.Points.IndexOf(this).ToString(CultureInfo.InvariantCulture));
 
+            if (!ReferenceEquals(original, result))
+            {
+                if (result.Length <= startInd || (result[startInd] != '#' && (startInd = result.IndexOf('#', startInd)) == -1))
+                    return result;
+
+                original = result;
+            }
+
             // Replace series keywords
-            result = this.series.ReplaceKeywords(result);
+            result = this.series.ReplaceKeywords(result, startInd);
+            if (!ReferenceEquals(original, result) && (result.Length <= startInd || (result[startInd] != '#' && (startInd = result.IndexOf('#', startInd)) == -1)))
+                return result;
 
             // #PERCENT - percentage of Y value from total
             result = Series.ReplaceOneKeyword(
@@ -2523,37 +2542,44 @@ public class DataPoint : DataPointCustomProperties
                 KeywordName.Percent,
                 this.YValues[0] / this.series.GetTotalYValue(),
                 ChartValueType.Double,
-                "P");
+                "P",
+                startInd);
 
-            // #VAL[X] - point value X, Y, Y2, ...
-            if (this.series.XValueType == ChartValueType.String)
-            {
-                result = result.Replace(KeywordName.ValX, this.AxisLabel);
-            }
-            else
-            {
-                result = Series.ReplaceOneKeyword(
-                    this.Chart,
-                    this,
-                    this.Tag,
-                    ChartElementType.DataPoint,
-                    result,
-                    KeywordName.ValX,
-                    this.XValue,
-                    this.series.XValueType,
-                    string.Empty);
-            }
+            if (result.Length <= startInd)
+                return result;
 
-            if (result.Contains(KeywordName.ValY, StringComparison.Ordinal))
+            if ((startInd = result.IndexOf(KeywordName.Val, startInd, StringComparison.Ordinal)) != -1)
             {
-                // remove keywords #VALY? for non-existing Y value indexes
-                //for (int index = this.YValues.Length; index <= 7; index++)
-                //{
-                //    result = RemoveOneKeyword(result, KeywordName.ValY + index + 1);
-                //}
+                original = result;
+                if (this.series.XValueType == ChartValueType.String)
+                {
+                    result = result.Replace(KeywordName.ValX, this.AxisLabel);
+                }
+                else
+                {
+                    result = Series.ReplaceOneKeyword(
+                        this.Chart,
+                        this,
+                        this.Tag,
+                        ChartElementType.DataPoint,
+                        result,
+                        KeywordName.ValX,
+                        this.XValue,
+                        this.series.XValueType,
+                        string.Empty,
+                        startInd);
+                }
+
+                if (!ReferenceEquals(original, result))
+                {
+                    if (result.Length <= startInd || (result[startInd] != '#' && (startInd = result.IndexOf(KeywordName.Val, startInd, StringComparison.Ordinal)) == -1))
+                        return result;
+
+                    original = result;
+                }
 
                 // Need to iterate in revers order to correctly handle cases like #VALY11 and #VALY1
-                for (int index = this.YValues.Length; index >= 1; index--)
+                for (int index = this.YValues.Length; index > 0; index--)
                 {
                     result = Series.ReplaceOneKeyword(
                         this.Chart,
@@ -2564,7 +2590,16 @@ public class DataPoint : DataPointCustomProperties
                         KeywordName.ValY + index,
                         this.YValues[index - 1],
                         this.series.YValueType,
-                        string.Empty);
+                        string.Empty,
+                        startInd);
+
+                    if (!ReferenceEquals(original, result))
+                    {
+                        if (result.Length <= startInd || (result[startInd] != '#' && (startInd = result.IndexOf(KeywordName.Val, startInd, StringComparison.Ordinal)) == -1))
+                            return result;
+
+                        original = result;
+                    }
                 }
 
                 result = Series.ReplaceOneKeyword(
@@ -2576,77 +2611,46 @@ public class DataPoint : DataPointCustomProperties
                     KeywordName.ValY,
                     this.YValues[0],
                     this.series.YValueType,
-                    string.Empty);
-            }
+                    string.Empty,
+                    startInd);
 
-            result = Series.ReplaceOneKeyword(
-                Chart,
-                this,
-                this.Tag,
-                ChartElementType.DataPoint,
-                result,
-                KeywordName.Val,
-                this.YValues[0],
-                this.series.YValueType,
-                string.Empty);
-        }
+                if (result.Length <= startInd)
+                    return result;
 
-        return result;
-    }
-
-    /// <summary>
-    /// Removes one keyword from format string.
-    /// </summary>
-    /// <param name="strOriginal">Original format string</param>
-    /// <param name="keyword">The keyword</param>
-    /// <returns>Modified format string</returns>
-    private static string RemoveOneKeyword(string strOriginal, string keyword)
-    {
-        string result = strOriginal;
-        int keyIndex;
-        while ((keyIndex = result.IndexOf(keyword, StringComparison.Ordinal)) != -1)
-        {
-            // Get optional format
-            int keyEndIndex = keyIndex + keyword.Length;
-            if (result.Length > keyEndIndex && result[keyEndIndex] == '{')
-            {
-                int formatEnd = result.IndexOf('}', keyEndIndex);
-                if (formatEnd == -1)
-                {
-                    throw new InvalidOperationException(SR.ExceptionDataSeriesKeywordFormatInvalid(result));
-                }
-
-                keyEndIndex = formatEnd + 1;
-            }
-
-            // Remove keyword string (with optional format)
-            result = result.Remove(keyIndex, keyEndIndex - keyIndex);
-            var strToReplace = SR.FormatErrorString;
-            if (!string.IsNullOrEmpty(strToReplace))
-            {
-                result = result.Insert(keyIndex, strToReplace);
+                result = Series.ReplaceOneKeyword(
+                    Chart,
+                    this,
+                    this.Tag,
+                    ChartElementType.DataPoint,
+                    result,
+                    KeywordName.Val,
+                    this.YValues[0],
+                    this.series.YValueType,
+                    string.Empty,
+                    startInd);
             }
         }
 
         return result;
     }
 
-
     /// <summary>
-    /// Replaces all "#CUSTOMPROPERTY(XXX)" (where XXX is the custom attribute name) 
-    /// keywords in the string provided. 
+    /// Replaces all "#CUSTOMPROPERTY(XXX)" (where XXX is the custom attribute name)
+    /// keywords in the string provided.
     /// </summary>
     /// <param name="originalString">String where the keyword need to be replaced.</param>
     /// <param name="properties">DataPoint or Series properties class.</param>
-    /// <returns>Converted string.</returns>
-    internal static string ReplaceCustomPropertyKeyword(string originalString, DataPointCustomProperties properties)
+    /// <param name="startInd">The search starting position.</param>
+    /// <returns>
+    /// Converted string.
+    /// </returns>
+    internal static string ReplaceCustomPropertyKeyword(string originalString, DataPointCustomProperties properties, int startInd)
     {
         string result = originalString;
         int keyStartIndex;
-        while ((keyStartIndex = result.IndexOf(KeywordName.CustomProperty, StringComparison.Ordinal)) >= 0)
+        while ((keyStartIndex = result.IndexOf(KeywordName.CustomProperty, startInd, StringComparison.Ordinal)) >= 0)
         {
             string attributeValue = string.Empty;
-
             // Forward to the end of the keyword
             int keyEndIndex = keyStartIndex + KeywordName.CustomProperty.Length;
 
@@ -2660,7 +2664,7 @@ public class DataPoint : DataPointCustomProperties
                 int closingBracketIndex = result.IndexOf(')', keyEndIndex);
                 if (closingBracketIndex >= keyEndIndex)
                 {
-                    keyEndIndex = closingBracketIndex + 1;
+                    keyEndIndex = closingBracketIndex + 1; // index of the first char behind the ')'
                     string attributeName = result.Substring(attributeNameStartIndex, keyEndIndex - attributeNameStartIndex - 1);
 
                     // Get attribute value
@@ -2674,12 +2678,22 @@ public class DataPoint : DataPointCustomProperties
                 }
             }
 
-            // Remove keyword string with attribute name
-            result = result.Remove(keyStartIndex, keyEndIndex - keyStartIndex);
-
-            // Insert value of the custom attribute
             if (!string.IsNullOrEmpty(attributeValue))
-                result = result.Insert(keyStartIndex, attributeValue);
+            {
+                // Remove keyword string with attribute name and insert value of the custom attribute
+                ReadOnlySpan<char> resultSpan = result.AsSpan();
+                result = string.Concat(resultSpan[..keyStartIndex], attributeValue, resultSpan[keyEndIndex..]);
+                startInd = keyStartIndex + attributeValue.Length;
+            }
+            else
+            {
+                // Remove keyword string with attribute name
+                result = result.Remove(keyStartIndex, keyEndIndex - keyStartIndex);
+                startInd = keyStartIndex;
+            }
+
+            if (startInd >= result.Length - 1)
+                break;
         }
 
         return result;
@@ -4689,16 +4703,6 @@ public class DataPointCustomProperties : ChartNamedElement
                 return series.toolTip;
             }
         }
-    }
-
-    /// <summary>
-    /// Replaces predefined keyword inside the string with their values.
-    /// </summary>
-    /// <param name="strOriginal">Original string with keywords.</param>
-    /// <returns>Modified string.</returns>
-    internal virtual string ReplaceKeywords(string strOriginal)
-    {
-        return strOriginal;
     }
 
     #endregion
