@@ -1051,18 +1051,28 @@ internal class ErrorBarChart : IChartType
             string attribValue;
             if ((attribValue = ser.TryGetCustomProperty(CustomPropertyName.ErrorBarSeries)) is not null) // Get series name
             {
+#if NET9_0_OR_GREATER
+                ReadOnlySpan<char> errorBarSeries;
                 int valueTypeIndex = attribValue.IndexOf(':');
-                if (valueTypeIndex >= 0)
-                    attribValue = attribValue[..valueTypeIndex];
-
+                if (valueTypeIndex > -1)
+                    errorBarSeries = attribValue.AsSpan(0, valueTypeIndex);
+                else
+                    errorBarSeries = attribValue.AsSpan();
+#else
+                string errorBarSeries;
+                int valueTypeIndex = attribValue.IndexOf(':');
+                if (valueTypeIndex > -1)
+                    errorBarSeries = attribValue[..valueTypeIndex];
+                else
+                    errorBarSeries = attribValue;
+#endif
                 // All linked data series from chart area which have Error bar chart type
-                string linkedSeriesChartType = common.DataManager.Series[attribValue].ChartTypeName;
+                string linkedSeriesChartType = common.DataManager.Series[errorBarSeries].ChartTypeName;
                 List<string> typeLinkedSeries = area.GetSeriesFromChartType(linkedSeriesChartType);
-
                 // Get index of linked series
                 foreach (string name in typeLinkedSeries)
                 {
-                    if (name == attribValue)
+                    if (name == errorBarSeries)
                         break;
 
                     ++indexOfLinkedSeries;
@@ -1710,10 +1720,8 @@ internal class ErrorBarChart : IChartType
     internal static void GetDataFromLinkedSeries(Series errorBarSeries)
     {
         // Check input parameters
-        if (!string.Equals(errorBarSeries.ChartTypeName, ChartTypeNames.ErrorBar, StringComparison.OrdinalIgnoreCase) || errorBarSeries.Chart == null)
-        {
+        if (!string.Equals(errorBarSeries.ChartTypeName, ChartTypeNames.ErrorBar, StringComparison.OrdinalIgnoreCase) || errorBarSeries.Chart is null)
             return;
-        }
 
         // Check if "ErrorBarSeries" custom attribute is set
         string linkedSeriesName;
@@ -1721,36 +1729,46 @@ internal class ErrorBarChart : IChartType
             return;
 
         // Get series and value name
-        string valueName = "Y";
-        int valueTypeIndex = linkedSeriesName.IndexOf(':');
-        if (valueTypeIndex >= 0)
+        ReadOnlySpan<char> valueName;
+        ReadOnlySpan<char> linkedSeriesNameSpan = linkedSeriesName.AsSpan();
+        int valueTypeIndex = linkedSeriesNameSpan.IndexOf(':');
+        if (valueTypeIndex > -1)
         {
-            valueName = linkedSeriesName[(valueTypeIndex + 1)..];
-            linkedSeriesName = linkedSeriesName[..valueTypeIndex];
+            valueName = linkedSeriesNameSpan[(valueTypeIndex + 1)..];
+            linkedSeriesNameSpan = linkedSeriesNameSpan[..valueTypeIndex];
+        }
+        else
+        {
+            valueName = ['Y'];
         }
 
         // Get reference to the chart control
         Chart control = errorBarSeries.Chart;
-        if (control is not null)
+        // Get linked series and check existence
+#if NET9_0_OR_GREATER
+        if (control.Series.IndexOf(linkedSeriesNameSpan) == -1)
+            throw new InvalidOperationException(SR.ExceptionDataSeriesNameNotFound(linkedSeriesNameSpan.ToString()));
+
+        Series linkedSeries = control.Series[linkedSeriesNameSpan];
+#else
+        if (linkedSeriesName.Length != linkedSeriesNameSpan.Length)
+            linkedSeriesName = linkedSeriesNameSpan.ToString();
+
+        if (control.Series.IndexOf(linkedSeriesName) == -1)
+            throw new InvalidOperationException(SR.ExceptionDataSeriesNameNotFound(linkedSeriesName));
+
+        Series linkedSeries = control.Series[linkedSeriesName];
+#endif
+        // Make sure we use the same X and Y axis as the linked series
+        errorBarSeries.XAxisType = linkedSeries.XAxisType;
+        errorBarSeries.YAxisType = linkedSeries.YAxisType;
+
+        // Get center values from the linked series
+        errorBarSeries.Points.Clear();
+        foreach (DataPoint point in linkedSeries.Points)
         {
-            // Get linked series and check existence
-            if (control.Series.IndexOf(linkedSeriesName) == -1)
-            {
-                throw new InvalidOperationException(SR.ExceptionDataSeriesNameNotFound(linkedSeriesName));
-            }
-
-            Series linkedSeries = control.Series[linkedSeriesName];
-            // Make sure we use the same X and Y axis as the linked series
-            errorBarSeries.XAxisType = linkedSeries.XAxisType;
-            errorBarSeries.YAxisType = linkedSeries.YAxisType;
-
-            // Get center values from the linked series
-            errorBarSeries.Points.Clear();
-            foreach (DataPoint point in linkedSeries.Points)
-            {
-                // Add new point into the collection
-                errorBarSeries.Points.AddXY(point.XValue, point.GetValueByName(valueName));
-            }
+            // Add new point into the collection
+            errorBarSeries.Points.AddXY(point.XValue, point.GetValueByName(valueName));
         }
     }
 

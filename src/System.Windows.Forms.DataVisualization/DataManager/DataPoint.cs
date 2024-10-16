@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Globalization;
@@ -1711,8 +1710,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
     /// <returns>Datapoint with the Min value.</returns>
     public DataPoint FindMinByValue(string useValue, int startIndex)
     {
-        if (useValue == null)
-            throw new ArgumentNullException(nameof(useValue));
+        ArgumentNullException.ThrowIfNull(useValue);
         if (startIndex < 0 || startIndex >= this.Count)
             throw new ArgumentOutOfRangeException(nameof(startIndex));
 
@@ -1729,7 +1727,6 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                 continue;
 
             double pointValue = point.GetValueByName(useValue);
-
             if (minValue > pointValue)
             {
                 minValue = pointValue;
@@ -2433,10 +2430,22 @@ public class DataPoint : DataPointCustomProperties
     public double GetValueByName(string valueName)
     {
         // Check arguments
-        if (string.IsNullOrEmpty(valueName))
+        ArgumentNullException.ThrowIfNull(valueName);
+        return GetValueByName(valueName.AsSpan());
+    }
+
+    /// <summary>
+    /// Helper function, which returns point value by it's name.
+    /// </summary>
+    /// <param name="valueName">Point value names. X, Y, Y2,...</param>
+    /// <returns>Point value.</returns>
+    public double GetValueByName(ReadOnlySpan<char> valueName)
+    {
+        // Check arguments
+        if (valueName.IsEmpty)
             throw new ArgumentNullException(nameof(valueName));
-        
-        if (string.Equals(valueName, "X", StringComparison.OrdinalIgnoreCase))
+
+        if (valueName.Equals("X", StringComparison.OrdinalIgnoreCase))
             return this.XValue;
 
         if (valueName.StartsWith("Y", StringComparison.OrdinalIgnoreCase))
@@ -2450,7 +2459,7 @@ public class DataPoint : DataPointCustomProperties
                 int yIndex;
                 try
                 {
-                    yIndex = int.Parse(valueName.AsSpan(1), provider: CultureInfo.InvariantCulture) - 1;
+                    yIndex = int.Parse(valueName[1..], provider: CultureInfo.InvariantCulture) - 1;
                 }
                 catch (Exception)
                 {
@@ -2586,8 +2595,11 @@ public class DataPoint : DataPointCustomProperties
                 if (closingBracketIndex >= keyEndIndex)
                 {
                     keyEndIndex = closingBracketIndex + 1; // index of the first char behind the ')'
-                    string attributeName = result.Substring(attributeNameStartIndex, keyEndIndex - attributeNameStartIndex - 1);
-
+#if NET9_0_OR_GREATER
+                    ReadOnlySpan<char> attributeName = result.AsSpan(attributeNameStartIndex, keyEndIndex - attributeNameStartIndex - 1);
+#else
+                    string attributeName = result[attributeNameStartIndex..(keyEndIndex - 1)];
+#endif
                     // Get attribute value
                     attributeValue = properties[attributeName];
                     ////////////////////////////
@@ -2781,6 +2793,9 @@ public class DataPointCustomProperties : ChartNamedElement
     /// Storage for string based custom properties - other than <see cref="CommonCustomProperties"/>.
     /// </summary>
     internal Dictionary<string, string> customProperties = [];
+#if NET9_0_OR_GREATER
+    private Dictionary<string, string>.AlternateLookup<ReadOnlySpan<char>> _customPropertiesSpanLookup;
+#endif
     /// <summary>
     /// Storage for <see cref="CommonCustomProperties"/>.
     /// </summary>
@@ -2813,6 +2828,9 @@ public class DataPointCustomProperties : ChartNamedElement
         // Initialize the data series
         this.series = null;
         this._designCustomProperties = new CustomProperties(this);
+#if NET9_0_OR_GREATER
+        _customPropertiesSpanLookup = customProperties.GetAlternateLookup<ReadOnlySpan<char>>();
+#endif
     }
 
     /// <summary>
@@ -2826,6 +2844,9 @@ public class DataPointCustomProperties : ChartNamedElement
         this.series = series;
         this.pointCustomProperties = pointProperties;
         this._designCustomProperties = new CustomProperties(this);
+#if NET9_0_OR_GREATER
+        _customPropertiesSpanLookup = customProperties.GetAlternateLookup<ReadOnlySpan<char>>();
+#endif
     }
 
     #endregion
@@ -2841,6 +2862,18 @@ public class DataPointCustomProperties : ChartNamedElement
     {
         return customProperties.ContainsKey(name);
     }
+
+#if NET9_0_OR_GREATER
+    /// <summary>
+    /// Checks if custom property with specified name was set.
+    /// </summary>
+    /// <param name="name">Name of the custom property to check.</param>
+    /// <returns>True if custom property was set.</returns>
+    public virtual bool IsCustomPropertySet(ReadOnlySpan<char> name)
+    {
+        return _customPropertiesSpanLookup.ContainsKey(name);
+    }
+#endif
 
     /// <summary>
     /// Checks if the specified custom property was set.
@@ -2875,6 +2908,20 @@ public class DataPointCustomProperties : ChartNamedElement
         customProperties.Remove(name);
     }
 
+#if NET9_0_OR_GREATER
+    /// <summary>
+    /// Delete the data point custom property with the specified name.
+    /// </summary>
+    /// <param name="name">Name of the property to delete.</param>
+    public virtual void DeleteCustomProperty(ReadOnlySpan<char> name)
+    {
+        if (name.IsEmpty)
+            throw new ArgumentNullException(SR.ExceptionAttributeNameIsEmpty);
+
+        _customPropertiesSpanLookup.Remove(name);
+    }
+#endif
+
     /// <summary>
     /// Delete Data Point attribute with specified name.
     /// </summary>
@@ -2894,8 +2941,8 @@ public class DataPointCustomProperties : ChartNamedElement
     /// </summary>
     /// <param name="name">Name of the property to get.</param>
     /// <returns>Returns the data point or series custom property with the specified name. If the requested one is not set then:<br/>
-    /// If this is series custom property <see langword="null" /> will be returned.<br/>
-    /// If this is data point custom property, properties from it's series will be returned if it exists and we are not in serialization process or the default custom property of the data series otherwise.
+    /// If this is a series custom property - <see langword="null" /> will be returned.<br/>
+    /// If this is a data point custom property, properties of it's series will be returned if it exists and we are not in serialization process or the default custom property of the data series otherwise.
     /// And <see langword="null" /> if not found.</returns>
     public virtual string GetCustomProperty(string name)
     {
@@ -2923,6 +2970,42 @@ public class DataPointCustomProperties : ChartNamedElement
         }
     }
 
+#if NET9_0_OR_GREATER
+    /// <summary>
+    /// Gets the data point or series custom property with the specified name.
+    /// </summary>
+    /// <param name="name">Name of the property to get.</param>
+    /// <returns>Returns the data point or series custom property with the specified name. If the requested one is not set then:<br/>
+    /// If this is a series custom property - <see langword="null" /> will be returned.<br/>
+    /// If this is a data point custom property, properties of it's series will be returned if it exists and we are not in serialization process or the default custom property of the data series otherwise.
+    /// And <see langword="null" /> if not found.</returns>
+    public virtual string GetCustomProperty(ReadOnlySpan<char> name)
+    {
+        if (_customPropertiesSpanLookup.TryGetValue(name, out var res) || !this.pointCustomProperties)
+            return res;
+
+        // Check if we are in serialization mode
+        if (!IsSerializing()) // Get data point properties from series
+        {
+            if (this.isEmptyPoint)
+            {
+                // Return empty point properties from series
+                series.EmptyPointStyle._customPropertiesSpanLookup.TryGetValue(name, out res);
+                return res;
+            }
+
+            // Return properties from series
+            series._customPropertiesSpanLookup.TryGetValue(name, out res);
+            return res;
+        }
+        else // Return default data point properties
+        {
+            Series.defaultCustomProperties._customPropertiesSpanLookup.TryGetValue(name, out res);
+            return res;
+        }
+    }
+#endif
+
     /// <summary>
     /// Gets the data point or series custom property with the specified name if it was set.
     /// </summary>
@@ -2933,6 +3016,19 @@ public class DataPointCustomProperties : ChartNamedElement
         customProperties.TryGetValue(name, out var res);
         return res;
     }
+
+#if NET9_0_OR_GREATER
+    /// <summary>
+    /// Gets the data point or series custom property with the specified name if it was set.
+    /// </summary>
+    /// <param name="name">Name of the property to get.</param>
+    /// <returns>Returns the data point or series custom property with the specified name. <see langword="null" /> if was not set.</returns>
+    public virtual string TryGetCustomProperty(ReadOnlySpan<char> name)
+    {
+        _customPropertiesSpanLookup.TryGetValue(name, out var res);
+        return res;
+    }
+#endif
 
 
     /// <summary>
@@ -2991,6 +3087,22 @@ public class DataPointCustomProperties : ChartNamedElement
 
         customProperties[name] = propertyValue ?? string.Empty;
     }
+
+#if NET9_0_OR_GREATER
+    /// <summary>
+    /// Sets a custom property of the data point.
+    /// </summary>
+    /// <param name="name">Property name.</param>
+    /// <param name="propertyValue">Property value.</param>
+    /// <exception cref="System.ArgumentNullException"></exception>
+    public virtual void SetCustomProperty(ReadOnlySpan<char> name, string propertyValue)
+    {
+        if (name.IsEmpty)
+            throw new ArgumentNullException(SR.ExceptionAttributeNameIsEmpty);
+
+        _customPropertiesSpanLookup[name] = propertyValue ?? string.Empty;
+    }
+#endif
 
     /// <summary>
     /// Sets an attribute of the Data Point as an object. 
@@ -3117,16 +3229,17 @@ public class DataPointCustomProperties : ChartNamedElement
         }
     }
 
-    #endregion
+#endregion
 
     #region	DataPointCustomProperties Properties
 
     /// <summary>
-    /// Indexer of the custom properties. Gets / sets the data point or series custom property with the specified name.
+    /// Indexer of the custom properties. Gets / sets the data point or series custom property with the specified name.<br />
+    /// [Get] if the requested one is not set then:<br />
+    /// If this is a series custom property - <see langword="null" /> will be returned.<br />
+    /// If this is a data point custom property - property of it's series will be returned if it exists. And <see langword="null" /> if not found.
     /// </summary>
-    /// <returns>Returns the data point or series custom property with the specified name. If the requested one is not set then:<br/>
-    /// If this is series custom property <see langword="null" /> will be returned.<br/>
-    /// If this is data point custom property, properties from it's series will be returned if it exists. And <see langword="null" /> if not found.</returns>
+    /// <param name="name">Name of the property</param>
     /// <exception cref="System.ArgumentNullException"></exception>
     public string this[string name]
     {
@@ -3157,6 +3270,46 @@ public class DataPointCustomProperties : ChartNamedElement
             this.Invalidate(true);
         }
     }
+
+#if NET9_0_OR_GREATER
+    /// <summary>
+    /// Indexer of the custom properties. Gets / sets the data point or series custom property with the specified name.<br/>
+    /// [Get] if the requested one is not set then:<br />
+    /// If this is a series custom property - <see langword="null" /> will be returned.<br />
+    /// If this is a data point custom property - property of it's series will be returned if it exists. And <see langword="null" /> if not found.
+    /// </summary>
+    /// <param name="name">Name of the property</param>
+    /// <exception cref="System.ArgumentNullException"></exception>
+    public string this[ReadOnlySpan<char> name]
+    {
+        get
+        {
+            if (_customPropertiesSpanLookup.TryGetValue(name, out var res))
+                return res;
+
+            // If attribute is not set in data point - try getting it from the series
+            if (this.pointCustomProperties && series is not null)
+            {
+                if (this.isEmptyPoint)
+                {
+                    series.EmptyPointStyle._customPropertiesSpanLookup.TryGetValue(name, out res);
+                    return res;
+                }
+
+                series._customPropertiesSpanLookup.TryGetValue(name, out res);
+                return res;
+            }
+
+            return null;
+        }
+
+        set
+        {
+            SetCustomProperty(name, value);
+            this.Invalidate(true);
+        }
+    }
+#endif
 
     /// <summary>
     /// The text of the data point label.
@@ -4568,6 +4721,9 @@ public class DataPointCustomProperties : ChartNamedElement
             }
 
             customProperties = newAttributes;
+#if NET9_0_OR_GREATER
+            _customPropertiesSpanLookup = customProperties.GetAlternateLookup<ReadOnlySpan<char>>();
+#endif
             this.Invalidate(true);
         }
     }

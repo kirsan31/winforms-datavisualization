@@ -1530,31 +1530,61 @@ internal class BoxPlotChart : IChartType
         {
             DataPoint point = boxPlotSeries.Points[pointIndex];
             attr = point.TryGetCustomProperty(CustomPropertyName.BoxPlotSeries);
-            if (attr is not null)
+            if (attr is null)
+                continue;
+
+#if NET9_0_OR_GREATER
+            // Get series and value name
+            ReadOnlySpan<char> valueName;
+            ReadOnlySpan<char> attrSpan = attr.AsSpan();
+            int valueTypeIndex = attrSpan.IndexOf(':');
+            if (valueTypeIndex >= 0)
             {
-                // Get series and value name
-                string valueName = "Y";
-                int valueTypeIndex = attr.IndexOf(':');
-                if (valueTypeIndex >= 0)
-                {
-                    valueName = attr[(valueTypeIndex + 1)..];
-                    attr = attr[..valueTypeIndex];
-                }
-
-                // Get reference to the chart control
-                Chart control = boxPlotSeries.Chart;
-                if (control is not null)
-                {
-                    // Get linked series and check existence
-                    if (control.Series.IndexOf(attr) == -1)
-                    {
-                        throw new InvalidOperationException(SR.ExceptionCustomAttributeSeriesNameNotFound("BoxPlotSeries", attr));
-                    }
-
-                    // Calculate box point values
-                    CalculateBoxPlotValues(ref point, control.Series[attr], valueName);
-                }
+                valueName = attrSpan[(valueTypeIndex + 1)..];
+                attrSpan = attrSpan[..valueTypeIndex];
             }
+            else
+            {
+                valueName = ['Y'];
+            }
+
+            // Get reference to the chart control
+            Chart control = boxPlotSeries.Chart;
+            if (control is not null)
+            {
+                // Get linked series and check existence
+                if (control.Series.IndexOf(attrSpan) == -1)
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeSeriesNameNotFound("BoxPlotSeries", attrSpan.ToString()));
+
+                // Calculate box point values
+                CalculateBoxPlotValues(ref point, control.Series[attrSpan], valueName);
+            }
+#else
+            // Get series and value name
+            string valueName;
+            int valueTypeIndex = attr.IndexOf(':');
+            if (valueTypeIndex >= 0)
+            {
+                valueName = attr[(valueTypeIndex + 1)..];
+                attr = attr[..valueTypeIndex];
+            }
+            else
+            {
+                valueName = "Y";
+            }
+
+            // Get reference to the chart control
+            Chart control = boxPlotSeries.Chart;
+            if (control is not null)
+            {
+                // Get linked series and check existence
+                if (control.Series.IndexOf(attr) == -1)
+                    throw new InvalidOperationException(SR.ExceptionCustomAttributeSeriesNameNotFound("BoxPlotSeries", attr));
+
+                // Calculate box point values
+                CalculateBoxPlotValues(ref point, control.Series[attr], valueName);
+            }
+#endif
         }
     }
 
@@ -1564,7 +1594,11 @@ internal class BoxPlotChart : IChartType
     /// <param name="boxPoint">Data Point.</param>
     /// <param name="linkedSeries">Linked data series.</param>
     /// <param name="valueName">Name of the point value to link to.</param>
+#if NET9_0_OR_GREATER
+    private static void CalculateBoxPlotValues(ref DataPoint boxPoint, Series linkedSeries, ReadOnlySpan<char> valueName)
+#else
     private static void CalculateBoxPlotValues(ref DataPoint boxPoint, Series linkedSeries, string valueName)
+#endif
     {
         // Linked series must be non-empty
         if (linkedSeries.Points.Count == 0)
@@ -1755,7 +1789,7 @@ internal class BoxPlotChart : IChartType
         return result;
     }
 
-    #endregion
+#endregion
 
     #region SmartLabelStyle methods
 

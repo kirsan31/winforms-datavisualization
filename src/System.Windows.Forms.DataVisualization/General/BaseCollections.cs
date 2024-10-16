@@ -260,6 +260,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         private List<T> _cachedState;
         private int _disableDeleteCount;
         private readonly Dictionary<string, int> _nameIdxDic = [];
+#if NET9_0_OR_GREATER
+        private readonly Dictionary<string, int>.AlternateLookup<ReadOnlySpan<char>> _nameIdxDicSpanLookup;
+#endif
 
         #endregion Fields
 
@@ -276,7 +279,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         /// <summary>
         /// Gets or sets the chart element with the specified name.<br/>
-        /// This method approaches an O(1) operation.
+        /// GET approaches an O(1) operation.
         /// </summary>
         /// <value></value>
         public T this[string name]
@@ -317,6 +320,51 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
         }
 
+#if NET9_0_OR_GREATER
+        /// <summary>
+        /// Gets or sets the chart element with the specified name.<br/>
+        /// GET approaches an O(1) operation.
+        /// </summary>
+        /// <value></value>
+        public T this[ReadOnlySpan<char> name]
+        {
+            get
+            {
+                int index = this.IndexOf(name);
+                if (index != -1)
+                {
+                    try
+                    {
+                        return this[index];
+                    }
+                    catch (ArgumentOutOfRangeException ex)
+                    {
+                        throw new ArgumentException(SR.ExceptionNameNotFound(name.ToString(), this.GetType().Name), ex);
+                    }
+                }
+
+                throw new ArgumentException(SR.ExceptionNameNotFound(name.ToString(), this.GetType().Name));
+            }
+
+            set
+            {
+                int nameIndex = this.IndexOf(name);
+                int itemIndex = this.IndexOf(value);
+                bool nameFound = nameIndex > -1;
+                bool itemFound = itemIndex > -1;
+
+                if (!nameFound && !itemFound)
+                    this.Add(value);
+                else if (nameFound && !itemFound)
+                    this[nameIndex] = value;
+                else if (!nameFound && itemFound)
+                    throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(name.ToString(), this.GetType().Name));
+                else if (nameFound && itemFound && nameIndex != itemIndex)
+                    throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(name.ToString(), this.GetType().Name));
+            }
+        }
+#endif
+
         #endregion Properties
 
         #region Constructors
@@ -328,6 +376,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         internal ChartNamedElementCollection(IChartElement parent)
             : base(parent)
         {
+#if NET9_0_OR_GREATER
+            _nameIdxDicSpanLookup = _nameIdxDic.GetAlternateLookup<ReadOnlySpan<char>>();
+#endif
         }
 
         #endregion Constructors
@@ -387,6 +438,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
             return -1;
         }
+
+#if NET9_0_OR_GREATER
+        /// <summary>
+        /// Indexes the of chart element with the specified name.<br/>
+        /// This method approaches an O(1) operation.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        public int IndexOf(ReadOnlySpan<char> name)
+        {
+            if (_nameIdxDicSpanLookup.TryGetValue(name, out var index))
+                return index;
+
+            return -1;
+        }
+#endif
 
         /// <summary>
         /// Verifies the name reference to a chart named element stored in this collection and throws the argument exception if its not valid.
