@@ -1028,19 +1028,14 @@ internal abstract class SerializerBase
         // throws SecurityException or MethodAccessException when the converter class is internal.
         // Thats why we have this giant if - elseif here - to create type converters without reflection.
         if (_converterDict.Contains(attr.ConverterTypeName))
-        {
             return (TypeConverter)_converterDict[attr.ConverterTypeName];
-        }
 
-        string typeStr = attr.ConverterTypeName;
-
-        if (attr.ConverterTypeName.Contains(','))
-        {
-            typeStr = attr.ConverterTypeName.Split(',')[0];
-        }
+        ReadOnlySpan<char> typeStr = attr.ConverterTypeName.AsSpan();
+        int ind;
+        if ((ind = typeStr.IndexOf(',')) > -1)
+            typeStr = typeStr[..ind];
 
         TypeConverter result = null;
-
         if (typeStr.EndsWith(".CustomPropertiesTypeConverter", StringComparison.OrdinalIgnoreCase)) { result = new CustomPropertiesTypeConverter(); }
         else if (typeStr.EndsWith(".DoubleNanValueConverter", StringComparison.OrdinalIgnoreCase)) { result = new DoubleNanValueConverter(); }
         else if (typeStr.EndsWith(".DoubleDateNanValueConverter", StringComparison.OrdinalIgnoreCase)) { result = new DoubleDateNanValueConverter(); }
@@ -1072,7 +1067,8 @@ internal abstract class SerializerBase
         else if (typeStr.EndsWith(".AnchorPointValueConverter", StringComparison.OrdinalIgnoreCase)) { result = new AnchorPointValueConverter(); }
         else if (typeStr.EndsWith(".AnnotationAxisValueConverter", StringComparison.OrdinalIgnoreCase)) { result = new AnnotationAxisValueConverter(); }
 
-        if (result != null) _converterDict[attr.ConverterTypeName] = result;
+        if (result is not null)
+            _converterDict[attr.ConverterTypeName] = result;
 
         return result;
     }

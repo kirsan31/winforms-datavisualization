@@ -491,6 +491,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return null;
         }
 
+#if NET9_0_OR_GREATER
+        /// <summary>
+        /// Finds the chart element by the name.<br/>
+        /// This method approaches an O(1) operation.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        public virtual T FindByName(ReadOnlySpan<char> name)
+        {
+            int idx = IndexOf(name);
+            if (idx > -1)
+                return this[idx];
+
+            return null;
+        }
+#endif
+
         /// <summary>
         /// Inserts the specified item in the collection at the specified index.
         /// </summary>
