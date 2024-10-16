@@ -188,7 +188,11 @@ internal sealed class KagiChart : StepLineChart
             }
 
             // Get original Kagi series
+#if NET9_0_OR_GREATER
+            Series kagiSeries = chart.Series[series.Name.AsSpan(19)];
+#else
             Series kagiSeries = chart.Series[series.Name[19..]];
+#endif
             Series.MovePositionMarkers(kagiSeries, series);
             // Copy data back to original Kagi series
             kagiSeries.Points.Clear();

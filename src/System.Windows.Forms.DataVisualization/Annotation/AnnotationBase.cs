@@ -3111,7 +3111,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     int separatorIndex = axisName.IndexOf("\\r", StringComparison.Ordinal);
                     if (separatorIndex > 0)
                     {
+#if NET9_0_OR_GREATER
+                        ReadOnlySpan<char> areaName = axisName[..separatorIndex];
+#else
                         string areaName = axisName[..separatorIndex].ToString();
+#endif
                         switch (Enum.Parse<AxisName>(axisName[(separatorIndex + 2)..]))
                         {
                             case AxisName.X:
@@ -3172,7 +3176,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
             return string.Empty;
         }
 
-        #endregion
+    #endregion
 
         #region Z Order Methods
 
@@ -4036,7 +4040,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion
 
-        #endregion
+    #endregion
     }
 
     /// <summary>

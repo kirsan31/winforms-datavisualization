@@ -457,8 +457,11 @@ internal class PieChart : IChartType
             }
 
             // Get original Renko series
+#if NET9_0_OR_GREATER
+            Series pieSeries = chart.Series[series.Name.AsSpan(18)];
+#else
             Series pieSeries = chart.Series[series.Name[18..]];
-
+#endif
             // Copy data back to original Pie series
             pieSeries.Points.Clear();
             if (!series.IsCustomPropertySet("TempDesignData"))

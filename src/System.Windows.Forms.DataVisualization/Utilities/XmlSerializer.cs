@@ -624,8 +624,7 @@ internal abstract class SerializerBase
     /// <returns>Name of the object class (without namespace).</returns>
     internal static string GetObjectName(object obj)
     {
-        string name = obj.GetType().ToString();
-        return name[(name.LastIndexOf('.') + 1)..];
+        return obj.GetType().Name;
     }
 
     /// <summary>

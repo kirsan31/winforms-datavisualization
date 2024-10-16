@@ -196,7 +196,11 @@ internal class ThreeLineBreakChart : IChartType
             }
 
             // Get original ThreeLineBreak series
+#if NET9_0_OR_GREATER
+            Series threeLineBreakSeries = chart.Series[series.Name.AsSpan(29)];
+#else
             Series threeLineBreakSeries = chart.Series[series.Name[29..]];
+#endif
             Series.MovePositionMarkers(threeLineBreakSeries, series);
             // Copy data back to original ThreeLineBreak series
             threeLineBreakSeries.Points.Clear();

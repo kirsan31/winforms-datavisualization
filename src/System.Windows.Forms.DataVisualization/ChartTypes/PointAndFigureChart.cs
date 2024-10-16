@@ -220,7 +220,11 @@ internal sealed class PointAndFigureChart : RangeColumnChart
             }
 
             // Get original PointAndFigure series
+#if NET9_0_OR_GREATER
+            Series pointAndFigureSeries = chart.Series[series.Name.AsSpan(29)];
+#else
             Series pointAndFigureSeries = chart.Series[series.Name[29..]];
+#endif
             Series.MovePositionMarkers(pointAndFigureSeries, series);
 
             // Copy data back to original PointAndFigure series
@@ -685,8 +689,11 @@ internal sealed class PointAndFigureChart : RangeColumnChart
             if (series.Name.StartsWith("POINTANDFIGURE_ORIGINAL_DATA_", StringComparison.Ordinal))
             {
                 // Get original series
+#if NET9_0_OR_GREATER
+                Series pointAndFigureSeries = chart.Series[series.Name.AsSpan(29)];
+#else
                 Series pointAndFigureSeries = chart.Series[series.Name[29..]];
-
+#endif
                 // Check if proportional symbol custom attribute is set
                 bool proportionalSymbols = true;
                 string attrValue = pointAndFigureSeries[CustomPropertyName.ProportionalSymbols];

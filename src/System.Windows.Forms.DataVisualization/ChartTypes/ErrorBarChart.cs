@@ -294,18 +294,23 @@ internal class ErrorBarChart : IChartType
             int numberOfLinkedSeries = 1;
             int indexOfLinkedSeries = 0;
             bool showSideBySide = false;
-            string linkedSeriesName;
             bool currentDrawSeriesSideBySide = false;
             string attribValue;
-            if ((linkedSeriesName = ser.TryGetCustomProperty(CustomPropertyName.ErrorBarSeries)) is not null) // Get series name
+            if ((attribValue = ser.TryGetCustomProperty(CustomPropertyName.ErrorBarSeries)) is not null) // Get series name
             {
+#if NET9_0_OR_GREATER
+                ReadOnlySpan<char> linkedSeriesName = attribValue.AsSpan();
+#else
+                string linkedSeriesName = attribValue;
+#endif
                 int valueTypeIndex = linkedSeriesName.IndexOf(':');
                 if (valueTypeIndex >= 0)
                     linkedSeriesName = linkedSeriesName[..valueTypeIndex];
 
                 // All linked data series from chart area which have Error bar chart type
-                string linkedSeriesChartType = common.DataManager.Series[linkedSeriesName].ChartTypeName;
-                ChartArea linkedSeriesArea = common.ChartPicture.ChartAreas[common.DataManager.Series[linkedSeriesName].ChartArea];
+                Series linkedSeries = common.DataManager.Series[linkedSeriesName];
+                string linkedSeriesChartType = linkedSeries.ChartTypeName;
+                ChartArea linkedSeriesArea = common.ChartPicture.ChartAreas[linkedSeries.ChartArea];
                 List<string> typeLinkedSeries = linkedSeriesArea.GetSeriesFromChartType(linkedSeriesChartType);
 
                 // Get index of linked series
@@ -357,7 +362,7 @@ internal class ErrorBarChart : IChartType
                         area.GetPointsInterval(typeLinkedSeries, hAxis.IsLogarithmic, hAxis.logarithmBase, true, out showSideBySide);
                     }
 
-                    sideBySideWidth = (float)common.DataManager.Series[linkedSeriesName].GetPointWidth(graph, hAxis, interval, 0.8) / numberOfLinkedSeries;
+                    sideBySideWidth = (float)linkedSeries.GetPointWidth(graph, hAxis, interval, 0.8) / numberOfLinkedSeries;
                 }
             }
 
@@ -1052,27 +1057,21 @@ internal class ErrorBarChart : IChartType
             if ((attribValue = ser.TryGetCustomProperty(CustomPropertyName.ErrorBarSeries)) is not null) // Get series name
             {
 #if NET9_0_OR_GREATER
-                ReadOnlySpan<char> errorBarSeries;
-                int valueTypeIndex = attribValue.IndexOf(':');
-                if (valueTypeIndex > -1)
-                    errorBarSeries = attribValue.AsSpan(0, valueTypeIndex);
-                else
-                    errorBarSeries = attribValue.AsSpan();
+                ReadOnlySpan<char> errorBarSerName = attribValue.AsSpan();
 #else
-                string errorBarSeries;
-                int valueTypeIndex = attribValue.IndexOf(':');
-                if (valueTypeIndex > -1)
-                    errorBarSeries = attribValue[..valueTypeIndex];
-                else
-                    errorBarSeries = attribValue;
+                string errorBarSerName = attribValue;
 #endif
+                int valueTypeIndex = errorBarSerName.IndexOf(':');
+                if (valueTypeIndex > -1)
+                    errorBarSerName = errorBarSerName[..valueTypeIndex];
+
                 // All linked data series from chart area which have Error bar chart type
-                string linkedSeriesChartType = common.DataManager.Series[errorBarSeries].ChartTypeName;
+                string linkedSeriesChartType = common.DataManager.Series[errorBarSerName].ChartTypeName;
                 List<string> typeLinkedSeries = area.GetSeriesFromChartType(linkedSeriesChartType);
                 // Get index of linked series
                 foreach (string name in typeLinkedSeries)
                 {
-                    if (name == errorBarSeries)
+                    if (name == errorBarSerName)
                         break;
 
                     ++indexOfLinkedSeries;

@@ -193,7 +193,11 @@ internal class RenkoChart : IChartType
             }
 
             // Get original Renko series
+#if NET9_0_OR_GREATER
+            Series renkoSeries = chart.Series[series.Name.AsSpan(20)];
+#else
             Series renkoSeries = chart.Series[series.Name[20..]];
+#endif
             Series.MovePositionMarkers(renkoSeries, series);
             // Copy data back to original Renko series
             renkoSeries.Points.Clear();
