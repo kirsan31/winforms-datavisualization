@@ -2357,9 +2357,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
             //*****************************************************************
             //** Measure label text
             //*****************************************************************
-            SizeF textSize = chartGraph.MeasureString(
-                axis.Title.Replace("\\n", "\n"),
-            this.AxisX.autoLabelFont ?? this.AxisX.LabelStyle.Font);
+            SizeF textSize = chartGraph.MeasureString(axis.Title, this.AxisX.autoLabelFont ?? this.AxisX.LabelStyle.Font);
             textSize.Width = MathF.Ceiling(textSize.Width * 1.1f);
             textSize.Height = MathF.Ceiling(textSize.Height * 1.1f);
 
@@ -2575,7 +2573,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                 {
                     if (sectorIndex < this.AxisX.CustomLabels.Count)
                     {
-                        axis.Title = this.AxisX.CustomLabels[sectorIndex].Text;
+                        axis.Title = this.AxisX.CustomLabels[sectorIndex].TextReal;
                         axis.TitleForeColor = this.AxisX.CustomLabels[sectorIndex].ForeColor;
                     }
                 }
@@ -2588,7 +2586,7 @@ public partial class ChartArea : ChartNamedElement, IDisposable
                         {
                             if (series.Points[sectorIndex].AxisLabel.Length > 0)
                             {
-                                axis.Title = series.Points[sectorIndex].AxisLabel;
+                                axis.Title = series.Points[sectorIndex].AxisLabel.Replace("\\n", "\n");
                                 break;
                             }
                         }

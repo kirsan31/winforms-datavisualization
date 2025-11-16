@@ -356,7 +356,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         // Custom grid lines and tick marks flags
         private GridTickTypes _gridTick = GridTickTypes.None;
 
-        // Indicates if label was automatically created or cpecified by user (custom)
+        /// <summary>
+        /// Indicates if label was automatically created or specified by user (custom)
+        /// </summary>
         internal bool customLabel = true;
 
         // Image associated with the label
@@ -395,7 +397,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             this._fromPosition = fromPosition;
             this._toPosition = toPosition;
-            this._text = text;
+            this._text = text ?? string.Empty;
+            this.TextReal = _text.Replace("\\n", "\n");
+            this.TextRealI = this.TextReal + "I";
             this._labelRowIndex = labelRow;
             this._labelMark = markStyle;
             this._gridTick = GridTickTypes.None;
@@ -414,7 +418,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
         {
             this._fromPosition = fromPosition;
             this._toPosition = toPosition;
-            this._text = text;
+            this._text = text ?? string.Empty;
+            this.TextReal = _text.Replace("\\n", "\n");
+            this.TextRealI = TextReal + "I";
             this._labelRowIndex = labelRow;
             this._labelMark = markStyle;
             this._gridTick = gridTick;
@@ -430,26 +436,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
         /// <returns>Copy of current custom label.</returns>
         public CustomLabel Clone()
         {
-            CustomLabel newLabel = new CustomLabel();
-
-            newLabel.FromPosition = this.FromPosition;
-            newLabel.ToPosition = this.ToPosition;
-            newLabel.Text = this.Text;
-            newLabel.ForeColor = this.ForeColor;
-            newLabel.MarkColor = this.MarkColor;
-            newLabel.RowIndex = this.RowIndex;
-            newLabel.LabelMark = this.LabelMark;
-            newLabel.GridTicks = this.GridTicks;
-
-
-
-            newLabel.ToolTip = this.ToolTip;
-            newLabel.Tag = this.Tag;
-            newLabel.Image = this.Image;
-            newLabel.ImageTransparentColor = this.ImageTransparentColor;
-
-
-
+            CustomLabel newLabel = new CustomLabel
+            {
+                FromPosition = this.FromPosition,
+                ToPosition = this.ToPosition,
+                _text = this._text,
+                TextReal = this.TextReal,
+                TextRealI = this.TextReal + "I",
+                ForeColor = this.ForeColor,
+                MarkColor = this.MarkColor,
+                RowIndex = this.RowIndex,
+                LabelMark = this.LabelMark,
+                GridTicks = this.GridTicks,
+                ToolTip = this.ToolTip,
+                Tag = this.Tag,
+                Image = this.Image,
+                ImageTransparentColor = this.ImageTransparentColor
+            };
 
             return newLabel;
         }
@@ -673,10 +676,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
             }
             set
             {
-                _text = value;
+                _text = value ?? string.Empty;
+                TextReal = _text.Replace("\\n", "\n");
+                TextRealI = TextReal + "I";
                 this.Invalidate();
             }
         }
+
+        /// <summary>
+        /// Contains <see cref="Text"/>.Replace("\\n", "\n")
+        /// </summary>
+        internal string TextReal { get; private set; } = string.Empty;
+
+        /// <summary>
+        /// Contains <see cref="TextReal"/> + "I".
+        /// </summary>
+        internal string TextRealI { get; private set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the text color of the custom label.
@@ -983,8 +998,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     using (Brush brush = new SolidBrush(labelColor))
                     {
                         graph.DrawString(
-                            circAxis.Title.Replace("\\n", "\n"),
-                            (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont,
+                            circAxis.Title,
+                            _axis.autoLabelFont ?? _font,
                             brush,
                             labelPosition[0],
                             format);
@@ -993,7 +1008,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                     // Process selection region 
                     if (this._axis.Common.ProcessModeRegions)
                     {
-                        SizeF size = graph.MeasureString(circAxis.Title.Replace("\\n", "\n"), (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont);
+                        SizeF size = graph.MeasureString(circAxis.Title, _axis.autoLabelFont ?? _font);
                         RectangleF labelRect = GetLabelPosition(
                             labelPosition[0],
                             size,
@@ -1499,10 +1514,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                         label.RowIndex,
                         label.LabelMark,
                         label.MarkColor,
-                        label.Text,
+                        label.TextReal,
                         label.Image,
                         label.ImageTransparentColor,
-                        (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont,
+                        _axis.autoLabelFont ?? _font,
                         brush,
                         rect,
                         format,
@@ -2193,7 +2208,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             firstLabelsRowHeight = (height > 0f) ? height : rect.Height;
                         }
 
-                        // Resuse pre-calculated first labels row height
+                        // Reuse pre-calculated first labels row height
                         rect.Height = firstLabelsRowHeight;
 
                         // Change current string format to prevent strings to go out of the 
@@ -2218,10 +2233,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
                             label.RowIndex,
                             label.LabelMark,
                             label.MarkColor,
-                            label.Text,
+                            label.TextReal,
                             label.Image,
                             label.ImageTransparentColor,
-                            (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont,
+                            _axis.autoLabelFont ?? _font,
                             brush,
                             rect,
                             format,

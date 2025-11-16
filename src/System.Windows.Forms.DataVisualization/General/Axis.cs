@@ -4100,8 +4100,10 @@ public partial class Axis : ChartNamedElement, IDisposable
     /// <returns>True if collection was modified.</returns>
     private static bool WordWrapLongestLabel(CustomLabelsCollection labels)
     {
-        bool changed = false;
+        if (labels is null || labels.Count == 0)
+            return false;
 
+        bool changed = false;
         // Each label may contain several lines of text.
         // Create a list that contains an array of text for each label.
         List<string[]> labelTextRows = new(labels.Count);
@@ -4160,16 +4162,17 @@ public partial class Axis : ChartNamedElement, IDisposable
             {
                 // Construct label text from multiple rows separated by "\n"
                 CustomLabel label = labels[longestLabelIndex];
-                label.Text = string.Empty;
+                string text = string.Empty;
                 for (int rowIndex = 0; rowIndex < labelTextRows[longestLabelIndex].Length; rowIndex++)
                 {
                     if (rowIndex > 0)
-                    {
-                        label.Text += "\n";
-                    }
+                        text += "\n" + labelTextRows[longestLabelIndex][rowIndex];
+                    else
+                        text += labelTextRows[longestLabelIndex][rowIndex];
 
-                    label.Text += labelTextRows[longestLabelIndex][rowIndex];
                 }
+
+                label.Text = text;
             }
         }
 
@@ -4299,7 +4302,7 @@ public partial class Axis : ChartNamedElement, IDisposable
             //** Measure label text
             //*****************************************************************
             SizeF textSize = graph.MeasureString(
-                axis.Title.Replace("\\n", "\n"),
+                axis.Title,
                 this.autoLabelFont);
 
             //*****************************************************************
@@ -4746,7 +4749,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                         }
 
                         // Measure string
-                        SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), autoLabelFont);
+                        SizeF axisLabelSize = chartGraph.MeasureStringRel(label.TextReal, autoLabelFont);
 
                         // Add image size
                         if (label.Image.Length > 0)
@@ -4883,9 +4886,8 @@ public partial class Axis : ChartNamedElement, IDisposable
                 if (label.Text.Length > 0)
                 {
                     // Measure label text size. Add the 'I' character to allow a little bit of spacing between labels.
-                    string measureString = label.Text.Replace("\\n", "\n") + "I";
                     axisLabelSize = chartGraph.MeasureStringRel(
-                        measureString,
+                        label.TextRealI,
                         autoLabelFont,
                         secondPass ? rect.Size : ChartArea.Position.ToRectangleF().Size,
                         format);
@@ -4896,7 +4898,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                         // Measure string without the LineLimit flag
                         format.FormatFlags ^= StringFormatFlags.LineLimit;
                         axisLabelSize = chartGraph.MeasureStringRel(
-                            measureString,
+                            label.TextRealI,
                             autoLabelFont,
                             secondPass ? rect.Size : ChartArea.Position.ToRectangleF().Size,
                             format);
@@ -5111,7 +5113,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                     // Measure label text size
                     rect.Width = MathF.Ceiling(rect.Width);
                     rect.Height = MathF.Ceiling(rect.Height);
-                    SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"),
+                    SizeF axisLabelSize = chartGraph.MeasureStringRel(label.TextReal,
                         autoLabelFont ?? this.LabelStyle.Font,
                         rect.Size,
                         format);
@@ -5122,7 +5124,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                     {
                         // Measure string without the LineLimit flag
                         format.FormatFlags ^= StringFormatFlags.LineLimit;
-                        axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"),
+                        axisLabelSize = chartGraph.MeasureStringRel(label.TextReal,
                             autoLabelFont ?? this.LabelStyle.Font,
                             rect.Size,
                             format);
@@ -5344,7 +5346,7 @@ public partial class Axis : ChartNamedElement, IDisposable
                     if (label.RowIndex == groupLevelIndex)
                     {
                         // Measure label text size
-                        SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), autoLabelFont ?? this.LabelStyle.Font);
+                        SizeF axisLabelSize = chartGraph.MeasureStringRel(label.TextReal, autoLabelFont ?? this.LabelStyle.Font);
                         axisLabelSize.Width = MathF.Ceiling(axisLabelSize.Width);
                         axisLabelSize.Height = MathF.Ceiling(axisLabelSize.Height);
 

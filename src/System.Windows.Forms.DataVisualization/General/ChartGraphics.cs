@@ -1686,7 +1686,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
     /// <param name="labelRowIndex">Label text row index (0-10).</param>
     /// <param name="labelMark">Second row labels mark style.</param>
     /// <param name="markColor">Label mark line color.</param>
-    /// <param name="text">Label text.</param>
+    /// <param name="textReal">Label text with already replaced "\\n" with "\n").</param>
     /// <param name="image">Label image name.</param>
     /// <param name="imageTransparentColor">Label image transparent color.</param>
     /// <param name="font">Text font.</param>
@@ -1703,7 +1703,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
         int labelRowIndex,
         LabelMarkStyle labelMark,
         Color markColor,
-        string text,
+        string textReal,
         string image,
         Color imageTransparentColor,
         Font font,
@@ -1925,7 +1925,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
             float offsetX = 0f;
 
             // Measure text size
-            labelSize = this.MeasureString(text.Replace("\\n", "\n"), font, absPosition.Size, drawingFormat);
+            labelSize = this.MeasureString(textReal, font, absPosition.Size, drawingFormat);
 
             // Calculate text rectangle
             labelRect.Width = labelSize.Width;
@@ -2095,7 +2095,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
             {
                 // Make sure that me know the exact size of the text
                 labelSize = this.MeasureString(
-                    text.Replace("\\n", "\n"),
+                    textReal,
                     font,
                     absPositionWithoutImage.Size,
                     drawingFormat);
@@ -2175,13 +2175,13 @@ public partial class ChartGraphics : ChartElement, IDisposable
                     fmt.Alignment = StringAlignment.Far;
                 }
 
-                this.DrawString(text.Replace("\\n", "\n"), font, brush,
+                this.DrawString(textReal, font, brush,
                 absPositionWithoutImage,
                 fmt);
             }
             else
             {
-                this.DrawString(text.Replace("\\n", "\n"), font, brush,
+                this.DrawString(textReal, font, brush,
                 absPositionWithoutImage,
                 drawingFormat);
             }
@@ -2209,7 +2209,7 @@ public partial class ChartGraphics : ChartElement, IDisposable
                 if (labelSize.IsEmpty)
                 {
                     labelSize = this.MeasureString(
-                        text.Replace("\\n", "\n"),
+                        textReal,
                         font,
                         absPositionWithoutImage.Size,
                         drawingFormat);
