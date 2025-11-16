@@ -301,6 +301,15 @@ public partial class Axis
         if (!Common.ChartTypeRegistry.GetChartType(ChartArea.GetFirstSeries().ChartTypeName).RequireAxes)
             return;
 
+        // ***********************************
+        // Pre calculate some values
+        // ***********************************
+        double viewMaximum = this.ViewMaximum;
+        double viewMinimum = this.ViewMinimum;
+
+        if (viewMinimum == viewMaximum)
+            return;
+
         // Check if series is indexed - IsXValueIndexed flag set
         bool indexedSeries = ChartHelper.IndexedSeries(this.Common, dataSeriesNames);
         // Check if series X values all set to zeros (only matters when series is indexed)
@@ -308,10 +317,6 @@ public partial class Axis
         // Show End Labels
         int endLabels = labelStyle.IsEndLabelVisible ? 1 : 0;
 
-        // must be X axis
-        // X values from data points are all 0.
-        // label interval == 0.
-        var fromSeries = seriesXValuesZeros && axisType != AxisName.Y && axisType != AxisName.Y2 && labelStyle.GetIntervalOffset() == 0 && labelStyle.GetInterval() == 0;
         // Get value type
         ChartValueType valueType;
         if (axisType == AxisName.X || axisType == AxisName.X2)
@@ -335,344 +340,249 @@ public partial class Axis
             }
         }
 
-        // ***********************************
-        // Pre calculate some values
-        // ***********************************
-        double viewMaximum = this.ViewMaximum;
-        double viewMinimum = this.ViewMinimum;
+        double labValue; // Value, which will be converted to text and used for, labels.
+        double beginPosition; // Begin position for a label
+        double endPosition; // End position for a label
+        double start; // Start position for all labels
 
-        // ***********************************
-        // Labels are filled from data series.
-        // ***********************************
-        if (fromSeries)
+        // Get first series attached to this axis
+        Series axisSeries = null;
+        if (axisType == AxisName.X || axisType == AxisName.X2)
         {
-            int numOfPoints;
-            numOfPoints = Common.DataManager.GetNumberOfPoints(dataSeriesNames);
-
-            // Show end labels
-            if (endLabels == 1)
+            List<string> seriesArray = ChartArea.GetXAxesSeries((axisType == AxisName.X) ? AxisType.Primary : AxisType.Secondary, this.SubAxisName);
+            if (seriesArray.Count > 0)
             {
-                // min position
-                CustomLabels.Add(-0.5, 0.5, ValueConverter.FormatValue(
-                    this.Common.Chart,
-                    this,
-                    null,
-                    0.0,
-                    this.LabelStyle.Format,
-                    valueType,
-                    ChartElementType.AxisLabels),
-                    false);
-            }
-
-            // Labels from point position
-            for (int point = 0; point < numOfPoints; point++)
-            {
-                CustomLabels.Add(point + 0.5, point + 1.5,
-                    ValueConverter.FormatValue(
-                        this.Common.Chart,
-                        this,
-                        null,
-                        point + 1,
-                        this.LabelStyle.Format,
-                        valueType,
-                        ChartElementType.AxisLabels),
-                        false);
-            }
-
-            // Show end labels
-            if (endLabels == 1)
-            {
-                // max position
-                CustomLabels.Add(numOfPoints + 0.5, numOfPoints + 1.5,
-                    ValueConverter.FormatValue(
-                        this.Common.Chart,
-                        this,
-                        null,
-                        numOfPoints + 1,
-                        this.LabelStyle.Format,
-                        valueType,
-                        ChartElementType.AxisLabels),
-                        false);
-            }
-
-            int pointIndx;
-            foreach (string seriesIndx in dataSeriesNames)
-            {
-                // End labels enabled
-                if (endLabels == 1)
-                    pointIndx = 1;
-                else
-                    pointIndx = 0;
-
-                // Set labels from data points labels
-                foreach (DataPoint dataPoint in Common.DataManager.Series[seriesIndx].Points)
+                axisSeries = Common.DataManager.Series[seriesArray[0]];
+                if (axisSeries != null && !axisSeries.IsXValueIndexed)
                 {
-                    // Find first row of labels
-                    while (CustomLabels[pointIndx].RowIndex > 0)
-                    {
-                        pointIndx++;
-                    }
-
-                    // Add X labels
-                    if (dataPoint.AxisLabel.Length > 0)
-                        CustomLabels[pointIndx].Text = dataPoint.AxisLabel;
-
-                    pointIndx++;
+                    axisSeries = null;
                 }
             }
         }
+
         // ***********************************
-        // Labels are filled from axis scale.
+        // Check if the AJAX zooming and scrolling mode is enabled.
+        // Labels are filled slightly different in this case.
         // ***********************************
-        else
+        DateTimeIntervalType offsetType = (labelStyle.GetIntervalOffsetType() == DateTimeIntervalType.Auto) ? labelStyle.GetIntervalType() : labelStyle.GetIntervalOffsetType();
+
+        // By default start is equal to minimum
+        start = viewMinimum;
+
+        // Adjust start position depending on the interval type
+        if (!this.ChartArea.chartAreaIsCurcular ||
+            this.axisType == AxisName.Y ||
+            this.axisType == AxisName.Y2)
         {
-            if (viewMinimum == viewMaximum)
+            start = ChartHelper.AlignIntervalStart(start, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries);
+        }
+
+        // Move start if there is start position
+        if (labelStyle.GetIntervalOffset() != 0 && axisSeries == null)
+        {
+            start += ChartHelper.GetIntervalSize(start, labelStyle.GetIntervalOffset(),
+                offsetType, axisSeries, 0, DateTimeIntervalType.Number, true, false);
+        }
+
+        // ***************************************
+        // Date type
+        // ***************************************
+        if (valueType == ChartValueType.DateTime ||
+            valueType == ChartValueType.Date ||
+            valueType == ChartValueType.Time ||
+            valueType == ChartValueType.DateTimeOffset ||
+            axisSeries != null)
+        {
+            double position = start;
+            double dateInterval;
+
+            // Too many labels
+            if ((viewMaximum - start) / ChartHelper.GetIntervalSize(start, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries, 0, DateTimeIntervalType.Number, true) > ChartHelper.MaxNumOfGridlines)
                 return;
 
-            double labValue; // Value, which will be converted to text and used for, labels.
-            double beginPosition; // Begin position for a label
-            double endPosition; // End position for a label
-            double start; // Start position for all labels
-
-            // Get first series attached to this axis
-            Series axisSeries = null;
-            if (axisType == AxisName.X || axisType == AxisName.X2)
+            int counter = 0;
+            double endLabelMaxPosition = viewMaximum - ChartHelper.GetIntervalSize(viewMaximum, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries, labelStyle.GetIntervalOffset(), offsetType, true) / 2f;
+            double endLabelMinPosition = viewMinimum + ChartHelper.GetIntervalSize(viewMinimum, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries, labelStyle.GetIntervalOffset(), offsetType, true) / 2f;
+            while ((decimal)position <= (decimal)viewMaximum)
             {
-                List<string> seriesArray = ChartArea.GetXAxesSeries((axisType == AxisName.X) ? AxisType.Primary : AxisType.Secondary, this.SubAxisName);
-                if (seriesArray.Count > 0)
+                dateInterval = ChartHelper.GetIntervalSize(position, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries, labelStyle.GetIntervalOffset(), offsetType, true);
+                labValue = position;
+
+                // For IsLogarithmic axes
+                if (this.IsLogarithmic)
                 {
-                    axisSeries = Common.DataManager.Series[seriesArray[0]];
-                    if (axisSeries != null && !axisSeries.IsXValueIndexed)
+                    labValue = Math.Pow(this.logarithmBase, labValue);
+                }
+
+                // Check if we do not exceed max number of elements
+                if (counter++ > ChartHelper.MaxNumOfGridlines)
+                {
+                    break;
+                }
+
+                if (endLabels == 0 && position >= endLabelMaxPosition)
+                {
+                    break;
+                }
+
+                beginPosition = position - dateInterval * 0.5;
+                endPosition = position + dateInterval * 0.5;
+
+                if (endLabels == 0 && position <= endLabelMinPosition)
+                {
+                    position += dateInterval;
+                    continue;
+                }
+
+                if ((decimal)beginPosition > (decimal)viewMaximum)
+                {
+                    position += dateInterval;
+                    continue;
+                }
+
+                // NOTE: Fixes issue #6466
+                // Following code is removed due to the issues caused by the rounding error
+
+                //if( (((decimal)beginPosition + (decimal)endPosition) / 2.0m) < (decimal)viewMinimum )
+                //{
+                //    position += dateInterval;
+                //    continue;
+                //}
+                //if ((decimal)viewMaximum < (((decimal)beginPosition + (decimal)endPosition) / 2m))
+                //{
+                //    position += dateInterval;
+                //    continue;
+                //}
+
+                string pointLabel = GetPointLabel(dataSeriesNames, labValue, !seriesXValuesZeros, indexedSeries);
+                if (pointLabel.Length == 0)
+                {
+                    // Do not draw last label for indexed series
+                    // Add a label to the collection
+                    if (position <= this.maximum && (!indexedSeries || position != this.maximum))
                     {
-                        axisSeries = null;
+                        CustomLabels.Add(beginPosition,
+                            endPosition,
+                            ValueConverter.FormatValue(
+                                this.Common.Chart,
+                                this,
+                                null,
+                                labValue,
+                                this.LabelStyle.Format,
+                                valueType,
+                                ChartElementType.AxisLabels),
+                            false);
                     }
                 }
+                else
+                {
+                    // Add a label to the collection
+                    CustomLabels.Add(beginPosition,
+                        endPosition,
+                        pointLabel,
+                        false);
+                }
+
+                position += dateInterval;
             }
-
-            // ***********************************
-            // Check if the AJAX zooming and scrolling mode is enabled.
-            // Labels are filled slightly different in this case.
-            // ***********************************
-            DateTimeIntervalType offsetType = (labelStyle.GetIntervalOffsetType() == DateTimeIntervalType.Auto) ? labelStyle.GetIntervalType() : labelStyle.GetIntervalOffsetType();
-
-            // By default start is equal to minimum
-            start = viewMinimum;
-
-            // Adjust start position depending on the interval type
-            if (!this.ChartArea.chartAreaIsCurcular ||
-                this.axisType == AxisName.Y ||
-                this.axisType == AxisName.Y2)
-            {
-                start = ChartHelper.AlignIntervalStart(start, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries);
-            }
-
-            // Move start if there is start position
-            if (labelStyle.GetIntervalOffset() != 0 && axisSeries == null)
-            {
-                start += ChartHelper.GetIntervalSize(start, labelStyle.GetIntervalOffset(),
-                    offsetType, axisSeries, 0, DateTimeIntervalType.Number, true, false);
-            }
-
+        }
+        else
+        {
             // ***************************************
-            // Date type
+            // Scale value type
             // ***************************************
-            if (valueType == ChartValueType.DateTime ||
-                valueType == ChartValueType.Date ||
-                valueType == ChartValueType.Time ||
-                valueType == ChartValueType.DateTimeOffset ||
-                axisSeries != null)
+
+            // Show First label if Start Label position is used
+            if (start != viewMinimum)
+                endLabels = 1;
+
+            // Set labels
+            int labelCounter = 0;
+            for (double position = start - endLabels * labelStyle.GetInterval(); position < viewMaximum - 1.5 * labelStyle.GetInterval() * (1 - endLabels); position = (double)((decimal)position + (decimal)labelStyle.GetInterval()))
             {
-                double position = start;
-                double dateInterval;
+                // Prevent endless loop that may be caused by very small interval
+                // and double/decimal rounding errors
+                ++labelCounter;
+                if (labelCounter > ChartHelper.MaxNumOfGridlines)
+                {
+                    break;
+                }
+
+                labValue = (double)((decimal)position + (decimal)labelStyle.GetInterval());
+
+                // This line is introduce because sometimes 0 value will appear as
+                // very small value close to zero.
+                double inter = Math.Log(labelStyle.GetInterval());
+                double valu = Math.Log(Math.Abs(labValue));
+                int digits = (int)Math.Abs(inter) + 5;
+
+                if (digits > 15)
+                {
+                    digits = 15;
+                }
+
+                if (Math.Abs(inter) < Math.Abs(valu) - 5)
+                {
+                    labValue = Math.Round(labValue, digits);
+                }
 
                 // Too many labels
-                if ((viewMaximum - start) / ChartHelper.GetIntervalSize(start, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries, 0, DateTimeIntervalType.Number, true) > ChartHelper.MaxNumOfGridlines)
+                if ((viewMaximum - start) / labelStyle.GetInterval() > ChartHelper.MaxNumOfGridlines)
+                {
                     return;
-
-                int counter = 0;
-                double endLabelMaxPosition = viewMaximum - ChartHelper.GetIntervalSize(viewMaximum, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries, labelStyle.GetIntervalOffset(), offsetType, true) / 2f;
-                double endLabelMinPosition = viewMinimum + ChartHelper.GetIntervalSize(viewMinimum, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries, labelStyle.GetIntervalOffset(), offsetType, true) / 2f;
-                while ((decimal)position <= (decimal)viewMaximum)
-                {
-                    dateInterval = ChartHelper.GetIntervalSize(position, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries, labelStyle.GetIntervalOffset(), offsetType, true);
-                    labValue = position;
-
-                    // For IsLogarithmic axes
-                    if (this.IsLogarithmic)
-                    {
-                        labValue = Math.Pow(this.logarithmBase, labValue);
-                    }
-
-                    // Check if we do not exceed max number of elements
-                    if (counter++ > ChartHelper.MaxNumOfGridlines)
-                    {
-                        break;
-                    }
-
-                    if (endLabels == 0 && position >= endLabelMaxPosition)
-                    {
-                        break;
-                    }
-
-                    beginPosition = position - dateInterval * 0.5;
-                    endPosition = position + dateInterval * 0.5;
-
-                    if (endLabels == 0 && position <= endLabelMinPosition)
-                    {
-                        position += dateInterval;
-                        continue;
-                    }
-
-                    if ((decimal)beginPosition > (decimal)viewMaximum)
-                    {
-                        position += dateInterval;
-                        continue;
-                    }
-
-                    // NOTE: Fixes issue #6466
-                    // Following code is removed due to the issues caused by the rounding error
-
-                    //if( (((decimal)beginPosition + (decimal)endPosition) / 2.0m) < (decimal)viewMinimum )
-                    //{
-                    //    position += dateInterval;
-                    //    continue;
-                    //}
-                    //if ((decimal)viewMaximum < (((decimal)beginPosition + (decimal)endPosition) / 2m))
-                    //{
-                    //    position += dateInterval;
-                    //    continue;
-                    //}
-
-                    string pointLabel = GetPointLabel(dataSeriesNames, labValue, !seriesXValuesZeros, indexedSeries);
-                    if (pointLabel.Length == 0)
-                    {
-                        // Do not draw last label for indexed series
-                        // Add a label to the collection
-                        if (position <= this.maximum && (!indexedSeries || position != this.maximum))
-                        {
-                            CustomLabels.Add(beginPosition,
-                                endPosition,
-                                ValueConverter.FormatValue(
-                                    this.Common.Chart,
-                                    this,
-                                    null,
-                                    labValue,
-                                    this.LabelStyle.Format,
-                                    valueType,
-                                    ChartElementType.AxisLabels),
-                                false);
-                        }
-                    }
-                    else
-                    {
-                        // Add a label to the collection
-                        CustomLabels.Add(beginPosition,
-                            endPosition,
-                            pointLabel,
-                            false);
-                    }
-
-                    position += dateInterval;
                 }
-            }
-            else
-            {
-                // ***************************************
-                // Scale value type
-                // ***************************************
 
-                // Show First label if Start Label position is used
-                if (start != viewMinimum)
-                    endLabels = 1;
+                // For IsLogarithmic axes
+                if (this.IsLogarithmic)
+                    labValue = Math.Pow(this.logarithmBase, labValue);
 
-                // Set labels
-                int labelCounter = 0;
-                for (double position = start - endLabels * labelStyle.GetInterval(); position < viewMaximum - 1.5 * labelStyle.GetInterval() * (1 - endLabels); position = (double)((decimal)position + (decimal)labelStyle.GetInterval()))
+                beginPosition = (double)((decimal)position + (decimal)labelStyle.GetInterval() * 0.5m);
+                endPosition = (double)((decimal)position + (decimal)labelStyle.GetInterval() * 1.5m);
+
+                if ((decimal)beginPosition > (decimal)viewMaximum)
                 {
-                    // Prevent endless loop that may be caused by very small interval
-                    // and double/decimal rounding errors
-                    ++labelCounter;
-                    if (labelCounter > ChartHelper.MaxNumOfGridlines)
-                    {
-                        break;
-                    }
+                    continue;
+                }
 
-                    labValue = (double)((decimal)position + (decimal)labelStyle.GetInterval());
+                // Show End label if Start Label position is used
+                // Use decimal type to solve rounding issues
+                if ((decimal)((beginPosition + endPosition) / 2.0) > (decimal)viewMaximum)
+                {
+                    continue;
+                }
 
-                    // This line is introduce because sometimes 0 value will appear as
-                    // very small value close to zero.
-                    double inter = Math.Log(labelStyle.GetInterval());
-                    double valu = Math.Log(Math.Abs(labValue));
-                    int digits = (int)Math.Abs(inter) + 5;
+                string pointLabel = GetPointLabel(dataSeriesNames, labValue, !seriesXValuesZeros, indexedSeries);
+                if (pointLabel.Length > 15 && labValue < 0.000001)
+                {
+                    labValue = 0.0;
+                }
 
-                    if (digits > 15)
-                    {
-                        digits = 15;
-                    }
-
-                    if (Math.Abs(inter) < Math.Abs(valu) - 5)
-                    {
-                        labValue = Math.Round(labValue, digits);
-                    }
-
-                    // Too many labels
-                    if ((viewMaximum - start) / labelStyle.GetInterval() > ChartHelper.MaxNumOfGridlines)
-                    {
-                        return;
-                    }
-
-                    // For IsLogarithmic axes
-                    if (this.IsLogarithmic)
-                        labValue = Math.Pow(this.logarithmBase, labValue);
-
-                    beginPosition = (double)((decimal)position + (decimal)labelStyle.GetInterval() * 0.5m);
-                    endPosition = (double)((decimal)position + (decimal)labelStyle.GetInterval() * 1.5m);
-
-                    if ((decimal)beginPosition > (decimal)viewMaximum)
-                    {
-                        continue;
-                    }
-
-                    // Show End label if Start Label position is used
-                    // Use decimal type to solve rounding issues
-                    if ((decimal)((beginPosition + endPosition) / 2.0) > (decimal)viewMaximum)
-                    {
-                        continue;
-                    }
-
-                    string pointLabel = GetPointLabel(dataSeriesNames, labValue, !seriesXValuesZeros, indexedSeries);
-                    if (pointLabel.Length > 15 && labValue < 0.000001)
-                    {
-                        labValue = 0.0;
-                    }
-
-                    if (pointLabel.Length == 0)
-                    {
-                        // Do not draw last label for indexed series
-                        if (!indexedSeries || position < this.maximum)
-                        {
-                            // Add a label to the collection
-                            CustomLabels.Add(beginPosition,
-                                endPosition,
-                                ValueConverter.FormatValue(
-                                    this.Common.Chart,
-                                    this,
-                                    null,
-                                    labValue,
-                                    this.LabelStyle.Format,
-                                    valueType,
-                                    ChartElementType.AxisLabels),
-                                false);
-                        }
-                    }
-                    else
+                if (pointLabel.Length == 0)
+                {
+                    // Do not draw last label for indexed series
+                    if (!indexedSeries || position < this.maximum)
                     {
                         // Add a label to the collection
                         CustomLabels.Add(beginPosition,
                             endPosition,
-                            pointLabel,
+                            ValueConverter.FormatValue(
+                                this.Common.Chart,
+                                this,
+                                null,
+                                labValue,
+                                this.LabelStyle.Format,
+                                valueType,
+                                ChartElementType.AxisLabels),
                             false);
                     }
+                }
+                else
+                {
+                    // Add a label to the collection
+                    CustomLabels.Add(beginPosition,
+                        endPosition,
+                        pointLabel,
+                        false);
                 }
             }
         }
