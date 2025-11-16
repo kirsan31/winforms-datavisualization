@@ -4653,374 +4653,378 @@ public partial class Axis : ChartNamedElement, IDisposable
         labelPositions?.Clear();
 
         // Label string drawing format
-        using (StringFormat format = new StringFormat())
+        using StringFormat format = new StringFormat();
+        format.FormatFlags |= StringFormatFlags.LineLimit;
+        format.Trimming = StringTrimming.EllipsisCharacter;
+
+        // Initialize all labels position rectangle
+        RectangleF rect = RectangleF.Empty;
+
+        // Calculate max label size
+        float maxLabelSize = 0;
+        if (!autoPlotPosition)
         {
-            format.FormatFlags |= StringFormatFlags.LineLimit;
-            format.Trimming = StringTrimming.EllipsisCharacter;
-
-            // Initialize all labels position rectangle
-            RectangleF rect = RectangleF.Empty;
-
-            // Calculate max label size
-            float maxLabelSize = 0;
-            if (!autoPlotPosition)
+            if (this.GetIsMarksNextToAxis())
             {
-                if (this.GetIsMarksNextToAxis())
-                {
-                    if (this.AxisPosition == AxisPosition.Top)
-                        maxLabelSize = (float)GetAxisPosition() - ChartArea.Position.Y;
-                    else if (this.AxisPosition == AxisPosition.Bottom)
-                        maxLabelSize = ChartArea.Position.Bottom - (float)GetAxisPosition();
-                    if (this.AxisPosition == AxisPosition.Left)
-                        maxLabelSize = (float)GetAxisPosition() - ChartArea.Position.X;
-                    else if (this.AxisPosition == AxisPosition.Right)
-                        maxLabelSize = ChartArea.Position.Right - (float)GetAxisPosition();
-                }
-                else
-                {
-                    if (this.AxisPosition == AxisPosition.Top)
-                        maxLabelSize = this.PlotAreaPosition.Y - ChartArea.Position.Y;
-                    else if (this.AxisPosition == AxisPosition.Bottom)
-                        maxLabelSize = ChartArea.Position.Bottom - this.PlotAreaPosition.Bottom;
-                    if (this.AxisPosition == AxisPosition.Left)
-                        maxLabelSize = this.PlotAreaPosition.X - ChartArea.Position.X;
-                    else if (this.AxisPosition == AxisPosition.Right)
-                        maxLabelSize = ChartArea.Position.Right - this.PlotAreaPosition.Right;
-                }
-
-                maxLabelSize *= 2F;
+                if (this.AxisPosition == AxisPosition.Top)
+                    maxLabelSize = (float)GetAxisPosition() - ChartArea.Position.Y;
+                else if (this.AxisPosition == AxisPosition.Bottom)
+                    maxLabelSize = ChartArea.Position.Bottom - (float)GetAxisPosition();
+                if (this.AxisPosition == AxisPosition.Left)
+                    maxLabelSize = (float)GetAxisPosition() - ChartArea.Position.X;
+                else if (this.AxisPosition == AxisPosition.Right)
+                    maxLabelSize = ChartArea.Position.Right - (float)GetAxisPosition();
             }
             else
             {
+                if (this.AxisPosition == AxisPosition.Top)
+                    maxLabelSize = this.PlotAreaPosition.Y - ChartArea.Position.Y;
+                else if (this.AxisPosition == AxisPosition.Bottom)
+                    maxLabelSize = ChartArea.Position.Bottom - this.PlotAreaPosition.Bottom;
+                if (this.AxisPosition == AxisPosition.Left)
+                    maxLabelSize = this.PlotAreaPosition.X - ChartArea.Position.X;
+                else if (this.AxisPosition == AxisPosition.Right)
+                    maxLabelSize = ChartArea.Position.Right - this.PlotAreaPosition.Right;
+            }
+
+            maxLabelSize *= 2F;
+        }
+        else
+        {
+            if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+                maxLabelSize = ChartArea.Position.Height;
+            else
+                maxLabelSize = ChartArea.Position.Width;
+        }
+
+        // Loop through all grouping labels (all except first row)
+        this.totlaGroupingLabelsSize = 0;
+
+        // Get number of groups
+        int groupLabelLevelCount = GetGroupLabelLevelCount();
+
+        // Check if grouping labels exist
+        if (groupLabelLevelCount > 0)
+        {
+            groupingLabelSizes = new float[groupLabelLevelCount];
+
+            // Loop through each level of grouping labels
+            bool fitResult = true;
+            for (int groupLevelIndex = 1; groupLevelIndex <= groupLabelLevelCount; groupLevelIndex++)
+            {
+                groupingLabelSizes[groupLevelIndex - 1] = 0f;
+
+                // Loop through all labels in the level
+                foreach (CustomLabel label in this.CustomLabels)
+                {
+                    // Skip if label middle point is outside current scaleView
+                    if (label.RowIndex == 0)
+                    {
+                        double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
+                        if (middlePoint < this.ViewMinimum || middlePoint > this.ViewMaximum)
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (label.RowIndex == groupLevelIndex)
+                    {
+                        // Calculate label rect
+                        double fromPosition = this.GetLinearPosition(label.FromPosition);
+                        double toPosition = this.GetLinearPosition(label.ToPosition);
+                        if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+                        {
+                            rect.Height = maxLabelSize / 100F * maxAxisLabelRow2Size / groupLabelLevelCount;
+                            rect.X = (float)Math.Min(fromPosition, toPosition);
+                            rect.Width = (float)Math.Max(fromPosition, toPosition) - rect.X;
+                        }
+                        else
+                        {
+                            rect.Width = maxLabelSize / 100F * maxAxisLabelRow2Size / groupLabelLevelCount;
+                            rect.Y = (float)Math.Min(fromPosition, toPosition);
+                            rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
+                        }
+
+                        // Measure string
+                        SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), autoLabelFont);
+
+                        // Add image size
+                        if (label.Image.Length > 0)
+                        {
+                            SizeF imageAbsSize = new SizeF();
+
+                            if (this.Common.ImageLoader.GetAdjustedImageSize(label.Image, chartGraph.Graphics, ref imageAbsSize))
+                            {
+                                SizeF imageRelSize = chartGraph.GetRelativeSize(imageAbsSize);
+                                axisLabelSize.Width += imageRelSize.Width;
+                                axisLabelSize.Height = Math.Max(axisLabelSize.Height, imageRelSize.Height);
+                            }
+                        }
+
+                        // Add extra spacing for the box marking of the label
+                        if (label.LabelMark == LabelMarkStyle.Box)
+                        {
+                            // Get relative size from pixels and add it to the label size
+                            SizeF spacerSize = chartGraph.GetRelativeSize(new SizeF(4, 4));
+                            axisLabelSize.Width += spacerSize.Width;
+                            axisLabelSize.Height += spacerSize.Height;
+                        }
+
+                        // Calculate max height of the second row of labels
+                        if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+                        {
+                            groupingLabelSizes[groupLevelIndex - 1] = Math.Max(groupingLabelSizes[groupLevelIndex - 1], axisLabelSize.Height);
+                        }
+                        else
+                        {
+                            axisLabelSize.Width = chartGraph.GetAbsoluteSize(new SizeF(axisLabelSize.Height, axisLabelSize.Height)).Height;
+                            axisLabelSize.Width = chartGraph.GetRelativeSize(new SizeF(axisLabelSize.Width, axisLabelSize.Width)).Width;
+                            groupingLabelSizes[groupLevelIndex - 1] = Math.Max(groupingLabelSizes[groupLevelIndex - 1], axisLabelSize.Width);
+                        }
+
+                        // Check if string fits
+                        if (Math.Round(axisLabelSize.Width) >= Math.Round(rect.Width) &&
+                            checkWidth)
+                        {
+                            fitResult = false;
+                        }
+
+                        if (Math.Round(axisLabelSize.Height) >= Math.Round(rect.Height) &&
+                            checkHeight)
+                        {
+                            fitResult = false;
+                        }
+                    }
+                }
+            }
+
+            this.totlaGroupingLabelsSize = this.GetGroupLablesToatalSize();
+            if (!fitResult && !checkLabelsFirstRowOnly)
+            {
+                return false;
+            }
+        }
+
+        // Loop through all labels in the first row
+        float angle = autoLabelAngle;
+        int labelIndex = 0;
+        foreach (CustomLabel label in this.CustomLabels)
+        {
+            // Skip if label middle point is outside current scaleView
+            if (label.RowIndex == 0)
+            {
+                double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
+                if (middlePoint < this.ViewMinimum || middlePoint > this.ViewMaximum)
+                {
+                    continue;
+                }
+            }
+
+            if (label.RowIndex == 0)
+            {
+                // Force which scale segment to use when calculating label position
+                if (labelPositions != null)
+                {
+                    this.ScaleSegments.EnforceSegment(this.ScaleSegments.FindScaleSegmentForAxisValue((label.FromPosition + label.ToPosition) / 2.0));
+                }
+
+                // Set label From and To coordinates
+                double fromPosition = this.GetLinearPosition(label.FromPosition);
+                double toPosition = this.GetLinearPosition(label.ToPosition);
+
+                // Reset scale segment to use when calculating label position
+                if (labelPositions != null)
+                {
+                    this.ScaleSegments.EnforceSegment(null);
+                }
+
+                // Calculate single label position
+                rect.X = this.PlotAreaPosition.X;
+                rect.Y = (float)Math.Min(fromPosition, toPosition);
+                rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
+
+                float maxElementSize = maxAxisElementsSize;
+                if (maxAxisElementsSize - this.totlaGroupingLabelsSize > 55)
+                    maxElementSize = 55 + this.totlaGroupingLabelsSize;
+
+                rect.Width = maxLabelSize / 100F * (maxElementSize - this.totlaGroupingLabelsSize - otherElementsSize - elementSpacing);
+
+                // Adjust label From/To position if labels are displayed with offset
+                if (autoLabelOffset == 1)
+                {
+                    rect.Y -= rect.Height / 2F;
+                    rect.Height *= 2F;
+                    rect.Width /= 2F;
+                }
+
+                // If horizontal axis
                 if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-                    maxLabelSize = ChartArea.Position.Height;
+                {
+                    // Switch rectangle sizes
+                    (rect.Width, rect.Height) = (rect.Height, rect.Width);
+
+                    // Set vertical font for measuring
+                    if (angle != 0)
+                    {
+                        format.FormatFlags |= StringFormatFlags.DirectionVertical;
+                    }
+                }
                 else
-                    maxLabelSize = ChartArea.Position.Width;
-            }
-
-            // Loop through all grouping labels (all except first row)
-            this.totlaGroupingLabelsSize = 0;
-
-            // Get number of groups
-            int groupLabelLevelCount = GetGroupLabelLevelCount();
-
-            // Check if grouping labels exist
-            if (groupLabelLevelCount > 0)
-            {
-                groupingLabelSizes = new float[groupLabelLevelCount];
-
-                // Loop through each level of grouping labels
-                bool fitResult = true;
-                for (int groupLevelIndex = 1; groupLevelIndex <= groupLabelLevelCount; groupLevelIndex++)
                 {
-                    groupingLabelSizes[groupLevelIndex - 1] = 0f;
-
-                    // Loop through all labels in the level
-                    foreach (CustomLabel label in this.CustomLabels)
+                    // Set vertical font for measuring
+                    if (angle == 90 || angle == -90)
                     {
-                        // Skip if label middle point is outside current scaleView
-                        if (label.RowIndex == 0)
-                        {
-                            double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
-                            if (middlePoint < this.ViewMinimum || middlePoint > this.ViewMaximum)
-                            {
-                                continue;
-                            }
-                        }
-
-                        if (label.RowIndex == groupLevelIndex)
-                        {
-                            // Calculate label rect
-                            double fromPosition = this.GetLinearPosition(label.FromPosition);
-                            double toPosition = this.GetLinearPosition(label.ToPosition);
-                            if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-                            {
-                                rect.Height = maxLabelSize / 100F * maxAxisLabelRow2Size / groupLabelLevelCount;
-                                rect.X = (float)Math.Min(fromPosition, toPosition);
-                                rect.Width = (float)Math.Max(fromPosition, toPosition) - rect.X;
-                            }
-                            else
-                            {
-                                rect.Width = maxLabelSize / 100F * maxAxisLabelRow2Size / groupLabelLevelCount;
-                                rect.Y = (float)Math.Min(fromPosition, toPosition);
-                                rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
-                            }
-
-                            // Measure string
-                            SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), autoLabelFont);
-
-                            // Add image size
-                            if (label.Image.Length > 0)
-                            {
-                                SizeF imageAbsSize = new SizeF();
-
-                                if (this.Common.ImageLoader.GetAdjustedImageSize(label.Image, chartGraph.Graphics, ref imageAbsSize))
-                                {
-                                    SizeF imageRelSize = chartGraph.GetRelativeSize(imageAbsSize);
-                                    axisLabelSize.Width += imageRelSize.Width;
-                                    axisLabelSize.Height = Math.Max(axisLabelSize.Height, imageRelSize.Height);
-                                }
-                            }
-
-                            // Add extra spacing for the box marking of the label
-                            if (label.LabelMark == LabelMarkStyle.Box)
-                            {
-                                // Get relative size from pixels and add it to the label size
-                                SizeF spacerSize = chartGraph.GetRelativeSize(new SizeF(4, 4));
-                                axisLabelSize.Width += spacerSize.Width;
-                                axisLabelSize.Height += spacerSize.Height;
-                            }
-
-                            // Calculate max height of the second row of labels
-                            if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-                            {
-                                groupingLabelSizes[groupLevelIndex - 1] = Math.Max(groupingLabelSizes[groupLevelIndex - 1], axisLabelSize.Height);
-                            }
-                            else
-                            {
-                                axisLabelSize.Width = chartGraph.GetAbsoluteSize(new SizeF(axisLabelSize.Height, axisLabelSize.Height)).Height;
-                                axisLabelSize.Width = chartGraph.GetRelativeSize(new SizeF(axisLabelSize.Width, axisLabelSize.Width)).Width;
-                                groupingLabelSizes[groupLevelIndex - 1] = Math.Max(groupingLabelSizes[groupLevelIndex - 1], axisLabelSize.Width);
-                            }
-
-                            // Check if string fits
-                            if (Math.Round(axisLabelSize.Width) >= Math.Round(rect.Width) &&
-                                checkWidth)
-                            {
-                                fitResult = false;
-                            }
-
-                            if (Math.Round(axisLabelSize.Height) >= Math.Round(rect.Height) &&
-                                checkHeight)
-                            {
-                                fitResult = false;
-                            }
-                        }
+                        angle = 0;
+                        format.FormatFlags |= StringFormatFlags.DirectionVertical;
                     }
                 }
 
-                this.totlaGroupingLabelsSize = this.GetGroupLablesToatalSize();
-                if (!fitResult && !checkLabelsFirstRowOnly)
+                SizeF axisLabelSize;
+                if (label.Text.Length > 0)
                 {
-                    return false;
-                }
-            }
-
-            // Loop through all labels in the first row
-            float angle = autoLabelAngle;
-            int labelIndex = 0;
-            foreach (CustomLabel label in this.CustomLabels)
-            {
-                // Skip if label middle point is outside current scaleView
-                if (label.RowIndex == 0)
-                {
-                    double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
-                    if (middlePoint < this.ViewMinimum || middlePoint > this.ViewMaximum)
-                    {
-                        continue;
-                    }
-                }
-
-                if (label.RowIndex == 0)
-                {
-                    // Force which scale segment to use when calculating label position
-                    if (labelPositions != null)
-                    {
-                        this.ScaleSegments.EnforceSegment(this.ScaleSegments.FindScaleSegmentForAxisValue((label.FromPosition + label.ToPosition) / 2.0));
-                    }
-
-                    // Set label From and To coordinates
-                    double fromPosition = this.GetLinearPosition(label.FromPosition);
-                    double toPosition = this.GetLinearPosition(label.ToPosition);
-
-                    // Reset scale segment to use when calculating label position
-                    if (labelPositions != null)
-                    {
-                        this.ScaleSegments.EnforceSegment(null);
-                    }
-
-                    // Calculate single label position
-                    rect.X = this.PlotAreaPosition.X;
-                    rect.Y = (float)Math.Min(fromPosition, toPosition);
-                    rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
-
-                    float maxElementSize = maxAxisElementsSize;
-                    if (maxAxisElementsSize - this.totlaGroupingLabelsSize > 55)
-                        maxElementSize = 55 + this.totlaGroupingLabelsSize;
-
-                    rect.Width = maxLabelSize / 100F * (maxElementSize - this.totlaGroupingLabelsSize - otherElementsSize - elementSpacing);
-
-                    // Adjust label From/To position if labels are displayed with offset
-                    if (autoLabelOffset == 1)
-                    {
-                        rect.Y -= rect.Height / 2F;
-                        rect.Height *= 2F;
-                        rect.Width /= 2F;
-                    }
-
-                    // If horizontal axis
-                    if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-                    {
-                        // Switch rectangle sizes
-                        (rect.Width, rect.Height) = (rect.Height, rect.Width);
-
-                        // Set vertical font for measuring
-                        if (angle != 0)
-                        {
-                            format.FormatFlags |= StringFormatFlags.DirectionVertical;
-                        }
-                    }
-                    else
-                    {
-                        // Set vertical font for measuring
-                        if (angle == 90 || angle == -90)
-                        {
-                            angle = 0;
-                            format.FormatFlags |= StringFormatFlags.DirectionVertical;
-                        }
-                    }
-
                     // Measure label text size. Add the 'I' character to allow a little bit of spacing between labels.
-                    SizeF axisLabelSize = chartGraph.MeasureStringRel(
-                        label.Text.Replace("\\n", "\n") + "W",
+                    string measureString = label.Text.Replace("\\n", "\n") + "I";
+                    axisLabelSize = chartGraph.MeasureStringRel(
+                        measureString,
                         autoLabelFont,
                         secondPass ? rect.Size : ChartArea.Position.ToRectangleF().Size,
                         format);
 
-                    // Width and height maybe zeros if rect is too small to fit the text and
-                    // the LineLimit format flag is set.
-                    if (label.Text.Length > 0 &&
-                        (axisLabelSize.Width == 0f ||
-                        axisLabelSize.Height == 0f))
+                    // Width and height maybe zeros if rect is too small to fit the text and the LineLimit format flag is set.
+                    if (axisLabelSize.Width == 0f || axisLabelSize.Height == 0f)
                     {
                         // Measure string without the LineLimit flag
                         format.FormatFlags ^= StringFormatFlags.LineLimit;
                         axisLabelSize = chartGraph.MeasureStringRel(
-                            label.Text.Replace("\\n", "\n"),
+                            measureString,
                             autoLabelFont,
                             secondPass ? rect.Size : ChartArea.Position.ToRectangleF().Size,
                             format);
                         format.FormatFlags |= StringFormatFlags.LineLimit;
                     }
+                }
+                else
+                {
+                    axisLabelSize = SizeF.Empty;
+                }
 
-                    // Add image size
-                    if (label.Image.Length > 0)
+                // Add image size
+                if (label.Image.Length > 0)
+                {
+                    SizeF imageAbsSize = new SizeF();
+
+                    if (this.Common.ImageLoader.GetAdjustedImageSize(label.Image, chartGraph.Graphics, ref imageAbsSize))
                     {
-                        SizeF imageAbsSize = new SizeF();
-
-                        if (this.Common.ImageLoader.GetAdjustedImageSize(label.Image, chartGraph.Graphics, ref imageAbsSize))
+                        SizeF imageRelSize = chartGraph.GetRelativeSize(imageAbsSize);
+                        if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
                         {
-                            SizeF imageRelSize = chartGraph.GetRelativeSize(imageAbsSize);
-                            if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
-                            {
-                                axisLabelSize.Height += imageRelSize.Height;
-                                axisLabelSize.Width = Math.Max(axisLabelSize.Width, imageRelSize.Width);
-                            }
-                            else
-                            {
-                                axisLabelSize.Width += imageRelSize.Width;
-                                axisLabelSize.Height = Math.Max(axisLabelSize.Height, imageRelSize.Height);
-                            }
-                        }
-                    }
-
-                    // Add extra spacing for the box marking of the label
-                    if (label.LabelMark == LabelMarkStyle.Box)
-                    {
-                        // Get relative size from pixels and add it to the label size
-                        SizeF spacerSize = chartGraph.GetRelativeSize(new SizeF(4, 4));
-                        axisLabelSize.Width += spacerSize.Width;
-                        axisLabelSize.Height += spacerSize.Height;
-                    }
-
-                    // Calculate size using label angle
-                    float width = axisLabelSize.Width;
-                    float height = axisLabelSize.Height;
-                    if (angle != 0)
-                    {
-                        // Decrease label rectangle width by 3%
-                        rect.Width *= 0.97f;
-
-                        if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-                        {
-                            width = MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
-                            width += MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Width;
-
-                            height = MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
-                            height += MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Width;
+                            axisLabelSize.Height += imageRelSize.Height;
+                            axisLabelSize.Width = Math.Max(axisLabelSize.Width, imageRelSize.Width);
                         }
                         else
                         {
-                            width = MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Width;
-                            width += MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
-
-                            height = MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Width;
-                            height += MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
+                            axisLabelSize.Width += imageRelSize.Width;
+                            axisLabelSize.Height = Math.Max(axisLabelSize.Height, imageRelSize.Height);
                         }
                     }
+                }
 
-                    // Save label position
-                    if (labelPositions != null)
+                // Add extra spacing for the box marking of the label
+                if (label.LabelMark == LabelMarkStyle.Box)
+                {
+                    // Get relative size from pixels and add it to the label size
+                    SizeF spacerSize = chartGraph.GetRelativeSize(new SizeF(4, 4));
+                    axisLabelSize.Width += spacerSize.Width;
+                    axisLabelSize.Height += spacerSize.Height;
+                }
+
+                // Calculate size using label angle
+                float width = axisLabelSize.Width;
+                float height = axisLabelSize.Height;
+                if (angle != 0)
+                {
+                    // Decrease label rectangle width by 3%
+                    rect.Width *= 0.97f;
+
+                    if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
                     {
-                        RectangleF labelPosition = rect;
-                        if (angle == 0F || angle == 90F || angle == -90F)
-                        {
-                            if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-                            {
-                                labelPosition.X = labelPosition.X + labelPosition.Width / 2f - width / 2f;
-                                labelPosition.Width = width;
-                            }
-                            else
-                            {
-                                labelPosition.Y = labelPosition.Y + labelPosition.Height / 2f - height / 2f;
-                                labelPosition.Height = height;
-                            }
-                        }
+                        width = MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
+                        width += MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Width;
 
-                        labelPositions.Add(labelPosition);
-                    }
-
-                    // Check if string fits
-                    if (angle == 0F)
-                    {
-                        if (width >= rect.Width && checkWidth)
-                        {
-                            return false;
-                        }
-
-                        if (height >= rect.Height && checkHeight)
-                        {
-                            return false;
-                        }
-                    }
-
-                    if (angle == 90F || angle == -90F)
-                    {
-                        if (width >= rect.Width && checkWidth)
-                        {
-                            return false;
-                        }
-
-                        if (height >= rect.Height && checkHeight)
-                        {
-                            return false;
-                        }
+                        height = MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
+                        height += MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Width;
                     }
                     else
                     {
-                        if (width >= rect.Width * 2F && checkWidth)
-                        {
-                            return false;
-                        }
+                        width = MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Width;
+                        width += MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
 
-                        if (height >= rect.Height * 2F && checkHeight)
+                        height = MathF.Sin(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Width;
+                        height += MathF.Cos(Math.Abs(angle) / 180F * MathF.PI) * axisLabelSize.Height;
+                    }
+                }
+
+                // Save label position
+                if (labelPositions != null)
+                {
+                    RectangleF labelPosition = rect;
+                    if (angle == 0F || angle == 90F || angle == -90F)
+                    {
+                        if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
                         {
-                            return false;
+                            labelPosition.X = labelPosition.X + labelPosition.Width / 2f - width / 2f;
+                            labelPosition.Width = width;
+                        }
+                        else
+                        {
+                            labelPosition.Y = labelPosition.Y + labelPosition.Height / 2f - height / 2f;
+                            labelPosition.Height = height;
                         }
                     }
 
-                    ++labelIndex;
+                    labelPositions.Add(labelPosition);
                 }
+
+                // Check if string fits
+                if (angle == 0F)
+                {
+                    if (width >= rect.Width && checkWidth)
+                    {
+                        return false;
+                    }
+
+                    if (height >= rect.Height && checkHeight)
+                    {
+                        return false;
+                    }
+                }
+
+                if (angle == 90F || angle == -90F)
+                {
+                    if (width >= rect.Width && checkWidth)
+                    {
+                        return false;
+                    }
+
+                    if (height >= rect.Height && checkHeight)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (width >= rect.Width * 2F && checkWidth)
+                    {
+                        return false;
+                    }
+
+                    if (height >= rect.Height * 2F && checkHeight)
+                    {
+                        return false;
+                    }
+                }
+
+                ++labelIndex;
             }
         }
 

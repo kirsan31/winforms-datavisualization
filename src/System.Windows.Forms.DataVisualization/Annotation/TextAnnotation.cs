@@ -108,10 +108,10 @@ public class TextAnnotation : Annotation
     /// A <see cref="Font"/> object used for an annotation's text.
     /// </value>
     [
-SRCategory("CategoryAttributeAppearance"),
-DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
-SRDescription("DescriptionAttributeTextFont4"),
-]
+    SRCategory("CategoryAttributeAppearance"),
+    DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
+    SRDescription("DescriptionAttributeTextFont4"),
+    ]
     public override Font Font
     {
         get => base.Font;
@@ -800,12 +800,10 @@ SRDescription("DescriptionAttributeTextFont4"),
             // Measure text using current font and slightly increase it
             using var sf = StringFormat.GenericTypographic;
             contentSize = gr.MeasureString(
-                 "W" + this.ReplaceKeywords(this.Text),
+                 this.ReplaceKeywords(this.Text),
                  this.Font,
                  new SizeF(2000, 2000),
-                 sf);
-
-            contentSize.Height *= 1.04f;
+                 sf) * 1.04f;
 
             // Convert to relative coordinates
             contentSize = gr.GetRelativeSize(contentSize);
