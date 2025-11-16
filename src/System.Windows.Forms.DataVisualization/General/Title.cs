@@ -152,6 +152,10 @@ public class Title : ChartNamedElement
 
     // Title text
     private string _text = string.Empty;
+    /// <summary>
+    /// Contains <see cref="Text"/>.Replace("\\n", "\n")
+    /// </summary>
+    private string _textReal = string.Empty;
 
     // Title drawing style
     private TextStyle _style = TextStyle.Default;
@@ -247,13 +251,12 @@ public class Title : ChartNamedElement
         // Initialize fields
         this._position = new ElementPosition(this);
         this._font = FontCache.DefaultFont;
-        this._text = text;
+        this._text = text ?? string.Empty;
+        this._textReal = _text.Replace("\\n", "\n");
         this._docking = docking;
         this._foreColor = color;
-        if (font != null)
-        {
+        if (font is not null)
             this._font = font;
-        }
     }
 
     #endregion
@@ -471,6 +474,7 @@ public class Title : ChartNamedElement
         set
         {
             _text = value ?? string.Empty;
+            _textReal = _text.Replace("\\n", "\n");
             this.Invalidate(false);
         }
     }
@@ -1042,12 +1046,7 @@ public class Title : ChartNamedElement
     {
         // check if title is visible
         if (!this.IsVisible())
-        {
             return;
-        }
-
-        // Title text
-        string titleText = this.Text;
 
         //***************************************************************
         //** Calculate title relative position
@@ -1055,7 +1054,7 @@ public class Title : ChartNamedElement
         RectangleF titlePosition = this.Position.ToRectangleF();
 
         // Auto set the title position if width or height is not set for custom position
-        if (!this.Position.Auto && Common != null && Common.ChartPicture != null)
+        if (!this.Position.Auto && Common?.ChartPicture is not null)
         {
             if (titlePosition.Width == 0 || titlePosition.Height == 0)
             {
@@ -1064,15 +1063,13 @@ public class Title : ChartNamedElement
                     (titlePosition.Width == 0) ? Common.ChartPicture.Width : titlePosition.Width,
                     (titlePosition.Height == 0) ? Common.ChartPicture.Height : titlePosition.Height);
                 if (this.IsTextVertical)
-                {
                     (layoutArea.Height, layoutArea.Width) = (layoutArea.Width, layoutArea.Height);
-                }
 
                 // Measure text size
                 layoutArea = chartGraph.GetAbsoluteSize(layoutArea);
                 using var sf = StringFormat.GenericDefault;
                 SizeF titleSize = chartGraph.MeasureString(
-                    "W" + titleText.Replace("\\n", "\n"),
+                    _textReal,
                     this.Font,
                     layoutArea,
                     sf,
@@ -1164,7 +1161,7 @@ public class Title : ChartNamedElement
             SizeF titleArea = chartGraph.GetAbsoluteSize(titlePosition.Size);
             using var sf = StringFormat.GenericDefault;
             SizeF titleSize = chartGraph.MeasureString(
-                "W" + titleText.Replace("\\n", "\n"),
+                _textReal,
                 this.Font,
                 titleArea,
                 sf,
@@ -1294,7 +1291,7 @@ public class Title : ChartNamedElement
         }
 
         //***************************************************************
-        //** Draw text shadow for the default style when background is not drawn anf ShadowOffset is not null
+        //** Draw text shadow for the default style when background is not drawn and ShadowOffset is not null
         //***************************************************************
         Color textShadowColor = ChartGraphics.GetGradientColor(this.ForeColor, Color.Black, 0.8);
         int textShadowOffset = 1;
@@ -1313,11 +1310,6 @@ public class Title : ChartNamedElement
         {
             textShadowColor = (textShadowColor.A != 255) ? textShadowColor : Color.FromArgb(textShadowColor.A / 2, textShadowColor);
         }
-
-        //***************************************************************
-        //** Replace new line characters
-        //***************************************************************
-        titleText = titleText.Replace("\\n", "\n");
 
         //***************************************************************
         //** Define text angle depending on the docking
@@ -1356,12 +1348,13 @@ public class Title : ChartNamedElement
         try
         {
             chartGraph.IsTextClipped = !Position.Auto;
-            Title.DrawStringWithStyle(chartGraph, titleText, textStyle, this.Font, absPosition, this.ForeColor, textShadowColor, textShadowOffset, format, this.GetTextOrientation());
+            Title.DrawStringWithStyle(chartGraph, _textReal, textStyle, this.Font, absPosition, this.ForeColor, textShadowColor, textShadowOffset, format, this.GetTextOrientation());
         }
         finally
         {
             chartGraph.IsTextClipped = false;
         }
+
         // Call Paint event
         if (Common.ProcessModePaint)
             Common.Chart.CallOnPostPaint(new ChartPaintEventArgs(this, chartGraph, Common, Position));
@@ -1549,7 +1542,7 @@ public class Title : ChartNamedElement
         layoutArea = chartGraph.GetAbsoluteSize(layoutArea);
         using var sf = StringFormat.GenericDefault;
         SizeF titleSize = chartGraph.MeasureString(
-            "W" + this.Text.Replace("\\n", "\n"),
+            _textReal,
             this.Font,
             layoutArea,
             sf,
