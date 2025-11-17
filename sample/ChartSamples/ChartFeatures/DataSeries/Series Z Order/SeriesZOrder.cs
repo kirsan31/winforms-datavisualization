@@ -132,7 +132,7 @@ namespace ChartSamples
             this.Transparent.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Transparent.Size = new System.Drawing.Size(144, 24);
             this.Transparent.TabIndex = 2;
-            this.Transparent.Text = "Use Solid Colors:";
+            this.Transparent.Text = ":Use Solid Colors";
             this.Transparent.CheckedChanged += new System.EventHandler(this.SeriesOrder_SelectedIndexChanged);
             // 
             // ZOrder

@@ -891,26 +891,18 @@ namespace ChartSamples
 			this.tabControlSample.ResumeLayout(false);
 			this.panelContent.ResumeLayout(false);
 			this.ResumeLayout(false);
-
-			// IVOR: I made these changes so the labels that have their text set to
-			// Verdana will interpret "\n". Also all the other controls will have their
-			// colors set to black.
-			if (userControl != null)
+            
+            if (userControl is not null)
 			{
-				foreach (Control control in userControl.Controls)
-				{
-					Label label = control as Label;
-					if (label != null && label.Font.Name == "Verdana")
-					{
-						// IVOR: Take care of all line breaks
-						label.Text = label.Text.Replace("\\n", "\n");
-					}
-					else
-					{
-						// IVOR: Make the font color black
-						control.ForeColor = Color.Black;
-					}
-				}
+                // All the controls other than labels that have their text set to Verdana will have their colors set to black.
+                foreach (Control control in userControl.Controls)
+				{                    
+                    if ((control as Label)?.Font.Name != "Verdana")
+                    {
+                        // IVOR: Make the font color black
+                        control.ForeColor = Color.Black;
+                    }
+                }
 			}
 		}
 
