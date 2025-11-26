@@ -329,6 +329,17 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
         #endregion
 
+        /// <summary>
+        /// Removes all elements after <paramref name="index"/> from the <see cref="CustomLabelsCollection"/>.
+        /// </summary>
+        /// <param name="index">The index after witch to remove elements. To remove all elements pass -1 here.</param>
+        public void ClearAfter(int index)
+        {
+            if (Count == 0 || index + 1 >= Count)
+                return;
+
+            ClearItemsAfter(index);
+        }
     }
 
 
