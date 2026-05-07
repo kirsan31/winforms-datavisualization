@@ -310,7 +310,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
                 int bracketIndex = otherFieldNames[index].IndexOf('{');
                 if (bracketIndex > 0 && otherFieldNames[index][^1] == '}')
                 {
-                    otherValueFormat[index] = otherFieldNames[index][(bracketIndex + 1)..otherFieldNames[index][^1]].Trim().Replace('\n', ',');
+                    otherValueFormat[index] = otherFieldNames[index][(bracketIndex + 1)..^1].Trim().Replace('\n', ',');
                     otherFieldNames[index] = otherFieldNames[index][..bracketIndex];
                 }
 
