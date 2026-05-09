@@ -9,15 +9,10 @@
 
 	<PropertyGroup>
 		<MajorVer>1</MajorVer>
-		<MinorPatchVer>10.0</MinorPatchVer>
+		<MinorPatchVer>10.2</MinorPatchVer>
 		<PRVer></PRVer>
 		<NugetReleaseNotes>
-			Per-Monitor DPI awareness (`PerMonitorV2` support).
-			Lots of performance improvements (some of them exclusively for .NET9).
-			Excessive explicit .NET versions removed from NuGet.
-			Old small bugs fixes.
-			Some breaking changes.
-			More info: https://github.com/kirsan31/winforms-datavisualization/releases/tag/1.10
+			Optimizations and bug fixes.
 		</NugetReleaseNotes>
 	</PropertyGroup>
 </Project>
